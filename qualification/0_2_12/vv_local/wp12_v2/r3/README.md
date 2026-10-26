@@ -7,8 +7,10 @@ This directory records the prospective R3 correction of the H1 TET4 operator-aud
 ## Contents
 
 - [R3_RESULTS_REPORT.md](R3_RESULTS_REPORT.md) — correction history, three development attempts, quantitative H1 observations and scientific limits.
-- [V2_R3_MANIFEST.json](V2_R3_MANIFEST.json) — new one-case formal manifest, still `PREPARED_NOT_AUTHORIZED`.
-- [R3_OWNER_DECISION_PACKAGE.md](R3_OWNER_DECISION_PACKAGE.md) — remaining runner compatibility gate and the Owner decision required after it is resolved.
+- [V2_R3_MANIFEST.json](V2_R3_MANIFEST.json) — original one-case preparation, preserved with the R2 runner identity and its allowlist mismatch.
+- [R3_OWNER_DECISION_PACKAGE.md](R3_OWNER_DECISION_PACKAGE.md) — original preparation note, preserved as a record of the pre-compatibility blocker.
+- [V2_R3_MANIFEST_R2.json](V2_R3_MANIFEST_R2.json) — revised one-case profile bound to the R3-compatible runner; still `PREPARED_NOT_AUTHORIZED`.
+- [R3_OWNER_DECISION_PACKAGE_R2.md](R3_OWNER_DECISION_PACKAGE_R2.md) — current Owner decision request for the revised manifest SHA. No formal R3 execution has occurred.
 
 ## Identity and evidence separation
 
