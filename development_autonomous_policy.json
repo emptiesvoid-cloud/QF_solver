@@ -119,7 +119,7 @@
       "mode": "math_non_fem",
       "root": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\tmp\\qf-v0.2.12-integration",
       "git_root": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\tmp\\qf-v0.2.12-integration",
-      "branch": "codex/v0.2.12-integration",
+      "branch": "emptiesvoids-cloud/0.2.12",
       "baseline_commit": "ae429934edc8a18d3febaf85d9b14b21d548eefe",
       "source_root": "src",
       "pytest_root": "tests/unit",
