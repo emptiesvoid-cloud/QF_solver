@@ -14,6 +14,7 @@ import json
 import math
 import os
 import platform
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -76,7 +77,7 @@ def _preselect_total_dofs(nx: int, expected_total_dofs: int) -> int:
     return selected_dofs
 
 
-def _active_attempt_output_dir() -> Path:
+def _active_attempt_output_dir(expected_total_dofs: int) -> Path:
     """Resolve the controller-owned durable output beside its temporary dir."""
     if os.environ.get("QF_DEVELOPMENT_AUTONOMOUS") != "1":
         pytest.fail(
@@ -85,18 +86,35 @@ def _active_attempt_output_dir() -> Path:
             pytrace=False,
         )
 
+    if os.environ.get("QF_DEV_WORKTREE_ID") != "wp12_elements":
+        pytest.fail("FEM diagnostic refused: controller selected a different worktree", pytrace=False)
+    if os.environ.get("QF_DEV_SELECTED_DOFS") != str(expected_total_dofs):
+        pytest.fail("FEM diagnostic refused: controller DDL selection does not match this case", pytrace=False)
+    if os.environ.get("QF_DEV_MAX_DOFS") != str(MAX_REGISTERED_DOFS):
+        pytest.fail("FEM diagnostic refused: controller DDL ceiling is missing or changed", pytrace=False)
+    if os.environ.get("QF_DEV_MAX_FEM_CASES") != "1":
+        pytest.fail("FEM diagnostic refused: controller case-count limit is missing or changed", pytrace=False)
+
     temporary_value = os.environ.get("TEMP") or os.environ.get("TMPDIR") or os.environ.get("TMP")
     if not temporary_value:
         pytest.fail("FEM diagnostic refused: controller temporary directory is missing", pytrace=False)
+    evidence_root_value = os.environ.get("QF_DEV_EVIDENCE_ROOT")
+    if not evidence_root_value:
+        pytest.fail("FEM diagnostic refused: controller evidence root is missing", pytrace=False)
 
     temporary_dir = Path(temporary_value).resolve()
     attempt_dir = temporary_dir.parent
     output_dir = attempt_dir / "output"
-    run_store = (ROOT / ".codex/development-runs").resolve()
-    if temporary_dir.name.casefold() != "tmp" or not _is_within(attempt_dir, run_store):
+    evidence_root = Path(evidence_root_value).resolve()
+    worktree_output_root = (evidence_root / "worktrees" / "wp12_elements").resolve()
+    if (
+        temporary_dir.name.casefold() != "tmp"
+        or not re.fullmatch(r"attempt-[0-9]{4}", attempt_dir.name)
+        or not _is_within(attempt_dir, worktree_output_root)
+    ):
         pytest.fail(
-            "FEM diagnostic refused: TEMP is not the tmp directory of a durable "
-            "development-run attempt",
+            "FEM diagnostic refused: TEMP is not inside this worktree's durable "
+            "controller evidence attempt",
             pytrace=False,
         )
     if not output_dir.is_dir():
@@ -222,7 +240,7 @@ def _run_sri_diagnostic(
     # DDL selection and controller evidence location are checked before mesh
     # construction, element assembly, or any other FEM operation.
     selected_dofs = _preselect_total_dofs(nx, expected_total_dofs)
-    output_dir = _active_attempt_output_dir()
+    output_dir = _active_attempt_output_dir(selected_dofs)
     solver_root = (ROOT / "src/solveur").resolve()
     for solver_class in (Hex8SRIElement, Hex8Element):
         solver_module = sys.modules[solver_class.__module__]
