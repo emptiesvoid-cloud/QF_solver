@@ -219,8 +219,82 @@
         "temporary_limit_mib": 512,
         "archive_size_limit_mib": 256
       },
-      "allowed_nodeids": [],
-      "nodeid_registration_records": []
+      "allowed_nodeids": [
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_1",
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_2",
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_4",
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_8",
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet10_family_comparison_factor_4",
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_hex8_family_comparison_factor_4"
+      ],
+      "nodeid_registration_records": [
+        {
+          "reason": "Factor 1 begins the nested TET4 convergence sequence with one direct static case.",
+          "registered_at_utc": "2026-10-26T18:23:20.090579+00:00",
+          "selected_dofs": 72,
+          "selection_basis": "24 nodes x 3 solid translations = 72 total DDL; 5x1x1 cells and 30 TET4; root x=0 fixed.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_1",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        },
+        {
+          "reason": "Factor 2 measures the next nested, quality-controlled TET4 refinement level.",
+          "registered_at_utc": "2026-10-26T18:23:21.393474+00:00",
+          "selected_dofs": 297,
+          "selection_basis": "99 nodes x 3 solid translations = 297 total DDL; 10x2x2 cells and 240 TET4; root x=0 fixed.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_2",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        },
+        {
+          "reason": "Factor 4 continues nested TET4 convergence and is reused as the family-comparison baseline.",
+          "registered_at_utc": "2026-10-26T18:23:22.693566+00:00",
+          "selected_dofs": 1575,
+          "selection_basis": "525 nodes x 3 solid translations = 1575 total DDL; 20x4x4 cells and 1920 TET4; root x=0 fixed.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_4",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        },
+        {
+          "reason": "Factor 8 is the finest nested TET4 level within the 50000 DDL envelope.",
+          "registered_at_utc": "2026-10-26T18:23:24.084539+00:00",
+          "selected_dofs": 9963,
+          "selection_basis": "3321 nodes x 3 solid translations = 9963 total DDL; 40x8x8 cells and 15360 TET4; direct sparse route.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_8",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        },
+        {
+          "reason": "Compare quadratic TET10 to the same-geometry factor-4 TET4 baseline under identical mechanics.",
+          "registered_at_utc": "2026-10-26T18:23:25.535565+00:00",
+          "selected_dofs": 9963,
+          "selection_basis": "3321 nodes x 3 solid translations = 9963 total DDL; 20x4x4 cells and 1920 TET10; direct sparse route.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet10_family_comparison_factor_4",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        },
+        {
+          "reason": "Compare regular HEX8 to the same-geometry factor-4 TET4 baseline under identical mechanics.",
+          "registered_at_utc": "2026-10-26T18:23:26.890257+00:00",
+          "selected_dofs": 1575,
+          "selection_basis": "525 nodes x 3 solid translations = 1575 total DDL; 20x4x4 cells and 320 HEX8; root x=0 fixed.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_hex8_family_comparison_factor_4",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        }
+      ]
     },
     "wp12_elements": {
       "purpose": "WP12 HEX8-SRI, element FEM and cross-element regressions",
@@ -254,8 +328,34 @@
         "temporary_limit_mib": 512,
         "archive_size_limit_mib": 256
       },
-      "allowed_nodeids": [],
-      "nodeid_registration_records": []
+      "allowed_nodeids": [
+        "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
+        "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4"
+      ],
+      "nodeid_registration_records": [
+        {
+          "reason": "Reproduce the frozen near-incompressible HEX8-SRI force and moment residuals with raw system evidence.",
+          "registered_at_utc": "2026-10-26T18:46:55.625885+00:00",
+          "selected_dofs": 459,
+          "selection_basis": "Regular HEX8-SRI cantilever nx=16, ny=nz=2: 27*(nx+1)=459 total DDL before x=0 supports; 432 free DDL.",
+          "source_fingerprint": "12a935bd4e926eb53d31372e93f1c9d5f991a3900c8b2bac2d74103ee7401104",
+          "target": "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "fa889f480766506787941617fa0db4124381c63b"
+        },
+        {
+          "reason": "Reproduce the frozen near-degenerate HEX8-SRI energy, force and moment residuals with raw system evidence.",
+          "registered_at_utc": "2026-10-26T18:47:00.568598+00:00",
+          "selected_dofs": 135,
+          "selection_basis": "Near-degenerate-valid HEX8-SRI cantilever nx=4, ny=nz=2: 27*(nx+1)=135 total DDL before x=0 supports; 108 free DDL.",
+          "source_fingerprint": "12a935bd4e926eb53d31372e93f1c9d5f991a3900c8b2bac2d74103ee7401104",
+          "target": "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "fa889f480766506787941617fa0db4124381c63b"
+        }
+      ]
     },
     "wp12_dynamics": {
       "purpose": "WP12 WP04-WP07 modal projection, reduced harmonic, Newmark and base-acceleration checks",

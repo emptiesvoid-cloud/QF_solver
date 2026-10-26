@@ -151,6 +151,12 @@ WP12_RUN_BUDGETS = {
 }
 WP12_MAX_PARALLEL_FEM_SLOTS = 3
 WP12_TEST_SELECTOR_RE = re.compile(r"(test_[A-Za-z0-9_]+)(?:\[[^\]\r\n]{1,128}\])?")
+WP12_ELEMENTS_VERIFICATION_NODEIDS = frozenset(
+    {
+        "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
+        "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4",
+    }
+)
 
 
 class PolicyError(ValueError):
@@ -281,7 +287,7 @@ def _validate_wp12_registration_history(worktree_id: str, entry: Mapping[str, An
         raise PolicyError(f"{worktree_id} registration history must bind every exact allowlisted target")
 
 
-def _validate_wp12_nodeid_syntax(target: str) -> re.Match[str]:
+def _validate_wp12_nodeid_syntax(target: str, *, worktree_id: str | None = None) -> re.Match[str]:
     if not isinstance(target, str) or target.count("::") != 1:
         raise PolicyError("WP12 allowlists require one exact pytest test-function nodeid")
     module_name, selector = target.split("::", maxsplit=1)
@@ -294,10 +300,34 @@ def _validate_wp12_nodeid_syntax(target: str) -> re.Match[str]:
         or ".." in module_path.parts
         or module_path.suffix != ".py"
         or not module_path.name.startswith("test_")
-        or not module_name.startswith("tests/unit/")
+        or not (
+            module_name.startswith("tests/unit/")
+            or (worktree_id == "wp12_elements" and target in WP12_ELEMENTS_VERIFICATION_NODEIDS)
+        )
     ):
-        raise PolicyError("WP12 target must be one exact test-function nodeid below tests/unit")
+        raise PolicyError(
+            "WP12 target must be below tests/unit or one of the exact registered wp12_elements verification nodeids"
+        )
     return match
+
+
+def _wp12_nodeid_module_within_scope(
+    worktree_id: str,
+    target: str,
+    module_file: Path,
+    registered_root: Path,
+    test_root: Path,
+) -> bool:
+    """Keep the normal tests/unit root and allow only two named element diagnostics."""
+    if not _is_within(module_file, registered_root):
+        return False
+    if _is_within(module_file, test_root):
+        return True
+    if worktree_id != "wp12_elements" or target not in WP12_ELEMENTS_VERIFICATION_NODEIDS:
+        return False
+    requested_module = (registered_root / target.split("::", maxsplit=1)[0]).resolve()
+    verification_root = (registered_root / "tests" / "verification").resolve()
+    return module_file == requested_module and _is_within(module_file, verification_root)
 
 
 def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
@@ -397,10 +427,11 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             if not isinstance(nodeid, str) or "::" not in nodeid:
                 raise PolicyError(f"worktree {worktree_id} contains a non-nodeid target")
             test_path = Path(nodeid.split("::", maxsplit=1)[0])
-            if test_path.is_absolute() or ".." in test_path.parts or not nodeid.startswith(expected_test_root + "/"):
+            exact_verification_node = worktree_id == "wp12_elements" and nodeid in WP12_ELEMENTS_VERIFICATION_NODEIDS
+            if test_path.is_absolute() or ".." in test_path.parts or not (nodeid.startswith(expected_test_root + "/") or exact_verification_node):
                 raise PolicyError(f"worktree {worktree_id} nodeid escapes its approved test root")
             if is_wp12:
-                _validate_wp12_nodeid_syntax(nodeid)
+                _validate_wp12_nodeid_syntax(nodeid, worktree_id=worktree_id)
             if worktree_id == "e01" and re.search(r"(?i)(tet|hex|beam|assembly|fem)", nodeid):
                 raise PolicyError("E01 allowlist may contain only non-FEM constitutive-math tests")
         if is_wp12:
@@ -503,8 +534,10 @@ def resolve_targets(
         registered_root = _registered_root(entry["root"])
         candidate = (registered_root / path_text).resolve()
         scope_root = (registered_root / entry["pytest_root"]).resolve()
-        if not _is_within(candidate, scope_root) or not candidate.is_file():
-            raise PolicyError("registered nodeid resolves outside its canonical worktree test root")
+        if not _wp12_nodeid_module_within_scope(
+            worktree_id, target, candidate, registered_root, scope_root
+        ) or not candidate.is_file():
+            raise PolicyError("registered nodeid resolves outside its canonical worktree test scope")
         return [target]
 
     if scope_name not in STANDARD_SCOPES:
@@ -761,6 +794,10 @@ def build_child_environment(
     if wp12_entry is not None:
         environment["QF_DEV_WORKTREE_ID"] = str(wp12_entry["worktree_id"])
         environment["QF_DEV_MAX_FEM_CASES"] = str(wp12_entry["max_fem_cases_per_attempt"])
+        evidence_root = wp12_entry.get("evidence_root")
+        if not isinstance(evidence_root, str) or not evidence_root:
+            raise PolicyError("registered WP12 child environment requires its evidence root")
+        environment["QF_DEV_EVIDENCE_ROOT"] = str(Path(evidence_root).resolve())
         if wp12_entry.get("target_max_dofs") is not None:
             environment["QF_DEV_MAX_DOFS"] = str(wp12_entry["target_max_dofs"])
     if wp12_selection is not None:
@@ -1797,7 +1834,7 @@ def _registered_worktree(
         raise PolicyError("registered solver package is missing or outside its source root")
     test_module = (root / target.split("::", maxsplit=1)[0]).resolve(strict=True)
     test_root = (root / entry["pytest_root"]).resolve(strict=True)
-    if not _is_within(test_module, test_root) or not test_module.is_file():
+    if not _wp12_nodeid_module_within_scope(worktree_id, target, test_module, root, test_root) or not test_module.is_file():
         raise PolicyError("registered test module is missing or escaped its worktree")
     identity = _git_identity(
         root,
@@ -1932,7 +1969,7 @@ def register_wp12_nodeid(
     )
     if not isinstance(target, str) or len(target) > 512 or target.count("::") != 1:
         raise PolicyError("registration requires one exact repository-relative pytest nodeid")
-    match = _validate_wp12_nodeid_syntax(target)
+    match = _validate_wp12_nodeid_syntax(target, worktree_id=worktree_id)
     module_name = target.split("::", maxsplit=1)[0]
     module_path = Path(module_name)
 
@@ -1951,8 +1988,8 @@ def register_wp12_nodeid(
         raise PolicyError("registered solver source root is not inside the exact worktree")
     module_file = (root / module_path).resolve(strict=True)
     tests_root = (root / entry["pytest_root"]).resolve(strict=True)
-    if not _is_within(module_file, tests_root) or not module_file.is_file():
-        raise PolicyError("registered nodeid module is missing or escaped tests/unit")
+    if not _wp12_nodeid_module_within_scope(worktree_id, target, module_file, root, tests_root) or not module_file.is_file():
+        raise PolicyError("registered nodeid module is missing or escaped its approved test scope")
     function_name = match.group(1)
     try:
         syntax_tree = ast.parse(module_file.read_text(encoding="utf-8"), filename=str(module_file))

@@ -42,6 +42,18 @@ WP12_DYNAMICS_NODEIDS = (
     "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
     "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata",
 )
+WP12_ELEMENTS_VERIFICATION_NODEIDS = (
+    "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
+    "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4",
+)
+WP12_TET4_NODEIDS = (
+    "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_1",
+    "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_2",
+    "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_4",
+    "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_8",
+    "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet10_family_comparison_factor_4",
+    "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_hex8_family_comparison_factor_4",
+)
 
 
 def _policy() -> dict:
@@ -138,6 +150,24 @@ def test_wp12_registry_has_four_distinct_exact_worktree_envelopes() -> None:
             assert len(entry["nodeid_registration_records"]) == 13
             assert all(len(record["worktree_head"]) == 40 for record in entry["nodeid_registration_records"])
             assert all(len(record["source_fingerprint"]) == 64 for record in entry["nodeid_registration_records"])
+        elif worktree_id == "wp12_tet4":
+            assert entry["allowed_nodeids"] == list(WP12_TET4_NODEIDS)
+            records = entry["nodeid_registration_records"]
+            assert [record["selected_dofs"] for record in records] == [72, 297, 1575, 9963, 9963, 1575]
+            assert all(record["worktree_head"] == "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e" for record in records)
+            assert all(
+                record["source_fingerprint"] == "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df"
+                for record in records
+            )
+        elif worktree_id == "wp12_elements":
+            assert entry["allowed_nodeids"] == list(WP12_ELEMENTS_VERIFICATION_NODEIDS)
+            records = entry["nodeid_registration_records"]
+            assert [record["selected_dofs"] for record in records] == [459, 135]
+            assert all(record["worktree_head"] == "fa889f480766506787941617fa0db4124381c63b" for record in records)
+            assert all(
+                record["source_fingerprint"] == "12a935bd4e926eb53d31372e93f1c9d5f991a3900c8b2bac2d74103ee7401104"
+                for record in records
+            )
         else:
             assert entry["allowed_nodeids"] == []
             assert entry["nodeid_registration_records"] == []
@@ -270,6 +300,129 @@ def _prepare_wp12_registration_context(tmp_path: Path, monkeypatch: pytest.Monke
     )
     monkeypatch.setattr(MODULE, "_worktree_source_fingerprint", lambda *_args: "c" * 64)
     return agent_root, policy_path, "tests/unit/test_candidate.py::test_candidate_case"
+
+
+def _prepare_wp12_elements_verification_context(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> tuple[Path, Path, tuple[str, str]]:
+    controller = tmp_path / "controller"
+    agent_root = tmp_path / "agent"
+    evidence_root = tmp_path / "evidence" / "vv-elements"
+    coordination_root = tmp_path / "evidence" / ".wp12-coordination"
+    for directory in (
+        controller,
+        agent_root / "src" / "solveur",
+        agent_root / "tests" / "unit",
+        agent_root / "tests" / "verification",
+    ):
+        directory.mkdir(parents=True, exist_ok=True)
+    (agent_root / "src" / "solveur" / "__init__.py").write_text('"synthetic package"\n', encoding="utf-8")
+    module_file = agent_root / "tests" / "verification" / "test_wp12_hex8_sri_diagnostics.py"
+    module_file.write_text(
+        "def test_wp12_hex8_sri_near_incompressible_nu04999_nx16():\n    pass\n"
+        "def test_wp12_hex8_sri_near_degenerate_nu0495_nx4():\n    pass\n"
+        "def test_unregistered_element_case():\n    pass\n",
+        encoding="utf-8",
+    )
+
+    envelope = dict(MODULE.WP12_OWNER_ENVELOPES["wp12_elements"])
+    envelope.update({"root": str(agent_root), "evidence_root": str(evidence_root)})
+    monkeypatch.setitem(MODULE.WP12_OWNER_ENVELOPES, "wp12_elements", envelope)
+    monkeypatch.setattr(MODULE, "WP12_COORDINATION_ROOT", coordination_root)
+    monkeypatch.setattr(MODULE, "ROOT", controller)
+    policy_path = controller / "development_autonomous_policy.json"
+    policy = json.loads((SCRIPT_PATH.parents[1] / "development_autonomous_policy.json").read_text(encoding="utf-8"))
+    policy["resource_coordination_root"] = str(coordination_root)
+    policy["worktrees"]["wp12_elements"].update(
+        {
+            "root": str(agent_root),
+            "git_root": str(agent_root),
+            "evidence_root": str(evidence_root),
+            "allowed_nodeids": [],
+            "nodeid_registration_records": [],
+        }
+    )
+    policy_path.write_text(json.dumps(policy, indent=2) + "\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "POLICY_PATH", policy_path)
+    monkeypatch.setattr(
+        MODULE,
+        "_git_identity",
+        lambda root, **kwargs: {
+            "root": str(root),
+            "branch": kwargs["expected_branch"],
+            "head": "a" * 40,
+            "tree": "b" * 40,
+            "status_short": "",
+        },
+    )
+    monkeypatch.setattr(MODULE, "_worktree_source_fingerprint", lambda *_args: "c" * 64)
+    targets = (
+        "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
+        "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4",
+    )
+    return agent_root, policy_path, targets
+
+
+def test_wp12_elements_registers_only_the_two_exact_verification_nodeids(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from contextlib import nullcontext
+
+    agent_root, policy_path, targets = _prepare_wp12_elements_verification_context(tmp_path, monkeypatch)
+    monkeypatch.setattr(
+        MODULE,
+        "run_supervised_command",
+        lambda *_args, **_kwargs: pytest.fail("nodeid registration must not launch pytest"),
+    )
+    monkeypatch.setattr(MODULE, "_exclusive_file_lock", lambda _path: nullcontext())
+    selections = {
+        targets[0]: (
+            459,
+            "Regular HEX8-SRI cantilever nx=16, ny=nz=2: 27*(nx+1)=459 total DDL before x=0 supports; 432 free DDL.",
+        ),
+        targets[1]: (
+            135,
+            "Near-degenerate-valid HEX8-SRI cantilever nx=4, ny=nz=2: 27*(nx+1)=135 total DDL before x=0 supports; 108 free DDL.",
+        ),
+    }
+    for target in targets:
+        selected_dofs, selection_basis = selections[target]
+        result = MODULE.register_wp12_nodeid(
+            "wp12_elements",
+            target,
+            "Reproduce a frozen HEX8-SRI diagnostic with raw force, moment and energy evidence.",
+            selected_dofs=selected_dofs,
+            selection_basis=selection_basis,
+            timeout_seconds=300,
+        )
+        assert result["state"] == "NODEID_REGISTERED"
+        assert result["selected_dofs"] == selected_dofs
+        assert result["timeout_seconds"] == 300
+
+    policy = MODULE.load_policy(policy_path)
+    entry = policy["worktrees"]["wp12_elements"]
+    assert entry["pytest_root"] == "tests/unit"
+    assert entry["allowed_nodeids"] == list(targets)
+    records = entry["nodeid_registration_records"]
+    assert [record["selected_dofs"] for record in records] == [459, 135]
+    assert all(record["timeout_seconds"] == 300 for record in records)
+    assert all(record["worktree_head"] == "a" * 40 for record in records)
+    assert all(record["source_fingerprint"] == "c" * 64 for record in records)
+    for target in targets:
+        assert MODULE.resolve_targets("fem_exploratory", target, policy, worktree_id="wp12_elements") == [target]
+        registered, root, source_root, _identity, fingerprint = MODULE._registered_worktree(
+            "wp12_elements", target, policy
+        )
+        assert registered is entry
+        assert root == agent_root.resolve()
+        assert source_root == (agent_root / "src").resolve()
+        assert fingerprint == "c" * 64
+
+    unregistered = "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_unregistered_element_case"
+    with pytest.raises(MODULE.PolicyError, match="exact registered wp12_elements verification nodeids"):
+        MODULE._validate_wp12_nodeid_syntax(unregistered, worktree_id="wp12_elements")
+    with pytest.raises(MODULE.PolicyError, match="exact registered wp12_elements verification nodeids"):
+        MODULE._validate_wp12_nodeid_syntax(targets[0], worktree_id="wp12_tet4")
 
 
 def test_wp12_exact_nodeid_registration_and_allowlist_selection_are_synthetic(
@@ -527,6 +680,7 @@ def test_wp12_selected_ddl_is_passed_to_the_test_process(tmp_path: Path) -> None
             "worktree_id": "wp12_tet4",
             "max_fem_cases_per_attempt": 1,
             "target_max_dofs": 50000,
+            "evidence_root": str(tmp_path / "evidence" / "tet4"),
         },
         wp12_selection={"selected_dofs": 48000},
     )
@@ -534,6 +688,7 @@ def test_wp12_selected_ddl_is_passed_to_the_test_process(tmp_path: Path) -> None
     assert environment["QF_DEV_MAX_FEM_CASES"] == "1"
     assert environment["QF_DEV_MAX_DOFS"] == "50000"
     assert environment["QF_DEV_SELECTED_DOFS"] == "48000"
+    assert environment["QF_DEV_EVIDENCE_ROOT"] == str((tmp_path / "evidence" / "tet4").resolve())
 
 
 def test_wp12_budget_expansion_is_refused(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
