@@ -468,6 +468,16 @@ def _native_guard_environment(environment: Mapping[str, str]) -> dict[str, Any]:
     return {"values": values, "active_markers": active}
 
 
+def _observed_solver_origin(output: str, expected: str) -> str | None:
+    """Return the exact resolved solver path reported by the child, if unique."""
+    prefix = "QF_DEV_SOLVER_ORIGIN="
+    matching_lines = [line for line in output.splitlines() if line.startswith(prefix)]
+    expected_path = str(Path(expected).resolve())
+    if not Path(expected_path).is_absolute() or matching_lines != [f"{prefix}{expected_path}"]:
+        return None
+    return expected_path
+
+
 def _validate_native_guard_environment(
     parent_environment: Mapping[str, str],
     child_environment: Mapping[str, str],
@@ -1732,7 +1742,7 @@ def preflight_pytest(
     stdout = stdout_path.read_text(encoding="utf-8", errors="replace") if stdout_path.is_file() else ""
     stderr = stderr_path.read_text(encoding="utf-8", errors="replace") if stderr_path.is_file() else ""
     combined = stdout + "\n" + stderr
-    origin_line = f"QF_DEV_SOLVER_ORIGIN={initial['solver_origin_expected']}"
+    solver_origin_observed = _observed_solver_origin(combined, initial["solver_origin_expected"])
     collected_exact_node = target in combined.splitlines()
     after_entry, _after_root, _after_source, after_identity, after_fingerprint = _registered_worktree(
         worktree_id, target, policy
@@ -1741,7 +1751,7 @@ def preflight_pytest(
         state = "PREFLIGHT_SOURCE_CHANGED"
     elif result.status != "PASS":
         state = "PREFLIGHT_FAILED"
-    elif origin_line not in combined:
+    elif solver_origin_observed is None:
         state = "PREFLIGHT_WRONG_SOLVER_ORIGIN"
     elif not collected_exact_node:
         state = "PREFLIGHT_NODEID_NOT_CONFIRMED"
@@ -1753,7 +1763,7 @@ def preflight_pytest(
         "started_at_utc": started,
         "finished_at_utc": datetime.now(timezone.utc).isoformat(),
         "collected_nodeids": [target] if collected_exact_node else [],
-        "solver_origin_observed": origin_line if origin_line in combined else None,
+        "solver_origin_observed": solver_origin_observed,
         "return_code": result.return_code,
         "elapsed_seconds": result.elapsed_seconds,
         "peak_rss_bytes": result.peak_rss_bytes,

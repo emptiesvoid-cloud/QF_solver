@@ -32,6 +32,129 @@ def _policy() -> dict:
     return MODULE.load_policy()
 
 
+def _emit_synthetic_hex8sri_preflight(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> dict[str, object]:
+    target = "tests/verification/test_hex8_sri_structural_campaign.py::test_synthetic_case"
+    repository = tmp_path / "research"
+    source_root = repository / "src"
+    solver_file = source_root / "solveur" / "__init__.py"
+    solver_file.parent.mkdir(parents=True)
+    solver_file.write_text("# synthetic solver origin\n", encoding="utf-8")
+    manifest_path = repository / "manifests" / "synthetic.json"
+    manifest_path.parent.mkdir()
+    manifest_path.write_text("{}\n", encoding="utf-8")
+    manifest = {
+        "case_id": "synthetic_case",
+        "controller_code_sha256": {
+            "runner": "1" * 64,
+            "pytest_plugin": "2" * 64,
+        },
+    }
+    manifest_sha256 = MODULE._sha256(manifest_path)
+    entry = {
+        "root": str(repository),
+        "git_root": str(repository),
+        "source_root": "src",
+        "branch": "research/synthetic",
+        "allow_native_vv_skip_override": False,
+        "budgets": {
+            "timeout_seconds": 1,
+            "rss_soft_limit_mib": 32,
+            "process_tree_limit": 2,
+            "output_total_limit_mib": 1,
+            "output_stream_limit_mib": 1,
+            "temporary_limit_mib": 1,
+            "archive_size_limit_mib": 1,
+        },
+    }
+    policy = {
+        "mandate_id": "SYNTHETIC-PREFLIGHT-TEST",
+        "minimum_free_disk_mib": 1,
+        "poll_interval_seconds": 0.01,
+        "worktrees": {"hex8sri": entry},
+    }
+    store = tmp_path / "run-store"
+    identity = {
+        "root": str(repository),
+        "branch": entry["branch"],
+        "head": "a" * 40,
+        "tree": "b" * 40,
+        "status_short": "",
+    }
+    fingerprint = "c" * 64
+    controller_provenance = {
+        "identity": {"root": str(tmp_path), "branch": "test", "head": "d" * 40},
+        "sha256": {"runner": "1" * 64, "pytest_plugin": "2" * 64, "policy": "3" * 64},
+        "runtime": {"python_version": "test", "pytest_version": "test", "psutil_version": "test"},
+    }
+    monkeypatch.setattr(MODULE, "load_policy", lambda: policy)
+    monkeypatch.setattr(MODULE, "resolve_targets", lambda _scope, selected, _policy, *, worktree_id: [selected])
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda _worktree_id, _target, _policy: (entry, repository, source_root, identity, fingerprint),
+    )
+    monkeypatch.setattr(MODULE, "_run_root", lambda _policy: store)
+    monkeypatch.setattr(
+        MODULE,
+        "_hex8sri_case_manifest",
+        lambda _entry, _root, _target, *, require_execution_authorized: (
+            manifest_path,
+            manifest,
+            manifest_sha256,
+        ),
+    )
+    monkeypatch.setattr(MODULE, "_controller_provenance", lambda: controller_provenance)
+
+    def fake_supervised_command(_command, *, output_dir, **_kwargs):
+        (output_dir / "stdout.log").write_text(
+            f"QF_DEV_SOLVER_ORIGIN={solver_file.resolve()}\n{target}\n",
+            encoding="utf-8",
+        )
+        (output_dir / "stderr.log").write_text("", encoding="utf-8")
+        return SimpleNamespace(
+            status="PASS",
+            return_code=0,
+            elapsed_seconds=0.001,
+            peak_rss_bytes=1024,
+            peak_process_count=1,
+            stdout_bytes=0,
+            stderr_bytes=0,
+            archive_bytes=0,
+            temporary_bytes=0,
+            stop_reason=None,
+        )
+
+    monkeypatch.setattr(MODULE, "run_supervised_command", fake_supervised_command)
+    preflight_id = "pf-123456abcdef"
+    result = MODULE.preflight_pytest("hex8sri", target, preflight_id)
+    manifest_binding = {
+        "path": str(manifest_path),
+        "sha256": manifest_sha256,
+        "case_id": manifest["case_id"],
+    }
+    return {
+        "store": store,
+        "target": target,
+        "identity": identity,
+        "fingerprint": fingerprint,
+        "controller_provenance": controller_provenance,
+        "manifest_binding": manifest_binding,
+        "preflight_id": preflight_id,
+        "result": result,
+    }
+
+
+def _synthetic_receipt_path(context: dict[str, object]) -> Path:
+    return MODULE._preflight_directory(
+        context["store"],  # type: ignore[arg-type]
+        "hex8sri",
+        context["preflight_id"],  # type: ignore[arg-type]
+    ) / "preflight.json"
+
+
 def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualification_separate() -> None:
     policy = _policy()
     assert policy["mode"] == "DEVELOPMENT_AUTONOMOUS"
@@ -163,6 +286,72 @@ def test_hex8sri_refuses_manifest_sha_mismatch() -> None:
             Path(entry["root"]),
             target,
             require_execution_authorized=False,
+        )
+
+
+def test_hex8sri_preflight_receipt_round_trips_with_canonical_solver_origin(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    context = _emit_synthetic_hex8sri_preflight(tmp_path, monkeypatch)
+    result = context["result"]
+    assert result["state"] == "PREFLIGHT_PASS"  # type: ignore[index]
+    assert result["bodies_executed"] is False  # type: ignore[index]
+
+    receipt_path = _synthetic_receipt_path(context)
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    assert receipt["solver_origin_observed"] == receipt["solver_origin_expected"]
+    assert MODULE._observed_solver_origin(
+        f"QF_DEV_SOLVER_ORIGIN={receipt['solver_origin_expected']}\n"
+        f"QF_DEV_SOLVER_ORIGIN={receipt['solver_origin_expected']}\n",
+        receipt["solver_origin_expected"],
+    ) is None
+    record_path, receipt_sha256 = MODULE._validate_hex8sri_preflight_receipt(
+        context["store"],  # type: ignore[arg-type]
+        context["preflight_id"],  # type: ignore[arg-type]
+        target=context["target"],  # type: ignore[arg-type]
+        identity=context["identity"],  # type: ignore[arg-type]
+        source_fingerprint=context["fingerprint"],  # type: ignore[arg-type]
+        controller_provenance=context["controller_provenance"],  # type: ignore[arg-type]
+        manifest_binding=context["manifest_binding"],  # type: ignore[arg-type]
+    )
+    assert record_path == receipt_path
+    assert receipt_sha256 == result["receipt_sha256"]  # type: ignore[index]
+
+
+@pytest.mark.parametrize(
+    "tampered_origin",
+    [
+        "C:/unregistered/solveur/__init__.py",
+        "QF_DEV_SOLVER_ORIGIN=E:/registered/solveur/__init__.py",
+    ],
+    ids=("wrong-path", "prefixed-value"),
+)
+def test_hex8sri_preflight_receipt_rejects_altered_solver_origin(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    tampered_origin: str,
+) -> None:
+    context = _emit_synthetic_hex8sri_preflight(tmp_path, monkeypatch)
+    receipt_path = _synthetic_receipt_path(context)
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt["solver_origin_observed"] = tampered_origin
+    receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    sidecar_path = receipt_path.with_name("preflight.sha256.json")
+    sidecar_path.write_text(
+        json.dumps({"sha256": MODULE._sha256(receipt_path)}, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(MODULE.PolicyError, match="does not match this exact source, controller, manifest, and nodeid"):
+        MODULE._validate_hex8sri_preflight_receipt(
+            context["store"],  # type: ignore[arg-type]
+            context["preflight_id"],  # type: ignore[arg-type]
+            target=context["target"],  # type: ignore[arg-type]
+            identity=context["identity"],  # type: ignore[arg-type]
+            source_fingerprint=context["fingerprint"],  # type: ignore[arg-type]
+            controller_provenance=context["controller_provenance"],  # type: ignore[arg-type]
+            manifest_binding=context["manifest_binding"],  # type: ignore[arg-type]
         )
 
 
