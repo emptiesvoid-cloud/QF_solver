@@ -126,6 +126,20 @@ WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
         "concurrency_class": "exclusive",
         "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ELEMENTS-2026-10-26-v1",
     },
+    "wp12_dynamics": {
+        "root": r"E:\QFSolverAgents\wp12-dynamics",
+        "branch": "codex/wp12-dynamic-harmonic-verification",
+        "evidence_root": r"E:\QFSolverAgents\evidence\wp12-dynamics",
+        "timeout_seconds": 300,
+        "max_timeout_seconds": 300,
+        "max_total_attempts": 9,
+        "attempt_limit_per_nodeid": 3,
+        "max_registered_nodeids": 3,
+        "max_dofs": 12,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "parallel",
+        "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
+    },
 }
 WP12_RUN_BUDGETS = {
     "rss_soft_limit_mib": 4096,
@@ -335,7 +349,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
     worktrees = policy.get("worktrees")
     legacy_worktree_ids = {"d01", "c01", "e01"}
     if not isinstance(worktrees, dict) or set(worktrees) != legacy_worktree_ids | set(WP12_OWNER_ENVELOPES):
-        raise PolicyError("the authorized worktree registry must retain D01/C01/E01 and the three WP12 scopes")
+        raise PolicyError("the authorized worktree registry must retain D01/C01/E01 and every registered WP12 scope")
     required_budget_fields = (
         "timeout_seconds",
         "rss_soft_limit_mib",
@@ -1906,7 +1920,7 @@ def register_wp12_nodeid(
 ) -> dict[str, Any]:
     """Register one inspected exact WP12 pytest function and its preselected case envelope."""
     if worktree_id not in WP12_OWNER_ENVELOPES:
-        raise PolicyError("controlled nodeid registration is available only for the three WP12 scopes")
+        raise PolicyError("controlled nodeid registration is available only for registered WP12 scopes")
     if not isinstance(reason, str) or not 8 <= len(reason.strip()) <= 300 or "\n" in reason or "\r" in reason:
         raise PolicyError("nodeid registration requires a one-line reason of 8 to 300 characters")
     selection = _validate_wp12_case_selection(
@@ -2016,7 +2030,7 @@ def _controller_provenance() -> dict[str, Any]:
 def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization_id: str) -> dict[str, Any]:
     """Write an exact WP12 execution-manifest template that remains unapproved."""
     if worktree_id not in WP12_OWNER_ENVELOPES:
-        raise PolicyError("WP12 execution manifests are available only for the three WP12 scopes")
+        raise PolicyError("WP12 execution manifests are available only for registered WP12 scopes")
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", authorization_id):
         raise PolicyError("authorization ID must be 8 to 64 safe alphanumeric, dot, underscore or hyphen characters")
     policy = load_policy(POLICY_PATH)

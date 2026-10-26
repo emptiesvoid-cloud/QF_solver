@@ -247,6 +247,38 @@
       },
       "allowed_nodeids": [],
       "nodeid_registration_records": []
+    },
+    "wp12_dynamics": {
+      "purpose": "WP12 dynamic, transient and harmonic development regressions",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\wp12-dynamics",
+      "git_root": "E:\\QFSolverAgents\\wp12-dynamics",
+      "branch": "codex/wp12-dynamic-harmonic-verification",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-dynamics",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 3,
+      "max_total_attempts": 9,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 12,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "nodeid_registration": {"enabled": true, "max_nodeids": 3},
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [],
+      "nodeid_registration_records": []
     }
   },
   "resource_coordination_root": "E:\\QFSolverAgents\\evidence\\.wp12-coordination"

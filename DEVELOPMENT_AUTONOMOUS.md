@@ -30,7 +30,13 @@ The D01 pytest module is normally skipped as `NATIVE_AUTH_REQUIRED`. For only th
 
 ## WP12 registration and execution
 
-After retrieving the common configuration commit into the scientific branch, inspect the exact test function and declare its planned DDL count and selection basis. Registration parses the test module with Python's AST without importing or running it, checks the clean worktree identity and baseline, and fingerprints the solver/test sources. It refuses TET4 selections above 50,000 DDL and elements selections above 30,000 DDL before any attempt is reserved. WP07 also records its selected DDL count but has no additional DDL ceiling in this mandate. If a source file changes, register a new revision; prior registration and attempt records remain preserved. Commit the source and registration before preparing the execution manifest so the exact worktree is frozen.
+After retrieving the common configuration commit into the scientific branch, inspect the exact test function and declare its planned DDL count and selection basis. Registration parses the test module with Python's AST without importing or running it, checks the clean worktree identity and baseline, and fingerprints the solver/test sources. It refuses TET4 selections above 50,000 DDL, elements selections above 30,000 DDL, and dynamics selections above 12 DDL before any attempt is reserved. WP07 also records its selected DDL count but has no additional DDL ceiling in this mandate. Dynamics is capped at 9 total attempts, at most 3 per nodeid, and 300 seconds per attempt. If a source file changes, register a new revision; prior registration and attempt records remain preserved. Commit the source and registration before preparing the execution manifest so the exact worktree is frozen. The dynamic preparation currently proposes these exact candidates. They remain refused until each is registered against its current clean source fingerprint:
+
+```text
+tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables
+tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation
+tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization
+```
 
 Example for one TET4 node (replace the nodeid, count and basis with the reviewed case):
 
@@ -58,9 +64,9 @@ git commit -m 'test: register bounded WP12 TET4 case'
   --reason 'Record the result for the inspected L3 convergence case'
 ```
 
-The policy runs one exact nodeid per attempt. WP07 has a 10-attempt mission cap at 300 seconds per attempt. TET4 has a 12-attempt/case cap at 900 seconds per attempt. Elements has a 20-attempt/case cap, 300 seconds by default; a registration may request 900 seconds only with a case-specific reason. Example: add `--timeout-seconds 900 --timeout-reason '...'` to the elements registration command. Repeated attempts consume the same mission cap. A per-case execution manifest must bind the exact source, registration, controller, nodeid and budget; the template stays refused until an Owner decision marks that case authorized. Authorization IDs are single-use.
+The policy runs one exact nodeid per attempt. WP07 has a 10-total-attempt mission cap at 300 seconds per attempt. TET4 has a 12-total-case/attempt cap at 900 seconds per attempt. Elements has a 20-total-case/attempt cap at 300 seconds by default; a registration may request 900 seconds only with a case-specific reason. Example: add `--timeout-seconds 900 --timeout-reason '...'` to the elements registration command. Repeated attempts consume the same mission cap. A per-case execution manifest must bind the exact source, registration, controller, nodeid and budget; the template stays refused until an Owner decision marks that case authorized. Authorization IDs are single-use.
 
-Each WP12 worktree has a separate evidence and attempt-ledger directory under `E:\QFSolverAgents\evidence`. A shared nonblocking lock in `.wp12-coordination` allows at most two WP07 `parallel` runs; TET4 and elements reserve both slots, excluding every other WP12 FEM run until they finish. A busy slot is refused before an attempt is reserved. These records track development cases and never imply formal qualification.
+Each WP12 worktree has a separate evidence and attempt-ledger directory under `E:\QFSolverAgents\evidence`. A shared nonblocking lock in `.wp12-coordination` allows at most two WP07 or dynamics `parallel` runs; TET4 and elements reserve both slots, excluding every other WP12 FEM run until they finish. A busy slot is refused before an attempt is reserved. These records track development cases and never imply formal qualification.
 
 ## Budgets and their meaning
 
@@ -72,6 +78,7 @@ Each WP12 worktree has a separate evidence and attempt-ledger directory under `E
 | WP12 WP07 | 300 s | 4 GiB soft monitor | 64 MiB aggregate, 32 MiB/stream | 512 MiB sampled monitor | 10 |
 | WP12 TET4 | 900 s | 4 GiB soft monitor | 64 MiB aggregate, 32 MiB/stream | 512 MiB sampled monitor | 12; selected DDL ≤50,000 |
 | WP12 elements | 300 s default, 900 s exceptional | 4 GiB soft monitor | 64 MiB aggregate, 32 MiB/stream | 512 MiB sampled monitor | 20; selected DDL ≤30,000 |
+| WP12 dynamics | 300 s | 4 GiB soft monitor | 64 MiB aggregate, 32 MiB/stream | 512 MiB sampled monitor | 9 total; ≤3/node; selected DDL ≤12 |
 
 The captured stdout/stderr byte caps are enforced by the launcher (excess output is discarded and the run is stopped). Timeout, RSS, process count, temporary/archive size, and free-disk checks are sampled by a watchdog and are not equivalent to a Windows Job Object, hard memory/commit limit, NTFS quota, or sandbox. Process-tree termination is best-effort. The test process is not prevented from writing outside its pytest temp directory. Use no unrelated concurrent FEM workload; D01/C01 calls serialize with each other, and WP12 calls coordinate through their separate two-slot lock.
 

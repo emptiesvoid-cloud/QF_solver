@@ -35,7 +35,7 @@ def _policy() -> dict:
 def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualification_separate() -> None:
     policy = _policy()
     assert policy["mode"] == "DEVELOPMENT_AUTONOMOUS"
-    assert set(policy["worktrees"]) == {"d01", "c01", "e01", "wp12_wp07", "wp12_tet4", "wp12_elements"}
+    assert set(policy["worktrees"]) == {"d01", "c01", "e01", "wp12_wp07", "wp12_tet4", "wp12_elements", "wp12_dynamics"}
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
     assert policy["worktrees"]["d01"]["development_mandate_id"] == "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v2-d01"
     assert policy["worktrees"]["d01"]["node_attempt_ledger"]["path"] == "node-attempt-ledger-d01-v2.json"
@@ -49,6 +49,9 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
     assert policy["worktrees"]["wp12_tet4"]["target_max_dofs"] == 50000
     assert policy["worktrees"]["wp12_elements"]["max_total_attempts"] == 20
     assert policy["worktrees"]["wp12_elements"]["target_max_dofs"] == 30000
+    assert policy["worktrees"]["wp12_dynamics"]["max_total_attempts"] == 9
+    assert policy["worktrees"]["wp12_dynamics"]["attempt_limit_per_nodeid"] == 3
+    assert policy["worktrees"]["wp12_dynamics"]["target_max_dofs"] == 12
     assert policy["worktrees"]["d01"]["allowed_nodeids"] == list(MODULE.D01_NATIVE_NODEIDS)
     assert {
         name: policy["worktrees"]["d01"]["budgets"][name]
@@ -89,12 +92,13 @@ def test_each_worktree_has_a_separate_output_namespace(tmp_path: Path) -> None:
         MODULE._series_root(tmp_path, "fem_exploratory", "e02")
 
 
-def test_wp12_registry_has_three_distinct_exact_worktree_envelopes() -> None:
+def test_wp12_registry_has_four_distinct_exact_worktree_envelopes() -> None:
     policy = _policy()
     expected = {
         "wp12_wp07": ("E:\\QFSolverAgents\\wp07", "fix/wp12-wp07-serialization", 300, 10, None),
         "wp12_tet4": ("E:\\QFSolverAgents\\tet4", "experiment/wp12-tet4-convergence", 900, 12, 50000),
         "wp12_elements": ("E:\\QFSolverAgents\\vv-elements", "test/wp12-fem-regressions", 300, 20, 30000),
+        "wp12_dynamics": ("E:\\QFSolverAgents\\wp12-dynamics", "codex/wp12-dynamic-harmonic-verification", 300, 9, 12),
     }
     for worktree_id, (root, branch, timeout, attempts, max_dofs) in expected.items():
         entry = policy["worktrees"][worktree_id]
@@ -109,6 +113,21 @@ def test_wp12_registry_has_three_distinct_exact_worktree_envelopes() -> None:
         assert entry["nodeid_registration_records"] == []
         assert entry["nodeid_registration"]["enabled"] is True
         assert entry["max_timeout_seconds"] == (900 if worktree_id in {"wp12_tet4", "wp12_elements"} else 300)
+
+
+def test_unregistered_dynamic_nodeids_are_refused_and_isolated_to_their_worktree() -> None:
+    policy = _policy()
+    candidates = (
+        "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+        "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+        "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+    )
+    assert policy["worktrees"]["wp12_dynamics"]["allowed_nodeids"] == []
+    for nodeid in candidates:
+        with pytest.raises(MODULE.PolicyError, match="one exact nodeid in the registered worktree allowlist"):
+            MODULE.resolve_targets("fem_exploratory", nodeid, policy, worktree_id="wp12_dynamics")
+    with pytest.raises(MODULE.PolicyError, match="one exact nodeid in the registered worktree allowlist"):
+        MODULE.resolve_targets("fem_exploratory", candidates[0], policy, worktree_id="wp12_wp07")
 
 
 def test_each_wp12_worktree_resolves_its_registered_test_and_solver_root(
@@ -341,6 +360,25 @@ def test_wp12_case_selection_enforces_ddl_caps_and_timeout_exceptions() -> None:
             selected_dofs=30001,
             selection_basis="HEX8-SRI mesh selection exceeds the registered DDL cap",
         )
+    dynamic = MODULE._validate_wp12_case_selection(
+        "wp12_dynamics",
+        selected_dofs=12,
+        selection_basis="Two-node BEAM2 or four-node TET4 model has at most 12 total DDL",
+    )
+    assert dynamic["timeout_seconds"] == 300
+    with pytest.raises(MODULE.PolicyError, match="exceeds the 12-DDL cap"):
+        MODULE._validate_wp12_case_selection(
+            "wp12_dynamics",
+            selected_dofs=13,
+            selection_basis="Synthetic dynamic case above the authorized 12-DDL ceiling",
+        )
+    with pytest.raises(MODULE.PolicyError, match="must be 300 seconds by default"):
+        MODULE._validate_wp12_case_selection(
+            "wp12_dynamics",
+            selected_dofs=12,
+            selection_basis="Synthetic dynamic timeout above its fixed budget",
+            timeout_seconds=301,
+        )
     with pytest.raises(MODULE.PolicyError, match="exceptional 900-second"):
         MODULE._validate_wp12_case_selection(
             "wp12_elements",
@@ -491,6 +529,21 @@ def test_wp12_budget_expansion_is_refused(tmp_path: Path, monkeypatch: pytest.Mo
     candidate.write_text(json.dumps(policy), encoding="utf-8")
     with pytest.raises(MODULE.PolicyError, match="Owner authorization exactly"):
         MODULE.load_policy(candidate)
+    policy = json.loads(json.dumps(original_policy))
+    policy["worktrees"]["wp12_dynamics"]["max_total_attempts"] = 10
+    candidate.write_text(json.dumps(policy), encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="Owner authorization exactly"):
+        MODULE.load_policy(candidate)
+    policy = json.loads(json.dumps(original_policy))
+    policy["worktrees"]["wp12_dynamics"]["branch"] = "experiment/wp12-dynamics-unregistered"
+    candidate.write_text(json.dumps(policy), encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="Owner authorization exactly"):
+        MODULE.load_policy(candidate)
+    policy = json.loads(json.dumps(original_policy))
+    policy["worktrees"]["wp12_dynamics"]["target_max_dofs"] = 13
+    candidate.write_text(json.dumps(policy), encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="Owner authorization exactly"):
+        MODULE.load_policy(candidate)
 
 
 def test_wp12_attempt_ledger_enforces_total_cap_across_nodeids(tmp_path: Path) -> None:
@@ -508,6 +561,45 @@ def test_wp12_attempt_ledger_enforces_total_cap_across_nodeids(tmp_path: Path) -
     MODULE._reserve_node_attempt(**common, target="tests/unit/test_mesh.py::test_first")
     with pytest.raises(MODULE.PolicyError, match="mission cap"):
         MODULE._reserve_node_attempt(**common, target="tests/unit/test_mesh.py::test_second")
+
+
+def test_wp12_dynamics_attempt_ledger_enforces_node_and_mission_caps(tmp_path: Path) -> None:
+    envelope = MODULE.WP12_OWNER_ENVELOPES["wp12_dynamics"]
+    common = {
+        "ledger_path": tmp_path / "dynamics-ledger.json",
+        "lock_path": tmp_path / "dynamics-ledger.lock",
+        "mandate_id": envelope["development_mandate_id"],
+        "worktree_id": "wp12_dynamics",
+        "source_fingerprint": "a" * 64,
+        "total_maximum": envelope["max_total_attempts"],
+    }
+    targets = [f"tests/unit/test_dynamic_synthetic.py::test_case_{index}" for index in range(3)]
+    for target_index, target in enumerate(targets):
+        for attempt in range(envelope["attempt_limit_per_nodeid"]):
+            MODULE._reserve_node_attempt(
+                **common,
+                target=target,
+                series_id=f"dev-dyn-{target_index}-{attempt}",
+                reason=f"synthetic unique dynamic attempt {target_index}-{attempt}",
+                maximum=envelope["attempt_limit_per_nodeid"],
+            )
+        if target_index == 0:
+            with pytest.raises(MODULE.PolicyError, match="exhausted 3 attempts for this nodeid"):
+                MODULE._reserve_node_attempt(
+                    **common,
+                    target=target,
+                    series_id="dev-dyn-node-cap",
+                    reason="synthetic fourth attempt for this dynamic nodeid",
+                    maximum=envelope["attempt_limit_per_nodeid"],
+                )
+    with pytest.raises(MODULE.PolicyError, match="exhausted its 9-attempt mission cap"):
+        MODULE._reserve_node_attempt(
+            **common,
+            target="tests/unit/test_dynamic_synthetic.py::test_extra",
+            series_id="dev-dyn-mission-cap",
+            reason="synthetic tenth dynamic mission attempt",
+            maximum=envelope["attempt_limit_per_nodeid"],
+        )
 
 
 def test_wp12_execution_authorization_id_is_durable_and_single_use(tmp_path: Path) -> None:
@@ -553,12 +645,13 @@ def test_wp12_evidence_namespaces_never_overlap(tmp_path: Path) -> None:
         ("wp07", "wp12_wp07"),
         ("tet4", "wp12_tet4"),
         ("elements", "wp12_elements"),
+        ("dynamics", "wp12_dynamics"),
     )]
-    assert len(set(roots)) == 3
+    assert len(set(roots)) == 4
     for index, root in enumerate(roots):
         root.mkdir(parents=True)
         (root / "marker.json").write_text(json.dumps({"agent": index}), encoding="utf-8")
-    assert [json.loads((root / "marker.json").read_text(encoding="utf-8"))["agent"] for root in roots] == [0, 1, 2]
+    assert [json.loads((root / "marker.json").read_text(encoding="utf-8"))["agent"] for root in roots] == [0, 1, 2, 3]
 
 
 def test_run_provenance_records_controller_and_runtime_identity() -> None:
@@ -676,7 +769,8 @@ def test_registered_command_is_fixed_to_one_target_and_checks_import_origin(tmp_
         allow_native_skip_override=True,
     )
     assert command[:3] == [sys.executable, "-B", "-c"]
-    assert "wrong solveur import origin" in command[3]
+    assert "origin = Path(solveur.__file__).resolve()" in command[3]
+    assert "_verify_solver_import_origin(src, origin)" in command[3]
     assert "QF_DEV_SOLVER_ORIGIN=" in command[3]
     assert command[-1] == target
     with pytest.raises(MODULE.PolicyError, match="one exact nodeid"):
@@ -1198,7 +1292,7 @@ def test_d01_missing_preflight_receipt_refuses_before_attempt_reservation(
         lambda *args, **kwargs: (entry, tmp_path, tmp_path / "src", {"head": "a" * 40}, "b" * 64),
     )
     monkeypatch.setattr(MODULE, "_node_ledger_context", lambda *_args: (store / "v2.json", store / "v2.lock", "v2", {"path": "v1", "sha256": "c" * 64, "mandate_id": "v1"}))
-    monkeypatch.setattr(MODULE, "_run_root", lambda _policy: store)
+    monkeypatch.setattr(MODULE, "_run_root", lambda _policy, _worktree_id=None: store)
     monkeypatch.setattr(MODULE, "_exclusive_file_lock", lambda *_args, **_kwargs: nullcontext())
     monkeypatch.setattr(MODULE, "psutil", object())
     monkeypatch.setattr(MODULE.shutil, "disk_usage", lambda _path: SimpleNamespace(free=2 * 1024**3))
