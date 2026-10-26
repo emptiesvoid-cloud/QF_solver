@@ -626,6 +626,139 @@
           "worktree_head": "d9deddbd6b42467c5fdc9e278bd54e97605f5738"
         }
       ]
+    },
+    "rotor": {
+      "purpose": "WP12 inherited rotordynamics sentinels; registration and manifest preparation only until separate Owner decisions",
+      "mode": "fem_exploratory",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\wp12-rotor-performance\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\wp12-rotor-performance\\qf_solver",
+      "branch": "verify/wp12-rotor-performance",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\rotor",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 8,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 12,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ROTOR-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 8
+      },
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_rotating_modal_cases.py::test_gyro01_zero_speed_matches_modal_frequencies_multiplicity_and_subspaces",
+        "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_unit_speed_gyro_blocks_match_contract",
+        "tests/unit/test_rotating_disk_gyro.py::test_assembled_gyro_uses_same_global_dof_map_and_has_zero_quadratic_work",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-100.0]",
+        "tests/unit/test_modal_tracking.py::test_competing_source_modes_make_the_global_assignment_ambiguous",
+        "tests/unit/test_campbell.py::test_campbell_sweep_reuses_one_model_and_serializes_complex_source_results",
+        "tests/unit/test_campbell.py::test_campbell_is_exposed_through_model_schema_and_analysis_router"
+      ],
+      "nodeid_registration_records": [
+        {
+          "target": "tests/unit/test_rotating_modal_cases.py::test_gyro01_zero_speed_matches_modal_frequencies_multiplicity_and_subspaces",
+          "reason": "Zero-speed rotating modal recovery against the classical modal route on the exact six-free-DOF BEAM2 sentinel.",
+          "registered_at_utc": "2026-10-26T21:43:56.577381+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "0106cc0d24fc11e053dacadb7beaca301c914a19ef0e350713501e1f5e20ef38",
+          "selected_dofs": 6,
+          "selection_basis": "BEAM2 two-node cantilever; node 0 fixed in all six DOF; node 1 supplies six free DOF to modal and rotating QEP routes.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_unit_speed_gyro_blocks_match_contract",
+          "reason": "Check the exact rigid-disk mass and unit-speed gyroscopic blocks against their frozen matrix contract.",
+          "registered_at_utc": "2026-10-26T21:43:57.889250+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "c60a2f4e8aea833c97a5dddf9615579b9e0acb4854645fa4614b6a33c2656faa",
+          "selected_dofs": 6,
+          "selection_basis": "One six-DOF rigid disk block; local translational and rotational matrix entries only.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_disk_gyro.py::test_assembled_gyro_uses_same_global_dof_map_and_has_zero_quadratic_work",
+          "reason": "Check discrete gyro placement in the two-node global DOF map and skew-work invariant without an eigensolve.",
+          "registered_at_utc": "2026-10-26T21:43:59.173395+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "c60a2f4e8aea833c97a5dddf9615579b9e0acb4854645fa4614b6a33c2656faa",
+          "selected_dofs": 12,
+          "selection_basis": "Two-node six-DOF DofManager gives twelve global DOF; only the discrete gyroscopic block is assembled.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]",
+          "reason": "Positive-spin GYRO-03 analytic disk oracle and dense two-DOF QEP residual sentinel.",
+          "registered_at_utc": "2026-10-26T21:44:00.462411+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "06db584735b94e945921ff771bf984a3e8e2994806bd262fbed38aa5f66cb74b",
+          "selected_dofs": 2,
+          "selection_basis": "Two rotational DOF RY/RZ in the analytic disk QEP; dense companion pencil dimension is four.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-100.0]",
+          "reason": "Negative-spin GYRO-03 analytic disk oracle and dense two-DOF QEP residual sentinel.",
+          "registered_at_utc": "2026-10-26T21:44:01.792082+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "06db584735b94e945921ff771bf984a3e8e2994806bd262fbed38aa5f66cb74b",
+          "selected_dofs": 2,
+          "selection_basis": "Two rotational DOF RY/RZ in the analytic disk QEP; dense companion pencil dimension is four.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_tracking.py::test_competing_source_modes_make_the_global_assignment_ambiguous",
+          "reason": "Check explicit ambiguous global modal assignment from two supplied source modes, without computing eigenpairs.",
+          "registered_at_utc": "2026-10-26T21:44:03.136100+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "4e8545167a87acd12237f84e43c5510e55b70721f079e363ef4a69a633df7cde",
+          "selected_dofs": 2,
+          "selection_basis": "Two supplied synthetic modal vectors; tracking operates on a two-dimensional mass metric.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_campbell.py::test_campbell_sweep_reuses_one_model_and_serializes_complex_source_results",
+          "reason": "Check the exact three-speed BEAM2 Campbell sweep, invariant operators, and complex result serialization.",
+          "registered_at_utc": "2026-10-26T21:44:04.483873+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "bcbc090a428fc5bdd21ebb269264880fd8d882e197947be1ab76b4832af99488",
+          "selected_dofs": 6,
+          "selection_basis": "BEAM2 cantilever with six free DOF at node 1; explicit Campbell speeds 0, 10, and 25 rad/s.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_campbell.py::test_campbell_is_exposed_through_model_schema_and_analysis_router",
+          "reason": "Check Campbell schema and AnalysisRouter exposure on the exact two-speed BEAM2 sentinel.",
+          "registered_at_utc": "2026-10-26T21:44:05.921707+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "bcbc090a428fc5bdd21ebb269264880fd8d882e197947be1ab76b4832af99488",
+          "selected_dofs": 6,
+          "selection_basis": "BEAM2 cantilever with six free DOF at node 1; explicit Campbell speeds 0 and 5 rad/s.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        }
+      ]
     }
   },
   "resource_coordination_root": "E:\\QFSolverAgents\\evidence\\.wp12-coordination"
