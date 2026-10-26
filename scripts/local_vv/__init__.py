@@ -3,6 +3,7 @@
 from .execution import run_case, validate_all_cases, validate_manifest_file
 from .manifest import (
     DECISION_SCHEMA,
+    COMMAND_PROFILE,
     HASH_PATTERN,
     IDENTITY_PATTERN,
     MANIFEST_SCHEMA,
@@ -33,6 +34,7 @@ from .cli import build_parser
 
 __all__ = [
     "DECISION_SCHEMA",
+    "COMMAND_PROFILE",
     "HASH_PATTERN",
     "IDENTITY_PATTERN",
     "MANIFEST_SCHEMA",

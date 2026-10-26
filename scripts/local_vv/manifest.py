@@ -17,6 +17,7 @@ from typing import Any
 
 MANIFEST_SCHEMA = "qf-local-vv-campaign-v1"
 DECISION_SCHEMA = "qf-local-vv-owner-execution-decision-v1"
+COMMAND_PROFILE = "local-vv-pytest-exact-node-v1"
 NODEID_PATTERN = re.compile(r"^tests/unit/[A-Za-z0-9_./-]+\.py::test_[A-Za-z0-9_]+$")
 IDENTITY_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 HASH_PATTERN = re.compile(r"^[0-9a-f]{64}$")
@@ -64,6 +65,12 @@ def validate_manifest_shape(manifest: dict[str, Any]) -> list[str]:
         errors.append("manifest is not governed by QUALIFICATION_LOCAL_VV")
     if manifest.get("status") != "PREPARED_NOT_AUTHORIZED":
         errors.append("campaign manifest must remain PREPARED_NOT_AUTHORIZED")
+    if manifest.get("execution_authorized") is not False:
+        errors.append("campaign manifest cannot authorize its own execution")
+    if manifest.get("numerical_execution_performed") is not False:
+        errors.append("prepared campaign must state numerical_execution_performed=false")
+    if manifest.get("wp12_status") != "OPEN":
+        errors.append("WP12 status must remain OPEN")
     campaign_id = manifest.get("campaign_id")
     if not isinstance(campaign_id, str) or not re.fullmatch(r"[A-Z0-9][A-Z0-9._-]{2,79}", campaign_id):
         errors.append("campaign_id is invalid")
@@ -134,6 +141,11 @@ def validate_manifest_shape(manifest: dict[str, Any]) -> list[str]:
                 errors.append(f"{prefix}.nodeid contains a forbidden path or selector")
         if case.get("status") != "PREPARED_NOT_AUTHORIZED":
             errors.append(f"{prefix}.status must be PREPARED_NOT_AUTHORIZED")
+        if case.get("command_profile") != COMMAND_PROFILE:
+            errors.append(f"{prefix}.command_profile is not the fixed runner command profile")
+        for field in ("oracle_id", "acceptance_ref"):
+            if not isinstance(case.get(field), str) or not case[field].strip():
+                errors.append(f"{prefix}.{field} is required")
         test_checkout = case.get("test_checkout", "tests")
         if not isinstance(test_checkout, str) or test_checkout not in {"science", "runner", "tests"}:
             errors.append(f"{prefix}.test_checkout is invalid")
@@ -424,6 +436,8 @@ def validate_owner_decision(
         errors.append("Owner decision does not bind the case oracle")
     if decision.get("acceptance_ref") != case.get("acceptance_ref"):
         errors.append("Owner decision does not bind the case acceptance criteria")
+    if decision.get("command_profile") != case.get("command_profile"):
+        errors.append("Owner decision command profile mismatch")
     for key in ("science", "runner", "tests"):
         authorized = decision.get(f"{key}_identity")
         expected = manifest.get("identities", {}).get(key, {})
