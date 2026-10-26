@@ -156,6 +156,20 @@ WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
         "concurrency_class": "parallel",
         "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
     },
+    "rotor": {
+        "root": r"C:\Users\fari\.codex\worktrees\wp12-rotor-performance\qf_solver",
+        "branch": "verify/wp12-rotor-performance",
+        "evidence_root": r"E:\QFSolverAgents\evidence\rotor",
+        "timeout_seconds": 300,
+        "max_timeout_seconds": 300,
+        "max_total_attempts": 8,
+        "attempt_limit_per_nodeid": 1,
+        "max_registered_nodeids": 8,
+        "max_dofs": 12,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "parallel",
+        "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ROTOR-2026-10-26-v1",
+    },
 }
 WP12_RUN_BUDGETS = {
     "rss_soft_limit_mib": 4096,
@@ -171,6 +185,18 @@ WP12_ELEMENTS_VERIFICATION_NODEIDS = frozenset(
     {
         "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
         "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4",
+    }
+)
+WP12_ROTOR_NODEIDS = frozenset(
+    {
+        "tests/unit/test_rotating_modal_cases.py::test_gyro01_zero_speed_matches_modal_frequencies_multiplicity_and_subspaces",
+        "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_unit_speed_gyro_blocks_match_contract",
+        "tests/unit/test_rotating_disk_gyro.py::test_assembled_gyro_uses_same_global_dof_map_and_has_zero_quadratic_work",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-100.0]",
+        "tests/unit/test_modal_tracking.py::test_competing_source_modes_make_the_global_assignment_ambiguous",
+        "tests/unit/test_campbell.py::test_campbell_sweep_reuses_one_model_and_serializes_complex_source_results",
+        "tests/unit/test_campbell.py::test_campbell_is_exposed_through_model_schema_and_analysis_router",
     }
 )
 
@@ -322,9 +348,11 @@ def _validate_wp12_nodeid_syntax(target: str, *, worktree_id: str | None = None)
             module_name.startswith("tests/unit/")
             or (worktree_id == "wp12_elements" and target in WP12_ELEMENTS_VERIFICATION_NODEIDS)
         )
+        or (worktree_id == "rotor" and target not in WP12_ROTOR_NODEIDS)
     ):
         raise PolicyError(
-            "WP12 target must be below tests/unit or one of the exact registered wp12_elements verification nodeids"
+            "WP12 target must be below tests/unit or one of the exact registered wp12_elements verification nodeids; "
+            "rotor permits only its exact approved sentinel nodeids"
         )
     return match
 
