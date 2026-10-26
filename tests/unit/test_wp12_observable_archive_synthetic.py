@@ -103,7 +103,7 @@ def _synthetic_attempt(
         "worktree_id": "wp12_dynamics",
         "target": [nodeid],
         "series_id": series_id,
-        "attempt": 1,
+        "attempt": 2,
         "execution_manifest": {
             "path": str(manifest_path),
             "sha256": manifest_sha256,
@@ -124,8 +124,12 @@ def _synthetic_attempt(
     return output_dir, authorization_id, run_record
 
 
+def _rewrite_run_record(output_dir: Path, run_record: dict[str, object]) -> None:
+    (output_dir.parent / "run.json").write_text(json.dumps(run_record), encoding="utf-8")
+
+
 @pytest.mark.parametrize(("writer", "publish", "nodeid", "case"), WRITER_CASES)
-def test_synthetic_sidecar_pass_and_no_overwrite(
+def test_synthetic_global_attempt_two_archives_local_series_attempt_one(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     writer: Callable[..., dict[str, str]],
@@ -155,7 +159,8 @@ def test_synthetic_sidecar_pass_and_no_overwrite(
     assert hashlib.sha256(original_bytes).hexdigest() == artifact["sha256"]
     assert archived["case"] == case
     assert archived["attempt_identity"]["series_id"] == f"sp-{short_case}"
-    assert archived["attempt_identity"]["attempt"] == 1
+    assert archived["attempt_identity"]["attempt"] == 2
+    assert archived["attempt_identity"]["series_attempt"] == 1
     assert not list(output_dir.glob("*.tmp"))
 
     with pytest.raises(FileExistsError, match="Refusing to overwrite"):
@@ -200,5 +205,117 @@ def test_synthetic_sidecar_survives_assertion_failure(
     assert archived["non_finite_values"]["$.synthetic_observable"] == "nan"
     assert archived["assertion_results"] == {"controlled-failure": False}
     assert archived["attempt_identity"]["series_id"] == f"sf-{short_case}"
-    assert archived["attempt_identity"]["attempt"] == 1
+    assert archived["attempt_identity"]["attempt"] == 2
+    assert archived["attempt_identity"]["series_attempt"] == 1
+    assert not list(output_dir.glob("*.tmp"))
+
+
+@pytest.mark.parametrize(("writer", "publish", "nodeid", "case"), WRITER_CASES)
+def test_synthetic_writer_rejects_wrong_series(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    writer: Callable[..., dict[str, str]],
+    publish: Callable[..., dict[str, str]],
+    nodeid: str,
+    case: str,
+) -> None:
+    output_dir, _, run_record = _synthetic_attempt(
+        tmp_path, monkeypatch, nodeid=nodeid, series_id=f"wrong-series-{case}"
+    )
+    run_record["series_id"] = f"different-series-{case}"
+    _rewrite_run_record(output_dir, run_record)
+
+    with pytest.raises(RuntimeError, match="series/attempt identity"):
+        writer(case_name=f"wrong-series-{case}", nodeid=nodeid, payload={"case": case})
+
+    assert not (output_dir / f"wrong-series-{case}.json").exists()
+    assert not list(output_dir.glob("*.tmp"))
+
+
+@pytest.mark.parametrize(("writer", "publish", "nodeid", "case"), WRITER_CASES)
+def test_synthetic_writer_rejects_manifest_bound_to_another_nodeid(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    writer: Callable[..., dict[str, str]],
+    publish: Callable[..., dict[str, str]],
+    nodeid: str,
+    case: str,
+) -> None:
+    output_dir, _, run_record = _synthetic_attempt(
+        tmp_path, monkeypatch, nodeid=nodeid, series_id=f"wrong-manifest-{case}"
+    )
+    manifest_ref = run_record["execution_manifest"]
+    assert isinstance(manifest_ref, dict)
+    manifest_path = Path(str(manifest_ref["path"]))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["target"] = "tests/unit/test_other.py::test_not_authorized_here"
+    manifest_bytes = json.dumps(manifest, sort_keys=True).encode("utf-8")
+    manifest_path.write_bytes(manifest_bytes)
+    manifest_ref["sha256"] = hashlib.sha256(manifest_bytes).hexdigest()
+    _rewrite_run_record(output_dir, run_record)
+
+    with pytest.raises(RuntimeError, match="source/controller identity"):
+        writer(case_name=f"wrong-manifest-{case}", nodeid=nodeid, payload={"case": case})
+
+    assert not (output_dir / f"wrong-manifest-{case}.json").exists()
+    assert not list(output_dir.glob("*.tmp"))
+
+
+@pytest.mark.parametrize(("writer", "publish", "nodeid", "case"), WRITER_CASES)
+def test_synthetic_writer_rejects_output_outside_evidence_root(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    writer: Callable[..., dict[str, str]],
+    publish: Callable[..., dict[str, str]],
+    nodeid: str,
+    case: str,
+) -> None:
+    output_dir, _, run_record = _synthetic_attempt(
+        tmp_path, monkeypatch, nodeid=nodeid, series_id=f"wrong-path-{case}"
+    )
+    series_id = str(run_record["series_id"])
+    outside_attempt_dir = tmp_path / "outside-evidence" / "worktrees" / "wp12_dynamics" / series_id / "attempt-0001"
+    outside_temp_dir = outside_attempt_dir / "tmp"
+    outside_output_dir = outside_attempt_dir / "output"
+    outside_temp_dir.mkdir(parents=True)
+    outside_output_dir.mkdir()
+    (outside_attempt_dir / "run.json").write_text(json.dumps(run_record), encoding="utf-8")
+    monkeypatch.setenv("TMP", str(outside_temp_dir))
+    monkeypatch.setenv("TEMP", str(outside_temp_dir))
+
+    with pytest.raises(RuntimeError, match="outside the evidence root"):
+        writer(case_name=f"wrong-path-{case}", nodeid=nodeid, payload={"case": case})
+
+    assert not (outside_output_dir / f"wrong-path-{case}.json").exists()
+    assert not (output_dir / f"wrong-path-{case}.json").exists()
+    assert not list(outside_output_dir.glob("*.tmp"))
+
+
+@pytest.mark.parametrize(("writer", "publish", "nodeid", "case"), WRITER_CASES)
+def test_synthetic_writer_rejects_unapproved_manifest(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    writer: Callable[..., dict[str, str]],
+    publish: Callable[..., dict[str, str]],
+    nodeid: str,
+    case: str,
+) -> None:
+    output_dir, _, run_record = _synthetic_attempt(
+        tmp_path, monkeypatch, nodeid=nodeid, series_id=f"unauthorized-{case}"
+    )
+    manifest_ref = run_record["execution_manifest"]
+    assert isinstance(manifest_ref, dict)
+    manifest_path = Path(str(manifest_ref["path"]))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["state"] = "PREPARED_NOT_AUTHORIZED"
+    manifest["owner_decision"] = {"status": "NOT_AUTHORIZED", "approved_by": None}
+    manifest_bytes = json.dumps(manifest, sort_keys=True).encode("utf-8")
+    manifest_path.write_bytes(manifest_bytes)
+    manifest_ref["sha256"] = hashlib.sha256(manifest_bytes).hexdigest()
+    _rewrite_run_record(output_dir, run_record)
+
+    with pytest.raises(RuntimeError, match="source/controller identity"):
+        writer(case_name=f"unauthorized-{case}", nodeid=nodeid, payload={"case": case})
+
+    assert not (output_dir / f"unauthorized-{case}.json").exists()
     assert not list(output_dir.glob("*.tmp"))

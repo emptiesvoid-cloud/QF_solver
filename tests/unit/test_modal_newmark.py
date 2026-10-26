@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import os
+import re
 from dataclasses import replace
 from pathlib import Path
 import uuid
@@ -211,15 +212,18 @@ def _write_wp12_attempt_observables(
         raise RuntimeError("The launcher run record does not identify this exact in-progress nodeid.")
     series_id = run_record.get("series_id")
     attempt = run_record.get("attempt")
+    local_attempt_match = re.fullmatch(r"attempt-(\d{4})", attempt_dir.name)
     if (
         not isinstance(series_id, str)
         or series_id != attempt_dir.parent.name
         or not isinstance(attempt, int)
         or isinstance(attempt, bool)
         or attempt < 1
-        or attempt_dir.name != f"attempt-{attempt:04d}"
+        or local_attempt_match is None
+        or int(local_attempt_match.group(1)) < 1
     ):
         raise RuntimeError("The launcher attempt directory does not match its unique series/attempt identity.")
+    series_attempt = int(local_attempt_match.group(1))
     manifest_ref = run_record.get("execution_manifest")
     if not isinstance(manifest_ref, dict) or not isinstance(manifest_ref.get("path"), str):
         raise RuntimeError("The launcher run record has no exact execution-manifest identity.")
@@ -287,6 +291,7 @@ def _write_wp12_attempt_observables(
             "nodeid": nodeid,
             "series_id": series_id,
             "attempt": attempt,
+            "series_attempt": series_attempt,
             "authorization_id": manifest_ref["authorization_id"],
             "manifest_sha256": manifest_sha256,
             "evidence_relative_attempt_path": attempt_dir.relative_to(evidence_root).as_posix(),
