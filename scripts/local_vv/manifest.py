@@ -143,6 +143,11 @@ def validate_manifest_shape(manifest: dict[str, Any]) -> list[str]:
             errors.append(f"{prefix}.status must be PREPARED_NOT_AUTHORIZED")
         if case.get("command_profile") != COMMAND_PROFILE:
             errors.append(f"{prefix}.command_profile is not the fixed runner command profile")
+        numeric_payload_schema = case.get("numeric_payload_schema")
+        if numeric_payload_schema is not None and (
+            not isinstance(numeric_payload_schema, str) or not numeric_payload_schema.strip()
+        ):
+            errors.append(f"{prefix}.numeric_payload_schema must be a non-empty string when declared")
         for field in ("oracle_id", "acceptance_ref"):
             if not isinstance(case.get(field), str) or not case[field].strip():
                 errors.append(f"{prefix}.{field} is required")

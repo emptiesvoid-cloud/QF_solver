@@ -148,6 +148,12 @@ def run_case(
         numeric_status, numeric_payload = (
             extract_numeric_payload(stdout_path) if stdout_path.exists() else ("NOT_EXPOSED", None)
         )
+        expected_payload_schema = case.get("numeric_payload_schema")
+        if expected_payload_schema is not None:
+            if numeric_payload is None:
+                raise LocalVVError("required numeric result marker is missing")
+            if numeric_payload.get("schema") != expected_payload_schema:
+                raise LocalVVError("numeric result marker schema does not match the prepared case")
         if numeric_payload is not None and numeric_payload.get("case_id") != case["case_id"]:
             raise LocalVVError("numeric result marker case_id does not match the approved case")
         numeric_error = None

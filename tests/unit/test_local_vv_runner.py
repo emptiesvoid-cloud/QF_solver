@@ -402,6 +402,63 @@ def test_orchestrator_records_only_synthetic_pass_and_refuses_second_attempt(
     assert call_count == 1
 
 
+def test_orchestrator_rejects_missing_required_numeric_payload(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    manifest = _manifest(tmp_path)
+    case = manifest["cases"][0]
+    case["numeric_payload_schema"] = "synthetic-observables-v1"
+    raw_manifest = b"synthetic manifest requiring output"
+    decision = _decision(manifest)
+
+    def fake_preflight(_manifest: object, _case: object) -> dict[str, object]:
+        identity = {"path": str(tmp_path), "commit": COMMIT, "tree": TREE, "status": "CLEAN"}
+        return {
+            "identities": {key: identity for key in ("science", "runner", "tests")},
+            "files": [{"checkout": "tests", "path": "synthetic", "sha256": "c" * 64}],
+            "environment": {"synthetic": True},
+            "import_origin": {"synthetic": "fake source only"},
+        }
+
+    def fake_supervise(
+        _argv: list[str], *, stdout_path: Path, stderr_path: Path, **_kwargs: object
+    ) -> dict[str, object]:
+        run_dir = stdout_path.parent
+        stdout_path.write_text("synthetic child completed without required payload\n", encoding="utf-8")
+        stderr_path.write_text("", encoding="utf-8")
+        selection = {
+            "collected_nodeids": [NODEID],
+            "exact_match": True,
+            "source_import_ok": True,
+            "source_import": str(Path(manifest["identities"]["science"]["path"]) / "src" / "solveur" / "__init__.py"),
+        }
+        (run_dir / "selection.json").write_text(json.dumps(selection), encoding="utf-8")
+        (run_dir / "junit.xml").write_text(
+            '<testsuite><testcase name="test_synthetic_case"/></testsuite>', encoding="utf-8"
+        )
+        return {
+            "exit_code": 0,
+            "timed_out": False,
+            "output_limited": False,
+            "interrupted": False,
+            "duration_seconds": 0.001,
+            "stdout_bytes": stdout_path.stat().st_size,
+            "stderr_bytes": 0,
+        }
+
+    identity = {"path": str(tmp_path), "commit": COMMIT, "tree": TREE, "status": "CLEAN"}
+    monkeypatch.setattr(execution_module, "_preflight", fake_preflight)
+    monkeypatch.setattr(execution_module, "inspect_checkout", lambda _identity: identity)
+    monkeypatch.setattr(execution_module, "verify_file_inventory", lambda *_args: [{"sha256": "c" * 64}])
+    monkeypatch.setattr(execution_module, "_case_command", lambda *_args: (["synthetic-child"], tmp_path, {}))
+    monkeypatch.setattr(execution_module, "supervise_process", fake_supervise)
+    monkeypatch.setattr(execution_module, "extract_numeric_payload", lambda _path: ("NOT_EXPOSED", None))
+
+    result = runner.run_case(manifest, raw_manifest, decision, case)
+    assert result["status"] == "INFRA_ERROR"
+    receipt = json.loads(Path(result["receipt"]).read_text(encoding="utf-8"))
+    assert receipt["numeric_observables"]["status"] == "MALFORMED"
+    assert receipt["numeric_observables"]["error"] == "required numeric result marker is missing"
+
+
 def test_selection_plugin_writes_only_exact_synthetic_nodeid(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     from scripts import local_vv_pytest_plugin as plugin
 
