@@ -77,6 +77,7 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
         "wp12_elements",
         "wp12_elements_loads",
         "wp12_dynamics",
+        "rotor",
     }
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
     assert policy["worktrees"]["d01"]["development_mandate_id"] == "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v2-d01"
@@ -137,7 +138,7 @@ def test_each_worktree_has_a_separate_output_namespace(tmp_path: Path) -> None:
         MODULE._series_root(tmp_path, "fem_exploratory", "e02")
 
 
-def test_wp12_registry_has_five_distinct_exact_worktree_envelopes() -> None:
+def test_wp12_registry_has_six_distinct_exact_worktree_envelopes() -> None:
     policy = _policy()
     expected = {
         "wp12_wp07": ("E:\\QFSolverAgents\\wp07", "fix/wp12-wp07-serialization", 300, 10, None),
@@ -156,6 +157,13 @@ def test_wp12_registry_has_five_distinct_exact_worktree_envelopes() -> None:
             300,
             130,
             None,
+        ),
+        "rotor": (
+            "C:\\Users\\fari\\.codex\\worktrees\\wp12-rotor-performance\\qf_solver",
+            "verify/wp12-rotor-performance",
+            300,
+            8,
+            12,
         ),
     }
     for worktree_id, (root, branch, timeout, attempts, max_dofs) in expected.items():
@@ -257,6 +265,11 @@ def test_wp12_registry_has_five_distinct_exact_worktree_envelopes() -> None:
                 "eb43367d0c044afb20df5693715a056c8ced622ead545b799dcb6d9e19ce3d77",
             ]
             assert all(record["timeout_seconds"] == 300 for record in records)
+        elif worktree_id == "rotor":
+            assert set(entry["allowed_nodeids"]) == MODULE.WP12_ROTOR_NODEIDS
+            assert entry["attempt_limit_per_nodeid"] == 1
+            assert entry["nodeid_registration"]["max_nodeids"] == 8
+            assert len(entry["nodeid_registration_records"]) == 8
         else:
             assert entry["allowed_nodeids"] == []
             assert entry["nodeid_registration_records"] == []
@@ -977,6 +990,108 @@ def test_fem_scope_accepts_only_exact_registered_nodeids_and_worktree_pairs() ->
         MODULE.resolve_targets("fem_exploratory", d01[2], policy, worktree_id="e01")
     with pytest.raises(MODULE.PolicyError, match="registered worktree ID"):
         MODULE.resolve_targets("fem_exploratory", d01[2], policy)
+
+
+def test_wp12_rotor_scope_is_exact_and_separate_from_dynamics() -> None:
+    policy = _policy()
+    rotor = MODULE.WP12_ROTOR_NODEIDS
+    assert len(rotor) == 8
+    assert set(policy["worktrees"]["rotor"]["allowed_nodeids"]) == rotor
+    assert len(policy["worktrees"]["wp12_dynamics"]["allowed_nodeids"]) == 13
+    assert policy["worktrees"]["rotor"]["attempt_limit_per_nodeid"] == 1
+    assert policy["worktrees"]["rotor"]["max_total_attempts"] == 8
+
+    with pytest.raises(MODULE.PolicyError, match="target must be one exact nodeid"):
+        MODULE.resolve_targets(
+            "fem_exploratory",
+            "tests/unit/test_rotating_qep.py::test_gyro04_signed_spin_reverses_pencil_term_but_preserves_unordered_frequencies",
+            policy,
+            worktree_id="rotor",
+        )
+    with pytest.raises(MODULE.PolicyError, match="worktree rotor is not authorized"):
+        MODULE.resolve_targets("math_non_fem", next(iter(rotor)), policy, worktree_id="rotor")
+    with pytest.raises(MODULE.PolicyError, match="exact approved sentinel nodeids"):
+        MODULE._validate_wp12_nodeid_syntax(
+            "tests/unit/test_rotating_qep.py::test_unreviewed_rotor_case", worktree_id="rotor"
+        )
+
+
+def test_wp12_rotor_registration_and_manifest_are_synthetic_and_fail_closed(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from contextlib import nullcontext
+
+    controller = tmp_path / "controller"
+    agent_root = tmp_path / "rotor-agent"
+    evidence_root = tmp_path / "evidence" / "rotor"
+    coordination_root = tmp_path / "evidence" / ".wp12-coordination"
+    controller.mkdir(parents=True)
+    (agent_root / "src" / "solveur").mkdir(parents=True)
+    test_root = agent_root / "tests" / "unit"
+    test_root.mkdir(parents=True)
+    (agent_root / "src" / "solveur" / "__init__.py").write_text('"synthetic solver"\n', encoding="utf-8")
+    target = "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_unit_speed_gyro_blocks_match_contract"
+    (agent_root / target.split("::", 1)[0]).write_text(
+        "def test_disk_mass_and_unit_speed_gyro_blocks_match_contract():\n    pass\n", encoding="utf-8"
+    )
+
+    envelope = dict(MODULE.WP12_OWNER_ENVELOPES["rotor"])
+    envelope.update({"root": str(agent_root), "evidence_root": str(evidence_root)})
+    monkeypatch.setitem(MODULE.WP12_OWNER_ENVELOPES, "rotor", envelope)
+    monkeypatch.setattr(MODULE, "WP12_COORDINATION_ROOT", coordination_root)
+    monkeypatch.setattr(MODULE, "ROOT", controller)
+    policy_path = controller / "development_autonomous_policy.json"
+    policy = json.loads((SCRIPT_PATH.parents[1] / "development_autonomous_policy.json").read_text(encoding="utf-8"))
+    policy["resource_coordination_root"] = str(coordination_root)
+    policy["worktrees"]["rotor"].update(
+        {"root": str(agent_root), "git_root": str(agent_root), "evidence_root": str(evidence_root)}
+    )
+    policy_path.write_text(json.dumps(policy, indent=2) + "\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "POLICY_PATH", policy_path)
+    monkeypatch.setattr(
+        MODULE,
+        "_git_identity",
+        lambda root, **kwargs: {
+            "root": str(root),
+            "branch": kwargs.get("expected_branch", "controller"),
+            "head": "a" * 40,
+            "tree": "b" * 40,
+            "status_short": "",
+        },
+    )
+    monkeypatch.setattr(MODULE, "_worktree_source_fingerprint", lambda *_args: "c" * 64)
+    monkeypatch.setattr(MODULE, "_exclusive_file_lock", lambda _path: nullcontext())
+    monkeypatch.setattr(MODULE, "_controller_provenance", lambda: {"identity": "synthetic"})
+    monkeypatch.setattr(
+        MODULE, "run_supervised_command", lambda *_args, **_kwargs: pytest.fail("registration must not launch pytest")
+    )
+
+    result = MODULE.register_wp12_nodeid(
+        "rotor",
+        target,
+        "Synthetic registration of an exact rotor algebraic sentinel.",
+        selected_dofs=6,
+        selection_basis="Six rotational/translational DDL in the isolated disk matrix block.",
+    )
+    assert result["state"] == "NODEID_REGISTERED"
+    assert result["timeout_seconds"] == 300
+    assert MODULE.resolve_targets("fem_exploratory", target, MODULE.load_policy(policy_path), worktree_id="rotor") == [
+        target
+    ]
+    with pytest.raises(MODULE.PolicyError, match="exact approved sentinel nodeids"):
+        MODULE.register_wp12_nodeid(
+            "rotor",
+            "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_gyro_are_covariant_under_global_frame_rotation",
+            "Synthetic attempt to expand the rotor allowlist.",
+            selected_dofs=6,
+            selection_basis="An unapproved disk sentinel used only to test fail-closed behavior.",
+        )
+
+    prepared = MODULE.prepare_wp12_execution_manifest("rotor", target, "rotor-synth-0001")
+    manifest = json.loads(Path(prepared["path"]).read_text(encoding="utf-8"))
+    assert manifest["state"] == "PREPARED_NOT_AUTHORIZED"
+    assert manifest["owner_decision"]["status"] == "NOT_AUTHORIZED"
+    assert manifest["limits"]["timeout_seconds"] == 300
 
 
 def test_c01_scope_contains_only_registered_legacy_dimensional_and_mechanics_nodes() -> None:
