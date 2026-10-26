@@ -1,6 +1,12 @@
-# WP12-0 — Préparation du cadre V&V
+# WP12 — Préparation du cadre V&V et suivi des snapshots
 
 **PREPARATION_ONLY** · **NUMERICAL_EXECUTION_NOT_PERFORMED** · **WP12_STATUS=OPEN**
+
+## État opérationnel courant — WP12-B, 2026-10-26
+
+Verdict : **WP12_B_BLOCKED_WITH_EXACT_OWNER_ACTIONS**. Les checkouts source/runner et le venv dédiés sont en place, le manifeste pilote v3 passe `VALIDATE` comme `STRUCTURALLY_VALID_NOT_AUTHORIZED`, et les contrôles synthétiques du runner passent. Aucun compte/ACL Windows, trust store ou décision signée n'est provisionné; le build Windows est sous le minimum du script. Le lancement scientifique reste bloqué en code par l'absence d'attestation du processus enfant. Aucun test scientifique n'a été lancé. Lire le [rapport de configuration](wp12_b_configuration_report.md), le [dossier d'actions Owner](wp12_b_owner_actions.md), la [revue du manifeste v3](wp12_b_pilot_manifest_review.md) et la [revue du runner](wp12_b_runner_review.md).
+
+Les sections WP12-0, R, S, X et A ci-dessous sont des snapshots de leurs étapes respectives; leur présence ne remplace pas l'état courant ni n'autorise une campagne.
 
 État préparatoire au 2026-10-25, branche `emptiesvoids-cloud/0.2.12`, code cible `00428adf38e9397340ac136f6f503a268eb671da`, Git tree `df4ec667bf746b042c900fad1f86bf542e1a437b`. L'arbre de travail était propre au début de WP12-0. Les futurs documents de préparation ne font pas partie du code ciblé par les campagnes.
 
@@ -51,3 +57,9 @@ L'[orchestrateur SELF_TEST WP12-X](wp12_x_synthetic_orchestration.md) orchestre 
 Les documents [plan d'activation](wp12_a_activation_plan.md), [dossier Owner](wp12_a_owner_decision_package.md), [revue du manifeste pilote](wp12_a_pilot_manifest_review.md), [état de sécurité de l'environnement](wp12_a_environment_security_report.md) et [revue du chemin d'exécution](wp12_a_runner_execution_review.md) préparent uniquement une éventuelle revue Owner. Le manifeste [wp12_a_pilot_manifest_v1.json](wp12_a_pilot_manifest_v1.json) cible un seul nodeid et porte son SHA-256 dans le dossier; il n'est pas signé ni autorisé. L'attestation [wp12_a_isolation_attestation.json](wp12_a_isolation_attestation.json) consigne des contrôles manquants. Il n'existe pas de rapport d'issue de pilote, car aucun lancement scientifique n'a eu lieu.
 
 WP12-A est **BLOCKED_SECURITY** : confiance Owner non provisionnée, protections NTFS insuffisantes, compte non dédié, absence de venv isolé/ancrage externe, limites CPU/stockage/threads non dures et résolution du plugin entre checkouts non figée. WP11 reste CLOSED; WP12 et WP13 restent OPEN.
+
+## WP12-B — Déblocage opérationnel Windows
+
+La configuration courante et les faits hôte sont dans [wp12_b_configuration_report.md](wp12_b_configuration_report.md). Les actions administratives préparées, leurs commandes de preview/application et le rollback sont dans [wp12_b_owner_actions.md](wp12_b_owner_actions.md). Le manifeste [v2](wp12_b_pilot_manifest_v2.json) reste préservé; le [v3](wp12_b_pilot_manifest_v3.json) lie le runner corrigé et demeure `FROZEN_NOT_AUTHORIZED`. La [répartition R4 des neuf nodeids](wp12_b_nodeid_partition_r4.json) formalise le découpage préparatoire accepté par l'Owner et signale les divergences SHA historiques sans modifier ces snapshots; elle ne vaut pas autorisation scientifique. La [revue du runner](wp12_b_runner_review.md) consigne les tests synthétiques et le blocage d'`EXECUTE`.
+
+WP12-B reste `PREPARATION_ONLY`; `NUMERICAL_EXECUTION_NOT_PERFORMED`; `WP12_STATUS=OPEN`. WP11 reste CLOSED et WP13 OPEN.

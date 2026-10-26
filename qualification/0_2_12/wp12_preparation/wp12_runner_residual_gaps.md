@@ -39,3 +39,25 @@ Ce tableau remplace les statuts de travail pour le suivi du runner à partir de 
 | R-11 | `PARTIALLY_RESOLVED` | Ledger verrouillé/hash-chain/fsync, états incomplets, répétitions et tentatives distinctes testés; l'intégration au futur EXECUTE et l'archivage externe restent absents. |
 
 Voir [revue sécurité WP12-R2](wp12_r2_runner_security_review.md) et l'[index des révisions de manifestes](revisions/manifest_revision_index.json). Aucun statut scientifique ni statut WP n'est modifié.
+
+## Addendum WP12-B — état courant au 2026-10-26
+
+Ce tableau complète les snapshots R1/R2 ci-dessus sans les remplacer. Les statuts décrivent les preuves du runner et de l'environnement, pas la maturité scientifique. Les manifestes pilotes v2/v3 et les contrôles synthétiques ne constituent pas des décisions Owner.
+
+| ID | Statut courant | Observation vérifiable | Reste requis |
+|---|---|---|---|
+| R-01 | `PARTIALLY_RESOLVED` | Vérificateur, canonicalisation, générateur de trust public et signataire sont présents; aucun trust store HKLM, pin, clé Owner réelle ou décision signée n'existe. | Provision Owner hors checkout, établir pin/ACL et signer plus tard une décision qui lie le manifeste v3 exact. |
+| R-02 | `PARTIALLY_RESOLVED` | Sept faux-enfants passent le SELF_TEST; Job Object a démontré synthétiquement temps CPU, mémoire, nombre de processus et terminaison d'arbre. | L'hôte est sous le minimum Windows; aucun compte/ACL réelle; disque et threads restent souples; pas de sandbox FS. |
+| R-03 | `PARTIALLY_RESOLVED` | Manifeste pilote v3 validé avec identités distinctes, SHA-256 source/test/fixture/runner et inventaire d'environnement. | Les autres manifestes WP12-0 restent non autorisés. La revue WP12-S a des SHA-256 T1/T2/T4/T5 incompatibles avec les octets de commit 00428ad; le nouvel index R4 les consigne sans réécrire la revue. |
+| R-04 | `PARTIALLY_RESOLVED` | Venv Python dédié, versions et bibliothèques natives recensées; sonde distincte a observé l'import `solveur` depuis le checkout scientifique exact. | Le plugin de provenance n'a pas tourné dans le processus enfant du test; bibliothèques réellement chargées et import de l'enfant restent non observés. |
+| R-05 | `DEFERRED_WITH_JUSTIFICATION` | La correction split-checkout `VALIDATE` est en place; l'orchestrateur scientifique reste un refus inconditionnel au point de lancement final, avec `SYSTEM_CHILD_PROCESS_ATTESTATION_NOT_IMPLEMENTED`. | Implémenter et tester synthétiquement l'attestation du processus, la commande exacte, JUnit/collection, vérification des résultats, ledger et transfert/archivage; nouvelle revue indépendante avant tout usage. |
+| R-06 | `PARTIALLY_RESOLVED` | Contrôles de reparse-point et de chemins dans le code; un cas de symlink synthétique est ignoré faute de privilège dans le compte actuel. | Corriger le build, configurer compte/ACL et probe NTFS; traiter TOCTOU. Les vérifications de chemin ne sont pas un confinement. |
+| R-07 | `PARTIALLY_RESOLVED` | Ledger logique hash-chain et reçus existent; SELF_TEST vérifie la chaîne synthétique. | Pas d'archive SYSTEM installée, pas d'ancrage externe/immuable et pas de preuve de pilote à préserver. |
+| R-08 | `DEFERRED_WITH_JUSTIFICATION` | Le pilote ne contient ni C01, ni C02, ni overlay; les fixtures d'origine n'ont pas été modifiés. | Toute inclusion future de C01/C02 requiert identité/overlay et décision Owner spécifiques; aucun correctif automatique. |
+| R-09 | `DEFERRED_WITH_JUSTIFICATION` | Aucun calcul, test du solveur, FEM, replay historique ou benchmark scientifique exécuté dans WP12-B. | Résultats courants absents; WP12 reste OPEN et aucun PASS de test factice ne compte comme preuve FEM. |
+| R-10 | `PARTIALLY_RESOLVED` | Les identités locales et les tips distants ont été vérifiés avant les commits/pushs WP12-B; le runner v3 est sur un checkout détaché exact. | `VALIDATE` ne fetch pas et ne fournit pas un reçu SYNC signé par l'Owner. Une synchronisation contrôlée et une identité distante liée à la décision restent nécessaires. |
+| R-11 | `PARTIALLY_RESOLVED` | Ledger verrouillé/hash-chain et tests synthétiques d'interruption, corruption, collision et reprise sont présents. | Aucune réservation/tentative scientifique n'a eu lieu; intégration et ancrage externe restent à démontrer. |
+
+### État exécutable WP12-B
+
+Le manifeste [v3](wp12_b_pilot_manifest_v3.json) est structurellement valide, mais `FROZEN_NOT_AUTHORIZED`. `VALIDATE` renvoie `STRUCTURALLY_VALID_NOT_AUTHORIZED`, 141 identités sans erreur et les blocages Owner/isolation/archive/revue. `EXECUTE` reste bloqué dans le code. L'environnement local n'est pas attesté. Le verdict reste `WP12_B_BLOCKED_WITH_EXACT_OWNER_ACTIONS`; aucune campagne WP12-1 n'est ouverte par cet addendum.
