@@ -61,3 +61,25 @@ Ce tableau complète les snapshots R1/R2 ci-dessus sans les remplacer. Les statu
 ### État exécutable WP12-B
 
 Le manifeste [v3](wp12_b_pilot_manifest_v3.json) est structurellement valide, mais `FROZEN_NOT_AUTHORIZED`. `VALIDATE` renvoie `STRUCTURALLY_VALID_NOT_AUTHORIZED`, 141 identités sans erreur et les blocages Owner/isolation/archive/revue. `EXECUTE` reste bloqué dans le code. L'environnement local n'est pas attesté. Le verdict reste `WP12_B_BLOCKED_WITH_EXACT_OWNER_ACTIONS`; aucune campagne WP12-1 n'est ouverte par cet addendum.
+
+## Addendum WP12-C — état courant au 2026-10-26
+
+Ce tableau complète les snapshots précédents sans les réécrire. Les résultats portent uniquement sur le superviseur factice et son code; ils ne constituent ni une exécution scientifique ni une autorisation.
+
+| ID | Statut après WP12-C | Observation vérifiable | Réserve restante |
+|---|---|---|---|
+| R-01 | `PARTIALLY_RESOLVED` | Le chemin de test utilise le vérificateur Ed25519 avec une clé éphémère et une décision liée au manifeste synthétique. | Aucun trust store HKLM réel, pin/ACL ou décision Owner réelle; EXECUTE scientifique reste refusé. |
+| R-02 | `PARTIALLY_RESOLVED` | L'enfant factice Windows est créé suspendu, affecté au Job Object et contrôlé avant reprise; les tests ciblés du Job Object passent. | Aucun token dédié, compte/ACL ou sandbox fichier réelle; l'hôte observé est sous le seuil `19045.7807`; stockage et threads ne sont pas isolés. |
+| R-03 | `PARTIALLY_RESOLVED` | Une révision pilote distincte est préparée avec l'identité du nouveau commit runner; v3 est conservé comme historique non réutilisable. | La révision reste `FROZEN_NOT_AUTHORIZED` et ne décrit pas un broker SYSTEM opérationnel. |
+| R-04 | `PARTIALLY_RESOLVED` | Le faux enfant est lié au chemin/hash d'interpréteur et à son image observée. | Provenance d'import scientifique, bibliothèques natives chargées et identité du véritable enfant pytest non démontrées. |
+| R-05 | `PARTIALLY_RESOLVED` | Le nouveau superviseur synthétique authentifie une autorisation de test, construit un seul lancement factice, observe PID/image/commande/parent/SID, classe son JUnit, archive un reçu et enregistre une tentative. | Aucun lancement scientifique ou worker SYSTEM indépendant; le compte enfant et le stockage d'archive sont ceux du processus synthétique. Les refus existants restent actifs. |
+| R-06 | `PARTIALLY_RESOLVED` | Destination, staging et écritures de reçu sont create-only; les tests couvrent collision et remplacement de reçu. | Les opérations restent basées sur chemins; courses TOCTOU et permissions NTFS non vérifiées. |
+| R-07 | `PARTIALLY_RESOLVED` | Le reçu inventorie les artefacts et le ledger utilise une chaîne d'empreintes; l'altération et le rejeu synthétique sont détectés. | Le compte courant peut modifier ledger, reçu et copie d'archive; aucun ancrage externe/immuable. |
+| R-08 | `DEFERRED_WITH_JUSTIFICATION` | Aucun contrôle C01/C02 ni overlay n'est inclus dans WP12-C. | Les conditions de manifeste et décision Owner propres à ces unités restent applicables. |
+| R-09 | `DEFERRED_WITH_JUSTIFICATION` | Aucun test QF Solver, FEM, contact, rotor, QEP, Campbell ou benchmark n'a été lancé. | Tous les résultats numériques actuels de WP12 restent `NOT_RUN`; WP12 demeure `OPEN`. |
+| R-10 | `PARTIALLY_RESOLVED` | Les identités locales et distantes ont été vérifiées au début de la mission. | Le superviseur synthétique n'intègre pas la vérification distante dans un broker indépendant. |
+| R-11 | `PARTIALLY_RESOLVED` | `AttemptLedger` est réservé avant le lancement factice, terminé après archivage et testé contre le rejeu. | Le ledger de démonstration est dans un dossier temporaire accessible au même compte; l'intégration protégée de production et l'ancrage externe restent nécessaires. |
+
+Le détail des contrôles, du rapport indépendant, du seuil Windows et des décisions Owner est dans [la revue WP12-C](wp12_c_attestation_review.md). La suite dédiée `test_wp12_process_attestation.py` a 18 tests synthétiques réussis; six tests ciblés des anciennes barrières runner ont également réussi. Aucun résultat numérique n'est créé. Le verdict de travail du runner est `WP12_C_VERIFIED_WITH_LIMITATIONS`; les barrières de production restent fail-closed.
+
+La révision [manifeste pilote v4](wp12_c_pilot_manifest_review.md) cible le runner f970… dans un worktree séparé; le manifeste v3 demeure inchangé. Schéma v4 valide et 144 empreintes d'entrées vérifiées; le manifeste reste `FROZEN_NOT_AUTHORIZED` et aucune décision Owner n'existe.
