@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 import numpy as np
 import pytest
 
@@ -118,6 +120,43 @@ def test_versioned_experimental_result_dtos_round_trip_without_solver_execution(
     unknown_harmonic_schema["schema"] = "qf-reduced-harmonic-result/v99"
     with pytest.raises(ValueError, match="Unsupported reduced harmonic result schema"):
         ReducedHarmonicResult.from_dict(unknown_harmonic_schema)
+
+
+def test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata() -> None:
+    response = np.empty(1, dtype=np.complex128)
+    response.real = -0.0
+    response.imag = 0.0
+    result = ReducedHarmonicResult(
+        numerical_status="PASS",
+        frequencies_hz=np.asarray([1.0]),
+        responses=(response,),
+        modal_coordinates=(np.asarray([0.0 + 0.0j]),),
+        dof_signature=((0, ("UX",)),),
+        full_dof_count=1,
+        node_count=1,
+        element_count=0,
+        solver={},
+        provenance={"source_sha": "test-fixture"},
+        result_availability={},
+        execution_identity={},
+        execution_key="synthetic-signed-zero-result",
+        qualification_scope_id="TEST_ONLY",
+        mesh_report={},
+    )
+
+    serialized = json.loads(json.dumps(result.to_dict()))
+    displacement = serialized["frequency_response"][0]["displacements"][0]["dofs"]["UX"]
+    assert displacement["amplitude"] == 0.0
+    assert displacement["phase_degrees"] == 180.0
+
+    restored = ReducedHarmonicResult.from_dict(serialized)
+    assert np.signbit(restored.responses[0].real[0])
+    assert serialized["frequency_response"] == restored.to_dict()["frequency_response"]
+
+    inconsistent = json.loads(json.dumps(serialized))
+    inconsistent["frequency_response"][0]["displacements"][0]["dofs"]["UX"]["phase_degrees"] = 0.0
+    with pytest.raises(ValueError, match="inconsistent 'frequency_response' metadata"):
+        ReducedHarmonicResult.from_dict(inconsistent)
 
 
 def test_harmonic_result_rejects_mismatched_frequency_and_response_counts() -> None:

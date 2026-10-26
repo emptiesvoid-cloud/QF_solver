@@ -768,7 +768,11 @@ class ReducedHarmonicResult:
         imag = np.asarray(payload["imag"], dtype=np.float64)
         if real.shape != imag.shape or not np.all(np.isfinite(real)) or not np.all(np.isfinite(imag)):
             raise ValueError("Complex reduced harmonic real/imag values must have matching finite shapes.")
-        return np.asarray(real + 1j * imag, dtype=np.complex128)
+        # Assign components directly so arithmetic does not canonicalize signed zero.
+        values = np.empty(real.shape, dtype=np.complex128)
+        values.real = real
+        values.imag = imag
+        return values
 
     def to_dict(self) -> dict[str, Any]:
         rows = []
