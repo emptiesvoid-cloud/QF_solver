@@ -24,7 +24,14 @@ The first execution stage is deliberately only two cases, in this order:
 | `sri-regular-nu04999-nx16` | HEX8-SRI, `nu=0.4999`, regular `nx=16, ny=nz=2`, `E=1e6` | 459 | Reproduce the largest recorded force/moment residual in the near-incompressible series while retaining raw system vectors. |
 | `sri-near-degenerate-nu0495-nx4` | HEX8-SRI, `nu=0.495`, `nx=4, ny=nz=2`, `near_degenerate_valid` geometry from the historical generator | 135 | Reproduce the coupled energy, force, and moment failures with the smallest historical mesh. |
 
-Each target should represent one solve; do not hide multiple meshes or formulations inside a parametrized node. Use the 300 s default. These small systems do not justify the exceptional timeout. After examining these two records, continue with matched formulation controls only if they answer a specific diagnostic question. Do not begin by replaying the whole old campaign.
+The exact independent nodeids are:
+
+- `tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16` — one SRI solve, preselected at 459 total DDL.
+- `tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4` — one SRI solve, preselected at 135 total DDL.
+
+Each target represents one solve; neither node parametrizes multiple meshes or formulations. Both check the total-DOF formula and 30,000 DDL ceiling before mesh construction, and the common controller must independently apply that same pre-execution DDL selection when registering/launching each exact nodeid. Use the 300 s default. These small systems do not justify the exceptional timeout. After examining these two records, continue with matched formulation controls only if they answer a specific diagnostic question. Do not begin by replaying the whole old campaign.
+
+Before checking the frozen numerical gates, each case writes `output/wp12-elements-<case-id>/numerical-state.npz` and `result.json` in the active attempt directory. This is the controller-inventoried output directory beside its `tmp/` directory, so raw arrays and structured metrics survive pytest stdout capture and remain associated with that single attempt. Files are created exclusively; no historical qualification evidence path is used. A direct pytest invocation without the active development-run environment is refused before mesh construction or element assembly. The first two nodeids run SRI only; standard HEX8 controls remain a later, separately selected matched comparison as described below.
 
 ## Matched HEX8 / HEX8-SRI comparison plan
 
