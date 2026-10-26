@@ -9,7 +9,7 @@ This file records the current integration decision that supplements the preserve
 ## Latest normative state — 2026-10-26
 
 **Integration branch:** `emptiesvoids-cloud/0.2.12`<br>
-**Integration HEAD assessed before this documentation update:** `48b4960d16d3ad9616270f52bd5313045c1c1a78`<br>
+**Integration HEAD assessed before this documentation update:** `557a4fda85d151aba57ed07671cdaedf15f47db7`<br>
 **Frozen scientific candidate used by WP12-S:** commit `00428adf38e9397340ac136f6f503a268eb671da`, tree `df4ec667bf746b042c900fad1f86bf542e1a437b`.
 
 This is the latest operational portfolio state as of 2026-10-26. It supersedes the dated 2026-10-25 snapshot below. Campaign execution records remain tied to their own manifests and source identities; their results must not be described as runs on the later integration HEAD unless the record says so.
@@ -51,9 +51,13 @@ WP11 remains closed only for its accepted API, integration, traceability, result
 | WP12-R | Executed | 4/4 cases returned `PYTEST_PASS_ONLY`; numerical observables were `NOT_EXPOSED`. The later WP12-S extraction report preserves this distinction. |
 | WP12-S | Executed | 8/8 authorized cases ran: seven receipts are `PYTEST_PASS_ONLY`, and one historical `FAIL` is preserved. `PYTEST_PASS_ONLY` is not an oracle verdict or qualification decision. |
 | WP12-T | Complete | Scientific audit of modal 2-DOF and TET4 evidence; no new solver test, FEM run, benchmark, or mesh generation was performed. |
-| WP12-U | Proposed | Three discriminating experiments are prepared: a better-conditioned modal criterion, an affine TET4 oracle, and a same-model matrix-free/direct route comparison. None has been executed; each requires its own explicit authorization. |
+| WP12-U | Local execution report exists; branch records conflict | The local execution report records U1/U2 `PYTEST_PASS_ONLY` and U3 `FAIL`; a co-located summary and decision request still say `NOT_RUN`/`PENDING`. Those local files are untracked and were not changed or staged here. U3 remains `FAIL`; reconcile the records before integrating a normative U disposition. |
+| WP12-V2-R3 | Development evidence complete; formal profile prepared | Three H1 development attempts are recorded; the successful pytest attempts remain scientifically `INCONCLUSIVE` for gamma assumptions. A new allowlist-compatible manifest is prepared but remains `PREPARED_NOT_AUTHORIZED`; no formal R3 run occurred. |
+| WP12-W | Development study executed | H3/W1/W2 completed as bounded development observations; response and mesh-quality changes do not establish convergence or qualification. |
+| WP04–WP07 regression sample | Partial | WP04–WP06 selected checks passed. WP07 has two passing nodeids and one `frequency_response` serialization failure; no status is promoted. |
+| Representative element sample | Bounded | Selected BEAM2, TET10, HEX8, HEX20 and MITC4 tests passed; HEX8-SRI was not run because no suitable current numerical nodeid was selected. |
 
-See the [WP12-R numerical extraction status](vv_local/wp12_s/Q1_Q4_NUMERICAL_EXTRACTION.md), [WP12-S execution report](vv_local/wp12_s/WP12_S_EXECUTION_REPORT.md), [WP12-T audit synthesis](vv_local/wp12_t_audit/SCIENTIFIC_AUDIT_SUMMARY.md), and [prospective experiment plan](vv_local/wp12_t_audit/PROSPECTIVE_TEST_PLAN.md). WP12-P/Q/T are preparation or audit milestones; they are not scientific test passes.
+See the [WP12-R numerical extraction status](vv_local/wp12_s/Q1_Q4_NUMERICAL_EXTRACTION.md), [WP12-S execution report](vv_local/wp12_s/WP12_S_EXECUTION_REPORT.md), [WP12-T audit synthesis](vv_local/wp12_t_audit/SCIENTIFIC_AUDIT_SUMMARY.md), and [prospective experiment plan](vv_local/wp12_t_audit/PROSPECTIVE_TEST_PLAN.md). The new [accelerated V&V report](vv_local/wp12_accelerated/WP12_ACCELERATED_VV_REPORT.md) contains quantitative H3/W1/W2 development results, current selected-test receipts, and their limits. WP12-P/Q/T are preparation or audit milestones; they are not scientific test passes.
 
 ### WP12-S observations and limits
 
@@ -64,9 +68,21 @@ See the [WP12-R numerical extraction status](vv_local/wp12_s/Q1_Q4_NUMERICAL_EXT
 
 The [WP12-S report](vv_local/wp12_s/WP12_S_EXECUTION_REPORT.md) retains raw case statuses and recorded values. These bounded observations do not close WP12, establish general validation, or promote any capability's maturity.
 
-### WP12-U proposed next evidence
+### WP12-U local record reconciliation boundary
 
-WP12-U proposes, in order, (1) an independent modal 2-DOF criterion with numerically appropriate checks, (2) a small-strain affine TET4 oracle using an exact-rational reference, and (3) a comparison on the same archived H1 model between matrix-free and assembled SciPy direct routes, explicitly selecting `parameters={"method": "direct"}`. If those results leave a specific flexural-resolution question, a directional refinement or formulation comparison may be proposed separately. Broader V&V and performance work remains in WP12. These proposals are not authorized test cases, and neither a previous WP12-S decision nor the presence of prepared tests authorizes them.
+The Owner subsequently authorized the three WP12-U cases in conversation, and the local `WP12_U_EXECUTION_REPORT.md` records U1/U2 `PYTEST_PASS_ONLY` and U3 `FAIL`. The same untracked local directory contains a `SCIENTIFIC_RESULTS_SUMMARY.md` that says all three were `NOT_RUN` and an `OWNER_EXECUTION_DECISION.md` that remains `PENDING`. This disagreement is not silently resolved by this roadmap update: the local artifacts are not part of the Git branch, were not modified or staged, and must be reconciled before those outcomes are integrated as branch evidence. Preserve U3 `FAIL` in every record. The earlier proposal is superseded by the Owner authorization but remains represented by its separate preparation artifacts.
+
+### WP12 accelerated development evidence — 2026-10-26
+
+All results below remain development observations tied to their frozen science/test/runner identities, not to the integration HEAD. They do not change WP statuses or capability maturity.
+
+- **H3/W1/W2 TET4:** mean loaded-face `UZ` was `-4.7956128932e-8 m`, `-8.6910285513e-8 m`, and `-5.0011257613e-8 m`. W1 increased the absolute response by 81.23% and reduced the difference to the 1D beam diagnostic from 66.69% to 39.63%; its element quality also improved substantially, so the mesh change is confounded. W2 changed response by 4.29%, but all 3,072 elements were below the existing quality threshold. Neither result establishes directional or asymptotic convergence. Peak memory was `NOT_MEASURED` for these runs.
+- **WP04–WP06:** 6/6 WP04 projection checks (reconciled from exact JUnit), 3/3 WP05 reduced-harmonic checks, and 4/4 WP06 modal-Newmark checks passed. Their JUnit outputs do not contain measured error magnitudes, so the report records the existing oracle types rather than inventing errors.
+- **WP07:** transient SDOF and TET4 full-mass-before-reduction checks passed. The harmonic SDOF assertions passed through the response/frame checks, then `ReducedHarmonicResult.from_dict(result.to_dict())` failed on inconsistent `frequency_response` metadata. The failure is preserved and requires a result-contract investigation; the group is not a pass.
+- **Elements:** selected BEAM2 discrete V&V, TET10 affine patch, HEX8 rigid-mode/affine checks, HEX20 affine/face-load checks, and MITC4 zero-frequency consistency passed. HEX8-SRI remains unexecuted in the current sample.
+- **R3 compatibility:** the campaign allowlist change is in commit `8b78db0aa169e787f5f36d6f8a2fa909bdd61489`; the revised manifest and Owner package remain `PREPARED_NOT_AUTHORIZED`.
+
+See [WP12_ACCELERATED_VV_REPORT.md](vv_local/wp12_accelerated/WP12_ACCELERATED_VV_REPORT.md), which lists exact nodeids, manifest and JUnit hashes, the 62-row capability accounting, numerical limits, and the location of raw external evidence by receipt identity. See [V2_R3_MANIFEST_R2.json](vv_local/wp12_v2/r3/V2_R3_MANIFEST_R2.json) and [R3_OWNER_DECISION_PACKAGE_R2.md](vv_local/wp12_v2/r3/R3_OWNER_DECISION_PACKAGE_R2.md) for the unapproved formal R3 profile.
 
 ### WP-E01 disposition and publication boundary
 
@@ -81,7 +97,7 @@ The [WP-E01 integration report](wp_e01_bc_integration_report.md) and [global sci
 
 ### Publication and status interpretation
 
-`WP11=CLOSED` is limited to its operational API/integration scope. `WP12=OPEN` and `WP13=OPEN`. `WP-C01=CLOSED_NEGATIVE` with remediation open; `WP-C02=CLOSED_BOUNDED` only for AR/N03; `WP-D01=INCONCLUSIVE`; `WP-D02=CLOSED_BOUNDED`; and `WP-E01=OPEN_WITH_BOUNDED_CERTIFICATES`. Administrative closure, implementation maturity, scientific evidence, and publication authorization are distinct. Nothing in this 2026-10-26 update authorizes WP12-U, closes WP12/WP13, promotes maturity, or publishes v0.2.12.
+`WP11=CLOSED` is limited to its operational API/integration scope. `WP12=OPEN` and `WP13=OPEN`. `WP-C01=CLOSED_NEGATIVE` with remediation open; `WP-C02=CLOSED_BOUNDED` only for AR/N03; `WP-D01=INCONCLUSIVE`; `WP-D02=CLOSED_BOUNDED`; and `WP-E01=OPEN_WITH_BOUNDED_CERTIFICATES`. Administrative closure, implementation maturity, scientific evidence, and publication authorization are distinct. This update does not authorize further WP12 execution, close WP12/WP13, promote maturity, or publish v0.2.12.
 
 ## Historical snapshot — normative portfolio state as of 2026-10-25 (superseded)
 
