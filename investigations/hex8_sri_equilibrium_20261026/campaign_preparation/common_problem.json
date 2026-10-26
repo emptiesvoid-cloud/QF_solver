@@ -1,0 +1,643 @@
+{
+  "schema": "qfsolver-hex8-sri-structural-common-input-v1",
+  "campaign_id": "HEX8-SRI-CANTILEVER-6-2026-10-26",
+  "execution_state": "PREPARATION_ONLY_OWNER_AUTHORIZATION_PENDING",
+  "execution_authorized": false,
+  "source_freeze": {
+    "commit": "344bb385b905544e8d94df496c312d5904edb55f",
+    "branch": "research/hex8-sri-equilibrium",
+    "source_fingerprint_sha256_controller_algorithm": "60131a66dcafefd55c5b3300c505da3c3a495f2e79619c7006202e051919ef7f",
+    "selected_file_hashes": {
+      "src/solveur/elements/solid/hex8.py": {
+        "sha256_worktree_raw_bytes": "4dd8ba606b7e8cab9697fd26ce0baf37fbaf046f9e95894afb0ac8eaa0c85d7a",
+        "sha256_git_blob_bytes": "d10eb59654cfc9fdc071ed46d13c5d545a796a52d4c71e56d8130e69e12bb74d"
+      },
+      "src/solveur/elements/solid/hex8_sri.py": {
+        "sha256_worktree_raw_bytes": "56f7776de6327441fb424e550238e3384bddaf98e84b4d4cf825dc2d275e6440",
+        "sha256_git_blob_bytes": "844bcdded7d039fb7e7d108322be4b45815992ee00117bb93ea59235409563d4"
+      },
+      "src/solveur/elements/solid/common.py": {
+        "sha256_worktree_raw_bytes": "efb267439fbea27db606b69beb71b7a22db521332231e8f2e4cf03b52cb77da5",
+        "sha256_git_blob_bytes": "2579374dd713a2d001cfff90861abf3c3dca4c65db1c3e7489cb11ba2e99b6f5"
+      },
+      "src/solveur/materials/solid.py": {
+        "sha256_worktree_raw_bytes": "663caa9019d22a6fb74578e18ed1a994aae8e29bf0e0c9173ebaa2501bdfbd79",
+        "sha256_git_blob_bytes": "784d830c12354525918a1cfbc1a3cb81c7015d721b36533eeab115d4ec70b452"
+      },
+      "src/solveur/materials/factory.py": {
+        "sha256_worktree_raw_bytes": "63f06024111085fb87f68a4b5cfd5eadd10c4d6253d7e02761cce19d88fbc275",
+        "sha256_git_blob_bytes": "6db6720b4db9d8a23b816589eecba8ce97d2354cfb07f9c21af1d99241a1e40c"
+      },
+      "src/solveur/core/model.py": {
+        "sha256_worktree_raw_bytes": "36766c46a8842ba6a4074a26d120079253ac8cb663d6fec83838889faed6534f",
+        "sha256_git_blob_bytes": "93bd373670d692e33bdb98f6c2bee8704d4c09567a290e514b50fa6a3872e152"
+      },
+      "src/solveur/core/assembly/assembler.py": {
+        "sha256_worktree_raw_bytes": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
+        "sha256_git_blob_bytes": "e4e9710fe28822668d87e5a1d805aaf0f13369de01a094c585d17e5241910d41"
+      },
+      "src/solveur/core/audit.py": {
+        "sha256_worktree_raw_bytes": "6b0b993f746d89e4e850e6b7d1044adca07ec82c0b35ce8b53fe4a02d57d7cd3",
+        "sha256_git_blob_bytes": "ec796f9a080d2c91f5ec1990e3edbc6a530ff199de4d499f36d493861da85824"
+      },
+      "src/solveur/core/solvers/static.py": {
+        "sha256_worktree_raw_bytes": "f0efb9afe0a8f304faeacefcfc5d76fbb79057527f9f51c03bb9fa9e915363d7",
+        "sha256_git_blob_bytes": "330523f7694cfcc5587e604ebfb33b126f6cd5db841ffa9c92b6df5e2fe80e52"
+      },
+      "src/solveur/core/solvers/linear.py": {
+        "sha256_worktree_raw_bytes": "dab4014642740135f01a4493ef963410309dac6c2a799124b67f7fe411f2a2ac",
+        "sha256_git_blob_bytes": "ac125c55d3b84f5e06a88afe1594c73b3b11b7f03748db809e2935bbffca8bc9"
+      },
+      "src/solveur/elements/registry.py": {
+        "sha256_worktree_raw_bytes": "ad055ad1fe624b5b780d81a161323378a4e26c1fe07f46e99a7281494d55eef8",
+        "sha256_git_blob_bytes": "8569268351f08346e55cd859f18f8d9e042b69c60ca4b5d58e993647d51e300d"
+      },
+      "src/solveur/loads/integration.py": {
+        "sha256_worktree_raw_bytes": "c30d5a6e53321d0a9f12bc3ac9c4d1b78e07a84f7d57b3532c0488eba3a3f2a9",
+        "sha256_git_blob_bytes": "8fb1b9d085632cf41ac0bebe3b71d39245dfd75c1f48a3354cc7ad1719b648d5"
+      },
+      "src/solveur/mesh/validation.py": {
+        "sha256_worktree_raw_bytes": "2f80e5f2f17f5138ac875bc32d9e46ad416a9941b11ba13688188ec23b4642b6",
+        "sha256_git_blob_bytes": "606b25154a37cedfba5467f08d94177bd2292d66292497bf676c1b64611d6c09"
+      },
+      "src/solveur/post/stress.py": {
+        "sha256_worktree_raw_bytes": "116ba82788075e8ccccb4cb99794351995e373a54219ccc852dee7b5d4f70677",
+        "sha256_git_blob_bytes": "1d8628dcc8d0446343c65e497fba12ff105a7a14717d1a356cb52e55c9f74a87"
+      },
+      "tests/verification/test_hex8_sri_structural_campaign.py": {
+        "sha256_worktree_raw_bytes": "0db16e7be4adc2ffa84fc73911abfa919171ee50ffe897b666d80b8d0040105f",
+        "sha256_git_blob_bytes": "0db16e7be4adc2ffa84fc73911abfa919171ee50ffe897b666d80b8d0040105f"
+      }
+    },
+    "controller_and_policy_raw_sha256": {
+      "scripts/development_autonomous.py": "d17a026f8f3688777c42c741be34905eed3d706a074443407b086c4a81298e74",
+      "scripts/development_autonomous_pytest_plugin.py": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
+      "development_autonomous_policy.json": "2e2fb54a0c2dcfea5312008c5985acf7df4fd5eb9367d777fddf6ac31e6d0822"
+    },
+    "hash_scope_note": "Controller fingerprint uses its _worktree_source_fingerprint algorithm over the current tracked source/test inventory; selected files separately record raw worktree-byte and Git-blob-byte SHA-256."
+  },
+  "units": {
+    "system": "SI",
+    "coordinates": "m",
+    "young_modulus": "Pa",
+    "traction": "Pa = N/m²",
+    "force": "N",
+    "moment": "N·m",
+    "displacement": "m",
+    "strain": "dimensionless",
+    "stress": "Pa",
+    "energy": "J",
+    "time": "s",
+    "memory": "bytes; report MiB as bytes / 2^20"
+  },
+  "geometry": {
+    "shape": "regular straight cantilever block",
+    "dimensions_L_by_y_by_z_m": [
+      20.0,
+      1.0,
+      1.0
+    ],
+    "mesh_divisions_x_y_z": [
+      4,
+      2,
+      2
+    ],
+    "element_count": 16,
+    "node_count": 45,
+    "coordinate_axes_m": {
+      "x": [
+        0.0,
+        5.0,
+        10.0,
+        15.0,
+        20.0
+      ],
+      "y": [
+        0.0,
+        0.5,
+        1.0
+      ],
+      "z": [
+        0.0,
+        0.5,
+        1.0
+      ]
+    },
+    "node_id_formula_zero_based": "((ix * 3) + iy) * 3 + iz; ix=0..4, iy=0..2, iz=0..2",
+    "element_order": "ix outer, iy middle, iz inner; local nodes follow Hex8Element.node_signs",
+    "local_connectivity_grid_offsets": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        1
+      ],
+      [
+        0,
+        1,
+        1
+      ]
+    ],
+    "expected_element_volume_m3": 1.25,
+    "expected_detJ_at_center_and_eight_gauss_points_m3": 0.15625,
+    "expected_total_volume_m3": 20.0
+  },
+  "material_reference": {
+    "model": "isotropic linear elastic SolidMaterial",
+    "E_Pa": 1000000.0,
+    "poisson_ratio_case_specific": true,
+    "density": null,
+    "density_note": "unused by linear static analysis",
+    "same_reference_material_except_nu": true
+  },
+  "boundary_conditions": {
+    "type": "fully fixed x=0 face",
+    "fixed_node_ids_zero_based": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "dof_order_per_node": [
+      "UX",
+      "UY",
+      "UZ"
+    ],
+    "fixed_global_dof_indices_zero_based": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "total_nodes_times_3_dofs": 135,
+    "fixed_dof_count": 27,
+    "free_global_dof_indices_zero_based": [
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134
+    ],
+    "free_dof_count": 108
+  },
+  "loading": {
+    "type": "uniform consistent surface traction on x=L",
+    "traction_vector_Pa": [
+      0.0,
+      0.0,
+      -1.0
+    ],
+    "loaded_surface_area_m2": 1.0,
+    "loaded_node_count": 9,
+    "nodal_loads": [
+      {
+        "node_id": 36,
+        "grid_index_iy_iz": [
+          0,
+          0
+        ],
+        "coordinate_m": [
+          20.0,
+          0.0,
+          0.0
+        ],
+        "area_weight": 0.0625,
+        "force_N": [
+          0.0,
+          0.0,
+          -0.0625
+        ],
+        "moment_about_origin_Nm": [
+          -0.0,
+          1.25,
+          0.0
+        ]
+      },
+      {
+        "node_id": 37,
+        "grid_index_iy_iz": [
+          0,
+          1
+        ],
+        "coordinate_m": [
+          20.0,
+          0.0,
+          0.5
+        ],
+        "area_weight": 0.125,
+        "force_N": [
+          0.0,
+          0.0,
+          -0.125
+        ],
+        "moment_about_origin_Nm": [
+          -0.0,
+          2.5,
+          0.0
+        ]
+      },
+      {
+        "node_id": 38,
+        "grid_index_iy_iz": [
+          0,
+          2
+        ],
+        "coordinate_m": [
+          20.0,
+          0.0,
+          1.0
+        ],
+        "area_weight": 0.0625,
+        "force_N": [
+          0.0,
+          0.0,
+          -0.0625
+        ],
+        "moment_about_origin_Nm": [
+          -0.0,
+          1.25,
+          0.0
+        ]
+      },
+      {
+        "node_id": 39,
+        "grid_index_iy_iz": [
+          1,
+          0
+        ],
+        "coordinate_m": [
+          20.0,
+          0.5,
+          0.0
+        ],
+        "area_weight": 0.125,
+        "force_N": [
+          0.0,
+          0.0,
+          -0.125
+        ],
+        "moment_about_origin_Nm": [
+          -0.0625,
+          2.5,
+          0.0
+        ]
+      },
+      {
+        "node_id": 40,
+        "grid_index_iy_iz": [
+          1,
+          1
+        ],
+        "coordinate_m": [
+          20.0,
+          0.5,
+          0.5
+        ],
+        "area_weight": 0.25,
+        "force_N": [
+          0.0,
+          0.0,
+          -0.25
+        ],
+        "moment_about_origin_Nm": [
+          -0.125,
+          5.0,
+          0.0
+        ]
+      },
+      {
+        "node_id": 41,
+        "grid_index_iy_iz": [
+          1,
+          2
+        ],
+        "coordinate_m": [
+          20.0,
+          0.5,
+          1.0
+        ],
+        "area_weight": 0.125,
+        "force_N": [
+          0.0,
+          0.0,
+          -0.125
+        ],
+        "moment_about_origin_Nm": [
+          -0.0625,
+          2.5,
+          0.0
+        ]
+      },
+      {
+        "node_id": 42,
+        "grid_index_iy_iz": [
+          2,
+          0
+        ],
+        "coordinate_m": [
+          20.0,
+          1.0,
+          0.0
+        ],
+        "area_weight": 0.0625,
+        "force_N": [
+          0.0,
+          0.0,
+          -0.0625
+        ],
+        "moment_about_origin_Nm": [
+          -0.0625,
+          1.25,
+          0.0
+        ]
+      },
+      {
+        "node_id": 43,
+        "grid_index_iy_iz": [
+          2,
+          1
+        ],
+        "coordinate_m": [
+          20.0,
+          1.0,
+          0.5
+        ],
+        "area_weight": 0.125,
+        "force_N": [
+          0.0,
+          0.0,
+          -0.125
+        ],
+        "moment_about_origin_Nm": [
+          -0.125,
+          2.5,
+          0.0
+        ]
+      },
+      {
+        "node_id": 44,
+        "grid_index_iy_iz": [
+          2,
+          2
+        ],
+        "coordinate_m": [
+          20.0,
+          1.0,
+          1.0
+        ],
+        "area_weight": 0.0625,
+        "force_N": [
+          0.0,
+          0.0,
+          -0.0625
+        ],
+        "moment_about_origin_Nm": [
+          -0.0625,
+          1.25,
+          0.0
+        ]
+      }
+    ],
+    "resultant_force_N": [
+      0.0,
+      0.0,
+      -1.0
+    ],
+    "resultant_moment_about_global_origin_Nm": [
+      -0.5,
+      20.0,
+      0.0
+    ],
+    "same_load_vector_for_all_six_cases": true
+  },
+  "solver": {
+    "analysis": "small-strain linear static",
+    "method": "direct",
+    "backend": "scipy",
+    "residual_failure_tolerance": 1e-07,
+    "relative_residual_definition": "||Kff uf - Ff||2 / max(||Ff||2, ||Kff uf||2, 1 N)",
+    "no_threshold_changes": true
+  },
+  "predeclared_observables": {
+    "signed_mean_loaded_face_UZ_m": {
+      "definition": "surface-area-weighted integral of UZ divided by 1 m²; weights equal the consistent traction weights"
+    },
+    "deformation": "save full nodal displacement vector and element strains at all eight Gauss points",
+    "internal_energy_J": "0.5 * uᵀ K u",
+    "external_load_work_J": "uᵀ F with the declared signed force vector",
+    "energy_defect_J": "2 * internal_energy - external_load_work; also report normalized absolute defect using max(|work|, 1 J)",
+    "free_residual_N": "Kff uf - Ff; save vector, L2 norm, and solver-relative norm",
+    "support_reactions_N": "R = K u - F on the 27 fixed DOFs; save each value and total resultant",
+    "force_closure_N": "sum of applied nodal forces plus support reactions, componentwise and L2",
+    "force_closure_relative": "||ΣF + ΣR||2 / max(||ΣF||2, ||ΣR||2, 1 N)",
+    "moment_closure_Nm": "sum x × (F + R) about the global origin (0,0,0), componentwise and L2",
+    "moment_closure_relative": "||Σx×(F+R)||2 / max(||Σx×F||2, ||Σx×R||2, 1 N·m)",
+    "condition_number": "2-norm condition number of dense 108x108 Kff; report algorithm and value, no acceptance threshold",
+    "timing": "controller wall elapsed plus internal assembly, solve, postprocess, and total perf_counter intervals",
+    "memory": "controller peak RSS observation and archived artifact bytes; RSS remains a soft sampled monitor"
+  },
+  "predeclared_interpretation": {
+    "numerical_run_validity": [
+      "all matrices, displacement, strain, energy, residual, and reaction values finite",
+      "all center and Gauss-point Jacobian determinants positive",
+      "direct solver's unchanged 1e-7 relative residual failure contract satisfied"
+    ],
+    "force_and_moment_closures": "report as observables; no new PASS threshold is invented for this exploratory comparison",
+    "structural_response": "report paired signed displacement and energy differences against standard and historical controls",
+    "locking": "treat as a local comparative signal at nu=0.4999, not as an independent proof from one mesh",
+    "spatial_convergence": "not assessable from this single mesh; make no convergence claim",
+    "criteria_freeze": "no thresholds or criteria may be adjusted after outputs are read"
+  },
+  "artifacts_to_preserve_per_case": [
+    "manifest copy and its SHA-256",
+    "global sparse K and reduced Kff in NPZ form",
+    "16 local 24x24 stiffness matrices in NPY form",
+    "node coordinates, connectivity, fixed/free DOF lists, and global F vector",
+    "full u, residual, reactions, and 16x8x6 Gauss-point strain array",
+    "solver/controller metadata, timings, resource observations, stdout/stderr"
+  ],
+  "proposed_case_budgets": {
+    "wall_seconds_per_case": 180,
+    "peak_rss_mib_soft": 1024,
+    "process_tree_limit": 8,
+    "captured_output_total_mib": 16,
+    "captured_output_per_stream_mib": 8,
+    "temporary_mib_sampled": 64,
+    "archive_mib_sampled": 64,
+    "minimum_free_disk_mib": 1024,
+    "attempts_per_node_initial_campaign": 1,
+    "six_case_total_max_attempts": 6,
+    "blas_thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "budget_status": "proposed only; requires Owner acceptance and controller support"
+  },
+  "execution_artifact_root": "E:/QFSolverAgents/hex8-sri-research/investigations/hex8_sri_equilibrium_20261026/campaign_preparation/runs/HEX8-SRI-CANTILEVER-6-2026-10-26",
+  "historical_sources": {
+    "parent_source_commit": "2aa994f34900f39bef8df9db5fb025157fb694bb",
+    "reproduction_location": "tests/verification/test_hex8_sri_structural_campaign.py",
+    "reproduction_note": "test-local subclass overrides only volumetric_stiffness with the historical missing-weight expression; production Hex8SRIElement is not reverted or registered"
+  }
+}

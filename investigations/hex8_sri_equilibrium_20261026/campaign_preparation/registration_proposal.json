@@ -1,0 +1,103 @@
+{
+  "schema": "qfsolver-hex8-sri-controller-registration-proposal-v1",
+  "campaign_id": "HEX8-SRI-CANTILEVER-6-2026-10-26",
+  "status": "DRAFT_NOT_ACTIVE_OWNER_DECISION_PENDING",
+  "execution_authorized": false,
+  "active_policy_or_controller_modified": false,
+  "prepared_on_branch": "research/hex8-sri-equilibrium",
+  "prepared_at_source_commit": "344bb385b905544e8d94df496c312d5904edb55f",
+  "current_controller": {
+    "path": "scripts/development_autonomous.py",
+    "sha256_raw_worktree_bytes": "d17a026f8f3688777c42c741be34905eed3d706a074443407b086c4a81298e74",
+    "policy_path": "development_autonomous_policy.json",
+    "policy_sha256_raw_worktree_bytes": "2e2fb54a0c2dcfea5312008c5985acf7df4fd5eb9367d777fddf6ac31e6d0822",
+    "pytest_plugin_path": "scripts/development_autonomous_pytest_plugin.py",
+    "pytest_plugin_sha256_raw_worktree_bytes": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
+    "worktree_ids_accepted_by_code": [
+      "d01",
+      "c01",
+      "e01"
+    ],
+    "policy_validator_requires_exact_keys": [
+      "d01",
+      "c01",
+      "e01"
+    ],
+    "worktree_identity_contract": "canonical root equals Git root; exact branch; baseline ancestry; source root contains src/solveur/__init__.py; target exists under fixed test root; exact target allowlist; source/import fingerprint captured before and after run",
+    "preflight_contract": "the current preflight path is D01-specific; a new registration needs a matching owner-approved exact-node collect-only/preflight route",
+    "decision": "this E:\\QFSolverAgents\\hex8-sri-research worktree is not currently compatible for FEM execution"
+  },
+  "controller_changes_required_after_approval": [
+    "add a distinct hex8sri research worktree registration without changing D01/C01/E01 scopes or nodeids",
+    "extend strict registry validation explicitly for this new Owner-approved mandate",
+    "provide exact-node preflight/collection receipt for all six registered nodes",
+    "allow one attempt per nodeid for this finite campaign and retain controller run artifacts",
+    "include/verify manifest hashes and the historical-operator reproduction in the frozen source inventory",
+    "keep development-only qualification status and prohibit qualification promotion"
+  ],
+  "proposed_registration": {
+    "id": "hex8sri",
+    "mode": "fem_exploratory",
+    "root": "E:\\QFSolverAgents\\hex8-sri-research",
+    "git_root": "E:\\QFSolverAgents\\hex8-sri-research",
+    "branch": "research/hex8-sri-equilibrium",
+    "baseline_commit": "344bb385b905544e8d94df496c312d5904edb55f",
+    "source_root": "src",
+    "pytest_root": "tests/verification",
+    "require_clean_worktree": true,
+    "allow_native_vv_skip_override": false,
+    "attempt_limit_per_nodeid": 1,
+    "allowed_nodeids": [
+      "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p3]",
+      "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p3]",
+      "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p3]",
+      "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p4999]",
+      "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p4999]",
+      "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p4999]"
+    ],
+    "budgets": {
+      "wall_seconds_per_case": 180,
+      "peak_rss_mib_soft": 1024,
+      "process_tree_limit": 8,
+      "captured_output_total_mib": 16,
+      "captured_output_per_stream_mib": 8,
+      "temporary_mib_sampled": 64,
+      "archive_mib_sampled": 64,
+      "minimum_free_disk_mib": 1024,
+      "attempts_per_node_initial_campaign": 1,
+      "six_case_total_max_attempts": 6,
+      "blas_thread_environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_status": "proposed only; requires Owner acceptance and controller support"
+    }
+  },
+  "common_problem": {
+    "path": "common_problem.json",
+    "sha256": "003c8551d05c0ea4029e8ce5b552d6900abf306788d10bb43a829ad0be7737dc"
+  },
+  "six_case_manifests": {
+    "manifest_hex8_standard_nu_0p3.json": "43fa298abddff229d18ae88f74244b10daac5820e88ad1eb7c995e313e7d2580",
+    "manifest_sri_historical_nu_0p3.json": "261044f2f26afdc74d9415c87a2f430c2994d0430e8e7ef0532ce4a51aa60b9f",
+    "manifest_sri_corrected_nu_0p3.json": "cc78972d2222f275125b94ca19eac25da5cd12ebd257151296390d1b1124835f",
+    "manifest_hex8_standard_nu_0p4999.json": "c75464745552f8ef853a042003224c3a812740f3e2c00978b1f7bcc2c9a7f7bb",
+    "manifest_sri_historical_nu_0p4999.json": "db9c99e046160466560a4a632aeac65bcc175c447f9dc0c41d5c5c75cc9d7234",
+    "manifest_sri_corrected_nu_0p4999.json": "d876f36039dc0949d82c038c8244d2c69ca33e21cc5a1cdd1577b8eea920cde9"
+  },
+  "collected_nodeids": [
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p3]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p3]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p3]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p4999]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p4999]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p4999]"
+  ],
+  "collect_only": {
+    "command": "python -m pytest --collect-only -q tests/verification/test_hex8_sri_structural_campaign.py",
+    "result": "6 exact nodes collected; no test body entered and no FEM performed"
+  },
+  "source_fingerprint_sha256_controller_algorithm": "60131a66dcafefd55c5b3300c505da3c3a495f2e79619c7006202e051919ef7f",
+  "next_step": "Owner decides whether to approve controller/policy registration and an executable FEM harness; do not execute any node yet."
+}
