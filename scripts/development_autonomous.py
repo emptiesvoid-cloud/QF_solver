@@ -350,6 +350,8 @@ WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID = "wp12_hex20_affine_diagnostic"
 WP12B_HEX20_DIAGNOSTIC_NODEID = (
     "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual"
 )
+WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_SCHEMA = "qfsolver-wp12b-hex20-diagnostic-collect-only-v1"
+WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_MARKER = "QF_DEV_WP12B_HEX20_DIAGNOSTIC_PREFLIGHT="
 WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
     "wp12_wp07": {
         "root": r"E:\QFSolverAgents\wp07",
@@ -450,6 +452,22 @@ WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
         "max_fem_cases_per_attempt": 1,
         "concurrency_class": "parallel",
         "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ROTOR-2026-10-26-v1",
+    },
+    WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID: {
+        "root": r"C:\Users\fari\.codex\worktrees\wp12b-hex20-reconciliation\qf_solver",
+        "branch": "emptiesvoids-cloud/wp12b-hex20-consolidation",
+        "evidence_root": r"E:\QFSolverAgents\evidence\wp12b-hex20-affine-diagnostic-consolidated",
+        "timeout_seconds": 300,
+        "max_timeout_seconds": 300,
+        "max_total_attempts": 1,
+        "attempt_limit_per_nodeid": 1,
+        "max_registered_nodeids": 1,
+        "max_dofs": 60,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "parallel",
+        "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTIC-2026-10-27-R1",
+        "campaign_id": "WP12B-HEX20-AFFINE-DIAGNOSTIC-R1-2026-10-27",
+        "execution_scope_id": WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
     },
 }
 WP12_RUN_BUDGETS = {
@@ -1212,12 +1230,14 @@ def build_pytest_command(
     rotor_collect_only_attestation: bool = False,
     hex8sri_convergence24_collect_only_attestation: bool = False,
     wp12_dynamics_collect_only_attestation: bool = False,
+    wp12b_hex20_diagnostic_collect_only_attestation: bool = False,
     junit_xml_path: Path | None = None,
 ) -> list[str]:
     attestation_modes = (
         rotor_collect_only_attestation,
         hex8sri_convergence24_collect_only_attestation,
         wp12_dynamics_collect_only_attestation,
+        wp12b_hex20_diagnostic_collect_only_attestation,
     )
     if sum(attestation_modes) > 1:
         raise PolicyError("a pytest collection command may use only one scope attestor")
@@ -1236,6 +1256,15 @@ def build_pytest_command(
             raise PolicyError("WP12 dynamics attestation requires collect-only without any skip override")
         if wp12_dynamics_collect_only_attestation and targets[0] not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
             raise PolicyError("WP12-A dynamics attestation is restricted to its four exact collect-only nodeids")
+        if wp12b_hex20_diagnostic_collect_only_attestation and (
+            not collect_only
+            or allow_native_skip_override
+            or len(targets) != 1
+            or targets[0] != WP12B_HEX20_DIAGNOSTIC_NODEID
+        ):
+            raise PolicyError(
+                "HEX20 diagnostic attestation requires collect-only for its one exact nodeid without a skip override"
+            )
         native_override = "True" if allow_native_skip_override else "False"
         bootstrap = "\n".join(
             (
@@ -1280,9 +1309,29 @@ def build_pytest_command(
                 "        marker='QF_DEV_WP12_DYNAMICS_PREFLIGHT=',",
                 "    )",
                 "    plugins.append(attestor)",
+                "if mode == 'wp12b-hex20-diagnostic-preflight':",
+                "    from development_autonomous_pytest_plugin import ExactCollectOnlyAttestor",
+                "    attestor = ExactCollectOnlyAttestor(",
+                "        target, solver_origin=str(origin), selected_dofs=int(os.environ['QF_DEV_SELECTED_DOFS']),",
+                "        max_dofs=60, schema='qfsolver-wp12b-hex20-diagnostic-collect-only-v1',",
+                "        marker='QF_DEV_WP12B_HEX20_DIAGNOSTIC_PREFLIGHT=',",
+                "    )",
+                "    plugins.append(attestor)",
                 "raise SystemExit(pytest.main(sys.argv[6:], plugins=plugins))",
             )
         )
+        if allow_native_skip_override:
+            bootstrap_mode = "d01"
+        elif rotor_collect_only_attestation:
+            bootstrap_mode = "rotor-preflight"
+        elif hex8sri_convergence24_collect_only_attestation:
+            bootstrap_mode = "hex8sri-convergence24-preflight"
+        elif wp12_dynamics_collect_only_attestation:
+            bootstrap_mode = "wp12-dynamics-preflight"
+        elif wp12b_hex20_diagnostic_collect_only_attestation:
+            bootstrap_mode = "wp12b-hex20-diagnostic-preflight"
+        else:
+            bootstrap_mode = "registered"
         command = [
             sys.executable,
             "-B",
@@ -1291,17 +1340,7 @@ def build_pytest_command(
             str(source_root),
             str(repository_root),
             str(controller_root),
-            "d01"
-            if allow_native_skip_override
-            else (
-                "rotor-preflight"
-                if rotor_collect_only_attestation
-                else (
-                    "hex8sri-convergence24-preflight"
-                    if hex8sri_convergence24_collect_only_attestation
-                    else ("wp12-dynamics-preflight" if wp12_dynamics_collect_only_attestation else "registered")
-                )
-            ),
+            bootstrap_mode,
             targets[0],
             "-q",
             "-p",
@@ -3882,27 +3921,27 @@ def _validate_rotor_collect_attestation(
     return "PREFLIGHT_PASS", payload
 
 
-def _validate_wp12_dynamics_collect_attestation(
+def _validate_wp12_collect_attestation(
     stdout: str,
     *,
     target: str,
     solver_origin: str,
     selected_dofs: int,
+    max_dofs: int | None,
+    worktree_id: str,
+    schema: str,
+    marker: str,
 ) -> tuple[str, dict[str, Any] | None]:
-    lines = [
-        line[len(WP12_DYNAMICS_PREFLIGHT_ATTESTATION_PREFIX) :]
-        for line in stdout.splitlines()
-        if line.startswith(WP12_DYNAMICS_PREFLIGHT_ATTESTATION_PREFIX)
-    ]
+    lines = [line[len(marker) :] for line in stdout.splitlines() if line.startswith(marker)]
     if len(lines) != 1:
         return "PREFLIGHT_ATTESTATION_INVALID", None
     try:
         payload = json.loads(lines[0])
     except json.JSONDecodeError:
         return "PREFLIGHT_ATTESTATION_INVALID", None
-    if not isinstance(payload, dict) or payload.get("schema") != "qfsolver-wp12-dynamics-collect-only-v1":
+    if not isinstance(payload, dict) or payload.get("schema") != schema:
         return "PREFLIGHT_ATTESTATION_INVALID", None
-    if payload.get("worktree_id") != "wp12_dynamics":
+    if payload.get("worktree_id") != worktree_id:
         return "PREFLIGHT_SCOPE_MISMATCH", payload
     if payload.get("expected_nodeid") != target or payload.get("collected_nodeids") != [target]:
         return "PREFLIGHT_NODEID_NOT_CONFIRMED", payload
@@ -3914,35 +3953,120 @@ def _validate_wp12_dynamics_collect_attestation(
         return "PREFLIGHT_BODY_EXECUTION_DETECTED", payload
     if payload.get("selected_dofs_expected") != selected_dofs or payload.get("selected_dofs") != str(selected_dofs):
         return "PREFLIGHT_SCOPE_MISMATCH", payload
-    if payload.get("max_dofs_expected") is not None or payload.get("max_dofs") is not None:
+    expected_max_dofs = str(max_dofs) if max_dofs is not None else None
+    if payload.get("max_dofs_expected") != max_dofs or payload.get("max_dofs") != expected_max_dofs:
         return "PREFLIGHT_SCOPE_MISMATCH", payload
     if payload.get("exitstatus") != 0:
         return "PREFLIGHT_FAILED", payload
     return "PREFLIGHT_PASS", payload
 
 
+def _validate_wp12_dynamics_collect_attestation(
+    stdout: str,
+    *,
+    target: str,
+    solver_origin: str,
+    selected_dofs: int,
+) -> tuple[str, dict[str, Any] | None]:
+    return _validate_wp12_collect_attestation(
+        stdout,
+        target=target,
+        solver_origin=solver_origin,
+        selected_dofs=selected_dofs,
+        max_dofs=None,
+        worktree_id="wp12_dynamics",
+        schema="qfsolver-wp12-dynamics-collect-only-v1",
+        marker=WP12_DYNAMICS_PREFLIGHT_ATTESTATION_PREFIX,
+    )
+
+
+def _validate_wp12b_hex20_diagnostic_collect_attestation(
+    stdout: str,
+    *,
+    target: str,
+    solver_origin: str,
+    selected_dofs: int,
+) -> tuple[str, dict[str, Any] | None]:
+    return _validate_wp12_collect_attestation(
+        stdout,
+        target=target,
+        solver_origin=solver_origin,
+        selected_dofs=selected_dofs,
+        max_dofs=60,
+        worktree_id=WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
+        schema=WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_SCHEMA,
+        marker=WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_MARKER,
+    )
+
+
 def preflight_wp12_dynamics_pytest(
     target: str, preflight_id: str | None = None, *, policy: Mapping[str, Any] | None = None
 ) -> dict[str, Any]:
-    """Collect one active WP12 dynamics registration without reserving or touching its attempt ledger."""
-    current_policy = load_policy() if policy is None else dict(policy)
-    worktree_id = "wp12_dynamics"
+    """Collect one WP12-A dynamics node without reserving an attempt."""
     if target not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
         raise PolicyError("WP12-A dynamics preflight is limited to its four exact registered nodeids")
+    return _preflight_wp12_attested_pytest(
+        target,
+        preflight_id,
+        policy=policy,
+        worktree_id="wp12_dynamics",
+        schema="qfsolver-wp12-dynamics-collect-only-v1",
+        marker=WP12_DYNAMICS_PREFLIGHT_ATTESTATION_PREFIX,
+        preflight_schema="qfsolver-development-wp12-dynamics-preflight-v1",
+        attestation_mode="wp12_dynamics_collect_only_attestation",
+        label="WP12 dynamics",
+    )
+
+
+def preflight_wp12b_hex20_diagnostic_pytest(
+    target: str, preflight_id: str | None = None, *, policy: Mapping[str, Any] | None = None
+) -> dict[str, Any]:
+    """Collect the one exact HEX20 diagnostic node without reserving an attempt."""
+    if target != WP12B_HEX20_DIAGNOSTIC_NODEID:
+        raise PolicyError("HEX20 diagnostic preflight is limited to its exact registered nodeid")
+    return _preflight_wp12_attested_pytest(
+        target,
+        preflight_id,
+        policy=policy,
+        worktree_id=WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
+        schema=WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_SCHEMA,
+        marker=WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_MARKER,
+        preflight_schema="qfsolver-development-wp12b-hex20-diagnostic-preflight-v1",
+        attestation_mode="wp12b_hex20_diagnostic_collect_only_attestation",
+        label="WP12-B HEX20 diagnostic",
+    )
+
+
+def _preflight_wp12_attested_pytest(
+    target: str,
+    preflight_id: str | None,
+    *,
+    policy: Mapping[str, Any] | None,
+    worktree_id: str,
+    schema: str,
+    marker: str,
+    preflight_schema: str,
+    attestation_mode: str,
+    label: str,
+) -> dict[str, Any]:
+    """Collect one registered WP12 node and prove provenance without ledger reservation."""
+    current_policy = load_policy() if policy is None else dict(policy)
     targets = resolve_targets("fem_exploratory", target, current_policy, worktree_id=worktree_id)
+    if targets != [target]:
+        raise PolicyError(f"{label} preflight requires exactly one registered nodeid")
     entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
         worktree_id, target, current_policy
     )
     selection = _wp12_active_registration(worktree_id, target, entry, source_fingerprint)
     if entry.get("development_mandate_id") != WP12_OWNER_ENVELOPES[worktree_id]["development_mandate_id"]:
-        raise PolicyError("WP12 dynamics preflight is not bound to its registered mandate")
+        raise PolicyError(f"{label} preflight is not bound to its registered mandate")
     store = _run_root(current_policy, worktree_id)
     if psutil is None:
         raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
     free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free)
     minimum_free = int(current_policy["minimum_free_disk_mib"] * 1024 * 1024)
     if free_bytes < minimum_free:
-        raise PolicyError(f"insufficient free disk for WP12 dynamics preflight: {free_bytes} bytes; requires {minimum_free}")
+        raise PolicyError(f"insufficient free disk for {label} preflight: {free_bytes} bytes; requires {minimum_free}")
 
     preflight_id = preflight_id or f"pf-{uuid.uuid4().hex[:12]}"
     receipt_dir = _preflight_directory(store, worktree_id, preflight_id)
@@ -3954,6 +4078,7 @@ def preflight_wp12_dynamics_pytest(
     output_dir = receipt_dir / "output"
     temporary_dir.mkdir()
     output_dir.mkdir()
+    attestation_flags = {attestation_mode: True}
     command = build_pytest_command(
         "fem_exploratory",
         targets,
@@ -3963,10 +4088,10 @@ def preflight_wp12_dynamics_pytest(
         controller_root=ROOT,
         allow_native_skip_override=False,
         collect_only=True,
-        wp12_dynamics_collect_only_attestation=True,
+        **attestation_flags,
     )
     if "--collect-only" not in command or command[-1] != target:
-        raise PolicyError("WP12 dynamics preflight command must collect only its one exact registered nodeid")
+        raise PolicyError(f"{label} preflight command must collect only its one exact registered nodeid")
     environment = build_child_environment(
         temporary_dir,
         source_root=source_root,
@@ -3983,7 +4108,7 @@ def preflight_wp12_dynamics_pytest(
     started = datetime.now(timezone.utc).isoformat()
     record_path = receipt_dir / "preflight.json"
     initial = {
-        "schema": "qfsolver-development-wp12-dynamics-preflight-v1",
+        "schema": preflight_schema,
         "mode": "DEVELOPMENT_AUTONOMOUS",
         "mandate_id": entry["development_mandate_id"],
         "worktree_id": worktree_id,
@@ -4038,17 +4163,21 @@ def preflight_wp12_dynamics_pytest(
             },
         )
         _atomic_json_new(receipt_dir / "preflight.sha256.json", {"sha256": _sha256(record_path)})
-        raise PolicyError(f"WP12 dynamics collect-only preflight could not launch: {exc}") from exc
+        raise PolicyError(f"{label} collect-only preflight could not launch: {exc}") from exc
 
     stdout_path, stderr_path = output_dir / "stdout.log", output_dir / "stderr.log"
     stdout = stdout_path.read_text(encoding="utf-8", errors="replace") if stdout_path.is_file() else ""
     stderr = stderr_path.read_text(encoding="utf-8", errors="replace") if stderr_path.is_file() else ""
     combined = stdout + "\n" + stderr
-    attestation_status, attestation = _validate_wp12_dynamics_collect_attestation(
+    attestation_status, attestation = _validate_wp12_collect_attestation(
         stdout,
         target=target,
         solver_origin=expected_origin,
         selected_dofs=selection["selected_dofs"],
+        max_dofs=entry["target_max_dofs"],
+        worktree_id=worktree_id,
+        schema=schema,
+        marker=marker,
     )
     after_policy = load_policy()
     after_entry, _after_root, _after_source, after_identity, after_fingerprint = _registered_worktree(
@@ -4611,9 +4740,12 @@ def preflight_pytest(
         return preflight_hex8sri_convergence24_pytest(target, preflight_id, policy=policy)
     if worktree_id == "wp12_dynamics":
         return preflight_wp12_dynamics_pytest(target, preflight_id, policy=policy)
+    if worktree_id == WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID:
+        return preflight_wp12b_hex20_diagnostic_pytest(target, preflight_id, policy=policy)
     if worktree_id != "d01":
         raise PolicyError(
-            "collect-only preflight is enabled only for D01, rotor, WP12 dynamics, and preparation-only HEX8-SRI"
+            "collect-only preflight is enabled only for D01, rotor, WP12 dynamics, WP12-B HEX20 diagnostic, "
+            "and preparation-only HEX8-SRI"
         )
     targets = resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
     entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(worktree_id, target, policy)
@@ -5328,11 +5460,20 @@ def main(argv: Sequence[str] | None = None) -> int:
     subparsers = parser.add_subparsers(dest="command", required=True)
     preflight_parser = subparsers.add_parser(
         "preflight",
-        help="collect one exact D01, rotor, WP12 dynamics, or preparation-only HEX8-SRI node without running its body",
+        help=(
+            "collect one exact D01, rotor, WP12 dynamics, WP12-B HEX20 diagnostic, "
+            "or preparation-only HEX8-SRI node without running its body"
+        ),
     )
     preflight_parser.add_argument(
         "--worktree",
-        choices=("d01", "rotor", "wp12_dynamics", HEX8SRI_CONVERGENCE24_WORKTREE_ID),
+        choices=(
+            "d01",
+            "rotor",
+            "wp12_dynamics",
+            WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
+            HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+        ),
         required=True,
     )
     preflight_parser.add_argument("--target", required=True)
