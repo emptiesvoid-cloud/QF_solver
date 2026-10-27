@@ -53,6 +53,31 @@ SERIES_RE = re.compile(r"^dev-[a-z0-9][a-z0-9-]{7,48}$")
 PREFLIGHT_RE = re.compile(r"^pf-[a-z0-9]{12}$")
 STANDARD_SCOPES = {"unit", "integration"}
 WORKTREE_SCOPES = {"fem_exploratory", "math_non_fem"}
+HEX8SRI_CONVERGENCE24_WORKTREE_ID = "hex8sri-convergence24"
+HEX8SRI_CONVERGENCE24_CAMPAIGN_ID = "HEX8-SRI-CONVERGENCE-24-2026-10-27"
+HEX8SRI_CONVERGENCE24_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1"
+HEX8SRI_CONVERGENCE24_LEDGER = "node-attempt-ledger-hex8sri-convergence24.json"
+HEX8SRI_CONVERGENCE24_MANIFEST_BINDING = "canonical_case_content_v1"
+HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT = "1fce68d6b2f2702c794e37d73c16414e0d0e4c0f2837331e5792b6fbfb414555"
+HEX8SRI_CONVERGENCE24_FORMULATIONS = ("hex8_standard", "sri_historical", "sri_corrected")
+HEX8SRI_CONVERGENCE24_NU_TOKENS = {"0p3": 0.3, "0p4999": 0.4999}
+HEX8SRI_CONVERGENCE24_MESH_BUDGETS = {
+    "4x2x2": (180, 512),
+    "8x4x4": (300, 1024),
+    "16x8x8": (900, 4096),
+    "32x16x16": (3600, 16384),
+}
+HEX8SRI_CONVERGENCE24_COMMON_BUDGET = {
+    "process_tree_limit": 8,
+    "output_total_limit_mib": 16,
+    "output_stream_limit_mib": 8,
+    "temporary_limit_mib": 512,
+    "archive_size_limit_mib": 256,
+    "minimum_free_disk_mib": 2048,
+}
+HEX8SRI_CONVERGENCE24_MANIFEST_CONTROLLER_FIELDS = frozenset(
+    {"controller_code_sha256", "controller_identity", "controller_identity_status"}
+)
 OWNER_ENV_KEYS = {
     "WPC02_AR_NATIVE_OWNER_GO_TOKEN",
     "WPC02_AR_NATIVE_OWNER_GO_MANIFEST_SHA256",
@@ -255,6 +280,85 @@ def _positive_integer(value: Any, name: str) -> int:
     return int(number)
 
 
+def _hex8sri_convergence24_nodeids() -> tuple[str, ...]:
+    return tuple(
+        sorted(
+            "tests/verification/test_hex8_sri_convergence.py::test_convergence_case["
+            f"{formulation}-nu_{nu_token}-{mesh_token}]"
+            for formulation in HEX8SRI_CONVERGENCE24_FORMULATIONS
+            for nu_token in HEX8SRI_CONVERGENCE24_NU_TOKENS
+            for mesh_token in HEX8SRI_CONVERGENCE24_MESH_BUDGETS
+        )
+    )
+
+
+def _hex8sri_convergence24_case(nodeid: str) -> tuple[str, str, str] | None:
+    prefix = "tests/verification/test_hex8_sri_convergence.py::test_convergence_case["
+    if not nodeid.startswith(prefix) or not nodeid.endswith("]"):
+        return None
+    try:
+        formulation, nu_token, mesh_token = nodeid[len(prefix) : -1].split("-", maxsplit=2)
+    except ValueError:
+        return None
+    if (
+        formulation not in HEX8SRI_CONVERGENCE24_FORMULATIONS
+        or not nu_token.startswith("nu_")
+        or nu_token[3:] not in HEX8SRI_CONVERGENCE24_NU_TOKENS
+        or mesh_token not in HEX8SRI_CONVERGENCE24_MESH_BUDGETS
+    ):
+        return None
+    return formulation, nu_token[3:], mesh_token
+
+
+def _hex8sri_convergence24_budget(nodeid: str) -> dict[str, int]:
+    case = _hex8sri_convergence24_case(nodeid)
+    if case is None:
+        raise PolicyError("HEX8-SRI convergence nodeid is outside its exact 24-case matrix")
+    _, _, mesh_token = case
+    timeout_seconds, rss_mib = HEX8SRI_CONVERGENCE24_MESH_BUDGETS[mesh_token]
+    return {
+        **HEX8SRI_CONVERGENCE24_COMMON_BUDGET,
+        "timeout_seconds": timeout_seconds,
+        "rss_soft_limit_mib": rss_mib,
+    }
+
+
+def _hex8sri_manifest_registration_sha256(manifest: Mapping[str, Any]) -> str:
+    content = {
+        key: value for key, value in manifest.items() if key not in HEX8SRI_CONVERGENCE24_MANIFEST_CONTROLLER_FIELDS
+    }
+    payload = json.dumps(content, ensure_ascii=False, allow_nan=False, sort_keys=True, separators=(",", ":")).encode(
+        "utf-8"
+    )
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _hex8sri_convergence24_case_contract(manifest: Mapping[str, Any]) -> dict[str, Any]:
+    mesh = manifest.get("mesh")
+    if not isinstance(mesh, Mapping):
+        raise PolicyError("HEX8-SRI convergence manifest has no mesh contract")
+    divisions = mesh.get("divisions_xyz")
+    if (
+        not isinstance(divisions, list)
+        or len(divisions) != 3
+        or any(type(value) is not int or value < 1 for value in divisions)
+    ):
+        raise PolicyError("HEX8-SRI convergence manifest has invalid structured mesh divisions")
+    nx, ny, nz = divisions
+    total_dofs = 3 * (nx + 1) * (ny + 1) * (nz + 1)
+    fixed_dofs = 3 * (ny + 1) * (nz + 1)
+    expected = {
+        "element_count": nx * ny * nz,
+        "node_count": (nx + 1) * (ny + 1) * (nz + 1),
+        "dof_count": total_dofs,
+        "fixed_dof_count": fixed_dofs,
+        "free_dof_count": total_dofs - fixed_dofs,
+    }
+    if any(mesh.get(name) != value for name, value in expected.items()):
+        raise PolicyError("HEX8-SRI convergence manifest DDL or element counts do not match its structured mesh")
+    return {"divisions_xyz": divisions, **expected}
+
+
 def _validate_wp12_case_selection(
     worktree_id: str,
     *,
@@ -443,8 +547,11 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             raise PolicyError(f"scope {name} total output limit exceeds its two stream limits")
     worktrees = policy.get("worktrees")
     legacy_worktree_ids = {"d01", "c01", "e01"}
-    if not isinstance(worktrees, dict) or set(worktrees) != legacy_worktree_ids | set(WP12_OWNER_ENVELOPES):
-        raise PolicyError("the authorized worktree registry must retain D01/C01/E01 and every exact WP12 scope")
+    expected_worktree_ids = legacy_worktree_ids | set(WP12_OWNER_ENVELOPES) | {HEX8SRI_CONVERGENCE24_WORKTREE_ID}
+    if not isinstance(worktrees, dict) or set(worktrees) != expected_worktree_ids:
+        raise PolicyError(
+            "the worktree registry must retain all existing scopes and the isolated HEX8-SRI preparation scope"
+        )
     required_budget_fields = (
         "timeout_seconds",
         "rss_soft_limit_mib",
@@ -476,8 +583,11 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         attempt_limit = _positive_integer(
             entry.get("attempt_limit_per_nodeid"), f"worktrees.{worktree_id}.attempt_limit_per_nodeid"
         )
-        if not is_wp12 and attempt_limit != 3:
+        is_hex8sri_convergence24 = worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        if not is_wp12 and not is_hex8sri_convergence24 and attempt_limit != 3:
             raise PolicyError("this Owner mandate permits at most three attempts per nodeid")
+        if is_hex8sri_convergence24 and attempt_limit != 1:
+            raise PolicyError("HEX8-SRI convergence preparation is limited to one future attempt per nodeid")
         budgets = entry.get("budgets")
         if not isinstance(budgets, dict):
             raise PolicyError(f"worktree {worktree_id} requires a budgets object")
@@ -548,6 +658,58 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             expected_budgets = {"timeout_seconds": envelope["timeout_seconds"], **WP12_RUN_BUDGETS}
             if budgets != expected_budgets:
                 raise PolicyError(f"{worktree_id} budgets must match its Owner-approved resource envelope exactly")
+
+    hex8sri = worktrees[HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+    hex8sri_nodeids = _hex8sri_convergence24_nodeids()
+    if (
+        hex8sri.get("development_mandate_id") != HEX8SRI_CONVERGENCE24_MANDATE_ID
+        or hex8sri.get("campaign_id") != HEX8SRI_CONVERGENCE24_CAMPAIGN_ID
+        or hex8sri.get("campaign_scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or hex8sri.get("execution_authorized") is not False
+        or hex8sri.get("require_clean_worktree") is not True
+        or hex8sri.get("branch") != "research/hex8-sri-equilibrium"
+        or hex8sri.get("root") != r"E:\QFSolverAgents\hex8-sri-research"
+        or hex8sri.get("git_root") != hex8sri.get("root")
+        or hex8sri.get("baseline_commit") != "b547cf0e1c8057ef7f58ba780967d1b19c891ac4"
+        or hex8sri.get("source_fingerprint_sha256") != HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
+        or hex8sri.get("source_test_worktree_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or hex8sri.get("manifest_registration_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or hex8sri.get("manifest_binding_mode") != HEX8SRI_CONVERGENCE24_MANIFEST_BINDING
+        or hex8sri.get("allowed_nodeids") != list(hex8sri_nodeids)
+        or hex8sri.get("node_attempt_ledger") != {"path": HEX8SRI_CONVERGENCE24_LEDGER}
+    ):
+        raise PolicyError(
+            "HEX8-SRI convergence scope identity, nodeids, ledger, or preparation-only mandate is invalid"
+        )
+    expected_hex8sri_budgets = {
+        **HEX8SRI_CONVERGENCE24_COMMON_BUDGET,
+        "timeout_seconds": 3600,
+        "rss_soft_limit_mib": 16384,
+    }
+    if hex8sri.get("budgets") != expected_hex8sri_budgets:
+        raise PolicyError("HEX8-SRI convergence shared budget must equal the largest registered case budget")
+    expected_per_node_budgets = {nodeid: _hex8sri_convergence24_budget(nodeid) for nodeid in hex8sri_nodeids}
+    if hex8sri.get("per_node_budgets") != expected_per_node_budgets:
+        raise PolicyError("HEX8-SRI per-node budgets must match the exact four-mesh envelope")
+    expected_threads = {"OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1"}
+    if hex8sri.get("blas_thread_environment") != expected_threads:
+        raise PolicyError("HEX8-SRI convergence requires the registered single-thread BLAS environment")
+    case_manifests = hex8sri.get("case_manifests")
+    if not isinstance(case_manifests, dict) or set(case_manifests) != set(hex8sri_nodeids):
+        raise PolicyError("HEX8-SRI convergence requires exactly one case manifest per registered nodeid")
+    for nodeid, binding in case_manifests.items():
+        if not isinstance(binding, dict) or set(binding) != {"path", "sha256"}:
+            raise PolicyError("HEX8-SRI case manifest binding has an invalid shape")
+        manifest_path = Path(str(binding.get("path", "")))
+        if (
+            manifest_path.is_absolute()
+            or ".." in manifest_path.parts
+            or not str(binding.get("path", "")).startswith(
+                "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/"
+            )
+            or not re.fullmatch(r"[0-9a-f]{64}", str(binding.get("sha256", "")))
+        ):
+            raise PolicyError(f"HEX8-SRI case manifest binding is invalid for {nodeid}")
     if policy.get("resource_coordination_root") != str(WP12_COORDINATION_ROOT):
         raise PolicyError("WP12 runs must use the one registered shared resource coordination root")
     d01 = worktrees["d01"]
@@ -655,6 +817,12 @@ def _verify_solver_import_origin(source_root: Path, imported_file: Path) -> Path
     if actual != expected:
         raise PolicyError(f"wrong solveur import origin: expected {expected}, got {actual}")
     return actual
+
+
+def _observed_solver_origin(output: str) -> str | None:
+    prefix = "QF_DEV_SOLVER_ORIGIN="
+    lines = [line[len(prefix) :] for line in output.splitlines() if line.startswith(prefix)]
+    return lines[0] if len(lines) == 1 else None
 
 
 def _wp12_active_registration(
@@ -780,6 +948,7 @@ def build_pytest_command(
     allow_native_skip_override: bool = False,
     collect_only: bool = False,
     rotor_collect_only_attestation: bool = False,
+    hex8sri_convergence24_collect_only_attestation: bool = False,
     junit_xml_path: Path | None = None,
 ) -> list[str]:
     if scope_name in WORKTREE_SCOPES:
@@ -789,6 +958,10 @@ def build_pytest_command(
             raise PolicyError("rotor collection attestation requires collect-only without any skip override")
         if rotor_collect_only_attestation and targets[0] not in WP12_ROTOR_NODEIDS:
             raise PolicyError("rotor collection attestation is restricted to the exact rotor nodeid allowlist")
+        if hex8sri_convergence24_collect_only_attestation and (
+            not collect_only or allow_native_skip_override or targets[0] not in _hex8sri_convergence24_nodeids()
+        ):
+            raise PolicyError("HEX8-SRI attestation is restricted to exact preparation-only collect-only nodes")
         native_override = "True" if allow_native_skip_override else "False"
         bootstrap = "\n".join(
             (
@@ -822,6 +995,9 @@ def build_pytest_command(
                 "        max_dofs=int(os.environ['QF_DEV_MAX_DOFS']),",
                 "    )",
                 "    plugins.append(attestor)",
+                "if mode == 'hex8sri-convergence24-preflight':",
+                "    from development_autonomous_pytest_plugin import Hex8SRIConvergence24Attestor",
+                "    plugins.append(Hex8SRIConvergence24Attestor(target, scope_id='hex8sri-convergence24'))",
                 "raise SystemExit(pytest.main(sys.argv[6:], plugins=plugins))",
             )
         )
@@ -835,7 +1011,15 @@ def build_pytest_command(
             str(controller_root),
             "d01"
             if allow_native_skip_override
-            else ("rotor-preflight" if rotor_collect_only_attestation else "registered"),
+            else (
+                "rotor-preflight"
+                if rotor_collect_only_attestation
+                else (
+                    "hex8sri-convergence24-preflight"
+                    if hex8sri_convergence24_collect_only_attestation
+                    else "registered"
+                )
+            ),
             targets[0],
             "-q",
             "-p",
@@ -2032,6 +2216,19 @@ def _node_ledger_context(
     worktree_id: str,
 ) -> tuple[Path, Path, str, dict[str, str] | None]:
     entry = policy["worktrees"][worktree_id]
+    if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+        ledger_path = (store / entry["node_attempt_ledger"]["path"]).resolve()
+        if (
+            not _is_within(ledger_path, store.resolve())
+            or ledger_path == (store / "node-attempt-ledger.json").resolve()
+        ):
+            raise PolicyError("HEX8-SRI convergence ledger must be separate and confined to its run store")
+        return (
+            ledger_path,
+            ledger_path.with_suffix(".lock"),
+            str(entry["development_mandate_id"]),
+            None,
+        )
     if worktree_id != "d01" or "node_attempt_ledger" not in entry:
         return (
             store / "node-attempt-ledger.json",
@@ -2229,6 +2426,113 @@ def _controller_provenance() -> dict[str, Any]:
             "psutil_version": importlib.metadata.version("psutil") if psutil is not None else None,
         },
     }
+
+
+def _hex8sri_convergence24_manifest(
+    entry: Mapping[str, Any], execution_root: Path, target: str
+) -> tuple[Path, dict[str, Any], str]:
+    bindings = entry.get("case_manifests")
+    binding = bindings.get(target) if isinstance(bindings, Mapping) else None
+    if not isinstance(binding, Mapping):
+        raise PolicyError("HEX8-SRI exact node has no registered case manifest")
+    relative = Path(str(binding.get("path", "")))
+    if relative.is_absolute() or ".." in relative.parts:
+        raise PolicyError("HEX8-SRI case manifest path is not worktree-relative")
+    manifest_path = (execution_root / relative).resolve()
+    if not _is_within(manifest_path, execution_root.resolve()) or not manifest_path.is_file():
+        raise PolicyError("HEX8-SRI case manifest is missing or outside its registered worktree")
+    raw_sha256 = _sha256(manifest_path)
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"HEX8-SRI case manifest is unreadable: {exc}") from exc
+    if not isinstance(manifest, dict):
+        raise PolicyError("HEX8-SRI case manifest must be a JSON object")
+    try:
+        registration_sha256 = _hex8sri_manifest_registration_sha256(manifest)
+    except (TypeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI manifest contains invalid canonical content: {exc}") from exc
+    if registration_sha256 != binding.get("sha256"):
+        raise PolicyError("HEX8-SRI case manifest registration digest differs from its registered value")
+    live_fingerprint = _worktree_source_fingerprint(execution_root, target)
+    case = _hex8sri_convergence24_case(target)
+    if case is None:
+        raise PolicyError("HEX8-SRI target is outside the exact convergence24 nodeid matrix")
+    formulation, nu_token, mesh_token = case
+    expected_case_id = f"{formulation}_nu_{nu_token}_{mesh_token}"
+    formulation_record = manifest.get("formulation")
+    if (
+        manifest.get("schema") != "qfsolver-hex8-sri-structural-case-v2"
+        or manifest.get("controller_registration_id") != entry.get("manifest_registration_id")
+        or manifest.get("controller_campaign_scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or manifest.get("campaign_id") != HEX8SRI_CONVERGENCE24_CAMPAIGN_ID
+        or manifest.get("case_id") != expected_case_id
+        or manifest.get("exact_nodeid") != target
+        or manifest.get("source_fingerprint_sha256") != live_fingerprint
+        or live_fingerprint != entry.get("source_fingerprint_sha256")
+        or manifest.get("science_branch") != entry.get("branch")
+        or not isinstance(formulation_record, Mapping)
+        or formulation_record.get("id") != formulation
+        or manifest.get("poisson_ratio") != HEX8SRI_CONVERGENCE24_NU_TOKENS[nu_token]
+    ):
+        raise PolicyError("HEX8-SRI manifest does not match its registered node, branch, source or case")
+    common_problem = manifest.get("common_problem")
+    common_relative = Path(str(common_problem.get("path", ""))) if isinstance(common_problem, Mapping) else Path()
+    common_sha256 = common_problem.get("sha256") if isinstance(common_problem, Mapping) else None
+    if (
+        not isinstance(common_problem, Mapping)
+        or not str(common_problem.get("path", ""))
+        or common_relative.is_absolute()
+        or ".." in common_relative.parts
+        or not re.fullmatch(r"[0-9a-f]{64}", str(common_sha256 or ""))
+    ):
+        raise PolicyError("HEX8-SRI manifest has an invalid common-problem binding")
+    common_path = (manifest_path.parent / common_relative).resolve()
+    if not _is_within(common_path, execution_root.resolve()) or not common_path.is_file():
+        raise PolicyError("HEX8-SRI common-problem file is missing or outside its worktree")
+    if _sha256(common_path) != common_sha256:
+        raise PolicyError("HEX8-SRI common-problem SHA-256 differs from its manifest")
+    if manifest.get("execution_authorized") is not False or manifest.get("do_not_execute") is not True:
+        raise PolicyError("HEX8-SRI manifest is not explicitly preparation-only")
+    if manifest.get("execution_state") != "PREPARED_NOT_AUTHORIZED":
+        raise PolicyError("HEX8-SRI manifest execution state is not PREPARED_NOT_AUTHORIZED")
+    expected_budget = _hex8sri_convergence24_budget(target)
+    if manifest.get("budgets") != {
+        **expected_budget,
+        "attempts_per_nodeid": 1,
+        "initial_campaign_max_attempts": 24,
+        "blas_thread_environment": entry["blas_thread_environment"],
+        "budget_semantics": {
+            "captured_output": "controller-enforced byte caps",
+            "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+            "wall_timeout": "watchdog process-tree termination, best effort",
+        },
+    }:
+        raise PolicyError("HEX8-SRI manifest budget differs from its registered per-node envelope")
+    return manifest_path, manifest, raw_sha256
+
+
+def _verify_hex8sri_convergence24_controller_identity(
+    manifest: Mapping[str, Any], controller: Mapping[str, Any]
+) -> None:
+    current_identity = controller.get("identity", {})
+    current_hashes = controller.get("sha256", {})
+    manifest_identity = manifest.get("controller_identity", {})
+    manifest_hashes = manifest.get("controller_code_sha256", {})
+    if (
+        manifest.get("controller_identity_status") != "FINAL_CONTROLLER_IDENTITY_BOUND"
+        or not isinstance(manifest_identity, Mapping)
+        or not isinstance(manifest_hashes, Mapping)
+        or manifest_identity.get("branch") != current_identity.get("branch")
+        or manifest_identity.get("head") != current_identity.get("head")
+        or manifest_hashes.get("runner") != current_hashes.get("runner")
+        or manifest_hashes.get("pytest_plugin") != current_hashes.get("pytest_plugin")
+        or manifest_hashes.get("policy") != current_hashes.get("policy")
+        or manifest_identity.get("runner_sha256") != current_hashes.get("runner")
+        or manifest_identity.get("pytest_plugin_sha256") != current_hashes.get("pytest_plugin")
+        or manifest_identity.get("policy_sha256") != current_hashes.get("policy")
+    ):
+        raise PolicyError("HEX8-SRI convergence manifest is not bound to the final controller identity")
 
 
 def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization_id: str) -> dict[str, Any]:
@@ -2491,6 +2795,319 @@ def preflight_rotor_pytest(
     }
 
 
+def _validate_hex8sri_convergence24_preflight_receipt(
+    store: Path,
+    preflight_id: str,
+    *,
+    target: str,
+    identity: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+    manifest_binding: Mapping[str, Any],
+    attempt_ledger: Mapping[str, Any],
+) -> tuple[Path, str]:
+    receipt_dir = _preflight_directory(store, HEX8SRI_CONVERGENCE24_WORKTREE_ID, preflight_id)
+    record_path = receipt_dir / "preflight.json"
+    sha_path = receipt_dir / "preflight.sha256.json"
+    if not record_path.is_file() or not sha_path.is_file():
+        raise PolicyError("a successful exact-node HEX8-SRI collect-only receipt is required")
+    try:
+        receipt = json.loads(record_path.read_text(encoding="utf-8"))
+        sidecar = json.loads(sha_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"HEX8-SRI preflight receipt is unreadable: {exc}") from exc
+    actual_sha256 = _sha256(record_path)
+    collection = receipt.get("collection_report")
+    recorded_ledger = receipt.get("attempt_ledger")
+    if sidecar.get("sha256") != actual_sha256:
+        raise PolicyError("HEX8-SRI preflight receipt checksum mismatch")
+    if (
+        receipt.get("schema") != "qfsolver-development-hex8sri-convergence24-preflight-v1"
+        or receipt.get("state") != "PREFLIGHT_PASS"
+        or receipt.get("bodies_executed") is not False
+        or receipt.get("attempt_reserved") is not False
+        or receipt.get("execution_authorized") is not False
+        or receipt.get("worktree_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or receipt.get("target") != target
+        or receipt.get("preflight_id") != preflight_id
+        or receipt.get("identity") != dict(identity)
+        or receipt.get("source_fingerprint") != source_fingerprint
+        or receipt.get("controller_provenance") != dict(controller_provenance)
+        or receipt.get("case_manifest") != dict(manifest_binding)
+        or receipt.get("solver_origin_observed") != receipt.get("solver_origin_expected")
+        or receipt.get("collected_nodeids") != [target]
+        or receipt.get("skip_status") != "NO_SKIP_MARKERS"
+        or not isinstance(recorded_ledger, Mapping)
+        or dict(recorded_ledger) != dict(attempt_ledger)
+        or recorded_ledger.get("attempts_reserved") is not False
+        or not isinstance(collection, Mapping)
+        or collection.get("schema") != "qfsolver-hex8sri-convergence24-collection-v1"
+        or collection.get("scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or collection.get("target") != target
+        or collection.get("collected_nodeids") != [target]
+        or collection.get("skip_markers") != []
+        or collection.get("bodies_executed") is not False
+        or collection.get("exitstatus") != 0
+    ):
+        raise PolicyError(
+            "HEX8-SRI preflight does not match this source, controller, manifest and exact collect-only node"
+        )
+    return record_path, actual_sha256
+
+
+def preflight_hex8sri_convergence24_pytest(
+    target: str, preflight_id: str | None = None, *, policy: Mapping[str, Any] | None = None
+) -> dict[str, Any]:
+    """Collect one registered HEX8-SRI convergence node without reserving an attempt."""
+    current_policy = load_policy() if policy is None else dict(policy)
+    worktree_id = HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    targets = resolve_targets("fem_exploratory", target, current_policy, worktree_id=worktree_id)
+    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
+        worktree_id, target, current_policy
+    )
+    store = _run_root(current_policy)
+    ledger_path, _ledger_lock, mandate_id, predecessor = _node_ledger_context(current_policy, store, worktree_id)
+    if predecessor is not None or mandate_id != entry["development_mandate_id"]:
+        raise PolicyError("HEX8-SRI collect-only preflight is not bound to its isolated campaign mandate")
+    manifest_path, manifest, manifest_sha256 = _hex8sri_convergence24_manifest(entry, execution_root, target)
+    controller_provenance = _controller_provenance()
+    _verify_hex8sri_convergence24_controller_identity(manifest, controller_provenance)
+    case = _hex8sri_convergence24_case(target)
+    if case is None:
+        raise PolicyError("HEX8-SRI preflight target is outside the exact convergence24 matrix")
+    formulation, nu_token, mesh_token = case
+    case_contract = _hex8sri_convergence24_case_contract(manifest)
+    if (
+        "x".join(map(str, case_contract["divisions_xyz"])) != mesh_token
+        or case_contract["element_count"] != math.prod(case_contract["divisions_xyz"])
+        or manifest.get("budgets")
+        != {
+            **_hex8sri_convergence24_budget(target),
+            "attempts_per_nodeid": 1,
+            "initial_campaign_max_attempts": 24,
+            "blas_thread_environment": entry["blas_thread_environment"],
+            "budget_semantics": {
+                "captured_output": "controller-enforced byte caps",
+                "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+                "wall_timeout": "watchdog process-tree termination, best effort",
+            },
+        }
+    ):
+        raise PolicyError("HEX8-SRI case mesh or budget differs from its exact registered contract")
+    manifest_binding = {
+        "path": str(manifest_path),
+        "sha256": manifest_sha256,
+        "registration_sha256": _hex8sri_manifest_registration_sha256(manifest),
+        "case_id": manifest["case_id"],
+        "scope_id": worktree_id,
+    }
+    attempt_ledger = {
+        "path": str(ledger_path),
+        "mandate_id": mandate_id,
+        "attempts_reserved": False,
+    }
+    if psutil is None:
+        raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
+    limits = dict(entry["per_node_budgets"][target])
+    minimum_free_mib = max(int(current_policy["minimum_free_disk_mib"]), int(limits["minimum_free_disk_mib"]))
+    free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free)
+    if free_bytes < minimum_free_mib * 1024 * 1024:
+        raise PolicyError(
+            f"insufficient free disk for HEX8-SRI collect-only preflight: {free_bytes} bytes; "
+            f"requires {minimum_free_mib} MiB"
+        )
+
+    preflight_id = preflight_id or f"pf-{uuid.uuid4().hex[:12]}"
+    receipt_dir = _preflight_directory(store, worktree_id, preflight_id)
+    if receipt_dir.exists():
+        raise PolicyError("preflight ID already exists; refusing to overwrite a prior receipt")
+    temporary_dir = receipt_dir / "tmp"
+    output_dir = receipt_dir / "output"
+    temporary_dir.mkdir(parents=True)
+    output_dir.mkdir()
+    collection_report_path = temporary_dir / "collection-report.json"
+    command = build_pytest_command(
+        "fem_exploratory",
+        targets,
+        temporary_dir,
+        repository_root=execution_root,
+        source_root=source_root,
+        controller_root=ROOT,
+        allow_native_skip_override=False,
+        collect_only=True,
+        hex8sri_convergence24_collect_only_attestation=True,
+    )
+    if "--collect-only" not in command or command[-1] != target:
+        raise PolicyError("HEX8-SRI preflight must collect only its one exact registered nodeid")
+    environment = build_child_environment(temporary_dir, source_root=source_root)
+    environment.update(entry["blas_thread_environment"])
+    environment.update(
+        {
+            "QF_DEV_WORKTREE_ID": worktree_id,
+            "QF_DEV_PREFLIGHT_SCOPE_ID": worktree_id,
+            "QF_DEV_PREFLIGHT_TARGET": target,
+            "QF_DEV_PREFLIGHT_COLLECTION_REPORT": str(collection_report_path),
+        }
+    )
+    limits["minimum_free_disk_mib"] = minimum_free_mib
+    expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
+    started = datetime.now(timezone.utc).isoformat()
+    record_path = receipt_dir / "preflight.json"
+    initial = {
+        "schema": "qfsolver-development-hex8sri-convergence24-preflight-v1",
+        "mode": "DEVELOPMENT_AUTONOMOUS",
+        "mandate_id": mandate_id,
+        "worktree_id": worktree_id,
+        "campaign_id": entry["campaign_id"],
+        "target": target,
+        "preflight_id": preflight_id,
+        "phase": "PYTEST_COLLECT_ONLY",
+        "attempt_reserved": False,
+        "execution_authorized": False,
+        "bodies_executed": False,
+        "identity": identity,
+        "source_fingerprint": source_fingerprint,
+        "case_manifest": manifest_binding,
+        "case_contract": case_contract,
+        "attempt_ledger": attempt_ledger,
+        "solver_origin_expected": expected_origin,
+        "controller_provenance": controller_provenance,
+        "command": command,
+        "budgets": limits,
+        "free_disk_before_bytes": free_bytes,
+    }
+    try:
+        with _exclusive_file_lock(store / "locks" / "hex8sri-convergence24-preflight.lock"):
+            result = run_supervised_command(
+                command,
+                cwd=execution_root,
+                environment=environment,
+                output_dir=output_dir,
+                temporary_dir=temporary_dir,
+                limits=limits,
+                poll_interval=float(current_policy["poll_interval_seconds"]),
+            )
+    except OSError as exc:
+        _atomic_json(
+            record_path,
+            {
+                **initial,
+                "state": "PREFLIGHT_LAUNCH_FAILED",
+                "started_at_utc": started,
+                "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+                "launch_error": f"{type(exc).__name__}: {exc}",
+            },
+        )
+        raise PolicyError(f"HEX8-SRI collect-only preflight could not launch: {exc}") from exc
+
+    stdout_path = output_dir / "stdout.log"
+    stderr_path = output_dir / "stderr.log"
+    stdout = stdout_path.read_text(encoding="utf-8", errors="replace") if stdout_path.is_file() else ""
+    stderr = stderr_path.read_text(encoding="utf-8", errors="replace") if stderr_path.is_file() else ""
+    combined = stdout + "\n" + stderr
+    collection_report = None
+    skip_status = "UNCONFIRMED"
+    if collection_report_path.is_file():
+        try:
+            parsed = json.loads(collection_report_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            parsed = None
+        if isinstance(parsed, dict):
+            collection_report = parsed
+            if (
+                parsed.get("schema") == "qfsolver-hex8sri-convergence24-collection-v1"
+                and parsed.get("scope_id") == worktree_id
+                and parsed.get("target") == target
+                and parsed.get("collected_nodeids") == [target]
+                and parsed.get("bodies_executed") is False
+                and parsed.get("exitstatus") == 0
+                and isinstance(parsed.get("skip_markers"), list)
+            ):
+                skip_status = "SKIP_MARKER_PRESENT" if parsed["skip_markers"] else "NO_SKIP_MARKERS"
+    solver_origin_observed = _observed_solver_origin(combined)
+    exact_node_collected = isinstance(collection_report, Mapping) and collection_report.get("collected_nodeids") == [
+        target
+    ]
+    _after_entry, _after_root, _after_source, after_identity, after_fingerprint = _registered_worktree(
+        worktree_id, target, current_policy
+    )
+    if after_identity != identity or after_fingerprint != source_fingerprint:
+        state = "PREFLIGHT_SOURCE_CHANGED"
+    elif result.status != "PASS":
+        state = "PREFLIGHT_FAILED"
+    elif solver_origin_observed != expected_origin:
+        state = "PREFLIGHT_WRONG_SOLVER_ORIGIN"
+    elif not exact_node_collected:
+        state = "PREFLIGHT_NODEID_NOT_CONFIRMED"
+    elif collection_report is None:
+        state = "PREFLIGHT_COLLECTION_REPORT_MISSING"
+    elif skip_status == "SKIP_MARKER_PRESENT":
+        state = "PREFLIGHT_SKIP_MARKED"
+    elif skip_status != "NO_SKIP_MARKERS":
+        state = "PREFLIGHT_COLLECTION_REPORT_INVALID"
+    else:
+        state = "PREFLIGHT_PASS"
+    final = {
+        **initial,
+        "state": state,
+        "started_at_utc": started,
+        "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+        "collected_nodeids": [target] if exact_node_collected else [],
+        "solver_origin_observed": solver_origin_observed,
+        "return_code": result.return_code,
+        "elapsed_seconds": result.elapsed_seconds,
+        "peak_rss_bytes": result.peak_rss_bytes,
+        "peak_process_count": result.peak_process_count,
+        "stdout_bytes": result.stdout_bytes,
+        "stderr_bytes": result.stderr_bytes,
+        "stdout_sha256": _sha256(stdout_path),
+        "stderr_sha256": _sha256(stderr_path),
+        "archive_bytes": result.archive_bytes,
+        "temporary_bytes": result.temporary_bytes,
+        "stop_reason": result.stop_reason,
+        "identity_after": after_identity,
+        "source_fingerprint_after": after_fingerprint,
+        "collection_report": collection_report,
+        "skip_status": skip_status,
+        "free_disk_after_bytes": min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free),
+    }
+    _atomic_json(record_path, final)
+    receipt_sha256 = _sha256(record_path)
+    _atomic_json(receipt_dir / "preflight.sha256.json", {"sha256": receipt_sha256})
+    receipt_validated = False
+    if state == "PREFLIGHT_PASS":
+        try:
+            validated_path, validated_sha256 = _validate_hex8sri_convergence24_preflight_receipt(
+                store,
+                preflight_id,
+                target=target,
+                identity=identity,
+                source_fingerprint=source_fingerprint,
+                controller_provenance=controller_provenance,
+                manifest_binding=manifest_binding,
+                attempt_ledger=attempt_ledger,
+            )
+            if validated_path != record_path or validated_sha256 != receipt_sha256:
+                raise PolicyError("HEX8-SRI receipt validator returned a different evidence identity")
+            receipt_validated = True
+        except PolicyError:
+            state = "PREFLIGHT_RECEIPT_INVALID"
+            final["state"] = state
+            _atomic_json(record_path, final)
+            receipt_sha256 = _sha256(record_path)
+            _atomic_json(receipt_dir / "preflight.sha256.json", {"sha256": receipt_sha256})
+    return {
+        "preflight_id": preflight_id,
+        "state": state,
+        "receipt_validated": receipt_validated,
+        "bodies_executed": False,
+        "nodeid": target if exact_node_collected else None,
+        "receipt": str(record_path),
+        "receipt_sha256": receipt_sha256,
+        "metrics": final,
+    }
+
+
 def preflight_pytest(
     worktree_id: str,
     target: str,
@@ -2500,8 +3117,12 @@ def preflight_pytest(
     policy = load_policy()
     if worktree_id == "rotor":
         return preflight_rotor_pytest(target, preflight_id, policy=policy)
+    if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+        return preflight_hex8sri_convergence24_pytest(target, preflight_id, policy=policy)
     if worktree_id != "d01":
-        raise PolicyError("collect-only preflight is enabled only for D01 native nodes and the explicit rotor scope")
+        raise PolicyError(
+            "collect-only preflight is enabled only for D01, rotor, and the preparation-only HEX8-SRI scope"
+        )
     targets = resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
     entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(worktree_id, target, policy)
     store = _run_root(policy)
@@ -2714,6 +3335,8 @@ def run_pytest(
     hypothesis_id: str | None = None,
 ) -> tuple[dict[str, Any], int]:
     policy = load_policy()
+    if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+        raise PolicyError("HEX8-SRI convergence scope is preparation-only; Owner execution authorization is absent")
     is_registered = scope_name in WORKTREE_SCOPES
     targets = resolve_targets(scope_name, target, policy, worktree_id=worktree_id)
     entry: dict[str, Any] | None = None
@@ -3084,9 +3707,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     subparsers = parser.add_subparsers(dest="command", required=True)
     preflight_parser = subparsers.add_parser(
         "preflight",
-        help="collect one exact D01 or rotor node without running its test body or consuming an attempt",
+        help="collect one exact D01, rotor, or preparation-only HEX8-SRI node without running its body",
     )
-    preflight_parser.add_argument("--worktree", choices=("d01", "rotor"), required=True)
+    preflight_parser.add_argument(
+        "--worktree", choices=("d01", "rotor", HEX8SRI_CONVERGENCE24_WORKTREE_ID), required=True
+    )
     preflight_parser.add_argument("--target", required=True)
     preflight_parser.add_argument("--preflight-id", help="optional unused pf-<12 lowercase hex> ID")
     registration_parser = subparsers.add_parser(

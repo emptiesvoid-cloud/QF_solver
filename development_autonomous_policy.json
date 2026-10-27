@@ -910,6 +910,411 @@
           "timeout_reason": null
         }
       ]
+    },
+    "hex8sri-convergence24": {
+      "purpose": "HEX8-SRI paired spatial-convergence campaign; collect-only preparation only",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\hex8-sri-research",
+      "git_root": "E:\\QFSolverAgents\\hex8-sri-research",
+      "branch": "research/hex8-sri-equilibrium",
+      "baseline_commit": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1",
+      "campaign_id": "HEX8-SRI-CONVERGENCE-24-2026-10-27",
+      "campaign_scope_id": "hex8sri-convergence24",
+      "source_fingerprint_sha256": "1fce68d6b2f2702c794e37d73c16414e0d0e4c0f2837331e5792b6fbfb414555",
+      "source_test_worktree_id": "hex8sri-convergence24",
+      "manifest_registration_id": "hex8sri-convergence24",
+      "manifest_binding_mode": "canonical_case_content_v1",
+      "require_clean_worktree": true,
+      "source_root": "src",
+      "pytest_root": "tests/verification",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "execution_authorized": false,
+      "node_attempt_ledger": {
+        "path": "node-attempt-ledger-hex8sri-convergence24.json"
+      },
+      "blas_thread_environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budgets": {
+        "process_tree_limit": 8,
+        "output_total_limit_mib": 16,
+        "output_stream_limit_mib": 8,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256,
+        "minimum_free_disk_mib": 2048,
+        "timeout_seconds": 3600,
+        "rss_soft_limit_mib": 16384
+      },
+      "per_node_budgets": {
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        }
+      },
+      "allowed_nodeids": [
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]"
+      ],
+      "case_manifests": {
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_hex8_standard_nu_0p3_16x8x8.json",
+          "sha256": "8149f155dc2fda6c4fef6ef0219970aa4dfdc4fc664f2dab5a35422aec05c6ff"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_hex8_standard_nu_0p3_32x16x16.json",
+          "sha256": "a05bc7fdd5abab9cd5a39c3efa146cf80418fb1df27e7921ff8804398878955f"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_hex8_standard_nu_0p3_4x2x2.json",
+          "sha256": "77d06961172cc18e6ac3d2d75160374e3d73a912a20ae0c27b156456db983c8c"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_hex8_standard_nu_0p3_8x4x4.json",
+          "sha256": "d5e18585f3c2694831f4a855cdd59997bf0eb36178c0503f6b0d2f68681389ec"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_hex8_standard_nu_0p4999_16x8x8.json",
+          "sha256": "69555f5a97b13d086fe6ffb987b05d393bcca5b198a1007286c0a5fffb646fd3"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_hex8_standard_nu_0p4999_32x16x16.json",
+          "sha256": "8cdcd5b116e0acfeee81c1d701185c49331d9d6c916eee97df312d58b5f47b2d"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_hex8_standard_nu_0p4999_4x2x2.json",
+          "sha256": "710ccb3e63aad0c1bfc4f90d63e295cd1c7b1b40882ad60d7492217c768a3744"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_hex8_standard_nu_0p4999_8x4x4.json",
+          "sha256": "0cfe539f4d5005159554c7001a382b42ae8a02e3941e4c7cdb037f83316b674e"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_corrected_nu_0p3_16x8x8.json",
+          "sha256": "6532be1a36bfabf462e22b23aa1b8151836ce281077b96553ce184a9d82acde3"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_corrected_nu_0p3_32x16x16.json",
+          "sha256": "8ac9e9a0dacf54acf1b28466fc9b688458cce4309ef24fcb302f57c07175910b"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_corrected_nu_0p3_4x2x2.json",
+          "sha256": "f398ea521e6e73beaafa55d4f5158a3aac3cd5a2531e410ae0659a4a2888c7be"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_corrected_nu_0p3_8x4x4.json",
+          "sha256": "db84179e8f4e25f93e0a1b4bbf8f8946313a615b4ff17fc17a2beea2d2c6ebdf"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_corrected_nu_0p4999_16x8x8.json",
+          "sha256": "523cb32f5c06a6fe9d8a69de0b5db5f4ada152d0b71af0c6b0a61e49aa53bcdb"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_corrected_nu_0p4999_32x16x16.json",
+          "sha256": "c749678f9dd6cd9472e7f60dba82a466b76c8e051e9cc81a6a1063d378fe9bce"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_corrected_nu_0p4999_4x2x2.json",
+          "sha256": "290174a811c370b292ed842673fc0c9fe3d52b79759923f4605e0df17f471a3e"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_corrected_nu_0p4999_8x4x4.json",
+          "sha256": "7dcc3c20cd22233819678de46660bd7e14f5aecd88f0e0833d8c87b72ae6642f"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_historical_nu_0p3_16x8x8.json",
+          "sha256": "15023c5ca01b327a6341ba52bb6c31b5ecf6c830e414f72f541ed43d3f8e09cb"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_historical_nu_0p3_32x16x16.json",
+          "sha256": "b40575bdfea965fbb183aa4368440deb7993d0cb09d4074c5ec1b91269299b49"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_historical_nu_0p3_4x2x2.json",
+          "sha256": "c20ad35e0513cfe9a98eed5714b220c69553d534ca64952c46720989785e09e8"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_historical_nu_0p3_8x4x4.json",
+          "sha256": "53b16ce24d0094720045646baef8de111090d7ee60321663646106efbc7d71e3"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_historical_nu_0p4999_16x8x8.json",
+          "sha256": "bb0ba1c084b2eae97341ff9a9e241ee17123dbb9d3482fbe5705bd880be040b5"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_historical_nu_0p4999_32x16x16.json",
+          "sha256": "1240c89109cc534a81985e00d9643c341407e806618cff8e1ca6f211d91204f5"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_historical_nu_0p4999_4x2x2.json",
+          "sha256": "4c0d4bd0784d648a902a18edb90001930fb24e2cdce0da2a1fa5e08f1b7cbfd0"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/manifest_sri_historical_nu_0p4999_8x4x4.json",
+          "sha256": "33c5260625b771b2a9c9daa95499fe1952276817c96e1fb27211b0e6a1a5a45a"
+        }
+      }
     }
   },
   "resource_coordination_root": "E:\\QFSolverAgents\\evidence\\.wp12-coordination"
