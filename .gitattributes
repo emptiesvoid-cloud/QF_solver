@@ -49,6 +49,23 @@ qualification/vnv/** export-ignore
 # Keep this campaign's captured Windows process logs byte-exact for hash verification.
 qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/_process_logs/*.log binary
 qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_slip_forensic_r2_20260926/_process_logs/*.log binary
+# Keep HEX8-SRI convergence source fingerprints stable across Windows checkouts.
+experiments/hex8_sri_equilibrium/campaign_spec.py -text
+experiments/hex8_sri_equilibrium/beam_oracle.py -text
+experiments/hex8_sri_equilibrium/convergence.py -text
+experiments/hex8_sri_equilibrium/convergence_analysis.py -text
+tests/verification/test_hex8_sri_convergence.py -text
+# Preserve draft-manifest, matrix, and checksum bytes used in authorization requests.
+investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/*.json -text
+investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/FIRST_CAMPAIGN_MATRIX.csv -text
+investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/SHA256SUMS.txt -text
+# Keep edited campaign documentation normalized and warning-free on Windows.
+investigations/hex8_sri_equilibrium_20261026/consolidated/DECISION_LOG.md text eol=lf
+investigations/hex8_sri_equilibrium_20261026/consolidated/HEX8_SRI_RESEARCH_REPORT.md text eol=lf
+investigations/hex8_sri_equilibrium_20261026/consolidated/INDEPENDENT_REFERENCE_PLAN.md text eol=lf
+investigations/hex8_sri_equilibrium_20261026/consolidated/README.md text eol=lf
+investigations/hex8_sri_equilibrium_20261026/consolidated/FIRST_CONVERGENCE_CAMPAIGN.md text eol=lf
+investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/*.md text eol=lf
 # Preserve WP14 R2.2 command logs and generated-output manifests byte-exactly.
 qualification/0_2_9/wp14/g06_g08_r2_2/logs/*.log binary
 qualification/0_2_9/wp14/g06_g08_r2_2/*-manifest.csv binary
