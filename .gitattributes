@@ -44,6 +44,7 @@ docs/verification/0_2_9/wp05d-owner-validation-review.md text eol=lf
 qualification/vnv/** export-ignore
 # Preserve the byte-inventory sidecar digest used to pin the HEX8-SRI source worktree.
 docs/development/hex8sri-source-byte-inventory-f6402ed.json -text
+docs/development/hex8sri-source-byte-inventory-31ee6eda.json -text
 # Keep this campaign's captured Windows process logs byte-exact for hash verification.
 qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/_process_logs/*.log binary
 qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_slip_forensic_r2_20260926/_process_logs/*.log binary
