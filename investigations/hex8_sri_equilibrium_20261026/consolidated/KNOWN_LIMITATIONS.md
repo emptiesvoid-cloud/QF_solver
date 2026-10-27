@@ -7,6 +7,7 @@
 3. Élasticité isotrope linéaire, petites déformations, statique, matériaux `E=1 MPa`, deux valeurs de `ν`; aucun comportement non linéaire, dynamique, contact, plasticité ou matériau anisotrope.
 4. HEX8-SRI reste hors du registre public. Le résultat n’est pas une qualification ni un support de production.
 5. Le contrôle de Jacobien couvre le centre et huit points de Gauss. Pour les géométries distordues, cette sélection n’établit pas la positivité en chaque point du volume.
+   Un écran purement géométrique a depuis mesuré sept familles aux mêmes neuf points; elles sont toutes échantillonnées positives, mais aucune matrice de rigidité n’a été assemblée, et aucune des familles n’a de certificat Jacobien continu. Les métriques figurent dans `DISTORTION_STABILITY_PROTOCOL.md`.
 6. Le résidu, les fermetures globales et la condition proviennent de `K`, `F`, `u` du même calcul. Ils contrôlent l’algèbre et le solve, non l’exactitude constitutive.
 7. L’énergie et la fermeture force/moment n’avaient pas de seuil d’acceptation gelé. La valeur historique `energy_defect_normalized` n’est pas sans dimension, car le dénominateur est au moins `1 J`; les sidecars ne sont pas corrigés.
 8. Le `run.json` ne porte pas directement les hashes du sidecar ou NPZ. La liaison est reconstituée de façon unique, mais n’est pas un lien direct signé.

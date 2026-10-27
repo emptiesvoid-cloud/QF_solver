@@ -8,6 +8,22 @@ Préparer et comparer sur une grille régulière affine, skew modéré, cisaille
 
 Le module géométrique `experiments/hex8_sri_equilibrium/mesh_quality.py` fournit des maillages structurés reproductibles, les empreintes des coordonnées/connectivités, Jacobiennes au centre et aux 8 points, Jacobien mis à l’échelle `det(J)/∏||J_col||`, rapport des normes directionnelles et non-orthogonalité. Il précise `NOT_CERTIFIED_BETWEEN_SAMPLES`. Ce module ne connaît pas la rigidité ni le solveur.
 
+### Écran géométrique purement cinématique — 2026-10-27
+
+Les sept familles prévues ont été générées sur `4×2×2` et évaluées par le module de métriques seul. Cette opération ne construit aucune matrice `K`, ne fait aucun assemblage ni solve. Tous les cas ci-dessous sont `SAMPLED_POSITIVE` aux 9 points par élément, mais aucun n’est certifié positif entre les points. Les empreintes figent les coordonnées/connectivités; les grandeurs ne mesurent pas la stabilité mécanique.
+
+| Famille | `min detJ` m³ | `min scaled J` | rapport directionnel max | cosinus non-orthogonalité max | SHA-256 géométrie |
+|---|---:|---:|---:|---:|---|
+| regular | 0.15625 | 1.000000 | 10.0000 | ≈0 | `2a258b9fca9edd610b3b21e039266770b2e9b021788eb1f23ec3ae7625d2bfc8` |
+| moderate_skew | 0.154904307 | 0.981837 | 9.99982 | 0.187978 | `453dfca4cc3824c36d38c035319ed5f0eeff0ac4d6eceb695a4606f018b9732a` |
+| severe_shear | 0.15625 | 0.250187 | 10.0000 | 0.965484 | `c0d9114328996330c4432f00372e6a94317ab5a4bc4e331bc5b6d02fae89e18e` |
+| warped | 0.155589970 | 0.991151 | 9.99920 | 0.130980 | `8ca1e7d2c857e48b85387ac4523442410a7eb86c90a2d36f4c22e378905b80de` |
+| seeded, seed `20261026` | 0.152876691 | 0.999445 | 10.1219 | 0.0232357 | `e87661a0c5fccaa60ef08b4af24b967ee9949cf8555192206782bd38b3dc78fb` |
+| stretched, `20×1×0.1 m` | 0.015625 | 1.000000 | 100.000 | ≈0 | `82b9ac6ec2e5d1c14f90b6bfbbf784f918e6c8eefce29e395631f689a8612c36` |
+| near-degenerate `z×0.05` | 0.0078125 | 1.000000 | 200.000 | ≈0 | `86acd1764ea3753b6d247d5d2f4eba416378fdd632aca48afd936b7346600ff4` |
+
+Ces valeurs montrent une limite de la qualité normalisée : `scaled J=1` dans les deux cas orthogonaux très étirés, alors que le rapport directionnel monte à 100 et 200. Il faut donc garder simultanément `detJ`, Jacobien normalisé, rapport d’aspect et non-orthogonalité. Le cisaillement sévère reste positif aux points inspectés mais son Jacobien normalisé chute à `0.2502` et la non-orthogonalité atteint `0.9655`; aucune réponse mécanique ne peut être inférée sans calcul autorisé. L’inversion de contrôle est bien signalée `SAMPLED_INVALID` par les tests synthétiques.
+
 ## Règle d’exclusion
 
 Exclure de tout calcul toute cellule ayant `detJ≤0` ou non fini aux points du centre, Gauss et à une grille de contrôle dense. La positivité aux points échantillonnés n’est pas une preuve continue. Pour les géométries sévères retenues, exiger en plus une borne inférieure certifiée par subdivision/Bernstein ou marquer la classe `POSITIVITY_NOT_CERTIFIED` et ne pas l’utiliser comme preuve robuste. Rapporter `qJ_min`, le rapport d’aspect, l’angle maximal, `detJ_min` et la méthode de certification sans mélanger leur portée.

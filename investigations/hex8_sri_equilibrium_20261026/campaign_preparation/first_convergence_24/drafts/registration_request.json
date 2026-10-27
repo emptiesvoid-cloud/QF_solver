@@ -1,0 +1,672 @@
+{
+  "controller_identity_provisional": {
+    "branch": "codex/hex8sri-controller-registration",
+    "head": "0d6286ecf75eea62ecafe63ec81cc816ad95226d",
+    "policy_sha256": "f44e167e66c00ed211d385de721883bc05d9c0db9892fc5e5fcc498d0e80693d",
+    "pytest_plugin_sha256": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
+    "runner_sha256": "d73a2a4f6173d53f49d90899a8d71c112371bad7a97c350c6076f8f96327f198"
+  },
+  "controller_registration_id": "hex8sri",
+  "exact_nodeids": [
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]"
+  ],
+  "execution_authorized": false,
+  "manifest_map": {
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_hex8_standard_nu_0p3_16x8x8.json",
+      "sha256": "93f54c5744ba5b133e4a2c8027489405777f3f3b6c932986772a8dd70602c037"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_hex8_standard_nu_0p3_32x16x16.json",
+      "sha256": "d160133540298e1be1241df478f1e5811e9e8b80b0d5a09e975090282f601703"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_hex8_standard_nu_0p3_4x2x2.json",
+      "sha256": "224586429e993ca139ed7ff78b313efa91ab6181f33e06d4051051a8d3dd5618"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_hex8_standard_nu_0p3_8x4x4.json",
+      "sha256": "22cb84b90013f726fb6828d8b4a8a4e9e2ff9c2ead0a9a467b992eb74a3fb254"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_hex8_standard_nu_0p4999_16x8x8.json",
+      "sha256": "35337ff55a3ba56fbae134babe0eb94daedc4bab5c22dc94bd293f3499933999"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_hex8_standard_nu_0p4999_32x16x16.json",
+      "sha256": "3036ed019ce9139584a84fc4d3f67fa25a0edaa9399d2111f89145fbd75dba85"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_hex8_standard_nu_0p4999_4x2x2.json",
+      "sha256": "0243b6c0f35776f65c61072e8c0b5005d4675b6ca342e0ee7251a8de16ddec19"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_hex8_standard_nu_0p4999_8x4x4.json",
+      "sha256": "33f1baa5fb189e11a2857309c008a1a345a39914bcb27fc65119b9e9666ebd58"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_corrected_nu_0p3_16x8x8.json",
+      "sha256": "f47afc440267e8db6c089177db228ed87f31f2c0456d797303094128a25d33b5"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_corrected_nu_0p3_32x16x16.json",
+      "sha256": "c4094524fb8a6e6afc69505b1a2a5963f050b43c0350fac6ee6b4e35c8f642bd"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_corrected_nu_0p3_4x2x2.json",
+      "sha256": "3fe35be175359dc54984f18d84b4f41af1bfee35514e1f5077b056b26b8a996b"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_corrected_nu_0p3_8x4x4.json",
+      "sha256": "7f61405c4bb12afed7fd2f178470db407e1b2cdf54f401aad3bcb0a1dc7c2e45"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_corrected_nu_0p4999_16x8x8.json",
+      "sha256": "c8ea321b06606e2f8b6a095c69a26a2dfb5a41783bc8745c7e3370ac13d235d4"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_corrected_nu_0p4999_32x16x16.json",
+      "sha256": "d2555d2fdd76025da593e0ba1eb1fcfdf605eabfbabd5e4fd8350c76a109342c"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_corrected_nu_0p4999_4x2x2.json",
+      "sha256": "a3fae93b02fcc11b05ad9c4bd988695070a094892404abf422ec8e63480159ca"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_corrected_nu_0p4999_8x4x4.json",
+      "sha256": "1d4262a1d839c77088634d6879226051cc7817262cb6cfeb8c4cd99d37320566"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_historical_nu_0p3_16x8x8.json",
+      "sha256": "2bcf57369becbde3e6ee52a23c12d1d0f89fcfac718d768073426d0470dc6ebd"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_historical_nu_0p3_32x16x16.json",
+      "sha256": "3cda176558f57a8b6d30ca22c495399d44a81869241466d303ff7ec0347e6d11"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_historical_nu_0p3_4x2x2.json",
+      "sha256": "7036052404a94dcb3f0aa0b8914921e31fcf967b85d281a281e07dd8951b8608"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_historical_nu_0p3_8x4x4.json",
+      "sha256": "fa1dc87da560cfa67ddba8b1b09a80f1ff26e336372fd1188240883a7254e4f4"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_historical_nu_0p4999_16x8x8.json",
+      "sha256": "4b1cb65ae717bbae422e3e64a211aa9ad7a1b42183912bf666ee35ac5cee9214"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_historical_nu_0p4999_32x16x16.json",
+      "sha256": "0638beff323aaf2162edfe98c11f6e474b2e013d31b3b47c67e30e7e768e3137"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_historical_nu_0p4999_4x2x2.json",
+      "sha256": "5924028c7d6f8a94b46a72ef31ed31f1020ea6d815ae7c9636bd5d287d4c84a7"
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/manifest_sri_historical_nu_0p4999_8x4x4.json",
+      "sha256": "fd8ea2a8d1ec13c05dfc0c0f4015d658e20527a592e63ac5c88076123714a5b9"
+    }
+  },
+  "per_node_budgets": {
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 4096,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 900
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 16384,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 3600
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 512,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 180
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 1024,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 300
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 4096,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 900
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 16384,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 3600
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 512,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 180
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 1024,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 300
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 4096,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 900
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 16384,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 3600
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 512,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 180
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 1024,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 300
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 4096,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 900
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 16384,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 3600
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 512,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 180
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 1024,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 300
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 4096,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 900
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 16384,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 3600
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 512,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 180
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 1024,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 300
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 4096,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 900
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 16384,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 3600
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 512,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 180
+    },
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
+      "archive_size_limit_mib": 256,
+      "attempts_per_nodeid": 1,
+      "blas_thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budget_semantics": {
+        "captured_output": "controller-enforced byte caps",
+        "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+        "wall_timeout": "watchdog process-tree termination, best effort"
+      },
+      "initial_campaign_max_attempts": 24,
+      "minimum_free_disk_mib": 2048,
+      "output_stream_limit_mib": 8,
+      "output_total_limit_mib": 16,
+      "process_tree_limit": 8,
+      "rss_soft_limit_mib": 1024,
+      "temporary_limit_mib": 512,
+      "timeout_seconds": 300
+    }
+  },
+  "preflights": "NOT_RUN; official controller currently rejects the new nodeids and budget shape",
+  "preserve_existing_scopes_and_six_hex8sri_bindings": true,
+  "requires_controller_extension": true,
+  "schema": "qfsolver-hex8sri-controller-registration-request-v1",
+  "science_source_commit": "7ff2809a854e1434619c261195e78b901be0ea78",
+  "science_source_fingerprint_sha256": "1fce68d6b2f2702c794e37d73c16414e0d0e4c0f2837331e5792b6fbfb414555",
+  "status": "PREPARED_NOT_AUTHORIZED"
+}

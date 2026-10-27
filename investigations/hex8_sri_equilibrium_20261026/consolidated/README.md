@@ -12,6 +12,10 @@ Ce dossier consolide la preuve élémentaire du poids de Gauss, les six calculs 
 
 - [Rapport scientifique principal](HEX8_SRI_RESEARCH_REPORT.md)
 - [Résumé pour revue Owner](OWNER_REVIEW_SUMMARY.md)
+- [Première campagne de convergence — préparation et limites](FIRST_CONVERGENCE_CAMPAIGN.md)
+- [Demande d’extension contrôleur pour le lot de 24 cas](../campaign_preparation/first_convergence_24/CONTROLLER_EXTENSION_REQUEST.md)
+- [Demande Owner et 24 SHA-256 de manifests brouillons](../campaign_preparation/first_convergence_24/drafts/OWNER_DECISION_REQUEST.md)
+- [Index SHA-256 des brouillons non autorisés](../campaign_preparation/first_convergence_24/drafts/SHA256SUMS.txt)
 - [Audit de formulation](THEORY_AND_FORMULATION_AUDIT.md)
 - [Reproductibilité des six calculs](CAMPAIGN_REPRODUCIBILITY.md)
 - [Comparaison structurelle bornée](STRUCTURAL_COMPARISON.md)
@@ -25,9 +29,11 @@ Ce dossier consolide la preuve élémentaire du poids de Gauss, les six calculs 
 - [Matrice proposée pour la campagne suivante](../NEXT_CAMPAIGN_MATRIX.csv)
 - [Matrice complémentaire patch/distorsion/stabilité](../SUPPLEMENTAL_VALIDATION_MATRIX.csv)
 - Protocoles de [convergence](MESH_CONVERGENCE_PROTOCOL.md), [quasi-incompressibilité](NEAR_INCOMPRESSIBLE_PROTOCOL.md), [distorsion et stabilité](DISTORTION_STABILITY_PROTOCOL.md), [référence indépendante](INDEPENDENT_REFERENCE_PLAN.md)
+- [Pilote sparse à exécution gardée](../../../experiments/hex8_sri_equilibrium/convergence.py), [post-traitement des archives](../../../experiments/hex8_sri_equilibrium/convergence_analysis.py), [oracle analytique Timoshenko](../../../experiments/hex8_sri_equilibrium/beam_oracle.py)
 - [Matrice de risques d’intégration](INTEGRATION_RISK_MATRIX.csv)
 - [Synthèse publique prudente](PUBLIC_RESEARCH_SYNTHESIS.md)
 - [Journal de décisions et écarts de processus](DECISION_LOG.md)
+- [Demande d’extension de contrôleur pour 24 cas](../campaign_preparation/first_convergence_24/CONTROLLER_EXTENSION_REQUEST.md)
 
 ## Ce qui a été exécuté dans cette mission
 

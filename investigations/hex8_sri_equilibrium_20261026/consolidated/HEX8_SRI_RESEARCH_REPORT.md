@@ -58,11 +58,11 @@ Un seul maillage, un cas global, un matériau isotrope élastique linéaire, deu
 
 ## 13. Plan de convergence spatiale
 
-Quatre niveaux all-axis `4×2×2`, `8×4×4`, `16×8×8`, `32×16×16`; trois formulations × cinq `ν` donnent 60 cas préparés. Les DDL, nodeids proposés, budgets, seuils proposés et statuts figurent dans `../NEXT_CAMPAIGN_MATRIX.csv`. La matrice complémentaire prépare 115 contrôles analytiques, de géométrie, distorsion et stabilité (`../SUPPLEMENTAL_VALIDATION_MATRIX.csv`). Rien n’est inscrit ou autorisé.
+Quatre niveaux all-axis `4×2×2`, `8×4×4`, `16×8×8`, `32×16×16`; trois formulations × cinq `ν` donnent 60 cas préparés. Le premier lot réduit de convergence comprend 24 cas : les trois formulations pour `ν=.3` et `.4999`, aux quatre niveaux. Le pilote creux et les nodeids sont préparés, mais ils ne sont pas inscrits au contrôleur courant; aucun de ces cas n’a été préflighté ou exécuté. Le budget maximal proposé est 8,3 h séquentielles, une tentative par cas, jusqu’à 3 600 s et 16 GiB RSS souple au niveau fin. Voir [le protocole du premier lot](FIRST_CONVERGENCE_CAMPAIGN.md). La matrice complète demeure dans `../NEXT_CAMPAIGN_MATRIX.csv`; la matrice complémentaire prépare 115 contrôles analytiques, de géométrie, distorsion et stabilité (`../SUPPLEMENTAL_VALIDATION_MATRIX.csv`). Rien de nouveau n’est inscrit ou autorisé.
 
 ## 14. Vérification indépendante nécessaire
 
-Timoshenko fournit un contrôle d’ordre de grandeur (~32.06–32.07 mm), mais n’est pas un oracle absolu du 4×2×2 et du chargement 3D. La future référence recommandée est une solution 3D mixte displacement–pressure d’un autre code, raffinée avec son incertitude démontrée, ou un problème manufacturé avec force exacte.
+Pour la section carrée `1×1 m`, le chargement uniforme de face donne le même résultant centroidal de `1 N`, et l’observable de face QF est une moyenne Q1 de `UZ` correspondant au déplacement d’axe dans l’hypothèse de poutre à sections planes. Timoshenko prédit `32,0624 mm` à `ν=.3` et `32,0720 mm` à `ν=.4999` avec `k=5/6`; le facteur rectangulaire de Cowper change ces totaux de moins de `0,002 mm`. Le rapport `h/L=1/20` rend la théorie utile pour l’échelle et la tendance, mais les effets de bout 3D et le maillage grossier empêchent d’en faire un seuil d’erreur serré. Les `3–3,4 mm` archivés imposent une étude de convergence; ils ne justifient pas de considérer la formulation la plus souple exacte. La référence de précision recommandée reste un calcul 3D mixte indépendant, à qualifier sous raffinement; son backend n’est pas encore installé ou fingerprinté.
 
 ## 15. Risques d’intégration
 
@@ -91,3 +91,13 @@ Références techniques : Sandia [Sierra/SD Theory Manual](https://www.sandia.go
 ## 19. Index des preuves et empreintes
 
 Les 71 pièces sources sont indexées dans `EVIDENCE_INDEX.json`, y compris six manifests, six préflights, reçus calcul, logs, six sidecars, six NPZ, scripts et résultats du test analytique. Les SHA-256 sources sont dans `SHA256SUMS.txt`; les SHA des sidecars/NPZ sont en colonnes de `SIX_CASES_RESULTS.csv`. Les figures SVG sont reproductibles avec `tools/hex8_sri_research/build_consolidated.py` à partir des NPZ contrôlés.
+
+## 20. Poursuite de recherche — vérification au 2026-10-27
+
+Les anciennes 71 pièces et les douze fichiers des six runs restent intactes; les preuves gardent leurs identités et statuts d’origine. Un pilote sparse gardé et un oracle analytique Timoshenko/Cowper ont été ajoutés, ainsi qu’un post-traitement indépendant des solveurs pour les sidecars futurs. Dix-huit nodeids unitaires ciblés, exécutés individuellement, passent (26 tests avec paramètres ou cas directs), y compris les cinq contrôles géométriques purs. Sept géométries ont aussi été inspectées à neuf points d’intégration/contrôle par élément; elles sont toutes échantillonnées positives, sans certificat volumique continu ni résultat mécanique. Ruff, le contrôle de format et l’analyse AST passent. Aucun test FEM de convergence, assemblage global, solve ou eigensolve nouveau n’a été lancé.
+
+Le contrôleur officiel `0d6286ec…` n’inscrit actuellement que les six nodeids de la campagne structurelle précédente, avec 180 s / 1 024 MiB par cas; ses validations exigent exactement six manifestes et ce module de test. Il faut une extension de configuration dédiée, préservant les autres scopes, avant de produire des préflights valides pour les 24 nouveaux nodeids. La demande est préparée dans `../campaign_preparation/first_convergence_24/CONTROLLER_EXTENSION_REQUEST.md`; le chemin du manifeste doit être passé au child exclusivement depuis le binding contrôleur.
+
+Un oracle numérique 3D mixte indépendant manque encore : aucun backend n’est installé ou fingerprinté dans l’environnement vérifié. Les comparaisons à Timoshenko resteront des écarts de tendance, et la précision en continuum ne pourra être qualifiée avant la vérification indépendante de cette référence. Le statut scientifique demeure `EXPERIMENTAL_GLOBAL_PASS_BOUNDED`, la convergence actuelle `SPATIAL_CONVERGENCE_NOT_ASSESSED`, et la recommandation `RESEARCH_ONLY`.
+
+Les outils de préparation sont maintenant commités à `7ff2809a854e1434619c261195e78b901be0ea78`, fingerprint `1fce68d6b2f2702c794e37d73c16414e0d0e4c0f2837331e5792b6fbfb414555`. Vingt-quatre manifests brouillons sont calculés et leurs SHA vérifiés; tous restent non autorisés. La demande d’extension contrôleur et de décision Owner est indexée dans `../campaign_preparation/first_convergence_24/drafts/OWNER_DECISION_REQUEST.md`. Aucun préflight ou calcul nouveau n’a été lancé.
