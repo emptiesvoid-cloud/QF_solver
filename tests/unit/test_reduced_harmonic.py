@@ -1,7 +1,13 @@
 from __future__ import annotations
 
 import copy
+import hashlib
+import json
 import math
+import os
+import re
+from pathlib import Path
+import uuid
 
 import numpy as np
 import pytest
@@ -85,6 +91,185 @@ def _channel(channel_id: str, frequency_hz: float, real: float, imag: float) -> 
         constant_amplitude=None,
         harmonic=HarmonicAmplitude(frequency_hz, ComplexPhasor(real, imag)),
     )
+
+
+def _write_wp12_attempt_observables(
+    *,
+    case_name: str,
+    nodeid: str,
+    payload: dict[str, object],
+) -> dict[str, str]:
+    """Atomically publish one JSON sidecar inside this launcher's inventoried output directory."""
+    if Path(case_name).name != case_name or not case_name:
+        raise ValueError("The observables artifact name must be a plain filename stem.")
+    if os.environ.get("QF_DEVELOPMENT_AUTONOMOUS") != "1":
+        raise RuntimeError("WP12 numerical observables require the authorized development launcher.")
+    if os.environ.get("QF_DEV_WORKTREE_ID") != "wp12_dynamics":
+        raise RuntimeError("WP12 numerical observables require the registered wp12_dynamics worktree.")
+    raw_temp_dir = os.environ.get("TMP")
+    raw_temp_alias = os.environ.get("TEMP")
+    if not raw_temp_dir or not raw_temp_alias:
+        raise RuntimeError("The development launcher did not provide its attempt-specific temporary directory.")
+
+    temp_dir = Path(raw_temp_dir).resolve(strict=True)
+    if Path(raw_temp_alias).resolve(strict=True) != temp_dir or temp_dir.name.casefold() != "tmp":
+        raise RuntimeError("The launcher temporary-directory aliases do not identify one attempt.")
+    attempt_dir = temp_dir.parent.resolve(strict=True)
+    run_path = (attempt_dir / "run.json").resolve(strict=True)
+    output_dir = (attempt_dir / "output").resolve(strict=True)
+    if output_dir.parent != attempt_dir or run_path.parent != attempt_dir or not run_path.is_file():
+        raise RuntimeError("The launcher attempt record/output directory is unavailable or escaped its attempt.")
+
+    run_record = json.loads(run_path.read_text(encoding="utf-8"))
+    if (
+        run_record.get("state") != "RUNNING"
+        or run_record.get("worktree_id") != "wp12_dynamics"
+        or run_record.get("target") != [nodeid]
+    ):
+        raise RuntimeError("The launcher run record does not identify this exact in-progress nodeid.")
+    series_id = run_record.get("series_id")
+    attempt = run_record.get("attempt")
+    local_attempt_match = re.fullmatch(r"attempt-(\d{4})", attempt_dir.name)
+    if (
+        not isinstance(series_id, str)
+        or series_id != attempt_dir.parent.name
+        or not isinstance(attempt, int)
+        or isinstance(attempt, bool)
+        or attempt < 1
+        or local_attempt_match is None
+        or int(local_attempt_match.group(1)) < 1
+    ):
+        raise RuntimeError("The launcher attempt directory does not match its unique series/attempt identity.")
+    series_attempt = int(local_attempt_match.group(1))
+    manifest_ref = run_record.get("execution_manifest")
+    if not isinstance(manifest_ref, dict) or not isinstance(manifest_ref.get("path"), str):
+        raise RuntimeError("The launcher run record has no exact execution-manifest identity.")
+    manifest_path = Path(manifest_ref["path"]).resolve(strict=True)
+    if manifest_path.parent.name != "wp12_dynamics" or manifest_path.parent.parent.name != "authorizations":
+        raise RuntimeError("The execution manifest is outside the registered WP12 dynamics authorization directory.")
+    manifest_bytes = manifest_path.read_bytes()
+    manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+    if manifest_ref.get("sha256") != manifest_sha256:
+        raise RuntimeError("The execution-manifest hash changed after the launcher recorded it.")
+    manifest = json.loads(manifest_bytes)
+
+    identity = run_record.get("identity")
+    controller = run_record.get("controller_provenance")
+    source_fingerprint = run_record.get("source_fingerprint")
+    if not isinstance(identity, dict) or not isinstance(controller, dict) or not isinstance(source_fingerprint, str):
+        raise RuntimeError("The exact WP12 attempt manifest is not explicitly Owner-authorized.")
+    controller_identity = controller.get("identity")
+    controller_hashes = controller.get("sha256")
+    if not isinstance(controller_identity, dict) or not isinstance(controller_hashes, dict):
+        raise RuntimeError("The launcher run record lacks controller root/hash provenance.")
+    controller_root = Path(str(controller_identity.get("root", ""))).resolve(strict=True)
+    policy_path = (controller_root / "development_autonomous_policy.json").resolve(strict=True)
+    policy_bytes = policy_path.read_bytes()
+    policy_sha256 = hashlib.sha256(policy_bytes).hexdigest()
+    if policy_sha256 != controller_hashes.get("policy"):
+        raise RuntimeError("The WP12 controller policy differs from the run's captured policy identity.")
+    controller_policy = json.loads(policy_bytes)
+    policy_worktree = controller_policy.get("worktrees", {}).get("wp12_dynamics", {})
+    evidence_root = Path(str(policy_worktree.get("evidence_root", ""))).resolve(strict=True)
+    expected_authorization_dir = (evidence_root / "authorizations" / "wp12_dynamics").resolve(strict=True)
+    if manifest_path.parent != expected_authorization_dir:
+        raise RuntimeError("The execution manifest is outside the policy-configured WP12 evidence root.")
+    try:
+        attempt_dir.relative_to(evidence_root)
+    except ValueError as exc:
+        raise RuntimeError("The launcher attempt output is outside the evidence root bound by its manifest.") from exc
+    if attempt_dir.parents[2].name != "worktrees" or attempt_dir.parents[1].name != "wp12_dynamics":
+        raise RuntimeError("The launcher output path does not match the registered worktree evidence layout.")
+    if attempt_dir.parents[3] != evidence_root:
+        raise RuntimeError("The launcher attempt and its manifest do not share the same authorized evidence root.")
+
+    case_file = f"{case_name}.json"
+    artifact_path = output_dir / case_file
+    if artifact_path.exists():
+        raise FileExistsError(f"Refusing to overwrite per-attempt observables: {artifact_path}")
+    decision = manifest.get("owner_decision")
+    if (
+        not isinstance(decision, dict)
+        or manifest.get("schema") != "qfsolver-wp12-development-execution-v1"
+        or manifest.get("state") != "OWNER_AUTHORIZED"
+        or manifest.get("worktree_id") != "wp12_dynamics"
+        or manifest.get("target") != nodeid
+        or manifest.get("authorization_id") != manifest_ref.get("authorization_id")
+        or manifest.get("identity") != identity
+        or manifest.get("source_fingerprint") != source_fingerprint
+        or decision.get("status") != "APPROVED"
+        or decision.get("approved_by") != "Owner"
+    ):
+        raise RuntimeError("The launcher run record lacks source/controller identity fields.")
+    complete_payload = {
+        **payload,
+        "attempt_identity": {
+            "worktree_id": run_record["worktree_id"],
+            "nodeid": nodeid,
+            "series_id": series_id,
+            "attempt": attempt,
+            "series_attempt": series_attempt,
+            "authorization_id": manifest_ref["authorization_id"],
+            "manifest_sha256": manifest_sha256,
+            "evidence_relative_attempt_path": attempt_dir.relative_to(evidence_root).as_posix(),
+            "source_fingerprint": source_fingerprint,
+            "source_identity": identity,
+            "controller_provenance": controller,
+        },
+        "artifact_path_relative_to_evidence_root": (output_dir / case_file).relative_to(evidence_root).as_posix(),
+    }
+    non_finite_values: dict[str, str] = {}
+    json_payload = _json_safe_observables(complete_payload, "$", non_finite_values)
+    if not isinstance(json_payload, dict):
+        raise TypeError("The WP12 observables payload must remain a JSON object.")
+    if non_finite_values:
+        json_payload["non_finite_values"] = non_finite_values
+    encoded = json.dumps(json_payload, sort_keys=True, indent=2, allow_nan=False) + "\n"
+    temporary_path = output_dir / f".{case_name}.{series_id}.{attempt}.{uuid.uuid4().hex}.tmp"
+    try:
+        with temporary_path.open("x", encoding="utf-8", newline="\n") as stream:
+            stream.write(encoded)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.link(temporary_path, artifact_path)
+    finally:
+        temporary_path.unlink(missing_ok=True)
+
+    if json.loads(artifact_path.read_text(encoding="utf-8")) != json_payload:
+        raise RuntimeError("The published WP12 observables JSON did not round-trip exactly.")
+    return {"path": str(artifact_path), "sha256": hashlib.sha256(artifact_path.read_bytes()).hexdigest()}
+
+
+def _json_safe_observables(value: object, path: str, non_finite_values: dict[str, str]) -> object:
+    if isinstance(value, np.generic):
+        return _json_safe_observables(value.item(), path, non_finite_values)
+    if isinstance(value, float) and not math.isfinite(value):
+        non_finite_values[path] = repr(value)
+        return None
+    if isinstance(value, dict):
+        return {
+            str(key): _json_safe_observables(item, f"{path}.{key}", non_finite_values) for key, item in value.items()
+        }
+    if isinstance(value, (list, tuple)):
+        return [_json_safe_observables(item, f"{path}[{index}]", non_finite_values) for index, item in enumerate(value)]
+    return value
+
+
+def _publish_wp12_observables_before_assertions(
+    *,
+    case_name: str,
+    nodeid: str,
+    payload: dict[str, object],
+    checks: list[tuple[str, bool]],
+) -> dict[str, str]:
+    """Persist computed observations first, then raise for any failed test oracle."""
+    artifact = _write_wp12_attempt_observables(case_name=case_name, nodeid=nodeid, payload=payload)
+    failed_checks = [label for label, passed in checks if not passed]
+    if failed_checks:
+        raise AssertionError(
+            "WP12 numerical checks failed after observables were archived: " + "; ".join(failed_checks)
+        )
+    return artifact
 
 
 def test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase() -> None:
@@ -230,6 +415,204 @@ def test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz()
     for actual, expected in zip(reduced.responses, direct.responses, strict=True):
         np.testing.assert_allclose(actual, expected, rtol=1e-8, atol=1e-11)
     assert reduced.solver["frequency_records"][0]["omega_rad_s"] == 0.0
+
+
+def test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation() -> None:
+    """Emit complex response, phase, and residual observations around retained/omitted modes."""
+    seed = _model(frequencies=[1.0])
+    prepared, full_basis = _prepare(seed)
+    natural_frequencies = np.sqrt(np.asarray(full_basis.eigenvalues, dtype=float)) / (2.0 * math.pi)
+    checks: list[tuple[str, bool]] = [
+        ("natural-frequency count matches reduced size", bool(natural_frequencies.size == prepared.reduced_size)),
+        ("first natural frequency is positive", bool(natural_frequencies.size > 0 and natural_frequencies[0] > 0.0)),
+        (
+            "last natural frequency exceeds first",
+            bool(natural_frequencies.size > 1 and natural_frequencies[-1] > natural_frequencies[0]),
+        ),
+    ]
+
+    frequency_values = sorted(
+        {
+            0.0,
+            0.5 * float(natural_frequencies[0]),
+            0.98 * float(natural_frequencies[0]),
+            1.02 * float(natural_frequencies[0]),
+            0.98 * float(natural_frequencies[-1]),
+            1.02 * float(natural_frequencies[-1]),
+        }
+    )
+    seed.analysis.parameters["frequencies_hz"] = frequency_values
+    full_basis_result = ReducedHarmonicResponseSolver().solve(
+        seed,
+        source_sha=_SOURCE_SHA,
+        prepared=prepared,
+        basis=full_basis,
+    )
+
+    direct_model = copy.deepcopy(seed)
+    direct_model.analysis = AnalysisSettings.from_raw(
+        {
+            "type": "harmonic_response",
+            "method": "direct_frequency",
+            **direct_model.analysis.parameters,
+        }
+    )
+    direct_result = HarmonicResponseSolver().solve(direct_model)
+
+    truncated_model = copy.deepcopy(seed)
+    truncated_model.analysis.parameters["modal_mode_count"] = 2
+    truncated_prepared, truncated_basis = _prepare(truncated_model)
+    checks.append(
+        (
+            "truncated and full physical identities match",
+            truncated_prepared.physical_identity == prepared.physical_identity,
+        )
+    )
+    truncated_result = ReducedHarmonicResponseSolver().solve(
+        truncated_model,
+        source_sha=_SOURCE_SHA,
+        prepared=truncated_prepared,
+        basis=truncated_basis,
+    )
+
+    checks.extend(
+        [
+            ("full modal basis is complete", bool(full_basis.is_full_basis)),
+            ("comparison modal basis is truncated", bool(not truncated_basis.is_full_basis)),
+            (
+                "direct/full/truncated frequency counts match",
+                len(full_basis_result.responses) == len(direct_result.responses) == len(truncated_result.responses),
+            ),
+        ]
+    )
+    records = full_basis_result.solver["frequency_records"]
+    truncated_records = truncated_result.solver["frequency_records"]
+    reduced_backward_errors = [float(row["reduced_backward_error"]) for row in records]
+    physical_backward_errors = [
+        None if row.get("physical_free_backward_error") is None else float(row["physical_free_backward_error"])
+        for row in records
+    ]
+    maximum_reduced_backward_error = max(reduced_backward_errors, default=None)
+    maximum_physical_backward_error = (
+        max(value for value in physical_backward_errors if value is not None)
+        if physical_backward_errors and all(value is not None for value in physical_backward_errors)
+        else None
+    )
+    checks.extend(
+        [
+            (
+                "full-basis reduced backward errors <= 1e-8",
+                maximum_reduced_backward_error is not None and maximum_reduced_backward_error <= 1.0e-8,
+            ),
+            (
+                "full-basis physical free backward errors <= 1e-8",
+                maximum_physical_backward_error is not None and maximum_physical_backward_error <= 1.0e-8,
+            ),
+            (
+                "frequency-record counts match requested sweep",
+                len(records) == len(frequency_values) and len(truncated_records) == len(frequency_values),
+            ),
+        ]
+    )
+
+    observations: list[dict[str, float | str | None]] = []
+    response_index = seed.dof_manager().index(1, "UX")
+    for frequency_hz, direct, full, truncated, record, truncated_record in zip(
+        frequency_values,
+        direct_result.responses,
+        full_basis_result.responses,
+        truncated_result.responses,
+        records,
+        truncated_records,
+    ):
+        direct_response = complex(direct[response_index])
+        full_response = complex(full[response_index])
+        truncated_response = complex(truncated[response_index])
+        direct_norm = max(float(np.linalg.norm(direct)), np.finfo(float).tiny)
+        observations.append(
+            {
+                "frequency_hz": float(frequency_hz),
+                "direct_probe_amplitude": abs(direct_response),
+                "direct_probe_phase_rad": (None if abs(direct_response) == 0.0 else float(np.angle(direct_response))),
+                "direct_probe_real_m": direct_response.real,
+                "direct_probe_imag_m": direct_response.imag,
+                "full_basis_probe_amplitude": abs(full_response),
+                "full_basis_probe_phase_rad": (None if abs(full_response) == 0.0 else float(np.angle(full_response))),
+                "full_basis_probe_real_m": full_response.real,
+                "full_basis_probe_imag_m": full_response.imag,
+                "truncated_probe_amplitude": abs(truncated_response),
+                "truncated_probe_phase_rad": (
+                    None if abs(truncated_response) == 0.0 else float(np.angle(truncated_response))
+                ),
+                "truncated_probe_real_m": truncated_response.real,
+                "truncated_probe_imag_m": truncated_response.imag,
+                "full_basis_phase_error_rad": float(np.angle(full_response * np.conjugate(direct_response))),
+                "truncated_phase_error_rad": float(np.angle(truncated_response * np.conjugate(direct_response))),
+                "full_basis_vector_relative_error": float(np.linalg.norm(full - direct) / direct_norm),
+                "truncated_vector_relative_difference": float(np.linalg.norm(truncated - direct) / direct_norm),
+                "reduced_backward_error": float(record["reduced_backward_error"]),
+                "full_basis_physical_free_backward_error": (
+                    None
+                    if record["physical_free_backward_error"] is None
+                    else float(record["physical_free_backward_error"])
+                ),
+                "conditioning_indicator": float(record["conditioning_indicator"]),
+                "conditioning_status": str(record["conditioning_status"]),
+                "truncated_physical_free_backward_error": (
+                    None
+                    if truncated_record["physical_free_backward_error"] is None
+                    else float(truncated_record["physical_free_backward_error"])
+                ),
+            }
+        )
+
+    maximum_full_basis_error = max(
+        (item["full_basis_vector_relative_error"] for item in observations),
+        default=None,
+    )
+    checks.append(
+        (
+            "full-basis vector relative error <= 1e-8",
+            maximum_full_basis_error is not None
+            and math.isfinite(maximum_full_basis_error)
+            and maximum_full_basis_error <= 1.0e-8,
+        )
+    )
+    payload: dict[str, object] = {
+        "case": "WP12-HARMONIC-COMPLEX-SWEEP",
+        "nodeid": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+        "units": {
+            "frequency": "Hz",
+            "probe_displacement": "m",
+            "phase": "rad",
+            "backward_error": "dimensionless",
+            "conditioning_indicator": "dimensionless",
+        },
+        "probe": "node 1 UX in the global model frame",
+        "phasor_time_convention": "exp(+i*omega*t)",
+        "natural_frequencies_hz": natural_frequencies.tolist(),
+        "frequency_values_hz": frequency_values,
+        "maximum_full_basis_vector_relative_error": maximum_full_basis_error,
+        "assertion_results": {label: passed for label, passed in checks},
+        "observations": observations,
+        "interpretation": {
+            "full_basis_vs_direct": "route/projection/linear-solve cross-check on shared assembled operators",
+            "truncated_vs_direct": "combined omitted-subspace and solve difference; not an error bound",
+        },
+    }
+    artifact = _publish_wp12_observables_before_assertions(
+        case_name="wp12-harmonic-complex-sweep-observables",
+        nodeid=str(payload["nodeid"]),
+        payload=payload,
+        checks=checks,
+    )
+    print(
+        json.dumps(
+            {"artifact": artifact},
+            sort_keys=True,
+            allow_nan=False,
+        )
+    )
 
 
 def test_multichannel_phasor_phase_superposition_and_exact_cancellation() -> None:
