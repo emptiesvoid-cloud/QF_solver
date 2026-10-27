@@ -13,6 +13,7 @@ import hashlib
 import json
 import math
 import os
+import re
 from pathlib import Path
 import subprocess
 import time
@@ -32,6 +33,7 @@ from experiments.hex8_sri_equilibrium.campaign_spec import (
     convergence_nodeid,
 )
 from experiments.hex8_sri_equilibrium.criteria_contract import (
+    FIRST6_NODEIDS,
     FROZEN_DISPOSITIONS,
     validate_frozen_case_criteria,
 )
@@ -233,6 +235,7 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
     if execution_manifest_sha256 != execution_sha_value:
         raise RuntimeError("HEX8-SRI refused: execution-manifest SHA-256 mismatch")
     execution_manifest = _strict_json_object(execution_manifest_path, "execution manifest")
+    authorization_id = _required_environment("QF_DEV_AUTHORIZATION_ID")
     if (
         execution_manifest.get("schema") != "qfsolver-hex8sri-convergence24-execution-v1"
         or execution_manifest.get("state") != "OWNER_AUTHORIZED"
@@ -242,6 +245,9 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
         or execution_manifest.get("mandate_id") != DEVELOPMENT_MANDATE_ID
         or execution_manifest.get("campaign_id") != CAMPAIGN_ID
         or execution_manifest.get("target") != nodeid
+        or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", authorization_id)
+        or execution_manifest.get("authorization_id") != authorization_id
+        or execution_manifest_path.name != f"{authorization_id}.json"
     ):
         raise RuntimeError("HEX8-SRI refused: execution manifest does not authorize this exact case")
     source_identity = execution_manifest.get("identity")
@@ -250,6 +256,7 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
 
     case_manifest_path = Path(_required_environment("QF_DEV_CASE_MANIFEST_PATH")).resolve(strict=True)
     try:
+        CAMPAIGN_DIR.resolve().relative_to(ROOT.resolve())
         case_manifest_path.relative_to(CAMPAIGN_DIR.resolve())
     except ValueError as exc:
         raise RuntimeError("HEX8-SRI refused: case manifest escapes the campaign directory") from exc
@@ -306,6 +313,13 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
         raise RuntimeError("HEX8-SRI refused: controller provenance is missing")
     controller_identity = controller_provenance.get("identity", {})
     controller_hashes = controller_provenance.get("sha256", {})
+    if not isinstance(controller_identity, dict) or not isinstance(controller_hashes, dict):
+        raise RuntimeError("HEX8-SRI refused: controller provenance has an invalid shape")
+    controller_fingerprint = hashlib.sha256(
+        json.dumps(controller_provenance, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+    ).hexdigest()
+    if execution_manifest.get("controller_fingerprint") != controller_fingerprint:
+        raise RuntimeError("HEX8-SRI refused: controller provenance fingerprint mismatch")
     expected_controller_environment = {
         "QF_DEV_CONTROLLER_ROOT": controller_identity.get("root"),
         "QF_DEV_CONTROLLER_BRANCH": controller_identity.get("branch"),
@@ -316,10 +330,53 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
         "QF_DEV_CONTROLLER_PLUGIN_SHA256": controller_hashes.get("pytest_plugin"),
     }
     if any(
-        not expected or os.environ.get(name) != str(expected)
+        name not in os.environ
+        or not isinstance(expected, str)
+        or (not expected and name != "QF_DEV_CONTROLLER_BRANCH")
+        or os.environ[name] != expected
         for name, expected in expected_controller_environment.items()
     ):
         raise RuntimeError("HEX8-SRI refused: runtime controller identity differs from the Owner manifest")
+    controller_root = Path(controller_identity["root"]).resolve(strict=True)
+
+    def controller_git(*args: str) -> str:
+        return subprocess.check_output(["git", *args], cwd=controller_root, text=True).strip()
+
+    if (
+        Path(controller_git("rev-parse", "--show-toplevel")).resolve() != controller_root
+        or controller_git("branch", "--show-current") != controller_identity["branch"]
+        or controller_git("rev-parse", "HEAD") != controller_identity["head"]
+        or controller_git("rev-parse", "HEAD^{tree}") != controller_identity["tree"]
+        or controller_git("status", "--porcelain", "--untracked-files=all")
+        or controller_identity.get("status_short") != ""
+    ):
+        raise RuntimeError("HEX8-SRI refused: controller worktree Git identity differs from its provenance")
+    for key, relative in {
+        "runner": "scripts/development_autonomous.py",
+        "policy": "development_autonomous_policy.json",
+        "pytest_plugin": "scripts/development_autonomous_pytest_plugin.py",
+    }.items():
+        controller_file = (controller_root / relative).resolve(strict=True)
+        if not controller_file.is_relative_to(controller_root) or _sha256(controller_file) != controller_hashes.get(
+            key
+        ):
+            raise RuntimeError(f"HEX8-SRI refused: controller {key} hash mismatch")
+    controller_policy = _strict_json_object(controller_root / "development_autonomous_policy.json", "controller policy")
+    run_store = controller_policy.get("run_store")
+    if (
+        not isinstance(run_store, str)
+        or not run_store
+        or Path(run_store).is_absolute()
+        or ".." in Path(run_store).parts
+    ):
+        raise RuntimeError("HEX8-SRI refused: controller run store is invalid")
+    store = (controller_root / run_store).resolve()
+    if (
+        not store.is_relative_to(controller_root)
+        or not execution_manifest_path.parent.is_relative_to(store)
+        or execution_manifest_path.parent != (store / "authorizations" / scope_id).resolve()
+    ):
+        raise RuntimeError("HEX8-SRI refused: execution manifest is outside the controller authorization root")
     case_controller = case_manifest.get("controller_identity", {})
     case_controller_hashes = case_manifest.get("controller_code_sha256", {})
     if (
@@ -333,17 +390,28 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
         raise RuntimeError("HEX8-SRI refused: case manifest is not bound to the final controller identity")
 
     owner_decision_id = _required_environment("QF_DEV_OWNER_DECISION_ID")
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", owner_decision_id):
+        raise RuntimeError("HEX8-SRI refused: Owner decision ID is invalid")
     decision_reference = execution_manifest.get("owner_decision_record")
     if not isinstance(decision_reference, dict):
         raise RuntimeError("HEX8-SRI refused: separately archived Owner decision reference is missing")
     decision_path = Path(str(decision_reference.get("path", ""))).resolve(strict=True)
-    if decision_path.parent.name != "owner-decisions" or decision_path.parent.parent.name != scope_id:
+    if (
+        not decision_path.is_relative_to(execution_manifest_path.parent)
+        or decision_path.name != f"{owner_decision_id}.json"
+        or decision_path
+        != (execution_manifest_path.parent / "owner-decisions" / "execution" / f"{owner_decision_id}.json").resolve()
+    ):
         raise RuntimeError("HEX8-SRI refused: Owner decision record is outside its dedicated scope")
     if _sha256(decision_path) != decision_reference.get("sha256"):
         raise RuntimeError("HEX8-SRI refused: Owner decision record SHA-256 mismatch")
     owner_decision = _strict_json_object(decision_path, "Owner decision record")
     if (
         owner_decision != execution_manifest.get("owner_decision")
+        or owner_decision.get("schema") != "qfsolver-hex8sri-execution-approval-v1"
+        or owner_decision.get("decision_type") != "EXECUTION_APPROVED"
+        or owner_decision.get("execution_authorized") is not True
+        or owner_decision.get("do_not_execute") is not False
         or owner_decision.get("decision_id") != owner_decision_id
         or owner_decision.get("status") != "APPROVED"
         or owner_decision.get("approved_by") != "Owner"
@@ -353,10 +421,67 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
         or owner_decision.get("source_fingerprint") != fingerprint
         or owner_decision.get("controller_fingerprint") != execution_manifest.get("controller_fingerprint")
         or owner_decision.get("controller_head") != controller_identity.get("head")
-        or nodeid not in owner_decision.get("authorized_nodeids", [])
+        or owner_decision.get("authorized_nodeids") != list(FIRST6_NODEIDS)
+        or set(owner_decision.get("case_manifests_by_nodeid", {})) != set(FIRST6_NODEIDS)
+        or owner_decision.get("case_manifests_by_nodeid", {}).get(nodeid) != case_binding
+        or set(owner_decision.get("limits_by_nodeid", {})) != set(FIRST6_NODEIDS)
         or owner_decision.get("limits_by_nodeid", {}).get(nodeid) != execution_manifest.get("limits")
     ):
         raise RuntimeError("HEX8-SRI refused: Owner decision does not authorize this exact identity and case")
+    try:
+        approved_at = datetime.fromisoformat(owner_decision["approved_at_utc"].replace("Z", "+00:00"))
+        expires_at = datetime.fromisoformat(owner_decision["expires_at_utc"].replace("Z", "+00:00"))
+        now = datetime.now(timezone.utc)
+        if (
+            approved_at.utcoffset() != timezone.utc.utcoffset(approved_at)
+            or expires_at.utcoffset() != timezone.utc.utcoffset(expires_at)
+            or approved_at > now
+            or expires_at <= now
+            or expires_at <= approved_at
+        ):
+            raise ValueError("invalid approval interval")
+    except (KeyError, TypeError, ValueError, AttributeError) as exc:
+        raise RuntimeError("HEX8-SRI refused: Owner execution approval is expired or has invalid dates") from exc
+    freeze_ref = owner_decision.get("criteria_freeze_record")
+    if not isinstance(freeze_ref, dict) or set(freeze_ref) != {"decision_id", "path", "sha256"}:
+        raise RuntimeError("HEX8-SRI refused: distinct criteria freeze reference is missing")
+    freeze_id = freeze_ref["decision_id"]
+    if not isinstance(freeze_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", freeze_id):
+        raise RuntimeError("HEX8-SRI refused: criteria freeze ID is invalid")
+    freeze_path = Path(str(freeze_ref["path"])).resolve(strict=True)
+    if (
+        not freeze_path.is_relative_to(execution_manifest_path.parent)
+        or freeze_path.name != f"{freeze_id}.json"
+        or freeze_path
+        != (execution_manifest_path.parent / "owner-decisions" / "criteria-freeze" / f"{freeze_id}.json").resolve()
+        or _sha256(freeze_path) != freeze_ref["sha256"]
+    ):
+        raise RuntimeError("HEX8-SRI refused: criteria freeze path or hash mismatch")
+    freeze_decision = _strict_json_object(freeze_path, "criteria freeze decision")
+    if (
+        freeze_decision.get("schema") != "qfsolver-hex8sri-criteria-freeze-decision-v1"
+        or freeze_decision.get("decision_type") != "CRITERIA_FREEZE_ONLY"
+        or freeze_decision.get("status") != "CRITERIA_FROZEN_EXECUTION_NOT_AUTHORIZED"
+        or freeze_decision.get("execution_authorized") is not False
+        or freeze_decision.get("do_not_execute") is not True
+        or freeze_decision.get("approved_by") != "Owner"
+        or freeze_decision.get("decision_id") != freeze_id
+        or freeze_decision.get("scope_id") != scope_id
+        or freeze_decision.get("mandate_id") != DEVELOPMENT_MANDATE_ID
+        or freeze_decision.get("campaign_id") != CAMPAIGN_ID
+        or freeze_decision.get("source_fingerprint") != fingerprint
+        or freeze_decision.get("controller_fingerprint") != execution_manifest.get("controller_fingerprint")
+        or freeze_decision.get("controller_head") != controller_identity.get("head")
+        or freeze_decision.get("frozen_nodeids") != list(FIRST6_NODEIDS)
+        or freeze_decision.get("criteria_freeze") != owner_decision.get("criteria_freeze")
+    ):
+        raise RuntimeError("HEX8-SRI refused: archived criteria freeze differs from the execution decision")
+    try:
+        freeze_at = datetime.fromisoformat(freeze_decision["approved_at_utc"].replace("Z", "+00:00"))
+        if freeze_at.utcoffset() != timezone.utc.utcoffset(freeze_at) or freeze_at > approved_at:
+            raise ValueError("invalid freeze time")
+    except (KeyError, TypeError, ValueError, AttributeError) as exc:
+        raise RuntimeError("HEX8-SRI refused: criteria freeze time is invalid") from exc
     try:
         case_registration_sha256 = _manifest_registration_sha256(case_manifest)
         if case_binding.get("registration_sha256") != case_registration_sha256:
@@ -374,6 +499,8 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
         raise RuntimeError("HEX8-SRI refused: Owner criteria classifications are incomplete")
 
     preflight_id = _required_environment("QF_DEV_PREFLIGHT_ID")
+    if not re.fullmatch(r"pf-[0-9a-f]{12}", preflight_id):
+        raise RuntimeError("HEX8-SRI refused: preflight ID is invalid")
     preflight_sha256 = _required_environment("QF_DEV_PREFLIGHT_SHA256")
     preflight = execution_manifest.get("preflight")
     if (
@@ -383,8 +510,17 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
     ):
         raise RuntimeError("HEX8-SRI refused: preflight identity differs from the execution manifest")
     preflight_path = Path(str(preflight.get("receipt_path", ""))).resolve(strict=True)
+    expected_preflight_path = (store / "worktrees" / scope_id / "preflight" / preflight_id / "preflight.json").resolve()
+    if not preflight_path.is_relative_to(store) or preflight_path != expected_preflight_path:
+        raise RuntimeError("HEX8-SRI refused: preflight receipt escapes its registered location")
     if _sha256(preflight_path) != preflight_sha256:
         raise RuntimeError("HEX8-SRI refused: preflight receipt SHA-256 mismatch")
+    sidecar_path = (preflight_path.parent / "preflight.sha256.json").resolve(strict=True)
+    if not sidecar_path.is_relative_to(preflight_path.parent):
+        raise RuntimeError("HEX8-SRI refused: preflight checksum escapes its receipt directory")
+    preflight_sidecar = _strict_json_object(sidecar_path, "preflight checksum")
+    if preflight_sidecar.get("sha256") != preflight_sha256:
+        raise RuntimeError("HEX8-SRI refused: preflight checksum sidecar mismatch")
     preflight_receipt = _strict_json_object(preflight_path, "preflight receipt")
     if (
         preflight_receipt.get("state") != "PREFLIGHT_PASS"
@@ -395,6 +531,7 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
         or preflight_receipt.get("target") != nodeid
         or preflight_receipt.get("preflight_id") != preflight_id
         or preflight_receipt.get("source_fingerprint") != fingerprint
+        or preflight_receipt.get("identity") != source_identity
         or preflight_receipt.get("controller_provenance") != controller_provenance
         or preflight_receipt.get("case_manifest") != case_binding
         or preflight_receipt.get("solver_origin_observed") != str((ROOT / "src/solveur/__init__.py").resolve())
@@ -405,7 +542,8 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
     collection = preflight_receipt.get("collection_report", {})
     ledger = preflight_receipt.get("attempt_ledger", {})
     if (
-        collection.get("scope_id") != scope_id
+        collection.get("schema") != "qfsolver-hex8sri-convergence24-collection-v1"
+        or collection.get("scope_id") != scope_id
         or collection.get("target") != nodeid
         or collection.get("collected_nodeids") != [nodeid]
         or collection.get("skip_markers") != []

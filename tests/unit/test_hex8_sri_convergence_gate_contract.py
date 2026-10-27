@@ -43,7 +43,7 @@ def test_execution_contract_is_bound_to_the_exact_scope_and_owner_evidence() -> 
         if isinstance(node, ast.Constant) and isinstance(node.value, str)
     }
     required = {
-        "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v1",
+        "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v2",
         "QF_DEV_EXECUTION_MANIFEST_PATH",
         "QF_DEV_EXECUTION_MANIFEST_SHA256",
         "QF_DEV_OWNER_DECISION_ID",
@@ -61,7 +61,7 @@ def test_execution_contract_is_bound_to_the_exact_scope_and_owner_evidence() -> 
         "OWNER_AUTHORIZED",
     }
     assert required.issubset(module_strings)
-    assert "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v1" in guard_strings
+    assert "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v2" in guard_strings
     assert "hex8sri" not in module_strings
     assert "codex/hex8sri-controller-registration" not in module_strings
 
