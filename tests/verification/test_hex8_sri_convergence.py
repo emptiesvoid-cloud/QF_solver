@@ -31,6 +31,10 @@ from experiments.hex8_sri_equilibrium.campaign_spec import (
     convergence_case_id,
     convergence_nodeid,
 )
+from experiments.hex8_sri_equilibrium.criteria_contract import (
+    FROZEN_DISPOSITIONS,
+    validate_frozen_case_criteria,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -48,7 +52,16 @@ CASE_PARAMETERS = tuple(
     for mesh in MESH_LEVELS
 )
 
-EXECUTION_CONTRACT_MARKER = "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v1"
+EXECUTION_CONTRACT_MARKER = "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v2"
+CRITERIA_CONTRACT_STRINGS = (
+    "criteria_contract",
+    "criteria_freeze",
+    "CASE_GATE",
+    "CASE_DIAGNOSTIC",
+    "CAMPAIGN_GATE_DEFERRED",
+    "NOT_ASSESSED",
+    "negative_mean_loaded_face_uz",
+)
 EXECUTION_SCOPE_ID = "hex8sri-convergence24"
 CAMPAIGN_ID = "HEX8-SRI-CONVERGENCE-24-2026-10-27"
 DEVELOPMENT_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1"
@@ -73,6 +86,15 @@ GATE_ENVIRONMENT_CONTRACT = (
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _manifest_registration_sha256(manifest: dict) -> str:
+    controller_fields = {"controller_code_sha256", "controller_identity", "controller_identity_status"}
+    content = {key: value for key, value in manifest.items() if key not in controller_fields}
+    payload = json.dumps(content, ensure_ascii=False, allow_nan=False, sort_keys=True, separators=(",", ":")).encode(
+        "utf-8"
+    )
+    return hashlib.sha256(payload).hexdigest()
 
 
 def _git(*args: str) -> str:
@@ -166,7 +188,7 @@ def _same_path(left: str, right: str) -> bool:
 
 def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
     """Validate the exact Owner manifest, case manifest, preflight and controller before assembly."""
-    contract_marker = "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v1"
+    contract_marker = "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v2"
     if contract_marker != EXECUTION_CONTRACT_MARKER:
         raise RuntimeError("HEX8-SRI refused: execution contract marker mismatch")
 
@@ -260,11 +282,6 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
         or case_manifest.get("source_fingerprint_sha256") != fingerprint
     ):
         raise RuntimeError("HEX8-SRI refused: source fingerprint differs from both manifests")
-    if case_manifest.get("criteria_status") != "OWNER_FROZEN" or case_manifest.get(
-        "frozen_criteria"
-    ) != case_manifest.get("proposed_criteria"):
-        raise RuntimeError("HEX8-SRI refused: registered criteria are not Owner-frozen verbatim")
-
     if (
         source_identity.get("root") != str(ROOT.resolve())
         or source_identity.get("branch") != _git("branch", "--show-current")
@@ -340,6 +357,21 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
         or owner_decision.get("limits_by_nodeid", {}).get(nodeid) != execution_manifest.get("limits")
     ):
         raise RuntimeError("HEX8-SRI refused: Owner decision does not authorize this exact identity and case")
+    try:
+        case_registration_sha256 = _manifest_registration_sha256(case_manifest)
+        if case_binding.get("registration_sha256") != case_registration_sha256:
+            raise ValueError("case manifest registration digest differs from its Owner binding")
+        frozen_criteria = validate_frozen_case_criteria(
+            case_manifest,
+            owner_decision,
+            target=nodeid,
+            case_registration_sha256=case_registration_sha256,
+        )
+    except (KeyError, TypeError, ValueError) as exc:
+        raise RuntimeError(f"HEX8-SRI refused: Owner criteria freeze is invalid: {exc}") from exc
+    criteria_freeze = owner_decision.get("criteria_freeze")
+    if not isinstance(criteria_freeze, dict) or set(criteria_freeze["dispositions"]) != set(FROZEN_DISPOSITIONS):
+        raise RuntimeError("HEX8-SRI refused: Owner criteria classifications are incomplete")
 
     preflight_id = _required_environment("QF_DEV_PREFLIGHT_ID")
     preflight_sha256 = _required_environment("QF_DEV_PREFLIGHT_SHA256")
@@ -399,6 +431,10 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
         "preflight_id": preflight_id,
         "preflight_sha256": preflight_sha256,
         "owner_decision_id": owner_decision_id,
+        "owner_decision": owner_decision,
+        "criteria_freeze": criteria_freeze,
+        "frozen_criteria": frozen_criteria,
+        "criteria_dispositions": FROZEN_DISPOSITIONS,
         "source_fingerprint": fingerprint,
     }
 
@@ -449,7 +485,7 @@ def test_convergence_case(
         or loading.get("resultant_moment_about_origin_nm") != [-0.5, 20.0, 0.0]
     ):
         raise RuntimeError("HEX8-SRI convergence refused: manifest physics or selected DDL do not match the case")
-    criteria = manifest["frozen_criteria"]
+    criteria = authorization["frozen_criteria"]
     artifact_root = Path(manifest["execution_artifact_root"])
     started = time.perf_counter()
     controller_identity = {
@@ -491,6 +527,10 @@ def test_convergence_case(
         "budget": manifest["budgets"],
         "science_identity": science_identity,
         "controller_identity": controller_identity,
+        "criteria_contract": manifest["criteria_contract"],
+        "criteria_freeze": authorization["criteria_freeze"],
+        "criteria_dispositions": authorization["criteria_dispositions"],
+        "frozen_case_gate_criteria": criteria,
     }
     start_sha256 = atomic_write_json_new(start_path, start_record)
     record: dict | None = None
@@ -535,6 +575,10 @@ def test_convergence_case(
             "state_artifact": {"path": str(state_path), "sha256": state_sha256},
             "science_identity": science_identity,
             "controller_identity": controller_identity,
+            "criteria_contract": manifest["criteria_contract"],
+            "criteria_freeze": authorization["criteria_freeze"],
+            "criteria_dispositions": authorization["criteria_dispositions"],
+            "frozen_case_gate_criteria": criteria,
             **record,
         }
         sidecar_path = artifact_root / f"sidecar_{case_id}_attempt-001.json"
@@ -582,7 +626,9 @@ def test_convergence_case(
     assert _sha256(state_path) == sidecar["state_artifact"]["sha256"]
     assert sidecar_path.is_file() and _sha256(sidecar_path) == sidecar_sha256
     assert record is not None
+    deferred_verdicts = {"independent_3d_reference_error", "single_case_convergence"}
     for criterion_name, verdict in record["criteria_verdicts"].items():
-        if criterion_name in {"independent_3d_reference_error", "single_case_convergence"}:
+        if criterion_name in deferred_verdicts:
+            assert verdict.startswith("NOT_ASSESSED"), f"{criterion_name} must remain deferred for one mesh"
             continue
         assert verdict == "PASS", f"{criterion_name} failed; evidence was preserved"

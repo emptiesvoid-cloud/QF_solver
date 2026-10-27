@@ -9,6 +9,7 @@ exercise in synthetic unit tests without invoking that FEM path.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 import os
 from typing import Any
 
@@ -32,6 +33,7 @@ from .campaign_spec import (
     YOUNG_MODULUS_PA,
 )
 from .campaign import HistoricalHex8SRIElement
+from .criteria_contract import negative_mean_loaded_face_uz_verdict
 
 
 @dataclass(frozen=True)
@@ -272,6 +274,17 @@ def run_convergence_case(
     finite = all(
         bool(np.all(np.isfinite(array)))
         for array in (stiffness.data, displacement, residual, reactions, gauss_strains, jacobian_determinants)
+    ) and all(
+        math.isfinite(value)
+        for value in (
+            signed_mean_uz,
+            internal_energy,
+            external_work,
+            relative_residual,
+            force_closure_relative,
+            moment_closure_relative,
+            energy_identity_relative,
+        )
     )
     jacobians_positive = bool(np.all(jacobian_determinants > 0.0))
     verdicts = {
@@ -281,6 +294,7 @@ def run_convergence_case(
         "force_closure": "PASS" if force_closure_relative <= criteria["force_closure_relative_max"] else "FAIL",
         "moment_closure": "PASS" if moment_closure_relative <= criteria["moment_closure_relative_max"] else "FAIL",
         "energy_identity": "PASS" if energy_identity_relative <= criteria["energy_identity_relative_max"] else "FAIL",
+        "negative_mean_loaded_face_uz": negative_mean_loaded_face_uz_verdict(signed_mean_uz),
         "independent_3d_reference_error": "NOT_ASSESSED_NO_QUALIFIED_ORACLE",
         "single_case_convergence": "NOT_ASSESSED_REQUIRES_PAIRED_LEVELS",
     }
