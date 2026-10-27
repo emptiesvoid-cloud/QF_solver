@@ -775,6 +775,17 @@
           "timeout_reason": null,
           "timeout_seconds": 300,
           "worktree_head": "d9deddbd6b42467c5fdc9e278bd54e97605f5738"
+        },
+        {
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+          "reason": "Owner-approved prospective registration after archive-helper changes; preserve historical WP07 registration and FAIL.",
+          "registered_at_utc": "2026-10-27T19:47:41.512928+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the harmonic BEAM2 base-acceleration fixture.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
         }
       ]
     },
