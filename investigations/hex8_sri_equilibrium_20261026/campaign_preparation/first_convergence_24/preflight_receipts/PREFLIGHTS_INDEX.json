@@ -1,0 +1,1351 @@
+{
+  "attempts_reserved": false,
+  "campaign_id": "HEX8-SRI-CONVERGENCE-24-2026-10-27",
+  "case_count": 24,
+  "cases": [
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 512,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 180
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          4,
+          2,
+          2
+        ],
+        "dof_count": 135,
+        "element_count": 16,
+        "fixed_dof_count": 27,
+        "free_dof_count": 108,
+        "node_count": 45
+      },
+      "case_id": "hex8_standard_nu_0p3_4x2x2",
+      "elapsed_seconds": 4.290332100004889,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_hex8_standard_nu_0p3_4x2x2.json",
+      "manifest_registration_sha256": "6aaff4a9c93c02d6a9a3d54f7a540848d0717dd2da2c9acb6f85262de7e5bd5d",
+      "manifest_sha256": "cab08de7d46d1f0c54947890f5662edf6c28cc5e76e374626c17af0fe14947bf",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106156032,
+      "preflight_id": "pf-4c12c2b7a800",
+      "receipt_path": "pf-4c12c2b7a800/preflight.json",
+      "receipt_sha256": "3da864e8e878589508b39fb9203cf782a9ac481949402e74f2b9d9518eacb8d6",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "311e8851438e3e08ce671698c32bd21427aff389c4f3ca953f049cba4a0596d4"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 512,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 180
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          4,
+          2,
+          2
+        ],
+        "dof_count": 135,
+        "element_count": 16,
+        "fixed_dof_count": 27,
+        "free_dof_count": 108,
+        "node_count": 45
+      },
+      "case_id": "sri_historical_nu_0p3_4x2x2",
+      "elapsed_seconds": 2.868759599979967,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_historical_nu_0p3_4x2x2.json",
+      "manifest_registration_sha256": "94510e6440d7b151526cc76353d2d69df0abbd8230ab133a3e4fb6c4e23fdc21",
+      "manifest_sha256": "07a6f7ab906325f636f3a5cdd03f8518fc85b46520f0d6654938fc21850a397b",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 105721856,
+      "preflight_id": "pf-6e43388e4eeb",
+      "receipt_path": "pf-6e43388e4eeb/preflight.json",
+      "receipt_sha256": "3107a3a96de80a4a18c062387f1ccd3e965f2801f9ba66c6dee5ac087ec98b67",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "985ff3cd5058a5c6381872b011f02fafaf28251929094a9352e550e41c33a3af"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 512,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 180
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          4,
+          2,
+          2
+        ],
+        "dof_count": 135,
+        "element_count": 16,
+        "fixed_dof_count": 27,
+        "free_dof_count": 108,
+        "node_count": 45
+      },
+      "case_id": "sri_corrected_nu_0p3_4x2x2",
+      "elapsed_seconds": 2.8955294999759644,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_corrected_nu_0p3_4x2x2.json",
+      "manifest_registration_sha256": "59062a9aa03fc319d70942f99dc0d4998b16144a94d8caf45916a1bcef3840a3",
+      "manifest_sha256": "eeb4d8eb134be9e18cdea4a048662abb4eca79faeec1c84988d145e707554827",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 107819008,
+      "preflight_id": "pf-d4cdf8a1f579",
+      "receipt_path": "pf-d4cdf8a1f579/preflight.json",
+      "receipt_sha256": "ae4dd3f044ecd47abcb6c98cda1e89574ce9f6e48987035f53a27d8a75d9f045",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e67723a36c4face213ec842c4ef11841dea4876b09960ce0fcb47d9c7497695c"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 512,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 180
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          4,
+          2,
+          2
+        ],
+        "dof_count": 135,
+        "element_count": 16,
+        "fixed_dof_count": 27,
+        "free_dof_count": 108,
+        "node_count": 45
+      },
+      "case_id": "hex8_standard_nu_0p4999_4x2x2",
+      "elapsed_seconds": 2.598936600028537,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_hex8_standard_nu_0p4999_4x2x2.json",
+      "manifest_registration_sha256": "6b2d6a3ba7832ba8502386b6fb6d8874fe65a550d08eed9330c864d784c2ed36",
+      "manifest_sha256": "4e63d1e3648bf6f9fb6074c44a98f06f90a77cb29a0b1f8b5525b3e17dbc9ffc",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106053632,
+      "preflight_id": "pf-4c7aee5a6230",
+      "receipt_path": "pf-4c7aee5a6230/preflight.json",
+      "receipt_sha256": "5b5475c67b506ef7afcef341c5102827f3a6965df76edce648a539399f4c168c",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "39f3df0bfc13c9c6097f8b297c842bebe265fbb655382422a62b0abf9819a39f"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 512,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 180
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          4,
+          2,
+          2
+        ],
+        "dof_count": 135,
+        "element_count": 16,
+        "fixed_dof_count": 27,
+        "free_dof_count": 108,
+        "node_count": 45
+      },
+      "case_id": "sri_historical_nu_0p4999_4x2x2",
+      "elapsed_seconds": 2.600480500026606,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_historical_nu_0p4999_4x2x2.json",
+      "manifest_registration_sha256": "f1ea0de77113e143d2ffb52c44d118b4243d31bb2663874d1df93fa490fbee94",
+      "manifest_sha256": "efdd037b20e491ac9f3d42c29f686649fdc124a5b2ae23c07a5bbbfe64948bc5",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 105811968,
+      "preflight_id": "pf-03b68a835c30",
+      "receipt_path": "pf-03b68a835c30/preflight.json",
+      "receipt_sha256": "f2c831b334d20cc9a423f67df9d3d3a07e3d44efdcae3f48e1683039b486d46b",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "07580e91a3604a159178accbecad0cc34c853e3a972a96795e7e785fd1c4fe24"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 512,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 180
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          4,
+          2,
+          2
+        ],
+        "dof_count": 135,
+        "element_count": 16,
+        "fixed_dof_count": 27,
+        "free_dof_count": 108,
+        "node_count": 45
+      },
+      "case_id": "sri_corrected_nu_0p4999_4x2x2",
+      "elapsed_seconds": 2.907595600001514,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_corrected_nu_0p4999_4x2x2.json",
+      "manifest_registration_sha256": "3a6bd2c37742b486b622c80f236dba8fee4e082db2259a90ed14a4de1d0b0e49",
+      "manifest_sha256": "3538e4fdb54e5197fbe3ddae442bafd4e2687080dd82abb01ff1cc13cf3ace17",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 105885696,
+      "preflight_id": "pf-20b00fb7de43",
+      "receipt_path": "pf-20b00fb7de43/preflight.json",
+      "receipt_sha256": "45ee66c1c3bb62ce065102fd831abde9672ba28ed6f9b19e9ce46a701ff887b4",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "199a1b42b13003c9841ef8303c85d743ecb09cda8ba632e0f077668c1d22c6f0"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 1024,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 300
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          8,
+          4,
+          4
+        ],
+        "dof_count": 675,
+        "element_count": 128,
+        "fixed_dof_count": 75,
+        "free_dof_count": 600,
+        "node_count": 225
+      },
+      "case_id": "hex8_standard_nu_0p3_8x4x4",
+      "elapsed_seconds": 2.8842385000316426,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_hex8_standard_nu_0p3_8x4x4.json",
+      "manifest_registration_sha256": "215ae09ad2991afc9a5f968f3cecf691371118023606be13009af07ba342da2e",
+      "manifest_sha256": "d967ea5584b590db7e01fb3db52a1a6af2d9413f6c41b2514b4dc9e05b72dc55",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106274816,
+      "preflight_id": "pf-9e08894879c3",
+      "receipt_path": "pf-9e08894879c3/preflight.json",
+      "receipt_sha256": "953416947f944daf8bb41f1b616a2b47cfae11652a31e9488b43731591e5fa5d",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "9a770b29057f73f42c9a7821413b3be044fb8925f16caba9d039809f4dcfe079"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 1024,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 300
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          8,
+          4,
+          4
+        ],
+        "dof_count": 675,
+        "element_count": 128,
+        "fixed_dof_count": 75,
+        "free_dof_count": 600,
+        "node_count": 225
+      },
+      "case_id": "sri_historical_nu_0p3_8x4x4",
+      "elapsed_seconds": 2.8882636000053026,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_historical_nu_0p3_8x4x4.json",
+      "manifest_registration_sha256": "13c0558df031a796ef5a3dd10d96698b83daeb66c3fce8a12b43713cb1c08392",
+      "manifest_sha256": "5e28cae677266a635ffee8601c8e96d343884b758a0e4555dafbad0d631bd29e",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106196992,
+      "preflight_id": "pf-f7450090b53b",
+      "receipt_path": "pf-f7450090b53b/preflight.json",
+      "receipt_sha256": "f5a9e896855c3032eb75961eaa99566b7f53c85ad42ea4e0baa9b4e08e1782d0",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "baf08bc9a78ac39257c210e1070fcc4d3e6f4ba30a7fd0607d4b8346465ce757"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 1024,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 300
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          8,
+          4,
+          4
+        ],
+        "dof_count": 675,
+        "element_count": 128,
+        "fixed_dof_count": 75,
+        "free_dof_count": 600,
+        "node_count": 225
+      },
+      "case_id": "sri_corrected_nu_0p3_8x4x4",
+      "elapsed_seconds": 2.9040297000319697,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_corrected_nu_0p3_8x4x4.json",
+      "manifest_registration_sha256": "6e937595e7687f6e066ff54bbcdc8de5d2976c215e6fe6cd6cba7e5220811ec2",
+      "manifest_sha256": "ab507b6a9149bb876cb69cfddb03a797eee8eaa1ec063fdd444e38cb40518771",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106082304,
+      "preflight_id": "pf-d0872c3e227c",
+      "receipt_path": "pf-d0872c3e227c/preflight.json",
+      "receipt_sha256": "aebf2c58ebb8ed744b8fc4501338de9e08dc3c6d3a25e05d1ee409a3aa37863a",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "a20a734808468d0b33fe761c51594cf8bbfeb067573db173f6a1ee14f392d638"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 1024,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 300
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          8,
+          4,
+          4
+        ],
+        "dof_count": 675,
+        "element_count": 128,
+        "fixed_dof_count": 75,
+        "free_dof_count": 600,
+        "node_count": 225
+      },
+      "case_id": "hex8_standard_nu_0p4999_8x4x4",
+      "elapsed_seconds": 2.8950919000199065,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_hex8_standard_nu_0p4999_8x4x4.json",
+      "manifest_registration_sha256": "0710b0a5188174bb27bb0d373c66fea6ee081bb21fe0d9598220536e0004cede",
+      "manifest_sha256": "93d520fc3def80775c37416b2539f26a49a0ece24a6a7380135724e59becb9ff",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 105730048,
+      "preflight_id": "pf-72ca99f6cd50",
+      "receipt_path": "pf-72ca99f6cd50/preflight.json",
+      "receipt_sha256": "46eaab7be8f9ead447d2c46f27e20e806ca88327a0b01f684392c8893206835d",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "70726b450824436ee4598130dd1ca104f5932821ef4a1c283ff41cc6c1543609"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 1024,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 300
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          8,
+          4,
+          4
+        ],
+        "dof_count": 675,
+        "element_count": 128,
+        "fixed_dof_count": 75,
+        "free_dof_count": 600,
+        "node_count": 225
+      },
+      "case_id": "sri_historical_nu_0p4999_8x4x4",
+      "elapsed_seconds": 2.922679400013294,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_historical_nu_0p4999_8x4x4.json",
+      "manifest_registration_sha256": "9964969e81af80eed8fcb366baa658d7be3a8293ea99ab5a0c65f9eff5fa2cc1",
+      "manifest_sha256": "94806494a609b05c1a489c15212b46cf26825c57e6b958373c08e4769675872c",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 105897984,
+      "preflight_id": "pf-5b83cc3d6b07",
+      "receipt_path": "pf-5b83cc3d6b07/preflight.json",
+      "receipt_sha256": "26a00aaae31fecdcbc48f38dfa113c6c9f46170de832d94c681659755bd29dcf",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b9eb390981744ffa366692736dc1004acca96d4493882c8d34aa198aa3d5b9ec"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 1024,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 300
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          8,
+          4,
+          4
+        ],
+        "dof_count": 675,
+        "element_count": 128,
+        "fixed_dof_count": 75,
+        "free_dof_count": 600,
+        "node_count": 225
+      },
+      "case_id": "sri_corrected_nu_0p4999_8x4x4",
+      "elapsed_seconds": 2.911552300036419,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_corrected_nu_0p4999_8x4x4.json",
+      "manifest_registration_sha256": "8219cd42f65d1ae897d05f2e8f6ca4b44898025b97f243d767ee44d7f941040a",
+      "manifest_sha256": "b39a55cdf78a247e3b7c7beda4cf0bc63c8334a596896169460d54d614ef03f5",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 105918464,
+      "preflight_id": "pf-21384b44c8d4",
+      "receipt_path": "pf-21384b44c8d4/preflight.json",
+      "receipt_sha256": "00486a0f35f528505363b354a1ef9d57d1c95be9d18ced30267560a9ce0f2706",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "3bc8d8b2fadd4aa3c3e298152cb419a07cc67ffb95a7286cf839d013d224f24c"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 4096,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 900
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          16,
+          8,
+          8
+        ],
+        "dof_count": 4131,
+        "element_count": 1024,
+        "fixed_dof_count": 243,
+        "free_dof_count": 3888,
+        "node_count": 1377
+      },
+      "case_id": "hex8_standard_nu_0p3_16x8x8",
+      "elapsed_seconds": 2.8936241999617778,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_hex8_standard_nu_0p3_16x8x8.json",
+      "manifest_registration_sha256": "6c47b816f4d003c60243944dd2cd41963c832f360f2b9f328ae83e9a54bd26fc",
+      "manifest_sha256": "51be8818a93a69fc55ca3f5ae964400d4033a701386a0addc934bb4978bbed9a",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 105906176,
+      "preflight_id": "pf-492db27e82cd",
+      "receipt_path": "pf-492db27e82cd/preflight.json",
+      "receipt_sha256": "9638b2f1eae31e21519d16015931e9539715a35e73122df4e515c9a1ab782c4e",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "199247d12cf4bdd1657b8e8059af82158b4e5f8e5cf958b4e11a4215fe23bad7"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 4096,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 900
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          16,
+          8,
+          8
+        ],
+        "dof_count": 4131,
+        "element_count": 1024,
+        "fixed_dof_count": 243,
+        "free_dof_count": 3888,
+        "node_count": 1377
+      },
+      "case_id": "sri_historical_nu_0p3_16x8x8",
+      "elapsed_seconds": 2.9102170999976806,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_historical_nu_0p3_16x8x8.json",
+      "manifest_registration_sha256": "54c66127261633a91b7fd12becd90bf0e65c51467d871f2d714f1e8c16736a38",
+      "manifest_sha256": "6627ded8bf20010c85866a858dfd90913b6a1ffa866b6cbc83f7fc59671c599a",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 105771008,
+      "preflight_id": "pf-1bbdce9e29f9",
+      "receipt_path": "pf-1bbdce9e29f9/preflight.json",
+      "receipt_sha256": "bf6be649ac41007429d2940733d37ede38df251fa42e6c4bd87687427a8007fe",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "9894fa12d0301248eec4839f84397aeacfeafc7dbbd81b47fc01009ff9ef7e9f"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 4096,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 900
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          16,
+          8,
+          8
+        ],
+        "dof_count": 4131,
+        "element_count": 1024,
+        "fixed_dof_count": 243,
+        "free_dof_count": 3888,
+        "node_count": 1377
+      },
+      "case_id": "sri_corrected_nu_0p3_16x8x8",
+      "elapsed_seconds": 2.875916999997571,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_corrected_nu_0p3_16x8x8.json",
+      "manifest_registration_sha256": "0d911341cb00c854af05b88b849c9ec79e2fc89aeaa531c00d2eb641e05b4f15",
+      "manifest_sha256": "a5d01ec76bd24e9fb3b2c4493c2a0dc7871aacecd92aab31ca93285e037fcd68",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106369024,
+      "preflight_id": "pf-90a67b51ceb9",
+      "receipt_path": "pf-90a67b51ceb9/preflight.json",
+      "receipt_sha256": "bf7c1e292a33fb0bc09201fd9151987094efdac13876cb717e2a196190148004",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "fcf27308229100c1059785f95cf9ec847e32dcad928eab33ee9e92f0336cbfbc"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 4096,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 900
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          16,
+          8,
+          8
+        ],
+        "dof_count": 4131,
+        "element_count": 1024,
+        "fixed_dof_count": 243,
+        "free_dof_count": 3888,
+        "node_count": 1377
+      },
+      "case_id": "hex8_standard_nu_0p4999_16x8x8",
+      "elapsed_seconds": 2.8524076000321656,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_hex8_standard_nu_0p4999_16x8x8.json",
+      "manifest_registration_sha256": "9ea42a28bb840e2c2f0eeb5f5052985e17b7f0727c1d7cf86ac6cd665f3639e0",
+      "manifest_sha256": "72963a8edb4f1b4d4650cb64a2d134bd7d2a2dc845852a2514c343541dde893b",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106512384,
+      "preflight_id": "pf-5c073ffc3046",
+      "receipt_path": "pf-5c073ffc3046/preflight.json",
+      "receipt_sha256": "5a26089cc34c43df2a8ce2d2216cc01f9ce31d2eb47a04f17b8b0bf3c0f7227c",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "cf200587e983d20d1165bd64125d10c5eee20dc2e252d7fed9132e23ac7f6bc6"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 4096,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 900
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          16,
+          8,
+          8
+        ],
+        "dof_count": 4131,
+        "element_count": 1024,
+        "fixed_dof_count": 243,
+        "free_dof_count": 3888,
+        "node_count": 1377
+      },
+      "case_id": "sri_historical_nu_0p4999_16x8x8",
+      "elapsed_seconds": 2.898492600012105,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_historical_nu_0p4999_16x8x8.json",
+      "manifest_registration_sha256": "1a4dbd95e1c781ea97c5bedb3d550f9b16c69fc133936df50aa7b0e209dfc8ec",
+      "manifest_sha256": "2e98ae1abdd1a0d69520edd9c26bd629df3010d505f3a580da1464c4ca5a02dd",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106266624,
+      "preflight_id": "pf-dbfff6ca5d10",
+      "receipt_path": "pf-dbfff6ca5d10/preflight.json",
+      "receipt_sha256": "d929ae2f5295b914d4c90654a0a8eec31916476626e34c123a8acf091e61b9fa",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8bb4fe44ec80594e8ca5c35385667b8289d827a7b637af1a69169bf736670dbc"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 4096,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 900
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          16,
+          8,
+          8
+        ],
+        "dof_count": 4131,
+        "element_count": 1024,
+        "fixed_dof_count": 243,
+        "free_dof_count": 3888,
+        "node_count": 1377
+      },
+      "case_id": "sri_corrected_nu_0p4999_16x8x8",
+      "elapsed_seconds": 2.9128053999738768,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_corrected_nu_0p4999_16x8x8.json",
+      "manifest_registration_sha256": "f08cb9cab490bf7ec5d3750ba11fa8ab79246409368cefb9e42c6a04c92dbb0a",
+      "manifest_sha256": "09f1e6a9be67c8b44f65f592c8a9870b14f724414bd5bcae446168168af5c7cc",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106541056,
+      "preflight_id": "pf-626a961b21c3",
+      "receipt_path": "pf-626a961b21c3/preflight.json",
+      "receipt_sha256": "4681c2f07bdf271fdbc914dc2be1d44bb75560cd0bb6db082ae435d3d204d7d7",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "fe434fdece2407cf37c46f2caeb2aec571489e437939353ec832c15f1e3db321"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 16384,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 3600
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          32,
+          16,
+          16
+        ],
+        "dof_count": 28611,
+        "element_count": 8192,
+        "fixed_dof_count": 867,
+        "free_dof_count": 27744,
+        "node_count": 9537
+      },
+      "case_id": "hex8_standard_nu_0p3_32x16x16",
+      "elapsed_seconds": 2.886999399983324,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_hex8_standard_nu_0p3_32x16x16.json",
+      "manifest_registration_sha256": "e2ee784cf2e5af50c40468f51cb5705540d1fb2e97c54b45728bf037fc3a19ff",
+      "manifest_sha256": "b9907b820296936efb7eb063074d3ba6b4838f95ce899c606633c9504f6c28da",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106635264,
+      "preflight_id": "pf-06405ccdabe1",
+      "receipt_path": "pf-06405ccdabe1/preflight.json",
+      "receipt_sha256": "d74ac3acb548e56cd71309205d9d457b989067eabc0b365337367261534038c6",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "45fa1865f45c051fd066b87ee92b9bc8e7efad15085abf6c9822452705d7cb05"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 16384,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 3600
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          32,
+          16,
+          16
+        ],
+        "dof_count": 28611,
+        "element_count": 8192,
+        "fixed_dof_count": 867,
+        "free_dof_count": 27744,
+        "node_count": 9537
+      },
+      "case_id": "sri_historical_nu_0p3_32x16x16",
+      "elapsed_seconds": 2.8907750000362284,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_historical_nu_0p3_32x16x16.json",
+      "manifest_registration_sha256": "b73269ebe49aa303e4024bf7454016df8b84160f5d8722e590e520b20160ba35",
+      "manifest_sha256": "0b8b4368db94c8075433a1e5d237a8377780864e4cf8a4dd8e0ef618e2aaef32",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106360832,
+      "preflight_id": "pf-4785e22d3539",
+      "receipt_path": "pf-4785e22d3539/preflight.json",
+      "receipt_sha256": "6ededf8ea8081d4b9c3265d536ae619435ce382d1deda8c9081664b26c007682",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2faad60e8e2b9f163948044fb9cd2d2662016900d246709f91277ac5c8b9f5f5"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 16384,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 3600
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          32,
+          16,
+          16
+        ],
+        "dof_count": 28611,
+        "element_count": 8192,
+        "fixed_dof_count": 867,
+        "free_dof_count": 27744,
+        "node_count": 9537
+      },
+      "case_id": "sri_corrected_nu_0p3_32x16x16",
+      "elapsed_seconds": 2.9122018000343814,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_corrected_nu_0p3_32x16x16.json",
+      "manifest_registration_sha256": "694b5cce25089f6abcdbac147b60ed448274f44d10cecf15770c8ba98d3f9ce0",
+      "manifest_sha256": "5ee87f243f4b9e5a7bf47151024ccc28e7e0917b92855874564ad16374b924ae",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106332160,
+      "preflight_id": "pf-b6b64064bcd6",
+      "receipt_path": "pf-b6b64064bcd6/preflight.json",
+      "receipt_sha256": "dc05ef9ac250b4cf64669d44402c6629526625d0688f93ae4f225cd37c078aa3",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "ba6e0bb3328f74d26cb98e94bf214287bc8e8dad2a32417913c540803da85c86"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 16384,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 3600
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          32,
+          16,
+          16
+        ],
+        "dof_count": 28611,
+        "element_count": 8192,
+        "fixed_dof_count": 867,
+        "free_dof_count": 27744,
+        "node_count": 9537
+      },
+      "case_id": "hex8_standard_nu_0p4999_32x16x16",
+      "elapsed_seconds": 2.9077388999867253,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_hex8_standard_nu_0p4999_32x16x16.json",
+      "manifest_registration_sha256": "9818cfdefd6f861d22baff9f9a892ffeee593dc37d8c5e4343dc1c1bc383b3d2",
+      "manifest_sha256": "deb271b443391f4b1ca88cea561d2b69f3e12b9a5ff073895ad764dbb74741cd",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 105869312,
+      "preflight_id": "pf-be81a5197879",
+      "receipt_path": "pf-be81a5197879/preflight.json",
+      "receipt_sha256": "ed12e5677d876c1dfc1969d2902ec811213c1a976cd3e96b82f631fbd0123906",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "aa9b2c5f14a378da1dd93c4ecb4f25fbeeaebf5b5d62392826bb9bb6e525fea7"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 16384,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 3600
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          32,
+          16,
+          16
+        ],
+        "dof_count": 28611,
+        "element_count": 8192,
+        "fixed_dof_count": 867,
+        "free_dof_count": 27744,
+        "node_count": 9537
+      },
+      "case_id": "sri_historical_nu_0p4999_32x16x16",
+      "elapsed_seconds": 2.887290699989535,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_historical_nu_0p4999_32x16x16.json",
+      "manifest_registration_sha256": "61df91a4af8b13195c369bbfe1637028c5d7fb82e59f8d8f9652cedef19e73ed",
+      "manifest_sha256": "100a550c8d23dccce4f846e92f60f9a149d7057718f9f55130729a77a87ac80c",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106106880,
+      "preflight_id": "pf-573c5de6af91",
+      "receipt_path": "pf-573c5de6af91/preflight.json",
+      "receipt_sha256": "d4d3158dd8b6a3e8d417ea6060d1579c8884a74ca3051c305e7d0304dbd5f476",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6cc4431177b351b26ce722fa83a4130f2f7baf0ade0955e535a7f5f54035deca"
+    },
+    {
+      "attempts_reserved": false,
+      "bodies_executed": false,
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "attempts_per_nodeid": 1,
+        "blas_thread_environment": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        },
+        "budget_semantics": {
+          "captured_output": "controller-enforced byte caps",
+          "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+          "wall_timeout": "watchdog process-tree termination, best effort"
+        },
+        "initial_campaign_max_attempts": 24,
+        "minimum_free_disk_mib": 2048,
+        "output_stream_limit_mib": 8,
+        "output_total_limit_mib": 16,
+        "process_tree_limit": 8,
+        "rss_soft_limit_mib": 16384,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 3600
+      },
+      "case_contract": {
+        "divisions_xyz": [
+          32,
+          16,
+          16
+        ],
+        "dof_count": 28611,
+        "element_count": 8192,
+        "fixed_dof_count": 867,
+        "free_dof_count": 27744,
+        "node_count": 9537
+      },
+      "case_id": "sri_corrected_nu_0p4999_32x16x16",
+      "elapsed_seconds": 2.9015163000440225,
+      "manifest_path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/manifest_sri_corrected_nu_0p4999_32x16x16.json",
+      "manifest_registration_sha256": "544b9951973754b52913ad96dd515b11b9acc9632dab236b09e93ec17725632d",
+      "manifest_sha256": "e53e5ff77ebecf7dc6a5d6d2123f6e3d9aecd45eb3c77632d6e7f99aeb1fe6f2",
+      "nodeid": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]",
+      "peak_process_count": 1,
+      "peak_rss_bytes": 106291200,
+      "preflight_id": "pf-cce5790c722b",
+      "receipt_path": "pf-cce5790c722b/preflight.json",
+      "receipt_sha256": "66d95127a6e1e626ccc393a1d5cda265245f40a2ed57e0d5e1342d98d7ae2be4",
+      "skip_status": "NO_SKIP_MARKERS",
+      "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+      "state": "PREFLIGHT_PASS",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "0fe3858a9d4c50f5168183b0830e7ed013d68c56b1714e05e0b1788fc43a8225"
+    }
+  ],
+  "controller_identity": {
+    "branch": "codex/hex8sri-controller-registration",
+    "head": "43af3e8b3d17b3be1dfaa8fed3d390f29a5cc80f",
+    "root": "E:\\QFSolverAgents\\hex8sri-controller",
+    "status_short": "",
+    "tree": "5dec04f24c86c46de200e3c0b64ee78f39450aff"
+  },
+  "controller_sha256": {
+    "policy": "f8941a7c32ce99b9d0e580157ee3451f88982b553b6a663ea772c35f9d4076b2",
+    "pytest_plugin": "16a1db698d8d9379dfcff4c0b56db23ac1adfea056c8a55ba967e8af50d667bc",
+    "runner": "51124e8e81e9bc044366421546f9592763fdad41295ce9c571d9cd1d0ac7813a"
+  },
+  "created_at_utc": "2026-10-27T06:59:16.394720+00:00",
+  "execution_authorized": false,
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1",
+  "schema": "qfsolver-hex8sri-convergence24-preflight-index-v1",
+  "science_identity": {
+    "branch": "research/hex8-sri-equilibrium",
+    "head": "247ff753a8851cd6341633811313c5667579034a",
+    "tree": "12e3460f617ba7e335301db52095ba7b84abadf5"
+  },
+  "scope_id": "hex8sri-convergence24",
+  "source_fingerprint_sha256": "1fce68d6b2f2702c794e37d73c16414e0d0e4c0f2837331e5792b6fbfb414555",
+  "status": "PREFLIGHT_PASS_ALL_24"
+}

@@ -1,0 +1,1 @@
+{"bodies_executed":false,"collected_nodeids":["tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]"],"schema":"qfsolver-hex8sri-convergence24-collection-v1","scope_id":"hex8sri-convergence24","skip_markers":[],"target":"tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]"}

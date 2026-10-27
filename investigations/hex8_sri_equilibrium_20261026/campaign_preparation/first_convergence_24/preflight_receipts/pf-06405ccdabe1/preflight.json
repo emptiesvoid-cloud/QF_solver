@@ -1,0 +1,160 @@
+{
+  "archive_bytes": 214,
+  "attempt_ledger": {
+    "attempts_reserved": false,
+    "mandate_id": "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1",
+    "path": "E:\\QFSolverAgents\\hex8sri-controller\\.codex\\development-runs\\node-attempt-ledger-hex8sri-convergence24.json"
+  },
+  "bodies_executed": false,
+  "budget_semantics": {
+    "captured_output": "application-enforced byte caps on captured stdout/stderr",
+    "process_count": "sampled process-tree monitor; not a job-object boundary",
+    "rss": "sampled soft monitor; not a hard memory/commit limit",
+    "temporary_and_archive_size": "sampled size monitoring; not an NTFS quota",
+    "wall_timeout": "watchdog-triggered process-tree termination; best-effort OS control"
+  },
+  "budgets": {
+    "archive_size_limit_mib": 256,
+    "attempts_per_nodeid": 1,
+    "blas_thread_environment": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "budget_semantics": {
+      "captured_output": "controller-enforced byte caps",
+      "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+      "wall_timeout": "watchdog process-tree termination, best effort"
+    },
+    "initial_campaign_max_attempts": 24,
+    "minimum_free_disk_mib": 2048,
+    "output_stream_limit_mib": 8,
+    "output_total_limit_mib": 16,
+    "process_tree_limit": 8,
+    "rss_soft_limit_mib": 16384,
+    "temporary_limit_mib": 512,
+    "timeout_seconds": 3600
+  },
+  "case_contract": {
+    "divisions_xyz": [
+      32,
+      16,
+      16
+    ],
+    "dof_count": 28611,
+    "element_count": 8192,
+    "fixed_dof_count": 867,
+    "free_dof_count": 27744,
+    "node_count": 9537
+  },
+  "case_manifest": {
+    "case_id": "hex8_standard_nu_0p3_32x16x16",
+    "path": "E:\\QFSolverAgents\\hex8-sri-research\\investigations\\hex8_sri_equilibrium_20261026\\campaign_preparation\\first_convergence_24\\registered_manifests\\manifest_hex8_standard_nu_0p3_32x16x16.json",
+    "registration_sha256": "e2ee784cf2e5af50c40468f51cb5705540d1fb2e97c54b45728bf037fc3a19ff",
+    "scope_id": "hex8sri-convergence24",
+    "sha256": "b9907b820296936efb7eb063074d3ba6b4838f95ce899c606633c9504f6c28da"
+  },
+  "collected_nodeids": [
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]"
+  ],
+  "collection_report": {
+    "bodies_executed": false,
+    "collected_nodeids": [
+      "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]"
+    ],
+    "schema": "qfsolver-hex8sri-convergence24-collection-v1",
+    "scope_id": "hex8sri-convergence24",
+    "skip_markers": [],
+    "target": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]"
+  },
+  "command": [
+    "C:\\Python313\\python.exe",
+    "-B",
+    "-c",
+    "from pathlib import Path\nimport sys\nsrc = Path(sys.argv[1]).resolve()\nroot = Path(sys.argv[2]).resolve()\ncontroller = Path(sys.argv[3]).resolve()\nmode = sys.argv[4]\ntarget = sys.argv[5]\nsys.path.insert(0, str(src))\nsys.path.insert(0, str(controller / 'scripts'))\nimport solveur\norigin = Path(solveur.__file__).resolve()\nexpected = (src / 'solveur' / '__init__.py').resolve()\nprint('QF_DEV_SOLVER_ORIGIN=' + str(origin))\nif origin != expected:\n    raise SystemExit('wrong solveur import origin: ' + str(origin))\nimport pytest\nfrom development_autonomous_pytest_plugin import ExactNodeGate\ngate = ExactNodeGate((target,), allow_native_skip_override=(mode == 'd01' and False))\nraise SystemExit(pytest.main(sys.argv[6:], plugins=[gate]))",
+    "E:\\QFSolverAgents\\hex8-sri-research\\src",
+    "E:\\QFSolverAgents\\hex8-sri-research",
+    "E:\\QFSolverAgents\\hex8sri-controller",
+    "registered",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "--basetemp",
+    "E:\\QFSolverAgents\\hex8sri-controller\\.codex\\development-runs\\worktrees\\hex8sri-convergence24\\preflight\\pf-06405ccdabe1\\tmp",
+    "--collect-only",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]"
+  ],
+  "controller_provenance": {
+    "identity": {
+      "branch": "codex/hex8sri-controller-registration",
+      "head": "43af3e8b3d17b3be1dfaa8fed3d390f29a5cc80f",
+      "root": "E:\\QFSolverAgents\\hex8sri-controller",
+      "status_short": "",
+      "tree": "5dec04f24c86c46de200e3c0b64ee78f39450aff"
+    },
+    "runtime": {
+      "psutil_version": "7.2.2",
+      "pytest_version": "8.4.1",
+      "python_executable": "C:\\Python313\\python.exe",
+      "python_version": "3.13.1"
+    },
+    "sha256": {
+      "policy": "f8941a7c32ce99b9d0e580157ee3451f88982b553b6a663ea772c35f9d4076b2",
+      "pytest_plugin": "16a1db698d8d9379dfcff4c0b56db23ac1adfea056c8a55ba967e8af50d667bc",
+      "runner": "51124e8e81e9bc044366421546f9592763fdad41295ce9c571d9cd1d0ac7813a"
+    }
+  },
+  "elapsed_seconds": 2.886999399983324,
+  "finished_at_utc": "2026-10-27T06:57:36.400638+00:00",
+  "free_disk_after_bytes": 879118811136,
+  "free_disk_before_bytes": 879118815232,
+  "identity": {
+    "branch": "research/hex8-sri-equilibrium",
+    "head": "247ff753a8851cd6341633811313c5667579034a",
+    "root": "E:\\QFSolverAgents\\hex8-sri-research",
+    "status_short": "",
+    "tree": "12e3460f617ba7e335301db52095ba7b84abadf5"
+  },
+  "identity_after": {
+    "branch": "research/hex8-sri-equilibrium",
+    "head": "247ff753a8851cd6341633811313c5667579034a",
+    "root": "E:\\QFSolverAgents\\hex8-sri-research",
+    "status_short": "",
+    "tree": "12e3460f617ba7e335301db52095ba7b84abadf5"
+  },
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1",
+  "mode": "DEVELOPMENT_AUTONOMOUS",
+  "native_guard_environment": {
+    "active_markers": [],
+    "values": {
+      "QF_SOLVER_NO_NATIVE_EXECUTION": "UNSET",
+      "WPC01_NO_NATIVE_EXECUTION": "UNSET",
+      "WPC01_SPATIAL_NO_FEM_TEST": "UNSET",
+      "WPC01_SPATIAL_TERMINAL_REHEARSAL": "UNSET"
+    }
+  },
+  "peak_process_count": 1,
+  "peak_rss_bytes": 106635264,
+  "phase": "PYTEST_COLLECT_ONLY",
+  "predecessor_ledger": null,
+  "predecessor_ledger_sha256_verified": null,
+  "preflight_id": "pf-06405ccdabe1",
+  "return_code": 0,
+  "schema": "qfsolver-development-hex8sri-convergence24-preflight-v1",
+  "skip_status": "NO_SKIP_MARKERS",
+  "solver_origin_expected": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+  "solver_origin_observed": "E:\\QFSolverAgents\\hex8-sri-research\\src\\solveur\\__init__.py",
+  "source_fingerprint": "1fce68d6b2f2702c794e37d73c16414e0d0e4c0f2837331e5792b6fbfb414555",
+  "source_fingerprint_after": "1fce68d6b2f2702c794e37d73c16414e0d0e4c0f2837331e5792b6fbfb414555",
+  "started_at_utc": "2026-10-27T06:57:32.553512+00:00",
+  "state": "PREFLIGHT_PASS",
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_bytes": 214,
+  "stdout_sha256": "45fa1865f45c051fd066b87ee92b9bc8e7efad15085abf6c9822452705d7cb05",
+  "stop_reason": null,
+  "target": "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]",
+  "temporary_bytes": 374,
+  "worktree_id": "hex8sri-convergence24"
+}

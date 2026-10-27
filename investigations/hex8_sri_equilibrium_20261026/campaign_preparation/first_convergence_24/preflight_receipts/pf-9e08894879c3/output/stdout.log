@@ -1,0 +1,4 @@
+QF_DEV_SOLVER_ORIGIN=E:\QFSolverAgents\hex8-sri-research\src\solveur\__init__.py
+tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]
+
+1 test collected in 0.74s
