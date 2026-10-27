@@ -37,9 +37,19 @@
     "sha256": "48f1c5b59b74b4148c8167c967c634b381cb48b3c24a1702dc1252e5d6def809"
   },
   "controller_campaign_scope_id": "hex8sri-convergence24",
-  "controller_code_sha256": null,
-  "controller_identity": null,
-  "controller_identity_status": "CONTROLLER_EXTENSION_PENDING",
+  "controller_code_sha256": {
+    "policy": "f8941a7c32ce99b9d0e580157ee3451f88982b553b6a663ea772c35f9d4076b2",
+    "pytest_plugin": "16a1db698d8d9379dfcff4c0b56db23ac1adfea056c8a55ba967e8af50d667bc",
+    "runner": "51124e8e81e9bc044366421546f9592763fdad41295ce9c571d9cd1d0ac7813a"
+  },
+  "controller_identity": {
+    "branch": "codex/hex8sri-controller-registration",
+    "head": "43af3e8b3d17b3be1dfaa8fed3d390f29a5cc80f",
+    "policy_sha256": "f8941a7c32ce99b9d0e580157ee3451f88982b553b6a663ea772c35f9d4076b2",
+    "pytest_plugin_sha256": "16a1db698d8d9379dfcff4c0b56db23ac1adfea056c8a55ba967e8af50d667bc",
+    "runner_sha256": "51124e8e81e9bc044366421546f9592763fdad41295ce9c571d9cd1d0ac7813a"
+  },
+  "controller_identity_status": "FINAL_CONTROLLER_IDENTITY_BOUND",
   "controller_registration_id": "hex8sri",
   "criteria_status": "PROPOSED_REQUIRES_OWNER_FREEZE",
   "do_not_execute": true,
