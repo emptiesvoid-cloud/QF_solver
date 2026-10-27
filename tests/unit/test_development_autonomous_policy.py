@@ -86,6 +86,7 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
         "wp12_elements_loads_corrective",
         "wp12_dynamics",
         "rotor",
+        MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID,
     }
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
     assert policy["worktrees"]["d01"]["development_mandate_id"] == "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v2-d01"
@@ -1689,7 +1690,9 @@ def test_collect_only_preflight_does_not_expand_to_other_scopes(
     monkeypatch: pytest.MonkeyPatch, worktree_id: str
 ) -> None:
     monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: {})
-    with pytest.raises(MODULE.PolicyError, match="enabled only for D01 native nodes and the explicit rotor scope"):
+    with pytest.raises(
+        MODULE.PolicyError, match="enabled only for D01, rotor, and the preparation-only HEX8-SRI scope"
+    ):
         MODULE.preflight_pytest(worktree_id, "tests/unit/test_anything.py::test_case")
 
 
@@ -2672,3 +2675,475 @@ def test_archive_writer_is_atomic_json(tmp_path: Path) -> None:
     MODULE._atomic_json(path, {"state": "PASS", "attempt": 1})
     assert json.loads(path.read_text(encoding="utf-8")) == {"attempt": 1, "state": "PASS"}
     assert list(tmp_path.glob("*.tmp")) == []
+
+
+def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_semantically() -> None:
+    policy = _policy()
+    worktrees = policy["worktrees"]
+    scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    assert set(worktrees) == {
+        "d01",
+        "c01",
+        "e01",
+        "wp12_wp07",
+        "wp12_tet4",
+        "wp12_elements",
+        "wp12_elements_loads",
+        "wp12_elements_loads_corrective",
+        "wp12_dynamics",
+        "rotor",
+        scope_id,
+    }
+    existing = {key: value for key, value in worktrees.items() if key != scope_id}
+    serialized = json.dumps(existing, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    assert hashlib.sha256(serialized).hexdigest() == "75a04717c7e3696cb428d9a9fd8e950e0ef0c90005625a821dabc99d205e15da"
+    entry = worktrees[scope_id]
+    assert entry["allowed_nodeids"] == list(MODULE._hex8sri_convergence24_nodeids())
+    assert len(entry["allowed_nodeids"]) == 24
+    assert entry["execution_authorized"] is False
+    assert entry["attempt_limit_per_nodeid"] == 1
+    assert entry["node_attempt_ledger"]["path"] == MODULE.HEX8SRI_CONVERGENCE24_LEDGER
+
+
+@pytest.mark.parametrize(
+    ("mutation", "expected_error"),
+    [
+        ("execution_authorized", "preparation-only mandate is invalid"),
+        ("nodeid", "preparation-only mandate is invalid"),
+        ("ledger", "preparation-only mandate is invalid"),
+        ("budget", "shared budget must equal the largest registered case budget"),
+    ],
+    ids=("auth", "nodeid", "ledger", "budget"),
+)
+def test_hex8sri_convergence24_policy_refuses_scope_tampering(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    mutation: str,
+    expected_error: str,
+) -> None:
+    policy = _policy()
+    scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    entry = policy["worktrees"][scope_id]
+    if mutation == "execution_authorized":
+        entry["execution_authorized"] = True
+    elif mutation == "nodeid":
+        entry["allowed_nodeids"].append("tests/verification/test_elsewhere.py::test_extra")
+    elif mutation == "ledger":
+        entry["node_attempt_ledger"]["path"] = "node-attempt-ledger.json"
+    else:
+        entry["budgets"]["rss_soft_limit_mib"] = 1024
+    policy_path = tmp_path / "development_autonomous_policy.json"
+    policy_path.write_text(json.dumps(policy, indent=2) + "\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "ROOT", tmp_path)
+    with pytest.raises(MODULE.PolicyError, match=expected_error):
+        MODULE.load_policy(path=policy_path)
+
+
+@pytest.mark.parametrize(
+    ("mesh_token", "expected"),
+    [
+        ("4x2x2", (16, 45, 135, 27, 108)),
+        ("8x4x4", (128, 225, 675, 75, 600)),
+        ("16x8x8", (1024, 1377, 4131, 243, 3888)),
+        ("32x16x16", (8192, 9537, 28611, 867, 27744)),
+    ],
+)
+def test_hex8sri_convergence24_mesh_contract_is_algebraic_and_exact(
+    mesh_token: str, expected: tuple[int, int, int, int, int]
+) -> None:
+    nx, ny, nz = (int(part) for part in mesh_token.split("x"))
+    manifest = {
+        "mesh": {
+            "divisions_xyz": [nx, ny, nz],
+            "element_count": expected[0],
+            "node_count": expected[1],
+            "dof_count": expected[2],
+            "fixed_dof_count": expected[3],
+            "free_dof_count": expected[4],
+        }
+    }
+    contract = MODULE._hex8sri_convergence24_case_contract(manifest)
+    assert (
+        tuple(
+            contract[key] for key in ("element_count", "node_count", "dof_count", "fixed_dof_count", "free_dof_count")
+        )
+        == expected
+    )
+    manifest["mesh"]["free_dof_count"] += 1
+    with pytest.raises(MODULE.PolicyError, match="DDL or element counts"):
+        MODULE._hex8sri_convergence24_case_contract(manifest)
+
+
+def test_hex8sri_convergence24_collect_command_is_exact_collect_only(tmp_path: Path) -> None:
+    target = MODULE._hex8sri_convergence24_nodeids()[0]
+    command = MODULE.build_pytest_command(
+        "fem_exploratory",
+        [target],
+        tmp_path / "tmp",
+        repository_root=tmp_path,
+        source_root=tmp_path / "src",
+        controller_root=tmp_path,
+        collect_only=True,
+        hex8sri_convergence24_collect_only_attestation=True,
+    )
+    assert command[-1] == target
+    assert "--collect-only" in command
+    bootstrap = command[command.index("-c") + 1]
+    assert "Hex8SRIConvergence24Attestor" in bootstrap
+    assert "allow_native_skip_override=True" not in bootstrap
+    with pytest.raises(MODULE.PolicyError, match="exact preparation-only collect-only"):
+        MODULE.build_pytest_command(
+            "fem_exploratory",
+            [target],
+            tmp_path / "tmp",
+            repository_root=tmp_path,
+            source_root=tmp_path / "src",
+            controller_root=tmp_path,
+            collect_only=False,
+            hex8sri_convergence24_collect_only_attestation=True,
+        )
+
+
+def test_preflight_cli_routes_hex8sri_scope_without_execution(monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+    target = MODULE._hex8sri_convergence24_nodeids()[0]
+    monkeypatch.setattr(
+        MODULE,
+        "preflight_pytest",
+        lambda worktree, nodeid, preflight_id=None: {
+            "state": "PREFLIGHT_PASS",
+            "worktree": worktree,
+            "nodeid": nodeid,
+            "bodies_executed": False,
+        },
+    )
+    assert MODULE.main(["preflight", "--worktree", MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID, "--target", target]) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result["worktree"] == MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    assert result["nodeid"] == target
+    assert result["bodies_executed"] is False
+
+
+def test_hex8sri_convergence24_attestor_records_skip_status_and_body_execution(tmp_path: Path, monkeypatch) -> None:
+    target = MODULE._hex8sri_convergence24_nodeids()[0]
+    report_path = tmp_path / "collection-report.json"
+    monkeypatch.setenv("QF_DEV_PREFLIGHT_COLLECTION_REPORT", str(report_path))
+    item = SimpleNamespace(nodeid=target, iter_markers=lambda: iter(()))
+    session = SimpleNamespace(items=[item])
+    attestor = PLUGIN.Hex8SRIConvergence24Attestor(target, scope_id=MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID)
+    attestor.pytest_collection_finish(session)
+    attestor.pytest_sessionfinish(session, 0)
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    assert report["collected_nodeids"] == [target]
+    assert report["skip_markers"] == []
+    assert report["bodies_executed"] is False
+    assert report["exitstatus"] == 0
+
+    skipped_path = tmp_path / "skipped-report.json"
+    monkeypatch.setenv("QF_DEV_PREFLIGHT_COLLECTION_REPORT", str(skipped_path))
+    skipped = SimpleNamespace(
+        nodeid=target,
+        iter_markers=lambda: iter((SimpleNamespace(name="skipif"),)),
+    )
+    attestor = PLUGIN.Hex8SRIConvergence24Attestor(target, scope_id=MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID)
+    attestor.pytest_collection_finish(SimpleNamespace(items=[skipped]))
+    attestor.pytest_sessionfinish(SimpleNamespace(items=[skipped]), 0)
+    assert json.loads(skipped_path.read_text(encoding="utf-8"))["skip_markers"] == ["skipif"]
+
+
+def _write_synthetic_hex8sri_convergence24_receipt(
+    store: Path,
+    *,
+    target: str,
+    identity: dict[str, Any],
+    source_fingerprint: str,
+    controller_provenance: dict[str, Any],
+    manifest_binding: dict[str, Any],
+    attempt_ledger: dict[str, Any],
+) -> tuple[str, Path, dict[str, Any]]:
+    preflight_id = "pf-24abcdeffedc"
+    receipt_dir = MODULE._preflight_directory(store, MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID, preflight_id)
+    receipt_dir.mkdir(parents=True)
+    record_path = receipt_dir / "preflight.json"
+    origin = r"E:\synthetic\src\solveur\__init__.py"
+    receipt = {
+        "schema": "qfsolver-development-hex8sri-convergence24-preflight-v1",
+        "state": "PREFLIGHT_PASS",
+        "bodies_executed": False,
+        "attempt_reserved": False,
+        "execution_authorized": False,
+        "worktree_id": MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+        "target": target,
+        "preflight_id": preflight_id,
+        "identity": identity,
+        "source_fingerprint": source_fingerprint,
+        "controller_provenance": controller_provenance,
+        "case_manifest": manifest_binding,
+        "solver_origin_expected": origin,
+        "solver_origin_observed": origin,
+        "collected_nodeids": [target],
+        "skip_status": "NO_SKIP_MARKERS",
+        "attempt_ledger": attempt_ledger,
+        "collection_report": {
+            "schema": "qfsolver-hex8sri-convergence24-collection-v1",
+            "scope_id": MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+            "target": target,
+            "collected_nodeids": [target],
+            "skip_markers": [],
+            "bodies_executed": False,
+            "exitstatus": 0,
+        },
+    }
+    record_path.write_text(json.dumps(receipt, sort_keys=True) + "\n", encoding="utf-8")
+    (receipt_dir / "preflight.sha256.json").write_text(
+        json.dumps({"sha256": MODULE._sha256(record_path)}, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    return preflight_id, record_path, receipt
+
+
+def test_hex8sri_convergence24_receipt_validator_accepts_synthetic_receipt(tmp_path: Path) -> None:
+    target = MODULE._hex8sri_convergence24_nodeids()[0]
+    identity = {"root": "research", "branch": "research/hex8-sri-equilibrium", "head": "a" * 40}
+    source_fingerprint = "b" * 64
+    controller = {"identity": {"branch": "codex/hex8sri-convergence24-minimal", "head": "c" * 40}, "sha256": {}}
+    binding = {
+        "path": "manifest.json",
+        "sha256": "d" * 64,
+        "registration_sha256": "e" * 64,
+        "case_id": "synthetic",
+        "scope_id": MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+    }
+    ledger = {
+        "path": "dedicated-ledger.json",
+        "mandate_id": MODULE.HEX8SRI_CONVERGENCE24_MANDATE_ID,
+        "attempts_reserved": False,
+    }
+    preflight_id, record_path, _ = _write_synthetic_hex8sri_convergence24_receipt(
+        tmp_path,
+        target=target,
+        identity=identity,
+        source_fingerprint=source_fingerprint,
+        controller_provenance=controller,
+        manifest_binding=binding,
+        attempt_ledger=ledger,
+    )
+    validated_path, validated_sha = MODULE._validate_hex8sri_convergence24_preflight_receipt(
+        tmp_path,
+        preflight_id,
+        target=target,
+        identity=identity,
+        source_fingerprint=source_fingerprint,
+        controller_provenance=controller,
+        manifest_binding=binding,
+        attempt_ledger=ledger,
+    )
+    assert validated_path == record_path
+    assert validated_sha == MODULE._sha256(record_path)
+
+
+def test_hex8sri_convergence24_receipt_validator_rejects_identity_drift(tmp_path: Path) -> None:
+    target = MODULE._hex8sri_convergence24_nodeids()[0]
+    identity = {"root": "research", "branch": "research/hex8-sri-equilibrium", "head": "a" * 40}
+    controller = {"identity": {"branch": "codex/hex8sri-convergence24-minimal", "head": "c" * 40}, "sha256": {}}
+    binding = {
+        "path": "manifest.json",
+        "sha256": "d" * 64,
+        "registration_sha256": "e" * 64,
+        "case_id": "synthetic",
+        "scope_id": MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+    }
+    ledger = {
+        "path": "dedicated-ledger.json",
+        "mandate_id": MODULE.HEX8SRI_CONVERGENCE24_MANDATE_ID,
+        "attempts_reserved": False,
+    }
+    preflight_id, record_path, receipt = _write_synthetic_hex8sri_convergence24_receipt(
+        tmp_path,
+        target=target,
+        identity=identity,
+        source_fingerprint="b" * 64,
+        controller_provenance=controller,
+        manifest_binding=binding,
+        attempt_ledger=ledger,
+    )
+    receipt["identity"] = {**receipt["identity"], "head": "f" * 40}
+    record_path.write_text(json.dumps(receipt, sort_keys=True) + "\n", encoding="utf-8")
+    (record_path.parent / "preflight.sha256.json").write_text(
+        json.dumps({"sha256": MODULE._sha256(record_path)}, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(MODULE.PolicyError, match="does not match this source, controller"):
+        MODULE._validate_hex8sri_convergence24_preflight_receipt(
+            tmp_path,
+            preflight_id,
+            target=target,
+            identity=identity,
+            source_fingerprint="b" * 64,
+            controller_provenance=controller,
+            manifest_binding=binding,
+            attempt_ledger=ledger,
+        )
+
+
+def test_hex8sri_convergence24_preflight_writer_emits_validator_accepted_synthetic_receipt(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    policy = json.loads(json.dumps(_policy()))
+    scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    entry = policy["worktrees"][scope_id]
+    target = "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]"
+    repository = tmp_path / "research"
+    source_root = repository / "src"
+    solver_file = source_root / "solveur" / "__init__.py"
+    solver_file.parent.mkdir(parents=True)
+    solver_file.write_text("# synthetic origin\n", encoding="utf-8")
+    manifest_dir = repository / "registered_manifests"
+    manifest_dir.mkdir()
+    common_path = manifest_dir / "common_problem.json"
+    common_path.write_text('{"synthetic": true}\n', encoding="utf-8")
+    hashes = {"runner": "1" * 64, "pytest_plugin": "2" * 64, "policy": "3" * 64}
+    controller = {
+        "identity": {"branch": "codex/hex8sri-convergence24-minimal", "head": "c" * 40},
+        "sha256": hashes,
+        "runtime": {"python_version": "test", "pytest_version": "test", "psutil_version": "test"},
+    }
+    mesh = {
+        "divisions_xyz": [4, 2, 2],
+        "element_count": 16,
+        "node_count": 45,
+        "dof_count": 135,
+        "fixed_dof_count": 27,
+        "free_dof_count": 108,
+    }
+    budget = {
+        **MODULE._hex8sri_convergence24_budget(target),
+        "attempts_per_nodeid": 1,
+        "initial_campaign_max_attempts": 24,
+        "blas_thread_environment": entry["blas_thread_environment"],
+        "budget_semantics": {
+            "captured_output": "controller-enforced byte caps",
+            "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+            "wall_timeout": "watchdog process-tree termination, best effort",
+        },
+    }
+    manifest = {
+        "schema": "qfsolver-hex8-sri-structural-case-v2",
+        "campaign_id": MODULE.HEX8SRI_CONVERGENCE24_CAMPAIGN_ID,
+        "case_id": "hex8_standard_nu_0p3_4x2x2",
+        "common_problem": {"path": "common_problem.json", "sha256": MODULE._sha256(common_path)},
+        "controller_registration_id": scope_id,
+        "controller_campaign_scope_id": scope_id,
+        "controller_identity_status": "FINAL_CONTROLLER_IDENTITY_BOUND",
+        "controller_code_sha256": hashes,
+        "controller_identity": {
+            "branch": controller["identity"]["branch"],
+            "head": controller["identity"]["head"],
+            "runner_sha256": hashes["runner"],
+            "pytest_plugin_sha256": hashes["pytest_plugin"],
+            "policy_sha256": hashes["policy"],
+        },
+        "exact_nodeid": target,
+        "science_branch": "research/hex8-sri-equilibrium",
+        "source_fingerprint_sha256": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+        "execution_authorized": False,
+        "do_not_execute": True,
+        "execution_state": "PREPARED_NOT_AUTHORIZED",
+        "formulation": {"id": "hex8_standard"},
+        "poisson_ratio": 0.3,
+        "mesh": mesh,
+        "budgets": budget,
+    }
+    manifest_path = manifest_dir / "manifest.json"
+    manifest_path.write_text(json.dumps(manifest, sort_keys=True) + "\n", encoding="utf-8")
+    entry["root"] = str(repository)
+    entry["git_root"] = str(repository)
+    entry["case_manifests"] = {
+        target: {
+            "path": "registered_manifests/manifest.json",
+            "sha256": MODULE._hex8sri_manifest_registration_sha256(manifest),
+        }
+    }
+    identity = {
+        "root": str(repository),
+        "branch": entry["branch"],
+        "head": "a" * 40,
+        "tree": "b" * 40,
+        "status_short": "",
+    }
+    store = tmp_path / "run-store"
+    monkeypatch.setattr(MODULE, "resolve_targets", lambda *_args, **_kwargs: [target])
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda *_args, **_kwargs: (
+            entry,
+            repository,
+            source_root,
+            identity,
+            MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+        ),
+    )
+    monkeypatch.setattr(
+        MODULE, "_worktree_source_fingerprint", lambda *_args: MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
+    )
+    monkeypatch.setattr(MODULE, "_controller_provenance", lambda: controller)
+    monkeypatch.setattr(MODULE, "_run_root", lambda *_args: store)
+    monkeypatch.setattr(MODULE.shutil, "disk_usage", lambda _path: SimpleNamespace(free=8 * 1024**3))
+
+    def fake_supervised_command(_command, *, output_dir, environment, **_kwargs):
+        stdout = f"QF_DEV_SOLVER_ORIGIN={solver_file.resolve()}\n{target}\n"
+        (output_dir / "stdout.log").write_text(stdout, encoding="utf-8")
+        (output_dir / "stderr.log").write_text("", encoding="utf-8")
+        report = {
+            "schema": "qfsolver-hex8sri-convergence24-collection-v1",
+            "scope_id": scope_id,
+            "target": target,
+            "collected_nodeids": [target],
+            "skip_markers": [],
+            "bodies_executed": False,
+            "exitstatus": 0,
+        }
+        Path(environment["QF_DEV_PREFLIGHT_COLLECTION_REPORT"]).write_text(
+            json.dumps(report, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        return SimpleNamespace(
+            status="PASS",
+            return_code=0,
+            elapsed_seconds=0.01,
+            peak_rss_bytes=1024,
+            peak_process_count=1,
+            stdout_bytes=len(stdout.encode()),
+            stderr_bytes=0,
+            archive_bytes=0,
+            temporary_bytes=0,
+            stop_reason=None,
+        )
+
+    monkeypatch.setattr(MODULE, "run_supervised_command", fake_supervised_command)
+    result = MODULE.preflight_hex8sri_convergence24_pytest(target, "pf-24fedcba9876", policy=policy)
+    assert result["state"] == "PREFLIGHT_PASS"
+    assert result["receipt_validated"] is True
+    assert result["bodies_executed"] is False
+    assert not (store / MODULE.HEX8SRI_CONVERGENCE24_LEDGER).exists()
+
+
+def test_hex8sri_convergence24_execution_refuses_before_ledger_or_launcher(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    worktree_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    target = MODULE._hex8sri_convergence24_nodeids()[0]
+    monkeypatch.setattr(MODULE, "load_policy", lambda: {"worktrees": {worktree_id: {}}})
+    monkeypatch.setattr(
+        MODULE,
+        "_node_ledger_context",
+        lambda *_args, **_kwargs: pytest.fail("unauthorized HEX8-SRI execution reached ledger setup"),
+    )
+    with pytest.raises(MODULE.PolicyError, match="preparation-only; Owner execution authorization is absent"):
+        MODULE.run_pytest(
+            "fem_exploratory",
+            target,
+            "dev-hex8sri-convergence24-test",
+            worktree_id=worktree_id,
+            reason="synthetic refusal test",
+        )
+    assert list(tmp_path.iterdir()) == []
