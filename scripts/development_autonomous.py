@@ -85,6 +85,7 @@ D01_OWNER_BUDGETS = {
 }
 WP12_BASELINE_COMMIT = "6d8f140834db75ea9b968b055af23445261d0073"
 WP12_COORDINATION_ROOT = Path(r"E:\QFSolverAgents\evidence\.wp12-coordination")
+WP12_EXECUTION_SCOPE_ALIASES = {"wp12_elements_loads_corrective": "wp12_elements_loads"}
 WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
     "wp12_wp07": {
         "root": r"E:\QFSolverAgents\wp07",
@@ -141,6 +142,22 @@ WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
         "max_fem_cases_per_attempt": 1,
         "concurrency_class": "parallel",
         "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-2026-10-26-v1",
+    },
+    "wp12_elements_loads_corrective": {
+        "root": r"C:\Users\fari\.codex\worktrees\verify-wp12-elements-loads\qf_solver",
+        "branch": "emptiesvoids-cloud/fix-wp12b-scope-identity-guard",
+        "evidence_root": r"E:\QFSolverAgents\evidence\wp12-elements-loads-corrective-r1",
+        "timeout_seconds": 300,
+        "max_timeout_seconds": 300,
+        "max_total_attempts": 3,
+        "attempt_limit_per_nodeid": 1,
+        "max_registered_nodeids": 3,
+        "max_dofs": 30000,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "parallel",
+        "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-CORRECTIVE-2026-10-26-R1",
+        "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26",
+        "execution_scope_id": "wp12_elements_loads",
     },
     "wp12_dynamics": {
         "root": r"E:\QFSolverAgents\wp12-dynamics",
@@ -303,6 +320,8 @@ def _validate_wp12_registration_history(worktree_id: str, entry: Mapping[str, An
         target = record.get("target")
         if not isinstance(target, str) or target not in nodeids:
             raise PolicyError(f"{worktree_id} registration history contains an unallowlisted target")
+        if record.get("campaign_id") != entry.get("campaign_id"):
+            raise PolicyError(f"{worktree_id} registration history is bound to a different corrective campaign")
         if target not in first_seen:
             first_seen.append(target)
         if (
@@ -508,10 +527,16 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
                 "max_total_attempts": envelope["max_total_attempts"],
                 "require_clean_worktree": True,
             }
+            for campaign_field in ("campaign_id", "execution_scope_id"):
+                if campaign_field in envelope:
+                    expected_identity[campaign_field] = envelope[campaign_field]
             if any(entry.get(field) != expected for field, expected in expected_identity.items()):
                 raise PolicyError(
                     f"{worktree_id} identity and attempt envelope must match its Owner authorization exactly"
                 )
+            expected_execution_scope = WP12_EXECUTION_SCOPE_ALIASES.get(worktree_id, worktree_id)
+            if entry.get("execution_scope_id", worktree_id) != expected_execution_scope:
+                raise PolicyError(f"{worktree_id} execution-scope identity does not match the fixed controller mapping")
             registration = entry.get("nodeid_registration")
             if registration != {"enabled": True, "max_nodeids": envelope["max_registered_nodeids"]}:
                 raise PolicyError(f"{worktree_id} nodeid registration cap must match its Owner authorization")
@@ -724,6 +749,7 @@ def _validate_wp12_execution_manifest(
         raise PolicyError("WP12 Owner approval time must be expressed in UTC")
     if (
         manifest.get("worktree_id") != worktree_id
+        or manifest.get("campaign_id") != entry.get("campaign_id")
         or manifest.get("target") != target
         or manifest.get("identity") != dict(identity)
         or manifest.get("source_fingerprint") != source_fingerprint
@@ -872,7 +898,11 @@ def build_child_environment(
     if d01_source_sha is not None:
         environment["QF_WP_D01_BJ_SOURCE_SHA"] = d01_source_sha
     if wp12_entry is not None:
-        environment["QF_DEV_WORKTREE_ID"] = str(wp12_entry["worktree_id"])
+        registered_worktree_id = str(wp12_entry["worktree_id"])
+        execution_scope_id = WP12_EXECUTION_SCOPE_ALIASES.get(registered_worktree_id, registered_worktree_id)
+        if wp12_entry.get("execution_scope_id", registered_worktree_id) != execution_scope_id:
+            raise PolicyError("registered WP12 execution-scope identity is inconsistent")
+        environment["QF_DEV_WORKTREE_ID"] = execution_scope_id
         environment["QF_DEV_MAX_FEM_CASES"] = str(wp12_entry["max_fem_cases_per_attempt"])
         evidence_root = wp12_entry.get("evidence_root")
         if not isinstance(evidence_root, str) or not evidence_root:
@@ -2159,6 +2189,7 @@ def register_wp12_nodeid(
             nodeids.append(target)
         record = {
             "target": target,
+            **({"campaign_id": entry["campaign_id"]} if "campaign_id" in entry else {}),
             "reason": reason.strip(),
             "registered_at_utc": datetime.now(timezone.utc).isoformat(),
             "worktree_head": current_identity["head"],
@@ -2220,6 +2251,7 @@ def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization
             "state": "PREPARED_NOT_AUTHORIZED",
             "authorization_id": authorization_id,
             "worktree_id": worktree_id,
+            **({"campaign_id": entry["campaign_id"]} if "campaign_id" in entry else {}),
             "target": target,
             "identity": identity,
             "source_fingerprint": source_fingerprint,

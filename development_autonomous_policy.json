@@ -430,6 +430,84 @@
         }
       ]
     },
+    "wp12_elements_loads_corrective": {
+      "purpose": "WP12-B corrective campaign after preserved scope-identity guard refusals; execution identity remains wp12_elements_loads",
+      "mode": "fem_exploratory",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "branch": "emptiesvoids-cloud/fix-wp12b-scope-identity-guard",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-elements-loads-corrective-r1",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 3,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 30000,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-CORRECTIVE-2026-10-26-R1",
+      "require_clean_worktree": true,
+      "execution_scope_id": "wp12_elements_loads",
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 3
+      },
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+        "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+        "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch"
+      ],
+      "nodeid_registration_records": [
+        {
+          "target": "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+          "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26",
+          "reason": "Corrective source revision after the archived scope identity guard refusal; no test execution is authorized.",
+          "registered_at_utc": "2026-10-26T22:21:35.969657+00:00",
+          "worktree_head": "2db9c9b54283a6c78953fbcede427527101ec8cf",
+          "source_fingerprint": "f55021a05cca3cde5014584d7236823a0936df2e6eca97887c910d99468be107",
+          "selected_dofs": 12,
+          "selection_basis": "One BEAM2 has 12 total DDL across two six-DOF nodes; six root constraints leave six tip DDL.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+          "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26",
+          "reason": "Corrective source revision after the archived scope identity guard refusal; no test execution is authorized.",
+          "registered_at_utc": "2026-10-26T22:21:37.194069+00:00",
+          "worktree_head": "2db9c9b54283a6c78953fbcede427527101ec8cf",
+          "source_fingerprint": "cb601689e3e34227f4403ddb4108962d312fd0300a49c597775ee6c3eaf322bb",
+          "selected_dofs": 30,
+          "selection_basis": "One TET10 has 30 translational DDL; six support-face nodes constrain 18, leaving 12 free DDL.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch",
+          "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26",
+          "reason": "Corrective source revision after the archived scope identity guard refusal; no test execution is authorized.",
+          "registered_at_utc": "2026-10-26T22:21:38.379125+00:00",
+          "worktree_head": "2db9c9b54283a6c78953fbcede427527101ec8cf",
+          "source_fingerprint": "34709c5f7485a55cf9debc3952927a02639cf9c57ea4a945d19829945448962e",
+          "selected_dofs": 60,
+          "selection_basis": "One HEX20 has 60 translational DDL; eight supported face nodes constrain 24, leaving 36 free DDL.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        }
+      ],
+      "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26"
+    },
     "wp12_dynamics": {
       "purpose": "WP12 WP04-WP07 modal projection, reduced harmonic, Newmark and base-acceleration checks",
       "mode": "fem_exploratory",
