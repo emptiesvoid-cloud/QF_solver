@@ -5,9 +5,11 @@ import base64
 import hashlib
 import json
 import math
+import subprocess
 import sys
 import struct
 import xml.etree.ElementTree as ET
+from datetime import timedelta
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
 from typing import Any
@@ -89,6 +91,53 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
         MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID,
     }
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
+
+
+def test_hex8sri_source_identity_inventory_freezes_exact_raw_worktree_bytes() -> None:
+    policy = _policy()
+    entry = policy["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+    inventory_path = MODULE.ROOT / MODULE.HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_PATH
+    inventory = MODULE._read_strict_json(inventory_path)
+    assert MODULE._sha256(inventory_path) == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256
+    assert entry["source_identity"] == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY
+    files = inventory["files_sha256"]
+    assert len(files) == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT
+    assert MODULE._source_inventory_fingerprint(files) == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
+    identity = {
+        "branch": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"],
+        "head": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_HEAD,
+        "tree": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_TREE,
+    }
+    MODULE._validate_hex8sri_registered_source_identity(
+        Path("synthetic-source-root"),
+        entry,
+        identity,
+        MODULE.HEX8SRI_FIRST6_NODEIDS[0],
+        files,
+        MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+    )
+    assert len(inventory["checkout_comparison"]["eol_only_differences"]) == 5
+    changed_identity = {**identity, "head": "0" * 40}
+    with pytest.raises(MODULE.PolicyError, match="registered science HEAD, tree or raw-byte fingerprint is stale"):
+        MODULE._validate_hex8sri_registered_source_identity(
+            Path("synthetic-source-root"),
+            entry,
+            changed_identity,
+            MODULE.HEX8SRI_FIRST6_NODEIDS[0],
+            files,
+            MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+        )
+    modified_files = dict(files)
+    modified_files[next(iter(modified_files))] = "0" * 64
+    with pytest.raises(MODULE.PolicyError, match="source bytes differ from the registered raw-byte inventory"):
+        MODULE._validate_hex8sri_registered_source_identity(
+            Path("synthetic-source-root"),
+            entry,
+            identity,
+            MODULE.HEX8SRI_FIRST6_NODEIDS[0],
+            modified_files,
+            MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+        )
     assert policy["worktrees"]["d01"]["development_mandate_id"] == "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v2-d01"
     assert policy["worktrees"]["d01"]["node_attempt_ledger"]["path"] == "node-attempt-ledger-d01-v2.json"
     assert policy["worktrees"]["d01"]["node_attempt_ledger"]["predecessor"]["sha256"] == (
@@ -3186,13 +3235,13 @@ def test_hex8sri_convergence24_execution_refuses_before_ledger_or_launcher(
 
 def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]:
     scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
-    entry = _policy()["worktrees"][scope_id]
+    entry = json.loads(json.dumps(_policy()["worktrees"][scope_id]))
     target = MODULE.HEX8SRI_FIRST6_NODEIDS[0]
     identity = {
         "root": str(tmp_path / "synthetic-science-root"),
         "branch": entry["branch"],
-        "head": "a" * 40,
-        "tree": "b" * 40,
+        "head": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_HEAD,
+        "tree": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_TREE,
         "status_short": "",
     }
     controller = {
@@ -3211,6 +3260,7 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
         "frozen_criteria": None,
     }
     registration_sha256 = MODULE._hex8sri_manifest_registration_sha256(case_manifest)
+    entry["case_manifests"][target]["sha256"] = registration_sha256
     binding = {
         "path": "registered/manifest.json",
         "sha256": "d" * 64,
@@ -3236,15 +3286,63 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
     )
     preflight = (preflight_path, MODULE._sha256(preflight_path))
     authorization_id = "hex8sri-auth-0001"
-    manifest_registrations = {
-        nodeid: (registration_sha256 if nodeid == target else hashlib.sha256(nodeid.encode()).hexdigest())
-        for nodeid in MODULE.HEX8SRI_FIRST6_NODEIDS
-    }
-    decision = {
-        "decision_id": "owner-decision-0001",
-        "status": "APPROVED",
+    criteria_freeze = MODULE._hex8sri_expected_criteria_freeze(
+        entry=entry,
+        source_fingerprint=source_fingerprint,
+        controller_provenance=controller,
+    )
+    freeze_decision = {
+        "schema": MODULE.HEX8SRI_CRITERIA_FREEZE_DECISION_SCHEMA,
+        "decision_type": "CRITERIA_FREEZE_ONLY",
+        "decision_id": "owner-freeze-0001",
+        "status": "CRITERIA_FROZEN_EXECUTION_NOT_AUTHORIZED",
+        "execution_authorized": False,
+        "do_not_execute": True,
         "approved_by": "Owner",
-        "approved_at_utc": "2026-10-26T12:00:00Z",
+        "approved_at_utc": MODULE.datetime.now(MODULE.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "reason": "Synthetic criteria-only freeze; no FEM execution is authorized.",
+        "scope_id": scope_id,
+        "mandate_id": entry["development_mandate_id"],
+        "campaign_id": entry["campaign_id"],
+        "frozen_nodeids": list(MODULE.HEX8SRI_FIRST6_NODEIDS),
+        "source_fingerprint": source_fingerprint,
+        "controller_fingerprint": MODULE._stable_fingerprint(controller),
+        "controller_head": controller["identity"]["head"],
+        "criteria_freeze": criteria_freeze,
+    }
+    freeze_path = store / "authorizations" / scope_id / "owner-decisions" / "criteria-freeze" / "owner-freeze-0001.json"
+    freeze_path.parent.mkdir(parents=True)
+    freeze_path.write_text(json.dumps(freeze_decision, sort_keys=True) + "\n", encoding="utf-8")
+    freeze_ref = {
+        "decision_id": freeze_decision["decision_id"],
+        "path": str(freeze_path),
+        "sha256": MODULE._sha256(freeze_path),
+    }
+    manifest_bindings = {}
+    for index, nodeid in enumerate(MODULE.HEX8SRI_FIRST6_NODEIDS):
+        if nodeid == target:
+            manifest_bindings[nodeid] = binding
+            continue
+        case = MODULE._hex8sri_convergence24_case(nodeid)
+        assert case is not None
+        manifest_bindings[nodeid] = {
+            "path": str(tmp_path / "registered" / f"case-{index}.json"),
+            "sha256": hashlib.sha256(f"manifest-{index}".encode()).hexdigest(),
+            "registration_sha256": entry["case_manifests"][nodeid]["sha256"],
+            "case_id": f"{case[0]}_nu_{case[1]}_{case[2]}",
+            "scope_id": scope_id,
+        }
+    now = MODULE.datetime.now(MODULE.timezone.utc).replace(microsecond=0)
+    decision = {
+        "schema": MODULE.HEX8SRI_EXECUTION_APPROVAL_SCHEMA,
+        "decision_type": "EXECUTION_APPROVED",
+        "decision_id": "owner-execution-0001",
+        "status": "APPROVED",
+        "execution_authorized": True,
+        "do_not_execute": False,
+        "approved_by": "Owner",
+        "approved_at_utc": now.isoformat().replace("+00:00", "Z"),
+        "expires_at_utc": (now + timedelta(days=1)).isoformat().replace("+00:00", "Z"),
         "reason": "Synthetic exact-case authorization contract test.",
         "scope_id": scope_id,
         "mandate_id": entry["development_mandate_id"],
@@ -3253,18 +3351,14 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
         "source_fingerprint": source_fingerprint,
         "controller_fingerprint": MODULE._stable_fingerprint(controller),
         "controller_head": controller["identity"]["head"],
+        "criteria_freeze_record": freeze_ref,
+        "criteria_freeze": criteria_freeze,
+        "case_manifests_by_nodeid": manifest_bindings,
         "limits_by_nodeid": {
             nodeid: MODULE._hex8sri_execution_limits(entry, nodeid) for nodeid in MODULE.HEX8SRI_FIRST6_NODEIDS
         },
-        "criteria_freeze": {
-            "schema": MODULE.HEX8SRI_CRITERIA_FREEZE_SCHEMA,
-            "revision": MODULE.HEX8SRI_CRITERIA_CONTRACT_REVISION,
-            "dispositions": MODULE.HEX8SRI_CRITERIA_DISPOSITIONS,
-            "frozen_case_gate_criteria": MODULE.HEX8SRI_FROZEN_CASE_GATE_CRITERIA,
-            "case_manifest_registration_sha256_by_nodeid": manifest_registrations,
-        },
     }
-    decision_path = store / "authorizations" / scope_id / "owner-decisions" / f"{decision['decision_id']}.json"
+    decision_path = store / "authorizations" / scope_id / "owner-decisions" / "execution" / f"{decision['decision_id']}.json"
     decision_path.parent.mkdir(parents=True)
     decision_path.write_text(json.dumps(decision, sort_keys=True) + "\n", encoding="utf-8")
     payload = {
@@ -3308,6 +3402,10 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
         "preflight_id": preflight_id,
         "preflight": preflight,
         "store": store,
+        "freeze_decision": freeze_decision,
+        "freeze_path": freeze_path,
+        "freeze_ref": freeze_ref,
+        "manifest_bindings": manifest_bindings,
         "path": path,
         "payload": payload,
         "decision": decision,
@@ -3354,7 +3452,7 @@ def test_hex8sri_execution_manifest_accepts_synthetic_owner_decision_and_exact_p
         ("nodeid", "nodeid is not registered"),
         ("budget", "does not bind this exact source, controller, case, preflight and budget"),
         ("decision_mandate", "does not authorize this exact scope, source, controller or nodeid"),
-        ("criteria_freeze_stale", "Owner criteria freeze is missing, stale or inconsistent"),
+        ("criteria_freeze_stale", "does not match its separately frozen criteria record"),
     ],
     ids=(
         "not-authorized",
@@ -3552,15 +3650,22 @@ def test_hex8sri_manifest_preparation_stays_unapproved_and_refuses_overwrite(
     assert json.loads(draft_path.read_text(encoding="utf-8")) == payload
 
 
-def test_hex8sri_criteria_freeze_accepts_case_gates_and_preserves_deferred_statuses(tmp_path: Path) -> None:
+def test_hex8sri_criteria_freeze_only_does_not_authorize_execution(tmp_path: Path) -> None:
     fixture = _synthetic_hex8sri_execution_authorization(tmp_path)
-    frozen = MODULE._validate_hex8sri_frozen_case_criteria(
-        fixture["case_manifest"],
-        decision=fixture["decision"],
-        target=fixture["target"],
-        case_registration_sha256=fixture["binding"]["registration_sha256"],
+    frozen = MODULE._validate_hex8sri_criteria_freeze_decision(
+        fixture["freeze_decision"],
+        entry=fixture["entry"],
+        source_fingerprint=fixture["source_fingerprint"],
+        controller_provenance=fixture["controller"],
     )
-    assert frozen == MODULE.HEX8SRI_FROZEN_CASE_GATE_CRITERIA
+    assert frozen["status"] == "CRITERIA_FROZEN_EXECUTION_NOT_AUTHORIZED"
+    assert frozen["execution_authorized"] is False
+    assert frozen["do_not_execute"] is True
+    assert "authorized_nodeids" not in frozen
+    assert "limits_by_nodeid" not in frozen
+    assert fixture["freeze_decision"]["criteria_freeze"]["criteria_definitions"] == (
+        MODULE.HEX8SRI_CRITERIA_DEFINITIONS
+    )
     deferred = {
         name: record
         for name, record in MODULE.HEX8SRI_CRITERIA_DISPOSITIONS.items()
@@ -3568,7 +3673,61 @@ def test_hex8sri_criteria_freeze_accepts_case_gates_and_preserves_deferred_statu
     }
     assert deferred
     assert all(record["status"] == "NOT_ASSESSED" for record in deferred.values())
-    assert not set(deferred).intersection(frozen)
+    assert not set(deferred).intersection(frozen["criteria_freeze"]["frozen_case_gate_criteria"])
+
+    payload = fixture["payload"]
+    payload["owner_decision"] = fixture["freeze_decision"]
+    payload["owner_decision_record"] = {
+        "path": str(fixture["freeze_path"]),
+        "sha256": MODULE._sha256(fixture["freeze_path"]),
+    }
+    fixture["path"].write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="does not authorize this exact scope"):
+        _validate_synthetic_hex8sri_execution(fixture)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "incomplete",
+        "classification_change",
+        "threshold_change",
+        "boolean_threshold",
+        "stale_fingerprint",
+        "missing_nodeid",
+    ],
+)
+def test_hex8sri_criteria_freeze_decision_rejects_incomplete_or_changed_contract(
+    tmp_path: Path, mutation: str
+) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path)
+    decision = json.loads(json.dumps(fixture["freeze_decision"]))
+    if mutation == "incomplete":
+        del decision["criteria_freeze"]["criteria_definitions"]["finite_state"]
+    elif mutation == "classification_change":
+        decision["criteria_freeze"]["dispositions"]["negative_mean_loaded_face_uz"] = {
+            "classification": "CASE_DIAGNOSTIC",
+            "status": "DESCRIPTIVE_ONLY",
+        }
+    elif mutation == "threshold_change":
+        decision["criteria_freeze"]["criteria_definitions"]["free_residual_relative_max"]["threshold"][
+            "value"
+        ] = 1e-6
+    elif mutation == "boolean_threshold":
+        decision["criteria_freeze"]["criteria_definitions"]["positive_sampled_jacobians_center_and_gauss"][
+            "threshold"
+        ]["value"] = False
+    elif mutation == "stale_fingerprint":
+        decision["source_fingerprint"] = "f" * 64
+    else:
+        decision["frozen_nodeids"].pop()
+    with pytest.raises(MODULE.PolicyError, match="criteria-freeze decision is incomplete, stale or inconsistent"):
+        MODULE._validate_hex8sri_criteria_freeze_decision(
+            decision,
+            entry=fixture["entry"],
+            source_fingerprint=fixture["source_fingerprint"],
+            controller_provenance=fixture["controller"],
+        )
 
 
 @pytest.mark.parametrize("mutation", ["unfrozen_gate", "threshold_drift", "classification_drift", "stale_owner_case"])
@@ -3602,6 +3761,119 @@ def test_hex8sri_criteria_freeze_refuses_unfrozen_or_incoherent_contracts(
             target=fixture["target"],
             case_registration_sha256=binding_sha,
         )
+
+
+def test_hex8sri_execution_approval_requires_the_archived_matching_freeze(tmp_path: Path) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path)
+    payload = fixture["payload"]
+    decision = payload["owner_decision"]
+    decision["criteria_freeze_record"]["sha256"] = "0" * 64
+    decision_path = Path(payload["owner_decision_record"]["path"])
+    decision_path.write_text(json.dumps(decision, sort_keys=True) + "\n", encoding="utf-8")
+    payload["owner_decision_record"]["sha256"] = MODULE._sha256(decision_path)
+    fixture["path"].write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="Owner decision record path or SHA-256 is invalid"):
+        _validate_synthetic_hex8sri_execution(fixture)
+
+
+@pytest.mark.parametrize(
+    ("mutation", "expected_error"),
+    [
+        ("missing_freeze", "Owner decision record is missing"),
+        ("expired", "execution approval is expired or has an invalid validity interval"),
+        ("manifest_drift", "does not authorize this exact scope, source, controller or nodeid"),
+    ],
+)
+def test_hex8sri_execution_approval_rejects_missing_freeze_expiry_or_manifest_drift(
+    tmp_path: Path, mutation: str, expected_error: str
+) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path)
+    payload = fixture["payload"]
+    # Keep the decision JSON detached from the expected current manifest binding;
+    # otherwise mutating this nested dict would mutate both sides of the check.
+    decision = json.loads(json.dumps(payload["owner_decision"]))
+    if mutation == "missing_freeze":
+        decision["criteria_freeze_record"].update(
+            path=str(fixture["store"] / "authorizations" / MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID / "owner-decisions" / "criteria-freeze" / "missing.json"),
+            sha256="0" * 64,
+        )
+    elif mutation == "expired":
+        decision["expires_at_utc"] = "2026-10-26T00:00:00Z"
+    else:
+        decision["case_manifests_by_nodeid"][fixture["target"]]["sha256"] = "0" * 64
+    payload["owner_decision"] = decision
+    decision_path = Path(payload["owner_decision_record"]["path"])
+    decision_path.write_text(json.dumps(decision, sort_keys=True) + "\n", encoding="utf-8")
+    payload["owner_decision_record"]["sha256"] = MODULE._sha256(decision_path)
+    fixture["path"].write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match=expected_error):
+        _validate_synthetic_hex8sri_execution(fixture)
+
+
+def test_hex8sri_freeze_archive_is_no_replace_and_preserves_evidence_and_ledger(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path)
+    entry = fixture["entry"]
+    decision = json.loads(json.dumps(fixture["freeze_decision"]))
+    decision["decision_id"] = "owner-freeze-archive-0001"
+    decision_path = tmp_path / "submitted-freeze.json"
+    decision_path.write_text(json.dumps(decision, sort_keys=True) + "\n", encoding="utf-8")
+    store = fixture["store"]
+    ledger_path = store / entry["node_attempt_ledger"]["path"]
+    ledger_path.parent.mkdir(parents=True, exist_ok=True)
+    ledger_bytes = b'{"schema":"synthetic-ledger","entries":{}}\n'
+    ledger_path.write_bytes(ledger_bytes)
+    preflight_path, preflight_sha = fixture["preflight"]
+    preflight_bytes = preflight_path.read_bytes()
+    scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    monkeypatch.setattr(MODULE, "load_policy", lambda *_args: {"worktrees": {scope_id: entry}})
+    monkeypatch.setattr(MODULE, "resolve_targets", lambda *_args, **_kwargs: [fixture["target"]])
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda *_args: (entry, Path(fixture["identity"]["root"]), Path(fixture["identity"]["root"]) / "src", fixture["identity"], fixture["source_fingerprint"]),
+    )
+    monkeypatch.setattr(MODULE, "_controller_provenance", lambda: fixture["controller"])
+    monkeypatch.setattr(MODULE, "_run_root", lambda *_args: store)
+    monkeypatch.setattr(
+        MODULE,
+        "_hex8sri_first6_current_case_manifest_bindings",
+        lambda *_args: fixture["manifest_bindings"],
+    )
+    result = MODULE.archive_hex8sri_owner_decision(decision_path)
+    archived = Path(result["path"])
+    assert result["state"] == "CRITERIA_FROZEN_EXECUTION_NOT_AUTHORIZED"
+    assert result["execution_manifest_created"] is False
+    assert result["attempt_reserved"] is False
+    assert MODULE._sha256(archived) == result["sha256"]
+    assert ledger_path.read_bytes() == ledger_bytes
+    assert preflight_path.read_bytes() == preflight_bytes
+    assert preflight_sha == MODULE._sha256(preflight_path)
+    with pytest.raises(MODULE.PolicyError, match="refusing to overwrite"):
+        MODULE.archive_hex8sri_owner_decision(decision_path)
+
+
+def test_hex8sri_scope_refresh_leaves_historical_scope_registrations_unchanged() -> None:
+    baseline = json.loads(
+        subprocess.run(
+            ["git", "show", "ea99be8b99519a9cbe609612e9560e10beb38d95:development_autonomous_policy.json"],
+            cwd=MODULE.ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout
+    )
+    current = _policy()
+    assert set(current["worktrees"]) == set(baseline["worktrees"])
+    for worktree_id, baseline_entry in baseline["worktrees"].items():
+        if worktree_id != MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+            assert current["worktrees"][worktree_id] == baseline_entry
+    assert current["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["execution_authorized"] is False
+    assert current["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["allowed_nodeids"] == (
+        baseline["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["allowed_nodeids"]
+    )
+    assert current["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["attempt_limit_per_nodeid"] == 1
 
 
 def test_hex8sri_execution_test_contract_rejects_legacy_and_accepts_declared_contract(tmp_path: Path) -> None:
