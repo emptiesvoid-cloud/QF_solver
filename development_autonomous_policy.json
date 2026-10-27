@@ -912,7 +912,7 @@
       ]
     },
     "hex8sri-convergence24": {
-      "purpose": "HEX8-SRI paired spatial-convergence campaign; collect-only preparation only",
+      "purpose": "HEX8-SRI paired spatial-convergence campaign; separate criteria freeze and case execution decisions required",
       "mode": "fem_exploratory",
       "root": "E:\\QFSolverAgents\\hex8-sri-research",
       "git_root": "E:\\QFSolverAgents\\hex8-sri-research",
@@ -921,7 +921,18 @@
       "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1",
       "campaign_id": "HEX8-SRI-CONVERGENCE-24-2026-10-27",
       "campaign_scope_id": "hex8sri-convergence24",
-      "source_fingerprint_sha256": "c93d539d6b67417f067a190066629d41f84c1a04f61a86b50034c3cfda917d04",
+      "source_fingerprint_sha256": "eb58f1ad1314debdc08f34f312eae17961fc4ebfaae8510632258b5eb51305a9",
+      "source_identity": {
+        "branch": "research/hex8-sri-equilibrium",
+        "head": "f6402edc84af71d4d4be5b091b0ed323c1631529",
+        "tree": "81ea54ff0ab3f0f7430b30b5aa562f995b06e7e5",
+        "fingerprint_sha256": "eb58f1ad1314debdc08f34f312eae17961fc4ebfaae8510632258b5eb51305a9",
+        "fingerprint_algorithm": "raw_worktree_inventory_sha256_v1",
+        "inventory_path": "docs/development/hex8sri-source-byte-inventory-f6402ed.json",
+        "inventory_sha256": "992e688005db79b5068109f598c5f562f25c12dddbf4d16dc6ea27f93f9cab01",
+        "inventory_file_count": 517,
+        "raw_byte_policy": "preserve checkout bytes; no LF/CRLF normalization"
+      },
       "source_test_worktree_id": "hex8sri-convergence24",
       "manifest_registration_id": "hex8sri-convergence24",
       "manifest_binding_mode": "canonical_case_content_v1",

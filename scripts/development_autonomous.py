@@ -59,10 +59,31 @@ HEX8SRI_CONVERGENCE24_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24
 HEX8SRI_CONVERGENCE24_LEDGER = "node-attempt-ledger-hex8sri-convergence24.json"
 HEX8SRI_EXECUTION_MANIFEST_SCHEMA = "qfsolver-hex8sri-convergence24-execution-v1"
 HEX8SRI_CRITERIA_FREEZE_SCHEMA = "qfsolver-hex8sri-criteria-freeze-v1"
+HEX8SRI_CRITERIA_FREEZE_DECISION_SCHEMA = "qfsolver-hex8sri-criteria-freeze-decision-v1"
+HEX8SRI_EXECUTION_APPROVAL_SCHEMA = "qfsolver-hex8sri-execution-approval-v1"
 HEX8SRI_CRITERIA_CONTRACT_SCHEMA = "qfsolver-hex8sri-criteria-contract-v1"
 HEX8SRI_CRITERIA_CONTRACT_REVISION = "first6-4x2x2-owner-criteria-2026-10-27-r1"
 HEX8SRI_CONVERGENCE24_MANIFEST_BINDING = "canonical_case_content_v1"
-HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT = "c93d539d6b67417f067a190066629d41f84c1a04f61a86b50034c3cfda917d04"
+HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT = "eb58f1ad1314debdc08f34f312eae17961fc4ebfaae8510632258b5eb51305a9"
+HEX8SRI_CONVERGENCE24_SOURCE_HEAD = "f6402edc84af71d4d4be5b091b0ed323c1631529"
+HEX8SRI_CONVERGENCE24_SOURCE_TREE = "81ea54ff0ab3f0f7430b30b5aa562f995b06e7e5"
+HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_PATH = (
+    "docs/development/hex8sri-source-byte-inventory-f6402ed.json"
+)
+HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256 = "992e688005db79b5068109f598c5f562f25c12dddbf4d16dc6ea27f93f9cab01"
+HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT = 517
+HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT_ALGORITHM = "raw_worktree_inventory_sha256_v1"
+HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY = {
+    "branch": "research/hex8-sri-equilibrium",
+    "head": HEX8SRI_CONVERGENCE24_SOURCE_HEAD,
+    "tree": HEX8SRI_CONVERGENCE24_SOURCE_TREE,
+    "fingerprint_sha256": HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+    "fingerprint_algorithm": HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT_ALGORITHM,
+    "inventory_path": HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_PATH,
+    "inventory_sha256": HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256,
+    "inventory_file_count": HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT,
+    "raw_byte_policy": "preserve checkout bytes; no LF/CRLF normalization",
+}
 HEX8SRI_EXECUTION_TEST_CONTRACT_MARKER = "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v2"
 HEX8SRI_CONVERGENCE24_FORMULATIONS = ("hex8_standard", "sri_historical", "sri_corrected")
 HEX8SRI_CONVERGENCE24_NU_TOKENS = {"0p3": 0.3, "0p4999": 0.4999}
@@ -129,6 +150,134 @@ HEX8SRI_CRITERIA_DISPOSITIONS = {
     "independent_3d_reference_error": {
         "classification": "CAMPAIGN_GATE_DEFERRED",
         "status": "NOT_ASSESSED",
+    },
+}
+HEX8SRI_CRITERIA_DEFINITIONS = {
+    "finite_state": {
+        "formula": "All required scalar and array observables satisfy isfinite(value).",
+        "units": "Each observable retains its declared SI unit.",
+        "threshold": {"operator": "all_finite"},
+        "applicability": "Each case; failure blocks the case.",
+    },
+    "positive_sampled_jacobians_center_and_gauss": {
+        "formula": "det(J_q) > 0 for every element center and every evaluated 2x2x2 Gauss point.",
+        "units": "m^3",
+        "threshold": {"operator": ">", "value": 0.0},
+        "applicability": "Each case at the points evaluated by the formulation.",
+    },
+    "free_residual_relative_max": {
+        "formula": "||r_free||_2 / max(||F_free||_2, ||K_ff u_free||_2, 1 N), where r=K u-F.",
+        "units": "dimensionless",
+        "threshold": {"operator": "<=", "value": 1e-7},
+        "applicability": "Each case; free-DOF equilibrium gate.",
+    },
+    "energy_identity_relative_max": {
+        "formula": "|2 U_internal - W_external| / |W_external|; undefined work is a failure.",
+        "units": "dimensionless; U_internal and W_external are J.",
+        "threshold": {"operator": "<=", "value": 1e-8},
+        "applicability": "Each case; algebraic linear-elastic identity.",
+    },
+    "force_closure_relative_max": {
+        "formula": "||sum(F_applied)+sum(R_support)||_2 / max(||sum(F_applied)||_2, ||sum(R_support)||_2, 1 N).",
+        "units": "dimensionless; force resultants are N.",
+        "threshold": {"operator": "<=", "value": 1e-6},
+        "applicability": "Each case; global resultant balance.",
+    },
+    "moment_closure_relative_max": {
+        "formula": "||sum(M_applied)+sum(M_support)||_2 / max(||sum(M_applied)||_2, ||sum(M_support)||_2, 1 N m).",
+        "units": "dimensionless; moment resultants are N m.",
+        "threshold": {"operator": "<=", "value": 1e-6},
+        "applicability": "Each case; global moment balance about the recorded origin.",
+    },
+    "negative_mean_loaded_face_uz": {
+        "formula": "Consistent area-weighted Q1 mean displacement on the loaded face satisfies mean(U_z) < 0.",
+        "units": "m",
+        "threshold": {"operator": "<", "value": 0.0},
+        "applicability": "Each case under the registered negative-Z traction.",
+    },
+    "stiffness_symmetry_relative_frobenius": {
+        "formula": "||K-K^T||_F / max(||K||_F, tiny).",
+        "units": "dimensionless",
+        "threshold": None,
+        "applicability": "Diagnostic only; not an assertion in this campaign.",
+    },
+    "affine_jacobian_reproduction": {
+        "formula": "max_q |det(J_q)-det(J_center)| / max(|det(J_center)|, tiny), over sampled points.",
+        "units": "dimensionless",
+        "threshold": None,
+        "applicability": "Diagnostic only; zero for an affine mapping up to arithmetic error.",
+    },
+    "positive_internal_energy": {
+        "formula": "U_internal = 0.5 u^T K u; report whether U_internal > 0 without gating.",
+        "units": "J",
+        "threshold": None,
+        "applicability": "Diagnostic only; positivity is not asserted by the first-six test.",
+    },
+    "formulation_comparison": {
+        "formula": "For paired observables a,b: |a-b| / max(|a|,|b|,tiny).",
+        "units": "dimensionless for relative differences; source observables retain their SI units.",
+        "threshold": None,
+        "applicability": "Descriptive comparison across matched formulations; not a case gate.",
+    },
+    "condition_number_1_estimate_Kff": {
+        "formula": "Estimate of kappa_1(K_ff)=||K_ff||_1 ||K_ff^-1||_1 using the registered sparse estimator.",
+        "units": "dimensionless",
+        "threshold": None,
+        "applicability": "Diagnostic estimate; no eigensolve and no acceptance threshold.",
+    },
+    "timing_seconds": {
+        "formula": "Controller-observed elapsed wall time for the case and its phases.",
+        "units": "s",
+        "threshold": None,
+        "applicability": "Descriptive resource observation; controller timeout remains a separate budget.",
+    },
+    "rss_peak_bytes": {
+        "formula": "Maximum sampled resident-set size reported by the controller process monitor.",
+        "units": "bytes",
+        "threshold": None,
+        "applicability": "Descriptive soft observation; not an OS memory quota.",
+    },
+    "timoshenko_relative_difference": {
+        "formula": "|UZ_FE-UZ_Timoshenko| / |UZ_Timoshenko| for the stated beam model and observable.",
+        "units": "dimensionless; both displacements are m.",
+        "threshold": None,
+        "applicability": "Trend indicator only; not an absolute 3D oracle or gate.",
+    },
+    "last_two_levels_energy_relative_change_max": {
+        "formula": "|U_n-U_(n-1)| / max(|U_n|,|U_(n-1)|,tiny) at the two finest paired levels.",
+        "units": "dimensionless; energy is J.",
+        "threshold": {"operator": "<=", "value": 0.02},
+        "applicability": "Deferred until the required paired refined meshes exist.",
+    },
+    "last_two_levels_mean_UZ_relative_change_max": {
+        "formula": "|UZ_n-UZ_(n-1)| / max(|UZ_n|,|UZ_(n-1)|,tiny) at the two finest paired levels.",
+        "units": "dimensionless; displacement is m.",
+        "threshold": {"operator": "<=", "value": 0.02},
+        "applicability": "Deferred until the required paired refined meshes exist.",
+    },
+    "finest_level_independent_3d_energy_relative_error_max": {
+        "formula": "|U_finest-U_ref| / |U_ref| for a qualified independent 3D reference.",
+        "units": "dimensionless; energy is J.",
+        "threshold": {"operator": "<=", "value": 0.05},
+        "applicability": "Deferred until a qualified independent 3D reference is available.",
+    },
+    "finest_level_independent_3d_mean_UZ_relative_error_max": {
+        "formula": "|UZ_finest-UZ_ref| / |UZ_ref| for a qualified independent 3D reference.",
+        "units": "dimensionless; displacement is m.",
+        "threshold": {"operator": "<=", "value": 0.05},
+        "applicability": "Deferred until a qualified independent 3D reference is available.",
+    },
+    "single_case_convergence": {
+        "formula": "Campaign-level assessment from paired mesh-level displacement and energy changes.",
+        "units": "dimensionless derived indicators.",
+        "threshold": None,
+        "applicability": "Deferred; a single 4x2x2 result cannot establish convergence.",
+    },
+    "independent_3d_reference_error": {
+        "formula": "Campaign-level comparison of displacement and energy against a qualified independent 3D oracle.",
+        "units": "dimensionless relative errors.",
+        "threshold": None,
+        "applicability": "Deferred; status remains NOT_ASSESSED until the reference is qualified.",
     },
 }
 HEX8SRI_CRITERIA_PROPOSAL_DISPOSITIONS = {
@@ -772,6 +921,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         or hex8sri.get("git_root") != hex8sri.get("root")
         or hex8sri.get("baseline_commit") != "b547cf0e1c8057ef7f58ba780967d1b19c891ac4"
         or hex8sri.get("source_fingerprint_sha256") != HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
+        or hex8sri.get("source_identity") != HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY
         or hex8sri.get("source_test_worktree_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
         or hex8sri.get("manifest_registration_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
         or hex8sri.get("manifest_binding_mode") != HEX8SRI_CONVERGENCE24_MANIFEST_BINDING
@@ -1243,6 +1393,16 @@ def _sha256(path: Path) -> str:
 def _stable_fingerprint(value: Any) -> str:
     payload = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
+
+
+def _strict_json_equal(left: Any, right: Any) -> bool:
+    """Compare JSON values without Python's bool/int equivalence or permissive NaNs."""
+    try:
+        return json.dumps(left, sort_keys=True, separators=(",", ":"), allow_nan=False) == json.dumps(
+            right, sort_keys=True, separators=(",", ":"), allow_nan=False
+        )
+    except (TypeError, ValueError):
+        return False
 
 
 def _reject_duplicate_json_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -2097,8 +2257,8 @@ def _exclusive_file_lock(path: Path) -> Iterator[None]:
         stream.close()
 
 
-def _worktree_source_fingerprint(root: Path, target: str) -> str:
-    """Hash the loaded solver, its Python helpers, test, conftests, and project config."""
+def _worktree_source_inventory(root: Path, target: str) -> dict[str, str]:
+    """Return raw-byte SHA-256 values for the files used by a test source identity."""
     listed = subprocess.run(
         [
             "git",
@@ -2138,15 +2298,73 @@ def _worktree_source_fingerprint(root: Path, target: str) -> str:
             files.add(relative_text)
     if target_module not in files:
         raise PolicyError("approved test module is absent from the source fingerprint inventory")
-    digest = hashlib.sha256()
+    inventory: dict[str, str] = {}
     for relative_text in sorted(files):
         path = (root / Path(relative_text)).resolve()
         if not _is_within(path, root.resolve()) or not path.is_file():
             raise PolicyError(f"source file escapes or is unavailable: {relative_text}")
+        inventory[relative_text] = _sha256(path)
+    return inventory
+
+
+def _source_inventory_fingerprint(inventory: Mapping[str, str]) -> str:
+    digest = hashlib.sha256()
+    for relative_text, sha256 in sorted(inventory.items()):
         digest.update(relative_text.encode("utf-8"))
         digest.update(b"\0")
-        digest.update(bytes.fromhex(_sha256(path)))
+        digest.update(bytes.fromhex(sha256))
     return digest.hexdigest()
+
+
+def _worktree_source_fingerprint(root: Path, target: str) -> str:
+    """Hash the raw loaded solver, helpers, test, conftests, and project config bytes."""
+    return _source_inventory_fingerprint(_worktree_source_inventory(root, target))
+
+
+def _validate_hex8sri_registered_source_identity(
+    root: Path,
+    entry: Mapping[str, Any],
+    identity: Mapping[str, Any],
+    target: str,
+    inventory: Mapping[str, str],
+    fingerprint: str,
+) -> None:
+    expected_identity = entry.get("source_identity")
+    if (
+        expected_identity != HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY
+        or identity.get("branch") != HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"]
+        or identity.get("head") != HEX8SRI_CONVERGENCE24_SOURCE_HEAD
+        or identity.get("tree") != HEX8SRI_CONVERGENCE24_SOURCE_TREE
+        or fingerprint != HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
+    ):
+        raise PolicyError("HEX8-SRI registered science HEAD, tree or raw-byte fingerprint is stale")
+    relative = Path(HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_PATH)
+    inventory_path = (ROOT / relative).resolve()
+    if (
+        relative.is_absolute()
+        or ".." in relative.parts
+        or not _is_within(inventory_path, ROOT.resolve())
+        or not inventory_path.is_file()
+        or _sha256(inventory_path) != HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256
+    ):
+        raise PolicyError("HEX8-SRI raw-byte source inventory is missing or has changed")
+    try:
+        recorded = _read_strict_json(inventory_path)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI raw-byte source inventory is invalid: {exc}") from exc
+    if (
+        not isinstance(recorded, Mapping)
+        or recorded.get("schema") != "qfsolver-hex8sri-source-byte-inventory-v1"
+        or recorded.get("branch") != identity.get("branch")
+        or recorded.get("head") != identity.get("head")
+        or recorded.get("tree") != identity.get("tree")
+        or recorded.get("fingerprint_sha256") != fingerprint
+        or recorded.get("fingerprint_algorithm") != "sha256(sorted(relative_path_utf8 + NUL + raw_file_sha256_bytes))"
+        or recorded.get("raw_byte_policy") != "Raw checkout bytes; no LF/CRLF normalization or conversion."
+        or recorded.get("inventory_file_count") != len(inventory)
+        or recorded.get("files_sha256") != dict(inventory)
+    ):
+        raise PolicyError("HEX8-SRI source bytes differ from the registered raw-byte inventory")
 
 
 def _reserve_node_attempt(
@@ -2331,7 +2549,12 @@ def _registered_worktree(
     )
     if entry.get("require_clean_worktree") and identity["status_short"]:
         raise PolicyError(f"registered {worktree_id} source worktree must be clean before collection or execution")
-    fingerprint = _worktree_source_fingerprint(root, target)
+    if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+        inventory = _worktree_source_inventory(root, target)
+        fingerprint = _source_inventory_fingerprint(inventory)
+        _validate_hex8sri_registered_source_identity(root, entry, identity, target, inventory, fingerprint)
+    else:
+        fingerprint = _worktree_source_fingerprint(root, target)
     return entry, root, source_root, identity, fingerprint
 
 
@@ -2674,20 +2897,191 @@ def _verify_hex8sri_convergence24_controller_identity(
         raise PolicyError("HEX8-SRI convergence manifest is not bound to the final controller identity")
 
 
-def _validate_hex8sri_owner_decision(
+def _hex8sri_first6_registration_sha256_by_nodeid(entry: Mapping[str, Any]) -> dict[str, str]:
+    registrations = entry.get("case_manifests")
+    if not isinstance(registrations, Mapping):
+        raise PolicyError("HEX8-SRI registered case-manifest map is missing")
+    result: dict[str, str] = {}
+    for nodeid in HEX8SRI_FIRST6_NODEIDS:
+        binding = registrations.get(nodeid)
+        sha256 = binding.get("sha256") if isinstance(binding, Mapping) else None
+        if not isinstance(sha256, str) or not re.fullmatch(r"[0-9a-f]{64}", sha256):
+            raise PolicyError("HEX8-SRI first-six registration digest is absent or malformed")
+        result[nodeid] = sha256
+    return result
+
+
+def _hex8sri_expected_criteria_freeze(
+    *,
+    entry: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+) -> dict[str, Any]:
+    controller_identity = controller_provenance.get("identity", {})
+    return {
+        "schema": HEX8SRI_CRITERIA_FREEZE_SCHEMA,
+        "revision": HEX8SRI_CRITERIA_CONTRACT_REVISION,
+        "dispositions": HEX8SRI_CRITERIA_DISPOSITIONS,
+        "criteria_definitions": HEX8SRI_CRITERIA_DEFINITIONS,
+        "frozen_case_gate_criteria": HEX8SRI_FROZEN_CASE_GATE_CRITERIA,
+        "frozen_nodeids": list(HEX8SRI_FIRST6_NODEIDS),
+        "case_manifest_registration_sha256_by_nodeid": _hex8sri_first6_registration_sha256_by_nodeid(entry),
+        "scope_id": HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+        "mandate_id": entry.get("development_mandate_id"),
+        "campaign_id": entry.get("campaign_id"),
+        "source_identity": {
+            "branch": HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"],
+            "head": HEX8SRI_CONVERGENCE24_SOURCE_HEAD,
+            "tree": HEX8SRI_CONVERGENCE24_SOURCE_TREE,
+            "fingerprint_sha256": source_fingerprint,
+        },
+        "controller_fingerprint": _stable_fingerprint(controller_provenance),
+        "controller_head": controller_identity.get("head"),
+    }
+
+
+def _validate_owner_decision_time(decision: Mapping[str, Any], *, execution: bool) -> None:
+    def parse(field: str) -> datetime:
+        try:
+            value = datetime.fromisoformat(str(decision.get(field, "")).replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise PolicyError(f"HEX8-SRI Owner {field} must be an ISO-8601 timestamp") from exc
+        if value.tzinfo is None or value.utcoffset() != timezone.utc.utcoffset(value):
+            raise PolicyError(f"HEX8-SRI Owner {field} must be expressed in UTC")
+        return value
+
+    now = datetime.now(timezone.utc)
+    approved_at = parse("approved_at_utc")
+    if approved_at > now:
+        raise PolicyError("HEX8-SRI Owner approval time cannot be in the future")
+    if execution:
+        expires_at = parse("expires_at_utc")
+        if expires_at <= now or expires_at <= approved_at:
+            raise PolicyError("HEX8-SRI execution approval is expired or has an invalid validity interval")
+
+
+def _validate_hex8sri_criteria_freeze_decision(
     decision: Any,
     *,
+    entry: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Validate a freeze-only decision that is structurally incapable of authorizing a run."""
+    required = {
+        "schema",
+        "decision_type",
+        "decision_id",
+        "status",
+        "execution_authorized",
+        "do_not_execute",
+        "approved_by",
+        "approved_at_utc",
+        "reason",
+        "scope_id",
+        "mandate_id",
+        "campaign_id",
+        "frozen_nodeids",
+        "source_fingerprint",
+        "controller_fingerprint",
+        "controller_head",
+        "criteria_freeze",
+    }
+    identity = controller_provenance.get("identity", {})
+    reason = decision.get("reason") if isinstance(decision, Mapping) else None
+    decision_id = decision.get("decision_id") if isinstance(decision, Mapping) else None
+    if (
+        not isinstance(decision, Mapping)
+        or set(decision) != required
+        or decision.get("schema") != HEX8SRI_CRITERIA_FREEZE_DECISION_SCHEMA
+        or decision.get("decision_type") != "CRITERIA_FREEZE_ONLY"
+        or decision.get("status") != "CRITERIA_FROZEN_EXECUTION_NOT_AUTHORIZED"
+        or decision.get("execution_authorized") is not False
+        or decision.get("do_not_execute") is not True
+        or decision.get("approved_by") != "Owner"
+        or not isinstance(decision_id, str)
+        or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", decision_id)
+        or not isinstance(reason, str)
+        or not 20 <= len(reason.strip()) <= 300
+        or "\n" in reason
+        or "\r" in reason
+        or decision.get("scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or decision.get("mandate_id") != entry.get("development_mandate_id")
+        or decision.get("campaign_id") != entry.get("campaign_id")
+        or decision.get("frozen_nodeids") != list(HEX8SRI_FIRST6_NODEIDS)
+        or decision.get("source_fingerprint") != source_fingerprint
+        or decision.get("controller_fingerprint") != _stable_fingerprint(controller_provenance)
+        or decision.get("controller_head") != identity.get("head")
+        or not _strict_json_equal(
+            decision.get("criteria_freeze"),
+            _hex8sri_expected_criteria_freeze(
+                entry=entry,
+                source_fingerprint=source_fingerprint,
+                controller_provenance=controller_provenance,
+            ),
+        )
+    ):
+        raise PolicyError("HEX8-SRI criteria-freeze decision is incomplete, stale or inconsistent")
+    _validate_owner_decision_time(decision, execution=False)
+    return dict(decision)
+
+
+def _read_hex8sri_owner_decision_record(
+    store: Path,
+    record_ref: Any,
+    *,
+    expected_decision_type: str,
+) -> tuple[dict[str, Any], Path, str]:
+    if not isinstance(record_ref, Mapping) or set(record_ref) != {"decision_id", "path", "sha256"}:
+        raise PolicyError("HEX8-SRI Owner decision record reference has an invalid shape")
+    decision_root = (store / "authorizations" / HEX8SRI_CONVERGENCE24_WORKTREE_ID / "owner-decisions").resolve()
+    try:
+        decision_path = Path(str(record_ref["path"])).resolve(strict=True)
+    except OSError as exc:
+        raise PolicyError(f"HEX8-SRI Owner decision record is missing: {exc}") from exc
+    decision_sha256 = record_ref.get("sha256")
+    if (
+        not _is_within(decision_path, decision_root)
+        or not decision_path.is_file()
+        or not isinstance(decision_sha256, str)
+        or not re.fullmatch(r"[0-9a-f]{64}", decision_sha256)
+        or _sha256(decision_path) != decision_sha256
+    ):
+        raise PolicyError("HEX8-SRI Owner decision record path or SHA-256 is invalid")
+    try:
+        recorded = _read_strict_json(decision_path)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI Owner decision record is unreadable: {exc}") from exc
+    if (
+        not isinstance(recorded, dict)
+        or recorded.get("decision_type") != expected_decision_type
+        or recorded.get("decision_id") != record_ref.get("decision_id")
+    ):
+        raise PolicyError("HEX8-SRI Owner decision record has the wrong decision type or identity")
+    return recorded, decision_path, decision_sha256
+
+
+def _validate_hex8sri_execution_approval(
+    decision: Any,
+    *,
+    store: Path,
     entry: Mapping[str, Any],
     target: str,
     source_fingerprint: str,
     controller_provenance: Mapping[str, Any],
+    case_manifest_binding: Mapping[str, Any],
 ) -> dict[str, Any]:
-    """Validate a structured Owner decision bound to the exact campaign and case set."""
+    """Require a time-bounded execution approval that references a distinct frozen criteria record."""
     required = {
+        "schema",
+        "decision_type",
         "decision_id",
         "status",
+        "execution_authorized",
+        "do_not_execute",
         "approved_by",
         "approved_at_utc",
+        "expires_at_utc",
         "reason",
         "scope_id",
         "mandate_id",
@@ -2696,22 +3090,28 @@ def _validate_hex8sri_owner_decision(
         "source_fingerprint",
         "controller_fingerprint",
         "controller_head",
-        "limits_by_nodeid",
+        "criteria_freeze_record",
         "criteria_freeze",
+        "case_manifests_by_nodeid",
+        "limits_by_nodeid",
     }
-    if not isinstance(decision, Mapping) or set(decision) != required:
-        raise PolicyError("HEX8-SRI Owner decision has an invalid or ambiguous shape")
-    decision_id = decision.get("decision_id")
-    reason = decision.get("reason")
-    nodeids = decision.get("authorized_nodeids")
-    limits = decision.get("limits_by_nodeid")
-    criteria_freeze = decision.get("criteria_freeze")
     identity = controller_provenance.get("identity", {})
+    reason = decision.get("reason") if isinstance(decision, Mapping) else None
+    decision_id = decision.get("decision_id") if isinstance(decision, Mapping) else None
+    nodeids = decision.get("authorized_nodeids") if isinstance(decision, Mapping) else None
+    limits = decision.get("limits_by_nodeid") if isinstance(decision, Mapping) else None
+    manifest_bindings = decision.get("case_manifests_by_nodeid") if isinstance(decision, Mapping) else None
     if (
-        not isinstance(decision_id, str)
-        or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", decision_id)
+        not isinstance(decision, Mapping)
+        or set(decision) != required
+        or decision.get("schema") != HEX8SRI_EXECUTION_APPROVAL_SCHEMA
+        or decision.get("decision_type") != "EXECUTION_APPROVED"
         or decision.get("status") != "APPROVED"
+        or decision.get("execution_authorized") is not True
+        or decision.get("do_not_execute") is not False
         or decision.get("approved_by") != "Owner"
+        or not isinstance(decision_id, str)
+        or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", decision_id)
         or not isinstance(reason, str)
         or not 20 <= len(reason.strip()) <= 300
         or "\n" in reason
@@ -2719,55 +3119,57 @@ def _validate_hex8sri_owner_decision(
         or decision.get("scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
         or decision.get("mandate_id") != entry.get("development_mandate_id")
         or decision.get("campaign_id") != entry.get("campaign_id")
+        or nodeids != list(HEX8SRI_FIRST6_NODEIDS)
+        or target not in nodeids
+        or not set(nodeids).issubset(set(entry.get("allowed_nodeids", ())))
         or decision.get("source_fingerprint") != source_fingerprint
         or decision.get("controller_fingerprint") != _stable_fingerprint(controller_provenance)
         or decision.get("controller_head") != identity.get("head")
-        or not isinstance(nodeids, list)
-        or not nodeids
-        or any(not isinstance(nodeid, str) for nodeid in nodeids)
-        or len(nodeids) != len(set(nodeids))
-        or set(nodeids) != set(HEX8SRI_FIRST6_NODEIDS)
-        or not set(nodeids).issubset(set(entry.get("allowed_nodeids", ())))
-        or target not in nodeids
         or not isinstance(limits, Mapping)
         or set(limits) != set(nodeids)
+        or not isinstance(manifest_bindings, Mapping)
+        or set(manifest_bindings) != set(nodeids)
+        or not _strict_json_equal(manifest_bindings.get(target), dict(case_manifest_binding))
     ):
-        raise PolicyError("HEX8-SRI Owner decision does not authorize this exact scope, source, controller or nodeid")
-    try:
-        decision_time = datetime.fromisoformat(str(decision.get("approved_at_utc", "")).replace("Z", "+00:00"))
-    except ValueError as exc:
-        raise PolicyError("HEX8-SRI Owner approval time must be an ISO-8601 timestamp") from exc
-    if decision_time.tzinfo is None or decision_time.utcoffset() != timezone.utc.utcoffset(decision_time):
-        raise PolicyError("HEX8-SRI Owner approval time must be expressed in UTC")
-    if decision_time > datetime.now(timezone.utc):
-        raise PolicyError("HEX8-SRI Owner approval time cannot be in the future")
-    expected_freeze_fields = {
-        "schema",
-        "revision",
-        "dispositions",
-        "frozen_case_gate_criteria",
-        "case_manifest_registration_sha256_by_nodeid",
-    }
-    registration_hashes = (
-        criteria_freeze.get("case_manifest_registration_sha256_by_nodeid")
-        if isinstance(criteria_freeze, Mapping)
-        else None
-    )
-    if (
-        not isinstance(criteria_freeze, Mapping)
-        or set(criteria_freeze) != expected_freeze_fields
-        or criteria_freeze.get("schema") != HEX8SRI_CRITERIA_FREEZE_SCHEMA
-        or criteria_freeze.get("revision") != HEX8SRI_CRITERIA_CONTRACT_REVISION
-        or criteria_freeze.get("dispositions") != HEX8SRI_CRITERIA_DISPOSITIONS
-        or criteria_freeze.get("frozen_case_gate_criteria") != HEX8SRI_FROZEN_CASE_GATE_CRITERIA
-        or not isinstance(registration_hashes, Mapping)
-        or set(registration_hashes) != set(nodeids)
-        or any(not re.fullmatch(r"[0-9a-f]{64}", str(value)) for value in registration_hashes.values())
-    ):
-        raise PolicyError("HEX8-SRI Owner criteria freeze is missing, stale or inconsistent")
+        raise PolicyError("HEX8-SRI execution decision does not authorize this exact scope, source, controller or nodeid")
     for nodeid in nodeids:
-        if limits.get(nodeid) != _hex8sri_execution_limits(entry, nodeid):
-            raise PolicyError("HEX8-SRI Owner decision exceeds or changes a registered case budget")
+        if not _strict_json_equal(limits.get(nodeid), _hex8sri_execution_limits(entry, nodeid)):
+            raise PolicyError("HEX8-SRI execution decision exceeds or changes a registered case budget")
+    expected_registrations = _hex8sri_first6_registration_sha256_by_nodeid(entry)
+    for nodeid in nodeids:
+        binding = manifest_bindings[nodeid]
+        case = _hex8sri_convergence24_case(nodeid)
+        expected_case_id = f"{case[0]}_nu_{case[1]}_{case[2]}" if case is not None else None
+        if (
+            not isinstance(binding, Mapping)
+            or set(binding) != {"path", "sha256", "registration_sha256", "case_id", "scope_id"}
+            or not isinstance(binding.get("path"), str)
+            or not binding.get("path")
+            or not re.fullmatch(r"[0-9a-f]{64}", str(binding.get("sha256", "")))
+            or binding.get("registration_sha256") != expected_registrations[nodeid]
+            or binding.get("case_id") != expected_case_id
+            or binding.get("scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        ):
+            raise PolicyError("HEX8-SRI execution decision does not bind every exact registered case manifest")
+    freeze_ref = decision.get("criteria_freeze_record")
+    freeze_decision, _freeze_path, _freeze_sha256 = _read_hex8sri_owner_decision_record(
+        store,
+        freeze_ref,
+        expected_decision_type="CRITERIA_FREEZE_ONLY",
+    )
+    validated_freeze = _validate_hex8sri_criteria_freeze_decision(
+        freeze_decision,
+        entry=entry,
+        source_fingerprint=source_fingerprint,
+        controller_provenance=controller_provenance,
+    )
+    if not _strict_json_equal(decision.get("criteria_freeze"), validated_freeze.get("criteria_freeze")):
+        raise PolicyError("HEX8-SRI execution decision does not match its separately frozen criteria record")
+    _validate_owner_decision_time(decision, execution=True)
+    freeze_time = datetime.fromisoformat(validated_freeze["approved_at_utc"].replace("Z", "+00:00"))
+    execution_time = datetime.fromisoformat(decision["approved_at_utc"].replace("Z", "+00:00"))
+    if execution_time < freeze_time:
+        raise PolicyError("HEX8-SRI execution approval predates its criteria freeze")
     return dict(decision)
 
 
@@ -2795,13 +3197,20 @@ def _validate_hex8sri_frozen_case_criteria(
     if (
         target not in HEX8SRI_FIRST6_NODEIDS
         or case_manifest.get("criteria_status") != "OWNER_FREEZE_REQUIRED"
-        or case_manifest.get("criteria_contract") != expected_contract
-        or proposed != HEX8SRI_PROPOSED_CRITERIA
+        or not _strict_json_equal(case_manifest.get("criteria_contract"), expected_contract)
+        or not _strict_json_equal(proposed, HEX8SRI_PROPOSED_CRITERIA)
         or frozen is not None
         or not isinstance(registration_hashes, Mapping)
+        or set(registration_hashes) != set(HEX8SRI_FIRST6_NODEIDS)
         or registration_hashes.get(target) != case_registration_sha256
-        or criteria_freeze.get("dispositions") != HEX8SRI_CRITERIA_DISPOSITIONS
-        or criteria_freeze.get("frozen_case_gate_criteria") != HEX8SRI_FROZEN_CASE_GATE_CRITERIA
+        or criteria_freeze.get("schema") != HEX8SRI_CRITERIA_FREEZE_SCHEMA
+        or criteria_freeze.get("revision") != HEX8SRI_CRITERIA_CONTRACT_REVISION
+        or not _strict_json_equal(criteria_freeze.get("dispositions"), HEX8SRI_CRITERIA_DISPOSITIONS)
+        or not _strict_json_equal(criteria_freeze.get("criteria_definitions"), HEX8SRI_CRITERIA_DEFINITIONS)
+        or not _strict_json_equal(
+            criteria_freeze.get("frozen_case_gate_criteria"), HEX8SRI_FROZEN_CASE_GATE_CRITERIA
+        )
+        or criteria_freeze.get("frozen_nodeids") != list(HEX8SRI_FIRST6_NODEIDS)
     ):
         raise PolicyError(
             "HEX8-SRI Owner decision does not freeze the registered first-six criteria contract; "
@@ -2886,12 +3295,14 @@ def _validate_hex8sri_execution_manifest(
         raise PolicyError(f"HEX8-SRI Owner decision record is unreadable: {exc}") from exc
     if recorded_decision != manifest.get("owner_decision"):
         raise PolicyError("HEX8-SRI Owner decision differs from its separately archived approval record")
-    decision = _validate_hex8sri_owner_decision(
+    decision = _validate_hex8sri_execution_approval(
         recorded_decision,
+        store=store,
         entry=entry,
         target=target,
         source_fingerprint=source_fingerprint,
         controller_provenance=controller_provenance,
+        case_manifest_binding=case_manifest_binding,
     )
     frozen_criteria = _validate_hex8sri_frozen_case_criteria(
         case_manifest,
@@ -2934,9 +3345,89 @@ def _validate_hex8sri_execution_manifest(
         "decision_id": decision["decision_id"],
         "owner_decision": decision,
         "owner_decision_record": {"path": str(decision_path), "sha256": decision_sha256},
+        "criteria_freeze_record": dict(decision["criteria_freeze_record"]),
         "frozen_criteria": frozen_criteria,
         "criteria_dispositions": dict(decision["criteria_freeze"]["dispositions"]),
         "preflight": expected_preflight,
+    }
+
+
+def _hex8sri_first6_current_case_manifest_bindings(
+    entry: Mapping[str, Any], execution_root: Path, controller_provenance: Mapping[str, Any]
+) -> dict[str, dict[str, str]]:
+    result: dict[str, dict[str, str]] = {}
+    for nodeid in HEX8SRI_FIRST6_NODEIDS:
+        manifest_path, case_manifest, raw_sha256 = _hex8sri_convergence24_manifest(entry, execution_root, nodeid)
+        _verify_hex8sri_convergence24_controller_identity(case_manifest, controller_provenance)
+        result[nodeid] = {
+            "path": str(manifest_path),
+            "sha256": raw_sha256,
+            "registration_sha256": _hex8sri_manifest_registration_sha256(case_manifest),
+            "case_id": str(case_manifest["case_id"]),
+            "scope_id": HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+        }
+    return result
+
+
+def archive_hex8sri_owner_decision(decision_file: Path) -> dict[str, Any]:
+    """Validate and immutably archive a freeze-only or execution Owner decision.
+
+    This records the submitted decision and its digest; it does not authenticate
+    the Owner cryptographically, create an execution manifest, or reserve an attempt.
+    """
+    policy = load_policy(POLICY_PATH)
+    scope_id = HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    target = HEX8SRI_FIRST6_NODEIDS[0]
+    resolve_targets("fem_exploratory", target, policy, worktree_id=scope_id)
+    entry, execution_root, _source_root, identity, source_fingerprint = _registered_worktree(scope_id, target, policy)
+    controller_provenance = _controller_provenance()
+    try:
+        decision = _read_strict_json(decision_file.resolve(strict=True))
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI Owner decision input is missing or invalid: {exc}") from exc
+    if not isinstance(decision, Mapping):
+        raise PolicyError("HEX8-SRI Owner decision input must be a JSON object")
+    decision_type = decision.get("decision_type")
+    if decision_type == "CRITERIA_FREEZE_ONLY":
+        validated = _validate_hex8sri_criteria_freeze_decision(
+            decision,
+            entry=entry,
+            source_fingerprint=source_fingerprint,
+            controller_provenance=controller_provenance,
+        )
+        # Require all six regenerated current registrations, but no preflight or ledger.
+        _hex8sri_first6_current_case_manifest_bindings(entry, execution_root, controller_provenance)
+        directory = _run_root(policy) / "authorizations" / scope_id / "owner-decisions" / "criteria-freeze"
+    elif decision_type == "EXECUTION_APPROVED":
+        current_bindings = _hex8sri_first6_current_case_manifest_bindings(
+            entry, execution_root, controller_provenance
+        )
+        if decision.get("case_manifests_by_nodeid") != current_bindings:
+            raise PolicyError("HEX8-SRI execution decision does not match all current first-six case manifests")
+        validated = _validate_hex8sri_execution_approval(
+            decision,
+            store=_run_root(policy),
+            entry=entry,
+            target=target,
+            source_fingerprint=source_fingerprint,
+            controller_provenance=controller_provenance,
+            case_manifest_binding=current_bindings[target],
+        )
+        directory = _run_root(policy) / "authorizations" / scope_id / "owner-decisions" / "execution"
+    else:
+        raise PolicyError("HEX8-SRI Owner decision_type must be CRITERIA_FREEZE_ONLY or EXECUTION_APPROVED")
+    decision_id = str(validated["decision_id"])
+    path = directory / f"{decision_id}.json"
+    with _exclusive_file_lock(_run_root(policy) / "locks" / "hex8sri-owner-decision-archive.lock"):
+        _atomic_json_new(path, validated)
+    return {
+        "state": validated["status"],
+        "decision_type": decision_type,
+        "decision_id": decision_id,
+        "path": str(path.resolve()),
+        "sha256": _sha256(path),
+        "execution_manifest_created": False,
+        "attempt_reserved": False,
     }
 
 
@@ -4451,6 +4942,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     hex8sri_manifest_parser.add_argument(
         "--authorization-id", required=True, help="unique draft ID; not an Owner grant"
     )
+    owner_decision_parser = subparsers.add_parser(
+        "archive-hex8sri-owner-decision",
+        help="validate and immutably archive a freeze-only or execution decision; never creates a manifest or runs tests",
+    )
+    owner_decision_parser.add_argument("--decision-json", type=Path, required=True, help="Owner decision JSON input")
     test_parser = subparsers.add_parser("test", help="run one fixed development pytest scope")
     test_parser.add_argument(
         "--scope", choices=("unit", "integration", "fem_exploratory", "math_non_fem"), required=True
@@ -4489,6 +4985,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             exit_code = 0
         elif args.command == "prepare-hex8sri-manifest":
             result = prepare_hex8sri_execution_manifest(args.target, args.preflight_id, args.authorization_id)
+            exit_code = 0
+        elif args.command == "archive-hex8sri-owner-decision":
+            result = archive_hex8sri_owner_decision(args.decision_json)
             exit_code = 0
         elif args.command == "preflight":
             result = preflight_pytest(args.worktree, args.target, args.preflight_id)
