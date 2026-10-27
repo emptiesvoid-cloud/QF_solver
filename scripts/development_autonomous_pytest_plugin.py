@@ -77,11 +77,22 @@ class ExactNodeGate:
 class ExactCollectOnlyAttestor:
     """Emit a machine-readable record for one exact, non-skipped collect-only node."""
 
-    def __init__(self, expected_nodeid: str, *, solver_origin: str, selected_dofs: int, max_dofs: int) -> None:
+    def __init__(
+        self,
+        expected_nodeid: str,
+        *,
+        solver_origin: str,
+        selected_dofs: int | None,
+        max_dofs: int | None,
+        schema: str = "qfsolver-rotor-collect-only-v1",
+        marker: str = ROTOR_PREFLIGHT_MARKER,
+    ) -> None:
         self.expected_nodeid = expected_nodeid
         self.solver_origin = solver_origin
         self.selected_dofs = selected_dofs
         self.max_dofs = max_dofs
+        self.schema = schema
+        self.marker = marker
         self.collected_nodeids: list[str] = []
         self.skip_markers: list[dict[str, str]] = []
         self.bodies_executed = False
@@ -104,7 +115,7 @@ class ExactCollectOnlyAttestor:
 
     def pytest_sessionfinish(self, session, exitstatus: int) -> None:
         payload = {
-            "schema": "qfsolver-rotor-collect-only-v1",
+            "schema": self.schema,
             "expected_nodeid": self.expected_nodeid,
             "collected_nodeids": self.collected_nodeids,
             "skip_markers": self.skip_markers,
@@ -117,7 +128,7 @@ class ExactCollectOnlyAttestor:
             "max_dofs": os.environ.get("QF_DEV_MAX_DOFS"),
             "exitstatus": int(exitstatus),
         }
-        print(ROTOR_PREFLIGHT_MARKER + json.dumps(payload, sort_keys=True, separators=(",", ":")))
+        print(self.marker + json.dumps(payload, sort_keys=True, separators=(",", ":")))
 
 
 class Hex8SRIConvergence24Attestor:
