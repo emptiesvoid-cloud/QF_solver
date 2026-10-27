@@ -84,5 +84,9 @@ silently migrated, rewritten or treated as unused.
 Synthetic tests exercise valid and mismatched manifests for every registered
 WP12 scope, verify scope-mandate selection in the runner before attempt
 creation, and verify refusal without mutation when a legacy generic ledger is
-present. They stop before attempt reservation and never launch pytest or import
-the solver.
+present. An additional synthetic WP12-B corrective case validates a scope-bound
+manifest, reserves only in a temporary ledger, and asserts that the manifest
+receipt, ledger header, and ledger key all use
+`DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-CORRECTIVE-2026-10-26-R1`.
+Mismatched mandate IDs are rejected. These checks use only temporary files and
+never launch pytest or import the solver.

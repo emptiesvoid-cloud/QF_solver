@@ -1371,6 +1371,81 @@ def test_wp12_scope_mandate_change_refuses_legacy_ledger_without_rewriting_it(tm
     assert ledger.read_bytes() == original
 
 
+def test_wp12b_corrective_manifest_and_reservation_share_scope_mandate(tmp_path: Path) -> None:
+    policy = _policy()
+    worktree_id = "wp12_elements_loads_corrective"
+    entry = dict(policy["worktrees"][worktree_id])
+    evidence_root = tmp_path / "corrective-evidence"
+    entry["evidence_root"] = str(evidence_root)
+    target = WP12_ELEMENTS_LOADS_CORRECTIVE_NODEIDS[0]
+    registration = next(record for record in entry["nodeid_registration_records"] if record["target"] == target)
+    selection = MODULE._validate_wp12_case_selection(
+        worktree_id,
+        selected_dofs=registration["selected_dofs"],
+        selection_basis=registration["selection_basis"],
+        timeout_seconds=registration["timeout_seconds"],
+        timeout_reason=registration["timeout_reason"],
+    )
+    identity = {"head": "d" * 40, "tree": "e" * 40, "status_short": ""}
+    source_fingerprint = registration["source_fingerprint"]
+    controller_fingerprint = "f" * 64
+    authorization_id = "wp12b-corrective-synthetic-001"
+    payload = {
+        "schema": "qfsolver-wp12-development-execution-v1",
+        "state": "OWNER_AUTHORIZED",
+        "authorization_id": authorization_id,
+        "worktree_id": worktree_id,
+        "campaign_id": entry["campaign_id"],
+        "mandate_id": entry["development_mandate_id"],
+        "target": target,
+        "identity": identity,
+        "source_fingerprint": source_fingerprint,
+        "controller_fingerprint": controller_fingerprint,
+        "limits": MODULE._wp12_manifest_limits(entry, selection),
+        "owner_decision": {
+            "status": "APPROVED",
+            "approved_by": "Owner",
+            "approved_at_utc": "2026-10-27T10:00:00Z",
+            "reason": "Synthetic test of corrective scope manifest and reservation identity.",
+        },
+    }
+    manifest_path = evidence_root / "authorizations" / worktree_id / f"{authorization_id}.json"
+    manifest_path.parent.mkdir(parents=True)
+    manifest_path.write_text(json.dumps(payload), encoding="utf-8")
+    manifest_receipt = MODULE._validate_wp12_execution_manifest(
+        manifest_path,
+        worktree_id=worktree_id,
+        target=target,
+        entry=entry,
+        identity=identity,
+        source_fingerprint=source_fingerprint,
+        controller_fingerprint=controller_fingerprint,
+        selection=selection,
+    )
+
+    ledger_path = tmp_path / "corrective-ledger.json"
+    ledger_key, attempt_number = MODULE._reserve_node_attempt(
+        ledger_path,
+        tmp_path / "corrective-ledger.lock",
+        mandate_id=manifest_receipt["mandate_id"],
+        worktree_id=worktree_id,
+        target=target,
+        series_id="dev-corrective-manifest-test",
+        source_fingerprint=source_fingerprint,
+        reason="Synthetic manifest-to-reservation identity test.",
+        maximum=entry["attempt_limit_per_nodeid"],
+        total_maximum=entry["max_total_attempts"],
+        wp12_selection={**registration, **selection},
+        authorization_id=manifest_receipt["authorization_id"],
+        controller_fingerprint=controller_fingerprint,
+    )
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    assert attempt_number == 1
+    assert ledger["mandate_id"] == entry["development_mandate_id"]
+    assert ledger_key.startswith(f"{entry['development_mandate_id']}:{worktree_id}:")
+    assert ledger["entries"][ledger_key][0]["authorization_id"] == authorization_id
+
+
 def test_c01_scope_contains_only_registered_legacy_dimensional_and_mechanics_nodes() -> None:
     policy = _policy()
     c01 = policy["worktrees"]["c01"]["allowed_nodeids"]
