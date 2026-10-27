@@ -340,6 +340,16 @@ D01_OWNER_BUDGETS = {
 WP12_BASELINE_COMMIT = "6d8f140834db75ea9b968b055af23445261d0073"
 WP12_COORDINATION_ROOT = Path(r"E:\QFSolverAgents\evidence\.wp12-coordination")
 WP12_EXECUTION_SCOPE_ALIASES = {"wp12_elements_loads_corrective": "wp12_elements_loads"}
+WP12_DYNAMICS_PREFLIGHT_NODEIDS = (
+    "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+    "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+    "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+    "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+)
+WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID = "wp12_hex20_affine_diagnostic"
+WP12B_HEX20_DIAGNOSTIC_NODEID = (
+    "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual"
+)
 WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
     "wp12_wp07": {
         "root": r"E:\QFSolverAgents\wp07",
@@ -1201,8 +1211,16 @@ def build_pytest_command(
     collect_only: bool = False,
     rotor_collect_only_attestation: bool = False,
     hex8sri_convergence24_collect_only_attestation: bool = False,
+    wp12_dynamics_collect_only_attestation: bool = False,
     junit_xml_path: Path | None = None,
 ) -> list[str]:
+    attestation_modes = (
+        rotor_collect_only_attestation,
+        hex8sri_convergence24_collect_only_attestation,
+        wp12_dynamics_collect_only_attestation,
+    )
+    if sum(attestation_modes) > 1:
+        raise PolicyError("a pytest collection command may use only one scope attestor")
     if scope_name in WORKTREE_SCOPES:
         if len(targets) != 1 or source_root is None:
             raise PolicyError("registered worktree execution requires one exact nodeid and a source root")
@@ -1214,6 +1232,10 @@ def build_pytest_command(
             not collect_only or allow_native_skip_override or targets[0] not in _hex8sri_convergence24_nodeids()
         ):
             raise PolicyError("HEX8-SRI attestation is restricted to exact preparation-only collect-only nodes")
+        if wp12_dynamics_collect_only_attestation and (not collect_only or allow_native_skip_override):
+            raise PolicyError("WP12 dynamics attestation requires collect-only without any skip override")
+        if wp12_dynamics_collect_only_attestation and targets[0] not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
+            raise PolicyError("WP12-A dynamics attestation is restricted to its four exact collect-only nodeids")
         native_override = "True" if allow_native_skip_override else "False"
         bootstrap = "\n".join(
             (
@@ -1250,6 +1272,14 @@ def build_pytest_command(
                 "if mode == 'hex8sri-convergence24-preflight':",
                 "    from development_autonomous_pytest_plugin import Hex8SRIConvergence24Attestor",
                 "    plugins.append(Hex8SRIConvergence24Attestor(target, scope_id='hex8sri-convergence24'))",
+                "if mode == 'wp12-dynamics-preflight':",
+                "    from development_autonomous_pytest_plugin import ExactCollectOnlyAttestor",
+                "    attestor = ExactCollectOnlyAttestor(",
+                "        target, solver_origin=str(origin), selected_dofs=int(os.environ['QF_DEV_SELECTED_DOFS']),",
+                "        max_dofs=None, schema='qfsolver-wp12-dynamics-collect-only-v1',",
+                "        marker='QF_DEV_WP12_DYNAMICS_PREFLIGHT=',",
+                "    )",
+                "    plugins.append(attestor)",
                 "raise SystemExit(pytest.main(sys.argv[6:], plugins=plugins))",
             )
         )
@@ -1269,7 +1299,7 @@ def build_pytest_command(
                 else (
                     "hex8sri-convergence24-preflight"
                     if hex8sri_convergence24_collect_only_attestation
-                    else "registered"
+                    else ("wp12-dynamics-preflight" if wp12_dynamics_collect_only_attestation else "registered")
                 )
             ),
             targets[0],
@@ -1314,6 +1344,9 @@ def build_child_environment(
     d01_source_sha: str | None = None,
     wp12_entry: Mapping[str, Any] | None = None,
     wp12_selection: Mapping[str, Any] | None = None,
+    wp12_attempt_id: str | None = None,
+    wp12_manifest_receipt: Mapping[str, Any] | None = None,
+    wp12_run_json_path: Path | None = None,
 ) -> dict[str, str]:
     environment = dict(os.environ if base is None else base)
     for key in tuple(environment):
@@ -1350,6 +1383,25 @@ def build_child_environment(
             environment["QF_DEV_MAX_DOFS"] = str(wp12_entry["target_max_dofs"])
     if wp12_selection is not None:
         environment["QF_DEV_SELECTED_DOFS"] = str(wp12_selection["selected_dofs"])
+    provenance_parts = (wp12_attempt_id, wp12_manifest_receipt, wp12_run_json_path)
+    if any(part is not None for part in provenance_parts):
+        if not all(part is not None for part in provenance_parts):
+            raise PolicyError("WP12 diagnostic provenance requires attempt, manifest and run.json identities together")
+        assert wp12_attempt_id is not None and wp12_manifest_receipt is not None and wp12_run_json_path is not None
+        manifest_id = wp12_manifest_receipt.get("authorization_id")
+        manifest_sha256 = wp12_manifest_receipt.get("sha256")
+        if (
+            not isinstance(manifest_id, str)
+            or not isinstance(manifest_sha256, str)
+            or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", manifest_id)
+            or not re.fullmatch(r"[a-f0-9]{64}", manifest_sha256)
+            or not re.fullmatch(r"dev-[a-z0-9][a-z0-9-]{7,48}-attempt-[1-9][0-9]*", wp12_attempt_id)
+        ):
+            raise PolicyError("WP12 diagnostic provenance identities are malformed")
+        environment["QF_DEV_ATTEMPT_ID"] = wp12_attempt_id
+        environment["QF_DEV_MANIFEST_ID"] = manifest_id
+        environment["QF_DEV_MANIFEST_SHA256"] = manifest_sha256
+        environment["QF_DEV_RUN_JSON_PATH"] = str(wp12_run_json_path.resolve())
     environment["QF_DEVELOPMENT_AUTONOMOUS"] = "1"
     return environment
 
@@ -1472,6 +1524,113 @@ def _file_inventory(path: Path) -> list[dict[str, Any]]:
         for item in sorted(path.rglob("*"))
         if item.is_file()
     ]
+
+
+def _wp12b_hex20_diagnostic_sidecar(
+    *,
+    worktree_id: str | None,
+    target: str | None,
+    evidence_root: str | None,
+    attempt_id: str,
+    manifest_receipt: Mapping[str, Any] | None,
+    selected_dofs: int | None,
+    run_json_path: Path,
+    sidecar_limit_bytes: int | None,
+) -> dict[str, Any] | None:
+    """Verify and hash-link the exact prospective HEX20 sidecar into final run.json."""
+    if worktree_id != WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID:
+        return None
+    reasons: list[str] = []
+    if target != WP12B_HEX20_DIAGNOSTIC_NODEID:
+        reasons.append("unexpected nodeid")
+    if selected_dofs != 60:
+        reasons.append("selected DDL mismatch")
+    if not evidence_root or manifest_receipt is None:
+        reasons.append("missing evidence root or validated manifest")
+        return {"status": "PROVENANCE_MISMATCH", "reasons": reasons}
+
+    root = Path(evidence_root).resolve()
+    path = root / "wp12b_hex20_affine_diagnostic" / f"{attempt_id}.json"
+    try:
+        run_record = json.loads(
+            run_json_path.read_text(encoding="utf-8"),
+            parse_constant=lambda value: (_ for _ in ()).throw(ValueError(f"non-finite JSON token {value}")),
+        )
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        return {
+            "status": "RUN_RECORD_UNREADABLE",
+            "path": str(path),
+            "run_json_path": str(run_json_path.resolve()),
+            "reasons": [*reasons, f"{type(exc).__name__}: {exc}"],
+        }
+    run_manifest = run_record.get("execution_manifest") if isinstance(run_record, dict) else None
+    run_selection = run_record.get("wp12_case_selection") if isinstance(run_record, dict) else None
+    if not isinstance(run_manifest, dict):
+        run_manifest = {}
+    if not isinstance(run_selection, dict):
+        run_selection = {}
+    if (
+        not isinstance(run_record, dict)
+        or run_record.get("controller_attempt_id") != attempt_id
+        or run_record.get("worktree_id") != worktree_id
+        or run_record.get("target") not in (target, [target])
+        or run_record.get("series_id") is None
+        or f"{run_record.get('series_id')}-attempt-{run_record.get('attempt')}" != attempt_id
+        or run_manifest.get("authorization_id") != (manifest_receipt or {}).get("authorization_id")
+        or run_manifest.get("sha256") != (manifest_receipt or {}).get("sha256")
+        or run_selection.get("selected_dofs") != selected_dofs
+    ):
+        reasons.append("run.json attempt, manifest, nodeid or DDL binding mismatch")
+    try:
+        resolved = path.resolve(strict=True)
+        if not _is_within(resolved, root) or not resolved.is_file():
+            reasons.append("sidecar path is outside the scope evidence root")
+            return {"status": "PROVENANCE_MISMATCH", "path": str(path), "reasons": reasons}
+        sidecar = json.loads(
+            resolved.read_text(encoding="utf-8"),
+            parse_constant=lambda value: (_ for _ in ()).throw(ValueError(f"non-finite JSON token {value}")),
+        )
+    except FileNotFoundError:
+        return {"status": "SIDECAR_NOT_FOUND", "path": str(path), "reasons": reasons}
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        return {
+            "status": "SIDECAR_UNREADABLE",
+            "path": str(path),
+            "reasons": [*reasons, f"{type(exc).__name__}: {exc}"],
+        }
+
+    sidecar_controller = sidecar.get("controller") if isinstance(sidecar, dict) else None
+    manifest_id = manifest_receipt.get("authorization_id")
+    manifest_sha256 = manifest_receipt.get("sha256")
+    expected = {
+        "worktree_id": worktree_id,
+        "selected_dofs": 60,
+        "controller_attempt_id": attempt_id,
+        "manifest_id": manifest_id,
+        "manifest_sha256": manifest_sha256,
+        "run_json_path": str(run_json_path.resolve()),
+    }
+    observed = sidecar_controller if isinstance(sidecar_controller, dict) else {}
+    reasons.extend(key for key, value in expected.items() if observed.get(key) != value)
+    sidecar_bytes = resolved.stat().st_size
+    if sidecar_limit_bytes is not None and sidecar_bytes > sidecar_limit_bytes:
+        reasons.append("sidecar exceeds the registered archive-size budget")
+    sidecar_identity = sidecar.get("identity") if isinstance(sidecar, dict) else None
+    if not isinstance(sidecar_identity, dict) or sidecar.get("schema") != "qfsolver-wp12b-hex20-affine-diagnostic-v1":
+        reasons.append("sidecar schema mismatch")
+    if not isinstance(sidecar_identity, dict) or sidecar_identity.get("nodeid") != target:
+        reasons.append("nodeid mismatch")
+    return {
+        "status": "VERIFIED" if not reasons else "PROVENANCE_MISMATCH",
+        "path": str(resolved),
+        "sha256": _sha256(resolved),
+        "bytes": sidecar_bytes,
+        "maximum_bytes": sidecar_limit_bytes,
+        "controller_attempt_id": attempt_id,
+        "manifest_id": manifest_id,
+        "manifest_sha256": manifest_sha256,
+        "reasons": reasons,
+    }
 
 
 def _unpack_numeric_bytes(dtype: str, raw: bytes) -> list[int | float | bool] | tuple[list[float], list[float]] | None:
@@ -3675,6 +3834,7 @@ def _preflight_directory(store: Path, worktree_id: str, preflight_id: str) -> Pa
 
 
 ROTOR_PREFLIGHT_ATTESTATION_PREFIX = "QF_DEV_ROTOR_PREFLIGHT="
+WP12_DYNAMICS_PREFLIGHT_ATTESTATION_PREFIX = "QF_DEV_WP12_DYNAMICS_PREFLIGHT="
 
 
 def _validate_rotor_collect_attestation(
@@ -3720,6 +3880,240 @@ def _validate_rotor_collect_attestation(
     if payload.get("exitstatus") != 0:
         return "PREFLIGHT_FAILED", payload
     return "PREFLIGHT_PASS", payload
+
+
+def _validate_wp12_dynamics_collect_attestation(
+    stdout: str,
+    *,
+    target: str,
+    solver_origin: str,
+    selected_dofs: int,
+) -> tuple[str, dict[str, Any] | None]:
+    lines = [
+        line[len(WP12_DYNAMICS_PREFLIGHT_ATTESTATION_PREFIX) :]
+        for line in stdout.splitlines()
+        if line.startswith(WP12_DYNAMICS_PREFLIGHT_ATTESTATION_PREFIX)
+    ]
+    if len(lines) != 1:
+        return "PREFLIGHT_ATTESTATION_INVALID", None
+    try:
+        payload = json.loads(lines[0])
+    except json.JSONDecodeError:
+        return "PREFLIGHT_ATTESTATION_INVALID", None
+    if not isinstance(payload, dict) or payload.get("schema") != "qfsolver-wp12-dynamics-collect-only-v1":
+        return "PREFLIGHT_ATTESTATION_INVALID", None
+    if payload.get("worktree_id") != "wp12_dynamics":
+        return "PREFLIGHT_SCOPE_MISMATCH", payload
+    if payload.get("expected_nodeid") != target or payload.get("collected_nodeids") != [target]:
+        return "PREFLIGHT_NODEID_NOT_CONFIRMED", payload
+    if payload.get("solver_origin") != solver_origin:
+        return "PREFLIGHT_WRONG_SOLVER_ORIGIN", payload
+    if payload.get("skip_markers") != []:
+        return "PREFLIGHT_SKIPPED", payload
+    if payload.get("bodies_executed") is not False:
+        return "PREFLIGHT_BODY_EXECUTION_DETECTED", payload
+    if payload.get("selected_dofs_expected") != selected_dofs or payload.get("selected_dofs") != str(selected_dofs):
+        return "PREFLIGHT_SCOPE_MISMATCH", payload
+    if payload.get("max_dofs_expected") is not None or payload.get("max_dofs") is not None:
+        return "PREFLIGHT_SCOPE_MISMATCH", payload
+    if payload.get("exitstatus") != 0:
+        return "PREFLIGHT_FAILED", payload
+    return "PREFLIGHT_PASS", payload
+
+
+def preflight_wp12_dynamics_pytest(
+    target: str, preflight_id: str | None = None, *, policy: Mapping[str, Any] | None = None
+) -> dict[str, Any]:
+    """Collect one active WP12 dynamics registration without reserving or touching its attempt ledger."""
+    current_policy = load_policy() if policy is None else dict(policy)
+    worktree_id = "wp12_dynamics"
+    if target not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
+        raise PolicyError("WP12-A dynamics preflight is limited to its four exact registered nodeids")
+    targets = resolve_targets("fem_exploratory", target, current_policy, worktree_id=worktree_id)
+    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
+        worktree_id, target, current_policy
+    )
+    selection = _wp12_active_registration(worktree_id, target, entry, source_fingerprint)
+    if entry.get("development_mandate_id") != WP12_OWNER_ENVELOPES[worktree_id]["development_mandate_id"]:
+        raise PolicyError("WP12 dynamics preflight is not bound to its registered mandate")
+    store = _run_root(current_policy, worktree_id)
+    if psutil is None:
+        raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
+    free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free)
+    minimum_free = int(current_policy["minimum_free_disk_mib"] * 1024 * 1024)
+    if free_bytes < minimum_free:
+        raise PolicyError(f"insufficient free disk for WP12 dynamics preflight: {free_bytes} bytes; requires {minimum_free}")
+
+    preflight_id = preflight_id or f"pf-{uuid.uuid4().hex[:12]}"
+    receipt_dir = _preflight_directory(store, worktree_id, preflight_id)
+    try:
+        receipt_dir.mkdir(parents=True, exist_ok=False)
+    except FileExistsError as exc:
+        raise PolicyError("preflight ID already exists; refusing to overwrite a prior receipt") from exc
+    temporary_dir = receipt_dir / "tmp"
+    output_dir = receipt_dir / "output"
+    temporary_dir.mkdir()
+    output_dir.mkdir()
+    command = build_pytest_command(
+        "fem_exploratory",
+        targets,
+        temporary_dir,
+        repository_root=execution_root,
+        source_root=source_root,
+        controller_root=ROOT,
+        allow_native_skip_override=False,
+        collect_only=True,
+        wp12_dynamics_collect_only_attestation=True,
+    )
+    if "--collect-only" not in command or command[-1] != target:
+        raise PolicyError("WP12 dynamics preflight command must collect only its one exact registered nodeid")
+    environment = build_child_environment(
+        temporary_dir,
+        source_root=source_root,
+        wp12_entry={**entry, "worktree_id": worktree_id},
+        wp12_selection=selection,
+    )
+    environment.update({"QF_DEV_PREFLIGHT_SCOPE_ID": worktree_id, "QF_DEV_PREFLIGHT_TARGET": target})
+    budgets = dict(entry["budgets"])
+    budgets["timeout_seconds"] = selection["timeout_seconds"]
+    ledger_path = store / "node-attempt-ledger.json"
+    ledger_sha256_before = _sha256(ledger_path) if ledger_path.is_file() else None
+    controller_provenance = _controller_provenance()
+    expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
+    started = datetime.now(timezone.utc).isoformat()
+    record_path = receipt_dir / "preflight.json"
+    initial = {
+        "schema": "qfsolver-development-wp12-dynamics-preflight-v1",
+        "mode": "DEVELOPMENT_AUTONOMOUS",
+        "mandate_id": entry["development_mandate_id"],
+        "worktree_id": worktree_id,
+        "target": target,
+        "preflight_id": preflight_id,
+        "phase": "PYTEST_COLLECT_ONLY",
+        "bodies_executed": False,
+        "attempt_reserved": False,
+        "ledger_touched": False,
+        "identity": identity,
+        "source_fingerprint": source_fingerprint,
+        "registration": selection,
+        "attempt_ledger": {
+            "path": str(ledger_path),
+            "sha256_before": ledger_sha256_before,
+            "touched": False,
+        },
+        "solver_origin_expected": expected_origin,
+        "controller_provenance": controller_provenance,
+        "command": command,
+        "budgets": budgets,
+        "free_disk_before_bytes": free_bytes,
+    }
+    try:
+        result = run_supervised_command(
+            command,
+            cwd=execution_root,
+            environment=environment,
+            output_dir=output_dir,
+            temporary_dir=temporary_dir,
+            limits=budgets,
+            poll_interval=float(current_policy["poll_interval_seconds"]),
+        )
+    except OSError as exc:
+        ledger_sha256_after = _sha256(ledger_path) if ledger_path.is_file() else None
+        ledger_touched = ledger_sha256_before != ledger_sha256_after
+        _atomic_json_new(
+            record_path,
+            {
+                **initial,
+                "state": "PREFLIGHT_LAUNCH_FAILED",
+                "ledger_touched": ledger_touched,
+                "attempt_ledger": {
+                    "path": str(ledger_path),
+                    "sha256_before": ledger_sha256_before,
+                    "sha256_after": ledger_sha256_after,
+                    "touched": ledger_touched,
+                },
+                "started_at_utc": started,
+                "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+                "launch_error": f"{type(exc).__name__}: {exc}",
+            },
+        )
+        _atomic_json_new(receipt_dir / "preflight.sha256.json", {"sha256": _sha256(record_path)})
+        raise PolicyError(f"WP12 dynamics collect-only preflight could not launch: {exc}") from exc
+
+    stdout_path, stderr_path = output_dir / "stdout.log", output_dir / "stderr.log"
+    stdout = stdout_path.read_text(encoding="utf-8", errors="replace") if stdout_path.is_file() else ""
+    stderr = stderr_path.read_text(encoding="utf-8", errors="replace") if stderr_path.is_file() else ""
+    combined = stdout + "\n" + stderr
+    attestation_status, attestation = _validate_wp12_dynamics_collect_attestation(
+        stdout,
+        target=target,
+        solver_origin=expected_origin,
+        selected_dofs=selection["selected_dofs"],
+    )
+    after_policy = load_policy()
+    after_entry, _after_root, _after_source, after_identity, after_fingerprint = _registered_worktree(
+        worktree_id, target, after_policy
+    )
+    ledger_sha256_after = _sha256(ledger_path) if ledger_path.is_file() else None
+    ledger_touched = ledger_sha256_before != ledger_sha256_after
+    controller_provenance_after = _controller_provenance()
+    observed_origin = _observed_solver_origin(combined)
+    if after_identity != identity or after_fingerprint != source_fingerprint or after_entry != entry:
+        state = "PREFLIGHT_SOURCE_CHANGED"
+    elif controller_provenance_after != controller_provenance:
+        state = "PREFLIGHT_CONTROLLER_CHANGED"
+    elif ledger_touched:
+        state = "PREFLIGHT_LEDGER_CHANGED"
+    elif result.status != "PASS":
+        state = "PREFLIGHT_FAILED"
+    elif observed_origin != expected_origin:
+        state = "PREFLIGHT_WRONG_SOLVER_ORIGIN"
+    else:
+        state = attestation_status
+    final = {
+        **initial,
+        "state": state,
+        "started_at_utc": started,
+        "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+        "collected_nodeids": (attestation or {}).get("collected_nodeids", []),
+        "skip_markers": (attestation or {}).get("skip_markers"),
+        "bodies_executed": (attestation or {}).get("bodies_executed"),
+        "attempt_reserved": False,
+        "ledger_touched": ledger_touched,
+        "attempt_ledger": {
+            "path": str(ledger_path),
+            "sha256_before": ledger_sha256_before,
+            "sha256_after": ledger_sha256_after,
+            "touched": ledger_touched,
+        },
+        "solver_origin_observed": observed_origin,
+        "attestation_error": None if attestation is not None else attestation_status,
+        "return_code": result.return_code,
+        "elapsed_seconds": result.elapsed_seconds,
+        "peak_rss_bytes": result.peak_rss_bytes,
+        "peak_process_count": result.peak_process_count,
+        "stdout_bytes": result.stdout_bytes,
+        "stderr_bytes": result.stderr_bytes,
+        "stdout_sha256": _sha256(stdout_path) if stdout_path.is_file() else None,
+        "stderr_sha256": _sha256(stderr_path) if stderr_path.is_file() else None,
+        "identity_after": after_identity,
+        "source_fingerprint_after": after_fingerprint,
+        "controller_provenance_after": controller_provenance_after,
+        "free_disk_after_bytes": min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free),
+    }
+    _atomic_json_new(record_path, final)
+    receipt_sha256 = _sha256(record_path)
+    _atomic_json_new(receipt_dir / "preflight.sha256.json", {"sha256": receipt_sha256})
+    return {
+        "preflight_id": preflight_id,
+        "state": state,
+        "bodies_executed": final["bodies_executed"],
+        "attempt_reserved": False,
+        "ledger_touched": ledger_touched,
+        "nodeid": target if final["collected_nodeids"] == [target] else None,
+        "receipt": str(record_path),
+        "receipt_sha256": receipt_sha256,
+    }
 
 
 def preflight_rotor_pytest(
@@ -4215,9 +4609,11 @@ def preflight_pytest(
         return preflight_rotor_pytest(target, preflight_id, policy=policy)
     if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
         return preflight_hex8sri_convergence24_pytest(target, preflight_id, policy=policy)
+    if worktree_id == "wp12_dynamics":
+        return preflight_wp12_dynamics_pytest(target, preflight_id, policy=policy)
     if worktree_id != "d01":
         raise PolicyError(
-            "collect-only preflight is enabled only for D01, rotor, and the preparation-only HEX8-SRI scope"
+            "collect-only preflight is enabled only for D01, rotor, WP12 dynamics, and preparation-only HEX8-SRI"
         )
     targets = resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
     entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(worktree_id, target, policy)
@@ -4671,6 +5067,12 @@ def run_pytest(
         output_dir = attempt_dir / "output"
         temp_dir.mkdir()
         output_dir.mkdir()
+        record_path = attempt_dir / "run.json"
+        controller_attempt_id = (
+            f"{series_id}-attempt-{ledger_number or number}"
+            if worktree_id == WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID and execution_manifest_receipt is not None
+            else None
+        )
         command = build_pytest_command(
             scope_name,
             targets,
@@ -4692,6 +5094,9 @@ def run_pytest(
                 else None
             ),
             wp12_selection=wp12_registration,
+            wp12_attempt_id=controller_attempt_id,
+            wp12_manifest_receipt=execution_manifest_receipt,
+            wp12_run_json_path=record_path if controller_attempt_id is not None else None,
         )
         if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
             assert (
@@ -4733,6 +5138,7 @@ def run_pytest(
             "mandate_id": effective_mandate_id,
             "series_id": series_id,
             "attempt": ledger_number or number,
+            **({"controller_attempt_id": controller_attempt_id} if controller_attempt_id is not None else {}),
             "scope": scope_name,
             "worktree_id": worktree_id,
             "target": targets,
@@ -4791,7 +5197,6 @@ def run_pytest(
             "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
             "qualification_promotion": "PROHIBITED",
         }
-        record_path = attempt_dir / "run.json"
         _atomic_json(record_path, initial)
         limits = dict(scope)
         limits["minimum_free_disk_mib"] = policy["minimum_free_disk_mib"]
@@ -4879,6 +5284,25 @@ def run_pytest(
             "stop_reason": result.stop_reason,
             "free_disk_after_bytes": min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free),
         }
+        sidecar_binding = _wp12b_hex20_diagnostic_sidecar(
+            worktree_id=worktree_id,
+            target=target,
+            evidence_root=str(entry.get("evidence_root")) if entry is not None else None,
+            attempt_id=controller_attempt_id or "",
+            manifest_receipt=execution_manifest_receipt,
+            selected_dofs=(wp12_registration or {}).get("selected_dofs"),
+            run_json_path=record_path,
+            sidecar_limit_bytes=(
+                int(entry["budgets"]["archive_size_limit_mib"] * 1024 * 1024)
+                if entry is not None and "budgets" in entry
+                else None
+            ),
+        )
+        if sidecar_binding is not None:
+            final["diagnostic_sidecar"] = sidecar_binding
+            if sidecar_binding["status"] != "VERIFIED":
+                state = "PROVENANCE_MISMATCH"
+                final["state"] = state
         _atomic_json(record_path, final)
         if ledger_key and ledger_number:
             _complete_node_attempt(
@@ -4904,10 +5328,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     subparsers = parser.add_subparsers(dest="command", required=True)
     preflight_parser = subparsers.add_parser(
         "preflight",
-        help="collect one exact D01, rotor, or preparation-only HEX8-SRI node without running its body",
+        help="collect one exact D01, rotor, WP12 dynamics, or preparation-only HEX8-SRI node without running its body",
     )
     preflight_parser.add_argument(
-        "--worktree", choices=("d01", "rotor", HEX8SRI_CONVERGENCE24_WORKTREE_ID), required=True
+        "--worktree",
+        choices=("d01", "rotor", "wp12_dynamics", HEX8SRI_CONVERGENCE24_WORKTREE_ID),
+        required=True,
     )
     preflight_parser.add_argument("--target", required=True)
     preflight_parser.add_argument("--preflight-id", help="optional unused pf-<12 lowercase hex> ID")

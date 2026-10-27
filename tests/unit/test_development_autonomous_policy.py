@@ -45,6 +45,8 @@ WP12_DYNAMICS_NODEIDS = (
     "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
     "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata",
 )
+
+WP12_DYNAMICS_PREFLIGHT_NODEID = WP12_DYNAMICS_NODEIDS[0]
 WP12_ELEMENTS_VERIFICATION_NODEIDS = (
     "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
     "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4",
@@ -336,7 +338,7 @@ def test_wp12_registry_has_six_distinct_exact_worktree_envelopes() -> None:
         if worktree_id == "wp12_dynamics":
             assert entry["allowed_nodeids"] == list(WP12_DYNAMICS_NODEIDS)
             records = entry["nodeid_registration_records"]
-            assert len(records) == 20
+            assert len(records) == 21
             assert all(len(record["worktree_head"]) == 40 for record in entry["nodeid_registration_records"])
             assert all(len(record["source_fingerprint"]) == 64 for record in entry["nodeid_registration_records"])
             newmark_target = "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables"
@@ -1746,18 +1748,24 @@ def test_rotor_preflight_refuses_a_fake_solver_import_path(tmp_path: Path) -> No
         MODULE._verify_solver_import_origin(source_root, wrong)
 
 
-@pytest.mark.parametrize("worktree_id", ["wp12_dynamics", "wp12_elements", "c01", "e01"])
+@pytest.mark.parametrize(
+    ("worktree_id", "expected_message"),
+    [
+        ("wp12_dynamics", "limited to its four exact registered nodeids"),
+        ("wp12_elements", "enabled only for D01, rotor, WP12 dynamics"),
+        ("c01", "enabled only for D01, rotor, WP12 dynamics"),
+        ("e01", "enabled only for D01, rotor, WP12 dynamics"),
+    ],
+)
 def test_collect_only_preflight_does_not_expand_to_other_scopes(
-    monkeypatch: pytest.MonkeyPatch, worktree_id: str
+    monkeypatch: pytest.MonkeyPatch, worktree_id: str, expected_message: str
 ) -> None:
     monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: {})
-    with pytest.raises(
-        MODULE.PolicyError, match="enabled only for D01, rotor, and the preparation-only HEX8-SRI scope"
-    ):
+    with pytest.raises(MODULE.PolicyError, match=expected_message):
         MODULE.preflight_pytest(worktree_id, "tests/unit/test_anything.py::test_case")
 
 
-def test_preflight_cli_routes_only_the_explicit_rotor_scope(monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+def test_preflight_cli_routes_only_explicit_registered_scopes(monkeypatch: pytest.MonkeyPatch, capsys) -> None:
     target = "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]"
     monkeypatch.setattr(
         MODULE,
@@ -1770,8 +1778,11 @@ def test_preflight_cli_routes_only_the_explicit_rotor_scope(monkeypatch: pytest.
     )
     assert MODULE.main(["preflight", "--worktree", "rotor", "--target", target]) == 0
     assert json.loads(capsys.readouterr().out)["worktree"] == "rotor"
+    dynamics_target = WP12_DYNAMICS_PREFLIGHT_NODEID
+    assert MODULE.main(["preflight", "--worktree", "wp12_dynamics", "--target", dynamics_target]) == 0
+    assert json.loads(capsys.readouterr().out)["worktree"] == "wp12_dynamics"
     with pytest.raises(SystemExit) as exc:
-        MODULE.main(["preflight", "--worktree", "wp12_dynamics", "--target", target])
+        MODULE.main(["preflight", "--worktree", "unknown", "--target", target])
     assert exc.value.code == 2
 
 
@@ -2755,9 +2766,33 @@ def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_s
         "rotor",
         scope_id,
     }
+    baseline = json.loads(
+        subprocess.run(
+            ["git", "show", "ea99be8b99519a9cbe609612e9560e10beb38d95:development_autonomous_policy.json"],
+            cwd=MODULE.ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout
+    )
     existing = {key: value for key, value in worktrees.items() if key != scope_id}
-    serialized = json.dumps(existing, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    assert hashlib.sha256(serialized).hexdigest() == "75a04717c7e3696cb428d9a9fd8e950e0ef0c90005625a821dabc99d205e15da"
+    for worktree_id, baseline_entry in baseline["worktrees"].items():
+        if worktree_id in {scope_id, "wp12_dynamics"}:
+            continue
+        assert existing[worktree_id] == baseline_entry
+    dynamics_baseline = baseline["worktrees"]["wp12_dynamics"]
+    dynamics_current = existing["wp12_dynamics"]
+    assert dynamics_current["allowed_nodeids"] == dynamics_baseline["allowed_nodeids"]
+    assert dynamics_current["nodeid_registration_records"][: len(dynamics_baseline["nodeid_registration_records"])] == (
+        dynamics_baseline["nodeid_registration_records"]
+    )
+    assert len(dynamics_current["nodeid_registration_records"]) == len(
+        dynamics_baseline["nodeid_registration_records"]
+    ) + 1
+    assert dynamics_current["nodeid_registration_records"][-1]["target"] == (
+        "tests/unit/test_wp07_uniform_base_acceleration.py::"
+        "test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames"
+    )
     entry = worktrees[scope_id]
     assert entry["allowed_nodeids"] == list(MODULE._hex8sri_convergence24_nodeids())
     assert len(entry["allowed_nodeids"]) == 24
@@ -3879,8 +3914,17 @@ def test_hex8sri_scope_refresh_leaves_historical_scope_registrations_unchanged()
     current = _policy()
     assert set(current["worktrees"]) == set(baseline["worktrees"])
     for worktree_id, baseline_entry in baseline["worktrees"].items():
-        if worktree_id != MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+        if worktree_id not in {MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID, "wp12_dynamics"}:
             assert current["worktrees"][worktree_id] == baseline_entry
+        elif worktree_id == "wp12_dynamics":
+            current_entry = current["worktrees"][worktree_id]
+            assert current_entry["allowed_nodeids"] == baseline_entry["allowed_nodeids"]
+            assert current_entry["nodeid_registration_records"][: len(baseline_entry["nodeid_registration_records"])] == (
+                baseline_entry["nodeid_registration_records"]
+            )
+            assert len(current_entry["nodeid_registration_records"]) == len(
+                baseline_entry["nodeid_registration_records"]
+            ) + 1
     assert current["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["execution_authorized"] is False
     assert current["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["allowed_nodeids"] == (
         baseline["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["allowed_nodeids"]
@@ -3931,3 +3975,272 @@ def test_hex8sri_execution_test_contract_rejects_legacy_and_accepts_declared_con
     )
     test_path.write_text(source, encoding="utf-8")
     MODULE._validate_hex8sri_execution_test_contract(tmp_path, target)
+
+
+def _wp12_dynamics_attestation(**updates: Any) -> str:
+    payload: dict[str, Any] = {
+        "schema": "qfsolver-wp12-dynamics-collect-only-v1",
+        "expected_nodeid": WP12_DYNAMICS_PREFLIGHT_NODEID,
+        "collected_nodeids": [WP12_DYNAMICS_PREFLIGHT_NODEID],
+        "skip_markers": [],
+        "bodies_executed": False,
+        "solver_origin": "C:/source/src/solveur/__init__.py",
+        "worktree_id": "wp12_dynamics",
+        "selected_dofs_expected": 1,
+        "selected_dofs": "1",
+        "max_dofs_expected": None,
+        "max_dofs": None,
+        "exitstatus": 0,
+    }
+    payload.update(updates)
+    return MODULE.WP12_DYNAMICS_PREFLIGHT_ATTESTATION_PREFIX + json.dumps(payload)
+
+
+def test_wp12_dynamics_collect_only_command_is_limited_to_four_exact_nodes(tmp_path: Path) -> None:
+    command = MODULE.build_pytest_command(
+        "fem_exploratory",
+        [WP12_DYNAMICS_PREFLIGHT_NODEID],
+        tmp_path,
+        repository_root=tmp_path,
+        source_root=tmp_path / "src",
+        wp12_dynamics_collect_only_attestation=True,
+        collect_only=True,
+    )
+    assert "--collect-only" in command
+    assert command[-1] == WP12_DYNAMICS_PREFLIGHT_NODEID
+    assert "wp12-dynamics-preflight" in command[3]
+
+    with pytest.raises(MODULE.PolicyError, match="four exact collect-only nodeids"):
+        MODULE.build_pytest_command(
+            "fem_exploratory",
+            ["tests/unit/test_other.py::test_unregistered"],
+            tmp_path,
+            repository_root=tmp_path,
+            source_root=tmp_path / "src",
+            wp12_dynamics_collect_only_attestation=True,
+            collect_only=True,
+        )
+    with pytest.raises(MODULE.PolicyError, match="collect-only without any skip override"):
+        MODULE.build_pytest_command(
+            "fem_exploratory",
+            [WP12_DYNAMICS_PREFLIGHT_NODEID],
+            tmp_path,
+            repository_root=tmp_path,
+            source_root=tmp_path / "src",
+            wp12_dynamics_collect_only_attestation=True,
+            allow_native_skip_override=True,
+            collect_only=True,
+        )
+
+
+@pytest.mark.parametrize(
+    ("updates", "expected"),
+    [
+        ({}, "PREFLIGHT_PASS"),
+        ({"collected_nodeids": []}, "PREFLIGHT_NODEID_NOT_CONFIRMED"),
+        ({"collected_nodeids": [WP12_DYNAMICS_PREFLIGHT_NODEID, WP12_DYNAMICS_PREFLIGHT_NODEID]}, "PREFLIGHT_NODEID_NOT_CONFIRMED"),
+        ({"skip_markers": [{"marker": "skip"}]}, "PREFLIGHT_SKIPPED"),
+        ({"bodies_executed": True}, "PREFLIGHT_BODY_EXECUTION_DETECTED"),
+        ({"solver_origin": "C:/wrong/solveur/__init__.py"}, "PREFLIGHT_WRONG_SOLVER_ORIGIN"),
+        ({"worktree_id": "rotor"}, "PREFLIGHT_SCOPE_MISMATCH"),
+        ({"exitstatus": 1}, "PREFLIGHT_FAILED"),
+        ({"selected_dofs": "3"}, "PREFLIGHT_SCOPE_MISMATCH"),
+    ],
+)
+def test_wp12_dynamics_collect_only_attestation_fails_closed(updates: dict[str, Any], expected: str) -> None:
+    status, payload = MODULE._validate_wp12_dynamics_collect_attestation(
+        _wp12_dynamics_attestation(**updates),
+        target=WP12_DYNAMICS_PREFLIGHT_NODEID,
+        solver_origin="C:/source/src/solveur/__init__.py",
+        selected_dofs=1,
+    )
+    assert status == expected
+    assert payload is not None
+
+
+def test_wp12_dynamics_collect_only_attestation_rejects_missing_or_duplicate_receipts() -> None:
+    validate = MODULE._validate_wp12_dynamics_collect_attestation
+    expected = {
+        "target": WP12_DYNAMICS_PREFLIGHT_NODEID,
+        "solver_origin": "C:/source/src/solveur/__init__.py",
+        "selected_dofs": 1,
+    }
+    assert validate("", **expected) == ("PREFLIGHT_ATTESTATION_INVALID", None)
+    line = _wp12_dynamics_attestation()
+    status, payload = validate(line + "\n" + line, **expected)
+    assert status == "PREFLIGHT_ATTESTATION_INVALID"
+    assert payload is None
+
+
+def test_wp12_dynamics_child_attestor_reports_skip_and_body_tripwires(monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+    monkeypatch.setenv("QF_DEV_WORKTREE_ID", "wp12_dynamics")
+    expected_origin = "C:/source/src/solveur/__init__.py"
+    marker = MODULE.WP12_DYNAMICS_PREFLIGHT_ATTESTATION_PREFIX
+    attestor = PLUGIN.ExactCollectOnlyAttestor(
+        WP12_DYNAMICS_PREFLIGHT_NODEID,
+        solver_origin=expected_origin,
+        selected_dofs=1,
+        max_dofs=None,
+        schema="qfsolver-wp12-dynamics-collect-only-v1",
+        marker=marker,
+    )
+    skip = SimpleNamespace(name="skip", kwargs={"reason": "synthetic skip"})
+    item = SimpleNamespace(
+        nodeid=WP12_DYNAMICS_PREFLIGHT_NODEID,
+        iter_markers=lambda: [skip],
+    )
+    attestor.pytest_collection_finish(SimpleNamespace(items=[item]))
+    attestor.pytest_runtest_call(item)
+    attestor.pytest_sessionfinish(SimpleNamespace(), 0)
+    output = capsys.readouterr().out.strip()
+    status, payload = MODULE._validate_wp12_dynamics_collect_attestation(
+        output,
+        target=WP12_DYNAMICS_PREFLIGHT_NODEID,
+        solver_origin=expected_origin,
+        selected_dofs=1,
+    )
+    assert status == "PREFLIGHT_SKIPPED"
+    assert payload is not None and payload["bodies_executed"] is True
+
+
+@pytest.mark.parametrize(
+    "reason",
+    ["registered worktree branch mismatch", "WP12 source fingerprint changed; inspected registration required"],
+)
+def test_wp12_dynamics_preflight_propagates_source_identity_refusals_before_launch(
+    monkeypatch: pytest.MonkeyPatch, reason: str
+) -> None:
+    monkeypatch.setattr(MODULE, "resolve_targets", lambda *_args, **_kwargs: [WP12_DYNAMICS_PREFLIGHT_NODEID])
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(MODULE.PolicyError(reason)),
+    )
+    monkeypatch.setattr(
+        MODULE,
+        "run_supervised_command",
+        lambda *_args, **_kwargs: pytest.fail("identity refusal must precede child collection"),
+    )
+    with pytest.raises(MODULE.PolicyError, match="branch mismatch|fingerprint changed"):
+        MODULE.preflight_wp12_dynamics_pytest(
+            WP12_DYNAMICS_PREFLIGHT_NODEID,
+            policy={"worktrees": {}},
+        )
+
+
+@pytest.mark.parametrize(
+    ("mutate_ledger_during_collection", "change_controller_during_collection"),
+    [(False, False), (True, False), (False, True)],
+)
+def test_wp12_dynamics_preflight_detects_identity_changes_and_never_reserves(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    mutate_ledger_during_collection: bool,
+    change_controller_during_collection: bool,
+) -> None:
+    target = WP12_DYNAMICS_PREFLIGHT_NODEID
+    source_root = tmp_path / "source" / "src"
+    source_root.mkdir(parents=True)
+    source_checkout = source_root.parent
+    store = tmp_path / "evidence"
+    entry = {
+        "worktree_id": "wp12_dynamics",
+        "development_mandate_id": MODULE.WP12_OWNER_ENVELOPES["wp12_dynamics"]["development_mandate_id"],
+        "max_fem_cases_per_attempt": 1,
+        "target_max_dofs": None,
+        "evidence_root": str(store),
+        "budgets": {
+            "timeout_seconds": 300,
+            "rss_soft_limit_mib": 128,
+            "process_tree_limit": 4,
+            "output_total_limit_mib": 2,
+            "output_stream_limit_mib": 1,
+            "temporary_limit_mib": 8,
+            "archive_size_limit_mib": 8,
+        },
+    }
+    identity = {
+        "head": "a" * 40,
+        "tree": "b" * 40,
+        "branch": "codex/wp12-dynamic-harmonic-verification",
+        "status_short": "",
+    }
+    fingerprint = "c" * 64
+    selection = {
+        "selected_dofs": 1,
+        "selection_basis": "One synthetic registered DDL for collect-only validation",
+        "timeout_seconds": 300,
+    }
+    policy = {"minimum_free_disk_mib": 1, "poll_interval_seconds": 0.01}
+    expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
+
+    monkeypatch.setattr(MODULE, "resolve_targets", lambda *_args, **_kwargs: [target])
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda *_args, **_kwargs: (entry, source_checkout, source_root, identity, fingerprint),
+    )
+    monkeypatch.setattr(MODULE, "_wp12_active_registration", lambda *_args, **_kwargs: selection)
+    monkeypatch.setattr(MODULE, "_run_root", lambda *_args, **_kwargs: store)
+    monkeypatch.setattr(MODULE, "load_policy", lambda: policy)
+    controller_provenances = iter(
+        [
+            {"fingerprint": "d" * 64},
+            {"fingerprint": ("e" if change_controller_during_collection else "d") * 64},
+        ]
+    )
+    monkeypatch.setattr(MODULE, "_controller_provenance", lambda: next(controller_provenances))
+    monkeypatch.setattr(MODULE, "psutil", object())
+    monkeypatch.setattr(
+        MODULE,
+        "_node_ledger_context",
+        lambda *_args, **_kwargs: pytest.fail("preflight must not open or reserve the attempt ledger"),
+    )
+
+    def supervised(command, *, output_dir, **_kwargs):
+        assert "--collect-only" in command
+        if mutate_ledger_during_collection:
+            (store / "node-attempt-ledger.json").write_text('{"synthetic": true}\n', encoding="utf-8")
+        (output_dir / "stdout.log").write_text(
+            "QF_DEV_SOLVER_ORIGIN=" + expected_origin + "\n" + _wp12_dynamics_attestation(solver_origin=expected_origin),
+            encoding="utf-8",
+        )
+        (output_dir / "stderr.log").write_text("", encoding="utf-8")
+        return SimpleNamespace(
+            status="PASS",
+            return_code=0,
+            elapsed_seconds=0.01,
+            peak_rss_bytes=1024,
+            peak_process_count=1,
+            stdout_bytes=512,
+            stderr_bytes=0,
+        )
+
+    monkeypatch.setattr(MODULE, "run_supervised_command", supervised)
+    result = MODULE.preflight_wp12_dynamics_pytest(
+        target,
+        "pf-000000000003"
+        if change_controller_during_collection
+        else ("pf-000000000002" if mutate_ledger_during_collection else "pf-000000000001"),
+        policy=policy,
+    )
+    expected_state = (
+        "PREFLIGHT_CONTROLLER_CHANGED"
+        if change_controller_during_collection
+        else ("PREFLIGHT_LEDGER_CHANGED" if mutate_ledger_during_collection else "PREFLIGHT_PASS")
+    )
+    assert result["state"] == expected_state
+    assert result["attempt_reserved"] is False
+    assert result["ledger_touched"] is mutate_ledger_during_collection
+    assert result["bodies_executed"] is False
+    receipt = json.loads(Path(result["receipt"]).read_text(encoding="utf-8"))
+    receipt_path = Path(result["receipt"])
+    checksum = json.loads((receipt_path.parent / "preflight.sha256.json").read_text(encoding="utf-8"))
+    assert checksum["sha256"] == result["receipt_sha256"] == MODULE._sha256(receipt_path)
+    assert receipt["attempt_reserved"] is False
+    assert receipt["ledger_touched"] is mutate_ledger_during_collection
+    assert receipt["bodies_executed"] is False
+    assert receipt["attempt_ledger"]["touched"] is mutate_ledger_during_collection
+    assert receipt["controller_provenance_after"]["fingerprint"] == (
+        "e" if change_controller_during_collection else "d"
+    ) * 64
