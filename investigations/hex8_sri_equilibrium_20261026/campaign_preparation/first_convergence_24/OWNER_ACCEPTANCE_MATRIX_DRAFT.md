@@ -124,7 +124,7 @@ remain historical and must not be overwritten or rebound.
 The designated shared execution-controller checkout
 (`E:/QFSolverAgents/wp12-policy-final`) was observed at branch
 `codex/wp12-policy-finalization`, HEAD `4bf52792f46988b84fecf11ebe3bd5fe078975ef`,
-20 commits behind the canonical controller and with a modified
+22 commits behind the current canonical controller and with a modified
 `development_autonomous_policy.json`. It is not a clean checkout of merged
 controller HEAD `f5a1a4284fb0cc56dd909ce455981f08a9d26ad1` and was not changed.
 Consequently no final controller-bound case manifests or new preflight
