@@ -55,7 +55,6 @@ def contract(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
             a[-1]
         ],
     )
-    monkeypatch.setattr(gate.subprocess, "run", lambda *_a, **_k: SimpleNamespace(returncode=0))
     git_values = {
         "--show-toplevel": str(controller),
         "--show-current": "",
@@ -63,7 +62,14 @@ def contract(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
         "HEAD^{tree}": "b" * 40,
         "--untracked-files=all": "",
     }
-    monkeypatch.setattr(gate.subprocess, "check_output", lambda args, **_k: git_values[args[-1]])
+    monkeypatch.setattr(
+        gate,
+        "subprocess",
+        SimpleNamespace(
+            run=lambda *_a, **_k: SimpleNamespace(returncode=0),
+            check_output=lambda args, **_k: git_values[args[-1]],
+        ),
+    )
     monkeypatch.setitem(sys.modules, "solveur", SimpleNamespace(__file__=str(solveur)))
     hashes = {
         "runner": digest(controller / "scripts/development_autonomous.py"),
