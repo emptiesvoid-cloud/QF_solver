@@ -2864,10 +2864,12 @@ def _write_synthetic_hex8sri_convergence24_receipt(
     receipt_dir = MODULE._preflight_directory(store, MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID, preflight_id)
     receipt_dir.mkdir(parents=True)
     record_path = receipt_dir / "preflight.json"
-    origin = r"E:\synthetic\src\solveur\__init__.py"
+    origin = str((Path(identity["root"]) / "src" / "solveur" / "__init__.py").resolve())
     receipt = {
         "schema": "qfsolver-development-hex8sri-convergence24-preflight-v1",
         "state": "PREFLIGHT_PASS",
+        "mandate_id": MODULE.HEX8SRI_CONVERGENCE24_MANDATE_ID,
+        "campaign_id": MODULE.HEX8SRI_CONVERGENCE24_CAMPAIGN_ID,
         "bodies_executed": False,
         "attempt_reserved": False,
         "execution_authorized": False,
@@ -2903,7 +2905,11 @@ def _write_synthetic_hex8sri_convergence24_receipt(
 
 def test_hex8sri_convergence24_receipt_validator_accepts_synthetic_receipt(tmp_path: Path) -> None:
     target = MODULE._hex8sri_convergence24_nodeids()[0]
-    identity = {"root": "research", "branch": "research/hex8-sri-equilibrium", "head": "a" * 40}
+    identity = {
+        "root": str(tmp_path / "research"),
+        "branch": "research/hex8-sri-equilibrium",
+        "head": "a" * 40,
+    }
     source_fingerprint = "b" * 64
     controller = {"identity": {"branch": "codex/hex8sri-convergence24-minimal", "head": "c" * 40}, "sha256": {}}
     binding = {
@@ -2943,7 +2949,11 @@ def test_hex8sri_convergence24_receipt_validator_accepts_synthetic_receipt(tmp_p
 
 def test_hex8sri_convergence24_receipt_validator_rejects_identity_drift(tmp_path: Path) -> None:
     target = MODULE._hex8sri_convergence24_nodeids()[0]
-    identity = {"root": "research", "branch": "research/hex8-sri-equilibrium", "head": "a" * 40}
+    identity = {
+        "root": str(tmp_path / "research"),
+        "branch": "research/hex8-sri-equilibrium",
+        "head": "a" * 40,
+    }
     controller = {"identity": {"branch": "codex/hex8sri-convergence24-minimal", "head": "c" * 40}, "sha256": {}}
     binding = {
         "path": "manifest.json",
@@ -3132,13 +3142,38 @@ def test_hex8sri_convergence24_execution_refuses_before_ledger_or_launcher(
 ) -> None:
     worktree_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
     target = MODULE._hex8sri_convergence24_nodeids()[0]
-    monkeypatch.setattr(MODULE, "load_policy", lambda: {"worktrees": {worktree_id: {}}})
+    policy = _policy()
+    entry = policy["worktrees"][worktree_id]
+    identity = {
+        "root": entry["root"],
+        "branch": entry["branch"],
+        "head": "a" * 40,
+        "tree": "b" * 40,
+        "status_short": "",
+    }
+    monkeypatch.setattr(MODULE, "load_policy", lambda: policy)
+    monkeypatch.setattr(MODULE, "resolve_targets", lambda *_args, **_kwargs: [target])
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda *_args, **_kwargs: (
+            entry,
+            tmp_path / "science",
+            tmp_path / "science" / "src",
+            identity,
+            MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+        ),
+    )
+    monkeypatch.setattr(MODULE, "_run_root", lambda *_args: tmp_path / "run-store")
     monkeypatch.setattr(
         MODULE,
         "_node_ledger_context",
         lambda *_args, **_kwargs: pytest.fail("unauthorized HEX8-SRI execution reached ledger setup"),
     )
-    with pytest.raises(MODULE.PolicyError, match="preparation-only; Owner execution authorization is absent"):
+    monkeypatch.setattr(
+        MODULE, "run_supervised_command", lambda *_args, **_kwargs: pytest.fail("refusal must precede launch")
+    )
+    with pytest.raises(MODULE.PolicyError, match="requires one validated collect-only receipt"):
         MODULE.run_pytest(
             "fem_exploratory",
             target,
@@ -3147,3 +3182,399 @@ def test_hex8sri_convergence24_execution_refuses_before_ledger_or_launcher(
             reason="synthetic refusal test",
         )
     assert list(tmp_path.iterdir()) == []
+
+
+def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]:
+    scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    entry = _policy()["worktrees"][scope_id]
+    target = entry["allowed_nodeids"][0]
+    identity = {
+        "root": str(tmp_path / "synthetic-science-root"),
+        "branch": entry["branch"],
+        "head": "a" * 40,
+        "tree": "b" * 40,
+        "status_short": "",
+    }
+    controller = {
+        "identity": {"branch": "codex/hex8sri-convergence24-execution-gate", "head": "c" * 40},
+        "sha256": {"runner": "1" * 64, "pytest_plugin": "2" * 64, "policy": "3" * 64},
+        "runtime": {"python_version": "synthetic", "pytest_version": "synthetic", "psutil_version": "synthetic"},
+    }
+    binding = {
+        "path": "registered/manifest.json",
+        "sha256": "d" * 64,
+        "registration_sha256": "e" * 64,
+        "case_id": "synthetic-case",
+        "scope_id": scope_id,
+    }
+    source_fingerprint = MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
+    store = tmp_path / "run-store"
+    ledger = {
+        "path": str(store / entry["node_attempt_ledger"]["path"]),
+        "mandate_id": entry["development_mandate_id"],
+        "attempts_reserved": False,
+    }
+    preflight_id, preflight_path, _ = _write_synthetic_hex8sri_convergence24_receipt(
+        store,
+        target=target,
+        identity=identity,
+        source_fingerprint=source_fingerprint,
+        controller_provenance=controller,
+        manifest_binding=binding,
+        attempt_ledger=ledger,
+    )
+    preflight = (preflight_path, MODULE._sha256(preflight_path))
+    authorization_id = "hex8sri-auth-0001"
+    decision = {
+        "decision_id": "owner-decision-0001",
+        "status": "APPROVED",
+        "approved_by": "Owner",
+        "approved_at_utc": "2026-10-26T12:00:00Z",
+        "reason": "Synthetic exact-case authorization contract test.",
+        "scope_id": scope_id,
+        "mandate_id": entry["development_mandate_id"],
+        "campaign_id": entry["campaign_id"],
+        "authorized_nodeids": [target],
+        "source_fingerprint": source_fingerprint,
+        "controller_fingerprint": MODULE._stable_fingerprint(controller),
+        "controller_head": controller["identity"]["head"],
+        "limits_by_nodeid": {target: MODULE._hex8sri_execution_limits(entry, target)},
+    }
+    decision_path = store / "authorizations" / scope_id / "owner-decisions" / f"{decision['decision_id']}.json"
+    decision_path.parent.mkdir(parents=True)
+    decision_path.write_text(json.dumps(decision, sort_keys=True) + "\n", encoding="utf-8")
+    payload = {
+        "schema": MODULE.HEX8SRI_EXECUTION_MANIFEST_SCHEMA,
+        "state": "OWNER_AUTHORIZED",
+        "execution_authorized": True,
+        "do_not_execute": False,
+        "authorization_id": authorization_id,
+        "worktree_id": scope_id,
+        "mandate_id": entry["development_mandate_id"],
+        "campaign_id": entry["campaign_id"],
+        "target": target,
+        "identity": identity,
+        "source_fingerprint": source_fingerprint,
+        "controller_provenance": controller,
+        "controller_fingerprint": MODULE._stable_fingerprint(controller),
+        "case_manifest": binding,
+        "preflight": {
+            "preflight_id": preflight_id,
+            "receipt_path": str(preflight_path),
+            "receipt_sha256": preflight[1],
+        },
+        "limits": MODULE._hex8sri_execution_limits(entry, target),
+        "owner_decision": decision,
+        "owner_decision_record": {
+            "path": str(decision_path),
+            "sha256": MODULE._sha256(decision_path),
+        },
+    }
+    path = store / "authorizations" / scope_id / f"{authorization_id}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    return {
+        "entry": entry,
+        "target": target,
+        "identity": identity,
+        "controller": controller,
+        "source_fingerprint": source_fingerprint,
+        "binding": binding,
+        "preflight_id": preflight_id,
+        "preflight": preflight,
+        "store": store,
+        "path": path,
+        "payload": payload,
+        "decision": decision,
+    }
+
+
+def _validate_synthetic_hex8sri_execution(fixture: dict[str, Any]) -> dict[str, Any]:
+    return MODULE._validate_hex8sri_execution_manifest(
+        fixture["path"],
+        store=fixture["store"],
+        target=fixture["target"],
+        entry=fixture["entry"],
+        identity=fixture["identity"],
+        source_fingerprint=fixture["source_fingerprint"],
+        controller_provenance=fixture["controller"],
+        case_manifest_binding=fixture["binding"],
+        preflight_id=fixture["preflight_id"],
+        preflight_receipt=fixture["preflight"],
+    )
+
+
+def test_hex8sri_execution_manifest_accepts_synthetic_owner_decision_and_exact_preflight(
+    tmp_path: Path,
+) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path)
+    receipt = _validate_synthetic_hex8sri_execution(fixture)
+    assert receipt["authorization_id"] == fixture["payload"]["authorization_id"]
+    assert receipt["decision_id"] == fixture["decision"]["decision_id"]
+    assert receipt["owner_decision"]["mandate_id"] == fixture["entry"]["development_mandate_id"]
+    assert receipt["owner_decision_record"]["sha256"] == fixture["payload"]["owner_decision_record"]["sha256"]
+    assert receipt["preflight"]["receipt_sha256"] == fixture["preflight"][1]
+    assert receipt["sha256"] == MODULE._sha256(fixture["path"])
+
+
+@pytest.mark.parametrize(
+    ("mutation", "expected_error"),
+    [
+        ("not_authorized", "does not bind this exact source, controller, case, preflight and budget"),
+        ("mandate", "does not bind this exact source, controller, case, preflight and budget"),
+        ("fingerprint", "does not bind this exact source, controller, case, preflight and budget"),
+        ("nodeid", "nodeid is not registered"),
+        ("budget", "does not bind this exact source, controller, case, preflight and budget"),
+        ("decision_mandate", "does not authorize this exact scope, source, controller or nodeid"),
+    ],
+    ids=(
+        "not-authorized",
+        "wrong-mandate",
+        "wrong-source-fingerprint",
+        "unregistered-nodeid",
+        "over-budget",
+        "wrong-owner-mandate",
+    ),
+)
+def test_hex8sri_execution_manifest_rejects_invalid_authorization(
+    tmp_path: Path, mutation: str, expected_error: str
+) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path)
+    payload = fixture["payload"]
+    if mutation == "not_authorized":
+        payload.update(state="PREPARED_NOT_AUTHORIZED", execution_authorized=False, do_not_execute=True)
+    elif mutation == "mandate":
+        payload["mandate_id"] = "DEVELOPMENT_AUTONOMOUS-WRONG-MANDATE"
+    elif mutation == "fingerprint":
+        payload["source_fingerprint"] = "f" * 64
+    elif mutation == "nodeid":
+        payload["target"] = "tests/verification/test_hex8_sri_convergence.py::test_not_registered"
+        fixture["target"] = payload["target"]
+    elif mutation == "budget":
+        payload["limits"]["timeout_seconds"] += 1
+    else:
+        payload["owner_decision"]["mandate_id"] = "DEVELOPMENT_AUTONOMOUS-WRONG-MANDATE"
+        decision_path = Path(payload["owner_decision_record"]["path"])
+        decision_path.write_text(json.dumps(payload["owner_decision"], sort_keys=True) + "\n", encoding="utf-8")
+        payload["owner_decision_record"]["sha256"] = MODULE._sha256(decision_path)
+    fixture["path"].write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match=expected_error):
+        _validate_synthetic_hex8sri_execution(fixture)
+
+
+def test_hex8sri_execution_ledger_refuses_cross_scope_and_malformed_entries(tmp_path: Path) -> None:
+    entry = _policy()["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+    target = entry["allowed_nodeids"][0]
+    path = tmp_path / "ledger.json"
+    path.write_text(
+        json.dumps(
+            {
+                "schema": "qfsolver-development-node-ledger-v1",
+                "mandate_id": entry["development_mandate_id"],
+                "entries": {"other:scope:node": []},
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(MODULE.PolicyError, match="another scope or mandate"):
+        MODULE._validate_hex8sri_execution_ledger(path, entry=entry, target=target)
+
+
+def test_hex8sri_execution_attempt_reservation_records_mandate_and_owner_decision(tmp_path: Path) -> None:
+    entry = _policy()["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+    target = entry["allowed_nodeids"][0]
+    ledger_path = tmp_path / MODULE.HEX8SRI_CONVERGENCE24_LEDGER
+    key, number = MODULE._reserve_node_attempt(
+        ledger_path,
+        ledger_path.with_suffix(".lock"),
+        mandate_id=entry["development_mandate_id"],
+        worktree_id=MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+        target=target,
+        series_id="dev-hex8sri-synthetic",
+        source_fingerprint=MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+        reason="Synthetic isolated ledger writer contract test.",
+        maximum=1,
+        total_maximum=24,
+        authorization_id="hex8sri-auth-0001",
+        owner_decision_id="owner-decision-0001",
+        controller_fingerprint="d" * 64,
+    )
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    assert number == 1
+    assert ledger["mandate_id"] == entry["development_mandate_id"]
+    assert key == f"{entry['development_mandate_id']}:{MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID}:{target}"
+    assert ledger["entries"][key][0]["authorization_id"] == "hex8sri-auth-0001"
+    assert ledger["entries"][key][0]["owner_decision_id"] == "owner-decision-0001"
+    MODULE._validate_hex8sri_execution_ledger(ledger_path, entry=entry, target=target)
+    with pytest.raises(MODULE.PolicyError, match="exhausted 1 attempts"):
+        MODULE._reserve_node_attempt(
+            ledger_path,
+            ledger_path.with_suffix(".lock"),
+            mandate_id=entry["development_mandate_id"],
+            worktree_id=MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+            target=target,
+            series_id="dev-hex8sri-retry",
+            source_fingerprint=MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+            reason="Synthetic retry must be refused.",
+            maximum=1,
+            total_maximum=24,
+            authorization_id="hex8sri-auth-0002",
+            owner_decision_id="owner-decision-0001",
+            controller_fingerprint="d" * 64,
+        )
+
+
+def test_hex8sri_owner_manifest_rejects_duplicate_json_keys(tmp_path: Path) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path)
+    fixture["path"].write_text('{"schema":"one","schema":"two"}\n', encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="duplicate JSON key"):
+        _validate_synthetic_hex8sri_execution(fixture)
+
+
+def test_hex8sri_owner_manifest_rejects_tampered_approval_record(tmp_path: Path) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path)
+    decision_path = Path(fixture["payload"]["owner_decision_record"]["path"])
+    decision_path.write_text('{"decision_id":"altered"}\n', encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="path or SHA-256 is invalid"):
+        _validate_synthetic_hex8sri_execution(fixture)
+
+
+def test_hex8sri_manifest_preparation_stays_unapproved_and_refuses_overwrite(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from contextlib import nullcontext
+
+    scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    policy = _policy()
+    entry = policy["worktrees"][scope_id]
+    target = entry["allowed_nodeids"][0]
+    science_root = tmp_path / "science"
+    source_root = science_root / "src"
+    identity = {
+        "root": str(science_root),
+        "branch": entry["branch"],
+        "head": "a" * 40,
+        "tree": "b" * 40,
+        "status_short": "",
+    }
+    controller = {
+        "identity": {"branch": "codex/hex8sri-convergence24-execution-gate", "head": "c" * 40},
+        "sha256": {"runner": "1" * 64, "pytest_plugin": "2" * 64, "policy": "3" * 64},
+    }
+    case_path = science_root / "manifest.json"
+    case_path.parent.mkdir(parents=True)
+    case_path.write_text("{}\n", encoding="utf-8")
+    case_manifest = {"case_id": "synthetic-case"}
+    store = tmp_path / "controller-run-store"
+    ledger_path = store / entry["node_attempt_ledger"]["path"]
+    monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: policy)
+    monkeypatch.setattr(MODULE, "resolve_targets", lambda *_args, **_kwargs: [target])
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda *_args, **_kwargs: (
+            entry,
+            science_root,
+            source_root,
+            identity,
+            MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+        ),
+    )
+    monkeypatch.setattr(MODULE, "_run_root", lambda *_args, **_kwargs: store)
+    monkeypatch.setattr(
+        MODULE,
+        "_node_ledger_context",
+        lambda *_args, **_kwargs: (
+            ledger_path,
+            ledger_path.with_suffix(".lock"),
+            entry["development_mandate_id"],
+            None,
+        ),
+    )
+    monkeypatch.setattr(MODULE, "_hex8sri_convergence24_manifest", lambda *_args: (case_path, case_manifest, "d" * 64))
+    monkeypatch.setattr(MODULE, "_hex8sri_manifest_registration_sha256", lambda _manifest: "e" * 64)
+    monkeypatch.setattr(MODULE, "_hex8sri_convergence24_case_contract", lambda _manifest: {"element_count": 16})
+    monkeypatch.setattr(MODULE, "_controller_provenance", lambda: controller)
+    monkeypatch.setattr(MODULE, "_verify_hex8sri_convergence24_controller_identity", lambda *_args: None)
+    monkeypatch.setattr(
+        MODULE,
+        "_validate_hex8sri_convergence24_preflight_receipt",
+        lambda *_args, **_kwargs: (tmp_path / "preflight.json", "f" * 64),
+    )
+    monkeypatch.setattr(MODULE, "_exclusive_file_lock", lambda _path: nullcontext())
+
+    result = MODULE.prepare_hex8sri_execution_manifest(target, "pf-24abcdeffedc", "hex8sri-draft-001")
+    draft_path = Path(result["path"])
+    payload = json.loads(draft_path.read_text(encoding="utf-8"))
+    assert result["state"] == payload["state"] == "PREPARED_NOT_AUTHORIZED"
+    assert payload["execution_authorized"] is False
+    assert payload["do_not_execute"] is True
+    assert payload["owner_decision"] is None
+    assert payload["owner_decision_record"] is None
+    assert not ledger_path.exists()
+    with pytest.raises(MODULE.PolicyError, match="refusing to overwrite"):
+        MODULE.prepare_hex8sri_execution_manifest(target, "pf-24abcdeffedc", "hex8sri-draft-001")
+    assert json.loads(draft_path.read_text(encoding="utf-8")) == payload
+
+
+def test_hex8sri_execution_requires_owner_frozen_criteria_without_threshold_drift() -> None:
+    proposed = {
+        "free_residual_relative_max": 1e-7,
+        "force_closure_relative_max": 1e-6,
+        "moment_closure_relative_max": 1e-6,
+        "energy_identity_relative_max": 1e-8,
+        "finest_level_independent_3d_energy_relative_error_max": 0.05,
+        "finest_level_independent_3d_mean_UZ_relative_error_max": 0.05,
+        "last_two_levels_energy_relative_change_max": 0.02,
+        "last_two_levels_mean_UZ_relative_change_max": 0.02,
+    }
+    prepared = {
+        "criteria_status": "PROPOSED_REQUIRES_OWNER_FREEZE",
+        "proposed_criteria": proposed,
+        "frozen_criteria": None,
+    }
+    with pytest.raises(MODULE.PolicyError, match="not Owner-frozen verbatim"):
+        MODULE._validate_hex8sri_frozen_case_criteria(prepared)
+    frozen = {**prepared, "criteria_status": "OWNER_FROZEN", "frozen_criteria": dict(proposed)}
+    assert MODULE._validate_hex8sri_frozen_case_criteria(frozen) == proposed
+    drifted = {**frozen, "frozen_criteria": {**proposed, "free_residual_relative_max": 1e-6}}
+    with pytest.raises(MODULE.PolicyError, match="not Owner-frozen verbatim"):
+        MODULE._validate_hex8sri_frozen_case_criteria(drifted)
+
+
+def test_hex8sri_execution_test_contract_rejects_legacy_and_accepts_declared_contract(tmp_path: Path) -> None:
+    module = Path("tests/verification/test_hex8_sri_convergence.py")
+    test_path = tmp_path / module
+    test_path.parent.mkdir(parents=True)
+    target = f"{module.as_posix()}::test_convergence_case[hex8_standard-nu_0p3-4x2x2]"
+    test_path.write_text(
+        'def _authorized_case():\n    """Legacy identity: hex8sri codex/hex8sri-controller-registration."""\n    return None\n',
+        encoding="utf-8",
+    )
+    with pytest.raises(MODULE.PolicyError, match="dedicated Owner-manifest/preflight contract"):
+        MODULE._validate_hex8sri_execution_test_contract(tmp_path, target)
+
+    contract_strings = (
+        "QF_DEV_EXECUTION_MANIFEST_PATH",
+        "QF_DEV_EXECUTION_MANIFEST_SHA256",
+        "QF_DEV_OWNER_DECISION_ID",
+        "QF_DEV_CASE_MANIFEST_PATH",
+        "QF_DEV_PREFLIGHT_ID",
+        "QF_DEV_PREFLIGHT_SHA256",
+        "QF_DEV_TARGET_NODEID",
+        "QF_DEV_CONTROLLER_ROOT",
+        "QF_DEV_CONTROLLER_BRANCH",
+        "QF_DEV_CONTROLLER_HEAD",
+        "QF_DEV_CONTROLLER_RUNNER_SHA256",
+        "QF_DEV_CONTROLLER_POLICY_SHA256",
+        "QF_DEV_CONTROLLER_PLUGIN_SHA256",
+        "hex8sri-convergence24",
+        "OWNER_AUTHORIZED",
+    )
+    source = (
+        f'def _authorized_case():\n    """{MODULE.HEX8SRI_EXECUTION_TEST_CONTRACT_MARKER}"""\n'
+        + "\n".join(f"    _ = {value!r}" for value in contract_strings)
+        + "\n    return None\n"
+    )
+    test_path.write_text(source, encoding="utf-8")
+    MODULE._validate_hex8sri_execution_test_contract(tmp_path, target)
