@@ -297,6 +297,54 @@ def contract(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     return make
 
 
+def _load_candidate_controller(path: str):
+    spec = importlib.util.spec_from_file_location("reviewed_hex8sri_controller", path)
+    assert spec and spec.loader
+    controller = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = controller
+    spec.loader.exec_module(controller)
+    return controller
+
+
+def _verify_live_science_registration(controller) -> tuple[dict, Path, dict, str, dict]:
+    """Cross-check policy constants and the complete raw-byte inventory against the live source tree."""
+    policy = controller.load_policy()
+    scope_id = controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    entry = policy["worktrees"][scope_id]
+    nodeid = controller.HEX8SRI_FIRST6_NODEIDS[0]
+    registered, root, _source_root, identity, fingerprint = controller._registered_worktree(scope_id, nodeid, policy)
+
+    expected = entry["source_identity"]
+    assert registered == entry
+    assert expected == controller.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY
+    assert identity["branch"] == expected["branch"]
+    assert identity["head"] == expected["head"] == controller.HEX8SRI_CONVERGENCE24_SOURCE_HEAD
+    assert identity["tree"] == expected["tree"] == controller.HEX8SRI_CONVERGENCE24_SOURCE_TREE
+    assert fingerprint == expected["fingerprint_sha256"]
+    assert fingerprint == controller.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
+    assert entry["source_fingerprint_sha256"] == fingerprint
+
+    inventory = controller._worktree_source_inventory(root, nodeid)
+    inventory_path = (controller.ROOT / expected["inventory_path"]).resolve(strict=True)
+    assert controller._sha256(inventory_path) == expected["inventory_sha256"]
+    recorded = controller._read_strict_json(inventory_path)
+    assert recorded["head"] == identity["head"]
+    assert recorded["tree"] == identity["tree"]
+    assert recorded["fingerprint_sha256"] == fingerprint
+    assert recorded["inventory_file_count"] == len(inventory)
+    assert recorded["files_sha256"] == inventory
+
+    # Independently run the science guard's inventory algorithm against the same checkout.
+    guard_path = root / nodeid.split("::", maxsplit=1)[0]
+    guard_spec = importlib.util.spec_from_file_location("live_hex8sri_science_guard", guard_path)
+    assert guard_spec and guard_spec.loader
+    guard = importlib.util.module_from_spec(guard_spec)
+    sys.modules[guard_spec.name] = guard
+    guard_spec.loader.exec_module(guard)
+    assert guard._source_fingerprint(nodeid) == fingerprint
+    return entry, root, identity, fingerprint, inventory
+
+
 @pytest.mark.parametrize("nodeid", criteria.FIRST6_NODEIDS)
 def test_official_contract_accepts_detached_controller_without_fem(contract, nodeid: str) -> None:
     c = contract(nodeid)
@@ -307,12 +355,8 @@ def test_merged_controller_and_science_guard_accept_same_complete_synthetic_cont
     controller_path = os.environ.get("QF_HEX8SRI_CONTROLLER_PATH")
     if not controller_path:
         pytest.skip("set QF_HEX8SRI_CONTROLLER_PATH to the reviewed merged controller for cross-contract validation")
-    spec = importlib.util.spec_from_file_location("reviewed_hex8sri_controller", controller_path)
-    assert spec and spec.loader
-    controller = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = controller
-    spec.loader.exec_module(controller)
-    assert controller.HEX8SRI_CONVERGENCE24_SOURCE_HEAD == "f6402edc84af71d4d4be5b091b0ed323c1631529"
+    controller = _load_candidate_controller(controller_path)
+    _verify_live_science_registration(controller)
     c = contract(criteria.FIRST6_NODEIDS[0])
     nodeid = c.request.node.nodeid
     entry = deepcopy(controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID])
@@ -356,6 +400,48 @@ def test_merged_controller_and_science_guard_accept_same_complete_synthetic_cont
     )
     assert validated["authorization_id"] == "synthetic-execution"
     assert c.gate._authorized_case(c.request, c.case_id)["owner_decision_id"] == "execution-synthetic-001"
+
+
+@pytest.mark.parametrize(
+    "fault", ["head", "tree", "fingerprint", "incomplete_inventory", "wrong_worktree", "policy_identity"]
+)
+def test_cross_contract_rejects_scientific_identity_drift(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, fault: str
+) -> None:
+    controller_path = os.environ.get("QF_HEX8SRI_CONTROLLER_PATH")
+    if not controller_path:
+        pytest.skip("set QF_HEX8SRI_CONTROLLER_PATH to the reviewed merged controller for cross-contract validation")
+    controller = _load_candidate_controller(controller_path)
+    policy = controller.load_policy()
+    scope_id = controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    entry = deepcopy(policy["worktrees"][scope_id])
+    nodeid = controller.HEX8SRI_FIRST6_NODEIDS[0]
+    registered, root, _source_root, identity, fingerprint = controller._registered_worktree(scope_id, nodeid, policy)
+    inventory = controller._worktree_source_inventory(root, nodeid)
+
+    if fault == "head":
+        identity["head"] = "0" * 40
+    elif fault == "tree":
+        identity["tree"] = "0" * 40
+    elif fault == "fingerprint":
+        fingerprint = "0" * 64
+    elif fault == "incomplete_inventory":
+        inventory.pop(next(iter(inventory)))
+    elif fault == "wrong_worktree":
+        altered_policy = deepcopy(policy)
+        altered = altered_policy["worktrees"][scope_id]
+        altered["root"] = str(tmp_path)
+        altered["git_root"] = str(tmp_path)
+        with pytest.raises((controller.PolicyError, OSError)):
+            controller._registered_worktree(scope_id, nodeid, altered_policy)
+        return
+    elif fault == "policy_identity":
+        entry["source_identity"]["head"] = "0" * 40
+
+    with pytest.raises(controller.PolicyError):
+        controller._validate_hex8sri_registered_source_identity(
+            root, entry if fault == "policy_identity" else registered, identity, nodeid, inventory, fingerprint
+        )
 
 
 @pytest.mark.parametrize(
