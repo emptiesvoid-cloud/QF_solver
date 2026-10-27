@@ -749,6 +749,7 @@ def _validate_wp12_execution_manifest(
         raise PolicyError("WP12 Owner approval time must be expressed in UTC")
     if (
         manifest.get("worktree_id") != worktree_id
+        or manifest.get("mandate_id") != entry.get("development_mandate_id")
         or manifest.get("campaign_id") != entry.get("campaign_id")
         or manifest.get("target") != target
         or manifest.get("identity") != dict(identity)
@@ -763,6 +764,7 @@ def _validate_wp12_execution_manifest(
         "path": str(path),
         "sha256": _sha256(path),
         "authorization_id": manifest["authorization_id"],
+        "mandate_id": manifest["mandate_id"],
         "owner_decision": decision,
     }
 
@@ -2251,6 +2253,7 @@ def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization
             "state": "PREPARED_NOT_AUTHORIZED",
             "authorization_id": authorization_id,
             "worktree_id": worktree_id,
+            "mandate_id": entry["development_mandate_id"],
             **({"campaign_id": entry["campaign_id"]} if "campaign_id" in entry else {}),
             "target": target,
             "identity": identity,
@@ -2757,6 +2760,9 @@ def run_pytest(
                 controller_fingerprint=_stable_fingerprint(controller_provenance),
                 selection=wp12_registration,
             )
+            # WP12 mandates are scope-specific. Preserve D01's separately handled
+            # predecessor ledger while binding every WP12 ledger key to its scope.
+            ledger_context = _node_ledger_context(policy, _run_root(policy, worktree_id), worktree_id)
         elif execution_manifest is not None:
             raise PolicyError("execution manifests are supported only by the registered WP12 missions")
     else:

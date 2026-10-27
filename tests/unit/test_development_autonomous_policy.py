@@ -10,6 +10,7 @@ import struct
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
+from typing import Any
 
 import pytest
 
@@ -1186,7 +1187,263 @@ def test_wp12_rotor_registration_and_manifest_are_synthetic_and_fail_closed(
     manifest = json.loads(Path(prepared["path"]).read_text(encoding="utf-8"))
     assert manifest["state"] == "PREPARED_NOT_AUTHORIZED"
     assert manifest["owner_decision"]["status"] == "NOT_AUTHORIZED"
+    assert manifest["mandate_id"] == policy["worktrees"]["rotor"]["development_mandate_id"]
     assert manifest["limits"]["timeout_seconds"] == 300
+
+
+@pytest.mark.parametrize("worktree_id", sorted(MODULE.WP12_OWNER_ENVELOPES))
+def test_wp12_manifest_requires_the_exact_scope_mandate(tmp_path: Path, worktree_id: str) -> None:
+    policy = _policy()
+    entry = dict(policy["worktrees"][worktree_id])
+    evidence_root = tmp_path / worktree_id
+    entry["evidence_root"] = str(evidence_root)
+    target = (
+        entry["allowed_nodeids"]
+        or [
+            "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames"
+        ]
+    )[0]
+    selection = {
+        "timeout_seconds": entry["budgets"]["timeout_seconds"],
+        "selected_dofs": 1,
+        "selection_basis": "synthetic scope-mandate contract test",
+        "timeout_reason": None,
+    }
+    payload = {
+        "schema": "qfsolver-wp12-development-execution-v1",
+        "state": "OWNER_AUTHORIZED",
+        "authorization_id": "synthetic-mandate-0001",
+        "worktree_id": worktree_id,
+        "mandate_id": entry["development_mandate_id"],
+        "target": target,
+        "identity": {"head": "a" * 40},
+        "source_fingerprint": "b" * 64,
+        "controller_fingerprint": "c" * 64,
+        "limits": MODULE._wp12_manifest_limits(entry, selection),
+        "owner_decision": {
+            "status": "APPROVED",
+            "approved_by": "Owner",
+            "approved_at_utc": "2026-10-27T10:00:00Z",
+            "reason": "Synthetic unit test of the scope-bound mandate contract.",
+        },
+    }
+    if "campaign_id" in entry:
+        payload["campaign_id"] = entry["campaign_id"]
+    path = evidence_root / "authorizations" / worktree_id / "synthetic-mandate-0001.json"
+    path.parent.mkdir(parents=True)
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    receipt = MODULE._validate_wp12_execution_manifest(
+        path,
+        worktree_id=worktree_id,
+        target=target,
+        entry=entry,
+        identity=payload["identity"],
+        source_fingerprint=payload["source_fingerprint"],
+        controller_fingerprint=payload["controller_fingerprint"],
+        selection=selection,
+    )
+    assert receipt["mandate_id"] == entry["development_mandate_id"]
+
+    payload["mandate_id"] = policy["mandate_id"]
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="does not bind this exact worktree"):
+        MODULE._validate_wp12_execution_manifest(
+            path,
+            worktree_id=worktree_id,
+            target=target,
+            entry=entry,
+            identity=payload["identity"],
+            source_fingerprint=payload["source_fingerprint"],
+            controller_fingerprint=payload["controller_fingerprint"],
+            selection=selection,
+        )
+
+
+@pytest.mark.parametrize("worktree_id", sorted(MODULE.WP12_OWNER_ENVELOPES))
+def test_wp12_runner_selects_scope_mandate_without_launching(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, worktree_id: str
+) -> None:
+    from contextlib import nullcontext
+
+    policy = _policy()
+    entry = policy["worktrees"][worktree_id]
+    targets = {
+        "wp12_wp07": [
+            "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames"
+        ],
+        "wp12_tet4": WP12_TET4_NODEIDS,
+        "wp12_elements": WP12_ELEMENTS_VERIFICATION_NODEIDS,
+        "wp12_elements_loads": WP12_ELEMENTS_LOADS_NODEIDS,
+        "wp12_elements_loads_corrective": WP12_ELEMENTS_LOADS_CORRECTIVE_NODEIDS,
+        "wp12_dynamics": WP12_DYNAMICS_NODEIDS,
+        "rotor": tuple(MODULE.WP12_ROTOR_NODEIDS),
+    }
+    target = targets[worktree_id][0]
+    store = tmp_path / "store" / worktree_id
+    observed: dict[str, str] = {}
+
+    class StopBeforeAttempt(Exception):
+        pass
+
+    monkeypatch.setattr(MODULE, "load_policy", lambda: policy)
+    monkeypatch.setattr(MODULE, "resolve_targets", lambda *_args, **_kwargs: [target])
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda *_args, **_kwargs: (entry, tmp_path, tmp_path / "src", {"head": "a" * 40}, "b" * 64),
+    )
+    monkeypatch.setattr(
+        MODULE,
+        "_wp12_active_registration",
+        lambda *_args, **_kwargs: {
+            "timeout_seconds": entry["budgets"]["timeout_seconds"],
+            "selected_dofs": 1,
+            "selection_basis": "synthetic runner contract test",
+            "timeout_reason": None,
+        },
+    )
+    monkeypatch.setattr(MODULE, "_controller_provenance", lambda: {"identity": "synthetic"})
+    monkeypatch.setattr(MODULE, "_stable_fingerprint", lambda _value: "c" * 64)
+    monkeypatch.setattr(MODULE, "_validate_wp12_execution_manifest", lambda *_a, **_kw: {"authorized": True})
+    monkeypatch.setattr(MODULE, "_run_root", lambda *_args, **_kwargs: store)
+    monkeypatch.setattr(MODULE, "_wp12_resource_lock", lambda *_args, **_kwargs: nullcontext())
+    monkeypatch.setattr(MODULE, "psutil", object())
+    monkeypatch.setattr(MODULE.shutil, "disk_usage", lambda _path: SimpleNamespace(free=2 * 1024**3))
+    original_ledger_context = MODULE._node_ledger_context
+
+    def observe_ledger_context(*args: Any) -> tuple[Path, Path, str, dict[str, str] | None]:
+        context = original_ledger_context(*args)
+        observed["mandate_id"] = context[2]
+        return context
+
+    monkeypatch.setattr(MODULE, "_node_ledger_context", observe_ledger_context)
+    monkeypatch.setattr(
+        MODULE,
+        "_next_attempt",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(StopBeforeAttempt()),
+    )
+    monkeypatch.setattr(
+        MODULE,
+        "run_supervised_command",
+        lambda *_args, **_kwargs: pytest.fail("synthetic contract test must never launch a process"),
+    )
+
+    with pytest.raises(StopBeforeAttempt):
+        MODULE.run_pytest(
+            "fem_exploratory",
+            target,
+            "dev-mandate-propagation",
+            worktree_id=worktree_id,
+            reason="Synthetic pre-attempt mandate propagation test.",
+            execution_manifest=tmp_path / "synthetic-authorized-manifest.json",
+        )
+    assert observed["mandate_id"] == entry["development_mandate_id"]
+
+
+def test_wp12_scope_mandate_change_refuses_legacy_ledger_without_rewriting_it(tmp_path: Path) -> None:
+    policy = _policy()
+    rotor_mandate = policy["worktrees"]["rotor"]["development_mandate_id"]
+    legacy_mandate = policy["mandate_id"]
+    ledger = tmp_path / "node-attempt-ledger.json"
+    lock = tmp_path / "node-attempt-ledger.lock"
+    legacy_payload = {
+        "schema": "qfsolver-development-node-ledger-v1",
+        "mandate_id": legacy_mandate,
+        "entries": {f"{legacy_mandate}:rotor:synthetic-node": [{"state": "PASS"}]},
+    }
+    ledger.write_text(json.dumps(legacy_payload), encoding="utf-8")
+    original = ledger.read_bytes()
+
+    with pytest.raises(MODULE.PolicyError, match="ledger identity/schema mismatch"):
+        MODULE._reserve_node_attempt(
+            ledger,
+            lock,
+            mandate_id=rotor_mandate,
+            worktree_id="rotor",
+            target="synthetic-node",
+            series_id="dev-synthetic-legacy-ledger",
+            source_fingerprint="a" * 64,
+            reason="Synthetic ledger continuity guard.",
+            maximum=1,
+            total_maximum=8,
+        )
+    assert ledger.read_bytes() == original
+
+
+def test_wp12b_corrective_manifest_and_reservation_share_scope_mandate(tmp_path: Path) -> None:
+    policy = _policy()
+    worktree_id = "wp12_elements_loads_corrective"
+    entry = dict(policy["worktrees"][worktree_id])
+    evidence_root = tmp_path / "corrective-evidence"
+    entry["evidence_root"] = str(evidence_root)
+    target = WP12_ELEMENTS_LOADS_CORRECTIVE_NODEIDS[0]
+    registration = next(record for record in entry["nodeid_registration_records"] if record["target"] == target)
+    selection = MODULE._validate_wp12_case_selection(
+        worktree_id,
+        selected_dofs=registration["selected_dofs"],
+        selection_basis=registration["selection_basis"],
+        timeout_seconds=registration["timeout_seconds"],
+        timeout_reason=registration["timeout_reason"],
+    )
+    identity = {"head": "d" * 40, "tree": "e" * 40, "status_short": ""}
+    source_fingerprint = registration["source_fingerprint"]
+    controller_fingerprint = "f" * 64
+    authorization_id = "wp12b-corrective-synthetic-001"
+    payload = {
+        "schema": "qfsolver-wp12-development-execution-v1",
+        "state": "OWNER_AUTHORIZED",
+        "authorization_id": authorization_id,
+        "worktree_id": worktree_id,
+        "campaign_id": entry["campaign_id"],
+        "mandate_id": entry["development_mandate_id"],
+        "target": target,
+        "identity": identity,
+        "source_fingerprint": source_fingerprint,
+        "controller_fingerprint": controller_fingerprint,
+        "limits": MODULE._wp12_manifest_limits(entry, selection),
+        "owner_decision": {
+            "status": "APPROVED",
+            "approved_by": "Owner",
+            "approved_at_utc": "2026-10-27T10:00:00Z",
+            "reason": "Synthetic test of corrective scope manifest and reservation identity.",
+        },
+    }
+    manifest_path = evidence_root / "authorizations" / worktree_id / f"{authorization_id}.json"
+    manifest_path.parent.mkdir(parents=True)
+    manifest_path.write_text(json.dumps(payload), encoding="utf-8")
+    manifest_receipt = MODULE._validate_wp12_execution_manifest(
+        manifest_path,
+        worktree_id=worktree_id,
+        target=target,
+        entry=entry,
+        identity=identity,
+        source_fingerprint=source_fingerprint,
+        controller_fingerprint=controller_fingerprint,
+        selection=selection,
+    )
+
+    ledger_path = tmp_path / "corrective-ledger.json"
+    ledger_key, attempt_number = MODULE._reserve_node_attempt(
+        ledger_path,
+        tmp_path / "corrective-ledger.lock",
+        mandate_id=manifest_receipt["mandate_id"],
+        worktree_id=worktree_id,
+        target=target,
+        series_id="dev-corrective-manifest-test",
+        source_fingerprint=source_fingerprint,
+        reason="Synthetic manifest-to-reservation identity test.",
+        maximum=entry["attempt_limit_per_nodeid"],
+        total_maximum=entry["max_total_attempts"],
+        wp12_selection={**registration, **selection},
+        authorization_id=manifest_receipt["authorization_id"],
+        controller_fingerprint=controller_fingerprint,
+    )
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    assert attempt_number == 1
+    assert ledger["mandate_id"] == entry["development_mandate_id"]
+    assert ledger_key.startswith(f"{entry['development_mandate_id']}:{worktree_id}:")
+    assert ledger["entries"][ledger_key][0]["authorization_id"] == authorization_id
 
 
 def test_c01_scope_contains_only_registered_legacy_dimensional_and_mechanics_nodes() -> None:
