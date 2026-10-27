@@ -116,7 +116,7 @@ def test_hex8sri_source_identity_inventory_freezes_exact_raw_worktree_bytes() ->
         files,
         MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
     )
-    assert len(inventory["checkout_comparison"]["eol_only_differences"]) == 5
+    assert inventory["checkout_comparison"]["eol_only_differences"] == []
     changed_identity = {**identity, "head": "0" * 40}
     with pytest.raises(MODULE.PolicyError, match="registered science HEAD, tree or raw-byte fingerprint is stale"):
         MODULE._validate_hex8sri_registered_source_identity(

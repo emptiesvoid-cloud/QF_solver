@@ -150,8 +150,8 @@ def _mock_science_identity(monkeypatch: pytest.MonkeyPatch, science_root: Path) 
     monkeypatch.setattr(refresh, "HISTORICAL_SOURCE_HEAD", "7" * 40)
     monkeypatch.setattr(refresh, "HISTORICAL_SOURCE_FINGERPRINT", OLD_FINGERPRINT)
     monkeypatch.setattr(refresh, "HISTORICAL_SUMS_SHA256", hashlib.sha256((science_root / "registered_manifests_execution_gate" / "SHA256SUMS.txt").read_bytes()).hexdigest())
-    monkeypatch.setattr(controller, "_git_identity", lambda *_args, **_kwargs: {})
-    monkeypatch.setattr(controller, "_validate_hex8sri_registered_source_identity", lambda *_args: None)
+    monkeypatch.setattr(refresh.controller, "_git_identity", lambda *_args, **_kwargs: {})
+    monkeypatch.setattr(refresh.controller, "_validate_hex8sri_registered_source_identity", lambda *_args: None)
 
 
 def test_refresh_plan_rebinds_all_24_without_changing_case_physics_or_gates(

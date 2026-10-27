@@ -921,15 +921,15 @@
       "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1",
       "campaign_id": "HEX8-SRI-CONVERGENCE-24-2026-10-27",
       "campaign_scope_id": "hex8sri-convergence24",
-      "source_fingerprint_sha256": "eb58f1ad1314debdc08f34f312eae17961fc4ebfaae8510632258b5eb51305a9",
+      "source_fingerprint_sha256": "994bdea7e518cc4b7e353192eb3331f4cf34015ede188a0c00f9fda9eda487ff",
       "source_identity": {
         "branch": "research/hex8-sri-equilibrium",
-        "head": "f6402edc84af71d4d4be5b091b0ed323c1631529",
-        "tree": "81ea54ff0ab3f0f7430b30b5aa562f995b06e7e5",
-        "fingerprint_sha256": "eb58f1ad1314debdc08f34f312eae17961fc4ebfaae8510632258b5eb51305a9",
+        "head": "45a562d3c21b10bbee5520728b6eca386c618135",
+        "tree": "b593f416d7506b87165cfdf427f03447778ad60b",
+        "fingerprint_sha256": "994bdea7e518cc4b7e353192eb3331f4cf34015ede188a0c00f9fda9eda487ff",
         "fingerprint_algorithm": "raw_worktree_inventory_sha256_v1",
-        "inventory_path": "docs/development/hex8sri-source-byte-inventory-f6402ed.json",
-        "inventory_sha256": "992e688005db79b5068109f598c5f562f25c12dddbf4d16dc6ea27f93f9cab01",
+        "inventory_path": "docs/development/hex8sri-source-byte-inventory-45a562d.json",
+        "inventory_sha256": "2295a7a38a8750c3f1bccb2d32f73773eb96f1c296d63f8cfa4b63392fd932da",
         "inventory_file_count": 517,
         "raw_byte_policy": "preserve checkout bytes; no LF/CRLF normalization"
       },
@@ -1232,99 +1232,99 @@
       "case_manifests": {
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_16x8x8.json",
-          "sha256": "282ac8cb68da118c1e2ca85a92fe33334c5a158dcfd4f2478ae94d65a5cd0854"
+          "sha256": "81acaaca7876949b44a2f4a248ffe0b783cf1acd036e42bfabd62911a52dfcb4"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_32x16x16.json",
-          "sha256": "5981576f9f9073c89c6b34511b52edb4f7df737f01c7666aeee1030d70145bde"
+          "sha256": "df7dac4dd4e900e5c82afe338c0cb16e5ac63e22ee799ec25b52e4408874a224"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_4x2x2.json",
-          "sha256": "ca4610f7676fcf6442a05b097cb5f3fd88864f9cbc2a9f026cb25b37e6bf3701"
+          "sha256": "8f99a40d93ab68783c7d0d998cf1d823b539ed4efc44db739d2dc3262318f0d4"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_8x4x4.json",
-          "sha256": "bb33c70c8384e342ee5a523735e80f086f57357c9ce2d1b5beb3cc00467fd25a"
+          "sha256": "aee7088e4e8dc72c767d18b7a5be9055e396dac553e392d62cc4cfd2cea0c764"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_16x8x8.json",
-          "sha256": "24e2d392d4c9cca9095f4ab91227d5e015d39c27131dffe89acedd1ba9e13cf0"
+          "sha256": "05a9e2298da5b988bcc8a7b5ad4205cd01a33a214ef11b71cb87f410d4f993f3"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_32x16x16.json",
-          "sha256": "dee3e5c69804a55497ca146360773e9ab24d55881da5c39c4dc3ddc107800823"
+          "sha256": "f4bbb91b91b04274cdfea50bf540eb21549132fbbdce28c48c3e959c7e1fd64d"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_4x2x2.json",
-          "sha256": "566098db0e29eea62a61445cd2df01c20cb0177e8be4a92846115b0f5247ebe7"
+          "sha256": "d1b323f4bd5e438840f91402ff2be9ea73f824db22e2d073304d176ae3e096a5"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_8x4x4.json",
-          "sha256": "6286955906df29290393ffb53ec7f95a7308a280ae0e5edb1930366c17da7bf2"
+          "sha256": "64d86d68810c90fcecd877470cb3713238802c06b5c1c03b950b3a111a2c9f5b"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_16x8x8.json",
-          "sha256": "9ec644ecbd86f40137319e9fbb6f4ed0e286993e855fdd38a001050fbb40dd9e"
+          "sha256": "acea0e450c401cbfd2921f6d701293dfac72ded5e2bce6f34910e5c166b866ce"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_32x16x16.json",
-          "sha256": "0788ca0a86265e6e78ad52075c28f8ae4306dbb69b35e619e993a4e1c6e325ab"
+          "sha256": "9ec79efced4927c016fd36377314a6409c401ca0d6e3f7c53312b66924d6bf87"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_4x2x2.json",
-          "sha256": "dd5b3aeb4b22277ab49e089ee9cb5ea9c1452045d20028054156d8336775ef1a"
+          "sha256": "7fb073b97bd135ccc49c38e32622b3042774be645a611f24c75931b9bc15b4da"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_8x4x4.json",
-          "sha256": "4b3c52d34f88f491ea955bab19667acd4284f7e02046c606a10f06cca42d2496"
+          "sha256": "493d79084c961679857f881cfcd26b00b9e70d7290800e79bee3b73861d411c9"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_16x8x8.json",
-          "sha256": "197416227370176f3833c1b6b166012964cf1770a31201f38e2a89c539d64de9"
+          "sha256": "6ceec5827249b742eae9a58bc29e5338f40e27c2d7e9666c8a0131f861e927e2"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_32x16x16.json",
-          "sha256": "3c631a7efa5fe975014ed9acf2c665318f7ec87108db780eb43f325fd3058a60"
+          "sha256": "f56ad75ab331ad3aa1eef2abf8904aee2e1801f85bde0bcbb60820b19775ec16"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_4x2x2.json",
-          "sha256": "dd231b39e2a897a9d087edc91fe122abaf6736ad4ef833b420c9c24b2039c037"
+          "sha256": "36bc41242bf08623ca938b3675f8d7c82fd8ca38a97224b8f6edc9de37dade3c"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_8x4x4.json",
-          "sha256": "d4646275e014d112132a5ea3598ddb5f382d8387cfc8eefec997fc5bd23bd1ab"
+          "sha256": "d71fa53341e95f47c3aab8497f38fba47bd3656c616118f180b0525535737e9d"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_16x8x8.json",
-          "sha256": "528cd11ab3f0f18bb26b61c3cb7ada5e8b32332d2645437b31a1513b5c0ef116"
+          "sha256": "22e311b2b14292fad9a925c5bed108216b9cd2a7aadb3b1ed3f174b6ebbcbd17"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_32x16x16.json",
-          "sha256": "0193a6a929f8d413cc07987f06ed6787a83d2c7eb078bcc6272cf961f9e0b19d"
+          "sha256": "fffa563eaeb377365de9ce042b4974613625dfe004bd87196d81d89d04ee8d2a"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_4x2x2.json",
-          "sha256": "ada1ce9c5d7eab3146b6426fcc59d3b35473acb13cafb3f1d41e1cec4d08b1b5"
+          "sha256": "8065232608e9dde462b2bbf48e59766355f6d3e142eef516c5b5a867ce921273"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_8x4x4.json",
-          "sha256": "ffc685380031b51ce5b32679901568b5a0a124c73a3c23f0c94d6f0914f0a035"
+          "sha256": "3731532ff8d21c3bfee7cca2349b04775139e7f3530f887367e76574a597bfab"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_16x8x8.json",
-          "sha256": "1118fb17c92ebec58fc063de768260840c46a085b3d1d55fc6cb09d8903ce17d"
+          "sha256": "009c28792e5b1d4b2098536fa5fea968e8116cdff32c7e52d0c84cbff4389ba8"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_32x16x16.json",
-          "sha256": "dd150f4538388e7ffbe6264d764de34e1a4bdee6296c01bcf365675f93930224"
+          "sha256": "eacd23fed2a3f00d519d1552e40c32f1479dde2030a74dc87e7e647f366fd642"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_4x2x2.json",
-          "sha256": "fbe3786b5c82dd3af1d47f1c8db90efe6fcc599ea6f473c44b11b4fb5e4aa2d2"
+          "sha256": "5c13b9d9906811e4b9f9714ca7c8fb13a62dc8ccfab885eb68bd8831e738c254"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_8x4x4.json",
-          "sha256": "71d25e99f7004ae34ac3f3e0e7ffeb0002be5cd3c5d184a6def60622ccd0a190"
+          "sha256": "e8e6bd84aebbbaf61bc8960c2198ae0228368e5c69fb8a519b02b553b59a335b"
         }
       }
     }
