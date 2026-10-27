@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import json
+import os
+from pathlib import Path
 from typing import Iterable
 
 import pytest
@@ -49,6 +52,41 @@ class ExactNodeGate:
                 "D01 development override expected the existing NATIVE_AUTH_REQUIRED skip marker"
             )
         item.own_markers.remove(native_skips[0])
+
+    @pytest.hookimpl(trylast=True)
+    def pytest_collection_finish(self, session) -> None:
+        """Record exact collect-only node and skip-marker status for HEX8-SRI-24."""
+        scope_id = os.environ.get("QF_DEV_PREFLIGHT_SCOPE_ID")
+        report_text = os.environ.get("QF_DEV_PREFLIGHT_COLLECTION_REPORT")
+        target = os.environ.get("QF_DEV_PREFLIGHT_TARGET")
+        if scope_id != "hex8sri-convergence24" or not report_text or not target:
+            return
+
+        selected = [item for item in session.items if item.nodeid == target]
+        marker_names = sorted(
+            {
+                marker.name
+                for item in selected
+                for marker in item.iter_markers()
+                if marker.name in {"skip", "skipif"}
+            }
+        )
+        report = {
+            "schema": "qfsolver-hex8sri-convergence24-collection-v1",
+            "scope_id": scope_id,
+            "target": target,
+            "collected_nodeids": [item.nodeid for item in session.items],
+            "skip_markers": marker_names,
+            "bodies_executed": False,
+        }
+        destination = Path(report_text).resolve()
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        descriptor = os.open(destination, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as stream:
+            json.dump(report, stream, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())
 
     @pytest.hookimpl(hookwrapper=True)
     def pytest_runtest_call(self, item) -> Iterable[None]:
