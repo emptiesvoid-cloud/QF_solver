@@ -118,3 +118,26 @@ Les critères de clôture bornée proposés à l’Owner sont : (a) conserver le
 - Préparation du pilote signé, non substitutive au développement autonome : `wp12_preparation/wp12_a_owner_decision_package.md`, `wp12_a_runner_execution_review.md`, `wp12_a_activation_plan.md`.
 
 Les rapports d’origine font autorité pour les mesures et artefacts historiques. Le présent audit ne les remplace pas, ne modifie pas leurs archives, et ne constitue pas une revue indépendante de ses propres conclusions.
+
+## 11. Addendum phase 2 — intégration candidate et couverture MPC/RBE
+
+### Acquis
+
+- La branche d’intégration candidate a incorporé `emptiesvoids-cloud/0.2.12` au commit `d64e6036a845e0b720dc9f2bd5a89076dbbc7d4c`; le commit de réconciliation est `d73e21927c58938e9394f6b3b682a450b2ab9096`. Le checkout principal n’a pas été utilisé. Le candidat contient les trois fonctions dynamiques exactes qui manquent à l’arbre distant `d64e6036` : Newmark fixe, balayage harmonique réduit et accélération de base complexe. Les fichiers scientifiques sous `src/solveur` et les trois modules de sentinelles sont identiques au snapshot scientifique `d9deddbd6b42467c5fdc9e278bd54e97605f5738`.
+- Les trois fingerprints actifs de la politique correspondent aux fonctions présentes dans le candidat : Newmark `65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8`, harmonique `bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c`, accélération de base `969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6`.
+- Les refus MPC/RBE de la validation modale mixte et de `PreparedDynamicSystem` sont maintenant couverts par 12 cas synthétiques. Les tests appellent des fonctions de prévalidation uniquement; aucun assemblage ni solveur n’est appelé. Le contrat statique n’a pas été modifié.
+- Vérifications de cette phase sur le checkout candidat : 12 tests synthétiques MPC/RBE PASS; 18 tests synthétiques d’archivage PASS; 4 tests DTO/sérialisation PASS; 3 tests de politique/manifest synthétiques PASS. Total de cette phase : **37 PASS, 0 FAIL**. La collecte des quatre nodeids proposés retourne **4 collectés**; elle ne les exécute pas. Le JSON de politique se parse, `py_compile` passe et Ruff passe sur le nouveau test.
+
+### À exécuter après les décisions requises
+
+- Le nodeid WP07 historique et les trois sentinelles restent `NOT_RUN` sur le candidat d’intégration. Leurs résultats bornés du HEAD scientifique `d9deddb…` restent des résultats de développement historiques, jamais des PASS du candidat. Le FAIL historique WP07 reste conservé.
+- Le contrôleur recalcule `969dd027…` pour le module WP07 courant; l’enregistrement ciblé du nodeid historique conserve `6db5b459…`. Le contrôleur a refusé ce manifeste pour source fingerprint obsolète, sans écrire de fichier. Les trois autres sentinelles correspondent aux fingerprints actifs de la politique.
+- Trois manifestes nouveaux `PREPARED_NOT_AUTHORIZED` ont été créés avec des IDs inédits dans le worktree scientifique enregistré `wp12_dynamics` à `630d22b7667a0d84dd7b136b9f8c7d89ae00fc66`. Ils reçoivent chacun une décision Owner distincte avant toute exécution. Ces manifestes n’utilisent aucun ancien Owner grant et ne réservent aucun ledger. Ils sont liés au worktree scientifique enregistré, pas au HEAD Git d’intégration `d73e2192…`.
+- La préparation a utilisé un checkout détaché propre du contrôleur au commit canonique `d64e6036…`. Le worktree existant `wp12-policy-final` (`4bf52792…`, en retard et modifié localement) n’a pas été touché.
+
+### Différé et limites
+
+- Le contrôleur officiel actuel n’autorise la préparation que pour les worktrees et branches déjà enregistrés. Le périmètre dynamique est enregistré sous `wp12_dynamics`, racine `E:\QFSolverAgents\wp12-dynamics`, branche `codex/wp12-dynamic-harmonic-verification`; le candidat courant est un autre worktree/branche, au HEAD `d73e2192…`. Le worktree de contrôleur local `E:\QFSolverAgents\wp12-policy-final` est en retard sur `d64e6036` et comporte des modifications locales préexistantes de politique. Aucun manifeste n’a donc été créé et aucun ledger n’a été réservé. Réutiliser les anciennes identités ou changer la politique pour faire correspondre les worktrees n’est pas justifié par les contrôles disponibles.
+- Les statuts historiques WP04/WP05, les PASS bornés du snapshot `d9deddb…`, les NOT_RUN du candidat, les échecs G03/MITC4, l’état inconclusif WP-D01 et `qualification_decision=NOT_ASSESSED` restent distincts. Rien dans cette phase ne démontre une validité physique générale ni ne promeut la maturité.
+
+**Proposition de clôture :** acquis synthétiques bornés seulement; WP12-A reste `OPEN`. Recommandation `CONDITIONAL_GO` pour la revue Owner des tests documentaires et des garde-fous; aucun GO d’exécution tant que des manifestes exacts et des décisions Owner distinctes ne sont pas disponibles. Statut de livraison proposé : `WP12A_REGRESSION_GAPS_ADDRESSED_EXECUTION_AUTHORIZATION_PENDING`, avec préparation officielle des manifestes encore bloquée par l’identité de worktree.
