@@ -10,12 +10,11 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from io import BytesIO
 import hashlib
-import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import subprocess
-import sys
 import time
 
 import numpy as np
@@ -49,6 +48,28 @@ CASE_PARAMETERS = tuple(
     for mesh in MESH_LEVELS
 )
 
+EXECUTION_CONTRACT_MARKER = "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v1"
+EXECUTION_SCOPE_ID = "hex8sri-convergence24"
+CAMPAIGN_ID = "HEX8-SRI-CONVERGENCE-24-2026-10-27"
+DEVELOPMENT_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1"
+GATE_ENVIRONMENT_CONTRACT = (
+    "QF_DEV_EXECUTION_MANIFEST_PATH",
+    "QF_DEV_EXECUTION_MANIFEST_SHA256",
+    "QF_DEV_OWNER_DECISION_ID",
+    "QF_DEV_CASE_MANIFEST_PATH",
+    "QF_DEV_PREFLIGHT_ID",
+    "QF_DEV_PREFLIGHT_SHA256",
+    "QF_DEV_TARGET_NODEID",
+    "QF_DEV_CONTROLLER_ROOT",
+    "QF_DEV_CONTROLLER_BRANCH",
+    "QF_DEV_CONTROLLER_HEAD",
+    "QF_DEV_CONTROLLER_RUNNER_SHA256",
+    "QF_DEV_CONTROLLER_POLICY_SHA256",
+    "QF_DEV_CONTROLLER_PLUGIN_SHA256",
+    EXECUTION_SCOPE_ID,
+    "OWNER_AUTHORIZED",
+)
+
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -58,89 +79,328 @@ def _git(*args: str) -> str:
     return subprocess.check_output(["git", *args], cwd=ROOT, text=True).strip()
 
 
-def _source_fingerprint(nodeid: str) -> str:
-    controller_path = ROOT / "scripts/development_autonomous.py"
-    spec = importlib.util.spec_from_file_location("hex8sri_convergence_controller", controller_path)
-    if spec is None or spec.loader is None:
-        raise RuntimeError("cannot load the controller source-fingerprint function")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module._worktree_source_fingerprint(ROOT, nodeid)
+def _strict_json_object(path: Path, label: str) -> dict:
+    def reject_duplicate_keys(pairs: list[tuple[str, object]]) -> dict:
+        result: dict = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"duplicate JSON key {key!r}")
+            result[key] = value
+        return result
 
-
-def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> tuple[Path, dict, str]:
-    """Fail closed before any FEM assembly unless controller and manifest agree."""
-    nodeid = request.node.nodeid
-    manifest_path = Path(os.environ.get("QF_DEV_MANIFEST_PATH", CAMPAIGN_DIR / f"manifest_{case_id}.json"))
-    resolved_manifest_path = manifest_path.resolve()
     try:
-        resolved_manifest_path.relative_to(ROOT.resolve())
-    except ValueError as exc:
-        raise RuntimeError("HEX8-SRI convergence refused: manifest path escapes the science worktree") from exc
-    if not resolved_manifest_path.is_file() or resolved_manifest_path.name != f"manifest_{case_id}.json":
-        raise RuntimeError("HEX8-SRI convergence refused: exact case manifest is missing or misnamed")
-    manifest_path = resolved_manifest_path
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    manifest_sha256 = _sha256(manifest_path)
+        payload = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=reject_duplicate_keys)
+    except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
+        raise RuntimeError(f"HEX8-SRI refused: {label} is unreadable or ambiguous: {exc}") from exc
+    if not isinstance(payload, dict):
+        raise RuntimeError(f"HEX8-SRI refused: {label} must be a JSON object")
+    return payload
+
+
+def _source_fingerprint(nodeid: str) -> str:
+    """Mirror the controller's stable inventory hash for an independent source check."""
+    target_module = nodeid.split("::", maxsplit=1)[0]
+    listed = subprocess.run(
+        [
+            "git",
+            "ls-files",
+            "-z",
+            "--cached",
+            "--others",
+            "--exclude-standard",
+            "--",
+            "src/solveur",
+            "experiments",
+            "tests",
+            "pyproject.toml",
+            "pytest.ini",
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+    )
+    if listed.returncode != 0:
+        raise RuntimeError("HEX8-SRI refused: cannot inventory the source files")
+    files: set[str] = set()
+    for raw in listed.stdout.split(b"\0"):
+        if not raw:
+            continue
+        relative = Path(os.fsdecode(raw).replace("\\", "/"))
+        relative_text = relative.as_posix()
+        if (
+            relative_text.startswith("src/solveur/")
+            and relative.suffix == ".py"
+            or relative_text.startswith("experiments/")
+            and relative.suffix == ".py"
+            or relative_text == target_module
+            or relative_text in {"tests/conftest.py", "tests/unit/conftest.py", "pyproject.toml", "pytest.ini"}
+        ):
+            files.add(relative_text)
+    if target_module not in files:
+        raise RuntimeError("HEX8-SRI refused: exact test module is absent from the source inventory")
+    digest = hashlib.sha256()
+    for relative_text in sorted(files):
+        path = (ROOT / Path(relative_text)).resolve()
+        try:
+            path.relative_to(ROOT.resolve())
+        except ValueError as exc:
+            raise RuntimeError(f"HEX8-SRI refused: source path escapes the science worktree: {relative_text}") from exc
+        if not path.is_file():
+            raise RuntimeError(f"HEX8-SRI refused: source file is missing: {relative_text}")
+        digest.update(relative_text.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(bytes.fromhex(_sha256(path)))
+    return digest.hexdigest()
+
+
+def _required_environment(name: str) -> str:
+    value = os.environ.get(name)
+    if not isinstance(value, str) or not value.strip():
+        raise RuntimeError(f"HEX8-SRI refused: required controller field {name} is missing")
+    return value
+
+
+def _same_path(left: str, right: str) -> bool:
+    return Path(left).resolve() == Path(right).resolve()
+
+
+def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
+    """Validate the exact Owner manifest, case manifest, preflight and controller before assembly."""
+    contract_marker = "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v1"
+    if contract_marker != EXECUTION_CONTRACT_MARKER:
+        raise RuntimeError("HEX8-SRI refused: execution contract marker mismatch")
+
+    nodeid = request.node.nodeid
+    scope_id = "hex8sri-convergence24"
     expected_environment = {
         "QF_DEVELOPMENT_AUTONOMOUS": "1",
-        "QF_DEV_WORKTREE_ID": "hex8sri",
+        "QF_DEV_WORKTREE_ID": scope_id,
+        "QF_DEV_CAMPAIGN_SCOPE_ID": scope_id,
         "QF_DEV_TARGET_NODEID": nodeid,
-        "QF_DEV_MANIFEST_SHA256": manifest_sha256,
     }
     mismatches = {
-        key: (os.environ.get(key), value) for key, value in expected_environment.items() if os.environ.get(key) != value
+        name: (os.environ.get(name), expected)
+        for name, expected in expected_environment.items()
+        if os.environ.get(name) != expected
     }
     if mismatches:
-        raise RuntimeError(f"HEX8-SRI convergence refused before FEM: controller identity mismatch {mismatches}")
-    if manifest.get("execution_authorized") is not True or manifest.get("do_not_execute") is not False:
-        raise RuntimeError("HEX8-SRI convergence refused: the final manifest is not Owner-authorized")
-    if manifest.get("criteria_status") != "OWNER_FROZEN" or manifest.get("exact_nodeid") != nodeid:
-        raise RuntimeError("HEX8-SRI convergence refused: criteria or exact node identity is not frozen")
-    if manifest.get("case_id") != case_id:
-        raise RuntimeError("HEX8-SRI convergence refused: manifest case ID differs from the exact node")
-    required_controller = (
-        "QF_DEV_CONTROLLER_ROOT",
-        "QF_DEV_CONTROLLER_HEAD",
-        "QF_DEV_CONTROLLER_RUNNER_SHA256",
-        "QF_DEV_CONTROLLER_POLICY_SHA256",
-        "QF_DEV_CONTROLLER_PLUGIN_SHA256",
-    )
-    if any(not os.environ.get(key) for key in required_controller):
-        raise RuntimeError("HEX8-SRI convergence refused: controller provenance is incomplete")
+        raise RuntimeError(f"HEX8-SRI refused before assembly: scope or node identity mismatch {mismatches}")
+
+    # The merged controller currently emits QF_DEV_MANIFEST_PATH/SHA256; accept the
+    # explicit execution-manifest aliases as well, and reject disagreement if both exist.
+    execution_path_value = os.environ.get("QF_DEV_EXECUTION_MANIFEST_PATH")
+    controller_path_value = os.environ.get("QF_DEV_MANIFEST_PATH")
+    execution_sha_value = os.environ.get("QF_DEV_EXECUTION_MANIFEST_SHA256")
+    controller_sha_value = os.environ.get("QF_DEV_MANIFEST_SHA256")
+    if execution_path_value and controller_path_value and not _same_path(execution_path_value, controller_path_value):
+        raise RuntimeError("HEX8-SRI refused: execution-manifest path aliases disagree")
+    if execution_sha_value and controller_sha_value and execution_sha_value != controller_sha_value:
+        raise RuntimeError("HEX8-SRI refused: execution-manifest hash aliases disagree")
+    execution_path_value = execution_path_value or controller_path_value
+    execution_sha_value = execution_sha_value or controller_sha_value
+    if not execution_path_value or not execution_sha_value:
+        raise RuntimeError("HEX8-SRI refused: execution-manifest path or hash is missing")
+
+    execution_manifest_path = Path(execution_path_value).resolve(strict=True)
+    if (
+        execution_manifest_path.parent.name != scope_id
+        or execution_manifest_path.parent.parent.name != "authorizations"
+    ):
+        raise RuntimeError("HEX8-SRI refused: execution manifest is outside the dedicated scope directory")
+    execution_manifest_sha256 = _sha256(execution_manifest_path)
+    if execution_manifest_sha256 != execution_sha_value:
+        raise RuntimeError("HEX8-SRI refused: execution-manifest SHA-256 mismatch")
+    execution_manifest = _strict_json_object(execution_manifest_path, "execution manifest")
+    if (
+        execution_manifest.get("schema") != "qfsolver-hex8sri-convergence24-execution-v1"
+        or execution_manifest.get("state") != "OWNER_AUTHORIZED"
+        or execution_manifest.get("execution_authorized") is not True
+        or execution_manifest.get("do_not_execute") is not False
+        or execution_manifest.get("worktree_id") != scope_id
+        or execution_manifest.get("mandate_id") != DEVELOPMENT_MANDATE_ID
+        or execution_manifest.get("campaign_id") != CAMPAIGN_ID
+        or execution_manifest.get("target") != nodeid
+    ):
+        raise RuntimeError("HEX8-SRI refused: execution manifest does not authorize this exact case")
+    source_identity = execution_manifest.get("identity")
+    if not isinstance(source_identity, dict):
+        raise RuntimeError("HEX8-SRI refused: execution manifest has no scientific worktree identity")
+
+    case_manifest_path = Path(_required_environment("QF_DEV_CASE_MANIFEST_PATH")).resolve(strict=True)
+    try:
+        case_manifest_path.relative_to(CAMPAIGN_DIR.resolve())
+    except ValueError as exc:
+        raise RuntimeError("HEX8-SRI refused: case manifest escapes the campaign directory") from exc
+    if case_manifest_path.name != f"manifest_{case_id}.json":
+        raise RuntimeError("HEX8-SRI refused: case manifest filename does not match the exact case")
+    case_manifest_sha256 = _sha256(case_manifest_path)
+    if case_manifest_sha256 != _required_environment("QF_DEV_CASE_MANIFEST_SHA256"):
+        raise RuntimeError("HEX8-SRI refused: case-manifest SHA-256 mismatch")
+    case_manifest = _strict_json_object(case_manifest_path, "case manifest")
+    case_binding = execution_manifest.get("case_manifest")
+    if (
+        not isinstance(case_binding, dict)
+        or not _same_path(str(case_binding.get("path", "")), str(case_manifest_path))
+        or case_binding.get("sha256") != case_manifest_sha256
+        or case_binding.get("case_id") != case_id
+        or case_binding.get("scope_id") != scope_id
+        or case_manifest.get("case_id") != case_id
+        or case_manifest.get("exact_nodeid") != nodeid
+        or case_manifest.get("controller_campaign_scope_id") != scope_id
+        or case_manifest.get("campaign_id") != CAMPAIGN_ID
+        or case_manifest.get("execution_state") != "PREPARED_NOT_AUTHORIZED"
+        or case_manifest.get("execution_authorized") is not False
+        or case_manifest.get("do_not_execute") is not True
+    ):
+        raise RuntimeError("HEX8-SRI refused: case-manifest identity or preparation state mismatch")
+
+    fingerprint = _source_fingerprint(nodeid)
+    if (
+        execution_manifest.get("source_fingerprint") != fingerprint
+        or case_manifest.get("source_fingerprint_sha256") != fingerprint
+    ):
+        raise RuntimeError("HEX8-SRI refused: source fingerprint differs from both manifests")
+    if case_manifest.get("criteria_status") != "OWNER_FROZEN" or case_manifest.get(
+        "frozen_criteria"
+    ) != case_manifest.get("proposed_criteria"):
+        raise RuntimeError("HEX8-SRI refused: registered criteria are not Owner-frozen verbatim")
+
+    if (
+        source_identity.get("root") != str(ROOT.resolve())
+        or source_identity.get("branch") != _git("branch", "--show-current")
+        or source_identity.get("head") != _git("rev-parse", "HEAD")
+        or source_identity.get("tree") != _git("rev-parse", "HEAD^{tree}")
+    ):
+        raise RuntimeError("HEX8-SRI refused: frozen science worktree identity mismatch")
+    if source_identity.get("branch") != "research/hex8-sri-equilibrium":
+        raise RuntimeError("HEX8-SRI refused: science branch is outside the registered research branch")
     if (
         subprocess.run(
-            ["git", "merge-base", "--is-ancestor", manifest.get("science_source_commit", ""), "HEAD"],
+            ["git", "merge-base", "--is-ancestor", str(case_manifest.get("science_source_commit", "")), "HEAD"],
             cwd=ROOT,
             check=False,
         ).returncode
         != 0
     ):
-        raise RuntimeError("HEX8-SRI convergence refused: frozen source commit is not an ancestor of this worktree")
+        raise RuntimeError("HEX8-SRI refused: registered case source commit is not an ancestor of the frozen worktree")
 
-    fingerprint = _source_fingerprint(nodeid)
-    if manifest.get("source_fingerprint_sha256") != fingerprint:
-        raise RuntimeError("HEX8-SRI convergence refused: science source fingerprint differs from the manifest")
-    controller_hashes = manifest.get("controller_code_sha256", {})
-    if controller_hashes.get("runner") != os.environ["QF_DEV_CONTROLLER_RUNNER_SHA256"]:
-        raise RuntimeError("HEX8-SRI convergence refused: runner SHA-256 differs from the manifest")
-    if controller_hashes.get("pytest_plugin") != os.environ["QF_DEV_CONTROLLER_PLUGIN_SHA256"]:
-        raise RuntimeError("HEX8-SRI convergence refused: pytest plugin SHA-256 differs from the manifest")
-    if controller_hashes.get("policy") != os.environ["QF_DEV_CONTROLLER_POLICY_SHA256"]:
-        raise RuntimeError("HEX8-SRI convergence refused: policy SHA-256 differs from the manifest")
-    identity = manifest.get("controller_identity", {})
-    if identity.get("branch") != "codex/hex8sri-controller-registration":
-        raise RuntimeError("HEX8-SRI convergence refused: manifest controller branch is not the registered branch")
-    if identity.get("head") != os.environ["QF_DEV_CONTROLLER_HEAD"]:
-        raise RuntimeError("HEX8-SRI convergence refused: controller HEAD differs from the manifest")
-    if identity.get("runner_sha256") != controller_hashes.get("runner"):
-        raise RuntimeError("HEX8-SRI convergence refused: controller runner identity fields disagree")
-    if identity.get("pytest_plugin_sha256") != controller_hashes.get("pytest_plugin"):
-        raise RuntimeError("HEX8-SRI convergence refused: controller plugin identity fields disagree")
-    if identity.get("policy_sha256") != controller_hashes.get("policy"):
-        raise RuntimeError("HEX8-SRI convergence refused: controller policy identity fields disagree")
-    return manifest_path, manifest, fingerprint
+    controller_provenance = execution_manifest.get("controller_provenance")
+    if not isinstance(controller_provenance, dict):
+        raise RuntimeError("HEX8-SRI refused: controller provenance is missing")
+    controller_identity = controller_provenance.get("identity", {})
+    controller_hashes = controller_provenance.get("sha256", {})
+    expected_controller_environment = {
+        "QF_DEV_CONTROLLER_ROOT": controller_identity.get("root"),
+        "QF_DEV_CONTROLLER_BRANCH": controller_identity.get("branch"),
+        "QF_DEV_CONTROLLER_HEAD": controller_identity.get("head"),
+        "QF_DEV_CONTROLLER_TREE": controller_identity.get("tree"),
+        "QF_DEV_CONTROLLER_RUNNER_SHA256": controller_hashes.get("runner"),
+        "QF_DEV_CONTROLLER_POLICY_SHA256": controller_hashes.get("policy"),
+        "QF_DEV_CONTROLLER_PLUGIN_SHA256": controller_hashes.get("pytest_plugin"),
+    }
+    if any(
+        not expected or os.environ.get(name) != str(expected)
+        for name, expected in expected_controller_environment.items()
+    ):
+        raise RuntimeError("HEX8-SRI refused: runtime controller identity differs from the Owner manifest")
+    case_controller = case_manifest.get("controller_identity", {})
+    case_controller_hashes = case_manifest.get("controller_code_sha256", {})
+    if (
+        case_manifest.get("controller_identity_status") != "FINAL_CONTROLLER_IDENTITY_BOUND"
+        or case_controller.get("branch") != controller_identity.get("branch")
+        or case_controller.get("head") != controller_identity.get("head")
+        or case_controller_hashes.get("runner") != controller_hashes.get("runner")
+        or case_controller_hashes.get("policy") != controller_hashes.get("policy")
+        or case_controller_hashes.get("pytest_plugin") != controller_hashes.get("pytest_plugin")
+    ):
+        raise RuntimeError("HEX8-SRI refused: case manifest is not bound to the final controller identity")
+
+    owner_decision_id = _required_environment("QF_DEV_OWNER_DECISION_ID")
+    decision_reference = execution_manifest.get("owner_decision_record")
+    if not isinstance(decision_reference, dict):
+        raise RuntimeError("HEX8-SRI refused: separately archived Owner decision reference is missing")
+    decision_path = Path(str(decision_reference.get("path", ""))).resolve(strict=True)
+    if decision_path.parent.name != "owner-decisions" or decision_path.parent.parent.name != scope_id:
+        raise RuntimeError("HEX8-SRI refused: Owner decision record is outside its dedicated scope")
+    if _sha256(decision_path) != decision_reference.get("sha256"):
+        raise RuntimeError("HEX8-SRI refused: Owner decision record SHA-256 mismatch")
+    owner_decision = _strict_json_object(decision_path, "Owner decision record")
+    if (
+        owner_decision != execution_manifest.get("owner_decision")
+        or owner_decision.get("decision_id") != owner_decision_id
+        or owner_decision.get("status") != "APPROVED"
+        or owner_decision.get("approved_by") != "Owner"
+        or owner_decision.get("scope_id") != scope_id
+        or owner_decision.get("mandate_id") != DEVELOPMENT_MANDATE_ID
+        or owner_decision.get("campaign_id") != CAMPAIGN_ID
+        or owner_decision.get("source_fingerprint") != fingerprint
+        or owner_decision.get("controller_fingerprint") != execution_manifest.get("controller_fingerprint")
+        or owner_decision.get("controller_head") != controller_identity.get("head")
+        or nodeid not in owner_decision.get("authorized_nodeids", [])
+        or owner_decision.get("limits_by_nodeid", {}).get(nodeid) != execution_manifest.get("limits")
+    ):
+        raise RuntimeError("HEX8-SRI refused: Owner decision does not authorize this exact identity and case")
+
+    preflight_id = _required_environment("QF_DEV_PREFLIGHT_ID")
+    preflight_sha256 = _required_environment("QF_DEV_PREFLIGHT_SHA256")
+    preflight = execution_manifest.get("preflight")
+    if (
+        not isinstance(preflight, dict)
+        or preflight.get("preflight_id") != preflight_id
+        or preflight.get("receipt_sha256") != preflight_sha256
+    ):
+        raise RuntimeError("HEX8-SRI refused: preflight identity differs from the execution manifest")
+    preflight_path = Path(str(preflight.get("receipt_path", ""))).resolve(strict=True)
+    if _sha256(preflight_path) != preflight_sha256:
+        raise RuntimeError("HEX8-SRI refused: preflight receipt SHA-256 mismatch")
+    preflight_receipt = _strict_json_object(preflight_path, "preflight receipt")
+    if (
+        preflight_receipt.get("state") != "PREFLIGHT_PASS"
+        or preflight_receipt.get("execution_authorized") is not False
+        or preflight_receipt.get("bodies_executed") is not False
+        or preflight_receipt.get("attempt_reserved") is not False
+        or preflight_receipt.get("worktree_id") != scope_id
+        or preflight_receipt.get("target") != nodeid
+        or preflight_receipt.get("preflight_id") != preflight_id
+        or preflight_receipt.get("source_fingerprint") != fingerprint
+        or preflight_receipt.get("controller_provenance") != controller_provenance
+        or preflight_receipt.get("case_manifest") != case_binding
+        or preflight_receipt.get("solver_origin_observed") != str((ROOT / "src/solveur/__init__.py").resolve())
+        or preflight_receipt.get("collected_nodeids") != [nodeid]
+        or preflight_receipt.get("skip_status") != "NO_SKIP_MARKERS"
+    ):
+        raise RuntimeError("HEX8-SRI refused: collect-only receipt is invalid or belongs to another identity")
+    collection = preflight_receipt.get("collection_report", {})
+    ledger = preflight_receipt.get("attempt_ledger", {})
+    if (
+        collection.get("scope_id") != scope_id
+        or collection.get("target") != nodeid
+        or collection.get("collected_nodeids") != [nodeid]
+        or collection.get("skip_markers") != []
+        or collection.get("bodies_executed") is not False
+        or collection.get("exitstatus") != 0
+        or ledger.get("attempts_reserved") is not False
+    ):
+        raise RuntimeError("HEX8-SRI refused: collect-only attestation or no-attempt proof is invalid")
+
+    import solveur
+
+    expected_solver_origin = str((ROOT / "src/solveur/__init__.py").resolve())
+    if str(Path(solveur.__file__).resolve()) != expected_solver_origin:
+        raise RuntimeError("HEX8-SRI refused: imported solver package is not from the frozen science worktree")
+
+    return {
+        "case_manifest_path": case_manifest_path,
+        "case_manifest": case_manifest,
+        "case_manifest_sha256": case_manifest_sha256,
+        "execution_manifest_path": execution_manifest_path,
+        "execution_manifest_sha256": execution_manifest_sha256,
+        "execution_manifest": execution_manifest,
+        "preflight_id": preflight_id,
+        "preflight_sha256": preflight_sha256,
+        "owner_decision_id": owner_decision_id,
+        "source_fingerprint": fingerprint,
+    }
 
 
 @pytest.mark.parametrize(("formulation", "poisson_ratio", "divisions_xyz", "case_id"), CASE_PARAMETERS)
@@ -152,21 +412,52 @@ def test_convergence_case(
     request: pytest.FixtureRequest,
 ) -> None:
     """Run one approved FEM case, archive it, then apply its frozen local gates."""
-    manifest_path, manifest, fingerprint = _authorized_case(request, case_id)
+    authorization = _authorized_case(request, case_id)
+    manifest_path = authorization["case_manifest_path"]
+    manifest = authorization["case_manifest"]
+    manifest_sha256 = authorization["case_manifest_sha256"]
+    execution_manifest_path = authorization["execution_manifest_path"]
+    execution_manifest_sha256 = authorization["execution_manifest_sha256"]
+    fingerprint = authorization["source_fingerprint"]
+    nx, ny, nz = divisions_xyz
+    expected_node_count = math.prod((nx + 1, ny + 1, nz + 1))
+    expected_dof_count = 3 * expected_node_count
+    expected_fixed_dof_count = 3 * (ny + 1) * (nz + 1)
+    expected_free_dof_count = expected_dof_count - expected_fixed_dof_count
+    mesh = manifest.get("mesh", {})
+    loading = manifest.get("loading", {})
+    boundary_conditions = manifest.get("boundary_conditions", {})
+    material = manifest.get("material", {})
+    formulation_manifest = manifest.get("formulation", {})
     if (
-        manifest.get("formulation", {}).get("id") != formulation
+        formulation_manifest.get("id") != formulation
         or float(manifest.get("poisson_ratio", float("nan"))) != poisson_ratio
-        or manifest.get("mesh", {}).get("divisions_xyz") != list(divisions_xyz)
+        or mesh.get("divisions_xyz") != list(divisions_xyz)
+        or mesh.get("dimensions_L_y_z_m") != [20.0, 1.0, 1.0]
+        or mesh.get("element_count") != math.prod(divisions_xyz)
+        or mesh.get("node_count") != expected_node_count
+        or mesh.get("dof_count") != expected_dof_count
+        or mesh.get("fixed_dof_count") != expected_fixed_dof_count
+        or mesh.get("free_dof_count") != expected_free_dof_count
+        or material.get("young_modulus_pa") != 1.0e6
+        or material.get("poisson_ratio") != poisson_ratio
+        or boundary_conditions.get("fixed_face") != "x=0"
+        or boundary_conditions.get("fixed_components") != ["UX", "UY", "UZ"]
+        or loading.get("loaded_face") != "x=20 m"
+        or loading.get("uniform_traction_pa") != [0.0, 0.0, -1.0]
+        or loading.get("resultant_force_n") != [0.0, 0.0, -1.0]
+        or loading.get("resultant_moment_about_origin_nm") != [-0.5, 20.0, 0.0]
     ):
-        raise RuntimeError("HEX8-SRI convergence refused: manifest physics do not match the requested case")
-    manifest_sha256 = _sha256(manifest_path)
+        raise RuntimeError("HEX8-SRI convergence refused: manifest physics or selected DDL do not match the case")
     criteria = manifest["frozen_criteria"]
     artifact_root = Path(manifest["execution_artifact_root"])
     started = time.perf_counter()
     controller_identity = {
         "worktree_id": os.environ["QF_DEV_WORKTREE_ID"],
         "root": os.environ["QF_DEV_CONTROLLER_ROOT"],
+        "branch": os.environ["QF_DEV_CONTROLLER_BRANCH"],
         "head": os.environ["QF_DEV_CONTROLLER_HEAD"],
+        "tree": os.environ["QF_DEV_CONTROLLER_TREE"],
         "runner_sha256": os.environ["QF_DEV_CONTROLLER_RUNNER_SHA256"],
         "policy_sha256": os.environ["QF_DEV_CONTROLLER_POLICY_SHA256"],
         "pytest_plugin_sha256": os.environ["QF_DEV_CONTROLLER_PLUGIN_SHA256"],
@@ -183,7 +474,17 @@ def test_convergence_case(
         "attempt_status": "STARTED",
         "campaign_id": manifest["campaign_id"],
         "case_id": case_id,
-        "manifest": {"path": str(manifest_path), "sha256": manifest_sha256},
+        "case_manifest": {"path": str(manifest_path), "sha256": manifest_sha256},
+        "execution_manifest": {
+            "path": str(execution_manifest_path),
+            "sha256": execution_manifest_sha256,
+            "authorization_id": os.environ["QF_DEV_AUTHORIZATION_ID"],
+        },
+        "owner_decision_id": authorization["owner_decision_id"],
+        "preflight": {
+            "preflight_id": authorization["preflight_id"],
+            "receipt_sha256": authorization["preflight_sha256"],
+        },
         "exact_nodeid": request.node.nodeid,
         "attempt_number": 1,
         "started_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -220,7 +521,17 @@ def test_convergence_case(
             "campaign_id": manifest["campaign_id"],
             "case_id": case_id,
             "attempt_receipt": {"path": str(start_path), "sha256": start_sha256},
-            "manifest": {"path": str(manifest_path), "sha256": manifest_sha256},
+            "case_manifest": {"path": str(manifest_path), "sha256": manifest_sha256},
+            "execution_manifest": {
+                "path": str(execution_manifest_path),
+                "sha256": execution_manifest_sha256,
+                "authorization_id": os.environ["QF_DEV_AUTHORIZATION_ID"],
+            },
+            "owner_decision_id": authorization["owner_decision_id"],
+            "preflight": {
+                "preflight_id": authorization["preflight_id"],
+                "receipt_sha256": authorization["preflight_sha256"],
+            },
             "state_artifact": {"path": str(state_path), "sha256": state_sha256},
             "science_identity": science_identity,
             "controller_identity": controller_identity,
@@ -236,7 +547,17 @@ def test_convergence_case(
             "case_id": case_id,
             "exact_nodeid": request.node.nodeid,
             "attempt_number": 1,
-            "manifest": {"path": str(manifest_path), "sha256": manifest_sha256},
+            "case_manifest": {"path": str(manifest_path), "sha256": manifest_sha256},
+            "execution_manifest": {
+                "path": str(execution_manifest_path),
+                "sha256": execution_manifest_sha256,
+                "authorization_id": os.environ["QF_DEV_AUTHORIZATION_ID"],
+            },
+            "owner_decision_id": authorization["owner_decision_id"],
+            "preflight": {
+                "preflight_id": authorization["preflight_id"],
+                "receipt_sha256": authorization["preflight_sha256"],
+            },
             "attempt_receipt": {"path": str(start_path), "sha256": start_sha256},
             "science_identity": science_identity,
             "controller_identity": controller_identity,
