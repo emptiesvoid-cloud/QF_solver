@@ -255,6 +255,34 @@ def test_old_controller_identity_is_refused(tmp_path: Path) -> None:
         controller._verify_hex8sri_convergence24_controller_identity(manifest, current)
 
 
+def test_versioned_case_manifest_is_bound_to_clean_controller_head(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    science_root, source, _ = _synthetic_case_files(tmp_path)
+    target = "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]"
+    name = "manifest_hex8_standard_nu_0p3_4x2x2.json"
+    head = "a" * 40
+    template = ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/" + name
+    directory = science_root / ".codex" / "development-runs" / "hex8sri-manifests" / "registry-eb58-v3" / head
+    directory.mkdir(parents=True)
+    (directory / name).write_bytes((source / name).read_bytes())
+    (directory / "common_problem.json").write_bytes((source / "common_problem.json").read_bytes())
+    manifest = json.loads((directory / name).read_text(encoding="utf-8"))
+    entry = controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+    entry["case_manifests"][target] = {"path": template, "sha256": refresh._registration_sha256(manifest)}
+    entry["source_fingerprint_sha256"] = OLD_FINGERPRINT
+    monkeypatch.setattr(controller, "_worktree_source_fingerprint", lambda *_args: OLD_FINGERPRINT)
+    monkeypatch.setattr(controller, "_git_identity", lambda *_args, **_kwargs: {"head": head, "status_short": ""})
+    path, _, _ = controller._hex8sri_convergence24_manifest(entry, science_root, target)
+    assert path == (directory / name).resolve()
+    monkeypatch.setattr(controller, "_git_identity", lambda *_args, **_kwargs: {"head": head, "status_short": " M policy"})
+    with pytest.raises(controller.PolicyError, match="requires a clean controller HEAD"):
+        controller._hex8sri_convergence24_manifest(entry, science_root, target)
+    monkeypatch.setattr(controller, "_git_identity", lambda *_args, **_kwargs: {"head": "b" * 40, "status_short": ""})
+    with pytest.raises(controller.PolicyError, match="missing or outside"):
+        controller._hex8sri_convergence24_manifest(entry, science_root, target)
+
+
 def test_refresh_refuses_fingerprint_or_authorization_drift(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     science_root, source_dir, _ = _synthetic_case_files(tmp_path)
     _mock_science_identity(monkeypatch, science_root)

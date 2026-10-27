@@ -959,6 +959,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             or not str(binding.get("path", "")).startswith((
                 "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/",
                 ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/",
+                ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/",
             ))
             or not re.fullmatch(r"[0-9a-f]{64}", str(binding.get("sha256", "")))
         ):
@@ -2798,7 +2799,16 @@ def _hex8sri_convergence24_manifest(
     binding = bindings.get(target) if isinstance(bindings, Mapping) else None
     if not isinstance(binding, Mapping):
         raise PolicyError("HEX8-SRI exact node has no registered case manifest")
-    relative = Path(str(binding.get("path", "")))
+    registered_path = str(binding.get("path", ""))
+    if "{controller_head}" in registered_path:
+        controller_identity = _git_identity(ROOT)
+        controller_head = controller_identity.get("head")
+        if controller_identity.get("status_short") or not isinstance(controller_head, str) or not re.fullmatch(r"[0-9a-f]{40}", controller_head):
+            raise PolicyError("HEX8-SRI versioned manifest requires a clean controller HEAD")
+        registered_path = registered_path.replace("{controller_head}", controller_head)
+    if "{" in registered_path or "}" in registered_path:
+        raise PolicyError("HEX8-SRI case manifest path has an invalid identity placeholder")
+    relative = Path(registered_path)
     if relative.is_absolute() or ".." in relative.parts:
         raise PolicyError("HEX8-SRI case manifest path is not worktree-relative")
     manifest_path = (execution_root / relative).resolve()

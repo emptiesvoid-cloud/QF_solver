@@ -1231,99 +1231,99 @@
       ],
       "case_manifests": {
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_hex8_standard_nu_0p3_16x8x8.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_hex8_standard_nu_0p3_16x8x8.json",
           "sha256": "282ac8cb68da118c1e2ca85a92fe33334c5a158dcfd4f2478ae94d65a5cd0854"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_hex8_standard_nu_0p3_32x16x16.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_hex8_standard_nu_0p3_32x16x16.json",
           "sha256": "5981576f9f9073c89c6b34511b52edb4f7df737f01c7666aeee1030d70145bde"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_hex8_standard_nu_0p3_4x2x2.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_hex8_standard_nu_0p3_4x2x2.json",
           "sha256": "ca4610f7676fcf6442a05b097cb5f3fd88864f9cbc2a9f026cb25b37e6bf3701"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_hex8_standard_nu_0p3_8x4x4.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_hex8_standard_nu_0p3_8x4x4.json",
           "sha256": "bb33c70c8384e342ee5a523735e80f086f57357c9ce2d1b5beb3cc00467fd25a"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_hex8_standard_nu_0p4999_16x8x8.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_hex8_standard_nu_0p4999_16x8x8.json",
           "sha256": "24e2d392d4c9cca9095f4ab91227d5e015d39c27131dffe89acedd1ba9e13cf0"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_hex8_standard_nu_0p4999_32x16x16.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_hex8_standard_nu_0p4999_32x16x16.json",
           "sha256": "dee3e5c69804a55497ca146360773e9ab24d55881da5c39c4dc3ddc107800823"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_hex8_standard_nu_0p4999_4x2x2.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_hex8_standard_nu_0p4999_4x2x2.json",
           "sha256": "566098db0e29eea62a61445cd2df01c20cb0177e8be4a92846115b0f5247ebe7"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_hex8_standard_nu_0p4999_8x4x4.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_hex8_standard_nu_0p4999_8x4x4.json",
           "sha256": "6286955906df29290393ffb53ec7f95a7308a280ae0e5edb1930366c17da7bf2"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_corrected_nu_0p3_16x8x8.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_corrected_nu_0p3_16x8x8.json",
           "sha256": "9ec644ecbd86f40137319e9fbb6f4ed0e286993e855fdd38a001050fbb40dd9e"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_corrected_nu_0p3_32x16x16.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_corrected_nu_0p3_32x16x16.json",
           "sha256": "0788ca0a86265e6e78ad52075c28f8ae4306dbb69b35e619e993a4e1c6e325ab"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_corrected_nu_0p3_4x2x2.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_corrected_nu_0p3_4x2x2.json",
           "sha256": "dd5b3aeb4b22277ab49e089ee9cb5ea9c1452045d20028054156d8336775ef1a"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_corrected_nu_0p3_8x4x4.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_corrected_nu_0p3_8x4x4.json",
           "sha256": "4b3c52d34f88f491ea955bab19667acd4284f7e02046c606a10f06cca42d2496"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_corrected_nu_0p4999_16x8x8.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_corrected_nu_0p4999_16x8x8.json",
           "sha256": "197416227370176f3833c1b6b166012964cf1770a31201f38e2a89c539d64de9"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_corrected_nu_0p4999_32x16x16.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_corrected_nu_0p4999_32x16x16.json",
           "sha256": "3c631a7efa5fe975014ed9acf2c665318f7ec87108db780eb43f325fd3058a60"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_corrected_nu_0p4999_4x2x2.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_corrected_nu_0p4999_4x2x2.json",
           "sha256": "dd231b39e2a897a9d087edc91fe122abaf6736ad4ef833b420c9c24b2039c037"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_corrected_nu_0p4999_8x4x4.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_corrected_nu_0p4999_8x4x4.json",
           "sha256": "d4646275e014d112132a5ea3598ddb5f382d8387cfc8eefec997fc5bd23bd1ab"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_historical_nu_0p3_16x8x8.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_historical_nu_0p3_16x8x8.json",
           "sha256": "528cd11ab3f0f18bb26b61c3cb7ada5e8b32332d2645437b31a1513b5c0ef116"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_historical_nu_0p3_32x16x16.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_historical_nu_0p3_32x16x16.json",
           "sha256": "0193a6a929f8d413cc07987f06ed6787a83d2c7eb078bcc6272cf961f9e0b19d"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_historical_nu_0p3_4x2x2.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_historical_nu_0p3_4x2x2.json",
           "sha256": "ada1ce9c5d7eab3146b6426fcc59d3b35473acb13cafb3f1d41e1cec4d08b1b5"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_historical_nu_0p3_8x4x4.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_historical_nu_0p3_8x4x4.json",
           "sha256": "ffc685380031b51ce5b32679901568b5a0a124c73a3c23f0c94d6f0914f0a035"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_historical_nu_0p4999_16x8x8.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_historical_nu_0p4999_16x8x8.json",
           "sha256": "1118fb17c92ebec58fc063de768260840c46a085b3d1d55fc6cb09d8903ce17d"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_historical_nu_0p4999_32x16x16.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_historical_nu_0p4999_32x16x16.json",
           "sha256": "dd150f4538388e7ffbe6264d764de34e1a4bdee6296c01bcf365675f93930224"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_historical_nu_0p4999_4x2x2.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_historical_nu_0p4999_4x2x2.json",
           "sha256": "fbe3786b5c82dd3af1d47f1c8db90efe6fcc599ea6f473c44b11b4fb5e4aa2d2"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
-          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/manifest_sri_historical_nu_0p4999_8x4x4.json",
+          "path": ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/manifest_sri_historical_nu_0p4999_8x4x4.json",
           "sha256": "71d25e99f7004ae34ac3f3e0e7ffeb0002be5cd3c5d184a6def60622ccd0a190"
         }
       }

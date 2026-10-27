@@ -12,3 +12,5 @@ The historical inventory is validated against the pinned historical sidecar and 
 | `tests/verification/test_hex8_sri_convergence.py` | 7b8dbd9fe353145275825d0177f254617d505aa098261f30ef13d07f268e36f9 | d9f77834d62bab49e6eae3ab7177bbcb61813b675acb7096f259520af266d371 |
 
 No files were removed. The registered source worktree was read without line-ending conversion. The full current per-file inventory is recorded in [hex8sri-source-byte-inventory-f6402ed.json](hex8sri-source-byte-inventory-f6402ed.json).
+
+The registered case paths contain `{controller_head}`. The runner resolves it to its own clean Git HEAD inside the ignored `.codex/development-runs/hex8sri-manifests/registry-eb58-v3/` directory. Generate a fresh set into the directory named by that HEAD; creation refuses replacement. After merge, generate into the new canonical HEAD directory and renew the collect-only receipts. Older candidate manifests and receipts remain separate and cannot authorize the new controller identity.
