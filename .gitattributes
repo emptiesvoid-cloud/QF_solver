@@ -59,6 +59,8 @@ tests/verification/test_hex8_sri_convergence.py -text
 investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/*.json -text
 investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/FIRST_CAMPAIGN_MATRIX.csv -text whitespace=cr-at-eol
 investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/drafts/SHA256SUMS.txt -text
+# Preserve exact JSON and checksum bytes for the execution-gate manifest bundle.
+investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_execution_gate/** -text
 # Keep edited campaign documentation normalized and warning-free on Windows.
 investigations/hex8_sri_equilibrium_20261026/consolidated/DECISION_LOG.md text eol=lf
 investigations/hex8_sri_equilibrium_20261026/consolidated/HEX8_SRI_RESEARCH_REPORT.md text eol=lf
