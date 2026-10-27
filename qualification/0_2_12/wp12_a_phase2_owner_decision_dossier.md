@@ -76,3 +76,76 @@ Ces tests ne changent ni oracle, ni seuil, ni formulation. Les preuves historiqu
 4. Exécuter séquentiellement uniquement après les états `OWNER_AUTHORIZED` retournés par le contrôleur et archiver chaque résultat même en cas d’échec.
 
 Jusqu’à ces actions, le rejeu WP07 historique reste `PREPARATION_BLOCKED`; les trois sentinelles ont des manifestes officiels `PREPARED_NOT_AUTHORIZED`, sans autorisation d’exécution.
+
+
+# Phase 3 — Nettoyage PR #38 et fingerprint prospectif WP07
+
+Date : 2026-10-27. PR #38 est ouverte en brouillon, branche `emptiesvoids-cloud/wp12-dynamics-selective-integration`, HEAD initial vérifié `79baf6098c17b3cfb5422d9af54d8e072f3a80cf`, base canonique `d64e6036a845e0b720dc9f2bd5a89076dbbc7d4c`. Les tests scientifiques demeurent NOT_RUN.
+
+## Classement exhaustif des 19 fichiers de la PR
+
+| Fichier | Classe | Décision de périmètre |
+|---|---|---|
+| `tests/unit/test_modal_newmark.py` | Nécessaire WP12-A | Garder : sentinelle Newmark enregistrée et observable archivées. |
+| `tests/unit/test_reduced_harmonic.py` | Nécessaire WP12-A | Garder : sentinelle harmonique enregistrée et oracle borné. |
+| `tests/unit/test_wp07_uniform_base_acceleration.py` | Nécessaire WP12-A | Garder : sentinelle d’accélération de base et rejeu WP07 dont le fingerprint est examiné ci-dessous. |
+| `tests/unit/test_wp12_observable_archive_synthetic.py` | Nécessaire WP12-A | Garder : tests synthétiques d’archivage avant assertion. |
+| `tests/unit/test_wp12a_mpc_rbe_route_preflight.py` | Nécessaire WP12-A | Garder : refus synthétiques MPC/RBE, sans calcul solveur. |
+| `qualification/0_2_12/vv_local/wp12_dynamics/DYNAMIC_HARMONIC_RESULTS_REPORT.md` | Preuve WP12-A requise | Garder : résultats et limites de la campagne dynamique antérieure. |
+| `qualification/0_2_12/vv_local/wp12_legacy_cross_route/COVERAGE_MATRIX.tsv` | Preuve WP12-A requise | Garder : matrice transversale, complétée en Phase 3. |
+| `qualification/0_2_12/vv_local/wp12_legacy_cross_route/LEGACY_CROSS_ROUTE_REPORT.md` | Preuve WP12-A requise | Garder : audit des contrats hérités. |
+| `qualification/0_2_12/wp12_a_final_verification_audit.md` | Preuve WP12-A requise | Garder : audit WP12-A et statuts bornés. |
+| `qualification/0_2_12/wp12_a_phase2_owner_decision_dossier.md` | Preuve WP12-A requise | Garder : dossier Owner, prolongé ici sans toucher aux preuves sources. |
+| `docs/verification/wp12_b_elements_loads_audit.md` | Travail WP12-B distinct | Déplacer dans la PR de consolidation distincte; historique et contenu conservés. |
+| `experiments/wp12_tet4_convergence/case_metrics.csv` | Travail WP12-B distinct | Déplacer dans la PR de consolidation distincte; données conservées. |
+| `experiments/wp12_tet4_convergence/figures/family_comparison.png` | Travail WP12-B distinct | Déplacer dans la PR de consolidation distincte; figure conservée. |
+| `experiments/wp12_tet4_convergence/figures/resources.png` | Travail WP12-B distinct | Déplacer dans la PR de consolidation distincte; figure conservée. |
+| `experiments/wp12_tet4_convergence/figures/tet4_convergence.png` | Travail WP12-B distinct | Déplacer dans la PR de consolidation distincte; figure conservée. |
+| `experiments/wp12_tet4_convergence/report_consolide.md` | Travail WP12-B distinct | Déplacer dans la PR de consolidation distincte; rapport conservé. |
+| `experiments/wp12_tet4_convergence/summary.json` | Travail WP12-B distinct | Déplacer dans la PR de consolidation distincte; données conservées. |
+| `qualification/0_2_12/wp12_c_advanced_physics_audit.md` | Travail WP12-C distinct | Déplacer dans la PR de consolidation distincte; conclusions conservées. |
+| `qualification/0_2_12/vv_local/WP12_CONSOLIDATION_INDEX.md` | Consolidation transversale | Déplacer dans la PR de consolidation distincte pour éviter de mêler l’index global à WP12-A. |
+
+Décision proposée : PR #38 garde les cinq fichiers de test et cinq documents WP12-A. Les neuf autres fichiers sont conservés dans l’historique Git et dans une proposition de consolidation dépendante, sans suppression de preuve ni fusion automatique. Les trois sentinelles restent les nodeids dynamiques Newmark, harmonique et accélération de base déjà allowlistés; les contrôles MPC/RBE sont synthétiques. L’allowlist/politique n’est pas modifiée dans cette phase.
+
+## Cause exacte du fingerprint WP07 périmé
+
+Le nodeid historique est `tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames`. L’enregistrement conservé à HEAD d’origine `e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d` porte le fingerprint `6db5b4597252082012fa38b1ed3ad8859befb7ec9a99bd7d54dd6cf486ae4d56`. Le fingerprint recalculé sur le source enregistré actuel à `630d22b7667a0d84dd7b136b9f8c7d89ae00fc66` est `969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6`.
+
+Le contrôleur fingerprint le module source entier et l’inventaire source, pas seulement le corps de fonction. Les deux worktrees ont 507 entrées d’inventaire; le seul fichier qui diffère est `tests/unit/test_wp07_uniform_base_acceleration.py` (SHA-256 brut ancien `9bf96c894d2db5e7d063076f237b9e93a8d6a1532e49a72a0e7ac0b6ce2cb5c0`, courant `f761969e3835939de2918da2037a3ef8434d45318c659d04bb2ec1636ecb5fd0`). L’AST de la fonction ciblée est identique, SHA-256 `a69d54576ad5989bd34fed0a98b20b4ab046fd516adf8bf1663cff2e004cfe45`; son oracle d’équation libre SDOF, ses assertions et ses tolérances (déplacement `rel=1e-11`, `abs=1e-13`; autres `pytest.approx`) n’ont pas changé. Le source solveur, les fixtures et les métadonnées de dépendances examinées n’ont pas changé.
+
+Le delta provient de plomberie d’archivage dans le même module : commit `1f609e52` ajoute `hashlib`, `os`, `uuid` et `_write_wp12_attempt_observables`; commit `d9deddbd` ajoute `re`, distingue l’identifiant de série de l’identifiant local d’essai et ajoute `series_attempt` au sidecar. L’identité change donc conformément au fingerprint de fichier entier, sans changement de l’oracle scientifique du nodeid. Le refus `WP12 source fingerprint changed` était correct; aucun manifeste n’a été créé pour le rejeu historique et son FAIL demeure inchangé.
+
+### Proposition d’inscription prospective
+
+Le contrôleur accepte des révisions append-only dans `nodeid_registration_records`, garde l’ancien enregistrement et active le dernier fingerprint pour le même nodeid. Il n’est donc pas nécessaire de créer un scope différent. Après décision Owner et vérification de l’identité scientifique visée, l’opération proposée est une nouvelle inscription distincte (ne pas l’exécuter dans cette phase) :
+
+```powershell
+python scripts\development_autonomous.py register-nodeid `
+  --worktree wp12_dynamics `
+  --target "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames" `
+  --reason "Prospective source revision after archive-helper changes; preserve prior registration, exact WP07 test AST unchanged." `
+  --selected-dofs 1 `
+  --selection-basis "One free UX DDL in the harmonic BEAM2 base-acceleration fixture." `
+  --timeout-seconds 300
+```
+
+Cette opération écrira la politique et devra être faite par le propriétaire du contrôleur selon le mandat approuvé. L’ancien fingerprint, son échec et ses archives restent immuables. Une nouvelle inscription exige un nouveau manifeste; aucune décision Owner précédente ne se transfère.
+
+## Revalidation des trois manifestes préparés
+
+Contrôle effectué en lecture seule dans `E:\QFSolverAgents\evidence\dynamics\authorizations\wp12_dynamics`. Les trois fichiers n’ont pas été réécrits. Tous restent `PREPARED_NOT_AUTHORIZED`, `owner_decision.status=NOT_AUTHORIZED`, sans champ de réservation et absents du ledger d’essais. Ils portent le mandat `DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1`, `worktree_id=wp12_dynamics`, la branche `codex/wp12-dynamic-harmonic-verification`, le HEAD `630d22b7667a0d84dd7b136b9f8c7d89ae00fc66`, l’arbre `a6bcf6a3cea4bdc9ab17adcf53ce2151a2bc4758`, et le fingerprint contrôleur `5e8225187fe9495a0c4d8516ec11323432ca0aa50ce38bf65ed66a0999a74e08` (checkout contrôleur propre `d64e6036`).
+
+| Cas | SHA-256 manifeste | Fingerprint source | DDL | Plafond / délai | État |
+|---|---|---|---:|---|---|
+| Newmark | `c657172d03d94f53cb95231dae795041c2131c7bf2aaf651fe4de7b31ae8098d` | `65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8` | 1 | 10 par nodeid, 130 total, 300 s | `PREPARED_NOT_AUTHORIZED`; aucun slot réservé |
+| Harmonique | `e649468cfbd4374e4936e8068be9771cf31cc9f9e283f953861816e011b30184` | `bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c` | 3 | 10 par nodeid, 130 total, 300 s | `PREPARED_NOT_AUTHORIZED`; aucun slot réservé |
+| Accélération de base | `6d9bff0e84e3b0b4c4a5f4bd9f8228eb90998ec72bbea03969b357f38b106d99` | `969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6` | 1 | 10 par nodeid, 130 total, 300 s | `PREPARED_NOT_AUTHORIZED`; aucun slot réservé |
+
+Les limites de ressources restent 4 096 MiB RSS souple, 16 processus, 64 MiB sortie totale / 32 MiB par flux, 512 MiB temporaires et 256 MiB d’archives. Cette vérification confirme l’intégrité documentaire des préparations, pas leur autorisation. Les SHAs sont ceux des JSON exacts et n’ont pas changé.
+
+## Validation phase 3 et décisions Owner restantes
+
+Les validations autorisées portent uniquement sur tests synthétiques MPC/RBE, DTO/serialization sans solveur, archivage synthétique, politique, vérifications statiques et collecte pytest. Aucun FEM, modal, harmonique, Newmark ou benchmark n’est exécuté. Les trois nodeids enregistrés restent présents et l’identité de leurs fingerprints est vérifiée au moment des contrôles ci-dessous.
+
+Décisions Owner encore nécessaires : (1) revue/acceptation du diff WP12-A réduit de PR #38; (2) acceptation ou différé de la nouvelle inscription prospective WP07 — l’inscription effective est laissée en attente; (3) décisions indépendantes pour les trois manifestes Newmark, harmonique et accélération de base avant tout run; (4) revue distincte de la proposition WP12-B/C/transverse dépendante. La cible de livraison est `WP12A_PR38_REVIEW_READY_WP07_REGISTRATION_PENDING`. Aucun merge ni calcul scientifique n’est autorisé ici.
