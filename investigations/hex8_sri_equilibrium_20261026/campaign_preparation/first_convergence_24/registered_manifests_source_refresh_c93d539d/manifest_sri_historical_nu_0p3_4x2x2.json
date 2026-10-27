@@ -43,8 +43,8 @@
     "runner": "01eb5f87bda08d318e1c400774fec6cc7605d986a7bf3787d8e32b5119431c3a"
   },
   "controller_identity": {
-    "branch": "codex/hex8sri-source-fingerprint-refresh",
-    "head": "d146a837d2bf2aa8f23434a0806e1378e6b70dd5",
+    "branch": "codex/hex8sri-convergence24-execution-gate",
+    "head": "ea76da7524fa5ccd9d8ce7f4690eac63844e20f6",
     "policy_sha256": "7c67d380a0def135e8f169e514e808ddfae4ca3866a33cbdc0bf6745aeb2a8b8",
     "pytest_plugin_sha256": "9b8fd647434469b1f6e26085d148bb81f22d5a87b4dbaac11c087173e5577df5",
     "runner_sha256": "01eb5f87bda08d318e1c400774fec6cc7605d986a7bf3787d8e32b5119431c3a"

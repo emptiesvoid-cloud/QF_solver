@@ -88,3 +88,6 @@ qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/** whitespace=cr-at-eo
 qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/*.log binary
 qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/*.log binary
 investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_premerge_b72_historical/** -text whitespace=cr-at-eol
+
+investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_source_refresh_c93d539d/** -text
+investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/manifest_identity_history_c93d539d/** -text
