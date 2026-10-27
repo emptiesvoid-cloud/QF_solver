@@ -17,6 +17,7 @@ SOURCE_FINGERPRINT = "b" * 64
 OLD_HASH = "c" * 64
 NEW_HASH = "d" * 64
 SOURCE_FILE = "tests/verification/test_hex8_sri_convergence.py"
+OLD_FINGERPRINT = controller._source_inventory_fingerprint({SOURCE_FILE: OLD_HASH})
 
 
 def _json_bytes(payload: object) -> bytes:
@@ -34,6 +35,7 @@ def _synthetic_case_files(tmp_path: Path) -> tuple[Path, Path, Path]:
             "branch": "research/hex8-sri-equilibrium",
             "source_commit": "7" * 40,
             "source_files_sha256": {SOURCE_FILE: OLD_HASH},
+            "source_fingerprint_sha256": OLD_FINGERPRINT,
         },
         "controller_identity": {"branch": "old-controller", "head": "8" * 40},
         "preflight_status": "NOT_RUN",
@@ -83,7 +85,7 @@ def _synthetic_case_files(tmp_path: Path) -> tuple[Path, Path, Path]:
             "controller_identity_status": "FINAL_CONTROLLER_IDENTITY_BOUND",
             "controller_identity": {"branch": "old-controller", "head": "8" * 40},
             "controller_code_sha256": {"runner": OLD_HASH, "policy": OLD_HASH, "pytest_plugin": OLD_HASH},
-            "source_fingerprint_sha256": OLD_HASH,
+            "source_fingerprint_sha256": OLD_FINGERPRINT,
             "science_source_commit": "7" * 40,
             "source_files_sha256": {SOURCE_FILE: OLD_HASH},
             "science_branch": "research/hex8-sri-equilibrium",
@@ -109,7 +111,25 @@ def _synthetic_case_files(tmp_path: Path) -> tuple[Path, Path, Path]:
             "budgets": budget,
         }
         (manifests / f"manifest_{case_id}.json").write_bytes(_json_bytes(manifest))
+    _write_inventory(manifests)
     return science_root, manifests, common_bytes
+
+
+def _write_inventory(directory: Path) -> None:
+    bindings = {}
+    for path in directory.glob("manifest_*_*.json"):
+        if path.name == "manifest_bindings.json":
+            continue
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+        bindings[manifest["exact_nodeid"]] = {
+            "path": str(path), "case_id": manifest["case_id"],
+            "raw_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "sha256": refresh._registration_sha256(manifest),
+        }
+    index = {"schema": "qfsolver-hex8sri-convergence24-manifest-bindings-v1", "bindings": bindings}
+    (directory / "manifest_bindings.json").write_bytes(_json_bytes(index))
+    paths = sorted([directory / "common_problem.json", directory / "manifest_bindings.json", *directory.glob("manifest_hex8_*.json"), *directory.glob("manifest_sri_*.json")])
+    (directory / "SHA256SUMS.txt").write_text("".join(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n" for p in paths), encoding="ascii")
 
 
 def _mock_science_identity(monkeypatch: pytest.MonkeyPatch, science_root: Path) -> None:
@@ -127,6 +147,11 @@ def _mock_science_identity(monkeypatch: pytest.MonkeyPatch, science_root: Path) 
     monkeypatch.setattr(refresh, "_git", fake_git)
     monkeypatch.setattr(refresh.controller, "_worktree_source_fingerprint", lambda *_args: SOURCE_FINGERPRINT)
     monkeypatch.setattr(refresh, "_source_file_hashes", lambda *_args: {SOURCE_FILE: NEW_HASH})
+    monkeypatch.setattr(refresh, "HISTORICAL_SOURCE_HEAD", "7" * 40)
+    monkeypatch.setattr(refresh, "HISTORICAL_SOURCE_FINGERPRINT", OLD_FINGERPRINT)
+    monkeypatch.setattr(refresh, "HISTORICAL_SUMS_SHA256", hashlib.sha256((science_root / "registered_manifests_execution_gate" / "SHA256SUMS.txt").read_bytes()).hexdigest())
+    monkeypatch.setattr(controller, "_git_identity", lambda *_args, **_kwargs: {})
+    monkeypatch.setattr(controller, "_validate_hex8sri_registered_source_identity", lambda *_args: None)
 
 
 def test_refresh_plan_rebinds_all_24_without_changing_case_physics_or_gates(
@@ -188,6 +213,78 @@ def test_criteria_contract_keeps_campaign_gates_not_assessed_until_multimesh_ora
     assert refresh.EXPECTED_COMMON_PHYSICS["proposed_criteria"] == controller.HEX8SRI_PROPOSED_CRITERIA
 
 
+@pytest.mark.parametrize("mutation", ["missing", "extra", "duplicate", "bad_schema", "tampered"])
+def test_typed_manifest_inventory_refuses_ambiguity_or_tampering(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mutation: str
+) -> None:
+    science_root, directory, _ = _synthetic_case_files(tmp_path)
+    paths = sorted(directory.glob("manifest_hex8_*.json"))
+    if mutation == "missing":
+        paths[0].unlink()
+    elif mutation == "extra":
+        (directory / "manifest_unexpected.json").write_text("{}", encoding="utf-8")
+    elif mutation in {"duplicate", "bad_schema"}:
+        payload = json.loads(paths[0].read_text(encoding="utf-8"))
+        if mutation == "duplicate":
+            payload["exact_nodeid"] = json.loads(paths[1].read_text(encoding="utf-8"))["exact_nodeid"]
+        else:
+            payload["schema"] = "incorrect"
+        paths[0].write_bytes(_json_bytes(payload))
+        _write_inventory(directory)
+    else:
+        paths[0].write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(refresh, "HISTORICAL_SUMS_SHA256", hashlib.sha256((directory / "SHA256SUMS.txt").read_bytes()).hexdigest())
+    with pytest.raises(ValueError):
+        refresh._read_case_inventory(directory, controller._hex8sri_convergence24_nodeids())
+
+
+def test_typed_manifest_inventory_accepts_24_and_excludes_bindings_sidecar(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    science_root, directory, _ = _synthetic_case_files(tmp_path)
+    _mock_science_identity(monkeypatch, science_root)
+    assert len(refresh._read_case_inventory(directory, controller._hex8sri_convergence24_nodeids())) == 24
+    assert (directory / "manifest_bindings.json").is_file()
+
+
+def test_old_controller_identity_is_refused(tmp_path: Path) -> None:
+    _, directory, _ = _synthetic_case_files(tmp_path)
+    manifest = json.loads((directory / "manifest_hex8_standard_nu_0p3_4x2x2.json").read_text(encoding="utf-8"))
+    current = {"identity": {"branch": "new-controller", "head": "9" * 40}, "sha256": {"runner": "a" * 64, "policy": "b" * 64, "pytest_plugin": "c" * 64}}
+    with pytest.raises(controller.PolicyError, match="not bound to the final controller identity"):
+        controller._verify_hex8sri_convergence24_controller_identity(manifest, current)
+
+
+def test_versioned_case_manifest_is_bound_to_clean_controller_head(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    science_root, source, _ = _synthetic_case_files(tmp_path)
+    target = "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]"
+    name = "manifest_hex8_standard_nu_0p3_4x2x2.json"
+    head = "a" * 40
+    campaign = science_root / "campaign"
+    template = (Path("campaign") / "results" / "hex8sri-registry-v4" / "{controller_head}" / name).as_posix()
+    directory = campaign / "results" / "hex8sri-registry-v4" / head
+    directory.mkdir(parents=True)
+    (directory / name).write_bytes((source / name).read_bytes())
+    (directory / "common_problem.json").write_bytes((source / "common_problem.json").read_bytes())
+    manifest = json.loads((directory / name).read_text(encoding="utf-8"))
+    entry = controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+    entry["case_manifests"][target] = {"path": template, "sha256": refresh._registration_sha256(manifest)}
+    entry["source_fingerprint_sha256"] = OLD_FINGERPRINT
+    monkeypatch.setattr(controller, "_worktree_source_fingerprint", lambda *_args: OLD_FINGERPRINT)
+    monkeypatch.setattr(controller, "_git_identity", lambda *_args, **_kwargs: {"head": head, "status_short": ""})
+    path, _, _ = controller._hex8sri_convergence24_manifest(entry, science_root, target)
+    assert path == (directory / name).resolve()
+    assert path.is_relative_to(campaign.resolve())
+    monkeypatch.setattr(controller, "_git_identity", lambda *_args, **_kwargs: {"head": head, "status_short": " M policy"})
+    with pytest.raises(controller.PolicyError, match="requires a clean controller HEAD"):
+        controller._hex8sri_convergence24_manifest(entry, science_root, target)
+    monkeypatch.setattr(controller, "_git_identity", lambda *_args, **_kwargs: {"head": "b" * 40, "status_short": ""})
+    with pytest.raises(controller.PolicyError, match="missing or outside"):
+        controller._hex8sri_convergence24_manifest(entry, science_root, target)
+
+
 def test_refresh_refuses_fingerprint_or_authorization_drift(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     science_root, source_dir, _ = _synthetic_case_files(tmp_path)
     _mock_science_identity(monkeypatch, science_root)
@@ -204,6 +301,8 @@ def test_refresh_refuses_fingerprint_or_authorization_drift(tmp_path: Path, monk
     manifest = json.loads(path.read_text(encoding="utf-8"))
     manifest["execution_authorized"] = True
     path.write_bytes(_json_bytes(manifest))
+    _write_inventory(source_dir)
+    monkeypatch.setattr(refresh, "HISTORICAL_SUMS_SHA256", hashlib.sha256((source_dir / "SHA256SUMS.txt").read_bytes()).hexdigest())
     with pytest.raises(ValueError, match="source case is not execution-locked"):
         refresh.build_refresh_plan(
             science_root,
@@ -234,6 +333,8 @@ def test_refresh_refuses_physical_drift_in_case_source(
     manifest = json.loads(path.read_text(encoding="utf-8"))
     manifest[field] = replacement
     path.write_bytes(_json_bytes(manifest))
+    _write_inventory(source_dir)
+    monkeypatch.setattr(refresh, "HISTORICAL_SUMS_SHA256", hashlib.sha256((source_dir / "SHA256SUMS.txt").read_bytes()).hexdigest())
 
     with pytest.raises(ValueError, match="case identity differs"):
         refresh.build_refresh_plan(
@@ -255,11 +356,13 @@ def test_refresh_refuses_common_problem_physics_drift(tmp_path: Path, monkeypatc
     path.write_bytes(common_bytes)
     common_sha = hashlib.sha256(common_bytes).hexdigest()
     for manifest_path in source_dir.glob("manifest_*.json"):
-        if manifest_path.name == "manifest_index.json":
+        if manifest_path.name in {"manifest_index.json", "manifest_bindings.json"}:
             continue
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         manifest["common_problem"]["sha256"] = common_sha
         manifest_path.write_bytes(_json_bytes(manifest))
+    _write_inventory(source_dir)
+    monkeypatch.setattr(refresh, "HISTORICAL_SUMS_SHA256", hashlib.sha256((source_dir / "SHA256SUMS.txt").read_bytes()).hexdigest())
 
     with pytest.raises(ValueError, match="common-problem model"):
         refresh.build_refresh_plan(
