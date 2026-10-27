@@ -73,6 +73,8 @@ investigations/hex8_sri_equilibrium_20261026/campaign_preparation/build_first_co
 # Preserve exact byte hashes for the new convergence manifest and collect-only evidence archive.
 investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests/** -text whitespace=cr-at-eol
 investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/preflight_receipts/** -text whitespace=cr-at-eol
+investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/registered_manifests_minimal_pr/** -text whitespace=cr-at-eol
+investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/preflight_receipts_minimal_pr/** -text whitespace=cr-at-eol
 # Preserve WP14 R2.2 command logs and generated-output manifests byte-exactly.
 qualification/0_2_9/wp14/g06_g08_r2_2/logs/*.log binary
 qualification/0_2_9/wp14/g06_g08_r2_2/*-manifest.csv binary
