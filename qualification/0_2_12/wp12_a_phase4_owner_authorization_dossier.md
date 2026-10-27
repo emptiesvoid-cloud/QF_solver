@@ -3,7 +3,7 @@
 
 Date : 2026-10-27
 
-**Statut recommandé : `WP12A_WP07_REGISTRATION_OWNER_DECISION_PENDING`.** WP12-A demeure `OPEN`. Aucun calcul FEM, eigensolve, analyse harmonique ou Newmark n’a été exécuté. Aucune tentative n’a été réservée. Les résultats ci-dessous distinguent les faits de configuration des résultats historiques.
+**Statut courant : `WP12A_FOUR_CASES_PREPARED_OWNER_DECISION_PENDING`.** WP12-A demeure `OPEN`. Aucun calcul FEM, eigensolve, analyse harmonique ou Newmark n’a été exécuté. Aucune tentative n’a été réservée. Les résultats ci-dessous distinguent les faits de configuration des résultats historiques.
 
 ## 1. Identités canoniques
 
@@ -133,4 +133,48 @@ Ne rien exécuter si le checkout scientifique, le contrôleur partagé ou la pol
 
 ### Proposition de clôture bornée
 
-Après éventuelles quatre exécutions autorisées, conserver les pass/fail individuels comme résultats de développement, rapprocher les observables avec les oracles déclarés, et obtenir un Owner disposition distinct. Une éventuelle clôture de WP12-A serait limitée aux quatre sentinelles et aux contrats testés, sans requalifier les historiques, sans fermeture de WP12/WP13, et sans prétention de validation physique générale. Jusque-là, `WP12=OPEN` et `WP12A_WP07_REGISTRATION_OWNER_DECISION_PENDING`.
+Après éventuelles quatre exécutions autorisées, conserver les pass/fail individuels comme résultats de développement, rapprocher les observables avec les oracles déclarés, et obtenir un Owner disposition distinct. Une éventuelle clôture de WP12-A serait limitée aux quatre sentinelles et aux contrats testés, sans requalifier les historiques, sans fermeture de WP12/WP13, et sans prétention de validation physique générale. Jusque-là, `WP12=OPEN` et `WP12A_FOUR_CASES_PREPARED_OWNER_DECISION_PENDING`.
+
+
+## Mise à jour après décisions Owner — quatre cas prêts à décision
+
+L’Owner a approuvé la désignation du contrôleur propre C: et la réinscription append-only WP07. Ce bloc supersède les passages antérieurs qui indiquaient une inscription ou un quatrième manifeste encore en attente. Les preuves historiques et les anciens manifests restent intacts.
+
+### Contrôleur stabilisé
+
+- Launcher canonique désigné : `C:\Users\fari\.codex\worktrees\wp12a-phase4-canonical\qf_solver\scripts\development_autonomous.py`.
+- Branche : `emptiesvoids-cloud/wp12a-canonical-controller`.
+- HEAD : `8d436639e01df69caebf3dd7091d019aa002a3a2`; tree `5f5cffc470246b1e39006cf8ead9a06d3928273f`; checkout propre.
+- Controller fingerprint définitif pour cette identité : `4fdf219b0ffae811ea5ebeb9b73c791270192379cb9fdc3e60b68457622be931`.
+- SHA-256 runner `e307547a47e7d1c58224eb74a52211c47bc4270a86e875a6af0d56496bfc4500`; plugin `9b8fd647434469b1f6e26085d148bb81f22d5a87b4dbaac11c087173e5577df5`; politique `d0c148f74f56559a180ff23c03220bf906a2bf45285901b21730904b337412a5`.
+- AGENTS.md pointe maintenant explicitement vers ce launcher. Le changement est dans la [PR brouillon #41](https://github.com/emptiesvoid-cloud/QF_solver/pull/41); aucun merge n’a été effectué.
+- Le checkout historique `E:\QFSolverAgents\wp12-policy-final` reste intact à `4bf52792f46988b84fecf11ebe3bd5fe078975ef`, avec sa modification locale de politique. Il n’a pas été utilisé, réinitialisé ni écrasé.
+
+Tout changement futur de HEAD, tree, chemin, runtime, runner, plugin ou politique modifierait l’identité du contrôleur et invaliderait les manifests ci-dessous. Si PR #41 est fusionnée avant l’exécution, recalculer l’identité et préparer de nouveaux manifests.
+
+### Réinscription append-only WP07 effectuée
+
+Le contrôleur officiel a recalculé `969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6` sur le worktree source propre `E:\QFSolverAgents\wp12-dynamics`, HEAD `630d22b7667a0d84dd7b136b9f8c7d89ae00fc66`, tree `a6bcf6a3cea4bdc9ab17adcf53ce2151a2bc4758`.
+
+`register-nodeid` a ajouté la révision 2 dans le scope existant `wp12_dynamics`, avec 1 DDL, 300 s et la justification Owner approuvée. L’ancien enregistrement `6db5b4597252082012fa38b1ed5cba02190562746556d5eabd1f74a256e0f8da`, son HEAD `e64493e…`, le FAIL historique et tous les reçus sont préservés. L’allowlist reste inchangée à 13/13. La source `solveur`, l’oracle, les tolérances et les critères n’ont pas été modifiés.
+
+### Quatre manifests Phase 4 préparés
+
+Les manifests suivants ont été créés après le commit final de la branche contrôleur à approuver. Chacun est `PREPARED_NOT_AUTHORIZED`; `owner_decision.status=NOT_AUTHORIZED`. Aucun n’est une autorisation ou une réservation. Ils lient le même source HEAD/tree et le contrôleur ci-dessus.
+
+| Décision d’exécution Owner distincte | Nodeid | ID du manifest | SHA-256 à approuver exactement | DDL | Limite |
+|---|---|---|---|---:|---|
+| 1 — WP07 harmonique historique | `tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames` | `wp12a-wp07-harmonic-20261027-p5-8d4366` | `84e24e2f0aae4bacc7e101005bdb1e3e8ea52a13dd87eb5d7331263a9657808d` | 1 | 1 exécution demandée, 300 s maximum |
+| 2 — Newmark | `tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables` | `wp12a-newmark-20261027-p5-8d4366` | `c49303a09ec8c88ed9ec7ac4f2715cc61d9ca861e432568234e8a96ab06e9413` | 1 | 1 exécution demandée, 300 s maximum |
+| 3 — Harmonique réduit | `tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation` | `wp12a-harmonic-20261027-p5-8d4366` | `5aa236d0b6ec98295e9debad7037c2d5515258c43c6036dbdf15a03b64fe4588` | 3 | 1 exécution demandée, 300 s maximum |
+| 4 — Accélération de base | `tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization` | `wp12a-base-motion-20261027-p5-8d4366` | `63033d80f5c3700f9cfc524dc9c871dc71bc8dcd3572cce76a2e51e3e8833ddf` | 1 | 1 exécution demandée, 300 s maximum |
+
+Les limites supérieures du mandat restent 10 tentatives par nodeid et 130 au total; le choix demandé ici est une première exécution par cas. RSS 4 096 MiB est une observation souple; 16 processus, sortie totale 64 MiB / 32 MiB par flux, temporaire 512 MiB, archive 256 MiB. Une divergence d’identité, un statut différent de `OWNER_AUTHORIZED`, une réservation antérieure, un dépassement de limite ou un échec d’archivage impose l’arrêt.
+
+Le SHA du ledger après la réinscription et la préparation est toujours `20670ceedfe1cc969ce614df13b8bd94b108f43e2e2892cf1601a8607a3dad37`; aucun des quatre nouveaux IDs ne figure dans le ledger. Il reste cinq tentatives historiques sur 130; aucune tentative Phase 4 n’a été lancée.
+
+### Prochaine action et clôture
+
+L’étape suivante est d’obtenir **quatre décisions Owner séparées**, chacune approuvant uniquement le nodeid, l’ID et le SHA-256 indiqués dans sa ligne. Aucune décision ancienne ne se transfère. Après validation des quatre états `OWNER_AUTHORIZED` par le contrôleur, les cas pourront être lancés séparément et séquentiellement avec le launcher épinglé; conserver toutes les sorties, même en cas d’échec.
+
+Aucun test synthétique ni collect-only n’a été relancé après l’inscription et la préparation des manifests; ces opérations ont validé la configuration et n’ont exécuté aucun solveur. Les 37 tests synthétiques PASS et les quatre nodeids collectés mentionnés plus haut correspondent au contrôle antérieur sur le candidat `fc8a314`. La campagne scientifique reste à faire et aucun statut de qualification ne change. WP12 reste `OPEN`; une éventuelle clôture WP12-A serait bornée aux quatre sentinelles et soumise à disposition Owner après résultats.
