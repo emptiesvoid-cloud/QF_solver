@@ -46,11 +46,267 @@ def _registered_root(value: str, *, strict: bool = False) -> Path:
     if not path.is_absolute():
         path = ROOT / path
     return path.resolve(strict=strict)
+
+
 POLICY_PATH = ROOT / "development_autonomous_policy.json"
 SERIES_RE = re.compile(r"^dev-[a-z0-9][a-z0-9-]{7,48}$")
 PREFLIGHT_RE = re.compile(r"^pf-[a-z0-9]{12}$")
 STANDARD_SCOPES = {"unit", "integration"}
 WORKTREE_SCOPES = {"fem_exploratory", "math_non_fem"}
+HEX8SRI_CONVERGENCE24_WORKTREE_ID = "hex8sri-convergence24"
+HEX8SRI_CONVERGENCE24_CAMPAIGN_ID = "HEX8-SRI-CONVERGENCE-24-2026-10-27"
+HEX8SRI_CONVERGENCE24_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1"
+HEX8SRI_CONVERGENCE24_LEDGER = "node-attempt-ledger-hex8sri-convergence24.json"
+HEX8SRI_EXECUTION_MANIFEST_SCHEMA = "qfsolver-hex8sri-convergence24-execution-v1"
+HEX8SRI_CRITERIA_FREEZE_SCHEMA = "qfsolver-hex8sri-criteria-freeze-v1"
+HEX8SRI_CRITERIA_FREEZE_DECISION_SCHEMA = "qfsolver-hex8sri-criteria-freeze-decision-v1"
+HEX8SRI_EXECUTION_APPROVAL_SCHEMA = "qfsolver-hex8sri-execution-approval-v1"
+HEX8SRI_CRITERIA_CONTRACT_SCHEMA = "qfsolver-hex8sri-criteria-contract-v1"
+HEX8SRI_CRITERIA_CONTRACT_REVISION = "first6-4x2x2-owner-criteria-2026-10-27-r1"
+HEX8SRI_CONVERGENCE24_MANIFEST_BINDING = "canonical_case_content_v1"
+HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT = "994bdea7e518cc4b7e353192eb3331f4cf34015ede188a0c00f9fda9eda487ff"
+HEX8SRI_CONVERGENCE24_SOURCE_HEAD = "31ee6eda7921350f552f9e2e18c48973dc5718c1"
+HEX8SRI_CONVERGENCE24_SOURCE_TREE = "385f45e1a8ebfaa2e7051912c9902fa4f13220d2"
+HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_PATH = (
+    "docs/development/hex8sri-source-byte-inventory-31ee6eda.json"
+)
+HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256 = "ec411bb4c63a6aca6ab3ad6933119fdb40ca36a633c7dc80f6239488e78b1ca7"
+HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT = 517
+HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT_ALGORITHM = "raw_worktree_inventory_sha256_v1"
+HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY = {
+    "branch": "research/hex8-sri-equilibrium",
+    "head": HEX8SRI_CONVERGENCE24_SOURCE_HEAD,
+    "tree": HEX8SRI_CONVERGENCE24_SOURCE_TREE,
+    "fingerprint_sha256": HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+    "fingerprint_algorithm": HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT_ALGORITHM,
+    "inventory_path": HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_PATH,
+    "inventory_sha256": HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256,
+    "inventory_file_count": HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT,
+    "raw_byte_policy": "preserve checkout bytes; no LF/CRLF normalization",
+}
+HEX8SRI_EXECUTION_TEST_CONTRACT_MARKER = "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v2"
+HEX8SRI_CONVERGENCE24_FORMULATIONS = ("hex8_standard", "sri_historical", "sri_corrected")
+HEX8SRI_CONVERGENCE24_NU_TOKENS = {"0p3": 0.3, "0p4999": 0.4999}
+HEX8SRI_FIRST6_NODEIDS = (
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]",
+)
+HEX8SRI_PROPOSED_CRITERIA = {
+    "energy_identity_relative_max": 1e-8,
+    "finest_level_independent_3d_energy_relative_error_max": 0.05,
+    "finest_level_independent_3d_mean_UZ_relative_error_max": 0.05,
+    "force_closure_relative_max": 1e-6,
+    "free_residual_relative_max": 1e-7,
+    "last_two_levels_energy_relative_change_max": 0.02,
+    "last_two_levels_mean_UZ_relative_change_max": 0.02,
+    "moment_closure_relative_max": 1e-6,
+}
+HEX8SRI_CASE_GATE_THRESHOLD_KEYS = (
+    "free_residual_relative_max",
+    "energy_identity_relative_max",
+    "force_closure_relative_max",
+    "moment_closure_relative_max",
+)
+HEX8SRI_CRITERIA_DISPOSITIONS = {
+    "finite_state": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "positive_sampled_jacobians_center_and_gauss": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "free_residual_relative_max": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "energy_identity_relative_max": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "force_closure_relative_max": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "moment_closure_relative_max": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "negative_mean_loaded_face_uz": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "stiffness_symmetry_relative_frobenius": {
+        "classification": "CASE_DIAGNOSTIC",
+        "status": "DESCRIPTIVE_ONLY",
+    },
+    "affine_jacobian_reproduction": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "positive_internal_energy": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "formulation_comparison": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "condition_number_1_estimate_Kff": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "timing_seconds": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "rss_peak_bytes": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "timoshenko_relative_difference": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "last_two_levels_energy_relative_change_max": {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    },
+    "last_two_levels_mean_UZ_relative_change_max": {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    },
+    "finest_level_independent_3d_energy_relative_error_max": {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    },
+    "finest_level_independent_3d_mean_UZ_relative_error_max": {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    },
+    "single_case_convergence": {"classification": "CAMPAIGN_GATE_DEFERRED", "status": "NOT_ASSESSED"},
+    "independent_3d_reference_error": {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    },
+}
+HEX8SRI_CRITERIA_DEFINITIONS = {
+    "finite_state": {
+        "formula": "All required scalar and array observables satisfy isfinite(value).",
+        "units": "Each observable retains its declared SI unit.",
+        "threshold": {"operator": "all_finite"},
+        "applicability": "Each case; failure blocks the case.",
+    },
+    "positive_sampled_jacobians_center_and_gauss": {
+        "formula": "det(J_q) > 0 for every element center and every evaluated 2x2x2 Gauss point.",
+        "units": "m^3",
+        "threshold": {"operator": ">", "value": 0.0},
+        "applicability": "Each case at the points evaluated by the formulation.",
+    },
+    "free_residual_relative_max": {
+        "formula": "||r_free||_2 / max(||F_free||_2, ||K_ff u_free||_2, 1 N), where r=K u-F.",
+        "units": "dimensionless",
+        "threshold": {"operator": "<=", "value": 1e-7},
+        "applicability": "Each case; free-DOF equilibrium gate.",
+    },
+    "energy_identity_relative_max": {
+        "formula": "|2 U_internal - W_external| / |W_external|; undefined work is a failure.",
+        "units": "dimensionless; U_internal and W_external are J.",
+        "threshold": {"operator": "<=", "value": 1e-8},
+        "applicability": "Each case; algebraic linear-elastic identity.",
+    },
+    "force_closure_relative_max": {
+        "formula": "||sum(F_applied)+sum(R_support)||_2 / max(||sum(F_applied)||_2, ||sum(R_support)||_2, 1 N).",
+        "units": "dimensionless; force resultants are N.",
+        "threshold": {"operator": "<=", "value": 1e-6},
+        "applicability": "Each case; global resultant balance.",
+    },
+    "moment_closure_relative_max": {
+        "formula": "||sum(M_applied)+sum(M_support)||_2 / max(||sum(M_applied)||_2, ||sum(M_support)||_2, 1 N m).",
+        "units": "dimensionless; moment resultants are N m.",
+        "threshold": {"operator": "<=", "value": 1e-6},
+        "applicability": "Each case; global moment balance about the recorded origin.",
+    },
+    "negative_mean_loaded_face_uz": {
+        "formula": "Consistent area-weighted Q1 mean displacement on the loaded face satisfies mean(U_z) < 0.",
+        "units": "m",
+        "threshold": {"operator": "<", "value": 0.0},
+        "applicability": "Each case under the registered negative-Z traction.",
+    },
+    "stiffness_symmetry_relative_frobenius": {
+        "formula": "||K-K^T||_F / max(||K||_F, tiny).",
+        "units": "dimensionless",
+        "threshold": None,
+        "applicability": "Diagnostic only; not an assertion in this campaign.",
+    },
+    "affine_jacobian_reproduction": {
+        "formula": "max_q |det(J_q)-det(J_center)| / max(|det(J_center)|, tiny), over sampled points.",
+        "units": "dimensionless",
+        "threshold": None,
+        "applicability": "Diagnostic only; zero for an affine mapping up to arithmetic error.",
+    },
+    "positive_internal_energy": {
+        "formula": "U_internal = 0.5 u^T K u; report whether U_internal > 0 without gating.",
+        "units": "J",
+        "threshold": None,
+        "applicability": "Diagnostic only; positivity is not asserted by the first-six test.",
+    },
+    "formulation_comparison": {
+        "formula": "For paired observables a,b: |a-b| / max(|a|,|b|,tiny).",
+        "units": "dimensionless for relative differences; source observables retain their SI units.",
+        "threshold": None,
+        "applicability": "Descriptive comparison across matched formulations; not a case gate.",
+    },
+    "condition_number_1_estimate_Kff": {
+        "formula": "Estimate of kappa_1(K_ff)=||K_ff||_1 ||K_ff^-1||_1 using the registered sparse estimator.",
+        "units": "dimensionless",
+        "threshold": None,
+        "applicability": "Diagnostic estimate; no eigensolve and no acceptance threshold.",
+    },
+    "timing_seconds": {
+        "formula": "Controller-observed elapsed wall time for the case and its phases.",
+        "units": "s",
+        "threshold": None,
+        "applicability": "Descriptive resource observation; controller timeout remains a separate budget.",
+    },
+    "rss_peak_bytes": {
+        "formula": "Maximum sampled resident-set size reported by the controller process monitor.",
+        "units": "bytes",
+        "threshold": None,
+        "applicability": "Descriptive soft observation; not an OS memory quota.",
+    },
+    "timoshenko_relative_difference": {
+        "formula": "|UZ_FE-UZ_Timoshenko| / |UZ_Timoshenko| for the stated beam model and observable.",
+        "units": "dimensionless; both displacements are m.",
+        "threshold": None,
+        "applicability": "Trend indicator only; not an absolute 3D oracle or gate.",
+    },
+    "last_two_levels_energy_relative_change_max": {
+        "formula": "|U_n-U_(n-1)| / max(|U_n|,|U_(n-1)|,tiny) at the two finest paired levels.",
+        "units": "dimensionless; energy is J.",
+        "threshold": {"operator": "<=", "value": 0.02},
+        "applicability": "Deferred until the required paired refined meshes exist.",
+    },
+    "last_two_levels_mean_UZ_relative_change_max": {
+        "formula": "|UZ_n-UZ_(n-1)| / max(|UZ_n|,|UZ_(n-1)|,tiny) at the two finest paired levels.",
+        "units": "dimensionless; displacement is m.",
+        "threshold": {"operator": "<=", "value": 0.02},
+        "applicability": "Deferred until the required paired refined meshes exist.",
+    },
+    "finest_level_independent_3d_energy_relative_error_max": {
+        "formula": "|U_finest-U_ref| / |U_ref| for a qualified independent 3D reference.",
+        "units": "dimensionless; energy is J.",
+        "threshold": {"operator": "<=", "value": 0.05},
+        "applicability": "Deferred until a qualified independent 3D reference is available.",
+    },
+    "finest_level_independent_3d_mean_UZ_relative_error_max": {
+        "formula": "|UZ_finest-UZ_ref| / |UZ_ref| for a qualified independent 3D reference.",
+        "units": "dimensionless; displacement is m.",
+        "threshold": {"operator": "<=", "value": 0.05},
+        "applicability": "Deferred until a qualified independent 3D reference is available.",
+    },
+    "single_case_convergence": {
+        "formula": "Campaign-level assessment from paired mesh-level displacement and energy changes.",
+        "units": "dimensionless derived indicators.",
+        "threshold": None,
+        "applicability": "Deferred; a single 4x2x2 result cannot establish convergence.",
+    },
+    "independent_3d_reference_error": {
+        "formula": "Campaign-level comparison of displacement and energy against a qualified independent 3D oracle.",
+        "units": "dimensionless relative errors.",
+        "threshold": None,
+        "applicability": "Deferred; status remains NOT_ASSESSED until the reference is qualified.",
+    },
+}
+HEX8SRI_CRITERIA_PROPOSAL_DISPOSITIONS = {
+    key: {
+        "classification": value["classification"],
+        "status": "OWNER_FREEZE_REQUIRED" if value["classification"] == "CASE_GATE" else value["status"],
+    }
+    for key, value in HEX8SRI_CRITERIA_DISPOSITIONS.items()
+}
+HEX8SRI_FROZEN_CASE_GATE_CRITERIA = {
+    key: HEX8SRI_PROPOSED_CRITERIA[key] for key in HEX8SRI_CASE_GATE_THRESHOLD_KEYS
+}
+HEX8SRI_CONVERGENCE24_MESH_BUDGETS = {
+    "4x2x2": (180, 512),
+    "8x4x4": (300, 1024),
+    "16x8x8": (900, 4096),
+    "32x16x16": (3600, 16384),
+}
+HEX8SRI_CONVERGENCE24_COMMON_BUDGET = {
+    "process_tree_limit": 8,
+    "output_total_limit_mib": 16,
+    "output_stream_limit_mib": 8,
+    "temporary_limit_mib": 512,
+    "archive_size_limit_mib": 256,
+    "minimum_free_disk_mib": 2048,
+}
+HEX8SRI_CONVERGENCE24_MANIFEST_CONTROLLER_FIELDS = frozenset(
+    {"controller_code_sha256", "controller_identity", "controller_identity_status"}
+)
 OWNER_ENV_KEYS = {
     "WPC02_AR_NATIVE_OWNER_GO_TOKEN",
     "WPC02_AR_NATIVE_OWNER_GO_MANIFEST_SHA256",
@@ -83,6 +339,7 @@ D01_OWNER_BUDGETS = {
 }
 WP12_BASELINE_COMMIT = "6d8f140834db75ea9b968b055af23445261d0073"
 WP12_COORDINATION_ROOT = Path(r"E:\QFSolverAgents\evidence\.wp12-coordination")
+WP12_EXECUTION_SCOPE_ALIASES = {"wp12_elements_loads_corrective": "wp12_elements_loads"}
 WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
     "wp12_wp07": {
         "root": r"E:\QFSolverAgents\wp07",
@@ -126,6 +383,36 @@ WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
         "concurrency_class": "parallel",
         "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ELEMENTS-2026-10-26-v1",
     },
+    "wp12_elements_loads": {
+        "root": r"C:\Users\fari\.codex\worktrees\verify-wp12-elements-loads\qf_solver",
+        "branch": "verify/wp12-elements-loads",
+        "evidence_root": r"E:\QFSolverAgents\evidence\wp12-elements-loads",
+        "timeout_seconds": 300,
+        "max_timeout_seconds": 300,
+        "max_total_attempts": 3,
+        "attempt_limit_per_nodeid": 1,
+        "max_registered_nodeids": 3,
+        "max_dofs": 30000,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "parallel",
+        "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-2026-10-26-v1",
+    },
+    "wp12_elements_loads_corrective": {
+        "root": r"C:\Users\fari\.codex\worktrees\verify-wp12-elements-loads\qf_solver",
+        "branch": "emptiesvoids-cloud/fix-wp12b-scope-identity-guard",
+        "evidence_root": r"E:\QFSolverAgents\evidence\wp12-elements-loads-corrective-r1",
+        "timeout_seconds": 300,
+        "max_timeout_seconds": 300,
+        "max_total_attempts": 3,
+        "attempt_limit_per_nodeid": 1,
+        "max_registered_nodeids": 3,
+        "max_dofs": 30000,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "parallel",
+        "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-CORRECTIVE-2026-10-26-R1",
+        "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26",
+        "execution_scope_id": "wp12_elements_loads",
+    },
     "wp12_dynamics": {
         "root": r"E:\QFSolverAgents\wp12-dynamics",
         "branch": "codex/wp12-dynamic-harmonic-verification",
@@ -139,6 +426,20 @@ WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
         "max_fem_cases_per_attempt": 1,
         "concurrency_class": "parallel",
         "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
+    },
+    "rotor": {
+        "root": r"C:\Users\fari\.codex\worktrees\wp12-rotor-performance\qf_solver",
+        "branch": "verify/wp12-rotor-performance",
+        "evidence_root": r"E:\QFSolverAgents\evidence\rotor",
+        "timeout_seconds": 300,
+        "max_timeout_seconds": 300,
+        "max_total_attempts": 8,
+        "attempt_limit_per_nodeid": 1,
+        "max_registered_nodeids": 8,
+        "max_dofs": 12,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "parallel",
+        "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ROTOR-2026-10-26-v1",
     },
 }
 WP12_RUN_BUDGETS = {
@@ -155,6 +456,18 @@ WP12_ELEMENTS_VERIFICATION_NODEIDS = frozenset(
     {
         "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
         "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4",
+    }
+)
+WP12_ROTOR_NODEIDS = frozenset(
+    {
+        "tests/unit/test_rotating_modal_cases.py::test_gyro01_zero_speed_matches_modal_frequencies_multiplicity_and_subspaces",
+        "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_unit_speed_gyro_blocks_match_contract",
+        "tests/unit/test_rotating_disk_gyro.py::test_assembled_gyro_uses_same_global_dof_map_and_has_zero_quadratic_work",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-100.0]",
+        "tests/unit/test_modal_tracking.py::test_competing_source_modes_make_the_global_assignment_ambiguous",
+        "tests/unit/test_campbell.py::test_campbell_sweep_reuses_one_model_and_serializes_complex_source_results",
+        "tests/unit/test_campbell.py::test_campbell_is_exposed_through_model_schema_and_analysis_router",
     }
 )
 
@@ -196,6 +509,105 @@ def _positive_integer(value: Any, name: str) -> int:
     return int(number)
 
 
+def _hex8sri_convergence24_nodeids() -> tuple[str, ...]:
+    return tuple(
+        sorted(
+            "tests/verification/test_hex8_sri_convergence.py::test_convergence_case["
+            f"{formulation}-nu_{nu_token}-{mesh_token}]"
+            for formulation in HEX8SRI_CONVERGENCE24_FORMULATIONS
+            for nu_token in HEX8SRI_CONVERGENCE24_NU_TOKENS
+            for mesh_token in HEX8SRI_CONVERGENCE24_MESH_BUDGETS
+        )
+    )
+
+
+def _hex8sri_convergence24_case(nodeid: str) -> tuple[str, str, str] | None:
+    prefix = "tests/verification/test_hex8_sri_convergence.py::test_convergence_case["
+    if not nodeid.startswith(prefix) or not nodeid.endswith("]"):
+        return None
+    try:
+        formulation, nu_token, mesh_token = nodeid[len(prefix) : -1].split("-", maxsplit=2)
+    except ValueError:
+        return None
+    if (
+        formulation not in HEX8SRI_CONVERGENCE24_FORMULATIONS
+        or not nu_token.startswith("nu_")
+        or nu_token[3:] not in HEX8SRI_CONVERGENCE24_NU_TOKENS
+        or mesh_token not in HEX8SRI_CONVERGENCE24_MESH_BUDGETS
+    ):
+        return None
+    return formulation, nu_token[3:], mesh_token
+
+
+def _hex8sri_convergence24_budget(nodeid: str) -> dict[str, int]:
+    case = _hex8sri_convergence24_case(nodeid)
+    if case is None:
+        raise PolicyError("HEX8-SRI convergence nodeid is outside its exact 24-case matrix")
+    _, _, mesh_token = case
+    timeout_seconds, rss_mib = HEX8SRI_CONVERGENCE24_MESH_BUDGETS[mesh_token]
+    return {
+        **HEX8SRI_CONVERGENCE24_COMMON_BUDGET,
+        "timeout_seconds": timeout_seconds,
+        "rss_soft_limit_mib": rss_mib,
+    }
+
+
+def _hex8sri_execution_limits(entry: Mapping[str, Any], target: str) -> dict[str, Any]:
+    """Return the immutable per-case budget and attempt envelope for an Owner manifest."""
+    if target not in entry.get("allowed_nodeids", ()):
+        raise PolicyError("HEX8-SRI execution limits require one exactly registered nodeid")
+    budgets = entry.get("per_node_budgets", {}).get(target)
+    if not isinstance(budgets, Mapping):
+        raise PolicyError("HEX8-SRI execution node has no registered per-node budget")
+    return {
+        **dict(budgets),
+        "attempts_per_nodeid": int(entry["attempt_limit_per_nodeid"]),
+        "campaign_max_attempts": int(entry["max_total_attempts"]),
+        "blas_thread_environment": dict(entry["blas_thread_environment"]),
+        "budget_semantics": {
+            "captured_output": "controller-enforced byte caps",
+            "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+            "wall_timeout": "watchdog process-tree termination, best effort",
+        },
+    }
+
+
+def _hex8sri_manifest_registration_sha256(manifest: Mapping[str, Any]) -> str:
+    content = {
+        key: value for key, value in manifest.items() if key not in HEX8SRI_CONVERGENCE24_MANIFEST_CONTROLLER_FIELDS
+    }
+    payload = json.dumps(content, ensure_ascii=False, allow_nan=False, sort_keys=True, separators=(",", ":")).encode(
+        "utf-8"
+    )
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _hex8sri_convergence24_case_contract(manifest: Mapping[str, Any]) -> dict[str, Any]:
+    mesh = manifest.get("mesh")
+    if not isinstance(mesh, Mapping):
+        raise PolicyError("HEX8-SRI convergence manifest has no mesh contract")
+    divisions = mesh.get("divisions_xyz")
+    if (
+        not isinstance(divisions, list)
+        or len(divisions) != 3
+        or any(type(value) is not int or value < 1 for value in divisions)
+    ):
+        raise PolicyError("HEX8-SRI convergence manifest has invalid structured mesh divisions")
+    nx, ny, nz = divisions
+    total_dofs = 3 * (nx + 1) * (ny + 1) * (nz + 1)
+    fixed_dofs = 3 * (ny + 1) * (nz + 1)
+    expected = {
+        "element_count": nx * ny * nz,
+        "node_count": (nx + 1) * (ny + 1) * (nz + 1),
+        "dof_count": total_dofs,
+        "fixed_dof_count": fixed_dofs,
+        "free_dof_count": total_dofs - fixed_dofs,
+    }
+    if any(mesh.get(name) != value for name, value in expected.items()):
+        raise PolicyError("HEX8-SRI convergence manifest DDL or element counts do not match its structured mesh")
+    return {"divisions_xyz": divisions, **expected}
+
+
 def _validate_wp12_case_selection(
     worktree_id: str,
     *,
@@ -235,7 +647,9 @@ def _validate_wp12_case_selection(
             or "\n" in timeout_reason
             or "\r" in timeout_reason
         ):
-            raise PolicyError("the exceptional 900-second elements timeout requires a one-line 20 to 300 character reason")
+            raise PolicyError(
+                "the exceptional 900-second elements timeout requires a one-line 20 to 300 character reason"
+            )
         normalized_timeout_reason = timeout_reason.strip()
     elif timeout_reason not in (None, ""):
         raise PolicyError("timeout reason is only valid for the exceptional 900-second elements budget")
@@ -259,6 +673,8 @@ def _validate_wp12_registration_history(worktree_id: str, entry: Mapping[str, An
         target = record.get("target")
         if not isinstance(target, str) or target not in nodeids:
             raise PolicyError(f"{worktree_id} registration history contains an unallowlisted target")
+        if record.get("campaign_id") != entry.get("campaign_id"):
+            raise PolicyError(f"{worktree_id} registration history is bound to a different corrective campaign")
         if target not in first_seen:
             first_seen.append(target)
         if (
@@ -304,9 +720,11 @@ def _validate_wp12_nodeid_syntax(target: str, *, worktree_id: str | None = None)
             module_name.startswith("tests/unit/")
             or (worktree_id == "wp12_elements" and target in WP12_ELEMENTS_VERIFICATION_NODEIDS)
         )
+        or (worktree_id == "rotor" and target not in WP12_ROTOR_NODEIDS)
     ):
         raise PolicyError(
-            "WP12 target must be below tests/unit or one of the exact registered wp12_elements verification nodeids"
+            "WP12 target must be below tests/unit or one of the exact registered wp12_elements verification nodeids; "
+            "rotor permits only its exact approved sentinel nodeids"
         )
     return match
 
@@ -378,8 +796,11 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             raise PolicyError(f"scope {name} total output limit exceeds its two stream limits")
     worktrees = policy.get("worktrees")
     legacy_worktree_ids = {"d01", "c01", "e01"}
-    if not isinstance(worktrees, dict) or set(worktrees) != legacy_worktree_ids | set(WP12_OWNER_ENVELOPES):
-        raise PolicyError("the authorized worktree registry must retain D01/C01/E01 and the four WP12 scopes")
+    expected_worktree_ids = legacy_worktree_ids | set(WP12_OWNER_ENVELOPES) | {HEX8SRI_CONVERGENCE24_WORKTREE_ID}
+    if not isinstance(worktrees, dict) or set(worktrees) != expected_worktree_ids:
+        raise PolicyError(
+            "the worktree registry must retain all existing scopes and the isolated HEX8-SRI preparation scope"
+        )
     required_budget_fields = (
         "timeout_seconds",
         "rss_soft_limit_mib",
@@ -408,9 +829,14 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             raise PolicyError(f"worktree {worktree_id} requires unique exact nodeids")
         if entry.get("allow_native_vv_skip_override") is not (worktree_id == "d01"):
             raise PolicyError("only exact D01 development nodes may lift their native-V&V skip")
-        attempt_limit = _positive_integer(entry.get("attempt_limit_per_nodeid"), f"worktrees.{worktree_id}.attempt_limit_per_nodeid")
-        if not is_wp12 and attempt_limit != 3:
+        attempt_limit = _positive_integer(
+            entry.get("attempt_limit_per_nodeid"), f"worktrees.{worktree_id}.attempt_limit_per_nodeid"
+        )
+        is_hex8sri_convergence24 = worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        if not is_wp12 and not is_hex8sri_convergence24 and attempt_limit != 3:
             raise PolicyError("this Owner mandate permits at most three attempts per nodeid")
+        if is_hex8sri_convergence24 and attempt_limit != 1:
+            raise PolicyError("HEX8-SRI convergence preparation is limited to one future attempt per nodeid")
         budgets = entry.get("budgets")
         if not isinstance(budgets, dict):
             raise PolicyError(f"worktree {worktree_id} requires a budgets object")
@@ -420,7 +846,9 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             _positive_integer(budgets[field], f"worktrees.{worktree_id}.budgets.{field}")
         if budgets["output_total_limit_mib"] > 2 * budgets["output_stream_limit_mib"]:
             raise PolicyError(f"worktree {worktree_id} aggregate output exceeds its two stream caps")
-        expected_test_root = "tests/unit" if worktree_id in {"c01", "e01", *WP12_OWNER_ENVELOPES} else "tests/verification"
+        expected_test_root = (
+            "tests/unit" if worktree_id in {"c01", "e01", *WP12_OWNER_ENVELOPES} else "tests/verification"
+        )
         if entry["pytest_root"] != expected_test_root:
             raise PolicyError(f"worktree {worktree_id} is bound to the wrong test class")
         for nodeid in nodeids:
@@ -428,7 +856,11 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
                 raise PolicyError(f"worktree {worktree_id} contains a non-nodeid target")
             test_path = Path(nodeid.split("::", maxsplit=1)[0])
             exact_verification_node = worktree_id == "wp12_elements" and nodeid in WP12_ELEMENTS_VERIFICATION_NODEIDS
-            if test_path.is_absolute() or ".." in test_path.parts or not (nodeid.startswith(expected_test_root + "/") or exact_verification_node):
+            if (
+                test_path.is_absolute()
+                or ".." in test_path.parts
+                or not (nodeid.startswith(expected_test_root + "/") or exact_verification_node)
+            ):
                 raise PolicyError(f"worktree {worktree_id} nodeid escapes its approved test root")
             if is_wp12:
                 _validate_wp12_nodeid_syntax(nodeid, worktree_id=worktree_id)
@@ -454,8 +886,16 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
                 "max_total_attempts": envelope["max_total_attempts"],
                 "require_clean_worktree": True,
             }
+            for campaign_field in ("campaign_id", "execution_scope_id"):
+                if campaign_field in envelope:
+                    expected_identity[campaign_field] = envelope[campaign_field]
             if any(entry.get(field) != expected for field, expected in expected_identity.items()):
-                raise PolicyError(f"{worktree_id} identity and attempt envelope must match its Owner authorization exactly")
+                raise PolicyError(
+                    f"{worktree_id} identity and attempt envelope must match its Owner authorization exactly"
+                )
+            expected_execution_scope = WP12_EXECUTION_SCOPE_ALIASES.get(worktree_id, worktree_id)
+            if entry.get("execution_scope_id", worktree_id) != expected_execution_scope:
+                raise PolicyError(f"{worktree_id} execution-scope identity does not match the fixed controller mapping")
             registration = entry.get("nodeid_registration")
             if registration != {"enabled": True, "max_nodeids": envelope["max_registered_nodeids"]}:
                 raise PolicyError(f"{worktree_id} nodeid registration cap must match its Owner authorization")
@@ -467,6 +907,61 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             expected_budgets = {"timeout_seconds": envelope["timeout_seconds"], **WP12_RUN_BUDGETS}
             if budgets != expected_budgets:
                 raise PolicyError(f"{worktree_id} budgets must match its Owner-approved resource envelope exactly")
+
+    hex8sri = worktrees[HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+    hex8sri_nodeids = _hex8sri_convergence24_nodeids()
+    if (
+        hex8sri.get("development_mandate_id") != HEX8SRI_CONVERGENCE24_MANDATE_ID
+        or hex8sri.get("campaign_id") != HEX8SRI_CONVERGENCE24_CAMPAIGN_ID
+        or hex8sri.get("campaign_scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or hex8sri.get("execution_authorized") is not False
+        or hex8sri.get("require_clean_worktree") is not True
+        or hex8sri.get("branch") != "research/hex8-sri-equilibrium"
+        or hex8sri.get("root") != r"E:\QFSolverAgents\hex8-sri-research"
+        or hex8sri.get("git_root") != hex8sri.get("root")
+        or hex8sri.get("baseline_commit") != "b547cf0e1c8057ef7f58ba780967d1b19c891ac4"
+        or hex8sri.get("source_fingerprint_sha256") != HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
+        or hex8sri.get("source_identity") != HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY
+        or hex8sri.get("source_test_worktree_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or hex8sri.get("manifest_registration_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or hex8sri.get("manifest_binding_mode") != HEX8SRI_CONVERGENCE24_MANIFEST_BINDING
+        or hex8sri.get("allowed_nodeids") != list(hex8sri_nodeids)
+        or hex8sri.get("attempt_limit_per_nodeid") != 1
+        or hex8sri.get("max_total_attempts") != 24
+        or hex8sri.get("node_attempt_ledger") != {"path": HEX8SRI_CONVERGENCE24_LEDGER}
+    ):
+        raise PolicyError(
+            "HEX8-SRI convergence scope identity, nodeids, ledger, or preparation-only mandate is invalid"
+        )
+    expected_hex8sri_budgets = {
+        **HEX8SRI_CONVERGENCE24_COMMON_BUDGET,
+        "timeout_seconds": 3600,
+        "rss_soft_limit_mib": 16384,
+    }
+    if hex8sri.get("budgets") != expected_hex8sri_budgets:
+        raise PolicyError("HEX8-SRI convergence shared budget must equal the largest registered case budget")
+    expected_per_node_budgets = {nodeid: _hex8sri_convergence24_budget(nodeid) for nodeid in hex8sri_nodeids}
+    if hex8sri.get("per_node_budgets") != expected_per_node_budgets:
+        raise PolicyError("HEX8-SRI per-node budgets must match the exact four-mesh envelope")
+    expected_threads = {"OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1"}
+    if hex8sri.get("blas_thread_environment") != expected_threads:
+        raise PolicyError("HEX8-SRI convergence requires the registered single-thread BLAS environment")
+    case_manifests = hex8sri.get("case_manifests")
+    if not isinstance(case_manifests, dict) or set(case_manifests) != set(hex8sri_nodeids):
+        raise PolicyError("HEX8-SRI convergence requires exactly one case manifest per registered nodeid")
+    for nodeid, binding in case_manifests.items():
+        if not isinstance(binding, dict) or set(binding) != {"path", "sha256"}:
+            raise PolicyError("HEX8-SRI case manifest binding has an invalid shape")
+        manifest_path = Path(str(binding.get("path", "")))
+        if (
+            manifest_path.is_absolute()
+            or ".." in manifest_path.parts
+            or not str(binding.get("path", "")).startswith((
+                "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/",
+            ))
+            or not re.fullmatch(r"[0-9a-f]{64}", str(binding.get("sha256", "")))
+        ):
+            raise PolicyError(f"HEX8-SRI case manifest binding is invalid for {nodeid}")
     if policy.get("resource_coordination_root") != str(WP12_COORDINATION_ROOT):
         raise PolicyError("WP12 runs must use the one registered shared resource coordination root")
     d01 = worktrees["d01"]
@@ -534,9 +1029,10 @@ def resolve_targets(
         registered_root = _registered_root(entry["root"])
         candidate = (registered_root / path_text).resolve()
         scope_root = (registered_root / entry["pytest_root"]).resolve()
-        if not _wp12_nodeid_module_within_scope(
-            worktree_id, target, candidate, registered_root, scope_root
-        ) or not candidate.is_file():
+        if (
+            not _wp12_nodeid_module_within_scope(worktree_id, target, candidate, registered_root, scope_root)
+            or not candidate.is_file()
+        ):
             raise PolicyError("registered nodeid resolves outside its canonical worktree test scope")
         return [target]
 
@@ -547,7 +1043,9 @@ def resolve_targets(
     scope = policy["standard_scopes"][scope_name]
     scope_root = (ROOT / scope["pytest_root"]).resolve()
     if target is None:
-        raise PolicyError("standard development scopes require one explicit test function; broad suites are not auto-enabled")
+        raise PolicyError(
+            "standard development scopes require one explicit test function; broad suites are not auto-enabled"
+        )
     if "::" not in target or not target.rsplit("::", maxsplit=1)[-1].startswith("test_"):
         raise PolicyError("standard development scopes require one exact pytest test-function nodeid")
     path_text = target.split("::", maxsplit=1)[0]
@@ -573,6 +1071,12 @@ def _verify_solver_import_origin(source_root: Path, imported_file: Path) -> Path
     return actual
 
 
+def _observed_solver_origin(output: str) -> str | None:
+    prefix = "QF_DEV_SOLVER_ORIGIN="
+    lines = [line[len(prefix) :] for line in output.splitlines() if line.startswith(prefix)]
+    return lines[0] if len(lines) == 1 else None
+
+
 def _wp12_active_registration(
     worktree_id: str,
     target: str,
@@ -587,7 +1091,9 @@ def _wp12_active_registration(
     if active is None:
         raise PolicyError("WP12 nodeid has no inspected registration record")
     if active.get("source_fingerprint") != source_fingerprint:
-        raise PolicyError("WP12 source fingerprint changed; inspect and register the exact nodeid revision before execution")
+        raise PolicyError(
+            "WP12 source fingerprint changed; inspect and register the exact nodeid revision before execution"
+        )
     selection = _validate_wp12_case_selection(
         worktree_id,
         selected_dofs=active.get("selected_dofs"),
@@ -663,17 +1169,22 @@ def _validate_wp12_execution_manifest(
         raise PolicyError("WP12 Owner approval time must be expressed in UTC")
     if (
         manifest.get("worktree_id") != worktree_id
+        or manifest.get("mandate_id") != entry.get("development_mandate_id")
+        or manifest.get("campaign_id") != entry.get("campaign_id")
         or manifest.get("target") != target
         or manifest.get("identity") != dict(identity)
         or manifest.get("source_fingerprint") != source_fingerprint
         or manifest.get("controller_fingerprint") != controller_fingerprint
         or manifest.get("limits") != _wp12_manifest_limits(entry, selection)
     ):
-        raise PolicyError("WP12 execution manifest does not bind this exact worktree, source, nodeid, controller and budget")
+        raise PolicyError(
+            "WP12 execution manifest does not bind this exact worktree, source, nodeid, controller and budget"
+        )
     return {
         "path": str(path),
         "sha256": _sha256(path),
         "authorization_id": manifest["authorization_id"],
+        "mandate_id": manifest["mandate_id"],
         "owner_decision": decision,
     }
 
@@ -688,15 +1199,26 @@ def build_pytest_command(
     controller_root: Path = ROOT,
     allow_native_skip_override: bool = False,
     collect_only: bool = False,
+    rotor_collect_only_attestation: bool = False,
+    hex8sri_convergence24_collect_only_attestation: bool = False,
     junit_xml_path: Path | None = None,
 ) -> list[str]:
     if scope_name in WORKTREE_SCOPES:
         if len(targets) != 1 or source_root is None:
             raise PolicyError("registered worktree execution requires one exact nodeid and a source root")
+        if rotor_collect_only_attestation and (not collect_only or allow_native_skip_override):
+            raise PolicyError("rotor collection attestation requires collect-only without any skip override")
+        if rotor_collect_only_attestation and targets[0] not in WP12_ROTOR_NODEIDS:
+            raise PolicyError("rotor collection attestation is restricted to the exact rotor nodeid allowlist")
+        if hex8sri_convergence24_collect_only_attestation and (
+            not collect_only or allow_native_skip_override or targets[0] not in _hex8sri_convergence24_nodeids()
+        ):
+            raise PolicyError("HEX8-SRI attestation is restricted to exact preparation-only collect-only nodes")
         native_override = "True" if allow_native_skip_override else "False"
         bootstrap = "\n".join(
             (
                 "from pathlib import Path",
+                "import os",
                 "import sys",
                 "src = Path(sys.argv[1]).resolve()",
                 "root = Path(sys.argv[2]).resolve()",
@@ -716,7 +1238,19 @@ def build_pytest_command(
                 "import pytest",
                 "from development_autonomous_pytest_plugin import ExactNodeGate",
                 f"gate = ExactNodeGate((target,), allow_native_skip_override=(mode == 'd01' and {native_override}))",
-                "raise SystemExit(pytest.main(sys.argv[6:], plugins=[gate]))",
+                "plugins = [gate]",
+                "if mode == 'rotor-preflight':",
+                "    from development_autonomous_pytest_plugin import ExactCollectOnlyAttestor",
+                "    attestor = ExactCollectOnlyAttestor(",
+                "        target, solver_origin=str(origin),",
+                "        selected_dofs=int(os.environ['QF_DEV_SELECTED_DOFS']),",
+                "        max_dofs=int(os.environ['QF_DEV_MAX_DOFS']),",
+                "    )",
+                "    plugins.append(attestor)",
+                "if mode == 'hex8sri-convergence24-preflight':",
+                "    from development_autonomous_pytest_plugin import Hex8SRIConvergence24Attestor",
+                "    plugins.append(Hex8SRIConvergence24Attestor(target, scope_id='hex8sri-convergence24'))",
+                "raise SystemExit(pytest.main(sys.argv[6:], plugins=plugins))",
             )
         )
         command = [
@@ -727,7 +1261,17 @@ def build_pytest_command(
             str(source_root),
             str(repository_root),
             str(controller_root),
-            "d01" if allow_native_skip_override else "registered",
+            "d01"
+            if allow_native_skip_override
+            else (
+                "rotor-preflight"
+                if rotor_collect_only_attestation
+                else (
+                    "hex8sri-convergence24-preflight"
+                    if hex8sri_convergence24_collect_only_attestation
+                    else "registered"
+                )
+            ),
             targets[0],
             "-q",
             "-p",
@@ -792,7 +1336,11 @@ def build_child_environment(
     if d01_source_sha is not None:
         environment["QF_WP_D01_BJ_SOURCE_SHA"] = d01_source_sha
     if wp12_entry is not None:
-        environment["QF_DEV_WORKTREE_ID"] = str(wp12_entry["worktree_id"])
+        registered_worktree_id = str(wp12_entry["worktree_id"])
+        execution_scope_id = WP12_EXECUTION_SCOPE_ALIASES.get(registered_worktree_id, registered_worktree_id)
+        if wp12_entry.get("execution_scope_id", registered_worktree_id) != execution_scope_id:
+            raise PolicyError("registered WP12 execution-scope identity is inconsistent")
+        environment["QF_DEV_WORKTREE_ID"] = execution_scope_id
         environment["QF_DEV_MAX_FEM_CASES"] = str(wp12_entry["max_fem_cases_per_attempt"])
         evidence_root = wp12_entry.get("evidence_root")
         if not isinstance(evidence_root, str) or not evidence_root:
@@ -817,11 +1365,7 @@ def _native_guard_environment(environment: Mapping[str, str]) -> dict[str, Any]:
             values[name] = "ACTIVE" if value not in ("", "0", "false", "False") else "INACTIVE"
         else:
             values[name] = "ACTIVE" if value == "1" else "INACTIVE"
-    active = [
-        name
-        for name in NATIVE_GUARD_ENV_KEYS[:2]
-        if values[name] == "ACTIVE"
-    ]
+    active = [name for name in NATIVE_GUARD_ENV_KEYS[:2] if values[name] == "ACTIVE"]
     active.extend(name for name in NATIVE_GUARD_ENV_KEYS[2:] if values[name] == "ACTIVE")
     return {"values": values, "active_markers": active}
 
@@ -834,9 +1378,7 @@ def _validate_native_guard_environment(
     parent_state = _native_guard_environment(parent_environment)
     child_state = _native_guard_environment(child_environment)
     if child_state != parent_state:
-        raise PolicyError(
-            "child environment changed an explicit no-native marker after development preflight"
-        )
+        raise PolicyError("child environment changed an explicit no-native marker after development preflight")
     return child_state
 
 
@@ -853,13 +1395,58 @@ def _stable_fingerprint(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
-def _atomic_json(path: Path, payload: Mapping[str, Any]) -> None:
+def _strict_json_equal(left: Any, right: Any) -> bool:
+    """Compare JSON values without Python's bool/int equivalence or permissive NaNs."""
+    try:
+        return json.dumps(left, sort_keys=True, separators=(",", ":"), allow_nan=False) == json.dumps(
+            right, sort_keys=True, separators=(",", ":"), allow_nan=False
+        )
+    except (TypeError, ValueError):
+        return False
+
+
+def _reject_duplicate_json_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    """Reject duplicate keys so authorization JSON cannot depend on parser choice."""
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key}")
+        result[key] = value
+    return result
+
+
+def _read_strict_json(path: Path) -> Any:
+    return json.loads(
+        path.read_text(encoding="utf-8"),
+        object_pairs_hook=_reject_duplicate_json_keys,
+        parse_constant=lambda value: (_ for _ in ()).throw(ValueError(f"non-finite JSON token {value}")),
+    )
+
+
+def _atomic_json(path: Path, payload: Mapping[str, Any], *, sort_keys: bool = True) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False, suffix=".tmp") as stream:
-        json.dump(payload, stream, indent=2, sort_keys=True)
+        json.dump(payload, stream, indent=2, sort_keys=sort_keys)
         stream.write("\n")
         temporary = Path(stream.name)
     os.replace(temporary, path)
+
+
+def _atomic_json_new(path: Path, payload: Mapping[str, Any], *, sort_keys: bool = True) -> None:
+    """Atomically publish a new JSON artifact without replacing an existing file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False, suffix=".tmp") as stream:
+        json.dump(payload, stream, indent=2, sort_keys=sort_keys)
+        stream.write("\n")
+        stream.flush()
+        os.fsync(stream.fileno())
+        temporary = Path(stream.name)
+    try:
+        os.link(temporary, path)
+    except FileExistsError as exc:
+        raise PolicyError("refusing to overwrite an existing development artifact") from exc
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def _archive_size(path: Path) -> int:
@@ -1016,9 +1603,7 @@ def _valid_csr_snapshot(value: Any, expected_shape: list[int]) -> bool:
         encoded = item.get("raw_bytes_base64")
         if dtype_match is None or not isinstance(encoded, str) or len(item["values"]) != expected_lengths[name]:
             return False
-        if (name == "data" and dtype_match.group(1) != "f") or (
-            name != "data" and dtype_match.group(1) not in "iu"
-        ):
+        if (name == "data" and dtype_match.group(1) != "f") or (name != "data" and dtype_match.group(1) not in "iu"):
             return False
         try:
             raw = base64.b64decode(encoded, validate=True)
@@ -1103,11 +1688,7 @@ def _validate_d01_junit_payload(
         return False, ["JUnit reports a failed testcase despite pytest's successful exit code"], None
     property_items = case.findall("./properties/property")
     property_names = [item.get("name") for item in property_items]
-    properties = {
-        item.get("name"): item.get("value", item.text or "")
-        for item in property_items
-        if item.get("name")
-    }
+    properties = {item.get("name"): item.get("value", item.text or "") for item in property_items if item.get("name")}
     required = (
         "wp_d01_cg_source_operands_json",
         "wp_d01_cg_projected_damping_m2_json",
@@ -1132,10 +1713,18 @@ def _validate_d01_junit_payload(
     matrix_shape = [expected_free_dofs, expected_free_dofs]
     source = decoded["wp_d01_cg_source_operands_json"]
     source_sha_values = [
-        decoded["wp_d01_cg_source_operands_json"].get("source_sha") if isinstance(decoded["wp_d01_cg_source_operands_json"], dict) else None,
-        decoded["wp_d01_cg_projected_damping_m2_json"].get("source_sha") if isinstance(decoded["wp_d01_cg_projected_damping_m2_json"], dict) else None,
-        decoded["wp_d01_cg_projected_damping_m4_json"].get("source_sha") if isinstance(decoded["wp_d01_cg_projected_damping_m4_json"], dict) else None,
-        decoded["wp_d01_bj_experimental_results_json"].get("source_sha") if isinstance(decoded["wp_d01_bj_experimental_results_json"], dict) else None,
+        decoded["wp_d01_cg_source_operands_json"].get("source_sha")
+        if isinstance(decoded["wp_d01_cg_source_operands_json"], dict)
+        else None,
+        decoded["wp_d01_cg_projected_damping_m2_json"].get("source_sha")
+        if isinstance(decoded["wp_d01_cg_projected_damping_m2_json"], dict)
+        else None,
+        decoded["wp_d01_cg_projected_damping_m4_json"].get("source_sha")
+        if isinstance(decoded["wp_d01_cg_projected_damping_m4_json"], dict)
+        else None,
+        decoded["wp_d01_bj_experimental_results_json"].get("source_sha")
+        if isinstance(decoded["wp_d01_bj_experimental_results_json"], dict)
+        else None,
     ]
     if expected_source_sha != expected_source_sha.lower() or not re.fullmatch(r"[0-9a-f]{40}", expected_source_sha):
         return False, ["expected source identity is not a full lowercase Git commit SHA"], None
@@ -1164,7 +1753,10 @@ def _validate_d01_junit_payload(
         or not _valid_numeric_array_snapshot(source_arrays.get("reduced_force"), [expected_free_dofs])
         or not isinstance(source_arrays.get("responses_full_free_complex"), list)
         or len(source_arrays["responses_full_free_complex"]) != 6
-        or any(not _valid_numeric_array_snapshot(item, [expected_free_dofs]) for item in source_arrays["responses_full_free_complex"])
+        or any(
+            not _valid_numeric_array_snapshot(item, [expected_free_dofs])
+            for item in source_arrays["responses_full_free_complex"]
+        )
     ):
         return False, ["source numerical arrays are missing, empty, malformed, or fail their exact-byte hashes"], None
     for mode_count, property_name in (
@@ -1193,13 +1785,21 @@ def _validate_d01_junit_payload(
             "projected_damping": [mode_count, mode_count],
             "expected_projected_rayleigh_from_cached_operators": [mode_count, mode_count],
         }
-        if (
-            any(not _valid_numeric_array_snapshot(projected_arrays.get(name), shape) for name, shape in projected_shapes.items())
-            or not _valid_csr_snapshot(projection.get("input_damping"), matrix_shape)
-        ):
-            return False, [f"projected-damping exact operands for {mode_count} modes are missing, malformed, or hash-invalid"], None
+        if any(
+            not _valid_numeric_array_snapshot(projected_arrays.get(name), shape)
+            for name, shape in projected_shapes.items()
+        ) or not _valid_csr_snapshot(projection.get("input_damping"), matrix_shape):
+            return (
+                False,
+                [f"projected-damping exact operands for {mode_count} modes are missing, malformed, or hash-invalid"],
+                None,
+            )
         if not _same_csr_snapshot(operators["C_used_by_experiment"], projection["input_damping"]):
-            return False, [f"projected-damping input for {mode_count} modes does not exactly match source C_used_by_experiment"], None
+            return (
+                False,
+                [f"projected-damping input for {mode_count} modes does not exactly match source C_used_by_experiment"],
+                None,
+            )
     payload = decoded["wp_d01_bj_experimental_results_json"]
     if (
         not isinstance(payload, dict)
@@ -1222,7 +1822,11 @@ def _validate_d01_junit_payload(
         return False, ["experimental response groups are missing or malformed"], None
     frequencies = payload.get("frequencies_hz")
     if not _valid_d01_experimental_frequency_grid(frequencies):
-        return False, ["experimental payload must contain 0 Hz followed by five finite, positive, increasing frequencies"], None
+        return (
+            False,
+            ["experimental payload must contain 0 Hz followed by five finite, positive, increasing frequencies"],
+            None,
+        )
     if source_arrays["frequencies_hz"]["values"] != frequencies:
         return False, ["source-operator and response payload frequency grids differ"], None
     for treatment, rows in responses.items():
@@ -1242,25 +1846,40 @@ def _validate_d01_junit_payload(
                 or not _finite_number(tip.get("imag"))
                 or any(
                     not _finite_number(row.get(name)) or row[name] < 0
-                    for name in ("relative_full_free_displacement_error", "normalized_free_equilibrium_residual", "direct_reference_residual")
+                    for name in (
+                        "relative_full_free_displacement_error",
+                        "normalized_free_equilibrium_residual",
+                        "direct_reference_residual",
+                    )
                 )
                 or any(
                     row.get(name) is not None and not _finite_number(row.get(name))
                     for name in ("relative_tip_amplitude_error", "tip_phase_error_rad")
                 )
                 or not isinstance(row.get("energy"), dict)
-                or not all(_finite_number(row["energy"].get(key)) for key in ("average_input_power_W", "average_rayleigh_dissipation_W"))
-                or (row["energy"].get("absolute_balance_gap_W") is not None and not _finite_number(row["energy"].get("absolute_balance_gap_W")))
+                or not all(
+                    _finite_number(row["energy"].get(key))
+                    for key in ("average_input_power_W", "average_rayleigh_dissipation_W")
+                )
+                or (
+                    row["energy"].get("absolute_balance_gap_W") is not None
+                    and not _finite_number(row["energy"].get("absolute_balance_gap_W"))
+                )
             ):
                 return False, [f"{treatment} response row lacks finite displacement/error/residual metrics"], None
-            if treatment == "uncorrected" and (not isinstance(row.get("wp05_diagnostic"), dict) or not row["wp05_diagnostic"]):
+            if treatment == "uncorrected" and (
+                not isinstance(row.get("wp05_diagnostic"), dict) or not row["wp05_diagnostic"]
+            ):
                 return False, ["uncorrected response row lacks WP05 diagnostic evidence"], None
             if treatment == "corrected" and (
                 row.get("correction_error_ratio_status") is None
                 or not isinstance(row.get("correction_degraded_error"), bool)
                 or not isinstance(row.get("wp_d01_diagnostics"), dict)
                 or not row["wp_d01_diagnostics"]
-                or (row.get("correction_error_ratio") is not None and (not _finite_number(row["correction_error_ratio"]) or row["correction_error_ratio"] < 0))
+                or (
+                    row.get("correction_error_ratio") is not None
+                    and (not _finite_number(row["correction_error_ratio"]) or row["correction_error_ratio"] < 0)
+                )
             ):
                 return False, ["corrected response row lacks a valid correction ratio or D01 diagnostic"], None
     operator_identities = [
@@ -1268,16 +1887,28 @@ def _validate_d01_junit_payload(
         decoded["wp_d01_cg_projected_damping_m2_json"].get("operator_identity"),
         decoded["wp_d01_cg_projected_damping_m4_json"].get("operator_identity"),
     ]
-    if not isinstance(payload.get("operator_identity"), str) or not payload["operator_identity"] or operator_identities != [payload["operator_identity"]] * 3:
-        return False, ["source operators, projected damping and harmonic result payloads do not share one operator identity"], None
-    return True, [], {
-        "mesh_id": mesh_id,
-        "elements": expected_elements,
-        "free_dofs": expected_free_dofs,
-        "property_names": list(required),
-        "response_rows_per_treatment": 12,
-        "symmetry_threshold": 1.0e-12,
-    }
+    if (
+        not isinstance(payload.get("operator_identity"), str)
+        or not payload["operator_identity"]
+        or operator_identities != [payload["operator_identity"]] * 3
+    ):
+        return (
+            False,
+            ["source operators, projected damping and harmonic result payloads do not share one operator identity"],
+            None,
+        )
+    return (
+        True,
+        [],
+        {
+            "mesh_id": mesh_id,
+            "elements": expected_elements,
+            "free_dofs": expected_free_dofs,
+            "property_names": list(required),
+            "response_rows_per_treatment": 12,
+            "symmetry_threshold": 1.0e-12,
+        },
+    )
 
 
 def _valid_d01_experimental_frequency_grid(frequencies: Any) -> bool:
@@ -1626,8 +2257,8 @@ def _exclusive_file_lock(path: Path) -> Iterator[None]:
         stream.close()
 
 
-def _worktree_source_fingerprint(root: Path, target: str) -> str:
-    """Hash the loaded solver, its Python helpers, test, conftests, and project config."""
+def _worktree_source_inventory(root: Path, target: str) -> dict[str, str]:
+    """Return raw-byte SHA-256 values for the files used by a test source identity."""
     listed = subprocess.run(
         [
             "git",
@@ -1657,23 +2288,83 @@ def _worktree_source_fingerprint(root: Path, target: str) -> str:
         relative = Path(os.fsdecode(raw).replace("\\", "/"))
         relative_text = relative.as_posix()
         if (
-            relative_text.startswith("src/solveur/") and relative.suffix == ".py"
-            or relative_text.startswith("experiments/") and relative.suffix == ".py"
+            relative_text.startswith("src/solveur/")
+            and relative.suffix == ".py"
+            or relative_text.startswith("experiments/")
+            and relative.suffix == ".py"
             or relative_text == target_module
             or relative_text in {"tests/conftest.py", "tests/unit/conftest.py", "pyproject.toml", "pytest.ini"}
         ):
             files.add(relative_text)
     if target_module not in files:
         raise PolicyError("approved test module is absent from the source fingerprint inventory")
-    digest = hashlib.sha256()
+    inventory: dict[str, str] = {}
     for relative_text in sorted(files):
         path = (root / Path(relative_text)).resolve()
         if not _is_within(path, root.resolve()) or not path.is_file():
             raise PolicyError(f"source file escapes or is unavailable: {relative_text}")
+        inventory[relative_text] = _sha256(path)
+    return inventory
+
+
+def _source_inventory_fingerprint(inventory: Mapping[str, str]) -> str:
+    digest = hashlib.sha256()
+    for relative_text, sha256 in sorted(inventory.items()):
         digest.update(relative_text.encode("utf-8"))
         digest.update(b"\0")
-        digest.update(bytes.fromhex(_sha256(path)))
+        digest.update(bytes.fromhex(sha256))
     return digest.hexdigest()
+
+
+def _worktree_source_fingerprint(root: Path, target: str) -> str:
+    """Hash the raw loaded solver, helpers, test, conftests, and project config bytes."""
+    return _source_inventory_fingerprint(_worktree_source_inventory(root, target))
+
+
+def _validate_hex8sri_registered_source_identity(
+    root: Path,
+    entry: Mapping[str, Any],
+    identity: Mapping[str, Any],
+    target: str,
+    inventory: Mapping[str, str],
+    fingerprint: str,
+) -> None:
+    expected_identity = entry.get("source_identity")
+    if (
+        expected_identity != HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY
+        or identity.get("branch") != HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"]
+        or identity.get("head") != HEX8SRI_CONVERGENCE24_SOURCE_HEAD
+        or identity.get("tree") != HEX8SRI_CONVERGENCE24_SOURCE_TREE
+        or fingerprint != HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
+    ):
+        raise PolicyError("HEX8-SRI registered science HEAD, tree or raw-byte fingerprint is stale")
+    relative = Path(HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_PATH)
+    inventory_path = (ROOT / relative).resolve()
+    if (
+        relative.is_absolute()
+        or ".." in relative.parts
+        or not _is_within(inventory_path, ROOT.resolve())
+        or not inventory_path.is_file()
+        or _sha256(inventory_path) != HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256
+    ):
+        raise PolicyError("HEX8-SRI raw-byte source inventory is missing or has changed")
+    try:
+        recorded = _read_strict_json(inventory_path)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI raw-byte source inventory is invalid: {exc}") from exc
+    if (
+        not isinstance(recorded, Mapping)
+        or recorded.get("schema") != "qfsolver-hex8sri-source-byte-inventory-v1"
+        or recorded.get("branch") != identity.get("branch")
+        or recorded.get("head") != identity.get("head")
+        or recorded.get("tree") != identity.get("tree")
+        or recorded.get("fingerprint_sha256") != fingerprint
+        or recorded.get("fingerprint_algorithm") != "sha256(sorted(relative_path_utf8 + NUL + raw_file_sha256_bytes))"
+        or recorded.get("raw_byte_policy") != "Raw checkout bytes; no LF/CRLF normalization or conversion."
+        or recorded.get("inventory_file_count") != len(inventory)
+        or recorded.get("files_sha256") != dict(inventory)
+    ):
+        raise PolicyError("HEX8-SRI source bytes differ from the registered raw-byte inventory")
 
 
 def _reserve_node_attempt(
@@ -1690,6 +2381,7 @@ def _reserve_node_attempt(
     total_maximum: int | None = None,
     wp12_selection: Mapping[str, Any] | None = None,
     authorization_id: str | None = None,
+    owner_decision_id: str | None = None,
     predecessor: Mapping[str, str] | None = None,
     controller_fingerprint: str | None = None,
     attempt_basis: str | None = None,
@@ -1760,34 +2452,45 @@ def _reserve_node_attempt(
                     last.get("source_fingerprint") == source_fingerprint
                     and last.get("controller_fingerprint") == controller_fingerprint
                 )
-                if attempt_basis in {"source_change", "instrumentation_change"} and last.get("source_fingerprint") == source_fingerprint:
+                if (
+                    attempt_basis in {"source_change", "instrumentation_change"}
+                    and last.get("source_fingerprint") == source_fingerprint
+                ):
                     raise PolicyError(f"{attempt_basis} requires a changed D01 source fingerprint")
-                if attempt_basis == "launcher_correction" and last.get("controller_fingerprint") == controller_fingerprint:
+                if (
+                    attempt_basis == "launcher_correction"
+                    and last.get("controller_fingerprint") == controller_fingerprint
+                ):
                     raise PolicyError("launcher_correction requires a changed controller fingerprint")
                 if same_inputs and attempt_basis != "new_diagnostic_hypothesis":
                     raise PolicyError("identical D01 inputs require a separately identified new diagnostic hypothesis")
-                if same_inputs and last.get("attempt_basis") == attempt_basis and last.get("hypothesis_id") == hypothesis_id:
+                if (
+                    same_inputs
+                    and last.get("attempt_basis") == attempt_basis
+                    and last.get("hypothesis_id") == hypothesis_id
+                ):
                     raise PolicyError("identical D01 attempt basis/hypothesis refused")
         elif attempts:
             last = attempts[-1]
             if last.get("source_fingerprint") == source_fingerprint and last.get("reason") == reason:
                 raise PolicyError("identical repeat refused: change the source or document a new diagnostic hypothesis")
         number = len(attempts) + 1
-        attempts.append(
-            {
-                "attempt": number,
-                "series_id": series_id,
-                "source_fingerprint": source_fingerprint,
-                "controller_fingerprint": controller_fingerprint,
-                "attempt_basis": attempt_basis,
-                "hypothesis_id": hypothesis_id,
-                "reason": reason,
-                "wp12_selection": dict(wp12_selection) if wp12_selection is not None else None,
-                "authorization_id": authorization_id,
-                "state": "RESERVED",
-                "started_at_utc": datetime.now(timezone.utc).isoformat(),
-            }
-        )
+        record = {
+            "attempt": number,
+            "series_id": series_id,
+            "source_fingerprint": source_fingerprint,
+            "controller_fingerprint": controller_fingerprint,
+            "attempt_basis": attempt_basis,
+            "hypothesis_id": hypothesis_id,
+            "reason": reason,
+            "wp12_selection": dict(wp12_selection) if wp12_selection is not None else None,
+            "authorization_id": authorization_id,
+            "state": "RESERVED",
+            "started_at_utc": datetime.now(timezone.utc).isoformat(),
+        }
+        if owner_decision_id is not None:
+            record["owner_decision_id"] = owner_decision_id
+        attempts.append(record)
         _atomic_json(ledger_path, ledger)
     return key, number
 
@@ -1834,7 +2537,10 @@ def _registered_worktree(
         raise PolicyError("registered solver package is missing or outside its source root")
     test_module = (root / target.split("::", maxsplit=1)[0]).resolve(strict=True)
     test_root = (root / entry["pytest_root"]).resolve(strict=True)
-    if not _wp12_nodeid_module_within_scope(worktree_id, target, test_module, root, test_root) or not test_module.is_file():
+    if (
+        not _wp12_nodeid_module_within_scope(worktree_id, target, test_module, root, test_root)
+        or not test_module.is_file()
+    ):
         raise PolicyError("registered test module is missing or escaped its worktree")
     identity = _git_identity(
         root,
@@ -1843,7 +2549,12 @@ def _registered_worktree(
     )
     if entry.get("require_clean_worktree") and identity["status_short"]:
         raise PolicyError(f"registered {worktree_id} source worktree must be clean before collection or execution")
-    fingerprint = _worktree_source_fingerprint(root, target)
+    if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+        inventory = _worktree_source_inventory(root, target)
+        fingerprint = _source_inventory_fingerprint(inventory)
+        _validate_hex8sri_registered_source_identity(root, entry, identity, target, inventory, fingerprint)
+    else:
+        fingerprint = _worktree_source_fingerprint(root, target)
     return entry, root, source_root, identity, fingerprint
 
 
@@ -1852,11 +2563,7 @@ def _run_root(policy: Mapping[str, Any], worktree_id: str | None = None) -> Path
         root = Path(policy["worktrees"][worktree_id]["evidence_root"]).resolve()
         checkout = Path(policy["worktrees"][worktree_id]["git_root"]).resolve()
         coordination_root = WP12_COORDINATION_ROOT.resolve()
-        if (
-            _is_within(root, checkout)
-            or _is_within(root, coordination_root)
-            or _is_within(coordination_root, root)
-        ):
+        if _is_within(root, checkout) or _is_within(root, coordination_root) or _is_within(coordination_root, root):
             raise PolicyError("WP12 evidence must be separate from source and shared coordination roots")
         return root
     root = (ROOT / policy["run_store"]).resolve()
@@ -1871,6 +2578,19 @@ def _node_ledger_context(
     worktree_id: str,
 ) -> tuple[Path, Path, str, dict[str, str] | None]:
     entry = policy["worktrees"][worktree_id]
+    if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+        ledger_path = (store / entry["node_attempt_ledger"]["path"]).resolve()
+        if (
+            not _is_within(ledger_path, store.resolve())
+            or ledger_path == (store / "node-attempt-ledger.json").resolve()
+        ):
+            raise PolicyError("HEX8-SRI convergence ledger must be separate and confined to its run store")
+        return (
+            ledger_path,
+            ledger_path.with_suffix(".lock"),
+            str(entry["development_mandate_id"]),
+            None,
+        )
     if worktree_id != "d01" or "node_attempt_ledger" not in entry:
         return (
             store / "node-attempt-ledger.json",
@@ -1957,7 +2677,7 @@ def register_wp12_nodeid(
 ) -> dict[str, Any]:
     """Register one inspected exact WP12 pytest function and its preselected case envelope."""
     if worktree_id not in WP12_OWNER_ENVELOPES:
-        raise PolicyError("controlled nodeid registration is available only for the four WP12 scopes")
+        raise PolicyError("controlled nodeid registration is available only for registered WP12 scopes")
     if not isinstance(reason, str) or not 8 <= len(reason.strip()) <= 300 or "\n" in reason or "\r" in reason:
         raise PolicyError("nodeid registration requires a one-line reason of 8 to 300 characters")
     selection = _validate_wp12_case_selection(
@@ -1984,11 +2704,17 @@ def register_wp12_nodeid(
     if entry.get("require_clean_worktree") and identity["status_short"]:
         raise PolicyError(f"registered {worktree_id} source worktree must be clean before nodeid inspection")
     source_root = (root / entry["source_root"]).resolve(strict=True)
-    if not _is_within(source_root / "solveur" / "__init__.py", root) or not (source_root / "solveur" / "__init__.py").is_file():
+    if (
+        not _is_within(source_root / "solveur" / "__init__.py", root)
+        or not (source_root / "solveur" / "__init__.py").is_file()
+    ):
         raise PolicyError("registered solver source root is not inside the exact worktree")
     module_file = (root / module_path).resolve(strict=True)
     tests_root = (root / entry["pytest_root"]).resolve(strict=True)
-    if not _wp12_nodeid_module_within_scope(worktree_id, target, module_file, root, tests_root) or not module_file.is_file():
+    if (
+        not _wp12_nodeid_module_within_scope(worktree_id, target, module_file, root, tests_root)
+        or not module_file.is_file()
+    ):
         raise PolicyError("registered nodeid module is missing or escaped its approved test scope")
     function_name = match.group(1)
     try:
@@ -2024,6 +2750,7 @@ def register_wp12_nodeid(
             nodeids.append(target)
         record = {
             "target": target,
+            **({"campaign_id": entry["campaign_id"]} if "campaign_id" in entry else {}),
             "reason": reason.strip(),
             "registered_at_utc": datetime.now(timezone.utc).isoformat(),
             "worktree_head": current_identity["head"],
@@ -2031,7 +2758,7 @@ def register_wp12_nodeid(
             **selection,
         }
         records.append(record)
-        _atomic_json(POLICY_PATH, policy)
+        _atomic_json(POLICY_PATH, policy, sort_keys=False)
     return {
         "state": "NODEID_REGISTERED",
         "worktree_id": worktree_id,
@@ -2063,10 +2790,767 @@ def _controller_provenance() -> dict[str, Any]:
     }
 
 
+def _hex8sri_convergence24_manifest(
+    entry: Mapping[str, Any], execution_root: Path, target: str
+) -> tuple[Path, dict[str, Any], str]:
+    bindings = entry.get("case_manifests")
+    binding = bindings.get(target) if isinstance(bindings, Mapping) else None
+    if not isinstance(binding, Mapping):
+        raise PolicyError("HEX8-SRI exact node has no registered case manifest")
+    registered_path = str(binding.get("path", ""))
+    if "{controller_head}" in registered_path:
+        controller_identity = _git_identity(ROOT)
+        controller_head = controller_identity.get("head")
+        if controller_identity.get("status_short") or not isinstance(controller_head, str) or not re.fullmatch(r"[0-9a-f]{40}", controller_head):
+            raise PolicyError("HEX8-SRI versioned manifest requires a clean controller HEAD")
+        registered_path = registered_path.replace("{controller_head}", controller_head)
+    if "{" in registered_path or "}" in registered_path:
+        raise PolicyError("HEX8-SRI case manifest path has an invalid identity placeholder")
+    relative = Path(registered_path)
+    if relative.is_absolute() or ".." in relative.parts:
+        raise PolicyError("HEX8-SRI case manifest path is not worktree-relative")
+    manifest_path = (execution_root / relative).resolve()
+    if not _is_within(manifest_path, execution_root.resolve()) or not manifest_path.is_file():
+        raise PolicyError("HEX8-SRI case manifest is missing or outside its registered worktree")
+    raw_sha256 = _sha256(manifest_path)
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"HEX8-SRI case manifest is unreadable: {exc}") from exc
+    if not isinstance(manifest, dict):
+        raise PolicyError("HEX8-SRI case manifest must be a JSON object")
+    try:
+        registration_sha256 = _hex8sri_manifest_registration_sha256(manifest)
+    except (TypeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI manifest contains invalid canonical content: {exc}") from exc
+    if registration_sha256 != binding.get("sha256"):
+        raise PolicyError("HEX8-SRI case manifest registration digest differs from its registered value")
+    live_fingerprint = _worktree_source_fingerprint(execution_root, target)
+    case = _hex8sri_convergence24_case(target)
+    if case is None:
+        raise PolicyError("HEX8-SRI target is outside the exact convergence24 nodeid matrix")
+    formulation, nu_token, mesh_token = case
+    expected_case_id = f"{formulation}_nu_{nu_token}_{mesh_token}"
+    formulation_record = manifest.get("formulation")
+    if (
+        manifest.get("schema") != "qfsolver-hex8-sri-structural-case-v2"
+        or manifest.get("controller_registration_id") != entry.get("manifest_registration_id")
+        or manifest.get("controller_campaign_scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or manifest.get("campaign_id") != HEX8SRI_CONVERGENCE24_CAMPAIGN_ID
+        or manifest.get("case_id") != expected_case_id
+        or manifest.get("exact_nodeid") != target
+        or manifest.get("source_fingerprint_sha256") != live_fingerprint
+        or live_fingerprint != entry.get("source_fingerprint_sha256")
+        or manifest.get("science_branch") != entry.get("branch")
+        or not isinstance(formulation_record, Mapping)
+        or formulation_record.get("id") != formulation
+        or manifest.get("poisson_ratio") != HEX8SRI_CONVERGENCE24_NU_TOKENS[nu_token]
+    ):
+        raise PolicyError("HEX8-SRI manifest does not match its registered node, branch, source or case")
+    common_problem = manifest.get("common_problem")
+    common_relative = Path(str(common_problem.get("path", ""))) if isinstance(common_problem, Mapping) else Path()
+    common_sha256 = common_problem.get("sha256") if isinstance(common_problem, Mapping) else None
+    if (
+        not isinstance(common_problem, Mapping)
+        or not str(common_problem.get("path", ""))
+        or common_relative.is_absolute()
+        or ".." in common_relative.parts
+        or not re.fullmatch(r"[0-9a-f]{64}", str(common_sha256 or ""))
+    ):
+        raise PolicyError("HEX8-SRI manifest has an invalid common-problem binding")
+    common_path = (manifest_path.parent / common_relative).resolve()
+    if not _is_within(common_path, execution_root.resolve()) or not common_path.is_file():
+        raise PolicyError("HEX8-SRI common-problem file is missing or outside its worktree")
+    if _sha256(common_path) != common_sha256:
+        raise PolicyError("HEX8-SRI common-problem SHA-256 differs from its manifest")
+    if manifest.get("execution_authorized") is not False or manifest.get("do_not_execute") is not True:
+        raise PolicyError("HEX8-SRI manifest is not explicitly preparation-only")
+    if manifest.get("execution_state") != "PREPARED_NOT_AUTHORIZED":
+        raise PolicyError("HEX8-SRI manifest execution state is not PREPARED_NOT_AUTHORIZED")
+    expected_budget = _hex8sri_convergence24_budget(target)
+    if manifest.get("budgets") != {
+        **expected_budget,
+        "attempts_per_nodeid": 1,
+        "initial_campaign_max_attempts": 24,
+        "blas_thread_environment": entry["blas_thread_environment"],
+        "budget_semantics": {
+            "captured_output": "controller-enforced byte caps",
+            "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+            "wall_timeout": "watchdog process-tree termination, best effort",
+        },
+    }:
+        raise PolicyError("HEX8-SRI manifest budget differs from its registered per-node envelope")
+    return manifest_path, manifest, raw_sha256
+
+
+def _verify_hex8sri_convergence24_controller_identity(
+    manifest: Mapping[str, Any], controller: Mapping[str, Any]
+) -> None:
+    current_identity = controller.get("identity", {})
+    current_hashes = controller.get("sha256", {})
+    manifest_identity = manifest.get("controller_identity", {})
+    manifest_hashes = manifest.get("controller_code_sha256", {})
+    if (
+        manifest.get("controller_identity_status") != "FINAL_CONTROLLER_IDENTITY_BOUND"
+        or not isinstance(manifest_identity, Mapping)
+        or not isinstance(manifest_hashes, Mapping)
+        or manifest_identity.get("branch") != current_identity.get("branch")
+        or manifest_identity.get("head") != current_identity.get("head")
+        or manifest_hashes.get("runner") != current_hashes.get("runner")
+        or manifest_hashes.get("pytest_plugin") != current_hashes.get("pytest_plugin")
+        or manifest_hashes.get("policy") != current_hashes.get("policy")
+        or manifest_identity.get("runner_sha256") != current_hashes.get("runner")
+        or manifest_identity.get("pytest_plugin_sha256") != current_hashes.get("pytest_plugin")
+        or manifest_identity.get("policy_sha256") != current_hashes.get("policy")
+    ):
+        raise PolicyError("HEX8-SRI convergence manifest is not bound to the final controller identity")
+
+
+def _hex8sri_first6_registration_sha256_by_nodeid(entry: Mapping[str, Any]) -> dict[str, str]:
+    registrations = entry.get("case_manifests")
+    if not isinstance(registrations, Mapping):
+        raise PolicyError("HEX8-SRI registered case-manifest map is missing")
+    result: dict[str, str] = {}
+    for nodeid in HEX8SRI_FIRST6_NODEIDS:
+        binding = registrations.get(nodeid)
+        sha256 = binding.get("sha256") if isinstance(binding, Mapping) else None
+        if not isinstance(sha256, str) or not re.fullmatch(r"[0-9a-f]{64}", sha256):
+            raise PolicyError("HEX8-SRI first-six registration digest is absent or malformed")
+        result[nodeid] = sha256
+    return result
+
+
+def _hex8sri_expected_criteria_freeze(
+    *,
+    entry: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+) -> dict[str, Any]:
+    controller_identity = controller_provenance.get("identity", {})
+    return {
+        "schema": HEX8SRI_CRITERIA_FREEZE_SCHEMA,
+        "revision": HEX8SRI_CRITERIA_CONTRACT_REVISION,
+        "dispositions": HEX8SRI_CRITERIA_DISPOSITIONS,
+        "criteria_definitions": HEX8SRI_CRITERIA_DEFINITIONS,
+        "frozen_case_gate_criteria": HEX8SRI_FROZEN_CASE_GATE_CRITERIA,
+        "frozen_nodeids": list(HEX8SRI_FIRST6_NODEIDS),
+        "case_manifest_registration_sha256_by_nodeid": _hex8sri_first6_registration_sha256_by_nodeid(entry),
+        "scope_id": HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+        "mandate_id": entry.get("development_mandate_id"),
+        "campaign_id": entry.get("campaign_id"),
+        "source_identity": {
+            "branch": HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"],
+            "head": HEX8SRI_CONVERGENCE24_SOURCE_HEAD,
+            "tree": HEX8SRI_CONVERGENCE24_SOURCE_TREE,
+            "fingerprint_sha256": source_fingerprint,
+        },
+        "controller_fingerprint": _stable_fingerprint(controller_provenance),
+        "controller_head": controller_identity.get("head"),
+    }
+
+
+def _validate_owner_decision_time(decision: Mapping[str, Any], *, execution: bool) -> None:
+    def parse(field: str) -> datetime:
+        try:
+            value = datetime.fromisoformat(str(decision.get(field, "")).replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise PolicyError(f"HEX8-SRI Owner {field} must be an ISO-8601 timestamp") from exc
+        if value.tzinfo is None or value.utcoffset() != timezone.utc.utcoffset(value):
+            raise PolicyError(f"HEX8-SRI Owner {field} must be expressed in UTC")
+        return value
+
+    now = datetime.now(timezone.utc)
+    approved_at = parse("approved_at_utc")
+    if approved_at > now:
+        raise PolicyError("HEX8-SRI Owner approval time cannot be in the future")
+    if execution:
+        expires_at = parse("expires_at_utc")
+        if expires_at <= now or expires_at <= approved_at:
+            raise PolicyError("HEX8-SRI execution approval is expired or has an invalid validity interval")
+
+
+def _validate_hex8sri_criteria_freeze_decision(
+    decision: Any,
+    *,
+    entry: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Validate a freeze-only decision that is structurally incapable of authorizing a run."""
+    required = {
+        "schema",
+        "decision_type",
+        "decision_id",
+        "status",
+        "execution_authorized",
+        "do_not_execute",
+        "approved_by",
+        "approved_at_utc",
+        "reason",
+        "scope_id",
+        "mandate_id",
+        "campaign_id",
+        "frozen_nodeids",
+        "source_fingerprint",
+        "controller_fingerprint",
+        "controller_head",
+        "criteria_freeze",
+    }
+    identity = controller_provenance.get("identity", {})
+    reason = decision.get("reason") if isinstance(decision, Mapping) else None
+    decision_id = decision.get("decision_id") if isinstance(decision, Mapping) else None
+    if (
+        not isinstance(decision, Mapping)
+        or set(decision) != required
+        or decision.get("schema") != HEX8SRI_CRITERIA_FREEZE_DECISION_SCHEMA
+        or decision.get("decision_type") != "CRITERIA_FREEZE_ONLY"
+        or decision.get("status") != "CRITERIA_FROZEN_EXECUTION_NOT_AUTHORIZED"
+        or decision.get("execution_authorized") is not False
+        or decision.get("do_not_execute") is not True
+        or decision.get("approved_by") != "Owner"
+        or not isinstance(decision_id, str)
+        or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", decision_id)
+        or not isinstance(reason, str)
+        or not 20 <= len(reason.strip()) <= 300
+        or "\n" in reason
+        or "\r" in reason
+        or decision.get("scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or decision.get("mandate_id") != entry.get("development_mandate_id")
+        or decision.get("campaign_id") != entry.get("campaign_id")
+        or decision.get("frozen_nodeids") != list(HEX8SRI_FIRST6_NODEIDS)
+        or decision.get("source_fingerprint") != source_fingerprint
+        or decision.get("controller_fingerprint") != _stable_fingerprint(controller_provenance)
+        or decision.get("controller_head") != identity.get("head")
+        or not _strict_json_equal(
+            decision.get("criteria_freeze"),
+            _hex8sri_expected_criteria_freeze(
+                entry=entry,
+                source_fingerprint=source_fingerprint,
+                controller_provenance=controller_provenance,
+            ),
+        )
+    ):
+        raise PolicyError("HEX8-SRI criteria-freeze decision is incomplete, stale or inconsistent")
+    _validate_owner_decision_time(decision, execution=False)
+    return dict(decision)
+
+
+def _read_hex8sri_owner_decision_record(
+    store: Path,
+    record_ref: Any,
+    *,
+    expected_decision_type: str,
+) -> tuple[dict[str, Any], Path, str]:
+    if not isinstance(record_ref, Mapping) or set(record_ref) != {"decision_id", "path", "sha256"}:
+        raise PolicyError("HEX8-SRI Owner decision record reference has an invalid shape")
+    decision_root = (store / "authorizations" / HEX8SRI_CONVERGENCE24_WORKTREE_ID / "owner-decisions").resolve()
+    try:
+        decision_path = Path(str(record_ref["path"])).resolve(strict=True)
+    except OSError as exc:
+        raise PolicyError(f"HEX8-SRI Owner decision record is missing: {exc}") from exc
+    decision_sha256 = record_ref.get("sha256")
+    if (
+        not _is_within(decision_path, decision_root)
+        or not decision_path.is_file()
+        or not isinstance(decision_sha256, str)
+        or not re.fullmatch(r"[0-9a-f]{64}", decision_sha256)
+        or _sha256(decision_path) != decision_sha256
+    ):
+        raise PolicyError("HEX8-SRI Owner decision record path or SHA-256 is invalid")
+    try:
+        recorded = _read_strict_json(decision_path)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI Owner decision record is unreadable: {exc}") from exc
+    if (
+        not isinstance(recorded, dict)
+        or recorded.get("decision_type") != expected_decision_type
+        or recorded.get("decision_id") != record_ref.get("decision_id")
+    ):
+        raise PolicyError("HEX8-SRI Owner decision record has the wrong decision type or identity")
+    return recorded, decision_path, decision_sha256
+
+
+def _validate_hex8sri_execution_approval(
+    decision: Any,
+    *,
+    store: Path,
+    entry: Mapping[str, Any],
+    target: str,
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+    case_manifest_binding: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Require a time-bounded execution approval that references a distinct frozen criteria record."""
+    required = {
+        "schema",
+        "decision_type",
+        "decision_id",
+        "status",
+        "execution_authorized",
+        "do_not_execute",
+        "approved_by",
+        "approved_at_utc",
+        "expires_at_utc",
+        "reason",
+        "scope_id",
+        "mandate_id",
+        "campaign_id",
+        "authorized_nodeids",
+        "source_fingerprint",
+        "controller_fingerprint",
+        "controller_head",
+        "criteria_freeze_record",
+        "criteria_freeze",
+        "case_manifests_by_nodeid",
+        "limits_by_nodeid",
+    }
+    identity = controller_provenance.get("identity", {})
+    reason = decision.get("reason") if isinstance(decision, Mapping) else None
+    decision_id = decision.get("decision_id") if isinstance(decision, Mapping) else None
+    nodeids = decision.get("authorized_nodeids") if isinstance(decision, Mapping) else None
+    limits = decision.get("limits_by_nodeid") if isinstance(decision, Mapping) else None
+    manifest_bindings = decision.get("case_manifests_by_nodeid") if isinstance(decision, Mapping) else None
+    if (
+        not isinstance(decision, Mapping)
+        or set(decision) != required
+        or decision.get("schema") != HEX8SRI_EXECUTION_APPROVAL_SCHEMA
+        or decision.get("decision_type") != "EXECUTION_APPROVED"
+        or decision.get("status") != "APPROVED"
+        or decision.get("execution_authorized") is not True
+        or decision.get("do_not_execute") is not False
+        or decision.get("approved_by") != "Owner"
+        or not isinstance(decision_id, str)
+        or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", decision_id)
+        or not isinstance(reason, str)
+        or not 20 <= len(reason.strip()) <= 300
+        or "\n" in reason
+        or "\r" in reason
+        or decision.get("scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or decision.get("mandate_id") != entry.get("development_mandate_id")
+        or decision.get("campaign_id") != entry.get("campaign_id")
+        or nodeids != list(HEX8SRI_FIRST6_NODEIDS)
+        or target not in nodeids
+        or not set(nodeids).issubset(set(entry.get("allowed_nodeids", ())))
+        or decision.get("source_fingerprint") != source_fingerprint
+        or decision.get("controller_fingerprint") != _stable_fingerprint(controller_provenance)
+        or decision.get("controller_head") != identity.get("head")
+        or not isinstance(limits, Mapping)
+        or set(limits) != set(nodeids)
+        or not isinstance(manifest_bindings, Mapping)
+        or set(manifest_bindings) != set(nodeids)
+        or not _strict_json_equal(manifest_bindings.get(target), dict(case_manifest_binding))
+    ):
+        raise PolicyError("HEX8-SRI execution decision does not authorize this exact scope, source, controller or nodeid")
+    for nodeid in nodeids:
+        if not _strict_json_equal(limits.get(nodeid), _hex8sri_execution_limits(entry, nodeid)):
+            raise PolicyError("HEX8-SRI execution decision exceeds or changes a registered case budget")
+    expected_registrations = _hex8sri_first6_registration_sha256_by_nodeid(entry)
+    for nodeid in nodeids:
+        binding = manifest_bindings[nodeid]
+        case = _hex8sri_convergence24_case(nodeid)
+        expected_case_id = f"{case[0]}_nu_{case[1]}_{case[2]}" if case is not None else None
+        if (
+            not isinstance(binding, Mapping)
+            or set(binding) != {"path", "sha256", "registration_sha256", "case_id", "scope_id"}
+            or not isinstance(binding.get("path"), str)
+            or not binding.get("path")
+            or not re.fullmatch(r"[0-9a-f]{64}", str(binding.get("sha256", "")))
+            or binding.get("registration_sha256") != expected_registrations[nodeid]
+            or binding.get("case_id") != expected_case_id
+            or binding.get("scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        ):
+            raise PolicyError("HEX8-SRI execution decision does not bind every exact registered case manifest")
+    freeze_ref = decision.get("criteria_freeze_record")
+    freeze_decision, _freeze_path, _freeze_sha256 = _read_hex8sri_owner_decision_record(
+        store,
+        freeze_ref,
+        expected_decision_type="CRITERIA_FREEZE_ONLY",
+    )
+    validated_freeze = _validate_hex8sri_criteria_freeze_decision(
+        freeze_decision,
+        entry=entry,
+        source_fingerprint=source_fingerprint,
+        controller_provenance=controller_provenance,
+    )
+    if not _strict_json_equal(decision.get("criteria_freeze"), validated_freeze.get("criteria_freeze")):
+        raise PolicyError("HEX8-SRI execution decision does not match its separately frozen criteria record")
+    _validate_owner_decision_time(decision, execution=True)
+    freeze_time = datetime.fromisoformat(validated_freeze["approved_at_utc"].replace("Z", "+00:00"))
+    execution_time = datetime.fromisoformat(decision["approved_at_utc"].replace("Z", "+00:00"))
+    if execution_time < freeze_time:
+        raise PolicyError("HEX8-SRI execution approval predates its criteria freeze")
+    return dict(decision)
+
+
+def _validate_hex8sri_frozen_case_criteria(
+    case_manifest: Mapping[str, Any],
+    *,
+    decision: Mapping[str, Any],
+    target: str,
+    case_registration_sha256: str,
+) -> dict[str, Any]:
+    """Require the first-six criteria contract and thresholds to be explicitly Owner-frozen."""
+    proposed = case_manifest.get("proposed_criteria")
+    frozen = case_manifest.get("frozen_criteria")
+    expected_contract = {
+        "schema": HEX8SRI_CRITERIA_CONTRACT_SCHEMA,
+        "revision": HEX8SRI_CRITERIA_CONTRACT_REVISION,
+        "dispositions": HEX8SRI_CRITERIA_PROPOSAL_DISPOSITIONS,
+    }
+    criteria_freeze = decision.get("criteria_freeze")
+    registration_hashes = (
+        criteria_freeze.get("case_manifest_registration_sha256_by_nodeid")
+        if isinstance(criteria_freeze, Mapping)
+        else None
+    )
+    if (
+        target not in HEX8SRI_FIRST6_NODEIDS
+        or case_manifest.get("criteria_status") != "OWNER_FREEZE_REQUIRED"
+        or not _strict_json_equal(case_manifest.get("criteria_contract"), expected_contract)
+        or not _strict_json_equal(proposed, HEX8SRI_PROPOSED_CRITERIA)
+        or frozen is not None
+        or not isinstance(registration_hashes, Mapping)
+        or set(registration_hashes) != set(HEX8SRI_FIRST6_NODEIDS)
+        or registration_hashes.get(target) != case_registration_sha256
+        or criteria_freeze.get("schema") != HEX8SRI_CRITERIA_FREEZE_SCHEMA
+        or criteria_freeze.get("revision") != HEX8SRI_CRITERIA_CONTRACT_REVISION
+        or not _strict_json_equal(criteria_freeze.get("dispositions"), HEX8SRI_CRITERIA_DISPOSITIONS)
+        or not _strict_json_equal(criteria_freeze.get("criteria_definitions"), HEX8SRI_CRITERIA_DEFINITIONS)
+        or not _strict_json_equal(
+            criteria_freeze.get("frozen_case_gate_criteria"), HEX8SRI_FROZEN_CASE_GATE_CRITERIA
+        )
+        or criteria_freeze.get("frozen_nodeids") != list(HEX8SRI_FIRST6_NODEIDS)
+    ):
+        raise PolicyError(
+            "HEX8-SRI Owner decision does not freeze the registered first-six criteria contract; "
+            "refresh the case identity and preflight after a criteria decision"
+        )
+    return dict(HEX8SRI_FROZEN_CASE_GATE_CRITERIA)
+
+
+def _validate_hex8sri_execution_manifest(
+    manifest_path: Path,
+    *,
+    store: Path,
+    target: str,
+    entry: Mapping[str, Any],
+    identity: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+    case_manifest_binding: Mapping[str, Any],
+    case_manifest: Mapping[str, Any],
+    preflight_id: str,
+    preflight_receipt: tuple[Path, str],
+) -> dict[str, Any]:
+    """Accept only an exact per-case Owner grant; never mutates policy or attempts."""
+    if target not in entry.get("allowed_nodeids", ()):
+        raise PolicyError("HEX8-SRI execution nodeid is not registered")
+    authorization_root = (store / "authorizations" / HEX8SRI_CONVERGENCE24_WORKTREE_ID).resolve()
+    try:
+        path = manifest_path.resolve(strict=True)
+    except OSError as exc:
+        raise PolicyError(f"HEX8-SRI execution manifest is missing: {exc}") from exc
+    if path.parent != authorization_root or not path.is_file():
+        raise PolicyError(
+            "HEX8-SRI execution manifest must be a direct child of the dedicated campaign authorization root"
+        )
+    try:
+        manifest = _read_strict_json(path)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI execution manifest is unreadable or not strict JSON: {exc}") from exc
+    required_fields = {
+        "schema",
+        "state",
+        "execution_authorized",
+        "do_not_execute",
+        "authorization_id",
+        "worktree_id",
+        "mandate_id",
+        "campaign_id",
+        "target",
+        "identity",
+        "source_fingerprint",
+        "controller_provenance",
+        "controller_fingerprint",
+        "case_manifest",
+        "preflight",
+        "limits",
+        "owner_decision",
+        "owner_decision_record",
+    }
+    if not isinstance(manifest, dict) or set(manifest) != required_fields:
+        raise PolicyError("HEX8-SRI execution manifest has an invalid or ambiguous shape")
+    authorization_id = manifest.get("authorization_id")
+    decision_record_ref = manifest.get("owner_decision_record")
+    if not isinstance(decision_record_ref, Mapping) or set(decision_record_ref) != {"path", "sha256"}:
+        raise PolicyError("HEX8-SRI Owner decision record reference has an invalid shape")
+    decision_root = authorization_root / "owner-decisions"
+    try:
+        decision_path = Path(str(decision_record_ref["path"])).resolve(strict=True)
+    except OSError as exc:
+        raise PolicyError(f"HEX8-SRI Owner decision record is missing: {exc}") from exc
+    decision_sha256 = decision_record_ref.get("sha256")
+    if (
+        not _is_within(decision_path, decision_root.resolve())
+        or not decision_path.is_file()
+        or not isinstance(decision_sha256, str)
+        or not re.fullmatch(r"[0-9a-f]{64}", decision_sha256)
+        or _sha256(decision_path) != decision_sha256
+    ):
+        raise PolicyError("HEX8-SRI Owner decision record path or SHA-256 is invalid")
+    try:
+        recorded_decision = _read_strict_json(decision_path)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI Owner decision record is unreadable: {exc}") from exc
+    if recorded_decision != manifest.get("owner_decision"):
+        raise PolicyError("HEX8-SRI Owner decision differs from its separately archived approval record")
+    decision = _validate_hex8sri_execution_approval(
+        recorded_decision,
+        store=store,
+        entry=entry,
+        target=target,
+        source_fingerprint=source_fingerprint,
+        controller_provenance=controller_provenance,
+        case_manifest_binding=case_manifest_binding,
+    )
+    frozen_criteria = _validate_hex8sri_frozen_case_criteria(
+        case_manifest,
+        decision=decision,
+        target=target,
+        case_registration_sha256=str(case_manifest_binding.get("registration_sha256", "")),
+    )
+    expected_preflight = {
+        "preflight_id": preflight_id,
+        "receipt_path": str(preflight_receipt[0]),
+        "receipt_sha256": preflight_receipt[1],
+    }
+    if (
+        not isinstance(authorization_id, str)
+        or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", authorization_id)
+        or path.name != f"{authorization_id}.json"
+        or manifest.get("schema") != HEX8SRI_EXECUTION_MANIFEST_SCHEMA
+        or manifest.get("state") != "OWNER_AUTHORIZED"
+        or manifest.get("execution_authorized") is not True
+        or manifest.get("do_not_execute") is not False
+        or manifest.get("worktree_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or manifest.get("mandate_id") != entry.get("development_mandate_id")
+        or manifest.get("campaign_id") != entry.get("campaign_id")
+        or manifest.get("target") != target
+        or manifest.get("identity") != dict(identity)
+        or manifest.get("source_fingerprint") != source_fingerprint
+        or manifest.get("controller_provenance") != dict(controller_provenance)
+        or manifest.get("controller_fingerprint") != _stable_fingerprint(controller_provenance)
+        or manifest.get("case_manifest") != dict(case_manifest_binding)
+        or manifest.get("preflight") != expected_preflight
+        or manifest.get("limits") != _hex8sri_execution_limits(entry, target)
+    ):
+        raise PolicyError(
+            "HEX8-SRI Owner manifest does not bind this exact source, controller, case, preflight and budget"
+        )
+    return {
+        "path": str(path),
+        "sha256": _sha256(path),
+        "authorization_id": authorization_id,
+        "decision_id": decision["decision_id"],
+        "owner_decision": decision,
+        "owner_decision_record": {"path": str(decision_path), "sha256": decision_sha256},
+        "criteria_freeze_record": dict(decision["criteria_freeze_record"]),
+        "frozen_criteria": frozen_criteria,
+        "criteria_dispositions": dict(decision["criteria_freeze"]["dispositions"]),
+        "preflight": expected_preflight,
+    }
+
+
+def _hex8sri_first6_current_case_manifest_bindings(
+    entry: Mapping[str, Any], execution_root: Path, controller_provenance: Mapping[str, Any]
+) -> dict[str, dict[str, str]]:
+    result: dict[str, dict[str, str]] = {}
+    for nodeid in HEX8SRI_FIRST6_NODEIDS:
+        manifest_path, case_manifest, raw_sha256 = _hex8sri_convergence24_manifest(entry, execution_root, nodeid)
+        _verify_hex8sri_convergence24_controller_identity(case_manifest, controller_provenance)
+        result[nodeid] = {
+            "path": str(manifest_path),
+            "sha256": raw_sha256,
+            "registration_sha256": _hex8sri_manifest_registration_sha256(case_manifest),
+            "case_id": str(case_manifest["case_id"]),
+            "scope_id": HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+        }
+    return result
+
+
+def archive_hex8sri_owner_decision(decision_file: Path) -> dict[str, Any]:
+    """Validate and immutably archive a freeze-only or execution Owner decision.
+
+    This records the submitted decision and its digest; it does not authenticate
+    the Owner cryptographically, create an execution manifest, or reserve an attempt.
+    """
+    policy = load_policy(POLICY_PATH)
+    scope_id = HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    target = HEX8SRI_FIRST6_NODEIDS[0]
+    resolve_targets("fem_exploratory", target, policy, worktree_id=scope_id)
+    entry, execution_root, _source_root, identity, source_fingerprint = _registered_worktree(scope_id, target, policy)
+    controller_provenance = _controller_provenance()
+    try:
+        decision = _read_strict_json(decision_file.resolve(strict=True))
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI Owner decision input is missing or invalid: {exc}") from exc
+    if not isinstance(decision, Mapping):
+        raise PolicyError("HEX8-SRI Owner decision input must be a JSON object")
+    decision_type = decision.get("decision_type")
+    if decision_type == "CRITERIA_FREEZE_ONLY":
+        validated = _validate_hex8sri_criteria_freeze_decision(
+            decision,
+            entry=entry,
+            source_fingerprint=source_fingerprint,
+            controller_provenance=controller_provenance,
+        )
+        # Require all six regenerated current registrations, but no preflight or ledger.
+        _hex8sri_first6_current_case_manifest_bindings(entry, execution_root, controller_provenance)
+        directory = _run_root(policy) / "authorizations" / scope_id / "owner-decisions" / "criteria-freeze"
+    elif decision_type == "EXECUTION_APPROVED":
+        current_bindings = _hex8sri_first6_current_case_manifest_bindings(
+            entry, execution_root, controller_provenance
+        )
+        if decision.get("case_manifests_by_nodeid") != current_bindings:
+            raise PolicyError("HEX8-SRI execution decision does not match all current first-six case manifests")
+        validated = _validate_hex8sri_execution_approval(
+            decision,
+            store=_run_root(policy),
+            entry=entry,
+            target=target,
+            source_fingerprint=source_fingerprint,
+            controller_provenance=controller_provenance,
+            case_manifest_binding=current_bindings[target],
+        )
+        directory = _run_root(policy) / "authorizations" / scope_id / "owner-decisions" / "execution"
+    else:
+        raise PolicyError("HEX8-SRI Owner decision_type must be CRITERIA_FREEZE_ONLY or EXECUTION_APPROVED")
+    decision_id = str(validated["decision_id"])
+    path = directory / f"{decision_id}.json"
+    with _exclusive_file_lock(_run_root(policy) / "locks" / "hex8sri-owner-decision-archive.lock"):
+        _atomic_json_new(path, validated)
+    return {
+        "state": validated["status"],
+        "decision_type": decision_type,
+        "decision_id": decision_id,
+        "path": str(path.resolve()),
+        "sha256": _sha256(path),
+        "execution_manifest_created": False,
+        "attempt_reserved": False,
+    }
+
+
+def _validate_hex8sri_execution_test_contract(execution_root: Path, target: str) -> None:
+    """Refuse before ledger reservation until the science test consumes the dedicated identity."""
+    module_path = target.split("::", maxsplit=1)[0]
+    test_path = (execution_root / module_path).resolve()
+    if not _is_within(test_path, execution_root.resolve()) or not test_path.is_file():
+        raise PolicyError("HEX8-SRI execution test module is missing or outside its registered science worktree")
+    try:
+        source = test_path.read_text(encoding="utf-8")
+    except OSError as exc:
+        raise PolicyError(f"HEX8-SRI execution test module is unreadable: {exc}") from exc
+    try:
+        syntax_tree = ast.parse(source, filename=str(test_path))
+    except SyntaxError as exc:
+        raise PolicyError("HEX8-SRI execution test contract cannot be parsed") from exc
+    authorization_function = next(
+        (
+            node
+            for node in ast.walk(syntax_tree)
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == "_authorized_case"
+        ),
+        None,
+    )
+    if authorization_function is None:
+        raise PolicyError("HEX8-SRI execution test has no exact pre-assembly authorization function")
+    module_strings = {
+        node.value for node in ast.walk(syntax_tree) if isinstance(node, ast.Constant) and isinstance(node.value, str)
+    }
+    function_strings = {
+        node.value
+        for node in ast.walk(authorization_function)
+        if isinstance(node, ast.Constant) and isinstance(node.value, str)
+    }
+    required_environment_contract = {
+        "QF_DEV_EXECUTION_MANIFEST_PATH",
+        "QF_DEV_EXECUTION_MANIFEST_SHA256",
+        "QF_DEV_OWNER_DECISION_ID",
+        "QF_DEV_CASE_MANIFEST_PATH",
+        "QF_DEV_PREFLIGHT_ID",
+        "QF_DEV_PREFLIGHT_SHA256",
+        "QF_DEV_TARGET_NODEID",
+        "QF_DEV_CONTROLLER_ROOT",
+        "QF_DEV_CONTROLLER_BRANCH",
+        "QF_DEV_CONTROLLER_HEAD",
+        "QF_DEV_CONTROLLER_RUNNER_SHA256",
+        "QF_DEV_CONTROLLER_POLICY_SHA256",
+        "QF_DEV_CONTROLLER_PLUGIN_SHA256",
+        "hex8sri-convergence24",
+        "OWNER_AUTHORIZED",
+    }
+    required_criteria_contract = {
+        "criteria_contract",
+        "criteria_freeze",
+        "CASE_GATE",
+        "CASE_DIAGNOSTIC",
+        "CAMPAIGN_GATE_DEFERRED",
+        "NOT_ASSESSED",
+        "negative_mean_loaded_face_uz",
+    }
+    if (
+        HEX8SRI_EXECUTION_TEST_CONTRACT_MARKER not in function_strings
+        or not required_environment_contract.issubset(module_strings)
+        or not required_criteria_contract.issubset(module_strings)
+        or "codex/hex8sri-controller-registration" in module_strings
+        or "hex8sri" in module_strings
+    ):
+        raise PolicyError(
+            "HEX8-SRI source test does not implement the dedicated Owner-manifest/preflight contract; "
+            "update and re-fingerprint the science test before execution"
+        )
+
+
+def _validate_hex8sri_execution_ledger(ledger_path: Path, *, entry: Mapping[str, Any], target: str) -> None:
+    """Fail closed on a malformed, cross-mandate, or over-consumed campaign ledger."""
+    if not ledger_path.exists():
+        return
+    try:
+        ledger = _read_strict_json(ledger_path)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI attempt ledger is unreadable: {exc}") from exc
+    mandate_id = str(entry["development_mandate_id"])
+    prefix = f"{mandate_id}:{HEX8SRI_CONVERGENCE24_WORKTREE_ID}:"
+    allowed = set(entry["allowed_nodeids"])
+    if (
+        not isinstance(ledger, dict)
+        or ledger.get("schema") != "qfsolver-development-node-ledger-v1"
+        or ledger.get("mandate_id") != mandate_id
+        or not isinstance(ledger.get("entries"), dict)
+    ):
+        raise PolicyError("HEX8-SRI execution ledger identity/schema mismatch")
+    for key, attempts in ledger["entries"].items():
+        if not isinstance(key, str) or not key.startswith(prefix):
+            raise PolicyError("HEX8-SRI ledger contains an entry from another scope or mandate")
+        registered_target = key[len(prefix) :]
+        if registered_target not in allowed or not isinstance(attempts, list) or len(attempts) > 1:
+            raise PolicyError("HEX8-SRI ledger contains an unregistered node or exceeds its one-attempt limit")
+        for index, attempt in enumerate(attempts, start=1):
+            if (
+                not isinstance(attempt, Mapping)
+                or attempt.get("attempt") != index
+                or not isinstance(attempt.get("authorization_id"), str)
+                or not isinstance(attempt.get("owner_decision_id"), str)
+                or not isinstance(attempt.get("state"), str)
+                or not re.fullmatch(r"[A-Z][A-Z0-9_]{2,63}", attempt["state"])
+            ):
+                raise PolicyError("HEX8-SRI ledger attempt lacks coherent Owner authorization provenance")
+
+
 def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization_id: str) -> dict[str, Any]:
     """Write an exact WP12 execution-manifest template that remains unapproved."""
     if worktree_id not in WP12_OWNER_ENVELOPES:
-        raise PolicyError("WP12 execution manifests are available only for the four WP12 scopes")
+        raise PolicyError("WP12 execution manifests are available only for registered WP12 scopes")
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", authorization_id):
         raise PolicyError("authorization ID must be 8 to 64 safe alphanumeric, dot, underscore or hyphen characters")
     policy = load_policy(POLICY_PATH)
@@ -2085,6 +3569,8 @@ def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization
             "state": "PREPARED_NOT_AUTHORIZED",
             "authorization_id": authorization_id,
             "worktree_id": worktree_id,
+            "mandate_id": entry["development_mandate_id"],
+            **({"campaign_id": entry["campaign_id"]} if "campaign_id" in entry else {}),
             "target": target,
             "identity": identity,
             "source_fingerprint": source_fingerprint,
@@ -2102,6 +3588,83 @@ def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization
     return {"state": payload["state"], "path": str(path.resolve()), "target": target}
 
 
+def prepare_hex8sri_execution_manifest(target: str, preflight_id: str, authorization_id: str) -> dict[str, Any]:
+    """Write a non-authorized, exact-case HEX8-SRI execution template; never reserves an attempt."""
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", authorization_id):
+        raise PolicyError("draft ID must be 8 to 64 safe alphanumeric, dot, underscore or hyphen characters")
+    policy = load_policy(POLICY_PATH)
+    worktree_id = HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
+    entry, execution_root, _source_root, identity, source_fingerprint = _registered_worktree(
+        worktree_id, target, policy
+    )
+    store = _run_root(policy)
+    ledger_path, _ledger_lock, mandate_id, predecessor = _node_ledger_context(policy, store, worktree_id)
+    if predecessor is not None or mandate_id != entry["development_mandate_id"]:
+        raise PolicyError("HEX8-SRI authorization template is not bound to the isolated campaign mandate")
+    manifest_path, case_manifest, manifest_sha256 = _hex8sri_convergence24_manifest(entry, execution_root, target)
+    controller_provenance = _controller_provenance()
+    _verify_hex8sri_convergence24_controller_identity(case_manifest, controller_provenance)
+    case_contract = _hex8sri_convergence24_case_contract(case_manifest)
+    case_binding = {
+        "path": str(manifest_path),
+        "sha256": manifest_sha256,
+        "registration_sha256": _hex8sri_manifest_registration_sha256(case_manifest),
+        "case_id": case_manifest["case_id"],
+        "scope_id": worktree_id,
+    }
+    preflight_receipt = _validate_hex8sri_convergence24_preflight_receipt(
+        store,
+        preflight_id,
+        target=target,
+        identity=identity,
+        source_fingerprint=source_fingerprint,
+        controller_provenance=controller_provenance,
+        manifest_binding=case_binding,
+        attempt_ledger={
+            "path": str(ledger_path),
+            "mandate_id": mandate_id,
+            "attempts_reserved": False,
+        },
+    )
+    authorization_root = store / "authorizations" / worktree_id / "prepared"
+    path = authorization_root / f"{authorization_id}.json"
+    payload = {
+        "schema": HEX8SRI_EXECUTION_MANIFEST_SCHEMA,
+        "state": "PREPARED_NOT_AUTHORIZED",
+        "execution_authorized": False,
+        "do_not_execute": True,
+        "authorization_id": authorization_id,
+        "worktree_id": worktree_id,
+        "mandate_id": mandate_id,
+        "campaign_id": entry["campaign_id"],
+        "target": target,
+        "identity": identity,
+        "source_fingerprint": source_fingerprint,
+        "controller_provenance": controller_provenance,
+        "controller_fingerprint": _stable_fingerprint(controller_provenance),
+        "case_manifest": case_binding,
+        "preflight": {
+            "preflight_id": preflight_id,
+            "receipt_path": str(preflight_receipt[0]),
+            "receipt_sha256": preflight_receipt[1],
+        },
+        "limits": _hex8sri_execution_limits(entry, target),
+        "owner_decision": None,
+        "owner_decision_record": None,
+    }
+    with _exclusive_file_lock(store / "locks" / "hex8sri-execution-manifest.lock"):
+        _atomic_json_new(path, payload)
+    return {
+        "state": payload["state"],
+        "path": str(path.resolve()),
+        "target": target,
+        "preflight_id": preflight_id,
+        "case_contract": case_contract,
+        "sha256": _sha256(path),
+    }
+
+
 def _preflight_directory(store: Path, worktree_id: str, preflight_id: str) -> Path:
     if not PREFLIGHT_RE.fullmatch(preflight_id):
         raise PolicyError("preflight ID must use the generated pf-<12 lowercase hex> format")
@@ -2111,6 +3674,536 @@ def _preflight_directory(store: Path, worktree_id: str, preflight_id: str) -> Pa
     return directory
 
 
+ROTOR_PREFLIGHT_ATTESTATION_PREFIX = "QF_DEV_ROTOR_PREFLIGHT="
+
+
+def _validate_rotor_collect_attestation(
+    stdout: str,
+    *,
+    target: str,
+    solver_origin: str,
+    selected_dofs: int,
+    max_dofs: int,
+) -> tuple[str, dict[str, Any] | None]:
+    lines = [
+        line[len(ROTOR_PREFLIGHT_ATTESTATION_PREFIX) :]
+        for line in stdout.splitlines()
+        if line.startswith(ROTOR_PREFLIGHT_ATTESTATION_PREFIX)
+    ]
+    if len(lines) != 1:
+        return "PREFLIGHT_ATTESTATION_INVALID", None
+    try:
+        payload = json.loads(lines[0])
+    except json.JSONDecodeError:
+        return "PREFLIGHT_ATTESTATION_INVALID", None
+    if not isinstance(payload, dict) or payload.get("schema") != "qfsolver-rotor-collect-only-v1":
+        return "PREFLIGHT_ATTESTATION_INVALID", None
+    if payload.get("worktree_id") != "rotor":
+        return "PREFLIGHT_SCOPE_MISMATCH", payload
+    if payload.get("expected_nodeid") != target:
+        return "PREFLIGHT_NODEID_NOT_CONFIRMED", payload
+    if payload.get("solver_origin") != solver_origin:
+        return "PREFLIGHT_WRONG_SOLVER_ORIGIN", payload
+    if payload.get("collected_nodeids") != [target]:
+        return "PREFLIGHT_NODEID_NOT_CONFIRMED", payload
+    if payload.get("skip_markers") != []:
+        return "PREFLIGHT_SKIPPED", payload
+    if payload.get("bodies_executed") is not False:
+        return "PREFLIGHT_BODY_EXECUTION_DETECTED", payload
+    if (
+        payload.get("selected_dofs_expected") != selected_dofs
+        or payload.get("selected_dofs") != str(selected_dofs)
+        or payload.get("max_dofs_expected") != max_dofs
+        or payload.get("max_dofs") != str(max_dofs)
+    ):
+        return "PREFLIGHT_SCOPE_MISMATCH", payload
+    if payload.get("exitstatus") != 0:
+        return "PREFLIGHT_FAILED", payload
+    return "PREFLIGHT_PASS", payload
+
+
+def preflight_rotor_pytest(
+    target: str, preflight_id: str | None = None, *, policy: Mapping[str, Any] | None = None
+) -> dict[str, Any]:
+    """Collect one registered rotor node with exact-node, origin, skip and body attestations."""
+    current_policy = load_policy() if policy is None else policy
+    targets = resolve_targets("fem_exploratory", target, current_policy, worktree_id="rotor")
+    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
+        "rotor", target, current_policy
+    )
+    selection = _wp12_active_registration("rotor", target, entry, source_fingerprint)
+    store = _run_root(current_policy, "rotor")
+    if psutil is None:
+        raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
+    free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free)
+    minimum_free = int(current_policy["minimum_free_disk_mib"] * 1024 * 1024)
+    if free_bytes < minimum_free:
+        raise PolicyError(f"insufficient free disk for rotor preflight: {free_bytes} bytes; requires {minimum_free}")
+
+    preflight_id = preflight_id or f"pf-{uuid.uuid4().hex[:12]}"
+    receipt_dir = _preflight_directory(store, "rotor", preflight_id)
+    if receipt_dir.exists():
+        raise PolicyError("preflight ID already exists; refusing to overwrite a prior receipt")
+    temporary_dir = receipt_dir / "tmp"
+    output_dir = receipt_dir / "output"
+    temporary_dir.mkdir(parents=True)
+    output_dir.mkdir()
+    controller_provenance = _controller_provenance()
+    expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
+    command = build_pytest_command(
+        "fem_exploratory",
+        targets,
+        temporary_dir,
+        repository_root=execution_root,
+        source_root=source_root,
+        controller_root=ROOT,
+        collect_only=True,
+        rotor_collect_only_attestation=True,
+    )
+    if "--collect-only" not in command or command[-1] != target:
+        raise PolicyError("rotor preflight command must collect only its exact registered nodeid")
+    environment = build_child_environment(
+        temporary_dir,
+        source_root=source_root,
+        wp12_entry={**entry, "worktree_id": "rotor"},
+        wp12_selection=selection,
+    )
+    budgets = dict(entry["budgets"])
+    budgets["minimum_free_disk_mib"] = current_policy["minimum_free_disk_mib"]
+    started = datetime.now(timezone.utc).isoformat()
+    record_path = receipt_dir / "preflight.json"
+    initial = {
+        "schema": "qfsolver-development-wp12-rotor-preflight-v1",
+        "mode": "DEVELOPMENT_AUTONOMOUS",
+        "mandate_id": entry["development_mandate_id"],
+        "worktree_id": "rotor",
+        "target": target,
+        "preflight_id": preflight_id,
+        "phase": "PYTEST_COLLECT_ONLY",
+        "attempt_reserved": False,
+        "execution_manifest_required_for_test_execution": True,
+        "execution_authorization_evaluated": False,
+        "bodies_executed": None,
+        "identity": identity,
+        "source_fingerprint": source_fingerprint,
+        "solver_origin_expected": expected_origin,
+        "controller_provenance": controller_provenance,
+        "command": command,
+        "budgets": budgets,
+        "free_disk_before_bytes": free_bytes,
+    }
+    try:
+        with _wp12_resource_lock(WP12_COORDINATION_ROOT, entry["concurrency_class"]):
+            result = run_supervised_command(
+                command,
+                cwd=execution_root,
+                environment=environment,
+                output_dir=output_dir,
+                temporary_dir=temporary_dir,
+                limits=budgets,
+                poll_interval=float(current_policy["poll_interval_seconds"]),
+            )
+    except OSError as exc:
+        _atomic_json(
+            record_path,
+            {
+                **initial,
+                "state": "PREFLIGHT_LAUNCH_FAILED",
+                "started_at_utc": started,
+                "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+                "launch_error": f"{type(exc).__name__}: {exc}",
+            },
+        )
+        raise PolicyError(f"rotor collect-only preflight could not launch: {exc}") from exc
+
+    stdout_path, stderr_path = output_dir / "stdout.log", output_dir / "stderr.log"
+    stdout = stdout_path.read_text(encoding="utf-8", errors="replace") if stdout_path.is_file() else ""
+    origin_prefix = "QF_DEV_SOLVER_ORIGIN="
+    origin_lines = [line[len(origin_prefix) :] for line in stdout.splitlines() if line.startswith(origin_prefix)]
+    origin_status = (
+        "PREFLIGHT_WRONG_SOLVER_ORIGIN"
+        if len(origin_lines) == 1 and origin_lines[0] != expected_origin
+        else "PREFLIGHT_IMPORT_FAILED"
+        if len(origin_lines) != 1
+        else None
+    )
+    attestation_status, attestation = _validate_rotor_collect_attestation(
+        stdout,
+        target=target,
+        solver_origin=expected_origin,
+        selected_dofs=selection["selected_dofs"],
+        max_dofs=entry["target_max_dofs"],
+    )
+    after_policy = load_policy()
+    after_entry, _after_root, _after_source, after_identity, after_fingerprint = _registered_worktree(
+        "rotor", target, after_policy
+    )
+    if after_identity != identity or after_fingerprint != source_fingerprint or after_entry != entry:
+        state = "PREFLIGHT_SOURCE_CHANGED"
+    elif origin_status is not None:
+        state = origin_status
+    elif result.status != "PASS":
+        state = "PREFLIGHT_FAILED"
+    else:
+        state = attestation_status
+    final = {
+        **initial,
+        "state": state,
+        "started_at_utc": started,
+        "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+        "collected_nodeids": (attestation or {}).get("collected_nodeids", []),
+        "skip_markers": (attestation or {}).get("skip_markers"),
+        "bodies_executed": (attestation or {}).get("bodies_executed"),
+        "worktree_id_observed": (attestation or {}).get("worktree_id"),
+        "selected_dofs_observed": (attestation or {}).get("selected_dofs"),
+        "max_dofs_observed": (attestation or {}).get("max_dofs"),
+        "solver_origin_observed": origin_lines[0] if len(origin_lines) == 1 else None,
+        "attestation_error": None if attestation is not None else attestation_status,
+        "return_code": result.return_code,
+        "elapsed_seconds": result.elapsed_seconds,
+        "peak_rss_bytes": result.peak_rss_bytes,
+        "peak_process_count": result.peak_process_count,
+        "stdout_bytes": result.stdout_bytes,
+        "stderr_bytes": result.stderr_bytes,
+        "stdout_sha256": _sha256(stdout_path) if stdout_path.is_file() else None,
+        "stderr_sha256": _sha256(stderr_path) if stderr_path.is_file() else None,
+        "identity_after": after_identity,
+        "source_fingerprint_after": after_fingerprint,
+        "free_disk_after_bytes": min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free),
+    }
+    _atomic_json(record_path, final)
+    receipt_sha256 = _sha256(record_path)
+    _atomic_json(receipt_dir / "preflight.sha256.json", {"sha256": receipt_sha256})
+    return {
+        "preflight_id": preflight_id,
+        "state": state,
+        "bodies_executed": final["bodies_executed"],
+        "nodeid": target if final["collected_nodeids"] == [target] else None,
+        "receipt": str(record_path),
+        "receipt_sha256": receipt_sha256,
+    }
+
+
+def _validate_hex8sri_convergence24_preflight_receipt(
+    store: Path,
+    preflight_id: str,
+    *,
+    target: str,
+    identity: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+    manifest_binding: Mapping[str, Any],
+    attempt_ledger: Mapping[str, Any],
+) -> tuple[Path, str]:
+    receipt_dir = _preflight_directory(store, HEX8SRI_CONVERGENCE24_WORKTREE_ID, preflight_id)
+    record_path = receipt_dir / "preflight.json"
+    sha_path = receipt_dir / "preflight.sha256.json"
+    if not record_path.is_file() or not sha_path.is_file():
+        raise PolicyError("a successful exact-node HEX8-SRI collect-only receipt is required")
+    try:
+        receipt = _read_strict_json(record_path)
+        sidecar = _read_strict_json(sha_path)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"HEX8-SRI preflight receipt is unreadable: {exc}") from exc
+    actual_sha256 = _sha256(record_path)
+    collection = receipt.get("collection_report")
+    recorded_ledger = receipt.get("attempt_ledger")
+    try:
+        expected_solver_origin = str((Path(str(identity["root"])) / "src" / "solveur" / "__init__.py").resolve())
+    except (KeyError, OSError, TypeError, ValueError) as exc:
+        raise PolicyError("HEX8-SRI preflight identity does not provide a registered solver root") from exc
+    if sidecar.get("sha256") != actual_sha256:
+        raise PolicyError("HEX8-SRI preflight receipt checksum mismatch")
+    if (
+        receipt.get("schema") != "qfsolver-development-hex8sri-convergence24-preflight-v1"
+        or receipt.get("state") != "PREFLIGHT_PASS"
+        or receipt.get("mandate_id") != HEX8SRI_CONVERGENCE24_MANDATE_ID
+        or receipt.get("campaign_id") != HEX8SRI_CONVERGENCE24_CAMPAIGN_ID
+        or receipt.get("bodies_executed") is not False
+        or receipt.get("attempt_reserved") is not False
+        or receipt.get("execution_authorized") is not False
+        or receipt.get("worktree_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or receipt.get("target") != target
+        or receipt.get("preflight_id") != preflight_id
+        or receipt.get("identity") != dict(identity)
+        or receipt.get("source_fingerprint") != source_fingerprint
+        or receipt.get("controller_provenance") != dict(controller_provenance)
+        or receipt.get("case_manifest") != dict(manifest_binding)
+        or receipt.get("solver_origin_expected") != expected_solver_origin
+        or receipt.get("solver_origin_observed") != expected_solver_origin
+        or receipt.get("collected_nodeids") != [target]
+        or receipt.get("skip_status") != "NO_SKIP_MARKERS"
+        or not isinstance(recorded_ledger, Mapping)
+        or dict(recorded_ledger) != dict(attempt_ledger)
+        or recorded_ledger.get("attempts_reserved") is not False
+        or not isinstance(collection, Mapping)
+        or collection.get("schema") != "qfsolver-hex8sri-convergence24-collection-v1"
+        or collection.get("scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
+        or collection.get("target") != target
+        or collection.get("collected_nodeids") != [target]
+        or collection.get("skip_markers") != []
+        or collection.get("bodies_executed") is not False
+        or collection.get("exitstatus") != 0
+    ):
+        raise PolicyError(
+            "HEX8-SRI preflight does not match this source, controller, manifest and exact collect-only node"
+        )
+    return record_path, actual_sha256
+
+
+def preflight_hex8sri_convergence24_pytest(
+    target: str, preflight_id: str | None = None, *, policy: Mapping[str, Any] | None = None
+) -> dict[str, Any]:
+    """Collect one registered HEX8-SRI convergence node without reserving an attempt."""
+    current_policy = load_policy() if policy is None else dict(policy)
+    worktree_id = HEX8SRI_CONVERGENCE24_WORKTREE_ID
+    targets = resolve_targets("fem_exploratory", target, current_policy, worktree_id=worktree_id)
+    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
+        worktree_id, target, current_policy
+    )
+    store = _run_root(current_policy)
+    ledger_path, _ledger_lock, mandate_id, predecessor = _node_ledger_context(current_policy, store, worktree_id)
+    if predecessor is not None or mandate_id != entry["development_mandate_id"]:
+        raise PolicyError("HEX8-SRI collect-only preflight is not bound to its isolated campaign mandate")
+    manifest_path, manifest, manifest_sha256 = _hex8sri_convergence24_manifest(entry, execution_root, target)
+    controller_provenance = _controller_provenance()
+    _verify_hex8sri_convergence24_controller_identity(manifest, controller_provenance)
+    case = _hex8sri_convergence24_case(target)
+    if case is None:
+        raise PolicyError("HEX8-SRI preflight target is outside the exact convergence24 matrix")
+    formulation, nu_token, mesh_token = case
+    case_contract = _hex8sri_convergence24_case_contract(manifest)
+    if (
+        "x".join(map(str, case_contract["divisions_xyz"])) != mesh_token
+        or case_contract["element_count"] != math.prod(case_contract["divisions_xyz"])
+        or manifest.get("budgets")
+        != {
+            **_hex8sri_convergence24_budget(target),
+            "attempts_per_nodeid": 1,
+            "initial_campaign_max_attempts": 24,
+            "blas_thread_environment": entry["blas_thread_environment"],
+            "budget_semantics": {
+                "captured_output": "controller-enforced byte caps",
+                "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+                "wall_timeout": "watchdog process-tree termination, best effort",
+            },
+        }
+    ):
+        raise PolicyError("HEX8-SRI case mesh or budget differs from its exact registered contract")
+    manifest_binding = {
+        "path": str(manifest_path),
+        "sha256": manifest_sha256,
+        "registration_sha256": _hex8sri_manifest_registration_sha256(manifest),
+        "case_id": manifest["case_id"],
+        "scope_id": worktree_id,
+    }
+    attempt_ledger = {
+        "path": str(ledger_path),
+        "mandate_id": mandate_id,
+        "attempts_reserved": False,
+    }
+    if psutil is None:
+        raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
+    limits = dict(entry["per_node_budgets"][target])
+    minimum_free_mib = max(int(current_policy["minimum_free_disk_mib"]), int(limits["minimum_free_disk_mib"]))
+    free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free)
+    if free_bytes < minimum_free_mib * 1024 * 1024:
+        raise PolicyError(
+            f"insufficient free disk for HEX8-SRI collect-only preflight: {free_bytes} bytes; "
+            f"requires {minimum_free_mib} MiB"
+        )
+
+    preflight_id = preflight_id or f"pf-{uuid.uuid4().hex[:12]}"
+    receipt_dir = _preflight_directory(store, worktree_id, preflight_id)
+    if receipt_dir.exists():
+        raise PolicyError("preflight ID already exists; refusing to overwrite a prior receipt")
+    temporary_dir = receipt_dir / "tmp"
+    output_dir = receipt_dir / "output"
+    temporary_dir.mkdir(parents=True)
+    output_dir.mkdir()
+    collection_report_path = temporary_dir / "collection-report.json"
+    command = build_pytest_command(
+        "fem_exploratory",
+        targets,
+        temporary_dir,
+        repository_root=execution_root,
+        source_root=source_root,
+        controller_root=ROOT,
+        allow_native_skip_override=False,
+        collect_only=True,
+        hex8sri_convergence24_collect_only_attestation=True,
+    )
+    if "--collect-only" not in command or command[-1] != target:
+        raise PolicyError("HEX8-SRI preflight must collect only its one exact registered nodeid")
+    environment = build_child_environment(temporary_dir, source_root=source_root)
+    environment.update(entry["blas_thread_environment"])
+    environment.update(
+        {
+            "QF_DEV_WORKTREE_ID": worktree_id,
+            "QF_DEV_PREFLIGHT_SCOPE_ID": worktree_id,
+            "QF_DEV_PREFLIGHT_TARGET": target,
+            "QF_DEV_PREFLIGHT_COLLECTION_REPORT": str(collection_report_path),
+        }
+    )
+    limits["minimum_free_disk_mib"] = minimum_free_mib
+    expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
+    started = datetime.now(timezone.utc).isoformat()
+    record_path = receipt_dir / "preflight.json"
+    initial = {
+        "schema": "qfsolver-development-hex8sri-convergence24-preflight-v1",
+        "mode": "DEVELOPMENT_AUTONOMOUS",
+        "mandate_id": mandate_id,
+        "worktree_id": worktree_id,
+        "campaign_id": entry["campaign_id"],
+        "target": target,
+        "preflight_id": preflight_id,
+        "phase": "PYTEST_COLLECT_ONLY",
+        "attempt_reserved": False,
+        "execution_authorized": False,
+        "bodies_executed": False,
+        "identity": identity,
+        "source_fingerprint": source_fingerprint,
+        "case_manifest": manifest_binding,
+        "case_contract": case_contract,
+        "attempt_ledger": attempt_ledger,
+        "solver_origin_expected": expected_origin,
+        "controller_provenance": controller_provenance,
+        "command": command,
+        "budgets": limits,
+        "free_disk_before_bytes": free_bytes,
+    }
+    try:
+        with _exclusive_file_lock(store / "locks" / "hex8sri-convergence24-preflight.lock"):
+            result = run_supervised_command(
+                command,
+                cwd=execution_root,
+                environment=environment,
+                output_dir=output_dir,
+                temporary_dir=temporary_dir,
+                limits=limits,
+                poll_interval=float(current_policy["poll_interval_seconds"]),
+            )
+    except OSError as exc:
+        _atomic_json(
+            record_path,
+            {
+                **initial,
+                "state": "PREFLIGHT_LAUNCH_FAILED",
+                "started_at_utc": started,
+                "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+                "launch_error": f"{type(exc).__name__}: {exc}",
+            },
+        )
+        raise PolicyError(f"HEX8-SRI collect-only preflight could not launch: {exc}") from exc
+
+    stdout_path = output_dir / "stdout.log"
+    stderr_path = output_dir / "stderr.log"
+    stdout = stdout_path.read_text(encoding="utf-8", errors="replace") if stdout_path.is_file() else ""
+    stderr = stderr_path.read_text(encoding="utf-8", errors="replace") if stderr_path.is_file() else ""
+    combined = stdout + "\n" + stderr
+    collection_report = None
+    skip_status = "UNCONFIRMED"
+    if collection_report_path.is_file():
+        try:
+            parsed = json.loads(collection_report_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            parsed = None
+        if isinstance(parsed, dict):
+            collection_report = parsed
+            if (
+                parsed.get("schema") == "qfsolver-hex8sri-convergence24-collection-v1"
+                and parsed.get("scope_id") == worktree_id
+                and parsed.get("target") == target
+                and parsed.get("collected_nodeids") == [target]
+                and parsed.get("bodies_executed") is False
+                and parsed.get("exitstatus") == 0
+                and isinstance(parsed.get("skip_markers"), list)
+            ):
+                skip_status = "SKIP_MARKER_PRESENT" if parsed["skip_markers"] else "NO_SKIP_MARKERS"
+    solver_origin_observed = _observed_solver_origin(combined)
+    exact_node_collected = isinstance(collection_report, Mapping) and collection_report.get("collected_nodeids") == [
+        target
+    ]
+    _after_entry, _after_root, _after_source, after_identity, after_fingerprint = _registered_worktree(
+        worktree_id, target, current_policy
+    )
+    if after_identity != identity or after_fingerprint != source_fingerprint:
+        state = "PREFLIGHT_SOURCE_CHANGED"
+    elif result.status != "PASS":
+        state = "PREFLIGHT_FAILED"
+    elif solver_origin_observed != expected_origin:
+        state = "PREFLIGHT_WRONG_SOLVER_ORIGIN"
+    elif not exact_node_collected:
+        state = "PREFLIGHT_NODEID_NOT_CONFIRMED"
+    elif collection_report is None:
+        state = "PREFLIGHT_COLLECTION_REPORT_MISSING"
+    elif skip_status == "SKIP_MARKER_PRESENT":
+        state = "PREFLIGHT_SKIP_MARKED"
+    elif skip_status != "NO_SKIP_MARKERS":
+        state = "PREFLIGHT_COLLECTION_REPORT_INVALID"
+    else:
+        state = "PREFLIGHT_PASS"
+    final = {
+        **initial,
+        "state": state,
+        "started_at_utc": started,
+        "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+        "collected_nodeids": [target] if exact_node_collected else [],
+        "solver_origin_observed": solver_origin_observed,
+        "return_code": result.return_code,
+        "elapsed_seconds": result.elapsed_seconds,
+        "peak_rss_bytes": result.peak_rss_bytes,
+        "peak_process_count": result.peak_process_count,
+        "stdout_bytes": result.stdout_bytes,
+        "stderr_bytes": result.stderr_bytes,
+        "stdout_sha256": _sha256(stdout_path),
+        "stderr_sha256": _sha256(stderr_path),
+        "archive_bytes": result.archive_bytes,
+        "temporary_bytes": result.temporary_bytes,
+        "stop_reason": result.stop_reason,
+        "identity_after": after_identity,
+        "source_fingerprint_after": after_fingerprint,
+        "collection_report": collection_report,
+        "skip_status": skip_status,
+        "free_disk_after_bytes": min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free),
+    }
+    _atomic_json(record_path, final)
+    receipt_sha256 = _sha256(record_path)
+    _atomic_json(receipt_dir / "preflight.sha256.json", {"sha256": receipt_sha256})
+    receipt_validated = False
+    if state == "PREFLIGHT_PASS":
+        try:
+            validated_path, validated_sha256 = _validate_hex8sri_convergence24_preflight_receipt(
+                store,
+                preflight_id,
+                target=target,
+                identity=identity,
+                source_fingerprint=source_fingerprint,
+                controller_provenance=controller_provenance,
+                manifest_binding=manifest_binding,
+                attempt_ledger=attempt_ledger,
+            )
+            if validated_path != record_path or validated_sha256 != receipt_sha256:
+                raise PolicyError("HEX8-SRI receipt validator returned a different evidence identity")
+            receipt_validated = True
+        except PolicyError:
+            state = "PREFLIGHT_RECEIPT_INVALID"
+            final["state"] = state
+            _atomic_json(record_path, final)
+            receipt_sha256 = _sha256(record_path)
+            _atomic_json(receipt_dir / "preflight.sha256.json", {"sha256": receipt_sha256})
+    return {
+        "preflight_id": preflight_id,
+        "state": state,
+        "receipt_validated": receipt_validated,
+        "bodies_executed": False,
+        "nodeid": target if exact_node_collected else None,
+        "receipt": str(record_path),
+        "receipt_sha256": receipt_sha256,
+        "metrics": final,
+    }
+
+
 def preflight_pytest(
     worktree_id: str,
     target: str,
@@ -2118,12 +4211,16 @@ def preflight_pytest(
 ) -> dict[str, Any]:
     """Collect one exact registered node without reserving a FEM attempt."""
     policy = load_policy()
+    if worktree_id == "rotor":
+        return preflight_rotor_pytest(target, preflight_id, policy=policy)
+    if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+        return preflight_hex8sri_convergence24_pytest(target, preflight_id, policy=policy)
     if worktree_id != "d01":
-        raise PolicyError("collect-only preflight is currently enabled only for the D01 native nodes")
+        raise PolicyError(
+            "collect-only preflight is enabled only for D01, rotor, and the preparation-only HEX8-SRI scope"
+        )
     targets = resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
-    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
-        worktree_id, target, policy
-    )
+    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(worktree_id, target, policy)
     store = _run_root(policy)
     ledger_path, _ledger_lock, mandate_id, predecessor = _node_ledger_context(policy, store, worktree_id)
     if predecessor is None or mandate_id != entry["development_mandate_id"]:
@@ -2343,6 +4440,7 @@ def run_pytest(
     ledger_context: tuple[Path, Path, str, dict[str, str] | None] | None = None
     controller_provenance: dict[str, Any] | None = None
     execution_manifest_receipt: dict[str, Any] | None = None
+    hex8sri_preflight_receipt: tuple[Path, str] | None = None
     if is_registered:
         if not worktree_id or not target or not reason or not reason.strip():
             raise PolicyError("registered worktree tests require one exact target, worktree, and documented reason")
@@ -2351,7 +4449,11 @@ def run_pytest(
             target,
             policy,
         )
-        scope = dict(entry["budgets"])
+        scope = (
+            dict(entry["per_node_budgets"][target])
+            if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID
+            else dict(entry["budgets"])
+        )
         attempt_limit = int(entry.get("attempt_limits_per_nodeid", {}).get(target, entry["attempt_limit_per_nodeid"]))
         if worktree_id in WP12_OWNER_ENVELOPES:
             assert source_fingerprint is not None
@@ -2363,8 +4465,63 @@ def run_pytest(
             if attempt_basis not in D01_ATTEMPT_BASES:
                 raise PolicyError("D01 FEM attempts require a classified attempt basis")
             ledger_context = _node_ledger_context(policy, _run_root(policy, worktree_id), worktree_id)
+        elif worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+            if preflight_id is None or execution_manifest is None:
+                raise PolicyError(
+                    "HEX8-SRI execution requires one validated collect-only receipt and a distinct OWNER_AUTHORIZED manifest"
+                )
+            controller_provenance = _controller_provenance()
+            case_manifest_path, case_manifest, case_manifest_sha256 = _hex8sri_convergence24_manifest(
+                entry, execution_root, target
+            )
+            _verify_hex8sri_convergence24_controller_identity(case_manifest, controller_provenance)
+            case_contract = _hex8sri_convergence24_case_contract(case_manifest)
+            if "x".join(map(str, case_contract["divisions_xyz"])) != _hex8sri_convergence24_case(target)[2]:
+                raise PolicyError("HEX8-SRI execution case mesh does not match the exact registered nodeid")
+            case_manifest_binding = {
+                "path": str(case_manifest_path),
+                "sha256": case_manifest_sha256,
+                "registration_sha256": _hex8sri_manifest_registration_sha256(case_manifest),
+                "case_id": case_manifest["case_id"],
+                "scope_id": worktree_id,
+            }
+            store = _run_root(policy)
+            ledger_path, ledger_lock, mandate_id, predecessor = _node_ledger_context(policy, store, worktree_id)
+            if predecessor is not None or mandate_id != entry["development_mandate_id"]:
+                raise PolicyError("HEX8-SRI execution ledger is not bound to its dedicated campaign mandate")
+            _validate_hex8sri_execution_ledger(ledger_path, entry=entry, target=target)
+            expected_ledger = {
+                "path": str(ledger_path),
+                "mandate_id": mandate_id,
+                "attempts_reserved": False,
+            }
+            hex8sri_preflight_receipt = _validate_hex8sri_convergence24_preflight_receipt(
+                store,
+                preflight_id,
+                target=target,
+                identity=identity,
+                source_fingerprint=source_fingerprint,
+                controller_provenance=controller_provenance,
+                manifest_binding=case_manifest_binding,
+                attempt_ledger=expected_ledger,
+            )
+            execution_manifest_receipt = _validate_hex8sri_execution_manifest(
+                execution_manifest,
+                store=store,
+                target=target,
+                entry=entry,
+                identity=identity,
+                source_fingerprint=source_fingerprint,
+                controller_provenance=controller_provenance,
+                case_manifest_binding=case_manifest_binding,
+                case_manifest=case_manifest,
+                preflight_id=preflight_id,
+                preflight_receipt=hex8sri_preflight_receipt,
+            )
+            _validate_hex8sri_execution_test_contract(execution_root, target)
+            ledger_context = (ledger_path, ledger_lock, mandate_id, predecessor)
         elif preflight_id is not None:
-            raise PolicyError("preflight receipt IDs are supported only for the D01 development envelope")
+            raise PolicyError("preflight receipt IDs are supported only for D01 and the HEX8-SRI convergence mandate")
         if worktree_id in WP12_OWNER_ENVELOPES:
             if execution_manifest is None:
                 raise PolicyError("WP12 FEM attempts require a distinct Owner-authorized execution manifest")
@@ -2380,8 +4537,11 @@ def run_pytest(
                 controller_fingerprint=_stable_fingerprint(controller_provenance),
                 selection=wp12_registration,
             )
-        elif execution_manifest is not None:
-            raise PolicyError("execution manifests are supported only by the registered WP12 missions")
+            # WP12 mandates are scope-specific. Preserve D01's separately handled
+            # predecessor ledger while binding every WP12 ledger key to its scope.
+            ledger_context = _node_ledger_context(policy, _run_root(policy, worktree_id), worktree_id)
+        elif execution_manifest is not None and worktree_id != HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+            raise PolicyError("execution manifests are supported only by registered WP12 or HEX8-SRI cases")
     else:
         execution_root = ROOT
         scope = policy["standard_scopes"][scope_name]
@@ -2393,6 +4553,8 @@ def run_pytest(
                 WP12_COORDINATION_ROOT,
                 entry["concurrency_class"],
             )
+        elif worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+            scenario_lock = _exclusive_file_lock(_run_root(policy) / "locks" / "hex8sri-convergence24-execution.lock")
         else:
             # The lock remains shared by the historical D01/C01 scopes.
             scenario_lock = _exclusive_file_lock(_run_root(policy) / "locks" / "fem-exploratory.lock")
@@ -2403,6 +4565,8 @@ def run_pytest(
     disk_paths = [ROOT, execution_root]
     if worktree_id in WP12_OWNER_ENVELOPES:
         disk_paths.extend([_run_root(policy, worktree_id), WP12_COORDINATION_ROOT])
+    elif worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+        disk_paths.append(_run_root(policy))
     disk_anchors: list[Path] = []
     for disk_path in disk_paths:
         anchor = disk_path.resolve()
@@ -2432,7 +4596,7 @@ def run_pytest(
         raise PolicyError("series ID must use the development-only format dev-<lowercase-id>")
     store = _run_root(policy, worktree_id)
     series_dir = _series_root(store, scope_name, worktree_id) / series_id
-    preflight_receipt: tuple[Path, str] | None = None
+    preflight_receipt: tuple[Path, str] | None = hex8sri_preflight_receipt
     controller_provenance = controller_provenance or _controller_provenance()
     if worktree_id == "d01":
         assert preflight_id is not None and source_fingerprint is not None and target is not None
@@ -2467,7 +4631,9 @@ def run_pytest(
         ledger_key: str | None = None
         ledger_number: int | None = None
         if is_registered:
-            assert worktree_id is not None and source_fingerprint is not None and reason is not None and target is not None
+            assert (
+                worktree_id is not None and source_fingerprint is not None and reason is not None and target is not None
+            )
             try:
                 ledger_key, ledger_number = _reserve_node_attempt(
                     node_ledger_path,
@@ -2479,12 +4645,19 @@ def run_pytest(
                     source_fingerprint=source_fingerprint,
                     reason=reason.strip(),
                     maximum=attempt_limit,
-                    total_maximum=(entry.get("max_total_attempts") if worktree_id in WP12_OWNER_ENVELOPES else None),
+                    total_maximum=(
+                        entry.get("max_total_attempts")
+                        if worktree_id in WP12_OWNER_ENVELOPES or worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID
+                        else None
+                    ),
                     wp12_selection=wp12_registration,
                     authorization_id=(
                         execution_manifest_receipt["authorization_id"]
                         if execution_manifest_receipt is not None
                         else None
+                    ),
+                    owner_decision_id=(
+                        execution_manifest_receipt["decision_id"] if execution_manifest_receipt is not None else None
                     ),
                     predecessor=ledger_predecessor,
                     controller_fingerprint=_stable_fingerprint(controller_provenance),
@@ -2520,6 +4693,38 @@ def run_pytest(
             ),
             wp12_selection=wp12_registration,
         )
+        if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+            assert (
+                target is not None
+                and preflight_id is not None
+                and execution_manifest_receipt is not None
+                and controller_provenance is not None
+                and hex8sri_preflight_receipt is not None
+            )
+            controller_identity = controller_provenance["identity"]
+            controller_hashes = controller_provenance["sha256"]
+            environment.update(
+                {
+                    "QF_DEV_WORKTREE_ID": HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+                    "QF_DEV_CAMPAIGN_SCOPE_ID": HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+                    "QF_DEV_TARGET_NODEID": target,
+                    "QF_DEV_MANIFEST_PATH": execution_manifest_receipt["path"],
+                    "QF_DEV_MANIFEST_SHA256": execution_manifest_receipt["sha256"],
+                    "QF_DEV_CASE_MANIFEST_PATH": str(case_manifest_path),
+                    "QF_DEV_CASE_MANIFEST_SHA256": case_manifest_sha256,
+                    "QF_DEV_PREFLIGHT_ID": preflight_id,
+                    "QF_DEV_PREFLIGHT_SHA256": hex8sri_preflight_receipt[1],
+                    "QF_DEV_CONTROLLER_ROOT": str(ROOT.resolve()),
+                    "QF_DEV_CONTROLLER_BRANCH": controller_identity["branch"],
+                    "QF_DEV_CONTROLLER_HEAD": controller_identity["head"],
+                    "QF_DEV_CONTROLLER_TREE": controller_identity["tree"],
+                    "QF_DEV_CONTROLLER_RUNNER_SHA256": controller_hashes["runner"],
+                    "QF_DEV_CONTROLLER_POLICY_SHA256": controller_hashes["policy"],
+                    "QF_DEV_CONTROLLER_PLUGIN_SHA256": controller_hashes["pytest_plugin"],
+                    "QF_DEV_AUTHORIZATION_ID": execution_manifest_receipt["authorization_id"],
+                    "QF_DEV_OWNER_DECISION_ID": execution_manifest_receipt["decision_id"],
+                }
+            )
         child_native_guard = _validate_native_guard_environment(inherited_environment, environment)
         started_at = datetime.now(timezone.utc).isoformat()
         initial: dict[str, Any] = {
@@ -2552,7 +4757,10 @@ def run_pytest(
             "budgets": dict(scope),
             "wp12_case_selection": (
                 {
-                    **{key: wp12_registration[key] for key in ("selected_dofs", "selection_basis", "timeout_seconds", "timeout_reason")},
+                    **{
+                        key: wp12_registration[key]
+                        for key in ("selected_dofs", "selection_basis", "timeout_seconds", "timeout_reason")
+                    },
                     "checked_before_attempt_reservation": True,
                     "registration_source_fingerprint": wp12_registration["source_fingerprint"],
                 }
@@ -2599,7 +4807,9 @@ def run_pytest(
             )
         except OSError as exc:
             finished_at = datetime.now(timezone.utc).isoformat()
-            post_fingerprint = _worktree_source_fingerprint(execution_root, target) if is_registered and target else "NOT_CAPTURED"
+            post_fingerprint = (
+                _worktree_source_fingerprint(execution_root, target) if is_registered and target else "NOT_CAPTURED"
+            )
             final = {
                 **initial,
                 "state": "LAUNCH_FAILED",
@@ -2620,7 +4830,12 @@ def run_pytest(
                     finished_at_utc=finished_at,
                     post_fingerprint=post_fingerprint,
                 )
-            return {"series_id": series_id, "attempt": ledger_number or number, "state": "LAUNCH_FAILED", "record": str(record_path)}, 1
+            return {
+                "series_id": series_id,
+                "attempt": ledger_number or number,
+                "state": "LAUNCH_FAILED",
+                "record": str(record_path),
+            }, 1
         finished_at = datetime.now(timezone.utc).isoformat()
         post_fingerprint = source_fingerprint
         state = result.status
@@ -2689,9 +4904,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     subparsers = parser.add_subparsers(dest="command", required=True)
     preflight_parser = subparsers.add_parser(
         "preflight",
-        help="collect one exact D01 native node without running its test body or consuming an attempt",
+        help="collect one exact D01, rotor, or preparation-only HEX8-SRI node without running its body",
     )
-    preflight_parser.add_argument("--worktree", choices=("d01",), required=True)
+    preflight_parser.add_argument(
+        "--worktree", choices=("d01", "rotor", HEX8SRI_CONVERGENCE24_WORKTREE_ID), required=True
+    )
     preflight_parser.add_argument("--target", required=True)
     preflight_parser.add_argument("--preflight-id", help="optional unused pf-<12 lowercase hex> ID")
     registration_parser = subparsers.add_parser(
@@ -2701,10 +4918,21 @@ def main(argv: Sequence[str] | None = None) -> int:
     registration_parser.add_argument("--worktree", choices=tuple(WP12_OWNER_ENVELOPES), required=True)
     registration_parser.add_argument("--target", required=True, help="exact tests/unit/module.py::test_function nodeid")
     registration_parser.add_argument("--reason", required=True, help="short scientific or regression rationale")
-    registration_parser.add_argument("--selected-dofs", type=int, required=True, help="declared DDL count checked before execution")
-    registration_parser.add_argument("--selection-basis", required=True, help="brief mesh/formulation basis for the selected DDL count")
-    registration_parser.add_argument("--timeout-seconds", type=int, choices=(300, 900), help="defaults to the scope budget; 900 is exceptional for elements")
-    registration_parser.add_argument("--timeout-reason", help="required only for an exceptional 900-second elements case")
+    registration_parser.add_argument(
+        "--selected-dofs", type=int, required=True, help="declared DDL count checked before execution"
+    )
+    registration_parser.add_argument(
+        "--selection-basis", required=True, help="brief mesh/formulation basis for the selected DDL count"
+    )
+    registration_parser.add_argument(
+        "--timeout-seconds",
+        type=int,
+        choices=(300, 900),
+        help="defaults to the scope budget; 900 is exceptional for elements",
+    )
+    registration_parser.add_argument(
+        "--timeout-reason", help="required only for an exceptional 900-second elements case"
+    )
     manifest_parser = subparsers.add_parser(
         "prepare-manifest",
         help="write a source-bound WP12 execution-manifest template marked NOT_AUTHORIZED; never runs tests",
@@ -2712,15 +4940,41 @@ def main(argv: Sequence[str] | None = None) -> int:
     manifest_parser.add_argument("--worktree", choices=tuple(WP12_OWNER_ENVELOPES), required=True)
     manifest_parser.add_argument("--target", required=True, help="one previously registered exact nodeid")
     manifest_parser.add_argument("--authorization-id", required=True)
+    hex8sri_manifest_parser = subparsers.add_parser(
+        "prepare-hex8sri-manifest",
+        help="write an exact HEX8-SRI execution template that remains PREPARED_NOT_AUTHORIZED",
+    )
+    hex8sri_manifest_parser.add_argument("--target", required=True, help="one exact registered convergence24 nodeid")
+    hex8sri_manifest_parser.add_argument(
+        "--preflight-id", required=True, help="validated exact-node collect-only receipt ID"
+    )
+    hex8sri_manifest_parser.add_argument(
+        "--authorization-id", required=True, help="unique draft ID; not an Owner grant"
+    )
+    owner_decision_parser = subparsers.add_parser(
+        "archive-hex8sri-owner-decision",
+        help="validate and immutably archive a freeze-only or execution decision; never creates a manifest or runs tests",
+    )
+    owner_decision_parser.add_argument("--decision-json", type=Path, required=True, help="Owner decision JSON input")
     test_parser = subparsers.add_parser("test", help="run one fixed development pytest scope")
-    test_parser.add_argument("--scope", choices=("unit", "integration", "fem_exploratory", "math_non_fem"), required=True)
-    test_parser.add_argument("--target", help="repository-relative test file/nodeid; FEM requires an exact approved nodeid")
+    test_parser.add_argument(
+        "--scope", choices=("unit", "integration", "fem_exploratory", "math_non_fem"), required=True
+    )
+    test_parser.add_argument(
+        "--target", help="repository-relative test file/nodeid; FEM requires an exact approved nodeid"
+    )
     test_parser.add_argument("--series", help="development-only dev-* series ID for bounded follow-up attempts")
     test_parser.add_argument("--worktree", help="registered worktree ID for one exact development nodeid")
-    test_parser.add_argument("--reason", help="short documented development hypothesis/reason for a registered nodeid attempt")
-    test_parser.add_argument("--preflight-id", help="successful exact-node D01 collect-only receipt ID")
-    test_parser.add_argument("--execution-manifest", help="Owner-authorized WP12 manifest under that mission's evidence root")
-    test_parser.add_argument("--attempt-basis", choices=D01_ATTEMPT_BASES, help="D01 baseline/change/hypothesis classification")
+    test_parser.add_argument(
+        "--reason", help="short documented development hypothesis/reason for a registered nodeid attempt"
+    )
+    test_parser.add_argument("--preflight-id", help="successful exact-node D01 or HEX8-SRI collect-only receipt ID")
+    test_parser.add_argument(
+        "--execution-manifest", help="Owner-authorized WP12 or HEX8-SRI manifest under its mission authorization root"
+    )
+    test_parser.add_argument(
+        "--attempt-basis", choices=D01_ATTEMPT_BASES, help="D01 baseline/change/hypothesis classification"
+    )
     test_parser.add_argument("--hypothesis-id", help="unique ID required for a same-input new diagnostic hypothesis")
     args = parser.parse_args(argv)
     try:
@@ -2737,6 +4991,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             exit_code = 0
         elif args.command == "prepare-manifest":
             result = prepare_wp12_execution_manifest(args.worktree, args.target, args.authorization_id)
+            exit_code = 0
+        elif args.command == "prepare-hex8sri-manifest":
+            result = prepare_hex8sri_execution_manifest(args.target, args.preflight_id, args.authorization_id)
+            exit_code = 0
+        elif args.command == "archive-hex8sri-owner-decision":
+            result = archive_hex8sri_owner_decision(args.decision_json)
             exit_code = 0
         elif args.command == "preflight":
             result = preflight_pytest(args.worktree, args.target, args.preflight_id)

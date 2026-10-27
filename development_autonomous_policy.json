@@ -357,6 +357,157 @@
         }
       ]
     },
+    "wp12_elements_loads": {
+      "purpose": "WP12-B BEAM2 rotated line load, curved TET10 pressure and HEX20 affine traction cases",
+      "mode": "fem_exploratory",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "branch": "verify/wp12-elements-loads",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-elements-loads",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 3,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 30000,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 3
+      },
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "output_stream_limit_mib": 32,
+        "output_total_limit_mib": 64,
+        "process_tree_limit": 16,
+        "rss_soft_limit_mib": 4096,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 300
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+        "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+        "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch"
+      ],
+      "nodeid_registration_records": [
+        {
+          "reason": "Register the reviewed rotated BEAM2 line-load continuity case on its exact scientific branch.",
+          "registered_at_utc": "2026-10-26T21:34:57.660424+00:00",
+          "selected_dofs": 12,
+          "selection_basis": "One BEAM2 has two six-DOF nodes; the clamped root fixes six DDL and the tip retains six free DDL.",
+          "source_fingerprint": "d7eeaa57fac7b124eeeb34d6886420fa4dc0a2f6dd588e3c4df440d00c673896",
+          "target": "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "8818b1b4095bd7f5c1303d640375c2c577bdc4d8"
+        },
+        {
+          "reason": "Register the reviewed curved TET10 pressure solve with independent face resultant and moment quadrature.",
+          "registered_at_utc": "2026-10-26T21:35:02.942755+00:00",
+          "selected_dofs": 30,
+          "selection_basis": "One TET10 has 10 nodes times 3 translational DDL; six support-face nodes fix 18 DDL, leaving 12 free.",
+          "source_fingerprint": "53b10b6ffb8bead69f5c31e4529c542eefd3a97d23dbbf763d0851846903e953",
+          "target": "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "8818b1b4095bd7f5c1303d640375c2c577bdc4d8"
+        },
+        {
+          "reason": "Register the reviewed HEX20 affine traction patch with exact Hooke field and work-energy checks.",
+          "registered_at_utc": "2026-10-26T21:35:04.227992+00:00",
+          "selected_dofs": 60,
+          "selection_basis": "One HEX20 has 20 nodes times 3 translational DDL; the eight-node x=0 face fixes 24, leaving 36 free.",
+          "source_fingerprint": "eb43367d0c044afb20df5693715a056c8ced622ead545b799dcb6d9e19ce3d77",
+          "target": "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "8818b1b4095bd7f5c1303d640375c2c577bdc4d8"
+        }
+      ]
+    },
+    "wp12_elements_loads_corrective": {
+      "purpose": "WP12-B corrective campaign after preserved scope-identity guard refusals; execution identity remains wp12_elements_loads",
+      "mode": "fem_exploratory",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "branch": "emptiesvoids-cloud/fix-wp12b-scope-identity-guard",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-elements-loads-corrective-r1",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 3,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 30000,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-CORRECTIVE-2026-10-26-R1",
+      "require_clean_worktree": true,
+      "execution_scope_id": "wp12_elements_loads",
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 3
+      },
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+        "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+        "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch"
+      ],
+      "nodeid_registration_records": [
+        {
+          "target": "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+          "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26",
+          "reason": "Corrective source revision after the archived scope identity guard refusal; no test execution is authorized.",
+          "registered_at_utc": "2026-10-26T22:21:35.969657+00:00",
+          "worktree_head": "2db9c9b54283a6c78953fbcede427527101ec8cf",
+          "source_fingerprint": "f55021a05cca3cde5014584d7236823a0936df2e6eca97887c910d99468be107",
+          "selected_dofs": 12,
+          "selection_basis": "One BEAM2 has 12 total DDL across two six-DOF nodes; six root constraints leave six tip DDL.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+          "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26",
+          "reason": "Corrective source revision after the archived scope identity guard refusal; no test execution is authorized.",
+          "registered_at_utc": "2026-10-26T22:21:37.194069+00:00",
+          "worktree_head": "2db9c9b54283a6c78953fbcede427527101ec8cf",
+          "source_fingerprint": "cb601689e3e34227f4403ddb4108962d312fd0300a49c597775ee6c3eaf322bb",
+          "selected_dofs": 30,
+          "selection_basis": "One TET10 has 30 translational DDL; six support-face nodes constrain 18, leaving 12 free DDL.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch",
+          "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26",
+          "reason": "Corrective source revision after the archived scope identity guard refusal; no test execution is authorized.",
+          "registered_at_utc": "2026-10-26T22:21:38.379125+00:00",
+          "worktree_head": "2db9c9b54283a6c78953fbcede427527101ec8cf",
+          "source_fingerprint": "34709c5f7485a55cf9debc3952927a02639cf9c57ea4a945d19829945448962e",
+          "selected_dofs": 60,
+          "selection_basis": "One HEX20 has 60 translational DDL; eight supported face nodes constrain 24, leaving 36 free DDL.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        }
+      ],
+      "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26"
+    },
     "wp12_dynamics": {
       "purpose": "WP12 WP04-WP07 modal projection, reduced harmonic, Newmark and base-acceleration checks",
       "mode": "fem_exploratory",
@@ -626,6 +777,556 @@
           "worktree_head": "d9deddbd6b42467c5fdc9e278bd54e97605f5738"
         }
       ]
+    },
+    "rotor": {
+      "purpose": "WP12 inherited rotordynamics sentinels; registration and manifest preparation only until separate Owner decisions",
+      "mode": "fem_exploratory",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\wp12-rotor-performance\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\wp12-rotor-performance\\qf_solver",
+      "branch": "verify/wp12-rotor-performance",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\rotor",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 8,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 12,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ROTOR-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 8
+      },
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_rotating_modal_cases.py::test_gyro01_zero_speed_matches_modal_frequencies_multiplicity_and_subspaces",
+        "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_unit_speed_gyro_blocks_match_contract",
+        "tests/unit/test_rotating_disk_gyro.py::test_assembled_gyro_uses_same_global_dof_map_and_has_zero_quadratic_work",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-100.0]",
+        "tests/unit/test_modal_tracking.py::test_competing_source_modes_make_the_global_assignment_ambiguous",
+        "tests/unit/test_campbell.py::test_campbell_sweep_reuses_one_model_and_serializes_complex_source_results",
+        "tests/unit/test_campbell.py::test_campbell_is_exposed_through_model_schema_and_analysis_router"
+      ],
+      "nodeid_registration_records": [
+        {
+          "target": "tests/unit/test_rotating_modal_cases.py::test_gyro01_zero_speed_matches_modal_frequencies_multiplicity_and_subspaces",
+          "reason": "Zero-speed rotating modal recovery against the classical modal route on the exact six-free-DOF BEAM2 sentinel.",
+          "registered_at_utc": "2026-10-26T21:43:56.577381+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "0106cc0d24fc11e053dacadb7beaca301c914a19ef0e350713501e1f5e20ef38",
+          "selected_dofs": 6,
+          "selection_basis": "BEAM2 two-node cantilever; node 0 fixed in all six DOF; node 1 supplies six free DOF to modal and rotating QEP routes.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_unit_speed_gyro_blocks_match_contract",
+          "reason": "Check the exact rigid-disk mass and unit-speed gyroscopic blocks against their frozen matrix contract.",
+          "registered_at_utc": "2026-10-26T21:43:57.889250+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "c60a2f4e8aea833c97a5dddf9615579b9e0acb4854645fa4614b6a33c2656faa",
+          "selected_dofs": 6,
+          "selection_basis": "One six-DOF rigid disk block; local translational and rotational matrix entries only.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_disk_gyro.py::test_assembled_gyro_uses_same_global_dof_map_and_has_zero_quadratic_work",
+          "reason": "Check discrete gyro placement in the two-node global DOF map and skew-work invariant without an eigensolve.",
+          "registered_at_utc": "2026-10-26T21:43:59.173395+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "c60a2f4e8aea833c97a5dddf9615579b9e0acb4854645fa4614b6a33c2656faa",
+          "selected_dofs": 12,
+          "selection_basis": "Two-node six-DOF DofManager gives twelve global DOF; only the discrete gyroscopic block is assembled.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]",
+          "reason": "Positive-spin GYRO-03 analytic disk oracle and dense two-DOF QEP residual sentinel.",
+          "registered_at_utc": "2026-10-26T21:44:00.462411+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "06db584735b94e945921ff771bf984a3e8e2994806bd262fbed38aa5f66cb74b",
+          "selected_dofs": 2,
+          "selection_basis": "Two rotational DOF RY/RZ in the analytic disk QEP; dense companion pencil dimension is four.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-100.0]",
+          "reason": "Negative-spin GYRO-03 analytic disk oracle and dense two-DOF QEP residual sentinel.",
+          "registered_at_utc": "2026-10-26T21:44:01.792082+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "06db584735b94e945921ff771bf984a3e8e2994806bd262fbed38aa5f66cb74b",
+          "selected_dofs": 2,
+          "selection_basis": "Two rotational DOF RY/RZ in the analytic disk QEP; dense companion pencil dimension is four.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_tracking.py::test_competing_source_modes_make_the_global_assignment_ambiguous",
+          "reason": "Check explicit ambiguous global modal assignment from two supplied source modes, without computing eigenpairs.",
+          "registered_at_utc": "2026-10-26T21:44:03.136100+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "4e8545167a87acd12237f84e43c5510e55b70721f079e363ef4a69a633df7cde",
+          "selected_dofs": 2,
+          "selection_basis": "Two supplied synthetic modal vectors; tracking operates on a two-dimensional mass metric.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_campbell.py::test_campbell_sweep_reuses_one_model_and_serializes_complex_source_results",
+          "reason": "Check the exact three-speed BEAM2 Campbell sweep, invariant operators, and complex result serialization.",
+          "registered_at_utc": "2026-10-26T21:44:04.483873+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "bcbc090a428fc5bdd21ebb269264880fd8d882e197947be1ab76b4832af99488",
+          "selected_dofs": 6,
+          "selection_basis": "BEAM2 cantilever with six free DOF at node 1; explicit Campbell speeds 0, 10, and 25 rad/s.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_campbell.py::test_campbell_is_exposed_through_model_schema_and_analysis_router",
+          "reason": "Check Campbell schema and AnalysisRouter exposure on the exact two-speed BEAM2 sentinel.",
+          "registered_at_utc": "2026-10-26T21:44:05.921707+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "bcbc090a428fc5bdd21ebb269264880fd8d882e197947be1ab76b4832af99488",
+          "selected_dofs": 6,
+          "selection_basis": "BEAM2 cantilever with six free DOF at node 1; explicit Campbell speeds 0 and 5 rad/s.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        }
+      ]
+    },
+    "hex8sri-convergence24": {
+      "purpose": "HEX8-SRI paired spatial-convergence campaign; separate criteria freeze and case execution decisions required",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\hex8-sri-research",
+      "git_root": "E:\\QFSolverAgents\\hex8-sri-research",
+      "branch": "research/hex8-sri-equilibrium",
+      "baseline_commit": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1",
+      "campaign_id": "HEX8-SRI-CONVERGENCE-24-2026-10-27",
+      "campaign_scope_id": "hex8sri-convergence24",
+      "source_fingerprint_sha256": "994bdea7e518cc4b7e353192eb3331f4cf34015ede188a0c00f9fda9eda487ff",
+      "source_identity": {
+        "branch": "research/hex8-sri-equilibrium",
+        "head": "31ee6eda7921350f552f9e2e18c48973dc5718c1",
+        "tree": "385f45e1a8ebfaa2e7051912c9902fa4f13220d2",
+        "fingerprint_sha256": "994bdea7e518cc4b7e353192eb3331f4cf34015ede188a0c00f9fda9eda487ff",
+        "fingerprint_algorithm": "raw_worktree_inventory_sha256_v1",
+        "inventory_path": "docs/development/hex8sri-source-byte-inventory-31ee6eda.json",
+        "inventory_sha256": "ec411bb4c63a6aca6ab3ad6933119fdb40ca36a633c7dc80f6239488e78b1ca7",
+        "inventory_file_count": 517,
+        "raw_byte_policy": "preserve checkout bytes; no LF/CRLF normalization"
+      },
+      "source_test_worktree_id": "hex8sri-convergence24",
+      "manifest_registration_id": "hex8sri-convergence24",
+      "manifest_binding_mode": "canonical_case_content_v1",
+      "require_clean_worktree": true,
+      "source_root": "src",
+      "pytest_root": "tests/verification",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 24,
+      "execution_authorized": false,
+      "node_attempt_ledger": {
+        "path": "node-attempt-ledger-hex8sri-convergence24.json"
+      },
+      "blas_thread_environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budgets": {
+        "process_tree_limit": 8,
+        "output_total_limit_mib": 16,
+        "output_stream_limit_mib": 8,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256,
+        "minimum_free_disk_mib": 2048,
+        "timeout_seconds": 3600,
+        "rss_soft_limit_mib": 16384
+      },
+      "per_node_budgets": {
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        }
+      },
+      "allowed_nodeids": [
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]"
+      ],
+      "case_manifests": {
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_16x8x8.json",
+          "sha256": "ec39f76c4b1dc3df7700bc23b51d93db0de1d5b4d8eb1945a09a5ae928cfd3fe"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_32x16x16.json",
+          "sha256": "6b00e4398f9d1c43cbe5a53efcdc95e858626260d9d5375826985a6dd2576671"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_4x2x2.json",
+          "sha256": "19114bf0182448059d35fc9c03fe1d8b124edf182b3f2d30f9057268fef979b6"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_8x4x4.json",
+          "sha256": "d5e6697874b0a42af241afd93f4403b8dbb2131b7fadbe031fd778de9a47ed4a"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_16x8x8.json",
+          "sha256": "305f711caf804516ed9e7226107f796d6ac84183c646630ab014e5ede3215de3"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_32x16x16.json",
+          "sha256": "1ff5baee8b5caa2a70992d9b05f89c94b59ef97976b577c4f91b6da0f70490e0"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_4x2x2.json",
+          "sha256": "5afd1ac38fbbe60e9106a66e7c2563dbe3189fd1de8f063cb51cfd9f42ef4ae3"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_8x4x4.json",
+          "sha256": "b9e8d275c350f67ff7ad15c41e5b34fd336e72b844eae4a7ec9ebf33c3479483"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_16x8x8.json",
+          "sha256": "3c3ae29d917baa1afa7d545d854c98f294ee7aa636730d4df26fde6ec24da6b1"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_32x16x16.json",
+          "sha256": "74b21f3e9bf58bf2dd523b4a49122d248c2f7ce5063d162578c099545e7ab2e0"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_4x2x2.json",
+          "sha256": "9bf6b3655b028228b9a6e198fa2cb0b56466731b6c333e1a82520efa3a90f574"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_8x4x4.json",
+          "sha256": "e9f7ebdbe536d5db6e5513e220477ee70de56f3a653a1a0f65ec9d2f9b35cca8"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_16x8x8.json",
+          "sha256": "cd85107785949176f24c6f21b1ecfa2cffff65250c19b6fbd0a073d5326a1a79"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_32x16x16.json",
+          "sha256": "a4ab8f51b31db20b026dd74525c468241e8f8cea4eb12f85798f6d846b6a8215"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_4x2x2.json",
+          "sha256": "1848d37fc44c3685429fca74cad53eb92aafe232dc1682fea2ee4623a5b8e430"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_8x4x4.json",
+          "sha256": "1eafc0cc0556f21de0d61c9470e9a54f4bc4a9e723b179841344567bc134a767"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_16x8x8.json",
+          "sha256": "dbe9098e568cca1b681a3d3414d79f5c979585a2ab850515b2c5eb8b0bf139a6"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_32x16x16.json",
+          "sha256": "a32d5dcc4905d84eba51ac5b904a70da1e93ce7f81b11bedd31831d597072a9a"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_4x2x2.json",
+          "sha256": "b94424defb2281668b0828a5dabd944445722460b0cf4c34a0844110cf29c945"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_8x4x4.json",
+          "sha256": "44f60c5fe9eb0092f4c4e2932ae00cd67d3d4ed6c842d436318d245192587f61"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_16x8x8.json",
+          "sha256": "69101fe42840828f9e445f8aacc1aa71b550fed2ac1d1fd3a2ec940b131a41bc"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_32x16x16.json",
+          "sha256": "7c10a25cf33c8eaea960c10621387116df895326bb8c4bcbacc1e36fddc74365"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_4x2x2.json",
+          "sha256": "59b6aa83da459550aac37c8a7475dd66792017cf15d8a662490328f745691d7f"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_8x4x4.json",
+          "sha256": "ea53567bdc7fc72ec9626f8dc2f61753c23881256ec7a26e310f0d2a43a346c0"
+        }
+      }
     }
   },
   "resource_coordination_root": "E:\\QFSolverAgents\\evidence\\.wp12-coordination"
