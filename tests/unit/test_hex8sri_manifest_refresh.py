@@ -262,8 +262,9 @@ def test_versioned_case_manifest_is_bound_to_clean_controller_head(
     target = "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]"
     name = "manifest_hex8_standard_nu_0p3_4x2x2.json"
     head = "a" * 40
-    template = ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/" + name
-    directory = science_root / ".codex" / "development-runs" / "hex8sri-manifests" / "registry-eb58-v3" / head
+    campaign = science_root / "campaign"
+    template = (Path("campaign") / "results" / "hex8sri-registry-v4" / "{controller_head}" / name).as_posix()
+    directory = campaign / "results" / "hex8sri-registry-v4" / head
     directory.mkdir(parents=True)
     (directory / name).write_bytes((source / name).read_bytes())
     (directory / "common_problem.json").write_bytes((source / "common_problem.json").read_bytes())
@@ -275,6 +276,7 @@ def test_versioned_case_manifest_is_bound_to_clean_controller_head(
     monkeypatch.setattr(controller, "_git_identity", lambda *_args, **_kwargs: {"head": head, "status_short": ""})
     path, _, _ = controller._hex8sri_convergence24_manifest(entry, science_root, target)
     assert path == (directory / name).resolve()
+    assert path.is_relative_to(campaign.resolve())
     monkeypatch.setattr(controller, "_git_identity", lambda *_args, **_kwargs: {"head": head, "status_short": " M policy"})
     with pytest.raises(controller.PolicyError, match="requires a clean controller HEAD"):
         controller._hex8sri_convergence24_manifest(entry, science_root, target)

@@ -958,8 +958,6 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             or ".." in manifest_path.parts
             or not str(binding.get("path", "")).startswith((
                 "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/",
-                ".codex/development-runs/hex8sri-manifests/registry-eb58-v2/",
-                ".codex/development-runs/hex8sri-manifests/registry-eb58-v3/{controller_head}/",
             ))
             or not re.fullmatch(r"[0-9a-f]{64}", str(binding.get("sha256", "")))
         ):
