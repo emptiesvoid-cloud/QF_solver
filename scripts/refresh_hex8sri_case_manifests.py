@@ -27,6 +27,9 @@ except ModuleNotFoundError:
 CAMPAIGN_RELATIVE = Path("investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24")
 SOURCE_DIRNAME = "registered_manifests_execution_gate"
 REFRESH_DIRNAME = "registered_manifests_source_refresh_c93d539d"
+HISTORICAL_SOURCE_HEAD = "8b61f5d37b9557e6d04cbcf8d787b4208af49486"
+HISTORICAL_SOURCE_FINGERPRINT = "c93d539d6b67417f067a190066629d41f84c1a04f61a86b50034c3cfda917d04"
+HISTORICAL_SUMS_SHA256 = "aa16aa90850d48a8a3765e5b6611d5361db5db597302a6b43b2215263fbed632"
 PREPARATION_STATUS = "NOT_RUN_AT_MANIFEST_CREATION; RECEIPT_STORED_SEPARATELY"
 CONTROLLER_FIELDS = {
     "controller_code_sha256",
@@ -265,6 +268,50 @@ def _validate_common_physics(common_problem: dict[str, Any]) -> None:
             raise ValueError(f"common-problem model, oracle, or criteria differs from the reviewed baseline at {key}")
 
 
+def _read_case_inventory(directory: Path, targets: tuple[str, ...]) -> dict[str, dict[str, Any]]:
+    """Validate the typed index, exact case filenames, and the historical SHA-256 sidecar."""
+    index_path = directory / "manifest_bindings.json"
+    try:
+        if _sha256((directory / "SHA256SUMS.txt").read_bytes()) != HISTORICAL_SUMS_SHA256:
+            raise ValueError("historical SHA-256 sidecar differs from its registered digest")
+        index = controller._read_strict_json(index_path)
+        lines = (directory / "SHA256SUMS.txt").read_text(encoding="ascii").splitlines()
+    except (OSError, ValueError) as exc:
+        raise ValueError(f"case inventory or SHA-256 sidecar is unavailable: {exc}") from exc
+    bindings = index.get("bindings") if isinstance(index, dict) else None
+    if not isinstance(index, dict) or index.get("schema") != "qfsolver-hex8sri-convergence24-manifest-bindings-v1" or not isinstance(bindings, dict) or set(bindings) != set(targets):
+        raise ValueError("typed manifest index must enumerate exactly the 24 registered nodeids")
+    expected = {}
+    for nodeid in targets:
+        case = controller._hex8sri_convergence24_case(nodeid)
+        if case is None:
+            raise ValueError("unregistered case in manifest index")
+        case_id = f"{case[0]}_nu_{case[1]}_{case[2]}"
+        expected[nodeid] = f"manifest_{case_id}.json"
+    actual = {p.name for p in directory.glob("manifest_*.json")} - {"manifest_bindings.json"}
+    if actual != set(expected.values()):
+        raise ValueError("case manifest filenames are missing, extra, or ambiguous")
+    checksums = {}
+    for line in lines:
+        parts = line.split("  ", 1)
+        if len(parts) != 2 or len(parts[0]) != 64 or any(c not in "0123456789abcdef" for c in parts[0]) or parts[1] in checksums or Path(parts[1]).name != parts[1]:
+            raise ValueError("SHA-256 sidecar contains an invalid or duplicate entry")
+        checksums[parts[1]] = parts[0]
+    if set(checksums) != set(expected.values()) | {"manifest_bindings.json", "common_problem.json"}:
+        raise ValueError("SHA-256 sidecar does not enumerate the exact input pieces")
+    for name, sha in checksums.items():
+        if not (directory / name).is_file() or _sha256((directory / name).read_bytes()) != sha:
+            raise ValueError(f"SHA-256 mismatch for input piece: {name}")
+    result = {}
+    for nodeid, name in expected.items():
+        binding = bindings[nodeid]
+        manifest = controller._read_strict_json(directory / name)
+        if not isinstance(binding, dict) or not isinstance(manifest, dict) or manifest.get("schema") != "qfsolver-hex8-sri-structural-case-v2" or manifest.get("exact_nodeid") != nodeid or Path(str(binding.get("path", ""))).name != name or binding.get("raw_sha256") != checksums[name] or binding.get("sha256") != _registration_sha256(manifest) or binding.get("case_id") != manifest.get("case_id"):
+            raise ValueError(f"typed manifest binding or schema mismatch: {name}")
+        result[nodeid] = manifest
+    return result
+
+
 def build_refresh_plan(
     science_root: Path,
     source_manifest_dir: Path,
@@ -293,20 +340,7 @@ def build_refresh_plan(
         raise FileExistsError(f"refusing to overwrite a prior manifest refresh: {output_dir}")
 
     targets = controller._hex8sri_convergence24_nodeids()
-    input_files = sorted(
-        path for path in source_manifest_dir.glob("manifest_*.json") if path.name.casefold() != "manifest_index.json"
-    )
-    if len(input_files) != 24:
-        raise ValueError("source manifest directory must contain exactly 24 registered case manifests")
-    old_by_target: dict[str, dict[str, Any]] = {}
-    for path in input_files:
-        manifest = json.loads(path.read_text(encoding="utf-8"))
-        target = manifest.get("exact_nodeid")
-        if target not in targets or target in old_by_target:
-            raise ValueError(f"source manifest has an unregistered or duplicate nodeid: {path.name}")
-        old_by_target[target] = manifest
-    if set(old_by_target) != set(targets):
-        raise ValueError("source manifest set does not exactly match the 24 registered nodeids")
+    old_by_target = _read_case_inventory(source_manifest_dir, targets)
 
     source_hashes_by_target: dict[str, dict[str, str]] = {}
     for target in targets:
@@ -332,6 +366,20 @@ def build_refresh_plan(
         raise ValueError("source file inventory differs between registered nodeids")
 
     first_hashes = source_hashes_by_target[targets[0]]
+    entry = controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+    identity = controller._git_identity(science_root, expected_branch=entry["branch"], baseline_commit=entry["baseline_commit"])
+    controller._validate_hex8sri_registered_source_identity(
+        science_root, entry, identity, targets[0], first_hashes, expected_source_fingerprint
+    )
+    historical_hashes = common_source_identity.get("source_files_sha256")
+    if (
+        common_source_identity.get("source_commit") != HISTORICAL_SOURCE_HEAD
+        or common_source_identity.get("source_fingerprint_sha256") != HISTORICAL_SOURCE_FINGERPRINT
+        or not isinstance(historical_hashes, dict)
+        or controller._source_inventory_fingerprint(historical_hashes) != HISTORICAL_SOURCE_FINGERPRINT
+    ):
+        raise ValueError("historical science inventory is missing, altered or unregistered")
+
     refreshed_common = dict(common_problem)
     refreshed_common["source_identity"] = {
         "branch": "research/hex8-sri-equilibrium",
@@ -359,8 +407,8 @@ def build_refresh_plan(
             raise ValueError(f"source case is authorized or has frozen criteria: {target}")
         if old.get("science_branch") != "research/hex8-sri-equilibrium":
             raise ValueError(f"source case names a different science branch: {target}")
-        if old.get("source_files_sha256") and set(old["source_files_sha256"]) != expected_file_set:
-            raise ValueError(f"source-file inventory differs from the verified worktree: {target}")
+        if old.get("source_files_sha256") != historical_hashes or old.get("science_source_commit") != HISTORICAL_SOURCE_HEAD or old.get("source_fingerprint_sha256") != HISTORICAL_SOURCE_FINGERPRINT:
+            raise ValueError(f"case historical source identity differs from its verified inventory: {target}")
         case = controller._hex8sri_convergence24_case(target)
         if case is None:
             raise ValueError(f"nodeid no longer maps to a registered case: {target}")

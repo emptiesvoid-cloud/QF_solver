@@ -956,9 +956,10 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         if (
             manifest_path.is_absolute()
             or ".." in manifest_path.parts
-            or not str(binding.get("path", "")).startswith(
-                "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/"
-            )
+            or not str(binding.get("path", "")).startswith((
+                "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/",
+                ".codex/hex8sri-manifests/registry-eb58-v1/",
+            ))
             or not re.fullmatch(r"[0-9a-f]{64}", str(binding.get("sha256", "")))
         ):
             raise PolicyError(f"HEX8-SRI case manifest binding is invalid for {nodeid}")

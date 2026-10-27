@@ -138,6 +138,18 @@ def test_hex8sri_source_identity_inventory_freezes_exact_raw_worktree_bytes() ->
             modified_files,
             MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
         )
+    without_criteria = dict(files)
+    del without_criteria["experiments/hex8_sri_equilibrium/criteria_contract.py"]
+    assert len(without_criteria) == 516
+    with pytest.raises(MODULE.PolicyError, match="source bytes differ from the registered raw-byte inventory"):
+        MODULE._validate_hex8sri_registered_source_identity(
+            Path("synthetic-source-root"), entry, identity, MODULE.HEX8SRI_FIRST6_NODEIDS[0],
+            without_criteria, MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
+        )
+    with pytest.raises(MODULE.PolicyError, match="registered science HEAD, tree or raw-byte fingerprint is stale"):
+        MODULE._validate_hex8sri_registered_source_identity(
+            Path("synthetic-source-root"), entry, identity, MODULE.HEX8SRI_FIRST6_NODEIDS[0], files, "0" * 64,
+        )
     assert policy["worktrees"]["d01"]["development_mandate_id"] == "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v2-d01"
     assert policy["worktrees"]["d01"]["node_attempt_ledger"]["path"] == "node-attempt-ledger-d01-v2.json"
     assert policy["worktrees"]["d01"]["node_attempt_ledger"]["predecessor"]["sha256"] == (
