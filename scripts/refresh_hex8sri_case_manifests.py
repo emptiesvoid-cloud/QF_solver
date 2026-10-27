@@ -39,6 +39,9 @@ MUTABLE_CASE_FIELDS = CONTROLLER_FIELDS | {
     "source_files_sha256",
     "preflight_status",
     "common_problem",
+    "criteria_contract",
+    "criteria_status",
+    "frozen_criteria",
 }
 COMMON_MUTABLE_FIELDS = {"source_identity", "controller_identity", "preflight_status"}
 BUDGET_SEMANTICS = {
@@ -115,6 +118,25 @@ EXPECTED_CASE_ORACLE = {
     "precision_gate_enabled": False,
     "timoshenko_trend_only": True,
 }
+
+
+def _criteria_contract_proposal() -> dict[str, Any]:
+    dispositions = {}
+    for criterion, disposition in controller.HEX8SRI_CRITERIA_DISPOSITIONS.items():
+        status = (
+            "OWNER_FREEZE_REQUIRED"
+            if disposition["classification"] == "CASE_GATE"
+            else disposition["status"]
+        )
+        dispositions[criterion] = {"classification": disposition["classification"], "status": status}
+    return {
+        "schema": controller.HEX8SRI_CRITERIA_CONTRACT_SCHEMA,
+        "revision": controller.HEX8SRI_CRITERIA_CONTRACT_REVISION,
+        "dispositions": dispositions,
+    }
+
+
+EXPECTED_CRITERIA_CONTRACT_PROPOSAL = _criteria_contract_proposal()
 
 
 def _sha256(data: bytes) -> str:
@@ -387,6 +409,9 @@ def build_refresh_plan(
             source_files_sha256=source_hashes_by_target[target],
             preflight_status=PREPARATION_STATUS,
             common_problem={"path": "common_problem.json", "sha256": common_sha256},
+            criteria_status="OWNER_FREEZE_REQUIRED",
+            criteria_contract=EXPECTED_CRITERIA_CONTRACT_PROPOSAL,
+            frozen_criteria=None,
             **provenance_fields,
         )
         for key, value in old.items():

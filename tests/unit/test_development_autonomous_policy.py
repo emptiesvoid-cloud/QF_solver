@@ -3187,7 +3187,7 @@ def test_hex8sri_convergence24_execution_refuses_before_ledger_or_launcher(
 def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]:
     scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
     entry = _policy()["worktrees"][scope_id]
-    target = entry["allowed_nodeids"][0]
+    target = MODULE.HEX8SRI_FIRST6_NODEIDS[0]
     identity = {
         "root": str(tmp_path / "synthetic-science-root"),
         "branch": entry["branch"],
@@ -3200,11 +3200,22 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
         "sha256": {"runner": "1" * 64, "pytest_plugin": "2" * 64, "policy": "3" * 64},
         "runtime": {"python_version": "synthetic", "pytest_version": "synthetic", "psutil_version": "synthetic"},
     }
+    case_manifest = {
+        "criteria_status": "OWNER_FREEZE_REQUIRED",
+        "criteria_contract": {
+            "schema": MODULE.HEX8SRI_CRITERIA_CONTRACT_SCHEMA,
+            "revision": MODULE.HEX8SRI_CRITERIA_CONTRACT_REVISION,
+            "dispositions": MODULE.HEX8SRI_CRITERIA_PROPOSAL_DISPOSITIONS,
+        },
+        "proposed_criteria": MODULE.HEX8SRI_PROPOSED_CRITERIA,
+        "frozen_criteria": None,
+    }
+    registration_sha256 = MODULE._hex8sri_manifest_registration_sha256(case_manifest)
     binding = {
         "path": "registered/manifest.json",
         "sha256": "d" * 64,
-        "registration_sha256": "e" * 64,
-        "case_id": "synthetic-case",
+        "registration_sha256": registration_sha256,
+        "case_id": "hex8_standard_nu_0p3_4x2x2",
         "scope_id": scope_id,
     }
     source_fingerprint = MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
@@ -3225,6 +3236,10 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
     )
     preflight = (preflight_path, MODULE._sha256(preflight_path))
     authorization_id = "hex8sri-auth-0001"
+    manifest_registrations = {
+        nodeid: (registration_sha256 if nodeid == target else hashlib.sha256(nodeid.encode()).hexdigest())
+        for nodeid in MODULE.HEX8SRI_FIRST6_NODEIDS
+    }
     decision = {
         "decision_id": "owner-decision-0001",
         "status": "APPROVED",
@@ -3234,11 +3249,20 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
         "scope_id": scope_id,
         "mandate_id": entry["development_mandate_id"],
         "campaign_id": entry["campaign_id"],
-        "authorized_nodeids": [target],
+        "authorized_nodeids": list(MODULE.HEX8SRI_FIRST6_NODEIDS),
         "source_fingerprint": source_fingerprint,
         "controller_fingerprint": MODULE._stable_fingerprint(controller),
         "controller_head": controller["identity"]["head"],
-        "limits_by_nodeid": {target: MODULE._hex8sri_execution_limits(entry, target)},
+        "limits_by_nodeid": {
+            nodeid: MODULE._hex8sri_execution_limits(entry, nodeid) for nodeid in MODULE.HEX8SRI_FIRST6_NODEIDS
+        },
+        "criteria_freeze": {
+            "schema": MODULE.HEX8SRI_CRITERIA_FREEZE_SCHEMA,
+            "revision": MODULE.HEX8SRI_CRITERIA_CONTRACT_REVISION,
+            "dispositions": MODULE.HEX8SRI_CRITERIA_DISPOSITIONS,
+            "frozen_case_gate_criteria": MODULE.HEX8SRI_FROZEN_CASE_GATE_CRITERIA,
+            "case_manifest_registration_sha256_by_nodeid": manifest_registrations,
+        },
     }
     decision_path = store / "authorizations" / scope_id / "owner-decisions" / f"{decision['decision_id']}.json"
     decision_path.parent.mkdir(parents=True)
@@ -3280,6 +3304,7 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
         "controller": controller,
         "source_fingerprint": source_fingerprint,
         "binding": binding,
+        "case_manifest": case_manifest,
         "preflight_id": preflight_id,
         "preflight": preflight,
         "store": store,
@@ -3299,6 +3324,7 @@ def _validate_synthetic_hex8sri_execution(fixture: dict[str, Any]) -> dict[str, 
         source_fingerprint=fixture["source_fingerprint"],
         controller_provenance=fixture["controller"],
         case_manifest_binding=fixture["binding"],
+        case_manifest=fixture["case_manifest"],
         preflight_id=fixture["preflight_id"],
         preflight_receipt=fixture["preflight"],
     )
@@ -3313,6 +3339,8 @@ def test_hex8sri_execution_manifest_accepts_synthetic_owner_decision_and_exact_p
     assert receipt["decision_id"] == fixture["decision"]["decision_id"]
     assert receipt["owner_decision"]["mandate_id"] == fixture["entry"]["development_mandate_id"]
     assert receipt["owner_decision_record"]["sha256"] == fixture["payload"]["owner_decision_record"]["sha256"]
+    assert receipt["criteria_dispositions"] == MODULE.HEX8SRI_CRITERIA_DISPOSITIONS
+    assert receipt["frozen_criteria"] == MODULE.HEX8SRI_FROZEN_CASE_GATE_CRITERIA
     assert receipt["preflight"]["receipt_sha256"] == fixture["preflight"][1]
     assert receipt["sha256"] == MODULE._sha256(fixture["path"])
 
@@ -3326,6 +3354,7 @@ def test_hex8sri_execution_manifest_accepts_synthetic_owner_decision_and_exact_p
         ("nodeid", "nodeid is not registered"),
         ("budget", "does not bind this exact source, controller, case, preflight and budget"),
         ("decision_mandate", "does not authorize this exact scope, source, controller or nodeid"),
+        ("criteria_freeze_stale", "Owner criteria freeze is missing, stale or inconsistent"),
     ],
     ids=(
         "not-authorized",
@@ -3334,6 +3363,7 @@ def test_hex8sri_execution_manifest_accepts_synthetic_owner_decision_and_exact_p
         "unregistered-nodeid",
         "over-budget",
         "wrong-owner-mandate",
+        "obsolete-criteria-decision",
     ),
 )
 def test_hex8sri_execution_manifest_rejects_invalid_authorization(
@@ -3352,8 +3382,13 @@ def test_hex8sri_execution_manifest_rejects_invalid_authorization(
         fixture["target"] = payload["target"]
     elif mutation == "budget":
         payload["limits"]["timeout_seconds"] += 1
-    else:
+    elif mutation == "decision_mandate":
         payload["owner_decision"]["mandate_id"] = "DEVELOPMENT_AUTONOMOUS-WRONG-MANDATE"
+        decision_path = Path(payload["owner_decision_record"]["path"])
+        decision_path.write_text(json.dumps(payload["owner_decision"], sort_keys=True) + "\n", encoding="utf-8")
+        payload["owner_decision_record"]["sha256"] = MODULE._sha256(decision_path)
+    else:
+        payload["owner_decision"]["criteria_freeze"]["revision"] = "obsolete-first-six-criteria"
         decision_path = Path(payload["owner_decision_record"]["path"])
         decision_path.write_text(json.dumps(payload["owner_decision"], sort_keys=True) + "\n", encoding="utf-8")
         payload["owner_decision_record"]["sha256"] = MODULE._sha256(decision_path)
@@ -3517,29 +3552,56 @@ def test_hex8sri_manifest_preparation_stays_unapproved_and_refuses_overwrite(
     assert json.loads(draft_path.read_text(encoding="utf-8")) == payload
 
 
-def test_hex8sri_execution_requires_owner_frozen_criteria_without_threshold_drift() -> None:
-    proposed = {
-        "free_residual_relative_max": 1e-7,
-        "force_closure_relative_max": 1e-6,
-        "moment_closure_relative_max": 1e-6,
-        "energy_identity_relative_max": 1e-8,
-        "finest_level_independent_3d_energy_relative_error_max": 0.05,
-        "finest_level_independent_3d_mean_UZ_relative_error_max": 0.05,
-        "last_two_levels_energy_relative_change_max": 0.02,
-        "last_two_levels_mean_UZ_relative_change_max": 0.02,
+def test_hex8sri_criteria_freeze_accepts_case_gates_and_preserves_deferred_statuses(tmp_path: Path) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path)
+    frozen = MODULE._validate_hex8sri_frozen_case_criteria(
+        fixture["case_manifest"],
+        decision=fixture["decision"],
+        target=fixture["target"],
+        case_registration_sha256=fixture["binding"]["registration_sha256"],
+    )
+    assert frozen == MODULE.HEX8SRI_FROZEN_CASE_GATE_CRITERIA
+    deferred = {
+        name: record
+        for name, record in MODULE.HEX8SRI_CRITERIA_DISPOSITIONS.items()
+        if record["classification"] == "CAMPAIGN_GATE_DEFERRED"
     }
-    prepared = {
-        "criteria_status": "PROPOSED_REQUIRES_OWNER_FREEZE",
-        "proposed_criteria": proposed,
-        "frozen_criteria": None,
-    }
-    with pytest.raises(MODULE.PolicyError, match="not Owner-frozen verbatim"):
-        MODULE._validate_hex8sri_frozen_case_criteria(prepared)
-    frozen = {**prepared, "criteria_status": "OWNER_FROZEN", "frozen_criteria": dict(proposed)}
-    assert MODULE._validate_hex8sri_frozen_case_criteria(frozen) == proposed
-    drifted = {**frozen, "frozen_criteria": {**proposed, "free_residual_relative_max": 1e-6}}
-    with pytest.raises(MODULE.PolicyError, match="not Owner-frozen verbatim"):
-        MODULE._validate_hex8sri_frozen_case_criteria(drifted)
+    assert deferred
+    assert all(record["status"] == "NOT_ASSESSED" for record in deferred.values())
+    assert not set(deferred).intersection(frozen)
+
+
+@pytest.mark.parametrize("mutation", ["unfrozen_gate", "threshold_drift", "classification_drift", "stale_owner_case"])
+def test_hex8sri_criteria_freeze_refuses_unfrozen_or_incoherent_contracts(
+    tmp_path: Path, mutation: str
+) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path)
+    case_manifest = fixture["case_manifest"]
+    decision = fixture["decision"]
+    binding_sha = fixture["binding"]["registration_sha256"]
+    if mutation == "unfrozen_gate":
+        case_manifest["criteria_status"] = "PROPOSED_REQUIRES_OWNER_FREEZE"
+    elif mutation == "threshold_drift":
+        decision["criteria_freeze"]["frozen_case_gate_criteria"] = {
+            **decision["criteria_freeze"]["frozen_case_gate_criteria"],
+            "free_residual_relative_max": 1e-6,
+        }
+    elif mutation == "classification_drift":
+        dispositions = dict(decision["criteria_freeze"]["dispositions"])
+        dispositions["single_case_convergence"] = {
+            "classification": "CASE_DIAGNOSTIC",
+            "status": "DESCRIPTIVE_ONLY",
+        }
+        decision["criteria_freeze"]["dispositions"] = dispositions
+    else:
+        decision["criteria_freeze"]["case_manifest_registration_sha256_by_nodeid"][fixture["target"]] = "f" * 64
+    with pytest.raises(MODULE.PolicyError, match="does not freeze the registered first-six criteria contract"):
+        MODULE._validate_hex8sri_frozen_case_criteria(
+            case_manifest,
+            decision=decision,
+            target=fixture["target"],
+            case_registration_sha256=binding_sha,
+        )
 
 
 def test_hex8sri_execution_test_contract_rejects_legacy_and_accepts_declared_contract(tmp_path: Path) -> None:
@@ -3570,6 +3632,13 @@ def test_hex8sri_execution_test_contract_rejects_legacy_and_accepts_declared_con
         "QF_DEV_CONTROLLER_PLUGIN_SHA256",
         "hex8sri-convergence24",
         "OWNER_AUTHORIZED",
+        "criteria_contract",
+        "criteria_freeze",
+        "CASE_GATE",
+        "CASE_DIAGNOSTIC",
+        "CAMPAIGN_GATE_DEFERRED",
+        "NOT_ASSESSED",
+        "negative_mean_loaded_face_uz",
     )
     source = (
         f'def _authorized_case():\n    """{MODULE.HEX8SRI_EXECUTION_TEST_CONTRACT_MARKER}"""\n'

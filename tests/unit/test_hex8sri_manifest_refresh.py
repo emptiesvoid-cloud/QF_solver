@@ -160,6 +160,8 @@ def test_refresh_plan_rebinds_all_24_without_changing_case_physics_or_gates(
         "budgets",
     ):
         assert new[key] == old[key]
+    assert new["criteria_contract"] == refresh.EXPECTED_CRITERIA_CONTRACT_PROPOSAL
+    assert new["criteria_status"] == "OWNER_FREEZE_REQUIRED"
     assert new["exact_nodeid"] == target
     assert new["execution_authorized"] is False
     assert new["do_not_execute"] is True
@@ -167,6 +169,23 @@ def test_refresh_plan_rebinds_all_24_without_changing_case_physics_or_gates(
     assert new["frozen_criteria"] is None
     assert new["science_source_commit"] == SOURCE_HEAD
     assert new["source_files_sha256"] == {SOURCE_FILE: NEW_HASH}
+
+
+def test_criteria_contract_keeps_campaign_gates_not_assessed_until_multimesh_oracle_exists() -> None:
+    dispositions = refresh.EXPECTED_CRITERIA_CONTRACT_PROPOSAL["dispositions"]
+    assert dispositions["free_residual_relative_max"] == {
+        "classification": "CASE_GATE",
+        "status": "OWNER_FREEZE_REQUIRED",
+    }
+    assert dispositions["last_two_levels_mean_UZ_relative_change_max"] == {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    }
+    assert dispositions["finest_level_independent_3d_energy_relative_error_max"] == {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    }
+    assert refresh.EXPECTED_COMMON_PHYSICS["proposed_criteria"] == controller.HEX8SRI_PROPOSED_CRITERIA
 
 
 def test_refresh_refuses_fingerprint_or_authorization_drift(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

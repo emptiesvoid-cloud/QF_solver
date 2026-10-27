@@ -58,11 +58,89 @@ HEX8SRI_CONVERGENCE24_CAMPAIGN_ID = "HEX8-SRI-CONVERGENCE-24-2026-10-27"
 HEX8SRI_CONVERGENCE24_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1"
 HEX8SRI_CONVERGENCE24_LEDGER = "node-attempt-ledger-hex8sri-convergence24.json"
 HEX8SRI_EXECUTION_MANIFEST_SCHEMA = "qfsolver-hex8sri-convergence24-execution-v1"
+HEX8SRI_CRITERIA_FREEZE_SCHEMA = "qfsolver-hex8sri-criteria-freeze-v1"
+HEX8SRI_CRITERIA_CONTRACT_SCHEMA = "qfsolver-hex8sri-criteria-contract-v1"
+HEX8SRI_CRITERIA_CONTRACT_REVISION = "first6-4x2x2-owner-criteria-2026-10-27-r1"
 HEX8SRI_CONVERGENCE24_MANIFEST_BINDING = "canonical_case_content_v1"
 HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT = "c93d539d6b67417f067a190066629d41f84c1a04f61a86b50034c3cfda917d04"
-HEX8SRI_EXECUTION_TEST_CONTRACT_MARKER = "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v1"
+HEX8SRI_EXECUTION_TEST_CONTRACT_MARKER = "QF-HEX8SRI-EXECUTION-CONTRACT: hex8sri-convergence24-v2"
 HEX8SRI_CONVERGENCE24_FORMULATIONS = ("hex8_standard", "sri_historical", "sri_corrected")
 HEX8SRI_CONVERGENCE24_NU_TOKENS = {"0p3": 0.3, "0p4999": 0.4999}
+HEX8SRI_FIRST6_NODEIDS = (
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]",
+)
+HEX8SRI_PROPOSED_CRITERIA = {
+    "energy_identity_relative_max": 1e-8,
+    "finest_level_independent_3d_energy_relative_error_max": 0.05,
+    "finest_level_independent_3d_mean_UZ_relative_error_max": 0.05,
+    "force_closure_relative_max": 1e-6,
+    "free_residual_relative_max": 1e-7,
+    "last_two_levels_energy_relative_change_max": 0.02,
+    "last_two_levels_mean_UZ_relative_change_max": 0.02,
+    "moment_closure_relative_max": 1e-6,
+}
+HEX8SRI_CASE_GATE_THRESHOLD_KEYS = (
+    "free_residual_relative_max",
+    "energy_identity_relative_max",
+    "force_closure_relative_max",
+    "moment_closure_relative_max",
+)
+HEX8SRI_CRITERIA_DISPOSITIONS = {
+    "finite_state": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "positive_sampled_jacobians_center_and_gauss": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "free_residual_relative_max": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "energy_identity_relative_max": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "force_closure_relative_max": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "moment_closure_relative_max": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "negative_mean_loaded_face_uz": {"classification": "CASE_GATE", "status": "OWNER_FROZEN"},
+    "stiffness_symmetry_relative_frobenius": {
+        "classification": "CASE_DIAGNOSTIC",
+        "status": "DESCRIPTIVE_ONLY",
+    },
+    "affine_jacobian_reproduction": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "positive_internal_energy": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "formulation_comparison": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "condition_number_1_estimate_Kff": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "timing_seconds": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "rss_peak_bytes": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "timoshenko_relative_difference": {"classification": "CASE_DIAGNOSTIC", "status": "DESCRIPTIVE_ONLY"},
+    "last_two_levels_energy_relative_change_max": {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    },
+    "last_two_levels_mean_UZ_relative_change_max": {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    },
+    "finest_level_independent_3d_energy_relative_error_max": {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    },
+    "finest_level_independent_3d_mean_UZ_relative_error_max": {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    },
+    "single_case_convergence": {"classification": "CAMPAIGN_GATE_DEFERRED", "status": "NOT_ASSESSED"},
+    "independent_3d_reference_error": {
+        "classification": "CAMPAIGN_GATE_DEFERRED",
+        "status": "NOT_ASSESSED",
+    },
+}
+HEX8SRI_CRITERIA_PROPOSAL_DISPOSITIONS = {
+    key: {
+        "classification": value["classification"],
+        "status": "OWNER_FREEZE_REQUIRED" if value["classification"] == "CASE_GATE" else value["status"],
+    }
+    for key, value in HEX8SRI_CRITERIA_DISPOSITIONS.items()
+}
+HEX8SRI_FROZEN_CASE_GATE_CRITERIA = {
+    key: HEX8SRI_PROPOSED_CRITERIA[key] for key in HEX8SRI_CASE_GATE_THRESHOLD_KEYS
+}
 HEX8SRI_CONVERGENCE24_MESH_BUDGETS = {
     "4x2x2": (180, 512),
     "8x4x4": (300, 1024),
@@ -2619,6 +2697,7 @@ def _validate_hex8sri_owner_decision(
         "controller_fingerprint",
         "controller_head",
         "limits_by_nodeid",
+        "criteria_freeze",
     }
     if not isinstance(decision, Mapping) or set(decision) != required:
         raise PolicyError("HEX8-SRI Owner decision has an invalid or ambiguous shape")
@@ -2626,6 +2705,7 @@ def _validate_hex8sri_owner_decision(
     reason = decision.get("reason")
     nodeids = decision.get("authorized_nodeids")
     limits = decision.get("limits_by_nodeid")
+    criteria_freeze = decision.get("criteria_freeze")
     identity = controller_provenance.get("identity", {})
     if (
         not isinstance(decision_id, str)
@@ -2646,6 +2726,7 @@ def _validate_hex8sri_owner_decision(
         or not nodeids
         or any(not isinstance(nodeid, str) for nodeid in nodeids)
         or len(nodeids) != len(set(nodeids))
+        or set(nodeids) != set(HEX8SRI_FIRST6_NODEIDS)
         or not set(nodeids).issubset(set(entry.get("allowed_nodeids", ())))
         or target not in nodeids
         or not isinstance(limits, Mapping)
@@ -2660,38 +2741,73 @@ def _validate_hex8sri_owner_decision(
         raise PolicyError("HEX8-SRI Owner approval time must be expressed in UTC")
     if decision_time > datetime.now(timezone.utc):
         raise PolicyError("HEX8-SRI Owner approval time cannot be in the future")
+    expected_freeze_fields = {
+        "schema",
+        "revision",
+        "dispositions",
+        "frozen_case_gate_criteria",
+        "case_manifest_registration_sha256_by_nodeid",
+    }
+    registration_hashes = (
+        criteria_freeze.get("case_manifest_registration_sha256_by_nodeid")
+        if isinstance(criteria_freeze, Mapping)
+        else None
+    )
+    if (
+        not isinstance(criteria_freeze, Mapping)
+        or set(criteria_freeze) != expected_freeze_fields
+        or criteria_freeze.get("schema") != HEX8SRI_CRITERIA_FREEZE_SCHEMA
+        or criteria_freeze.get("revision") != HEX8SRI_CRITERIA_CONTRACT_REVISION
+        or criteria_freeze.get("dispositions") != HEX8SRI_CRITERIA_DISPOSITIONS
+        or criteria_freeze.get("frozen_case_gate_criteria") != HEX8SRI_FROZEN_CASE_GATE_CRITERIA
+        or not isinstance(registration_hashes, Mapping)
+        or set(registration_hashes) != set(nodeids)
+        or any(not re.fullmatch(r"[0-9a-f]{64}", str(value)) for value in registration_hashes.values())
+    ):
+        raise PolicyError("HEX8-SRI Owner criteria freeze is missing, stale or inconsistent")
     for nodeid in nodeids:
         if limits.get(nodeid) != _hex8sri_execution_limits(entry, nodeid):
             raise PolicyError("HEX8-SRI Owner decision exceeds or changes a registered case budget")
     return dict(decision)
 
 
-def _validate_hex8sri_frozen_case_criteria(case_manifest: Mapping[str, Any]) -> dict[str, Any]:
-    """Require the registered proposal to be frozen verbatim before an attempt can be reserved."""
+def _validate_hex8sri_frozen_case_criteria(
+    case_manifest: Mapping[str, Any],
+    *,
+    decision: Mapping[str, Any],
+    target: str,
+    case_registration_sha256: str,
+) -> dict[str, Any]:
+    """Require the first-six criteria contract and thresholds to be explicitly Owner-frozen."""
     proposed = case_manifest.get("proposed_criteria")
     frozen = case_manifest.get("frozen_criteria")
-    required = {
-        "free_residual_relative_max",
-        "force_closure_relative_max",
-        "moment_closure_relative_max",
-        "energy_identity_relative_max",
+    expected_contract = {
+        "schema": HEX8SRI_CRITERIA_CONTRACT_SCHEMA,
+        "revision": HEX8SRI_CRITERIA_CONTRACT_REVISION,
+        "dispositions": HEX8SRI_CRITERIA_PROPOSAL_DISPOSITIONS,
     }
+    criteria_freeze = decision.get("criteria_freeze")
+    registration_hashes = (
+        criteria_freeze.get("case_manifest_registration_sha256_by_nodeid")
+        if isinstance(criteria_freeze, Mapping)
+        else None
+    )
     if (
-        case_manifest.get("criteria_status") != "OWNER_FROZEN"
-        or not isinstance(proposed, Mapping)
-        or not isinstance(frozen, Mapping)
-        or dict(frozen) != dict(proposed)
-        or not required.issubset(frozen)
-        or any(
-            type(value) not in (int, float) or not math.isfinite(float(value)) or float(value) <= 0.0
-            for value in frozen.values()
-        )
+        target not in HEX8SRI_FIRST6_NODEIDS
+        or case_manifest.get("criteria_status") != "OWNER_FREEZE_REQUIRED"
+        or case_manifest.get("criteria_contract") != expected_contract
+        or proposed != HEX8SRI_PROPOSED_CRITERIA
+        or frozen is not None
+        or not isinstance(registration_hashes, Mapping)
+        or registration_hashes.get(target) != case_registration_sha256
+        or criteria_freeze.get("dispositions") != HEX8SRI_CRITERIA_DISPOSITIONS
+        or criteria_freeze.get("frozen_case_gate_criteria") != HEX8SRI_FROZEN_CASE_GATE_CRITERIA
     ):
         raise PolicyError(
-            "HEX8-SRI case criteria are not Owner-frozen verbatim from the registered proposal; "
-            "refresh the case identity and preflight after a separate criteria decision"
+            "HEX8-SRI Owner decision does not freeze the registered first-six criteria contract; "
+            "refresh the case identity and preflight after a criteria decision"
         )
-    return dict(frozen)
+    return dict(HEX8SRI_FROZEN_CASE_GATE_CRITERIA)
 
 
 def _validate_hex8sri_execution_manifest(
@@ -2704,6 +2820,7 @@ def _validate_hex8sri_execution_manifest(
     source_fingerprint: str,
     controller_provenance: Mapping[str, Any],
     case_manifest_binding: Mapping[str, Any],
+    case_manifest: Mapping[str, Any],
     preflight_id: str,
     preflight_receipt: tuple[Path, str],
 ) -> dict[str, Any]:
@@ -2776,6 +2893,12 @@ def _validate_hex8sri_execution_manifest(
         source_fingerprint=source_fingerprint,
         controller_provenance=controller_provenance,
     )
+    frozen_criteria = _validate_hex8sri_frozen_case_criteria(
+        case_manifest,
+        decision=decision,
+        target=target,
+        case_registration_sha256=str(case_manifest_binding.get("registration_sha256", "")),
+    )
     expected_preflight = {
         "preflight_id": preflight_id,
         "receipt_path": str(preflight_receipt[0]),
@@ -2811,6 +2934,8 @@ def _validate_hex8sri_execution_manifest(
         "decision_id": decision["decision_id"],
         "owner_decision": decision,
         "owner_decision_record": {"path": str(decision_path), "sha256": decision_sha256},
+        "frozen_criteria": frozen_criteria,
+        "criteria_dispositions": dict(decision["criteria_freeze"]["dispositions"]),
         "preflight": expected_preflight,
     }
 
@@ -2864,9 +2989,19 @@ def _validate_hex8sri_execution_test_contract(execution_root: Path, target: str)
         "hex8sri-convergence24",
         "OWNER_AUTHORIZED",
     }
+    required_criteria_contract = {
+        "criteria_contract",
+        "criteria_freeze",
+        "CASE_GATE",
+        "CASE_DIAGNOSTIC",
+        "CAMPAIGN_GATE_DEFERRED",
+        "NOT_ASSESSED",
+        "negative_mean_loaded_face_uz",
+    }
     if (
         HEX8SRI_EXECUTION_TEST_CONTRACT_MARKER not in function_strings
         or not required_environment_contract.issubset(module_strings)
+        or not required_criteria_contract.issubset(module_strings)
         or "codex/hex8sri-controller-registration" in module_strings
         or "hex8sri" in module_strings
     ):
@@ -3843,7 +3978,6 @@ def run_pytest(
             case_contract = _hex8sri_convergence24_case_contract(case_manifest)
             if "x".join(map(str, case_contract["divisions_xyz"])) != _hex8sri_convergence24_case(target)[2]:
                 raise PolicyError("HEX8-SRI execution case mesh does not match the exact registered nodeid")
-            _validate_hex8sri_frozen_case_criteria(case_manifest)
             case_manifest_binding = {
                 "path": str(case_manifest_path),
                 "sha256": case_manifest_sha256,
@@ -3880,6 +4014,7 @@ def run_pytest(
                 source_fingerprint=source_fingerprint,
                 controller_provenance=controller_provenance,
                 case_manifest_binding=case_manifest_binding,
+                case_manifest=case_manifest,
                 preflight_id=preflight_id,
                 preflight_receipt=hex8sri_preflight_receipt,
             )
