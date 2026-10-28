@@ -219,6 +219,35 @@ def _rewrite_run_record(output_dir: Path, run_record: dict[str, object]) -> None
     (output_dir.parent / "run.json").write_text(json.dumps(run_record), encoding="utf-8")
 
 
+def test_synthetic_base_comparisons_survive_failed_assertion_and_retain_lineage(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    output_dir, authorization_id, record = _synthetic_attempt(
+        tmp_path, monkeypatch, nodeid=BASE_ACCELERATION_NODEID, series_id="base-comparison"
+    )
+    payload = {
+        "comparison": _wp12_base_phasor_comparison(2 + 3j, 1 + 1j, "m"),
+        "zero": _wp12_base_phasor_comparison(0j, 0j, "m/s"),
+        "nonfinite": _wp12_base_phasor_comparison(complex(math.nan, 0), 1j, "m"),
+        "assertion_results": {"synthetic_failure": False},
+    }
+    with pytest.raises(AssertionError, match="after observables were archived"):
+        publish_base_acceleration(
+            case_name="base-comparison", nodeid=BASE_ACCELERATION_NODEID, payload=payload,
+            checks=[("synthetic_failure", False)],
+        )
+    path = output_dir / "base-comparison.json"
+    archived = json.loads(path.read_text(encoding="utf-8"))
+    assert archived["comparison"]["difference"]["real"] == 1.0
+    assert archived["comparison"]["difference"]["imag"] == 2.0
+    assert archived["zero"]["relative_error"] is None and archived["zero"]["reference"]["phase_rad"] is None
+    assert archived["nonfinite"]["actual"]["real"] is None
+    assert archived["non_finite_values"]["$.nonfinite.actual.real"] == "nan"
+    assert archived["attempt_identity"]["authorization_id"] == authorization_id
+    assert archived["attempt_identity"]["manifest_sha256"] == record["execution_manifest"]["sha256"]
+    assert not list(output_dir.glob("*.tmp"))
+
+
 def test_synthetic_complex_diagnostics_are_archived_with_nonfinite_markers(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
