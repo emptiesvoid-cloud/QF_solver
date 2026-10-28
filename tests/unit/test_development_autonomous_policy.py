@@ -3179,6 +3179,22 @@ def test_archive_writer_is_atomic_json(tmp_path: Path) -> None:
     assert list(tmp_path.glob("*.tmp")) == []
 
 
+def _assert_hex8sri_source_refresh_only(current: dict, baseline: dict) -> None:
+    mutable = {"source_identity", "source_fingerprint_sha256", "case_manifests"}
+    assert set(current) == set(baseline)
+    assert {key: current[key] for key in current if key not in mutable} == {
+        key: baseline[key] for key in baseline if key not in mutable
+    }
+    assert current["source_identity"] == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY
+    assert current["source_fingerprint_sha256"] == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
+    current_cases, baseline_cases = current["case_manifests"], baseline["case_manifests"]
+    assert set(current_cases) == set(baseline_cases) == set(MODULE._hex8sri_convergence24_nodeids())
+    for nodeid in current_cases:
+        assert current_cases[nodeid]["path"] == baseline_cases[nodeid]["path"]
+        assert current_cases[nodeid]["sha256"] != baseline_cases[nodeid]["sha256"]
+        assert len(current_cases[nodeid]["sha256"]) == 64
+
+
 def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_semantically() -> None:
     policy = _policy()
     worktrees = policy["worktrees"]
@@ -3197,6 +3213,9 @@ def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_s
     existing = {key: value for key, value in worktrees.items() if key != hex20_scope_id}
     for worktree_id, baseline_entry in baseline["worktrees"].items():
         if worktree_id == "wp12_dynamics":
+            continue
+        if worktree_id == scope_id:
+            _assert_hex8sri_source_refresh_only(existing[worktree_id], baseline_entry)
             continue
         assert existing[worktree_id] == baseline_entry
     dynamics_baseline = baseline["worktrees"]["wp12_dynamics"]
@@ -4466,7 +4485,9 @@ def test_hex8sri_scope_refresh_leaves_historical_scope_registrations_unchanged()
     hex20_scope_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
     assert set(current["worktrees"]) == set(baseline["worktrees"]) | {hex20_scope_id}
     for worktree_id, baseline_entry in baseline["worktrees"].items():
-        if worktree_id != "wp12_dynamics":
+        if worktree_id == MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID:
+            _assert_hex8sri_source_refresh_only(current["worktrees"][worktree_id], baseline_entry)
+        elif worktree_id != "wp12_dynamics":
             assert current["worktrees"][worktree_id] == baseline_entry
     current_dynamics = current["worktrees"]["wp12_dynamics"]
     baseline_dynamics = baseline["worktrees"]["wp12_dynamics"]
