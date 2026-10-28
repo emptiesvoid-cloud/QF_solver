@@ -6,6 +6,7 @@ import math
 from pathlib import Path
 from typing import Callable
 
+import numpy as np
 import pytest
 
 from test_modal_newmark import (
@@ -13,6 +14,10 @@ from test_modal_newmark import (
     _write_wp12_attempt_observables as write_newmark,
 )
 from test_reduced_harmonic import (
+    _wp12_complex_array,
+    _wp12_harmonic_vector_observation,
+    _wp12_modal_observation,
+    _wp12_phase_error,
     _publish_wp12_observables_before_assertions as publish_harmonic,
     _write_wp12_attempt_observables as write_harmonic,
 )
@@ -22,6 +27,62 @@ from test_wp07_uniform_base_acceleration import (
 )
 
 
+def test_synthetic_harmonic_vector_observation_preserves_complex_residuals() -> None:
+    # Fixed synthetic arrays only: this does not assemble or solve a FEM model.
+    stiffness = np.diag([2.0, 4.0])
+    mass = np.zeros((2, 2))
+    damping = np.zeros((2, 2))
+    direct = np.array([1.0 + 2.0j, 0.0j])
+    full = np.array([1.25 + 2.0j, 0.0j])
+    force = np.array([2.0 + 4.0j, 0.0j])
+    result = _wp12_harmonic_vector_observation(
+        3.0, stiffness, mass, damping, force, np.array([0]), direct, full, direct
+    )
+    assert result["omega_rad_s"] == pytest.approx(6.0 * math.pi)
+    assert result["full_minus_direct_m"] == {"shape": [2], "real": [0.25, 0.0], "imag": [0.0, 0.0]}
+    assert result["physical_free_residual_N"]["direct"] == {"shape": [1], "real": [0.0], "imag": [0.0]}
+    assert result["physical_free_residual_N"]["full_basis"] == {"shape": [1], "real": [0.5], "imag": [0.0]}
+    assert result["full_minus_direct_absolute_norm_m"] == pytest.approx(0.25)
+    assert result["full_minus_direct_relative_norm"] == pytest.approx(0.25 / math.sqrt(5.0))
+    assert _wp12_complex_array(np.array([[1 + 2j, -3j]])) == {
+        "shape": [1, 2], "real": [[1.0, 0.0]], "imag": [[2.0, -3.0]]
+    }
+
+
+def test_synthetic_harmonic_vector_observation_zero_reference_and_invalid_inputs() -> None:
+    matrix = np.eye(2)
+    zero = np.zeros(2, dtype=complex)
+    result = _wp12_harmonic_vector_observation(0.0, matrix, matrix, matrix, zero, np.array([0]), zero, zero, zero)
+    assert result["relative_error_defined"] is False
+    assert result["full_minus_direct_relative_norm"] is None
+    near_zero = np.array([1e-320, 0.0], dtype=complex)
+    near_result = _wp12_harmonic_vector_observation(
+        0.0, matrix, matrix, matrix, zero, np.array([0]), near_zero, zero, zero
+    )
+    assert near_result["relative_error_defined"] is False
+    assert near_result["full_minus_direct_relative_norm"] is None
+    with pytest.raises(ValueError, match="Frequency"):
+        _wp12_harmonic_vector_observation(float("nan"), matrix, matrix, matrix, zero, np.array([0]), zero, zero, zero)
+    with pytest.raises(ValueError, match="dimensions"):
+        _wp12_harmonic_vector_observation(1.0, np.eye(3), matrix, matrix, zero, np.array([0]), zero, zero, zero)
+
+
+def test_synthetic_modal_residual_and_reconstruction_are_independent_observables() -> None:
+    # Explicit small arrays, with no solver or FEM assembly.
+    modes = np.array([[1.0], [0.0]])
+    q = np.array([2.0 + 1.0j])
+    free = np.array([2.0 + 1.0j, 0.5j])
+    force = np.array([4.0 + 2.0j, 0.0])
+    result = _wp12_modal_observation(0.0, modes, np.eye(1), 2.0 * np.eye(1), np.eye(1), q, free, force)
+    assert result["projected_force"] == {"shape": [1], "real": [4.0], "imag": [2.0]}
+    assert result["modal_residual"] == {"shape": [1], "real": [0.0], "imag": [0.0]}
+    assert result["reconstruction_absolute_norm_m"] == pytest.approx(0.5)
+
+
+def test_synthetic_zero_phasor_does_not_claim_a_phase_error() -> None:
+    assert _wp12_phase_error(complex(-0.0, 0.0), -1.0 + 0.0j) is None
+    assert _wp12_phase_error(1.0 + 0.0j, 0.0j) is None
+    assert _wp12_phase_error(1.0j, 1.0 + 0.0j) == pytest.approx(math.pi / 2.0)
 NEWMARK_NODEID = (
     "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables"
 )
@@ -129,6 +190,21 @@ def _synthetic_attempt(
 
 def _rewrite_run_record(output_dir: Path, run_record: dict[str, object]) -> None:
     (output_dir.parent / "run.json").write_text(json.dumps(run_record), encoding="utf-8")
+
+
+def test_synthetic_complex_diagnostics_are_archived_with_nonfinite_markers(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    output_dir, _, _ = _synthetic_attempt(tmp_path, monkeypatch, nodeid=HARMONIC_NODEID, series_id="complex-data")
+    encoded = _wp12_complex_array(np.array([complex(float("nan"), 2.0)]))
+    artifact = write_harmonic(case_name="complex-data", nodeid=HARMONIC_NODEID, payload={"values": encoded})
+    path = Path(artifact["path"])
+    content = path.read_bytes()
+    archived = json.loads(content)
+    assert path.parent == output_dir
+    assert archived["values"] == {"shape": [1], "real": [None], "imag": [2.0]}
+    assert archived["non_finite_values"]["$.values.real[0]"] == "nan"
+    assert artifact["sha256"] == hashlib.sha256(content).hexdigest()
 
 
 @pytest.mark.parametrize(("writer", "publish", "nodeid", "case"), WRITER_CASES)
