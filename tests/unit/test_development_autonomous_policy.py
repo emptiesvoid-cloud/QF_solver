@@ -468,8 +468,8 @@ def test_wp12_registry_has_distinct_exact_worktree_envelopes() -> None:
             12,
         ),
         "wp12_hex20_affine_diagnostic": (
-            "C:\\Users\\fari\\.codex\\worktrees\\wp12b-hex20-reconciliation\\qf_solver",
-            "emptiesvoids-cloud/wp12b-hex20-consolidation",
+            "C:\\Users\\fari\\.codex\\worktrees\\wp12b-hex20-r4-restore\\qf_solver",
+            "emptiesvoids-cloud/wp12b-hex20-r4-assertions",
             300,
             1,
             60,
@@ -565,14 +565,30 @@ def test_wp12_registry_has_distinct_exact_worktree_envelopes() -> None:
             assert entry["max_fem_cases_per_attempt"] == 1
             assert entry["nodeid_registration"]["max_nodeids"] == 1
             assert entry["allowed_nodeids"] in ([], [WP12B_HEX20_DIAGNOSTIC_NODEID])
-            assert len(entry["nodeid_registration_records"]) == len(entry["allowed_nodeids"])
+            records = entry["nodeid_registration_records"]
+            assert {record["target"] for record in records} == set(entry["allowed_nodeids"])
             if entry["allowed_nodeids"]:
-                registration = entry["nodeid_registration_records"][0]
+                assert len(records) == 2
+                historical, registration = records
+                assert historical["target"] == registration["target"] == WP12B_HEX20_DIAGNOSTIC_NODEID
+                assert historical["worktree_head"] == "31ef7593eeefa339aa1a5768df0b9c5751d66206"
+                assert (
+                    historical["source_fingerprint"]
+                    == "0d4838a1db01ba0690fb6fcce61244f5031c4ab86fccc3ecacd9a47687209cef"
+                )
                 assert registration["target"] == WP12B_HEX20_DIAGNOSTIC_NODEID
+                assert registration["worktree_head"] == "8f2b02b053af70cbaa23378adbd783dd99669b1b"
+                assert (
+                    registration["source_fingerprint"]
+                    == "efe44ae1505eb130e15e8ce8c4ae5311b639353b674c94b393d75387655227fb"
+                )
                 assert registration["selected_dofs"] == 60
                 assert registration["timeout_seconds"] == 300
-                assert len(registration["worktree_head"]) == 40
-                assert len(registration["source_fingerprint"]) == 64
+                assert registration["test_source_dependencies"] == {
+                    "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+                    "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6",
+                    "tests/unit/wp12b_hex20_diagnostic_support.py": "865d38430e5044d72916cc7d1be42bad4cdf2f8628e0a232748168161cd52925",
+                }
         else:
             assert entry["allowed_nodeids"] == []
             assert entry["nodeid_registration_records"] == []
