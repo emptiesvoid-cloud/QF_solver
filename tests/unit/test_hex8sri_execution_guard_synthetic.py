@@ -357,7 +357,45 @@ def test_official_contract_accepts_detached_controller_without_fem(contract, nod
     assert c.gate._authorized_case(c.request, c.case_id)["owner_decision_id"] == "execution-synthetic-001"
 
 
-def test_merged_controller_and_science_guard_accept_same_complete_synthetic_contract(contract) -> None:
+@pytest.mark.parametrize("nodeid", criteria.FIRST6_NODEIDS)
+def test_partial_owner_decision_accepts_each_single_registered_case(contract, nodeid: str) -> None:
+    c = contract(nodeid)
+    c.decision["authorized_nodeids"] = [nodeid]
+    c.decision["case_manifests_by_nodeid"] = {nodeid: c.decision["case_manifests_by_nodeid"][nodeid]}
+    c.decision["limits_by_nodeid"] = {nodeid: c.decision["limits_by_nodeid"][nodeid]}
+    c.sync()
+    assert c.gate._authorized_case(c.request, c.case_id)["owner_decision_id"] == "execution-synthetic-001"
+
+
+@pytest.mark.parametrize("fault", ["none", "empty", "unknown", "duplicate", "excluded", "extra_manifest", "missing_budget"])
+def test_partial_owner_decision_checks_scope_and_exact_bindings(contract, fault: str) -> None:
+    nodeid, other = criteria.FIRST6_NODEIDS[0], criteria.FIRST6_NODEIDS[2]
+    c = contract(nodeid)
+    c.decision["authorized_nodeids"] = [nodeid, other]
+    for field in ("case_manifests_by_nodeid", "limits_by_nodeid"):
+        c.decision[field] = {n: c.decision[field][n] for n in (nodeid, other)}
+    if fault == "empty":
+        c.decision["authorized_nodeids"] = []
+    elif fault == "unknown":
+        c.decision["authorized_nodeids"] = [nodeid, "unknown"]
+    elif fault == "duplicate":
+        c.decision["authorized_nodeids"] = [nodeid, nodeid]
+    elif fault == "excluded":
+        c.decision["authorized_nodeids"] = [other]
+    elif fault == "extra_manifest":
+        c.decision["case_manifests_by_nodeid"][criteria.FIRST6_NODEIDS[1]] = {}
+    elif fault == "missing_budget":
+        del c.decision["limits_by_nodeid"][other]
+    c.sync()
+    if fault == "none":
+        assert c.gate._authorized_case(c.request, c.case_id)["owner_decision_id"] == "execution-synthetic-001"
+    else:
+        with pytest.raises(RuntimeError):
+            c.gate._authorized_case(c.request, c.case_id)
+
+
+@pytest.mark.parametrize("selection", ["full", "one", "two"])
+def test_merged_controller_and_science_guard_accept_same_complete_synthetic_contract(contract, selection: str) -> None:
     controller_path = os.environ.get("QF_HEX8SRI_CONTROLLER_PATH")
     if not controller_path:
         pytest.skip("set QF_HEX8SRI_CONTROLLER_PATH to the reviewed merged controller for cross-contract validation")
@@ -390,6 +428,14 @@ def test_merged_controller_and_science_guard_accept_same_complete_synthetic_cont
         }
     bindings[nodeid] = c.binding
     c.decision["case_manifests_by_nodeid"] = bindings
+    selected = {
+        "full": list(criteria.FIRST6_NODEIDS),
+        "one": [nodeid],
+        "two": [nodeid, criteria.FIRST6_NODEIDS[2]],
+    }[selection]
+    c.decision["authorized_nodeids"] = selected
+    c.decision["case_manifests_by_nodeid"] = {n: bindings[n] for n in selected}
+    c.decision["limits_by_nodeid"] = {n: c.decision["limits_by_nodeid"][n] for n in selected}
     c.sync()
     validated = controller._validate_hex8sri_execution_manifest(
         c.execution_path,
