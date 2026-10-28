@@ -11,6 +11,7 @@ from solveur.core.solver import LinearStaticSolver
 from wp12b_hex20_diagnostic_support import (
     DIAGNOSTIC_NODEID,
     affine_vector,
+    assert_historical_r4_acceptance,
     capture_solver_assembly,
     independent_face_load,
     require_diagnostic_binding,
@@ -21,10 +22,6 @@ from wp12b_hex20_diagnostic_support import (
 YOUNG_PA = 210.0e9
 POISSON = 0.3
 STRAIN_XX = 1.0e-4
-# Retained from the historical R4 affine-displacement oracle. New load and
-# backward-error limits remain metadata until the Owner approves them.
-DISPLACEMENT_RTOL = 1.0e-10
-DISPLACEMENT_ATOL_M = 1.0e-13
 
 
 def _hex20_coordinates() -> np.ndarray:
@@ -109,8 +106,10 @@ def test_wp12b_hex20_affine_patch_archives_residual(monkeypatch) -> None:
         "units": {"length": "m", "force": "N", "stress": "Pa"},
         "E_Pa": YOUNG_PA,
         "nu": POISSON,
+        "strain_xx": STRAIN_XX,
         "strain_tensor": np.diag([STRAIN_XX, 0.0, 0.0]),
         "stress_tensor_Pa": stress,
+        "volume_m3": 1.0,
         "geometry": "one 1m x 1m x 1m Gmsh-ordered HEX20; x in [0,1]m",
         "fixed_nodes": [0, 3, 4, 7, 9, 10, 15, 17],
         "loaded_faces": [0, 1, 2, 3, 4],
@@ -209,7 +208,6 @@ def test_wp12b_hex20_affine_patch_archives_residual(monkeypatch) -> None:
         [3 * node + component for node in fixed_nodes for component in range(3)], dtype=np.int64
     )
     np.testing.assert_array_equal(capture["fixed_indices"], expected_fixed_indices)
-    np.testing.assert_allclose(result.displacements, affine, rtol=DISPLACEMENT_RTOL, atol=DISPLACEMENT_ATOL_M)
 
     from wp12b_hex20_diagnostic_support import residual_metrics
 
@@ -220,3 +218,13 @@ def test_wp12b_hex20_affine_patch_archives_residual(monkeypatch) -> None:
     assert metrics["r_affine_free_N"].shape == (36,)
     assert metrics["r_affine_fixed_N"].shape == (24,)
     assert np.isfinite(metrics["r_affine_N"]).all()
+
+    expected_stress_voigt = np.asarray([stress[0, 0], stress[1, 1], stress[2, 2], 0.0, 0.0, 0.0])
+    exact_energy_j = 0.5 * float(stress[0, 0]) * STRAIN_XX * 1.0
+    assert_historical_r4_acceptance(
+        result=result,
+        model=model,
+        exact_displacements=affine,
+        expected_stress_voigt=expected_stress_voigt,
+        exact_energy_j=exact_energy_j,
+    )

@@ -24,6 +24,56 @@ SHA256_RE = re.compile(r"[a-f0-9]{64}\Z")
 MANIFEST_ID_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}\Z")
 
 
+R4_DISPLACEMENT_RTOL = 1.0e-10
+R4_DISPLACEMENT_ATOL_M = 1.0e-13
+R4_STRESS_RTOL = 1.0e-10
+R4_STRESS_ATOL_PA = 1.0e-4
+R4_ENERGY_RELATIVE_ATOL = 1.0e-10
+R4_FREE_RESIDUAL_MAX = 1.0e-10
+R4_FORCE_BALANCE_MAX = 1.0e-12
+R4_MOMENT_BALANCE_MAX = 1.0e-12
+R4_ENERGY_IDENTITY_MAX = 1.0e-10
+
+
+def assert_historical_r4_acceptance(
+    *,
+    result: Any,
+    model: Any,
+    exact_displacements: np.ndarray,
+    expected_stress_voigt: np.ndarray,
+    exact_energy_j: float,
+) -> None:
+    # Reapply the original R4 HEX20 assertions after pre-assertion evidence capture.
+    assert result.status == "PASS"
+    assert result.audit.mesh_status == "PASS"
+    assert model.node_count == 20 and len(model.elements) == 1 and result.displacements.size == 60
+    assert np.isfinite(result.displacements).all()
+    np.testing.assert_allclose(
+        result.displacements,
+        exact_displacements,
+        rtol=R4_DISPLACEMENT_RTOL,
+        atol=R4_DISPLACEMENT_ATOL_M,
+    )
+    recovered_stress = np.asarray(result.element_results[0]["stress"], dtype=np.float64)
+    np.testing.assert_allclose(
+        recovered_stress,
+        expected_stress_voigt,
+        rtol=R4_STRESS_RTOL,
+        atol=R4_STRESS_ATOL_PA,
+    )
+
+    equilibrium = result.audit.equilibrium
+    assert abs(equilibrium["secant_internal_energy"] - exact_energy_j) <= (R4_ENERGY_RELATIVE_ATOL * exact_energy_j)
+    assert abs(equilibrium["external_work_at_final_load"] - 2.0 * exact_energy_j) <= (
+        R4_ENERGY_RELATIVE_ATOL * exact_energy_j
+    )
+    assert equilibrium["free_relative_residual"] <= R4_FREE_RESIDUAL_MAX
+    assert equilibrium["force_balance_relative_error"] <= R4_FORCE_BALANCE_MAX
+    assert equilibrium["moment_balance_relative_error"] <= R4_MOMENT_BALANCE_MAX
+    assert equilibrium["linear_energy_identity_relative_error"] <= R4_ENERGY_IDENTITY_MAX
+    assert result.solver["converged"] is True
+
+
 def _json_safe(value: Any) -> Any:
     if isinstance(value, np.ndarray):
         return _json_safe(value.tolist())
@@ -375,6 +425,10 @@ def residual_metrics(
         "r_affine_free_norm_inf_N": float(np.max(np.abs(r_affine[free]))),
         "r_affine_free_norm_2_N": float(np.linalg.norm(r_affine[free])),
         "r_affine_eta_inf": eta_inf,
+        "r_affine_eta_inf_definition": (
+            "||K[free,:] @ u_affine - F[free]||_inf / (||K[free,:]||_inf * ||u_affine||_inf + ||F[free]||_inf)"
+        ),
+        "r_affine_eta_inf_units": "dimensionless",
         "calculated": calculated_metrics,
     }
 
@@ -445,6 +499,11 @@ def write_diagnostic_sidecar(
             "difference_norm_inf_N": float(np.max(np.abs(stiffness_difference))),
             "difference_free_norm_inf_N": float(np.max(np.abs(stiffness_difference[residuals["free_indices"]]))),
             "free_backward_error_eta_inf": stiffness_eta_inf,
+            "free_backward_error_definition": (
+                "||(K_production @ u_affine - F_boundary_independent)[free]||_inf / "
+                "(||K_production[free,:]||_inf * ||u_affine||_inf + ||F_boundary_independent[free]||_inf)"
+            ),
+            "free_backward_error_units": "dimensionless",
             "interpretation": "Independent continuum-traction/QUAD8 nodal-force oracle for K @ u_affine.",
         }
 
@@ -462,11 +521,42 @@ def write_diagnostic_sidecar(
                 "independent_oracle": expected,
                 "production_minus_oracle_N": actual_vector - expected_vector,
                 "difference_norm_inf_N": float(np.max(np.abs(actual_vector - expected_vector))),
+                "comparison_definition": "production integrated nodal force minus geometric QUAD8 nodal force",
+                "comparison_units": "N",
+                "acceptance": "OBSERVATIONAL_ONLY; diagnostic thresholds require separate Owner approval",
             }
         )
 
+    production_face_sum = sum((row["production_dense_N"] for row in face_records), start=np.zeros(60, dtype=np.float64))
+    load_decomposition_difference = None if loads is None else np.asarray(loads, dtype=np.float64) - production_face_sum
+    recovered_stress = None
+    if result is not None:
+        result_elements = getattr(result, "element_results", None)
+        if result_elements:
+            first_element = result_elements[0]
+            if isinstance(first_element, Mapping):
+                recovered_stress = first_element.get("stress")
+
+    expected_stress_voigt = None
+    exact_energy_j = None
+    if affine_data is not None:
+        stress_tensor = np.asarray(affine_data["stress_tensor_Pa"], dtype=np.float64)
+        expected_stress_voigt = np.asarray(
+            [stress_tensor[0, 0], stress_tensor[1, 1], stress_tensor[2, 2], 0.0, 0.0, 0.0]
+        )
+        strain_tensor = np.asarray(affine_data["strain_tensor"], dtype=np.float64)
+        volume_m3 = float(case_parameters.get("volume_m3", 1.0))
+        exact_energy_j = 0.5 * float(stress_tensor[0, 0]) * float(strain_tensor[0, 0]) * volume_m3
+
+    equilibrium = None if result is None else result.audit.equilibrium
+    stress_difference = (
+        None
+        if recovered_stress is None or expected_stress_voigt is None
+        else np.asarray(recovered_stress, dtype=np.float64) - expected_stress_voigt
+    )
+
     record = {
-        "schema": "qfsolver-wp12b-hex20-affine-diagnostic-v1",
+        "schema": "qfsolver-wp12b-hex20-affine-diagnostic-v2",
         "stage": "PRE_ASSERTION_DIAGNOSTIC_CAPTURE",
         "controller": {
             "worktree_id": binding.worktree_id,
@@ -486,7 +576,15 @@ def write_diagnostic_sidecar(
             "sources": _source_identity(source_paths, repo_root),
             "model": _model_identity(model, case_parameters),
         },
-        "units": case_parameters["units"],
+        "units": {
+            **case_parameters["units"],
+            "displacement": "m",
+            "nodal_force": "N",
+            "moment": "N*m",
+            "energy": "J",
+            "stress": "Pa",
+            "residual": "N",
+        },
         "model": {
             "nodes_m": np.asarray(model.nodes, dtype=np.float64),
             "elements": [
@@ -514,21 +612,33 @@ def write_diagnostic_sidecar(
             "K_csr": None if matrix is None else csr_archive(matrix),
             "F_N": loads,
             "face_contributions": face_records,
-            "F_minus_sum_of_production_faces_N": (
-                None
-                if loads is None
-                else np.asarray(loads, dtype=np.float64)
-                - sum((row["production_dense_N"] for row in face_records), start=np.zeros(60))
-            ),
+            "F_minus_sum_of_production_faces_N": load_decomposition_difference,
+            "F_minus_sum_definition": "assembled global load vector minus sum of the five captured production face vectors",
+            "F_minus_sum_units": "N",
+            "F_minus_sum_acceptance": "OBSERVATIONAL_ONLY; no threshold assigned",
         },
         "affine_oracle": affine_data,
-        "stiffness_oracle": stiffness_oracle,
+        "production_stiffness_boundary_comparison": {
+            **(stiffness_oracle or {}),
+            "definition": "production assembled K multiplied by u_affine, compared with independent continuum-traction/QUAD8 all-six-face vector",
+            "K_provenance": "production solver assembly; K is not an independent stiffness oracle",
+            "units": "N",
+            "acceptance": "OBSERVATIONAL_ONLY; proposed eta limit requires separate Owner approval",
+        }
+        if stiffness_oracle is not None
+        else None,
         "residuals": residuals,
         "result": {
             "status": None if result is None else result.status,
             "displacements_m": calculated,
+            "maximum_displacement_abs_m": (None if calculated is None else float(np.max(np.abs(calculated)))),
+            "recovered_stress_voigt_Pa": recovered_stress,
+            "recovered_stress_source": "result.element_results[0]['stress']",
+            "expected_affine_stress_voigt_Pa": expected_stress_voigt,
+            "recovered_minus_expected_stress_Pa": stress_difference,
+            "historical_r4_energy_reference_J": exact_energy_j,
             "reactions_N": None if result is None else result.audit.equilibrium.get("reactions"),
-            "equilibrium": None if result is None else result.audit.equilibrium,
+            "equilibrium": equilibrium,
             "energy": (
                 None
                 if result is None
@@ -560,17 +670,38 @@ def write_diagnostic_sidecar(
             "exception_message": None if exception is None else str(exception),
         },
         "diagnostic_criteria": {
-            "proposed_owner_limits": {
+            "historical_r4_assertions": {
+                "displacement": {"rtol": R4_DISPLACEMENT_RTOL, "atol_m": R4_DISPLACEMENT_ATOL_M},
+                "recovered_stress": {"rtol": R4_STRESS_RTOL, "atol_Pa": R4_STRESS_ATOL_PA},
+                "internal_energy": {
+                    "reference": "0.5*sigma_xx*epsilon_xx*volume",
+                    "relative_absolute_tolerance": R4_ENERGY_RELATIVE_ATOL,
+                },
+                "external_work": {
+                    "reference": "2*internal_energy_reference",
+                    "relative_absolute_tolerance": R4_ENERGY_RELATIVE_ATOL,
+                },
+                "free_relative_residual_max": R4_FREE_RESIDUAL_MAX,
+                "force_balance_relative_error_max": R4_FORCE_BALANCE_MAX,
+                "moment_balance_relative_error_max": R4_MOMENT_BALANCE_MAX,
+                "linear_energy_identity_relative_error_max": R4_ENERGY_IDENTITY_MAX,
+                "required_statuses": {"result": "PASS", "mesh": "PASS", "solver_converged": True},
+                "application": "ASSERTED_AFTER_PRE_ASSERTION_ARCHIVE; values/tolerances transcribed from C1 R4 test",
+            },
+            "observed_without_acceptance_threshold": {
+                "face_nodal_force_difference": "production integrated face vector minus geometric QUAD8 vector; N; per face and component",
+                "assembled_load_decomposition": "F minus sum of captured production face vectors; N; per DOF",
+                "affine_free_backward_error": "residual_metrics.r_affine_eta_inf with its explicit denominator definition; dimensionless",
+                "production_stiffness_boundary_comparison": "K_production @ u_affine minus independent continuum/QUAD8 boundary force; N",
+                "status": "OBSERVATIONAL_ONLY",
+            },
+            "proposed_owner_limits_not_active": {
                 "free_affine_backward_error_eta_inf_max": 1.0e-10,
                 "face_nodal_force_rtol": 1.0e-12,
                 "face_nodal_force_atol_N": 1.0e-6,
+                "status": "OWNER_APPROVAL_REQUIRED; NOT ASSERTED",
             },
-            "independent_stiffness_oracle": "archived for review; no acceptance threshold assigned",
-            "historical_r4_displacement_acceptance": {
-                "rtol": 1.0e-10,
-                "atol_m": 1.0e-13,
-            },
-            "status": "OWNER_DECISION_PENDING; no execution authorization",
+            "status": "HISTORICAL_R4_REQUIRED; DIAGNOSTIC_LIMITS_PENDING_OWNER",
         },
     }
     directory = binding.evidence_root / "wp12b_hex20_affine_diagnostic"
