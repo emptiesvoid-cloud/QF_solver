@@ -52,9 +52,12 @@ def _synthetic_attempt(
     *,
     nodeid: str,
     series_id: str,
+    owner_authorized: bool = False,
 ) -> tuple[Path, str, dict[str, object]]:
     evidence_root = tmp_path / "evidence"
     manifest_dir = evidence_root / "authorizations" / "wp12_dynamics"
+    if owner_authorized:
+        manifest_dir = manifest_dir / "owner-authorized"
     attempt_dir = evidence_root / "worktrees" / "wp12_dynamics" / series_id / "attempt-0001"
     temp_dir = attempt_dir / "tmp"
     output_dir = attempt_dir / "output"
@@ -166,6 +169,68 @@ def test_synthetic_global_attempt_two_archives_local_series_attempt_one(
     with pytest.raises(FileExistsError, match="Refusing to overwrite"):
         writer(case_name=case_name, nodeid=nodeid, payload={"case": "replacement"})
     assert artifact_path.read_bytes() == original_bytes
+
+
+@pytest.mark.parametrize(("writer", "publish", "nodeid", "case"), WRITER_CASES)
+def test_synthetic_writer_accepts_owner_authorized_manifest_directory(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    writer: Callable[..., dict[str, str]],
+    publish: Callable[..., dict[str, str]],
+    nodeid: str,
+    case: str,
+) -> None:
+    short_case = {"newmark": "nm", "harmonic": "ha", "base-acceleration": "ba"}[case]
+    output_dir, authorization_id, _run_record = _synthetic_attempt(
+        tmp_path,
+        monkeypatch,
+        nodeid=nodeid,
+        series_id=f"oa-{short_case}",
+        owner_authorized=True,
+    )
+
+    artifact = writer(case_name=f"oa-{short_case}", nodeid=nodeid, payload={"case": case})
+
+    artifact_path = Path(artifact["path"])
+    assert artifact_path.parent == output_dir
+    assert hashlib.sha256(artifact_path.read_bytes()).hexdigest() == artifact["sha256"]
+    archived = json.loads(artifact_path.read_text(encoding="utf-8"))
+    assert archived["attempt_identity"]["authorization_id"] == authorization_id
+    assert archived["case"] == case
+    assert not list(output_dir.glob("*.tmp"))
+
+
+@pytest.mark.parametrize(("writer", "publish", "nodeid", "case"), WRITER_CASES)
+def test_synthetic_writer_rejects_nested_manifest_outside_exact_authorization_directories(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    writer: Callable[..., dict[str, str]],
+    publish: Callable[..., dict[str, str]],
+    nodeid: str,
+    case: str,
+) -> None:
+    short_case = {"newmark": "nm", "harmonic": "ha", "base-acceleration": "ba"}[case]
+    output_dir, _authorization_id, run_record = _synthetic_attempt(
+        tmp_path,
+        monkeypatch,
+        nodeid=nodeid,
+        series_id=f"nm-{short_case}",
+        owner_authorized=True,
+    )
+    manifest_ref = run_record["execution_manifest"]
+    assert isinstance(manifest_ref, dict)
+    authorized_manifest = Path(str(manifest_ref["path"]))
+    nested_manifest = authorized_manifest.parent / "nested" / authorized_manifest.name
+    nested_manifest.parent.mkdir()
+    nested_manifest.write_bytes(authorized_manifest.read_bytes())
+    manifest_ref["path"] = str(nested_manifest)
+    _rewrite_run_record(output_dir, run_record)
+
+    with pytest.raises(RuntimeError, match="outside the policy-configured WP12 evidence root"):
+        writer(case_name=f"nm-{short_case}", nodeid=nodeid, payload={"case": case})
+
+    assert not (output_dir / f"nm-{short_case}.json").exists()
+    assert not list(output_dir.glob("*.tmp"))
 
 
 @pytest.mark.parametrize(("writer", "publish", "nodeid", "case"), WRITER_CASES)

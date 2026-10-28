@@ -10,6 +10,10 @@ on:
       - "scripts/development_autonomous.py"
       - "scripts/run_wp12_controller_synthetic.py"
       - "tests/unit/test_development_autonomous_policy.py"
+      - "tests/unit/test_modal_newmark.py"
+      - "tests/unit/test_reduced_harmonic.py"
+      - "tests/unit/test_wp07_uniform_base_acceleration.py"
+      - "tests/unit/test_wp12_observable_archive_synthetic.py"
       - "tests/unit/test_wp12b_diagnostic_provenance.py"
       - "tests/unit/test_wp12b_hex20_diagnostic_support.py"
   push:
@@ -43,6 +47,10 @@ jobs:
           scripts/development_autonomous.py
           scripts/run_wp12_controller_synthetic.py
           tests/unit/test_development_autonomous_policy.py
+          tests/unit/test_modal_newmark.py
+          tests/unit/test_reduced_harmonic.py
+          tests/unit/test_wp07_uniform_base_acceleration.py
+          tests/unit/test_wp12_observable_archive_synthetic.py
           tests/unit/test_wp12b_diagnostic_provenance.py
           tests/unit/test_wp12b_hex20_diagnostic_support.py
       - name: Compile controller sources and tests
@@ -51,6 +59,10 @@ jobs:
           scripts/development_autonomous.py
           scripts/run_wp12_controller_synthetic.py
           tests/unit/test_development_autonomous_policy.py
+          tests/unit/test_modal_newmark.py
+          tests/unit/test_reduced_harmonic.py
+          tests/unit/test_wp07_uniform_base_acceleration.py
+          tests/unit/test_wp12_observable_archive_synthetic.py
           tests/unit/test_wp12b_diagnostic_provenance.py
           tests/unit/test_wp12b_hex20_diagnostic_support.py
       - name: Validate policy JSON

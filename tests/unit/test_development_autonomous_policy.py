@@ -5115,6 +5115,99 @@ def test_wp12_dynamics_preflight_receipt_validation_binds_exact_identities(
     assert receipt_sha == fixture["preflight_sha256"]
 
 
+def test_wp12_dynamics_campaign_refreshes_preflight_and_manifest_after_prior_reservation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    entry = fixture["entry"]
+    old_preflight_bytes = fixture["preflight_path"].read_bytes()
+
+    MODULE._reserve_node_attempt(
+        fixture["ledger_path"],
+        fixture["ledger_path"].with_suffix(".lock"),
+        mandate_id=entry["development_mandate_id"],
+        worktree_id="wp12_dynamics",
+        target=fixture["target"],
+        series_id="dev-synthetic-prior-0001",
+        source_fingerprint=fixture["source_fingerprint"],
+        reason="Synthetic prior case used to advance the shared campaign ledger.",
+        maximum=entry["attempt_limit_per_nodeid"],
+        total_maximum=entry["max_total_attempts"],
+        authorization_id="wp12-synthetic-prior-auth-001",
+        owner_decision_id="owner-synthetic-prior-001",
+        predecessor=entry["node_attempt_ledger"]["predecessor"],
+        controller_fingerprint="2" * 64,
+    )
+    assert fixture["ledger_path"].is_file()
+    assert fixture["preflight_path"].read_bytes() == old_preflight_bytes
+
+    with pytest.raises(MODULE.PolicyError, match="does not match this exact source, controller, ledger and nodeid"):
+        MODULE.prepare_wp12_execution_manifest(
+            "wp12_dynamics", fixture["target"], "wp12-synth-stale-0001", preflight_id=fixture["preflight_id"]
+        )
+    assert not (fixture["store"] / "authorizations" / "wp12_dynamics" / "wp12-synth-stale-0001.json").exists()
+
+    expected_origin = str((fixture["source_root"] / "solveur" / "__init__.py").resolve())
+
+    def synthetic_collect_only(command, *, output_dir, **_kwargs):
+        assert "--collect-only" in command
+        assert command[-1] == fixture["target"]
+        attestation = _wp12_dynamics_attestation(
+            expected_nodeid=fixture["target"],
+            collected_nodeids=[fixture["target"]],
+            solver_origin=expected_origin,
+        )
+        (output_dir / "stdout.log").write_text(
+            f"QF_DEV_SOLVER_ORIGIN={expected_origin}\n{attestation}", encoding="utf-8"
+        )
+        (output_dir / "stderr.log").write_text("", encoding="utf-8")
+        return SimpleNamespace(
+            status="PASS",
+            return_code=0,
+            elapsed_seconds=0.01,
+            peak_rss_bytes=1024,
+            peak_process_count=1,
+            stdout_bytes=512,
+            stderr_bytes=0,
+        )
+
+    monkeypatch.setattr(MODULE, "run_supervised_command", synthetic_collect_only)
+    refreshed = MODULE.preflight_wp12_dynamics_pytest(
+        fixture["target"], "pf-123456789abd", policy=fixture["policy"]
+    )
+
+    assert refreshed["state"] == "PREFLIGHT_PASS"
+    assert refreshed["bodies_executed"] is False
+    assert refreshed["attempt_reserved"] is False
+    assert refreshed["ledger_touched"] is False
+    refreshed_receipt, refreshed_sha = MODULE._validate_wp12_dynamics_preflight_receipt(
+        fixture["store"],
+        refreshed["preflight_id"],
+        target=fixture["target"],
+        identity=fixture["identity"],
+        source_fingerprint=fixture["source_fingerprint"],
+        controller_provenance=fixture["controller_provenance"],
+        policy=fixture["policy"],
+    )
+    assert refreshed_receipt == Path(refreshed["receipt"])
+    assert refreshed_sha == refreshed["receipt_sha256"]
+
+    prepared = MODULE.prepare_wp12_execution_manifest(
+        "wp12_dynamics",
+        fixture["target"],
+        "wp12-synth-refreshed-0001",
+        preflight_id=refreshed["preflight_id"],
+    )
+    manifest = json.loads(Path(prepared["path"]).read_text(encoding="utf-8"))
+    assert manifest["state"] == "PREPARED_NOT_AUTHORIZED"
+    assert manifest["preflight"] == {
+        "preflight_id": refreshed["preflight_id"],
+        "receipt_path": str(refreshed_receipt),
+        "receipt_sha256": refreshed_sha,
+    }
+    assert manifest["limits"]["timeout_seconds"] == 300
+
+
 @pytest.mark.parametrize(
     ("field", "value"),
     [

@@ -186,14 +186,6 @@ def _write_wp12_attempt_observables(
     if not isinstance(manifest_ref, dict) or not isinstance(manifest_ref.get("path"), str):
         raise RuntimeError("The launcher run record has no exact execution-manifest identity.")
     manifest_path = Path(manifest_ref["path"]).resolve(strict=True)
-    if manifest_path.parent.name != "wp12_dynamics" or manifest_path.parent.parent.name != "authorizations":
-        raise RuntimeError("The execution manifest is outside the registered WP12 dynamics authorization directory.")
-    manifest_bytes = manifest_path.read_bytes()
-    manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
-    if manifest_ref.get("sha256") != manifest_sha256:
-        raise RuntimeError("The execution-manifest hash changed after the launcher recorded it.")
-    manifest = json.loads(manifest_bytes)
-
     identity = run_record.get("identity")
     controller = run_record.get("controller_provenance")
     source_fingerprint = run_record.get("source_fingerprint")
@@ -213,8 +205,28 @@ def _write_wp12_attempt_observables(
     policy_worktree = controller_policy.get("worktrees", {}).get("wp12_dynamics", {})
     evidence_root = Path(str(policy_worktree.get("evidence_root", ""))).resolve(strict=True)
     expected_authorization_dir = (evidence_root / "authorizations" / "wp12_dynamics").resolve(strict=True)
-    if manifest_path.parent != expected_authorization_dir:
+    try:
+        expected_authorization_dir.relative_to(evidence_root)
+    except ValueError as exc:
+        raise RuntimeError("The policy-configured WP12 authorization directory is outside its evidence root.") from exc
+    owner_authorized_dir = expected_authorization_dir / "owner-authorized"
+    if owner_authorized_dir.is_symlink():
+        raise RuntimeError("The WP12 owner-authorized manifest directory must not be a symlink.")
+    allowed_manifest_dirs = {expected_authorization_dir}
+    if owner_authorized_dir.exists():
+        if not owner_authorized_dir.is_dir():
+            raise RuntimeError("The WP12 owner-authorized manifest path is not a directory.")
+        resolved_owner_authorized_dir = owner_authorized_dir.resolve(strict=True)
+        if resolved_owner_authorized_dir.parent != expected_authorization_dir:
+            raise RuntimeError("The WP12 owner-authorized manifest directory escaped its authorization root.")
+        allowed_manifest_dirs.add(resolved_owner_authorized_dir)
+    if manifest_path.parent not in allowed_manifest_dirs:
         raise RuntimeError("The execution manifest is outside the policy-configured WP12 evidence root.")
+    manifest_bytes = manifest_path.read_bytes()
+    manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+    if manifest_ref.get("sha256") != manifest_sha256:
+        raise RuntimeError("The execution-manifest hash changed after the launcher recorded it.")
+    manifest = json.loads(manifest_bytes)
     try:
         attempt_dir.relative_to(evidence_root)
     except ValueError as exc:
