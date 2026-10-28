@@ -454,8 +454,8 @@ WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
         "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ROTOR-2026-10-26-v1",
     },
     WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID: {
-        "root": r"C:\Users\fari\.codex\worktrees\wp12b-hex20-reconciliation\qf_solver",
-        "branch": "emptiesvoids-cloud/wp12b-hex20-consolidation",
+        "root": r"C:\Users\fari\.codex\worktrees\wp12b-hex20-r4-restore\qf_solver",
+        "branch": "emptiesvoids-cloud/wp12b-hex20-r4-assertions",
         "evidence_root": r"E:\QFSolverAgents\evidence\wp12b-hex20-affine-diagnostic-consolidated",
         "timeout_seconds": 300,
         "max_timeout_seconds": 300,

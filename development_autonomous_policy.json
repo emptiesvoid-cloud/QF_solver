@@ -925,9 +925,9 @@
     "wp12_hex20_affine_diagnostic": {
       "purpose": "WP12-B prospective HEX20 affine residual diagnostic; collect-only preflight and separate Owner decision required before execution",
       "mode": "fem_exploratory",
-      "root": "C:\\Users\\fari\\.codex\\worktrees\\wp12b-hex20-reconciliation\\qf_solver",
-      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\wp12b-hex20-reconciliation\\qf_solver",
-      "branch": "emptiesvoids-cloud/wp12b-hex20-consolidation",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\wp12b-hex20-r4-restore\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\wp12b-hex20-r4-restore\\qf_solver",
+      "branch": "emptiesvoids-cloud/wp12b-hex20-r4-assertions",
       "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
       "source_root": "src",
       "pytest_root": "tests/unit",
@@ -969,6 +969,23 @@
           "source_fingerprint": "0d4838a1db01ba0690fb6fcce61244f5031c4ab86fccc3ecacd9a47687209cef",
           "selected_dofs": 60,
           "selection_basis": "One 20-node HEX20 element with 3 translational DDL per node = 60 total; 8 x=0 face nodes fixed in UX/UY/UZ = 24 constrained DDL and 36 free; one 1 m cube.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual",
+          "campaign_id": "WP12B-HEX20-AFFINE-DIAGNOSTIC-R1-2026-10-27",
+          "reason": "Prospective instrumented HEX20 affine diagnostic on the R4 geometry; refreshes the source-bound inventory after PR #49 integrated the imported support module.",
+          "registered_at_utc": "2026-10-28T07:08:34.234380+00:00",
+          "worktree_head": "8f2b02b053af70cbaa23378adbd783dd99669b1b",
+          "source_fingerprint": "efe44ae1505eb130e15e8ce8c4ae5311b639353b674c94b393d75387655227fb",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6",
+            "tests/unit/wp12b_hex20_diagnostic_support.py": "865d38430e5044d72916cc7d1be42bad4cdf2f8628e0a232748168161cd52925"
+          },
+          "selected_dofs": 60,
+          "selection_basis": "20 quadratic solid nodes \u00d7 3 translational DOFs; the fixture constrains 24 DOFs and solves the remaining 36.",
           "timeout_seconds": 300,
           "timeout_reason": null
         }
