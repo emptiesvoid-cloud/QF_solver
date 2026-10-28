@@ -989,6 +989,51 @@
           "selection_basis": "Serialization-only node; 1 is schema minimum, no solver assembly or FEM DDL selected",
           "timeout_seconds": 300,
           "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+          "reason": "Refresh source identity after the owner-authorized sidecar path fix; scientific criteria and selected DDL are unchanged.",
+          "registered_at_utc": "2026-10-28T12:49:11.233838+00:00",
+          "worktree_head": "5f96dd604fe40279ead0186f49be77e7a0bbeac1",
+          "source_fingerprint": "d4743785db99a79181281429827d0de688e5eae94e9ad285491040aaa75c7a8e",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+          "reason": "Refresh source identity after the owner-authorized sidecar path fix; scientific criteria and selected DDL are unchanged.",
+          "registered_at_utc": "2026-10-28T12:49:13.640389+00:00",
+          "worktree_head": "5f96dd604fe40279ead0186f49be77e7a0bbeac1",
+          "source_fingerprint": "3a8c1324d0563214911e8f9abca87c09ddf98907d5d8ab01c822640c82baa4fe",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 has 12 translational DDL; nodes 0, 2, and 3 are fixed in UX/UY/UZ, leaving node 1 UX/UY/UZ free.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+          "reason": "Refresh source identity after the owner-authorized sidecar path fix; scientific criteria and selected DDL are unchanged.",
+          "registered_at_utc": "2026-10-28T12:49:16.114760+00:00",
+          "worktree_head": "5f96dd604fe40279ead0186f49be77e7a0bbeac1",
+          "source_fingerprint": "f16bbeea012b8c86924215156b1ffbac23d2248d0b0194067bcd9af36a3c3909",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
         }
       ]
     },
