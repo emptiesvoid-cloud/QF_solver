@@ -93,7 +93,11 @@ nouveau fingerprint de contrôleur.
 Le fingerprint prospectif de la source du test, calculé hors du worktree
 officiel sur le candidat, est
 `dea993f995b07804b5ca9baf9cccb84615bc14313ccac7934694ca24d3f5e995`.
-Il n’est pas une inscription active et devra être recalculé après intégration.
+Le candidat scientifique est sur la branche
+`fix/wp12a-harmonic-observability-20261028`, HEAD
+`bf88803a8464a805e953013a2593fb06e6ea4659`, tree
+`cd75a62d68a95adbbb398ee312fbc8e1fc5fb7cd`. Ces valeurs ne sont pas une
+inscription active et devront être recalculées après intégration.
 
 ## Vérifications et suite requise
 
@@ -105,6 +109,10 @@ les valeurs non finies, les chemins et écritures du sidecar, les refus de
 manifeste et la réservation simulée sur ledger temporaire. Ruff, compilation et
 `git diff --check` sont vérifiés sur la branche candidate; la CI complète de la
 PR est à contrôler sur son HEAD final.
+
+La suite synthétique locale complète a également terminé avec 263 réussis,
+0 échec, 0 skip et 0 erreur. Elle avait été lancée avant le dernier ajout des
+enregistrements de conditionnement au sidecar; la CI doit vérifier le HEAD final.
 
 Après revue et intégration autorisées : actualiser le worktree scientifique
 par la procédure Git, inspecter et enregistrer append-only le nodeid et son
