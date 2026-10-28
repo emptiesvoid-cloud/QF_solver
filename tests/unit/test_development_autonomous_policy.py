@@ -85,14 +85,14 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
 
     assert len(declarations) == 1
     expected_controller_path = (
-        r"C:\Users\fari\.codex\worktrees\wp12-controller-harmonic-d379820\qf_solver"
+        r"C:\Users\fari\.codex\worktrees\wp12-controller-base-1b8d6a7\qf_solver"
         r"\scripts\development_autonomous.py"
     )
     expected_identity = (
         "This clean, detached controller checkout is pinned to HEAD "
-        "`d379820e794653bde65cae193c920b34d38a0fa3`, tree "
-        "`c31f8bad8d2b2c41a52faa8fb00c28ab562f9e7a`, and official provenance fingerprint "
-        "`5986ded6b571566d51f4d8a4b16f0fbaa694f69764fd4c9c4a14f212b38ca00e`."
+        "`1b8d6a76b062039566dbf0f2bd508b7990035dca`, tree "
+        "`c5fe42978125349bb40d0f443560437ee43f239f`, and official provenance fingerprint "
+        "`f6d2a49da3e41feab82da740d6155c6fc56e9b0f36e901bd260ca5823a0ff12a`."
     )
     assert f"{declaration_marker}{expected_controller_path}`" in declarations[0]
     assert expected_identity in declarations[0]
