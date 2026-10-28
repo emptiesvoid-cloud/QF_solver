@@ -15,6 +15,7 @@ SYNTHETIC_TEST_FILES = (
     Path("tests/unit/test_wp12_observable_archive_synthetic.py"),
     Path("tests/unit/test_wp12b_diagnostic_provenance.py"),
     Path("tests/unit/test_wp12b_hex20_diagnostic_support.py"),
+    Path("tests/unit/test_wp12b_owner_decision_contract.py"),
 )
 SUMMARY_RE = re.compile(r"\b(\d+)\s+(passed|failed|skipped|error|errors)\b")
 

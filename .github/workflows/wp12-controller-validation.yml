@@ -16,6 +16,7 @@ on:
       - "tests/unit/test_wp12_observable_archive_synthetic.py"
       - "tests/unit/test_wp12b_diagnostic_provenance.py"
       - "tests/unit/test_wp12b_hex20_diagnostic_support.py"
+      - "tests/unit/test_wp12b_owner_decision_contract.py"
   push:
     branches: [stabilize/wp12-shared-controller-20261028]
   workflow_dispatch:
@@ -53,6 +54,7 @@ jobs:
           tests/unit/test_wp12_observable_archive_synthetic.py
           tests/unit/test_wp12b_diagnostic_provenance.py
           tests/unit/test_wp12b_hex20_diagnostic_support.py
+          tests/unit/test_wp12b_owner_decision_contract.py
       - name: Compile controller sources and tests
         run: >-
           python -m py_compile
@@ -65,6 +67,7 @@ jobs:
           tests/unit/test_wp12_observable_archive_synthetic.py
           tests/unit/test_wp12b_diagnostic_provenance.py
           tests/unit/test_wp12b_hex20_diagnostic_support.py
+          tests/unit/test_wp12b_owner_decision_contract.py
       - name: Validate policy JSON
         run: python -m json.tool development_autonomous_policy.json > /dev/null
       - name: Git diff whitespace check
