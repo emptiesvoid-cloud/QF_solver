@@ -1054,6 +1054,46 @@ def test_wp12_registration_revisions_preserve_history_and_reject_stale_source(
         MODULE._wp12_active_registration("wp12_wp07", target, policy["worktrees"]["wp12_wp07"], "e" * 64)
 
 
+def test_wp12_registration_refreshes_missing_dependency_inventory_append_only(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _agent_root, policy_path, target = _prepare_wp12_registration_context(tmp_path, monkeypatch)
+    dependencies = {
+        "tests/conftest.py": "1" * 64,
+        "tests/unit/candidate_support.py": "2" * 64,
+        "tests/unit/candidate_oracle.py": "3" * 64,
+    }
+    monkeypatch.setattr(MODULE, "_test_source_dependency_inventory", lambda *_args: dependencies)
+    details = {
+        "selected_dofs": 12,
+        "selection_basis": "Two-node BEAM2 reduced-harmonic registration metadata refresh",
+    }
+    MODULE.register_wp12_nodeid("wp12_wp07", target, "initial inspected source registration", **details)
+    policy = MODULE.load_policy(policy_path)
+    records = policy["worktrees"]["wp12_wp07"]["nodeid_registration_records"]
+    records[-1].pop("test_source_dependencies")
+    policy_path.write_text(json.dumps(policy, sort_keys=False) + "\n", encoding="utf-8")
+
+    refreshed = MODULE.register_wp12_nodeid(
+        "wp12_wp07",
+        target,
+        "Append the dependency inventory required by the controller provenance contract.",
+        **details,
+    )
+    assert refreshed["state"] == "NODEID_REGISTERED"
+    assert refreshed["revision"] == 2
+    policy = MODULE.load_policy(policy_path)
+    records = policy["worktrees"]["wp12_wp07"]["nodeid_registration_records"]
+    assert len(records) == 2
+    assert "test_source_dependencies" not in records[0]
+    assert records[1]["source_fingerprint"] == records[0]["source_fingerprint"]
+    assert records[1]["test_source_dependencies"] == dependencies
+    active = MODULE._wp12_active_registration("wp12_wp07", target, policy["worktrees"]["wp12_wp07"], "c" * 64)
+    assert active["test_source_dependencies"] == dependencies
+    with pytest.raises(MODULE.PolicyError, match="already registered"):
+        MODULE.register_wp12_nodeid("wp12_wp07", target, "duplicate refreshed source", **details)
+
+
 def test_wp12_registration_rejects_bad_paths_functions_and_repeats(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -4743,6 +4783,21 @@ def _synthetic_wp12_dynamics_context(tmp_path: Path, monkeypatch: pytest.MonkeyP
     )
 
     monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: policy)
+    monkeypatch.setattr(MODULE, "_registered_root", lambda *_args, **_kwargs: science_root)
+    monkeypatch.setattr(
+        MODULE,
+        "resolve_targets",
+        lambda scope, requested, current_policy, *, worktree_id=None: [requested]
+        if scope == "fem_exploratory"
+        and worktree_id == "wp12_dynamics"
+        and requested in current_policy["worktrees"][worktree_id]["allowed_nodeids"]
+        else pytest.fail("synthetic dynamics fixture must resolve only its exact registered nodeid"),
+    )
+    monkeypatch.setattr(
+        MODULE,
+        "_test_source_dependency_inventory",
+        lambda *_args: registration.get("test_source_dependencies", {}),
+    )
     monkeypatch.setattr(
         MODULE,
         "_registered_worktree",

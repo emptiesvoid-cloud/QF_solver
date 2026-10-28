@@ -3205,7 +3205,11 @@ def register_wp12_nodeid(
         current_fingerprint = _worktree_source_fingerprint(root, target)
         current_test_dependencies = _test_source_dependency_inventory(root, module_name)
         previous = next((item for item in reversed(records) if item.get("target") == target), None)
-        if previous is not None and previous.get("source_fingerprint") == current_fingerprint:
+        if (
+            previous is not None
+            and previous.get("source_fingerprint") == current_fingerprint
+            and previous.get("test_source_dependencies") == current_test_dependencies
+        ):
             raise PolicyError("nodeid and source revision are already registered")
         if target not in nodeids:
             if len(nodeids) >= entry["nodeid_registration"]["max_nodeids"]:
