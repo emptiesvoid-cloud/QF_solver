@@ -131,3 +131,33 @@ def test_run_json_sidecar_link_verifies_all_shared_identities(tmp_path: Path) ->
     )
     assert mismatch is not None
     assert mismatch["status"] == "PROVENANCE_MISMATCH"
+
+    expected_controller = {
+        "worktree_id": WORKTREE_ID,
+        "selected_dofs": 60,
+        "controller_attempt_id": ATTEMPT_ID,
+        "manifest_id": MANIFEST["authorization_id"],
+        "manifest_sha256": MANIFEST["sha256"],
+        "run_json_path": str(run_json_path.resolve()),
+    }
+    for field, wrong_value in {
+        "worktree_id": "wp12_elements_loads",
+        "selected_dofs": 30,
+        "controller_attempt_id": "dev-fedcba987654-attempt-1",
+        "manifest_id": "WP12B-OTHER-MANDATE-R1",
+        "manifest_sha256": "b" * 64,
+        "run_json_path": str(tmp_path / "other-run.json"),
+    }.items():
+        sidecar["controller"] = {**expected_controller, field: wrong_value}
+        sidecar_path.write_text(json.dumps(sidecar), encoding="utf-8")
+        mismatch = MODULE._wp12b_hex20_diagnostic_sidecar(
+            worktree_id=WORKTREE_ID,
+            target=NODEID,
+            evidence_root=str(evidence_root),
+            attempt_id=ATTEMPT_ID,
+            manifest_receipt=MANIFEST,
+            selected_dofs=60,
+            run_json_path=run_json_path,
+            sidecar_limit_bytes=256 * 1024 * 1024,
+        )
+        assert mismatch is not None and mismatch["status"] == "PROVENANCE_MISMATCH"

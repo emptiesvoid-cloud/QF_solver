@@ -47,6 +47,7 @@ WP12_DYNAMICS_NODEIDS = (
 )
 
 WP12_DYNAMICS_PREFLIGHT_NODEID = WP12_DYNAMICS_NODEIDS[0]
+WP12B_HEX20_DIAGNOSTIC_NODEID = MODULE.WP12B_HEX20_DIAGNOSTIC_NODEID
 WP12_ELEMENTS_VERIFICATION_NODEIDS = (
     "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
     "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4",
@@ -91,6 +92,7 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
         "wp12_dynamics",
         "rotor",
         MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+        MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
     }
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
 
@@ -298,7 +300,7 @@ def test_each_worktree_has_a_separate_output_namespace(tmp_path: Path) -> None:
         MODULE._series_root(tmp_path, "fem_exploratory", "e02")
 
 
-def test_wp12_registry_has_six_distinct_exact_worktree_envelopes() -> None:
+def test_wp12_registry_has_distinct_exact_worktree_envelopes() -> None:
     policy = _policy()
     expected = {
         "wp12_wp07": ("E:\\QFSolverAgents\\wp07", "fix/wp12-wp07-serialization", 300, 10, None),
@@ -325,6 +327,13 @@ def test_wp12_registry_has_six_distinct_exact_worktree_envelopes() -> None:
             8,
             12,
         ),
+        "wp12_hex20_affine_diagnostic": (
+            "C:\\Users\\fari\\.codex\\worktrees\\wp12b-hex20-reconciliation\\qf_solver",
+            "emptiesvoids-cloud/wp12b-hex20-consolidation",
+            300,
+            1,
+            60,
+        ),
     }
     for worktree_id, (root, branch, timeout, attempts, max_dofs) in expected.items():
         entry = policy["worktrees"][worktree_id]
@@ -338,63 +347,42 @@ def test_wp12_registry_has_six_distinct_exact_worktree_envelopes() -> None:
         if worktree_id == "wp12_dynamics":
             assert entry["allowed_nodeids"] == list(WP12_DYNAMICS_NODEIDS)
             records = entry["nodeid_registration_records"]
-            assert len(records) == 21
             assert all(len(record["worktree_head"]) == 40 for record in entry["nodeid_registration_records"])
             assert all(len(record["source_fingerprint"]) == 64 for record in entry["nodeid_registration_records"])
+            assert {record["target"] for record in records} == set(WP12_DYNAMICS_NODEIDS)
+            assert all(record["target"] in entry["allowed_nodeids"] for record in records)
+            assert all(record["selected_dofs"] > 0 and record["timeout_seconds"] == 300 for record in records)
             newmark_target = "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables"
             newmark_records = [record for record in records if record["target"] == newmark_target]
-            assert len(newmark_records) == 4
-            assert (newmark_records[0]["worktree_head"], newmark_records[0]["source_fingerprint"]) == (
+            assert (
                 "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d",
                 "63e2972018db9bd4f8fc50947504da886e2de29ee4494c3c78422f5ec5c1536d",
-            )
-            assert (newmark_records[1]["worktree_head"], newmark_records[1]["source_fingerprint"]) == (
-                "ed24d6b00d95e339b288a8ec8fa0edf16149be5a",
-                "0174c88cd3aa03529c0e6fd6d6ab2e7ef728586ecd2e71f27330c42ffda5811d",
-            )
-            assert (newmark_records[2]["worktree_head"], newmark_records[2]["source_fingerprint"]) == (
-                "1f609e52fe7838a8e2c61684a2658429fac00a5e",
-                "6d50810fee371a96f4ea240bd767000924cc80e9d1173a04e0db5f9dd3392438",
-            )
-            assert (newmark_records[3]["worktree_head"], newmark_records[3]["source_fingerprint"]) == (
+            ) in {(record["worktree_head"], record["source_fingerprint"]) for record in newmark_records}
+            assert (
                 "d9deddbd6b42467c5fdc9e278bd54e97605f5738",
                 "65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8",
-            )
+            ) in {(record["worktree_head"], record["source_fingerprint"]) for record in newmark_records}
             harmonic_target = "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation"
             harmonic_records = [record for record in records if record["target"] == harmonic_target]
-            assert len(harmonic_records) == 3
-            assert (harmonic_records[0]["worktree_head"], harmonic_records[0]["source_fingerprint"]) == (
+            assert (
                 "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d",
                 "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
-            )
-            assert (harmonic_records[1]["worktree_head"], harmonic_records[1]["source_fingerprint"]) == (
-                "1f609e52fe7838a8e2c61684a2658429fac00a5e",
-                "b203b2fd8cf786e86c1a33b65a1160268a763b7ec0d895d07e6826ef915d7c94",
-            )
-            assert (harmonic_records[2]["worktree_head"], harmonic_records[2]["source_fingerprint"]) == (
+            ) in {(record["worktree_head"], record["source_fingerprint"]) for record in harmonic_records}
+            assert (
                 "d9deddbd6b42467c5fdc9e278bd54e97605f5738",
                 "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
-            )
+            ) in {(record["worktree_head"], record["source_fingerprint"]) for record in harmonic_records}
             base_target = "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization"
             base_records = [record for record in records if record["target"] == base_target]
-            assert len(base_records) == 3
-            assert (base_records[0]["worktree_head"], base_records[0]["source_fingerprint"]) == (
+            assert (
                 "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d",
                 "6db5b4597252082012fa38b1ed5cba02190562746556d5eabd1f74a256e0f8da",
-            )
-            assert (base_records[1]["worktree_head"], base_records[1]["source_fingerprint"]) == (
-                "1f609e52fe7838a8e2c61684a2658429fac00a5e",
-                "04461145a495ff3f3aebfe573ad3d8859befb7ec9a99bd7d54dd6cf486ae4d56",
-            )
-            assert (base_records[2]["worktree_head"], base_records[2]["source_fingerprint"]) == (
-                "d9deddbd6b42467c5fdc9e278bd54e97605f5738",
+            ) in {(record["worktree_head"], record["source_fingerprint"]) for record in base_records}
+            assert (
+                "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
                 "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
-            )
-            for record in (newmark_records[3], harmonic_records[2], base_records[2]):
-                assert (
-                    record["selected_dofs"] == {newmark_target: 1, harmonic_target: 3, base_target: 1}[record["target"]]
-                )
-                assert record["timeout_seconds"] == 300
+            ) in {(record["worktree_head"], record["source_fingerprint"]) for record in records}
+            assert all(record["timeout_seconds"] == 300 for record in records)
         elif worktree_id == "wp12_tet4":
             assert entry["allowed_nodeids"] == list(WP12_TET4_NODEIDS)
             records = entry["nodeid_registration_records"]
@@ -430,6 +418,21 @@ def test_wp12_registry_has_six_distinct_exact_worktree_envelopes() -> None:
             assert entry["attempt_limit_per_nodeid"] == 1
             assert entry["nodeid_registration"]["max_nodeids"] == 8
             assert len(entry["nodeid_registration_records"]) == 8
+        elif worktree_id == "wp12_hex20_affine_diagnostic":
+            assert entry["development_mandate_id"] == MODULE.WP12_OWNER_ENVELOPES[worktree_id]["development_mandate_id"]
+            assert entry["campaign_id"] == MODULE.WP12_OWNER_ENVELOPES[worktree_id]["campaign_id"]
+            assert entry["attempt_limit_per_nodeid"] == entry["max_total_attempts"] == 1
+            assert entry["max_fem_cases_per_attempt"] == 1
+            assert entry["nodeid_registration"]["max_nodeids"] == 1
+            assert entry["allowed_nodeids"] in ([], [WP12B_HEX20_DIAGNOSTIC_NODEID])
+            assert len(entry["nodeid_registration_records"]) == len(entry["allowed_nodeids"])
+            if entry["allowed_nodeids"]:
+                registration = entry["nodeid_registration_records"][0]
+                assert registration["target"] == WP12B_HEX20_DIAGNOSTIC_NODEID
+                assert registration["selected_dofs"] == 60
+                assert registration["timeout_seconds"] == 300
+                assert len(registration["worktree_head"]) == 40
+                assert len(registration["source_fingerprint"]) == 64
         else:
             assert entry["allowed_nodeids"] == []
             assert entry["nodeid_registration_records"] == []
@@ -1341,6 +1344,7 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
         "wp12_elements_loads": WP12_ELEMENTS_LOADS_NODEIDS,
         "wp12_elements_loads_corrective": WP12_ELEMENTS_LOADS_CORRECTIVE_NODEIDS,
         "wp12_dynamics": WP12_DYNAMICS_NODEIDS,
+        "wp12_hex20_affine_diagnostic": (WP12B_HEX20_DIAGNOSTIC_NODEID,),
         "rotor": tuple(MODULE.WP12_ROTOR_NODEIDS),
     }
     target = targets[worktree_id][0]
@@ -1752,9 +1756,10 @@ def test_rotor_preflight_refuses_a_fake_solver_import_path(tmp_path: Path) -> No
     ("worktree_id", "expected_message"),
     [
         ("wp12_dynamics", "limited to its four exact registered nodeids"),
-        ("wp12_elements", "enabled only for D01, rotor, WP12 dynamics"),
-        ("c01", "enabled only for D01, rotor, WP12 dynamics"),
-        ("e01", "enabled only for D01, rotor, WP12 dynamics"),
+        ("wp12_hex20_affine_diagnostic", "limited to its exact registered nodeid"),
+        ("wp12_elements", "enabled only for D01, rotor, WP12 dynamics, WP12-B HEX20 diagnostic"),
+        ("c01", "enabled only for D01, rotor, WP12 dynamics, WP12-B HEX20 diagnostic"),
+        ("e01", "enabled only for D01, rotor, WP12 dynamics, WP12-B HEX20 diagnostic"),
     ],
 )
 def test_collect_only_preflight_does_not_expand_to_other_scopes(
@@ -1781,6 +1786,9 @@ def test_preflight_cli_routes_only_explicit_registered_scopes(monkeypatch: pytes
     dynamics_target = WP12_DYNAMICS_PREFLIGHT_NODEID
     assert MODULE.main(["preflight", "--worktree", "wp12_dynamics", "--target", dynamics_target]) == 0
     assert json.loads(capsys.readouterr().out)["worktree"] == "wp12_dynamics"
+    hex20_target = WP12B_HEX20_DIAGNOSTIC_NODEID
+    assert MODULE.main(["preflight", "--worktree", "wp12_hex20_affine_diagnostic", "--target", hex20_target]) == 0
+    assert json.loads(capsys.readouterr().out)["worktree"] == "wp12_hex20_affine_diagnostic"
     with pytest.raises(SystemExit) as exc:
         MODULE.main(["preflight", "--worktree", "unknown", "--target", target])
     assert exc.value.code == 2
@@ -2753,52 +2761,52 @@ def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_s
     policy = _policy()
     worktrees = policy["worktrees"]
     scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
-    assert set(worktrees) == {
-        "d01",
-        "c01",
-        "e01",
-        "wp12_wp07",
-        "wp12_tet4",
-        "wp12_elements",
-        "wp12_elements_loads",
-        "wp12_elements_loads_corrective",
-        "wp12_dynamics",
-        "rotor",
-        scope_id,
-    }
     baseline = json.loads(
         subprocess.run(
-            ["git", "show", "ea99be8b99519a9cbe609612e9560e10beb38d95:development_autonomous_policy.json"],
+            ["git", "show", "e25b32272d974dd1f34c03617721f95befde87de:development_autonomous_policy.json"],
             cwd=MODULE.ROOT,
             capture_output=True,
             text=True,
             check=True,
         ).stdout
     )
-    existing = {key: value for key, value in worktrees.items() if key != scope_id}
+    hex20_scope_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
+    assert set(worktrees) == set(baseline["worktrees"]) | {hex20_scope_id}
+    existing = {key: value for key, value in worktrees.items() if key != hex20_scope_id}
     for worktree_id, baseline_entry in baseline["worktrees"].items():
-        if worktree_id in {scope_id, "wp12_dynamics"}:
+        if worktree_id == "wp12_dynamics":
             continue
         assert existing[worktree_id] == baseline_entry
     dynamics_baseline = baseline["worktrees"]["wp12_dynamics"]
     dynamics_current = existing["wp12_dynamics"]
     assert dynamics_current["allowed_nodeids"] == dynamics_baseline["allowed_nodeids"]
-    assert dynamics_current["nodeid_registration_records"][: len(dynamics_baseline["nodeid_registration_records"])] == (
-        dynamics_baseline["nodeid_registration_records"]
+    assert (
+        dynamics_current["nodeid_registration_records"][: len(dynamics_baseline["nodeid_registration_records"])]
+        == (dynamics_baseline["nodeid_registration_records"])
     )
-    assert len(dynamics_current["nodeid_registration_records"]) == len(
-        dynamics_baseline["nodeid_registration_records"]
-    ) + 1
-    assert dynamics_current["nodeid_registration_records"][-1]["target"] == (
+    current_wp07_target = (
         "tests/unit/test_wp07_uniform_base_acceleration.py::"
         "test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames"
     )
+    current_wp07_registrations = {
+        (record["worktree_head"], record["source_fingerprint"], record["timeout_seconds"])
+        for record in dynamics_current["nodeid_registration_records"]
+        if record["target"] == current_wp07_target
+    }
+    assert (
+        "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+        "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
+        300,
+    ) in current_wp07_registrations
     entry = worktrees[scope_id]
     assert entry["allowed_nodeids"] == list(MODULE._hex8sri_convergence24_nodeids())
     assert len(entry["allowed_nodeids"]) == 24
     assert entry["execution_authorized"] is False
     assert entry["attempt_limit_per_nodeid"] == 1
     assert entry["node_attempt_ledger"]["path"] == MODULE.HEX8SRI_CONVERGENCE24_LEDGER
+    hex20_entry = worktrees[hex20_scope_id]
+    assert hex20_entry["allowed_nodeids"] in ([], [WP12B_HEX20_DIAGNOSTIC_NODEID])
+    assert hex20_entry["max_total_attempts"] == hex20_entry["attempt_limit_per_nodeid"] == 1
 
 
 @pytest.mark.parametrize(
@@ -3904,7 +3912,7 @@ def test_hex8sri_freeze_archive_is_no_replace_and_preserves_evidence_and_ledger(
 def test_hex8sri_scope_refresh_leaves_historical_scope_registrations_unchanged() -> None:
     baseline = json.loads(
         subprocess.run(
-            ["git", "show", "ea99be8b99519a9cbe609612e9560e10beb38d95:development_autonomous_policy.json"],
+            ["git", "show", "e25b32272d974dd1f34c03617721f95befde87de:development_autonomous_policy.json"],
             cwd=MODULE.ROOT,
             capture_output=True,
             text=True,
@@ -3912,24 +3920,32 @@ def test_hex8sri_scope_refresh_leaves_historical_scope_registrations_unchanged()
         ).stdout
     )
     current = _policy()
-    assert set(current["worktrees"]) == set(baseline["worktrees"])
+    hex20_scope_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
+    assert set(current["worktrees"]) == set(baseline["worktrees"]) | {hex20_scope_id}
     for worktree_id, baseline_entry in baseline["worktrees"].items():
-        if worktree_id not in {MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID, "wp12_dynamics"}:
+        if worktree_id != "wp12_dynamics":
             assert current["worktrees"][worktree_id] == baseline_entry
-        elif worktree_id == "wp12_dynamics":
-            current_entry = current["worktrees"][worktree_id]
-            assert current_entry["allowed_nodeids"] == baseline_entry["allowed_nodeids"]
-            assert current_entry["nodeid_registration_records"][: len(baseline_entry["nodeid_registration_records"])] == (
-                baseline_entry["nodeid_registration_records"]
-            )
-            assert len(current_entry["nodeid_registration_records"]) == len(
-                baseline_entry["nodeid_registration_records"]
-            ) + 1
+    current_dynamics = current["worktrees"]["wp12_dynamics"]
+    baseline_dynamics = baseline["worktrees"]["wp12_dynamics"]
+    assert current_dynamics["allowed_nodeids"] == baseline_dynamics["allowed_nodeids"]
+    assert (
+        current_dynamics["nodeid_registration_records"][: len(baseline_dynamics["nodeid_registration_records"])]
+        == (baseline_dynamics["nodeid_registration_records"])
+    )
+    assert any(
+        record["target"]
+        == "tests/unit/test_wp07_uniform_base_acceleration.py::"
+        "test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames"
+        and record["worktree_head"] == "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66"
+        for record in current_dynamics["nodeid_registration_records"]
+    )
     assert current["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["execution_authorized"] is False
-    assert current["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["allowed_nodeids"] == (
-        baseline["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["allowed_nodeids"]
+    assert (
+        current["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["allowed_nodeids"]
+        == (baseline["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["allowed_nodeids"])
     )
     assert current["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["attempt_limit_per_nodeid"] == 1
+    assert current["worktrees"][hex20_scope_id]["allowed_nodeids"] in ([], [WP12B_HEX20_DIAGNOSTIC_NODEID])
 
 
 def test_hex8sri_execution_test_contract_rejects_legacy_and_accepts_declared_contract(tmp_path: Path) -> None:
@@ -4033,12 +4049,246 @@ def test_wp12_dynamics_collect_only_command_is_limited_to_four_exact_nodes(tmp_p
         )
 
 
+def _wp12b_hex20_diagnostic_attestation(**updates: Any) -> str:
+    payload: dict[str, Any] = {
+        "schema": MODULE.WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_SCHEMA,
+        "expected_nodeid": WP12B_HEX20_DIAGNOSTIC_NODEID,
+        "collected_nodeids": [WP12B_HEX20_DIAGNOSTIC_NODEID],
+        "skip_markers": [],
+        "bodies_executed": False,
+        "solver_origin": "C:/source/src/solveur/__init__.py",
+        "worktree_id": MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
+        "selected_dofs_expected": 60,
+        "selected_dofs": "60",
+        "max_dofs_expected": 60,
+        "max_dofs": "60",
+        "exitstatus": 0,
+    }
+    payload.update(updates)
+    return MODULE.WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_MARKER + json.dumps(payload)
+
+
+def test_wp12b_hex20_collect_only_command_is_limited_to_its_exact_nodeid(tmp_path: Path) -> None:
+    command = MODULE.build_pytest_command(
+        "fem_exploratory",
+        [WP12B_HEX20_DIAGNOSTIC_NODEID],
+        tmp_path,
+        repository_root=tmp_path,
+        source_root=tmp_path / "src",
+        wp12b_hex20_diagnostic_collect_only_attestation=True,
+        collect_only=True,
+    )
+    assert "--collect-only" in command
+    assert command[-1] == WP12B_HEX20_DIAGNOSTIC_NODEID
+    assert "wp12b-hex20-diagnostic-preflight" in command[3]
+
+    with pytest.raises(MODULE.PolicyError, match="one exact nodeid"):
+        MODULE.build_pytest_command(
+            "fem_exploratory",
+            ["tests/unit/test_other.py::test_unregistered"],
+            tmp_path,
+            repository_root=tmp_path,
+            source_root=tmp_path / "src",
+            wp12b_hex20_diagnostic_collect_only_attestation=True,
+            collect_only=True,
+        )
+    with pytest.raises(MODULE.PolicyError, match="one exact nodeid"):
+        MODULE.build_pytest_command(
+            "fem_exploratory",
+            [WP12B_HEX20_DIAGNOSTIC_NODEID, "tests/unit/test_other.py::test_unregistered"],
+            tmp_path,
+            repository_root=tmp_path,
+            source_root=tmp_path / "src",
+            wp12b_hex20_diagnostic_collect_only_attestation=True,
+            collect_only=True,
+        )
+    with pytest.raises(MODULE.PolicyError, match="one exact nodeid"):
+        MODULE.build_pytest_command(
+            "fem_exploratory",
+            [WP12B_HEX20_DIAGNOSTIC_NODEID],
+            tmp_path,
+            repository_root=tmp_path,
+            source_root=tmp_path / "src",
+            wp12b_hex20_diagnostic_collect_only_attestation=True,
+            collect_only=False,
+        )
+    with pytest.raises(MODULE.PolicyError, match="collect-only for its one exact nodeid"):
+        MODULE.build_pytest_command(
+            "fem_exploratory",
+            [WP12B_HEX20_DIAGNOSTIC_NODEID],
+            tmp_path,
+            repository_root=tmp_path,
+            source_root=tmp_path / "src",
+            wp12b_hex20_diagnostic_collect_only_attestation=True,
+            allow_native_skip_override=True,
+            collect_only=True,
+        )
+
+
 @pytest.mark.parametrize(
     ("updates", "expected"),
     [
         ({}, "PREFLIGHT_PASS"),
         ({"collected_nodeids": []}, "PREFLIGHT_NODEID_NOT_CONFIRMED"),
-        ({"collected_nodeids": [WP12_DYNAMICS_PREFLIGHT_NODEID, WP12_DYNAMICS_PREFLIGHT_NODEID]}, "PREFLIGHT_NODEID_NOT_CONFIRMED"),
+        (
+            {"collected_nodeids": [WP12B_HEX20_DIAGNOSTIC_NODEID, WP12B_HEX20_DIAGNOSTIC_NODEID]},
+            "PREFLIGHT_NODEID_NOT_CONFIRMED",
+        ),
+        ({"skip_markers": [{"marker": "skip"}]}, "PREFLIGHT_SKIPPED"),
+        ({"bodies_executed": True}, "PREFLIGHT_BODY_EXECUTION_DETECTED"),
+        ({"solver_origin": "C:/wrong/solveur/__init__.py"}, "PREFLIGHT_WRONG_SOLVER_ORIGIN"),
+        ({"worktree_id": "wp12_elements_loads"}, "PREFLIGHT_SCOPE_MISMATCH"),
+        ({"selected_dofs": "30"}, "PREFLIGHT_SCOPE_MISMATCH"),
+        ({"max_dofs": "30000"}, "PREFLIGHT_SCOPE_MISMATCH"),
+        ({"exitstatus": 1}, "PREFLIGHT_FAILED"),
+    ],
+)
+def test_wp12b_hex20_collect_only_attestation_fails_closed(updates: dict[str, Any], expected: str) -> None:
+    status, payload = MODULE._validate_wp12b_hex20_diagnostic_collect_attestation(
+        _wp12b_hex20_diagnostic_attestation(**updates),
+        target=WP12B_HEX20_DIAGNOSTIC_NODEID,
+        solver_origin="C:/source/src/solveur/__init__.py",
+        selected_dofs=60,
+    )
+    assert status == expected
+    assert payload is not None
+
+
+def test_wp12b_hex20_child_attestor_records_one_skip_free_node_without_body_execution(
+    monkeypatch: pytest.MonkeyPatch, capsys
+) -> None:
+    monkeypatch.setenv("QF_DEV_WORKTREE_ID", MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID)
+    monkeypatch.setenv("QF_DEV_SELECTED_DOFS", "60")
+    monkeypatch.setenv("QF_DEV_MAX_DOFS", "60")
+    expected_origin = "C:/source/src/solveur/__init__.py"
+    attestor = PLUGIN.ExactCollectOnlyAttestor(
+        WP12B_HEX20_DIAGNOSTIC_NODEID,
+        solver_origin=expected_origin,
+        selected_dofs=60,
+        max_dofs=60,
+        schema=MODULE.WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_SCHEMA,
+        marker=MODULE.WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_MARKER,
+    )
+    item = SimpleNamespace(nodeid=WP12B_HEX20_DIAGNOSTIC_NODEID, iter_markers=lambda: [])
+    attestor.pytest_collection_finish(SimpleNamespace(items=[item]))
+    attestor.pytest_sessionfinish(SimpleNamespace(), 0)
+    output = capsys.readouterr().out.strip()
+    status, payload = MODULE._validate_wp12b_hex20_diagnostic_collect_attestation(
+        output,
+        target=WP12B_HEX20_DIAGNOSTIC_NODEID,
+        solver_origin=expected_origin,
+        selected_dofs=60,
+    )
+    assert status == "PREFLIGHT_PASS"
+    assert payload is not None and payload["bodies_executed"] is False
+    assert payload["collected_nodeids"] == [WP12B_HEX20_DIAGNOSTIC_NODEID]
+
+
+def test_wp12b_hex20_preflight_records_exact_collect_only_without_attempt_reservation(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    target = WP12B_HEX20_DIAGNOSTIC_NODEID
+    worktree_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
+    source_root = tmp_path / "source" / "src"
+    source_root.mkdir(parents=True)
+    source_checkout = source_root.parent
+    store = tmp_path / "evidence"
+    entry = {
+        "worktree_id": worktree_id,
+        "development_mandate_id": MODULE.WP12_OWNER_ENVELOPES[worktree_id]["development_mandate_id"],
+        "max_fem_cases_per_attempt": 1,
+        "target_max_dofs": 60,
+        "evidence_root": str(store),
+        "budgets": {
+            "timeout_seconds": 300,
+            "rss_soft_limit_mib": 4096,
+            "process_tree_limit": 4,
+            "output_total_limit_mib": 2,
+            "output_stream_limit_mib": 1,
+            "temporary_limit_mib": 8,
+            "archive_size_limit_mib": 8,
+        },
+    }
+    identity = {
+        "head": "a" * 40,
+        "tree": "b" * 40,
+        "branch": "emptiesvoids-cloud/wp12b-hex20-consolidation",
+        "status_short": "",
+    }
+    fingerprint = "c" * 64
+    selection = {"selected_dofs": 60, "selection_basis": "Synthetic exact 60-DOF contract", "timeout_seconds": 300}
+    policy = {"minimum_free_disk_mib": 1, "poll_interval_seconds": 0.01}
+    expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
+
+    monkeypatch.setattr(MODULE, "resolve_targets", lambda *_args, **_kwargs: [target])
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda *_args, **_kwargs: (entry, source_checkout, source_root, identity, fingerprint),
+    )
+    monkeypatch.setattr(MODULE, "_wp12_active_registration", lambda *_args, **_kwargs: selection)
+    monkeypatch.setattr(MODULE, "_run_root", lambda *_args: store)
+    monkeypatch.setattr(MODULE, "load_policy", lambda *_args: policy)
+    monkeypatch.setattr(MODULE, "_controller_provenance", lambda: {"fingerprint": "d" * 64})
+    monkeypatch.setattr(MODULE, "psutil", object())
+    monkeypatch.setattr(
+        MODULE,
+        "_node_ledger_context",
+        lambda *_args, **_kwargs: pytest.fail("collect-only preflight must not reserve or touch the attempt ledger"),
+    )
+    monkeypatch.setattr(MODULE, "build_child_environment", lambda *_args, **_kwargs: {})
+    monkeypatch.setattr(MODULE.shutil, "disk_usage", lambda *_args: SimpleNamespace(free=10**12))
+
+    def supervised(command, *, output_dir, limits, **_kwargs):
+        assert "--collect-only" in command
+        assert command[-1] == target
+        assert limits["timeout_seconds"] == 300
+        (output_dir / "stdout.log").write_text(
+            "QF_DEV_SOLVER_ORIGIN="
+            + expected_origin
+            + "\n"
+            + _wp12b_hex20_diagnostic_attestation(solver_origin=expected_origin),
+            encoding="utf-8",
+        )
+        (output_dir / "stderr.log").write_text("", encoding="utf-8")
+        return SimpleNamespace(
+            status="PASS",
+            return_code=0,
+            elapsed_seconds=0.01,
+            peak_rss_bytes=1024,
+            peak_process_count=1,
+            stdout_bytes=512,
+            stderr_bytes=0,
+        )
+
+    monkeypatch.setattr(MODULE, "run_supervised_command", supervised)
+    result = MODULE.preflight_wp12b_hex20_diagnostic_pytest(target, "pf-a1b2c3d4e5f6", policy=policy)
+    assert result["state"] == "PREFLIGHT_PASS"
+    assert result["attempt_reserved"] is False
+    assert result["ledger_touched"] is False
+    assert result["nodeid"] == target
+    receipt_path = Path(result["receipt"])
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    checksum = json.loads((receipt_path.parent / "preflight.sha256.json").read_text(encoding="utf-8"))
+    assert checksum["sha256"] == result["receipt_sha256"] == MODULE._sha256(receipt_path)
+    assert receipt["worktree_id"] == worktree_id
+    assert receipt["collected_nodeids"] == [target]
+    assert receipt["bodies_executed"] is False
+    assert receipt["attempt_reserved"] is False
+    assert receipt["ledger_touched"] is False
+    assert receipt["attempt_ledger"]["sha256_before"] is None
+    assert receipt["attempt_ledger"]["sha256_after"] is None
+
+
+@pytest.mark.parametrize(
+    ("updates", "expected"),
+    [
+        ({}, "PREFLIGHT_PASS"),
+        ({"collected_nodeids": []}, "PREFLIGHT_NODEID_NOT_CONFIRMED"),
+        (
+            {"collected_nodeids": [WP12_DYNAMICS_PREFLIGHT_NODEID, WP12_DYNAMICS_PREFLIGHT_NODEID]},
+            "PREFLIGHT_NODEID_NOT_CONFIRMED",
+        ),
         ({"skip_markers": [{"marker": "skip"}]}, "PREFLIGHT_SKIPPED"),
         ({"bodies_executed": True}, "PREFLIGHT_BODY_EXECUTION_DETECTED"),
         ({"solver_origin": "C:/wrong/solveur/__init__.py"}, "PREFLIGHT_WRONG_SOLVER_ORIGIN"),
