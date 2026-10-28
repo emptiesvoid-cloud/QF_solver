@@ -97,6 +97,34 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
 
 
+@pytest.mark.parametrize(
+    ("mutation", "expected_error"),
+    [
+        ("path", "ledger path or historical predecessor identity is invalid"),
+        ("mandate", "ledger path or historical predecessor identity is invalid"),
+        ("sha256", "ledger path or historical predecessor identity is invalid"),
+    ],
+    ids=["generic-path", "wrong-predecessor-mandate", "malformed-predecessor-hash"],
+)
+def test_wp12_dynamics_policy_rejects_unsafe_ledger_binding(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mutation: str, expected_error: str
+) -> None:
+    policy = json.loads(json.dumps(_policy()))
+    config = policy["worktrees"]["wp12_dynamics"]["node_attempt_ledger"]
+    if mutation == "path":
+        config["path"] = "node-attempt-ledger.json"
+    elif mutation == "mandate":
+        config["predecessor"]["mandate_id"] = "DEVELOPMENT_AUTONOMOUS-OTHER-SCOPE"
+    else:
+        config["predecessor"]["sha256"] = "not-a-sha256"
+    policy_path = tmp_path / "development_autonomous_policy.json"
+    policy_path.write_text(json.dumps(policy, sort_keys=True) + "\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "ROOT", tmp_path)
+
+    with pytest.raises(MODULE.PolicyError, match=expected_error):
+        MODULE.load_policy(policy_path)
+
+
 def test_hex8sri_source_identity_inventory_freezes_exact_raw_worktree_bytes() -> None:
     policy = _policy()
     entry = policy["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
@@ -189,6 +217,14 @@ def test_hex8sri_source_identity_inventory_freezes_exact_raw_worktree_bytes() ->
     assert policy["worktrees"]["wp12_dynamics"]["attempt_limit_per_nodeid"] == 10
     assert policy["worktrees"]["wp12_dynamics"]["max_total_attempts"] == 130
     assert policy["worktrees"]["wp12_dynamics"]["max_timeout_seconds"] == 300
+    assert policy["worktrees"]["wp12_dynamics"]["node_attempt_ledger"] == {
+        "path": MODULE.WP12_DYNAMICS_LEDGER,
+        "predecessor": {
+            "path": "node-attempt-ledger.json",
+            "sha256": "20670ceedfe1cc969ce614df13b8bd94b108f43e2e2892cf1601a8607a3dad37",
+            "mandate_id": MODULE.WP12_DYNAMICS_LEGACY_MANDATE_ID,
+        },
+    }
     assert policy["worktrees"]["d01"]["allowed_nodeids"] == list(MODULE.D01_NATIVE_NODEIDS)
     assert {
         name: policy["worktrees"]["d01"]["budgets"][name] for name in MODULE.D01_OWNER_BUDGETS
@@ -1229,42 +1265,90 @@ def test_wp12_attempt_ledger_enforces_total_cap_across_nodeids(tmp_path: Path) -
         MODULE._reserve_node_attempt(**common, target="tests/unit/test_mesh.py::test_second")
 
 
-def test_wp12_dynamics_attempt_ledger_preserves_authorized_node_and_total_caps(tmp_path: Path) -> None:
+def test_wp12_dynamics_attempt_ledger_preserves_authorized_node_and_total_caps(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     envelope = MODULE.WP12_OWNER_ENVELOPES["wp12_dynamics"]
     per_node_limit = envelope["attempt_limit_per_nodeid"]
-    total_limit = envelope["max_total_attempts"]
+    predecessor_mandate = MODULE.WP12_DYNAMICS_LEGACY_MANDATE_ID
+    predecessor_path = tmp_path / "node-attempt-ledger.json"
+    predecessor_entries = {
+        f"{predecessor_mandate}:wp12_dynamics:{target}": [{"attempt": index} for index in range(1, count + 1)]
+        for target, count in zip(MODULE.WP12_DYNAMICS_PREFLIGHT_NODEIDS, (3, 1, 1, 0), strict=True)
+        if count
+    }
+    predecessor_path.write_text(
+        json.dumps(
+            {"schema": "qfsolver-development-node-ledger-v1", "mandate_id": predecessor_mandate, "entries": predecessor_entries},
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    predecessor = {
+        "path": predecessor_path.name,
+        "sha256": MODULE._sha256(predecessor_path),
+        "mandate_id": predecessor_mandate,
+    }
+    policy = json.loads(json.dumps(MODULE.load_policy()))
+    policy["worktrees"]["wp12_dynamics"]["node_attempt_ledger"]["predecessor"]["sha256"] = predecessor[
+        "sha256"
+    ]
+    monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: policy)
     common = {
-        "ledger_path": tmp_path / "dynamics-ledger.json",
-        "lock_path": tmp_path / "dynamics-ledger.lock",
+        "ledger_path": tmp_path / MODULE.WP12_DYNAMICS_LEDGER,
+        "lock_path": (tmp_path / MODULE.WP12_DYNAMICS_LEDGER).with_suffix(".lock"),
         "mandate_id": envelope["development_mandate_id"],
         "worktree_id": "wp12_dynamics",
         "source_fingerprint": "a" * 64,
-        "total_maximum": total_limit,
+        "total_maximum": envelope["max_total_attempts"],
+        "predecessor": predecessor,
     }
 
-    for node_index, target in enumerate(WP12_DYNAMICS_NODEIDS):
-        for attempt_index in range(per_node_limit):
-            MODULE._reserve_node_attempt(
-                **common,
-                target=target,
-                series_id=f"dev-dynamics-{node_index:02d}-{attempt_index:02d}",
-                reason=f"synthetic authorized dynamics attempt {node_index:02d}-{attempt_index:02d}",
-                maximum=per_node_limit,
-            )
-        if node_index == 0:
-            with pytest.raises(MODULE.PolicyError, match=f"exhausted {per_node_limit} attempts for this nodeid"):
-                MODULE._reserve_node_attempt(
-                    **common,
-                    target=target,
-                    series_id="dev-dynamics-node-cap",
-                    reason="synthetic dynamics attempt above the authorized per-node cap",
-                    maximum=per_node_limit,
-                )
-
-    with pytest.raises(MODULE.PolicyError, match=f"exhausted its {total_limit}-attempt mission cap"):
+    target_with_history = WP12_DYNAMICS_NODEIDS[0]
+    for attempt_index in range(per_node_limit - 3):
         MODULE._reserve_node_attempt(
             **common,
-            target="tests/unit/test_dynamic_synthetic.py::test_after_authorized_cap",
+            target=target_with_history,
+            series_id=f"dev-dynamics-history-{attempt_index:02d}",
+            reason=f"synthetic attempt accounting after legacy attempt {attempt_index:02d}",
+            maximum=per_node_limit,
+        )
+    with pytest.raises(MODULE.PolicyError, match=f"exhausted {per_node_limit} attempts for this nodeid"):
+        MODULE._reserve_node_attempt(
+            **common,
+            target=target_with_history,
+            series_id="dev-dynamics-node-cap",
+            reason="synthetic dynamics attempt above inherited per-node cap",
+            maximum=per_node_limit,
+        )
+    node_ledger = json.loads(common["ledger_path"].read_text(encoding="utf-8"))
+    node_key = f"{envelope['development_mandate_id']}:wp12_dynamics:{target_with_history}"
+    assert node_ledger["predecessor"] == predecessor
+    assert len(node_ledger["entries"][node_key]) == per_node_limit - 3
+    assert node_ledger["entries"][node_key][-1]["predecessor_attempts_for_nodeid"] == 3
+
+    mission_store = tmp_path / "dynamics-mission"
+    mission_store.mkdir()
+    (mission_store / predecessor_path.name).write_bytes(predecessor_path.read_bytes())
+    policy["worktrees"]["wp12_dynamics"]["max_total_attempts"] = 6
+    mission_common = {
+        **common,
+        "ledger_path": mission_store / MODULE.WP12_DYNAMICS_LEDGER,
+        "lock_path": (mission_store / MODULE.WP12_DYNAMICS_LEDGER).with_suffix(".lock"),
+        "total_maximum": 6,
+    }
+    MODULE._reserve_node_attempt(
+        **mission_common,
+        target=WP12_DYNAMICS_NODEIDS[10],
+        series_id="dev-dynamics-mission-0001",
+        reason="first synthetic attempt after five inherited attempts",
+        maximum=per_node_limit,
+    )
+    with pytest.raises(MODULE.PolicyError, match="exhausted its 6-attempt mission cap"):
+        MODULE._reserve_node_attempt(
+            **mission_common,
+            target=WP12_DYNAMICS_NODEIDS[11],
             series_id="dev-dynamics-mission-cap",
             reason="synthetic dynamics attempt above the authorized mission cap",
             maximum=per_node_limit,
@@ -1593,6 +1677,16 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
     }
     target = targets[worktree_id][0]
     store = tmp_path / "store" / worktree_id
+    if worktree_id == "wp12_dynamics":
+        store.mkdir(parents=True)
+        predecessor_path = store / "node-attempt-ledger.json"
+        predecessor_payload = {
+            "schema": "qfsolver-development-node-ledger-v1",
+            "mandate_id": MODULE.WP12_DYNAMICS_LEGACY_MANDATE_ID,
+            "entries": {},
+        }
+        predecessor_path.write_text(json.dumps(predecessor_payload, sort_keys=True) + "\n", encoding="utf-8")
+        entry["node_attempt_ledger"]["predecessor"]["sha256"] = MODULE._sha256(predecessor_path)
     observed: dict[str, str] = {}
 
     class StopBeforeAttempt(Exception):
@@ -3055,6 +3149,14 @@ def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_s
         assert existing[worktree_id] == baseline_entry
     dynamics_baseline = baseline["worktrees"]["wp12_dynamics"]
     dynamics_current = existing["wp12_dynamics"]
+    assert dynamics_current["node_attempt_ledger"] == {
+        "path": MODULE.WP12_DYNAMICS_LEDGER,
+        "predecessor": {
+            "path": "node-attempt-ledger.json",
+            "sha256": "20670ceedfe1cc969ce614df13b8bd94b108f43e2e2892cf1601a8607a3dad37",
+            "mandate_id": MODULE.WP12_DYNAMICS_LEGACY_MANDATE_ID,
+        },
+    }
     assert dynamics_current["allowed_nodeids"] == dynamics_baseline["allowed_nodeids"]
     assert (
         dynamics_current["nodeid_registration_records"][: len(dynamics_baseline["nodeid_registration_records"])]
@@ -4768,20 +4870,29 @@ def _synthetic_wp12_dynamics_context(tmp_path: Path, monkeypatch: pytest.MonkeyP
     store = tmp_path / "evidence"
     entry["evidence_root"] = str(store)
     (store / "locks").mkdir(parents=True)
-    ledger_path = store / "node-attempt-ledger.json"
-    ledger_payload = {
+    predecessor_path = store / "node-attempt-ledger.json"
+    predecessor_mandate = MODULE.WP12_DYNAMICS_LEGACY_MANDATE_ID
+    predecessor_payload = {
         "schema": "qfsolver-development-node-ledger-v1",
-        "mandate_id": entry["development_mandate_id"],
-        "entries": {},
+        "mandate_id": predecessor_mandate,
+        "entries": {
+            f"{predecessor_mandate}:wp12_dynamics:{nodeid}": [
+                {"attempt": index} for index in range(1, count + 1)
+            ]
+            for nodeid, count in zip(MODULE.WP12_DYNAMICS_PREFLIGHT_NODEIDS, (3, 1, 1, 0), strict=True)
+            if count
+        },
     }
-    ledger_path.write_text(json.dumps(ledger_payload, sort_keys=True) + "\n", encoding="utf-8")
-    ledger_sha = MODULE._sha256(ledger_path)
+    predecessor_path.write_text(json.dumps(predecessor_payload, sort_keys=True) + "\n", encoding="utf-8")
+    predecessor_sha = MODULE._sha256(predecessor_path)
+    entry["node_attempt_ledger"]["predecessor"]["sha256"] = predecessor_sha
+    ledger_path = store / entry["node_attempt_ledger"]["path"]
     preflight_id = "pf-123456789abc"
     receipt_dir = store / "worktrees" / "wp12_dynamics" / "preflight" / preflight_id
     (receipt_dir / "output").mkdir(parents=True)
     solver_origin = str(source_root / "solveur" / "__init__.py")
     receipt = {
-        "schema": "qfsolver-development-wp12-dynamics-preflight-v1",
+        "schema": "qfsolver-development-wp12-dynamics-preflight-v2",
         "mode": "DEVELOPMENT_AUTONOMOUS",
         "mandate_id": entry["development_mandate_id"],
         "worktree_id": "wp12_dynamics",
@@ -4799,9 +4910,12 @@ def _synthetic_wp12_dynamics_context(tmp_path: Path, monkeypatch: pytest.MonkeyP
         "registration": {**registration, "timeout_seconds": 300},
         "attempt_ledger": {
             "path": str(ledger_path),
-            "sha256_before": ledger_sha,
-            "sha256_after": ledger_sha,
+            "sha256_before": None,
+            "sha256_after": None,
             "touched": False,
+            "predecessor": entry["node_attempt_ledger"]["predecessor"],
+            "predecessor_sha256_before": predecessor_sha,
+            "predecessor_sha256_after": predecessor_sha,
         },
         "solver_origin_expected": solver_origin,
         "solver_origin_observed": solver_origin,
@@ -4857,10 +4971,90 @@ def _synthetic_wp12_dynamics_context(tmp_path: Path, monkeypatch: pytest.MonkeyP
         "controller_provenance": controller_provenance,
         "store": store,
         "ledger_path": ledger_path,
+        "predecessor_path": predecessor_path,
+        "predecessor_sha256": predecessor_sha,
         "preflight_id": preflight_id,
         "preflight_path": receipt_path,
         "preflight_sha256": receipt_sha,
     }
+
+
+def test_wp12_dynamics_uses_empty_scope_ledger_and_preserves_legacy_history(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    legacy_before = fixture["predecessor_path"].read_bytes()
+    legacy_hash = MODULE._sha256(fixture["predecessor_path"])
+
+    ledger_path, lock_path, mandate_id, predecessor = MODULE._node_ledger_context(
+        fixture["policy"], fixture["store"], "wp12_dynamics"
+    )
+
+    assert ledger_path == fixture["ledger_path"]
+    assert lock_path == ledger_path.with_suffix(".lock")
+    assert mandate_id == fixture["entry"]["development_mandate_id"]
+    assert predecessor == fixture["entry"]["node_attempt_ledger"]["predecessor"]
+    assert not ledger_path.exists()
+    assert MODULE._sha256(fixture["predecessor_path"]) == legacy_hash
+    assert fixture["predecessor_path"].read_bytes() == legacy_before
+
+
+def test_wp12_dynamics_refuses_changed_legacy_ledger_without_creating_scope_ledger(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    fixture["predecessor_path"].write_bytes(fixture["predecessor_path"].read_bytes() + b" ")
+
+    with pytest.raises(MODULE.PolicyError, match="historical WP12-A dynamics ledger changed"):
+        MODULE._node_ledger_context(fixture["policy"], fixture["store"], "wp12_dynamics")
+
+    assert not fixture["ledger_path"].exists()
+
+
+@pytest.mark.parametrize(
+    ("schema", "mandate_id"),
+    [
+        ("qfsolver-development-node-ledger-v1", "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1"),
+        ("qfsolver-development-node-ledger-v2", "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v1"),
+    ],
+    ids=["wrong-schema", "wrong-mandate"],
+)
+def test_wp12_dynamics_refuses_incompatible_ledger_before_reservation(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    schema: str,
+    mandate_id: str,
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    bad_payload = {
+        "schema": schema,
+        "mandate_id": mandate_id,
+        "predecessor": fixture["entry"]["node_attempt_ledger"]["predecessor"],
+        "entries": {},
+    }
+    fixture["ledger_path"].write_text(json.dumps(bad_payload, sort_keys=True) + "\n", encoding="utf-8")
+    bad_bytes = fixture["ledger_path"].read_bytes()
+    old_bytes = fixture["predecessor_path"].read_bytes()
+
+    with pytest.raises(MODULE.PolicyError, match="identity/schema mismatch"):
+        MODULE._node_ledger_context(fixture["policy"], fixture["store"], "wp12_dynamics")
+    with pytest.raises(MODULE.PolicyError, match="identity/schema mismatch"):
+        MODULE._reserve_node_attempt(
+            fixture["ledger_path"],
+            fixture["ledger_path"].with_suffix(".lock"),
+            mandate_id=fixture["entry"]["development_mandate_id"],
+            worktree_id="wp12_dynamics",
+            target=fixture["target"],
+            series_id="dev-wp12-invalid-ledger-0001",
+            source_fingerprint=fixture["source_fingerprint"],
+            reason="Synthetic invalid-ledger reservation must be refused.",
+            maximum=10,
+            total_maximum=130,
+            predecessor=fixture["entry"]["node_attempt_ledger"]["predecessor"],
+        )
+
+    assert fixture["ledger_path"].read_bytes() == bad_bytes
+    assert fixture["predecessor_path"].read_bytes() == old_bytes
 
 
 def test_wp12_dynamics_preflight_receipt_validation_binds_exact_identities(
@@ -4874,6 +5068,7 @@ def test_wp12_dynamics_preflight_receipt_validation_binds_exact_identities(
         identity=fixture["identity"],
         source_fingerprint=fixture["source_fingerprint"],
         controller_provenance=fixture["controller_provenance"],
+        policy=fixture["policy"],
     )
     assert receipt_path == fixture["preflight_path"]
     assert receipt_sha == fixture["preflight_sha256"]
@@ -4912,6 +5107,7 @@ def test_wp12_dynamics_preflight_receipt_rejects_tampered_attestations(
             identity=fixture["identity"],
             source_fingerprint=fixture["source_fingerprint"],
             controller_provenance=fixture["controller_provenance"],
+            policy=fixture["policy"],
         )
 
 
@@ -4978,6 +5174,8 @@ def test_wp12_dynamics_synthetic_end_to_end_reserves_and_archives_without_runnin
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    predecessor_before = fixture["predecessor_path"].read_bytes()
+    predecessor_hash = MODULE._sha256(fixture["predecessor_path"])
     prepared = MODULE.prepare_wp12_execution_manifest(
         "wp12_dynamics", fixture["target"], "wp12-synth-e2e-0001", preflight_id=fixture["preflight_id"]
     )
@@ -5038,10 +5236,37 @@ def test_wp12_dynamics_synthetic_end_to_end_reserves_and_archives_without_runnin
     ledger = json.loads(fixture["ledger_path"].read_text(encoding="utf-8"))
     key = f"{fixture['entry']['development_mandate_id']}:wp12_dynamics:{fixture['target']}"
     attempt = ledger["entries"][key][0]
+    assert ledger["schema"] == "qfsolver-development-node-ledger-v2"
+    assert ledger["predecessor"] == fixture["entry"]["node_attempt_ledger"]["predecessor"]
     assert attempt["state"] == "PASS"
     assert attempt["authorization_id"] == "wp12-synth-e2e-0001"
     assert attempt["owner_decision_id"] == "owner-wp12a-e2e-0001"
     assert attempt["source_fingerprint"] == fixture["source_fingerprint"]
+    assert attempt["predecessor_attempts_for_nodeid"] == 0
+    assert fixture["predecessor_path"].read_bytes() == predecessor_before
+    assert MODULE._sha256(fixture["predecessor_path"]) == predecessor_hash
+    assert MODULE._node_ledger_context(fixture["policy"], fixture["store"], "wp12_dynamics")[0] == fixture[
+        "ledger_path"
+    ]
+
+    current_ledger_bytes = fixture["ledger_path"].read_bytes()
+    with pytest.raises(MODULE.PolicyError, match="authorization ID has already been consumed"):
+        MODULE._reserve_node_attempt(
+            fixture["ledger_path"],
+            fixture["ledger_path"].with_suffix(".lock"),
+            mandate_id=fixture["entry"]["development_mandate_id"],
+            worktree_id="wp12_dynamics",
+            target=fixture["target"],
+            series_id="dev-wp12-e2e-duplicate-authorization",
+            source_fingerprint=fixture["source_fingerprint"],
+            reason="Synthetic duplicate authorization must not reserve again.",
+            maximum=10,
+            total_maximum=130,
+            authorization_id="wp12-synth-e2e-0001",
+            owner_decision_id="owner-wp12a-e2e-0001",
+            predecessor=fixture["entry"]["node_attempt_ledger"]["predecessor"],
+        )
+    assert fixture["ledger_path"].read_bytes() == current_ledger_bytes
 
 
 @pytest.mark.parametrize(
@@ -5079,8 +5304,8 @@ def test_wp12_dynamics_invalid_decision_id_refuses_before_reservation(
             preflight_id=fixture["preflight_id"],
             execution_manifest=manifest_path,
         )
-    ledger = json.loads(fixture["ledger_path"].read_text(encoding="utf-8"))
-    assert ledger["entries"] == {}
+    assert not fixture["ledger_path"].exists()
+    assert MODULE._sha256(fixture["predecessor_path"]) == fixture["predecessor_sha256"]
 
 
 def test_wp12_dynamics_cli_routes_preflight_ids_for_manifest_and_execution(
@@ -5168,8 +5393,8 @@ def test_wp12_dynamics_run_requires_preflight_before_attempt_creation(
             reason="Synthetic missing collect-only receipt refusal contract.",
             execution_manifest=manifest_path,
         )
-    ledger = json.loads(fixture["ledger_path"].read_text(encoding="utf-8"))
-    assert ledger["entries"] == {}
+    assert not fixture["ledger_path"].exists()
+    assert MODULE._sha256(fixture["predecessor_path"]) == fixture["predecessor_sha256"]
 
 
 @pytest.mark.parametrize(
@@ -5198,23 +5423,36 @@ def test_wp12_dynamics_preflight_propagates_source_identity_refusals_before_laun
 
 
 @pytest.mark.parametrize(
-    ("mutate_ledger_during_collection", "change_controller_during_collection"),
-    [(False, False), (True, False), (False, True)],
+    ("mutate_ledger_during_collection", "change_controller_during_collection", "mutate_predecessor_during_collection"),
+    [(False, False, False), (True, False, False), (False, True, False), (False, False, True)],
 )
 def test_wp12_dynamics_preflight_detects_identity_changes_and_never_reserves(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
     mutate_ledger_during_collection: bool,
     change_controller_during_collection: bool,
+    mutate_predecessor_during_collection: bool,
 ) -> None:
     target = WP12_DYNAMICS_PREFLIGHT_NODEID
     source_root = tmp_path / "source" / "src"
     source_root.mkdir(parents=True)
     source_checkout = source_root.parent
     store = tmp_path / "evidence"
+    (store / "locks").mkdir(parents=True)
     entry = {
         "worktree_id": "wp12_dynamics",
         "development_mandate_id": MODULE.WP12_OWNER_ENVELOPES["wp12_dynamics"]["development_mandate_id"],
+        "allowed_nodeids": [target],
+        "attempt_limit_per_nodeid": 10,
+        "max_total_attempts": 130,
+        "node_attempt_ledger": {
+            "path": MODULE.WP12_DYNAMICS_LEDGER,
+            "predecessor": {
+                "path": "node-attempt-ledger.json",
+                "sha256": "0" * 64,
+                "mandate_id": MODULE.WP12_DYNAMICS_LEGACY_MANDATE_ID,
+            },
+        },
         "max_fem_cases_per_attempt": 1,
         "target_max_dofs": None,
         "evidence_root": str(store),
@@ -5228,6 +5466,15 @@ def test_wp12_dynamics_preflight_detects_identity_changes_and_never_reserves(
             "archive_size_limit_mib": 8,
         },
     }
+    predecessor_path = store / "node-attempt-ledger.json"
+    predecessor_payload = {
+        "schema": "qfsolver-development-node-ledger-v1",
+        "mandate_id": MODULE.WP12_DYNAMICS_LEGACY_MANDATE_ID,
+        "entries": {},
+    }
+    predecessor_path.write_text(json.dumps(predecessor_payload, sort_keys=True) + "\n", encoding="utf-8")
+    entry["node_attempt_ledger"]["predecessor"]["sha256"] = MODULE._sha256(predecessor_path)
+    ledger_path = store / MODULE.WP12_DYNAMICS_LEDGER
     identity = {
         "head": "a" * 40,
         "tree": "b" * 40,
@@ -5240,7 +5487,11 @@ def test_wp12_dynamics_preflight_detects_identity_changes_and_never_reserves(
         "selection_basis": "One synthetic registered DDL for collect-only validation",
         "timeout_seconds": 300,
     }
-    policy = {"minimum_free_disk_mib": 1, "poll_interval_seconds": 0.01}
+    policy = {
+        "minimum_free_disk_mib": 1,
+        "poll_interval_seconds": 0.01,
+        "worktrees": {"wp12_dynamics": entry},
+    }
     expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
 
     monkeypatch.setattr(MODULE, "resolve_targets", lambda *_args, **_kwargs: [target])
@@ -5260,16 +5511,12 @@ def test_wp12_dynamics_preflight_detects_identity_changes_and_never_reserves(
     )
     monkeypatch.setattr(MODULE, "_controller_provenance", lambda: next(controller_provenances))
     monkeypatch.setattr(MODULE, "psutil", object())
-    monkeypatch.setattr(
-        MODULE,
-        "_node_ledger_context",
-        lambda *_args, **_kwargs: pytest.fail("preflight must not open or reserve the attempt ledger"),
-    )
-
     def supervised(command, *, output_dir, **_kwargs):
         assert "--collect-only" in command
         if mutate_ledger_during_collection:
-            (store / "node-attempt-ledger.json").write_text('{"synthetic": true}\n', encoding="utf-8")
+            ledger_path.write_text('{"synthetic": true}\n', encoding="utf-8")
+        if mutate_predecessor_during_collection:
+            predecessor_path.write_text('{"synthetic": "historical edit"}\n', encoding="utf-8")
         (output_dir / "stdout.log").write_text(
             "QF_DEV_SOLVER_ORIGIN=" + expected_origin + "\n" + _wp12_dynamics_attestation(solver_origin=expected_origin),
             encoding="utf-8",
@@ -5296,20 +5543,33 @@ def test_wp12_dynamics_preflight_detects_identity_changes_and_never_reserves(
     expected_state = (
         "PREFLIGHT_CONTROLLER_CHANGED"
         if change_controller_during_collection
-        else ("PREFLIGHT_LEDGER_CHANGED" if mutate_ledger_during_collection else "PREFLIGHT_PASS")
+        else (
+            "PREFLIGHT_LEDGER_CHANGED"
+            if mutate_ledger_during_collection or mutate_predecessor_during_collection
+            else "PREFLIGHT_PASS"
+        )
     )
     assert result["state"] == expected_state
     assert result["attempt_reserved"] is False
-    assert result["ledger_touched"] is mutate_ledger_during_collection
+    assert result["ledger_touched"] is (mutate_ledger_during_collection or mutate_predecessor_during_collection)
     assert result["bodies_executed"] is False
     receipt = json.loads(Path(result["receipt"]).read_text(encoding="utf-8"))
     receipt_path = Path(result["receipt"])
     checksum = json.loads((receipt_path.parent / "preflight.sha256.json").read_text(encoding="utf-8"))
     assert checksum["sha256"] == result["receipt_sha256"] == MODULE._sha256(receipt_path)
     assert receipt["attempt_reserved"] is False
-    assert receipt["ledger_touched"] is mutate_ledger_during_collection
+    assert receipt["ledger_touched"] is (mutate_ledger_during_collection or mutate_predecessor_during_collection)
     assert receipt["bodies_executed"] is False
-    assert receipt["attempt_ledger"]["touched"] is mutate_ledger_during_collection
+    assert receipt["attempt_ledger"]["touched"] is (
+        mutate_ledger_during_collection or mutate_predecessor_during_collection
+    )
+    if not mutate_ledger_during_collection and not mutate_predecessor_during_collection:
+        assert receipt["attempt_ledger"]["path"] == str(ledger_path)
+        assert receipt["attempt_ledger"]["sha256_before"] is None
+        assert receipt["attempt_ledger"]["sha256_after"] is None
+        assert receipt["attempt_ledger"]["predecessor"] == entry["node_attempt_ledger"]["predecessor"]
+        assert receipt["attempt_ledger"]["predecessor_sha256_before"] == MODULE._sha256(predecessor_path)
+        assert receipt["attempt_ledger"]["predecessor_sha256_after"] == MODULE._sha256(predecessor_path)
     assert receipt["controller_provenance_after"]["fingerprint"] == (
         "e" if change_controller_during_collection else "d"
     ) * 64
