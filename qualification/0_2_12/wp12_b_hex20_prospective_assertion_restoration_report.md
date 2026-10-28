@@ -27,7 +27,7 @@ La source de référence est le test `tests/unit/test_wp12b_hex20_affine_patch.p
 
 Les bilans historiques portent sur les métriques d’équilibre produites par l’audit du solveur. C1 n’imposait pas de comparaison indépendante du vecteur complet des réactions. Le sidecar continue d’archiver les réactions brutes et l’audit d’équilibre.
 
-## 2. Assertations restaurées et exclusions
+## 2. Assertions restaurées et exclusions
 
 Le nouveau helper `assert_historical_r4_acceptance` réapplique les assertions du tableau après `write_diagnostic_sidecar`. Le test conserve en plus les contrôles diagnostiques structurels C3 : un appel de solveur, une capture de K/F/DDL contraints, cinq intégrations de face, formes attendues et valeurs finies. Le calcul R4 de déplacement n’est pas dupliqué : il est appliqué par le helper avec les constantes historiques.
 
