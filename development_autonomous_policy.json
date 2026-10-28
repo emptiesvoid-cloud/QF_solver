@@ -1034,6 +1034,21 @@
           "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
           "timeout_seconds": 300,
           "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+          "reason": "Prospective registration of inspected complex harmonic observability instrumentation; preserve scientific assertions and existing budgets.",
+          "registered_at_utc": "2026-10-28T14:39:35.458377+00:00",
+          "worktree_head": "bf88803a8464a805e953013a2593fb06e6ea4659",
+          "source_fingerprint": "dea993f995b07804b5ca9baf9cccb84615bc14313ccac7934694ca24d3f5e995",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 has 12 translational DDL; nodes 0, 2, and 3 are fixed in UX/UY/UZ, leaving node 1 UX/UY/UZ free.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
         }
       ]
     },
