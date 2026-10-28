@@ -460,6 +460,37 @@ def test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_
     )
 
 
+def _wp12_base_phasor_comparison(actual: complex | None, reference: complex | None, unit: str) -> dict[str, object]:
+    """Encode measured and reference scalar phasors without defining zero phases or tiny-reference ratios."""
+    def encode(value: complex | None) -> dict[str, object] | None:
+        if value is None:
+            return None
+        value = complex(value)
+        amplitude = abs(value)
+        return {
+            "shape": [], "real": value.real, "imag": value.imag,
+            "amplitude": amplitude,
+            "phase_rad": float(np.angle(value)) if math.isfinite(amplitude) and amplitude > 0.0 else None,
+        }
+
+    difference = None if actual is None or reference is None else complex(actual) - complex(reference)
+    magnitude = None if difference is None else abs(difference)
+    denominator = None if reference is None else abs(reference)
+    ratio_defined = bool(
+        magnitude is not None and denominator is not None
+        and math.isfinite(magnitude) and math.isfinite(denominator) and denominator >= np.finfo(float).tiny
+    )
+    ratio = magnitude / denominator if ratio_defined else None
+    if ratio is not None and not math.isfinite(ratio):
+        ratio = None
+        ratio_defined = False
+    return {
+        "unit": unit, "actual": encode(actual), "reference": encode(reference), "difference": encode(difference),
+        "absolute_error": magnitude, "relative_error": ratio,
+        "relative_error_defined": ratio_defined,
+    }
+
+
 def test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization() -> None:
     """Compare harmonic base response to the free equation over a resonance-adjacent sweep."""
     model = _beam_model("harmonic", frequency_hz=1.0, acceleration=0.7 - 0.4j)
@@ -652,6 +683,23 @@ def test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serializati
                 ),
             }
         )
+        comparisons = {
+            "relative_displacement": (actual_relative, expected_relative, "m"),
+            "relative_velocity": (actual_relative_velocity, 1j * omega * expected_relative, "m/s"),
+            "relative_acceleration": (actual_relative_acceleration, -(omega**2) * expected_relative, "m/s^2"),
+            "absolute_displacement": (actual_absolute_displacement, expected_absolute, "m"),
+            "absolute_velocity": (actual_absolute_velocity, expected_absolute_velocity, "m/s"),
+            "absolute_acceleration": (actual_absolute_acceleration, expected_absolute_acceleration, "m/s^2"),
+        }
+        free_residual = None if actual_relative is None else impedance * actual_relative - expected_rhs
+        observations[-1]["diagnostics"] = {
+            "omega_rad_s": omega,
+            "base_acceleration": {"shape": [], "real": base_phasor.real, "imag": base_phasor.imag, "unit": "m/s^2"},
+            "free_impedance_N_m": {"real": impedance.real, "imag": impedance.imag},
+            "free_rhs_N": {"real": expected_rhs.real, "imag": expected_rhs.imag},
+            "free_residual_N": None if free_residual is None else {"real": free_residual.real, "imag": free_residual.imag},
+            "comparisons": {name: _wp12_base_phasor_comparison(*values) for name, values in comparisons.items()},
+        }
 
     serialization_fields = (
         "responses",
@@ -705,6 +753,15 @@ def test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serializati
             "backward_error": "dimensionless",
         },
         "natural_frequency_hz": natural_frequency_hz,
+        "reference_contract": {
+            "equation": "(K_ff - omega^2 M_ff) U_relative = -(M r)_f A_g",
+            "relative_error": "absolute complex error divided by reference magnitude; null below float64 normal minimum or for non-finite values",
+            "independence": "scalar free-equation oracle shares the assembled M and K and imposed support influence",
+            "free_mass_kg": float(mass_full[free, free]),
+            "free_stiffness_N_m": float(stiffness_full[free, free]),
+            "inertial_coupling_kg": inertial_coupling,
+            "free_dof_indices": [free],
+        },
         "input_base_acceleration_m_s2": {"real": acceleration.real, "imag": acceleration.imag},
         "assertion_results": {label: passed for label, passed in checks},
         "serialization": {
