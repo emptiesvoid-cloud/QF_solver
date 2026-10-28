@@ -172,3 +172,31 @@ Chaque nom ci-dessous est reproduit depuis `assertion_results` du sidecar identi
 | serialized responses responses round-trip exactly | PASS |
 
 WP07 : les assertions exactes sont inspectables à `tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames` au commit `630d22b7667a0d84dd7b136b9f8c7d89ae00fc66`. Les assertions concernent équation libre, repères, cinématique, disponibilité, masse avant réduction, maturité et trois round-trips ; preuve d’exécution : stdout et run.json ci-dessus. Les valeurs numériques ne sont pas exposées.
+
+## Assertions WP07 au commit scientifique
+
+Le PASS pytest atteste leur exécution ; les valeurs numériques comparées restent NOT_EXPOSED. Les extraits ci-dessous sont tirés de la source enregistrée ; `pytest.approx` sans arguments emploie les valeurs par défaut documentées dans le rapport.
+
+| Ligne source | Assertion ou comparaison exacte | Preuve |
+|---:|---|---|
+| 423 | `assert result.responses[0][index] == pytest.approx(expected_relative, rel=1e-11, abs=1e-13)` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 424 | `assert result.absolute_responses is not None and result.absolute_velocity_responses is not None` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 427 | `assert result.absolute_responses[0] is not None` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 428 | `assert result.absolute_responses[0][index] == pytest.approx(expected_absolute, rel=1e-11, abs=1e-13)` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 429 | `assert result.absolute_velocity_responses[0] is not None` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 430 | `assert result.absolute_velocity_responses[0][index] == pytest.approx(1j * omega * expected_absolute)` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 431 | `assert result.relative_velocity_responses is not None` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 432 | `assert result.relative_velocity_responses[0][index] == pytest.approx(1j * omega * expected_relative)` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 433 | `assert result.relative_acceleration_responses is not None` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 434 | `assert result.relative_acceleration_responses[0][index] == pytest.approx(-omega ** 2 * expected_relative)` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 435 | `assert result.absolute_acceleration_responses is not None` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 436 | `assert result.absolute_acceleration_responses[0][index] == pytest.approx(-omega ** 2 * expected_absolute)` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 437 | `assert result.result_availability['absolute_complex_accelerations']['status'] == 'AVAILABLE'` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 438 | `assert result.solver['uniform_base_acceleration']['mass_formed_before_constraint_reduction'] is True` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 439 | `assert result.maturity == 'EXPERIMENTAL'` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 441 | `assert restored.absolute_responses is not None` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 442 | `np.testing.assert_array_equal(restored.absolute_responses[0], result.absolute_responses[0])` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 443 | `assert restored.relative_velocity_responses is not None` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 444 | `np.testing.assert_array_equal(restored.relative_velocity_responses[0], result.relative_velocity_responses[0])` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 445 | `assert restored.absolute_acceleration_responses is not None` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
+| 446 | `np.testing.assert_array_equal(restored.absolute_acceleration_responses[0], result.absolute_acceleration_responses[0])` | stdout WP07 SHA-256 `65e5de5ab6c0bc9f85dc1c1afeb72a7e080168aeeeb38365260f7b643afe0a35` |
