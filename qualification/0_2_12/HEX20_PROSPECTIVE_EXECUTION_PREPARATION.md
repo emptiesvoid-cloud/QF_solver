@@ -1,0 +1,11 @@
+# HEX20 — préparation prospective
+
+Statut : `BLOCKED_PENDING_CONTROLLER_INTEGRATION_AND_OWNER_EXECUTION_DECISION`.
+
+Le nodeid exact est `tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual`. Le worktree scientifique propre `C:\Users\fari\.codex\worktrees\wp12b-hex20-r4-restore\qf_solver` est à HEAD `8f2b02b053af70cbaa23378adbd783dd99669b1b`, tree `6cf64ee5008c73da6eb06f39d01d8b08a3fb1be1`, fingerprint enregistré `efe44ae1505eb130e15e8ce8c4ae5311b639353b674c94b393d75387655227fb`. La révision active inclut le module de support SHA-256 `865d38430e5044d72916cc7d1be42bad4cdf2f8628e0a232748168161cd52925`.
+
+Le scope enregistré prévoit 60 DDL, 24 imposés et 36 libres, une tentative totale, 300 s et 4096 MiB RSS surveillée. Mandat : `DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTIC-2026-10-27-R1`. Le ledger `E:\QFSolverAgents\evidence\wp12b-hex20-affine-diagnostic-consolidated\node-attempt-ledger.json` est absent : aucune tentative diagnostique enregistrée.
+
+Le manifeste R2 SHA-256 `2783012c0080b591b3f3d8f1ba8be080e82cc75c9f557357d15b32d7aeccf59b` et le reçu `pf-f3207b2c701f` SHA-256 `083e2f9cc3b3a562d006ba2b1cc0b463ac0d198fa798374b4464e6c5c010f943` sont liés au contrôleur historique `268d80c3403df67aa87578e7e17f5c8c0f0ca95f`, fingerprint `22aeae3e7b785d8e098e9c82d0b96238c82b68f6c1af6e999e7a9bdfec42b47c`. Ils ne valent pas préflight ni manifeste pour le contrôleur actuellement désigné `1b8d6a76b062039566dbf0f2bd508b7990035dca`, fingerprint `f6d2a49da3e41feab82da740d6155c6fc56e9b0f36e901bd260ca5823a0ff12a`, ou un futur contrôleur corrigé. Ils restent inchangés.
+
+Après fusion et désignation autorisées du correctif, recalculer les identités dans le worktree officiel propre, vérifier l'inscription et le ledger, lancer le collect-only officiel, vérifier un seul nodeid sans skip, corps ni réservation, puis préparer un nouveau manifeste `PREPARED_NOT_AUTHORIZED`. Le contrat HEX20 actuel ne transmet pas de `preflight_id` au manifeste générique : conserver et vérifier séparément le reçu, sans importer les flags WP12-A. Une décision Owner distincte devra viser le nouveau manifeste et le contrôleur effectivement désigné.

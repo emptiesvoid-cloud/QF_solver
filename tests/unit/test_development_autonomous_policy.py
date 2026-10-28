@@ -1755,7 +1755,15 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
     )
     monkeypatch.setattr(MODULE, "_controller_provenance", lambda: {"identity": "synthetic"})
     monkeypatch.setattr(MODULE, "_stable_fingerprint", lambda _value: "c" * 64)
-    monkeypatch.setattr(MODULE, "_validate_wp12_execution_manifest", lambda *_a, **_kw: {"authorized": True})
+    monkeypatch.setattr(
+        MODULE,
+        "_validate_wp12_execution_manifest",
+        lambda *_a, **_kw: {
+            "authorized": True,
+            "decision_id": "owner-synthetic-0001",
+            "owner_decision": {"decision_id": "owner-synthetic-0001"},
+        },
+    )
     if worktree_id == "wp12_dynamics":
         monkeypatch.setattr(
             MODULE,

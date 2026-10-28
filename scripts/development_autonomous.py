@@ -1256,10 +1256,11 @@ def _validate_wp12_execution_manifest(
         raise PolicyError(
             "WP12 execution manifest does not bind this exact worktree, source, nodeid, controller and budget"
         )
-    if worktree_id == "wp12_dynamics":
+    if worktree_id in {"wp12_dynamics", WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID}:
         decision_id = decision.get("decision_id")
         if not isinstance(decision_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", decision_id):
-            raise PolicyError("WP12-A Owner decision requires a valid decision_id")
+            raise PolicyError(f"{worktree_id} Owner decision requires a valid decision_id")
+    if worktree_id == "wp12_dynamics":
         if manifest.get("execution_authorized") is not True or manifest.get("do_not_execute") is not False:
             raise PolicyError("WP12-A execution manifest has inconsistent explicit authorization flags")
     if worktree_id == "wp12_dynamics":
@@ -1284,6 +1285,19 @@ def _validate_wp12_execution_manifest(
         "mandate_id": manifest["mandate_id"],
         "owner_decision": decision,
     }
+
+
+def _validate_wp12b_decision_receipt(receipt: Mapping[str, Any]) -> None:
+    """Reject a missing or inconsistent decision before any HEX20 reservation."""
+    decision = receipt.get("owner_decision")
+    decision_id = receipt.get("decision_id")
+    if (
+        not isinstance(decision, Mapping)
+        or not isinstance(decision_id, str)
+        or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", decision_id)
+        or decision.get("decision_id") != decision_id
+    ):
+        raise PolicyError("WP12-B HEX20 Owner decision receipt has a missing or inconsistent decision_id")
 
 
 def build_pytest_command(
@@ -5716,6 +5730,8 @@ def run_pytest(
                 preflight_id=preflight_id if worktree_id == "wp12_dynamics" else None,
                 preflight_receipt=wp12_dynamics_preflight_receipt,
             )
+            if worktree_id == WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID:
+                _validate_wp12b_decision_receipt(execution_manifest_receipt)
             # WP12 mandates are scope-specific. Preserve D01's separately handled
             # predecessor ledger while binding every WP12 ledger key to its scope.
             ledger_context = _node_ledger_context(policy, _run_root(policy, worktree_id), worktree_id)
