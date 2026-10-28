@@ -57,6 +57,8 @@ HEX8SRI_CONVERGENCE24_WORKTREE_ID = "hex8sri-convergence24"
 HEX8SRI_CONVERGENCE24_CAMPAIGN_ID = "HEX8-SRI-CONVERGENCE-24-2026-10-27"
 HEX8SRI_CONVERGENCE24_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1"
 HEX8SRI_CONVERGENCE24_LEDGER = "node-attempt-ledger-hex8sri-convergence24.json"
+WP12_DYNAMICS_LEDGER = "node-attempt-ledger-wp12-dynamics-v2.json"
+WP12_DYNAMICS_LEGACY_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v1"
 HEX8SRI_EXECUTION_MANIFEST_SCHEMA = "qfsolver-hex8sri-convergence24-execution-v1"
 HEX8SRI_CRITERIA_FREEZE_SCHEMA = "qfsolver-hex8sri-criteria-freeze-v1"
 HEX8SRI_CRITERIA_FREEZE_DECISION_SCHEMA = "qfsolver-hex8sri-criteria-freeze-decision-v1"
@@ -954,6 +956,21 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             expected_budgets = {"timeout_seconds": envelope["timeout_seconds"], **WP12_RUN_BUDGETS}
             if budgets != expected_budgets:
                 raise PolicyError(f"{worktree_id} budgets must match its Owner-approved resource envelope exactly")
+
+    dynamics_ledger = worktrees["wp12_dynamics"].get("node_attempt_ledger")
+    if not isinstance(dynamics_ledger, dict) or set(dynamics_ledger) != {"path", "predecessor"}:
+        raise PolicyError("WP12-A dynamics requires a dedicated ledger linked to its immutable predecessor")
+    predecessor = dynamics_ledger.get("predecessor")
+    if (
+        dynamics_ledger.get("path") != WP12_DYNAMICS_LEDGER
+        or not isinstance(predecessor, dict)
+        or set(predecessor) != {"path", "sha256", "mandate_id"}
+        or predecessor.get("path") != "node-attempt-ledger.json"
+        or not isinstance(predecessor.get("sha256"), str)
+        or not re.fullmatch(r"[0-9a-f]{64}", predecessor["sha256"])
+        or predecessor.get("mandate_id") != WP12_DYNAMICS_LEGACY_MANDATE_ID
+    ):
+        raise PolicyError("WP12-A dynamics ledger path or historical predecessor identity is invalid")
 
     hex8sri = worktrees[HEX8SRI_CONVERGENCE24_WORKTREE_ID]
     hex8sri_nodeids = _hex8sri_convergence24_nodeids()
@@ -2869,10 +2886,45 @@ def _reserve_node_attempt(
             or (predecessor is not None and ledger.get("predecessor") != dict(predecessor))
         ):
             raise PolicyError("development attempt ledger identity/schema mismatch")
+        predecessor_counts: dict[str, int] = {}
+        predecessor_total = 0
+        predecessor_ledger: dict[str, Any] | None = None
+        if worktree_id == "wp12_dynamics":
+            if predecessor is None:
+                raise PolicyError("WP12-A dynamics reservations require the linked historical ledger")
+            if ledger_path.name != WP12_DYNAMICS_LEDGER:
+                raise PolicyError("WP12-A dynamics reservations require the mandate-specific ledger path")
+            registered_entry = load_policy()["worktrees"]["wp12_dynamics"]
+            configured_predecessor = registered_entry["node_attempt_ledger"]["predecessor"]
+            if (
+                dict(predecessor) != configured_predecessor
+                or mandate_id != registered_entry["development_mandate_id"]
+                or maximum != int(registered_entry["attempt_limit_per_nodeid"])
+                or total_maximum != int(registered_entry["max_total_attempts"])
+            ):
+                raise PolicyError("WP12-A dynamics reservation differs from its registered ledger mandate or budgets")
+            _predecessor_path, predecessor_ledger, predecessor_counts, predecessor_total = (
+                _wp12_dynamics_predecessor_history(
+                    ledger_path.parent,
+                    predecessor,
+                    allowed_nodeids=set(registered_entry["allowed_nodeids"]),
+                )
+            )
+            _validate_wp12_dynamics_ledger(
+                ledger,
+                mandate_id=mandate_id,
+                predecessor=predecessor,
+                allowed_nodeids=set(registered_entry["allowed_nodeids"]),
+                predecessor_counts=predecessor_counts,
+                predecessor_total=predecessor_total,
+                attempt_limit=maximum,
+                total_limit=total_maximum or int(registered_entry["max_total_attempts"]),
+            )
         attempts = ledger["entries"].setdefault(key, [])
         if not isinstance(attempts, list):
             raise PolicyError("development attempt ledger entry is malformed")
-        if len(attempts) >= maximum:
+        inherited_node_attempts = predecessor_counts.get(target, 0)
+        if inherited_node_attempts + len(attempts) >= maximum:
             raise PolicyError(f"development mandate exhausted {maximum} attempts for this nodeid")
         if total_maximum is not None:
             mission_prefix = f"{mandate_id}:{worktree_id}:"
@@ -2887,7 +2939,23 @@ def _reserve_node_attempt(
                 item.get("authorization_id") == authorization_id for item in mission_records
             ):
                 raise PolicyError("WP12 execution manifest authorization ID has already been consumed")
-            total_attempts = sum(
+            historical_prefix = f"{predecessor['mandate_id']}:{worktree_id}:" if predecessor is not None else None
+            historical_records = (
+                [
+                    item
+                    for ledger_key, items in predecessor_ledger["entries"].items()
+                    if historical_prefix is not None and ledger_key.startswith(historical_prefix)
+                    for item in items
+                    if isinstance(item, dict)
+                ]
+                if predecessor_ledger is not None
+                else []
+            )
+            if authorization_id is not None and any(
+                item.get("authorization_id") == authorization_id for item in historical_records
+            ):
+                raise PolicyError("WP12 execution manifest authorization ID was already consumed by its predecessor")
+            total_attempts = predecessor_total + sum(
                 len(items)
                 for ledger_key, items in ledger["entries"].items()
                 if ledger_key.startswith(mission_prefix) and isinstance(items, list)
@@ -2952,6 +3020,8 @@ def _reserve_node_attempt(
         }
         if owner_decision_id is not None:
             record["owner_decision_id"] = owner_decision_id
+        if worktree_id == "wp12_dynamics":
+            record["predecessor_attempts_for_nodeid"] = inherited_node_attempts
         attempts.append(record)
         _atomic_json(ledger_path, ledger)
     return key, number
@@ -3034,12 +3104,138 @@ def _run_root(policy: Mapping[str, Any], worktree_id: str | None = None) -> Path
     return root
 
 
+def _wp12_dynamics_predecessor_history(
+    store: Path,
+    predecessor: Mapping[str, str],
+    *,
+    allowed_nodeids: set[str] | None = None,
+) -> tuple[Path, dict[str, Any], dict[str, int], int]:
+    """Read the immutable generic ledger and count its WP12 dynamics attempts."""
+    if (
+        set(predecessor) != {"path", "sha256", "mandate_id"}
+        or predecessor.get("path") != "node-attempt-ledger.json"
+        or predecessor.get("mandate_id") != WP12_DYNAMICS_LEGACY_MANDATE_ID
+        or not re.fullmatch(r"[0-9a-f]{64}", str(predecessor.get("sha256", "")))
+    ):
+        raise PolicyError("WP12-A dynamics predecessor ledger identity is invalid")
+    predecessor_path = (store / predecessor["path"]).resolve()
+    ledger_path = (store / WP12_DYNAMICS_LEDGER).resolve()
+    if (
+        not _is_within(predecessor_path, store.resolve())
+        or predecessor_path == ledger_path
+        or not predecessor_path.is_file()
+    ):
+        raise PolicyError("the historical WP12-A dynamics ledger is missing or outside its evidence root")
+    if _sha256(predecessor_path) != predecessor["sha256"]:
+        raise PolicyError("the historical WP12-A dynamics ledger changed; refusing to start a new mandate ledger")
+    try:
+        historical = json.loads(predecessor_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"the historical WP12-A dynamics ledger is unreadable: {exc}") from exc
+    if (
+        not isinstance(historical, dict)
+        or historical.get("schema") != "qfsolver-development-node-ledger-v1"
+        or historical.get("mandate_id") != predecessor["mandate_id"]
+        or not isinstance(historical.get("entries"), dict)
+    ):
+        raise PolicyError("the historical WP12-A dynamics ledger does not match its declared identity")
+
+    prefix = f"{predecessor['mandate_id']}:wp12_dynamics:"
+    counts: dict[str, int] = {}
+    total = 0
+    for key, attempts in historical["entries"].items():
+        if not isinstance(key, str) or not key.startswith(prefix):
+            raise PolicyError("the historical WP12-A ledger contains an entry from another mandate or scope")
+        target = key[len(prefix) :]
+        if (allowed_nodeids is not None and target not in allowed_nodeids) or not isinstance(attempts, list):
+            raise PolicyError("the historical WP12-A ledger contains an unregistered node or malformed attempts")
+        for index, attempt in enumerate(attempts, start=1):
+            if not isinstance(attempt, Mapping) or attempt.get("attempt") != index:
+                raise PolicyError("the historical WP12-A ledger contains a malformed attempt record")
+        counts[target] = len(attempts)
+        total += len(attempts)
+    return predecessor_path, historical, counts, total
+
+
+def _validate_wp12_dynamics_ledger(
+    ledger: Any,
+    *,
+    mandate_id: str,
+    predecessor: Mapping[str, str],
+    allowed_nodeids: set[str],
+    predecessor_counts: Mapping[str, int],
+    predecessor_total: int,
+    attempt_limit: int,
+    total_limit: int,
+) -> None:
+    if (
+        not isinstance(ledger, dict)
+        or ledger.get("schema") != "qfsolver-development-node-ledger-v2"
+        or ledger.get("mandate_id") != mandate_id
+        or ledger.get("predecessor") != dict(predecessor)
+        or not isinstance(ledger.get("entries"), dict)
+    ):
+        raise PolicyError("WP12-A dynamics attempt ledger identity/schema mismatch")
+    prefix = f"{mandate_id}:wp12_dynamics:"
+    current_total = 0
+    for key, attempts in ledger["entries"].items():
+        if not isinstance(key, str) or not key.startswith(prefix):
+            raise PolicyError("WP12-A dynamics ledger contains an entry from another scope or mandate")
+        target = key[len(prefix) :]
+        if target not in allowed_nodeids or not isinstance(attempts, list):
+            raise PolicyError("WP12-A dynamics ledger contains an unregistered node or malformed attempts")
+        for index, attempt in enumerate(attempts, start=1):
+            if not isinstance(attempt, Mapping) or attempt.get("attempt") != index:
+                raise PolicyError("WP12-A dynamics ledger contains a malformed attempt record")
+        if predecessor_counts.get(target, 0) + len(attempts) > attempt_limit:
+            raise PolicyError("WP12-A dynamics ledger exceeds its inherited per-node attempt limit")
+        current_total += len(attempts)
+    if predecessor_total + current_total > total_limit:
+        raise PolicyError("WP12-A dynamics ledger exceeds its inherited mission attempt limit")
+
+
 def _node_ledger_context(
     policy: Mapping[str, Any],
     store: Path,
     worktree_id: str,
 ) -> tuple[Path, Path, str, dict[str, str] | None]:
     entry = policy["worktrees"][worktree_id]
+    if worktree_id == "wp12_dynamics":
+        config = entry.get("node_attempt_ledger")
+        if not isinstance(config, Mapping) or config.get("path") != WP12_DYNAMICS_LEDGER:
+            raise PolicyError("WP12-A dynamics requires its mandate-specific ledger configuration")
+        predecessor = config.get("predecessor")
+        if not isinstance(predecessor, Mapping):
+            raise PolicyError("WP12-A dynamics requires an immutable historical ledger predecessor")
+        ledger_path = (store / WP12_DYNAMICS_LEDGER).resolve()
+        if not _is_within(ledger_path, store.resolve()):
+            raise PolicyError("WP12-A dynamics ledger must be confined to its evidence root")
+        _predecessor_path, _historical, predecessor_counts, predecessor_total = _wp12_dynamics_predecessor_history(
+            store,
+            predecessor,
+            allowed_nodeids=set(entry["allowed_nodeids"]),
+        )
+        if ledger_path.is_file():
+            try:
+                current = json.loads(ledger_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                raise PolicyError(f"WP12-A dynamics attempt ledger is unreadable: {exc}") from exc
+            _validate_wp12_dynamics_ledger(
+                current,
+                mandate_id=str(entry["development_mandate_id"]),
+                predecessor=predecessor,
+                allowed_nodeids=set(entry["allowed_nodeids"]),
+                predecessor_counts=predecessor_counts,
+                predecessor_total=predecessor_total,
+                attempt_limit=int(entry["attempt_limit_per_nodeid"]),
+                total_limit=int(entry["max_total_attempts"]),
+            )
+        return (
+            ledger_path,
+            ledger_path.with_suffix(".lock"),
+            str(entry["development_mandate_id"]),
+            dict(predecessor),
+        )
     if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
         ledger_path = (store / entry["node_attempt_ledger"]["path"]).resolve()
         if (
@@ -4068,6 +4264,7 @@ def prepare_wp12_execution_manifest(
             identity=identity,
             source_fingerprint=source_fingerprint,
             controller_provenance=controller_provenance,
+            policy=policy,
         )
     elif preflight_id is not None:
         raise PolicyError("prepare-manifest accepts preflight receipt IDs only for WP12-A dynamics")
@@ -4337,7 +4534,7 @@ def preflight_wp12_dynamics_pytest(
         worktree_id="wp12_dynamics",
         schema="qfsolver-wp12-dynamics-collect-only-v1",
         marker=WP12_DYNAMICS_PREFLIGHT_ATTESTATION_PREFIX,
-        preflight_schema="qfsolver-development-wp12-dynamics-preflight-v1",
+        preflight_schema="qfsolver-development-wp12-dynamics-preflight-v2",
         attestation_mode="wp12_dynamics_collect_only_attestation",
         label="WP12 dynamics",
     )
@@ -4426,8 +4623,32 @@ def _preflight_wp12_attested_pytest(
     environment.update({"QF_DEV_PREFLIGHT_SCOPE_ID": worktree_id, "QF_DEV_PREFLIGHT_TARGET": target})
     budgets = dict(entry["budgets"])
     budgets["timeout_seconds"] = selection["timeout_seconds"]
-    ledger_path = store / "node-attempt-ledger.json"
+    ledger_predecessor: dict[str, str] | None = None
+    predecessor_path: Path | None = None
+    predecessor_sha256_before: str | None = None
+    if worktree_id == "wp12_dynamics":
+        ledger_path, _ledger_lock, ledger_mandate_id, ledger_predecessor = _node_ledger_context(
+            current_policy, store, worktree_id
+        )
+        if ledger_mandate_id != entry["development_mandate_id"] or ledger_predecessor is None:
+            raise PolicyError("WP12-A collect-only preflight is not bound to its mandate-specific ledger")
+        predecessor_path = (store / ledger_predecessor["path"]).resolve()
+        predecessor_sha256_before = _sha256(predecessor_path)
+    else:
+        ledger_path = store / "node-attempt-ledger.json"
     ledger_sha256_before = _sha256(ledger_path) if ledger_path.is_file() else None
+    attempt_ledger_initial: dict[str, Any] = {
+        "path": str(ledger_path),
+        "sha256_before": ledger_sha256_before,
+        "touched": False,
+    }
+    if worktree_id == "wp12_dynamics":
+        attempt_ledger_initial.update(
+            {
+                "predecessor": ledger_predecessor,
+                "predecessor_sha256_before": predecessor_sha256_before,
+            }
+        )
     controller_provenance = _controller_provenance()
     expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
     started = datetime.now(timezone.utc).isoformat()
@@ -4446,11 +4667,7 @@ def _preflight_wp12_attested_pytest(
         "identity": identity,
         "source_fingerprint": source_fingerprint,
         "registration": selection,
-        "attempt_ledger": {
-            "path": str(ledger_path),
-            "sha256_before": ledger_sha256_before,
-            "touched": False,
-        },
+        "attempt_ledger": attempt_ledger_initial,
         "solver_origin_expected": expected_origin,
         "controller_provenance": controller_provenance,
         "command": command,
@@ -4469,7 +4686,9 @@ def _preflight_wp12_attested_pytest(
         )
     except OSError as exc:
         ledger_sha256_after = _sha256(ledger_path) if ledger_path.is_file() else None
-        ledger_touched = ledger_sha256_before != ledger_sha256_after
+        predecessor_sha256_after = _sha256(predecessor_path) if predecessor_path is not None else None
+        predecessor_touched = predecessor_sha256_before != predecessor_sha256_after
+        ledger_touched = ledger_sha256_before != ledger_sha256_after or predecessor_touched
         _atomic_json_new(
             record_path,
             {
@@ -4477,9 +4696,13 @@ def _preflight_wp12_attested_pytest(
                 "state": "PREFLIGHT_LAUNCH_FAILED",
                 "ledger_touched": ledger_touched,
                 "attempt_ledger": {
-                    "path": str(ledger_path),
-                    "sha256_before": ledger_sha256_before,
+                    **attempt_ledger_initial,
                     "sha256_after": ledger_sha256_after,
+                    **(
+                        {"predecessor_sha256_after": predecessor_sha256_after}
+                        if worktree_id == "wp12_dynamics"
+                        else {}
+                    ),
                     "touched": ledger_touched,
                 },
                 "started_at_utc": started,
@@ -4509,7 +4732,9 @@ def _preflight_wp12_attested_pytest(
         worktree_id, target, after_policy
     )
     ledger_sha256_after = _sha256(ledger_path) if ledger_path.is_file() else None
-    ledger_touched = ledger_sha256_before != ledger_sha256_after
+    predecessor_sha256_after = _sha256(predecessor_path) if predecessor_path is not None else None
+    predecessor_touched = predecessor_sha256_before != predecessor_sha256_after
+    ledger_touched = ledger_sha256_before != ledger_sha256_after or predecessor_touched
     controller_provenance_after = _controller_provenance()
     observed_origin = _observed_solver_origin(combined)
     if after_identity != identity or after_fingerprint != source_fingerprint or after_entry != entry:
@@ -4535,9 +4760,13 @@ def _preflight_wp12_attested_pytest(
         "attempt_reserved": False,
         "ledger_touched": ledger_touched,
         "attempt_ledger": {
-            "path": str(ledger_path),
-            "sha256_before": ledger_sha256_before,
+            **attempt_ledger_initial,
             "sha256_after": ledger_sha256_after,
+            **(
+                {"predecessor_sha256_after": predecessor_sha256_after}
+                if worktree_id == "wp12_dynamics"
+                else {}
+            ),
             "touched": ledger_touched,
         },
         "solver_origin_observed": observed_origin,
@@ -5279,6 +5508,7 @@ def _validate_wp12_dynamics_preflight_receipt(
     identity: Mapping[str, Any],
     source_fingerprint: str,
     controller_provenance: Mapping[str, Any],
+    policy: Mapping[str, Any] | None = None,
 ) -> tuple[Path, str]:
     """Require a checksummed, exact-node WP12-A collect-only receipt before manifest or attempt creation."""
     if target not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
@@ -5301,10 +5531,18 @@ def _validate_wp12_dynamics_preflight_receipt(
     budgets = receipt.get("budgets")
     if not isinstance(registration, Mapping) or not isinstance(ledger, Mapping) or not isinstance(budgets, Mapping):
         raise PolicyError("WP12-A preflight receipt lacks registration or ledger attestations")
+    current_policy = load_policy() if policy is None else policy
+    ledger_path, _ledger_lock, mandate_id, predecessor = _node_ledger_context(
+        current_policy, store, "wp12_dynamics"
+    )
+    if mandate_id != WP12_OWNER_ENVELOPES["wp12_dynamics"]["development_mandate_id"] or predecessor is None:
+        raise PolicyError("WP12-A preflight ledger is not bound to the active scope mandate")
+    current_ledger_sha = _sha256(ledger_path) if ledger_path.is_file() else None
+    predecessor_sha = _sha256((store / predecessor["path"]).resolve())
     if sidecar.get("sha256") != actual_hash:
         raise PolicyError("WP12-A preflight receipt checksum mismatch")
     if (
-        receipt.get("schema") != "qfsolver-development-wp12-dynamics-preflight-v1"
+        receipt.get("schema") != "qfsolver-development-wp12-dynamics-preflight-v2"
         or receipt.get("state") != "PREFLIGHT_PASS"
         or receipt.get("mode") != "DEVELOPMENT_AUTONOMOUS"
         or receipt.get("mandate_id") != WP12_OWNER_ENVELOPES["wp12_dynamics"]["development_mandate_id"]
@@ -5329,9 +5567,12 @@ def _validate_wp12_dynamics_preflight_receipt(
         or registration.get("source_fingerprint") != source_fingerprint
         or registration.get("timeout_seconds") != budgets.get("timeout_seconds")
         or ledger.get("touched") is not False
-        or not isinstance(ledger.get("sha256_before"), str)
         or ledger.get("sha256_before") != ledger.get("sha256_after")
-        or ledger.get("sha256_after") != receipt.get("attempt_ledger", {}).get("sha256_after")
+        or ledger.get("sha256_after") != current_ledger_sha
+        or ledger.get("path") != str(ledger_path)
+        or ledger.get("predecessor") != predecessor
+        or ledger.get("predecessor_sha256_before") != predecessor_sha
+        or ledger.get("predecessor_sha256_after") != predecessor_sha
     ):
         raise PolicyError("WP12-A preflight does not match this exact source, controller, ledger and nodeid")
     return record_path, actual_hash
@@ -5451,6 +5692,7 @@ def run_pytest(
                 identity=identity,
                 source_fingerprint=source_fingerprint,
                 controller_provenance=controller_provenance,
+                policy=policy,
             )
         elif preflight_id is not None:
             raise PolicyError("preflight receipt IDs are supported only for D01, WP12-A dynamics and HEX8-SRI")

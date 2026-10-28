@@ -526,6 +526,14 @@
       "max_timeout_seconds": 300,
       "concurrency_class": "parallel",
       "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
+      "node_attempt_ledger": {
+        "path": "node-attempt-ledger-wp12-dynamics-v2.json",
+        "predecessor": {
+          "path": "node-attempt-ledger.json",
+          "sha256": "20670ceedfe1cc969ce614df13b8bd94b108f43e2e2892cf1601a8607a3dad37",
+          "mandate_id": "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v1"
+        }
+      },
       "require_clean_worktree": true,
       "nodeid_registration": {
         "enabled": true,
