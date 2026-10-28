@@ -1,6 +1,6 @@
 # WP12-A autonomous controller recovery and execution
 
-**Status:** `BLOCKED_BY_UNRESOLVED_CONTRACT`  
+**Status:** `BLOCKED_BY_UNRESOLVED_CONTRACT`
 **Current phase:** synthetic controller recovery complete; PR/CI, controller designation, fresh WP07 preflight/manifest and scientific execution pending.
 
 ## Scope and safety
