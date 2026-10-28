@@ -1,7 +1,7 @@
 # WP12-A — Décision Owner de clôture documentaire des quatre expériences
 
-**Date de consignation :** 2026-10-28.  
-**État limité :** `WP12A_FOUR_EXPERIMENTS_DOCUMENTARY_CLOSED` (libellé descriptif de cette décision, sans promotion de qualification).  
+**Date de consignation :** 2026-10-28.
+**État limité :** `WP12A_FOUR_EXPERIMENTS_DOCUMENTARY_CLOSED` (libellé descriptif de cette décision, sans promotion de qualification).
 **Source de la décision :** instruction explicite de l'Owner dans la conversation de travail, intitulée « Décision Owner — WP12-A / PR #64 ». Cet enregistrement est une transcription opérateur ; il ne constitue pas une signature cryptographique.
 
 ## Décision et portée
