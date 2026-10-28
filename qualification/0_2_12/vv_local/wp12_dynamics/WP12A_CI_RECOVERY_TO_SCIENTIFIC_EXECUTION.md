@@ -20,6 +20,12 @@ The official controller synthetic runner discovers test functions only from the 
 - Ruff, Python compilation, policy JSON parsing, workflow YAML parsing, and `git diff --check`: passed.
 - No FEM, assembly, eigensolve, Newmark, harmonic, or benchmark ran.
 
+### Linux CI portability correction (PR #51)
+
+The first GitHub Actions run reached the synthetic suite and reported 216 passed / 4 failed. Three failures came from policy-routing tests interpreting registered Windows worktree roots on the Linux runner; those tests now provide synthetic roots and fixture modules. The fourth tried to import the D01 execution guard from a Windows-only external checkout absent from the controller repository. That test now exercises the pytest plugin's exact-call scoping against an in-memory synthetic guard contract, without importing scientific code or starting a solver. The production controller and policy were not changed by this portability correction.
+
+After the correction, the four formerly failing exact nodeids passed individually. The complete official synthetic runner then reported **220 passed, 0 failed, 0 skipped, 0 errors**. Ruff, Python compilation, JSON/YAML parsing, and whitespace checks also passed. The updated GitHub Actions result for this commit is pending; no scientific job has been triggered or represented as passing.
+
 ## Workflow and branch-protection audit
 
 The repository ruleset `protect-main-release` is active on non-default branches, including `emptiesvoids-cloud/0.2.12`. It forbids deletion and non-fast-forward updates, requires a pull request, and lists these seven required status contexts:

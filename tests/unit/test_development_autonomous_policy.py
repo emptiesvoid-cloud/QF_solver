@@ -375,6 +375,10 @@ def test_wp12b_corrective_manifest_binds_campaign_and_remains_unapproved(
     target = WP12_ELEMENTS_LOADS_CORRECTIVE_NODEIDS[0]
     policy = _policy()
     entry = policy["worktrees"]["wp12_elements_loads_corrective"]
+    test_module = tmp_path / target.split("::", maxsplit=1)[0]
+    test_module.parent.mkdir(parents=True)
+    test_module.write_text("def test_wp12b_beam2_rotated_uniform_line_load():\n    pass\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "_registered_root", lambda *_args, **_kwargs: tmp_path)
     monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: policy)
     monkeypatch.setattr(
         MODULE,
@@ -605,8 +609,9 @@ def test_wp12_registry_has_distinct_exact_worktree_envelopes() -> None:
         )
 
 
-def test_dynamic_nodeids_are_allowlisted_only_for_the_dynamics_worktree() -> None:
+def test_dynamic_nodeids_are_allowlisted_only_for_the_dynamics_worktree(monkeypatch: pytest.MonkeyPatch) -> None:
     policy = _policy()
+    monkeypatch.setattr(MODULE, "_registered_root", lambda *_args, **_kwargs: MODULE.ROOT)
     for nodeid in WP12_DYNAMICS_NODEIDS:
         assert MODULE.resolve_targets("fem_exploratory", nodeid, policy, worktree_id="wp12_dynamics") == [nodeid]
         with pytest.raises(MODULE.PolicyError, match="exact nodeid in the registered worktree allowlist"):
@@ -1358,8 +1363,15 @@ def test_standard_test_target_is_confined_to_its_scope() -> None:
         MODULE.resolve_targets("unit", "tests/unit/../../scripts/test_release.py::test_outside", policy)
 
 
-def test_fem_scope_accepts_only_exact_registered_nodeids_and_worktree_pairs() -> None:
+def test_fem_scope_accepts_only_exact_registered_nodeids_and_worktree_pairs(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     policy = _policy()
+    for nodeid in policy["worktrees"]["d01"]["allowed_nodeids"]:
+        module_path = tmp_path / nodeid.split("::", maxsplit=1)[0]
+        module_path.parent.mkdir(parents=True, exist_ok=True)
+        module_path.write_text("def test_synthetic_registered_node():\n    pass\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "_registered_root", lambda *_args, **_kwargs: tmp_path)
     d01 = policy["worktrees"]["d01"]["allowed_nodeids"]
     for nodeid in d01:
         assert MODULE.resolve_targets("fem_exploratory", nodeid, policy, worktree_id="d01") == [nodeid]
@@ -2504,13 +2516,39 @@ def test_exact_node_plugin_lifts_only_the_approved_native_skip() -> None:
 
 
 def test_d01_native_capability_is_scoped_only_to_the_exact_call(monkeypatch: pytest.MonkeyPatch) -> None:
+    from contextlib import contextmanager
+    import os
+
     policy = _policy()
     nodeid = policy["worktrees"]["d01"]["allowed_nodeids"][0]
-    guard_path = Path(policy["worktrees"]["d01"]["root"]) / "src/solveur/core/execution_guard.py"
-    guard_spec = importlib.util.spec_from_file_location("solveur.core.execution_guard", guard_path)
-    assert guard_spec is not None and guard_spec.loader is not None
-    guard = importlib.util.module_from_spec(guard_spec)
-    guard_spec.loader.exec_module(guard)
+    boundary = "solveur.core.analyses.reduced_harmonic.ReducedHarmonicResponseSolver.solve"
+    active_scope: dict[str, str | None] = {"nodeid": None}
+    guard = ModuleType("solveur.core.execution_guard")
+    guard.NO_NATIVE_EXECUTION_ENV = "QF_DEV_NO_NATIVE_EXECUTION"
+
+    class SolverExecutionBlockedError(RuntimeError):
+        pass
+
+    @contextmanager
+    def authorized_native_test_scope(authorized_nodeid: str):
+        previous = active_scope["nodeid"]
+        active_scope["nodeid"] = authorized_nodeid
+        try:
+            yield
+        finally:
+            active_scope["nodeid"] = previous
+
+    def require_solver_execution_allowed(requested_boundary: str) -> None:
+        if (
+            requested_boundary != boundary
+            or active_scope["nodeid"] != nodeid
+            or guard.NO_NATIVE_EXECUTION_ENV in os.environ
+        ):
+            raise SolverExecutionBlockedError("synthetic native execution denied")
+
+    guard.SolverExecutionBlockedError = SolverExecutionBlockedError
+    guard.authorized_native_test_scope = authorized_native_test_scope
+    guard.require_solver_execution_allowed = require_solver_execution_allowed
     solveur_package = ModuleType("solveur")
     solveur_package.__path__ = []
     core_package = ModuleType("solveur.core")
@@ -2522,7 +2560,6 @@ def test_d01_native_capability_is_scoped_only_to_the_exact_call(monkeypatch: pyt
     gate = PLUGIN.ExactNodeGate((nodeid,), allow_native_skip_override=True)
     wrapper = gate.pytest_runtest_call(SimpleNamespace(nodeid=nodeid))
     next(wrapper)
-    boundary = "solveur.core.analyses.reduced_harmonic.ReducedHarmonicResponseSolver.solve"
     guard.require_solver_execution_allowed(boundary)
     monkeypatch.setenv(guard.NO_NATIVE_EXECUTION_ENV, "1")
     with pytest.raises(guard.SolverExecutionBlockedError):
