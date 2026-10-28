@@ -712,6 +712,25 @@ def _validate_wp12_registration_history(worktree_id: str, entry: Mapping[str, An
             or not re.fullmatch(r"[0-9a-f]{64}", str(record.get("source_fingerprint", "")))
         ):
             raise PolicyError(f"{worktree_id} registration history lacks its rationale, Git head or source fingerprint")
+        dependency_inventory = record.get("test_source_dependencies")
+        if dependency_inventory is not None:
+            if not isinstance(dependency_inventory, dict):
+                raise PolicyError(f"{worktree_id} registration has a malformed test-source dependency inventory")
+            for path_text, digest in dependency_inventory.items():
+                path = Path(path_text) if isinstance(path_text, str) else Path(".")
+                if (
+                    not isinstance(path_text, str)
+                    or "\\" in path_text
+                    or path.is_absolute()
+                    or ".." in path.parts
+                    or not path.parts
+                    or path.as_posix() != path_text
+                    or ":" in path.parts[0]
+                    or path.suffix != ".py"
+                    or not isinstance(digest, str)
+                    or not re.fullmatch(r"[0-9a-f]{64}", digest)
+                ):
+                    raise PolicyError(f"{worktree_id} registration has an invalid test-source dependency entry")
         try:
             registered_at = datetime.fromisoformat(str(record.get("registered_at_utc", "")).replace("Z", "+00:00"))
         except ValueError as exc:
@@ -1121,6 +1140,16 @@ def _wp12_active_registration(
     if active.get("source_fingerprint") != source_fingerprint:
         raise PolicyError(
             "WP12 source fingerprint changed; inspect and register the exact nodeid revision before execution"
+        )
+    current_dependencies = _test_source_dependency_inventory(
+        _registered_root(str(entry["git_root"]), strict=True), target.split("::", maxsplit=1)[0]
+    )
+    recorded_dependencies = active.get("test_source_dependencies")
+    if (current_dependencies and recorded_dependencies != current_dependencies) or (
+        recorded_dependencies is not None and recorded_dependencies != current_dependencies
+    ):
+        raise PolicyError(
+            "WP12 test-source dependency inventory changed or is missing; inspect and register the exact nodeid revision"
         )
     selection = _validate_wp12_case_selection(
         worktree_id,
@@ -2455,8 +2484,219 @@ def _exclusive_file_lock(path: Path) -> Iterator[None]:
         stream.close()
 
 
+def _test_source_dependency_inventory(root: Path, target_module: str) -> dict[str, str]:
+    """Hash repository-local Python imports reachable from a target and its pytest setup."""
+    repository_root = root.resolve()
+    tests_root = (repository_root / "tests").resolve()
+    target_path = (repository_root / Path(target_module)).resolve()
+    if not _is_within(target_path, tests_root) or not target_path.is_file() or target_path.suffix != ".py":
+        raise PolicyError("target test source must resolve to a Python file below tests/")
+
+    roots_to_scan = {target_path}
+    parent = target_path.parent
+    package_initializers: set[Path] = set()
+    conftest_files: set[Path] = set()
+    while _is_within(parent, repository_root):
+        if _is_within(parent, tests_root):
+            package_initializer = parent / "__init__.py"
+            if package_initializer.is_file():
+                resolved_initializer = package_initializer.resolve()
+                if not _is_within(resolved_initializer, repository_root):
+                    raise PolicyError(f"test package initializer escapes the repository: {package_initializer}")
+                roots_to_scan.add(resolved_initializer)
+                package_initializers.add(resolved_initializer)
+        conftest = parent / "conftest.py"
+        if conftest.is_file():
+            resolved_conftest = conftest.resolve()
+            if not _is_within(resolved_conftest, repository_root):
+                raise PolicyError(f"pytest conftest escapes the repository: {conftest}")
+            roots_to_scan.add(resolved_conftest)
+            conftest_files.add(resolved_conftest)
+        if parent == repository_root:
+            break
+        parent = parent.parent
+
+    dependencies: set[Path] = package_initializers | conftest_files
+    pending = list(roots_to_scan)
+    scanned: set[Path] = set()
+
+    def covered_by_full_source_inventory(path: Path) -> bool:
+        relative_text = path.relative_to(repository_root).as_posix()
+        return relative_text.startswith(("src/solveur/", "experiments/"))
+
+    def resolve_module(importer: Path, module_parts: Sequence[str], *, relative_base: Path | None = None) -> set[Path]:
+        if not module_parts or any(not part.isidentifier() for part in module_parts):
+            return set()
+        search_roots = (
+            [relative_base]
+            if relative_base is not None
+            else [importer.parent, tests_root, repository_root / "src", repository_root]
+        )
+        resolved: set[Path] = set()
+        for search_root in search_roots:
+            if search_root is None:
+                continue
+            for index in range(1, len(module_parts) + 1):
+                stem = search_root.joinpath(*module_parts[:index])
+                candidates = (stem.with_suffix(".py"), stem / "__init__.py")
+                for candidate in candidates:
+                    path = candidate.resolve()
+                    if _is_within(path, repository_root) and path.is_file():
+                        resolved.add(path)
+        return resolved
+
+    def import_modules(source: Path, tree: ast.AST) -> set[Path]:
+        found: set[Path] = set()
+        importlib_names = {"importlib"}
+        import_module_names = {"import_module"}
+        builtins_names = {"builtins"}
+        builtin_import_names = {"__import__"}
+        for imported in ast.walk(tree):
+            if isinstance(imported, ast.Import):
+                importlib_names.update(
+                    alias.asname for alias in imported.names if alias.name == "importlib" and alias.asname
+                )
+                builtins_names.update(
+                    alias.asname for alias in imported.names if alias.name == "builtins" and alias.asname
+                )
+            elif isinstance(imported, ast.ImportFrom) and imported.module == "importlib":
+                import_module_names.update(
+                    alias.asname or alias.name for alias in imported.names if alias.name == "import_module"
+                )
+            elif isinstance(imported, ast.ImportFrom) and imported.module == "builtins":
+                builtin_import_names.update(
+                    alias.asname or alias.name for alias in imported.names if alias.name == "__import__"
+                )
+
+        for node in ast.walk(tree):
+            module_groups: list[tuple[Sequence[str], Path | None]] = []
+            if isinstance(node, (ast.Assign, ast.AnnAssign)):
+                targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+                if any(isinstance(target, ast.Name) and target.id == "pytest_plugins" for target in targets):
+                    value = node.value
+                    values = value.elts if isinstance(value, (ast.List, ast.Tuple, ast.Set)) else [value]
+                    if any(not isinstance(item, ast.Constant) or not isinstance(item.value, str) for item in values):
+                        raise PolicyError(f"pytest_plugins must be a statically resolvable string sequence: {source}")
+                    module_groups.extend((item.value.split("."), None) for item in values)
+            elif (
+                isinstance(node, ast.AugAssign)
+                and isinstance(node.target, ast.Name)
+                and node.target.id == "pytest_plugins"
+            ):
+                raise PolicyError(f"pytest_plugins mutations must be statically resolvable: {source}")
+            elif (
+                isinstance(node, ast.Call)
+                and isinstance(node.func, ast.Attribute)
+                and isinstance(node.func.value, ast.Name)
+                and node.func.value.id == "pytest_plugins"
+                and node.func.attr in {"append", "extend", "insert"}
+            ):
+                raise PolicyError(f"pytest_plugins mutations must be statically resolvable: {source}")
+            if isinstance(node, ast.Import):
+                module_groups.extend((alias.name.split("."), None) for alias in node.names)
+            elif isinstance(node, ast.ImportFrom):
+                relative_base = source.parent
+                if node.level:
+                    for _ in range(node.level - 1):
+                        relative_base = relative_base.parent
+                    if not _is_within(relative_base, repository_root):
+                        raise PolicyError(f"relative source import escapes the repository: {source}")
+                    if node.module:
+                        module_groups.append((node.module.split("."), relative_base))
+                    for alias in node.names:
+                        module_parts = node.module.split(".") if node.module else []
+                        if alias.name == "*":
+                            if not module_parts or resolve_module(source, module_parts, relative_base=relative_base):
+                                raise PolicyError(
+                                    f"wildcard import from a repository-local module cannot be inventoried: {source}"
+                                )
+                        else:
+                            module_groups.append(([*module_parts, alias.name], relative_base))
+                else:
+                    if node.module:
+                        module_groups.append((node.module.split("."), None))
+                    for alias in node.names:
+                        module_parts = node.module.split(".") if node.module else []
+                        if alias.name == "*":
+                            if not module_parts or resolve_module(source, module_parts):
+                                raise PolicyError(
+                                    f"wildcard import from a repository-local module cannot be inventoried: {source}"
+                                )
+                        else:
+                            module_groups.append(([*module_parts, alias.name], None))
+            elif isinstance(node, ast.Call):
+                function = node.func
+                dynamic_import = isinstance(function, ast.Name) and function.id in (
+                    builtin_import_names | import_module_names
+                )
+                dynamic_import = dynamic_import or (
+                    isinstance(function, ast.Attribute)
+                    and function.attr == "import_module"
+                    and isinstance(function.value, ast.Name)
+                    and function.value.id in importlib_names
+                )
+                dynamic_import = dynamic_import or (
+                    isinstance(function, ast.Attribute)
+                    and function.attr == "__import__"
+                    and isinstance(function.value, ast.Name)
+                    and function.value.id in builtins_names
+                )
+                if not dynamic_import:
+                    continue
+                call = node
+                if (
+                    not call.args
+                    or not isinstance(call.args[0], ast.Constant)
+                    or not isinstance(call.args[0].value, str)
+                ):
+                    raise PolicyError(f"dynamic test import cannot be source-inventoried statically: {source}")
+                import_name = call.args[0].value
+                if import_name.startswith("."):
+                    raise PolicyError(f"relative dynamic test import is unsupported for source inventory: {source}")
+                module_parts = import_name.split(".")
+                module_groups.append((module_parts, None))
+                fromlist = None
+                if isinstance(function, ast.Name) and function.id in builtin_import_names:
+                    if len(call.args) > 3:
+                        fromlist = call.args[3]
+                    else:
+                        fromlist = next((item.value for item in call.keywords if item.arg == "fromlist"), None)
+                if fromlist is not None:
+                    if not isinstance(fromlist, (ast.List, ast.Tuple)) or any(
+                        not isinstance(item, ast.Constant) or not isinstance(item.value, str) for item in fromlist.elts
+                    ):
+                        raise PolicyError(
+                            f"dynamic __import__ fromlist cannot be source-inventoried statically: {source}"
+                        )
+                    module_groups.extend(([*module_parts, item.value], None) for item in fromlist.elts)
+
+            for module_parts, relative_base in module_groups:
+                found.update(resolve_module(source, module_parts, relative_base=relative_base))
+        return found
+
+    while pending:
+        source = pending.pop()
+        if source in scanned:
+            continue
+        scanned.add(source)
+        try:
+            tree = ast.parse(source.read_text(encoding="utf-8"), filename=str(source))
+        except (OSError, SyntaxError, UnicodeError) as exc:
+            raise PolicyError(f"cannot inspect test-local imports without importing source: {exc}") from exc
+        for dependency in import_modules(source, tree):
+            if dependency not in roots_to_scan and not covered_by_full_source_inventory(dependency):
+                dependencies.add(dependency)
+            if dependency not in scanned and not covered_by_full_source_inventory(dependency):
+                pending.append(dependency)
+
+    return {
+        path.relative_to(repository_root).as_posix(): _sha256(path)
+        for path in sorted(dependencies, key=lambda item: item.as_posix())
+    }
+
+
 def _worktree_source_inventory(root: Path, target: str) -> dict[str, str]:
-    """Return raw-byte SHA-256 values for the files used by a test source identity."""
+    """Return raw-byte SHA-256 values for the target, its local test imports, and solver source."""
     listed = subprocess.run(
         [
             "git",
@@ -2479,6 +2719,7 @@ def _worktree_source_inventory(root: Path, target: str) -> dict[str, str]:
     if listed.returncode != 0:
         raise PolicyError("cannot inventory worktree source files for retry identity")
     target_module = target.split("::", maxsplit=1)[0]
+    test_dependencies = _test_source_dependency_inventory(root, target_module)
     files: set[str] = set()
     for raw in listed.stdout.split(b"\0"):
         if not raw:
@@ -2491,9 +2732,11 @@ def _worktree_source_inventory(root: Path, target: str) -> dict[str, str]:
             or relative_text.startswith("experiments/")
             and relative.suffix == ".py"
             or relative_text == target_module
+            or relative_text in test_dependencies
             or relative_text in {"tests/conftest.py", "tests/unit/conftest.py", "pyproject.toml", "pytest.ini"}
         ):
             files.add(relative_text)
+    files.update(test_dependencies)
     if target_module not in files:
         raise PolicyError("approved test module is absent from the source fingerprint inventory")
     inventory: dict[str, str] = {}
@@ -2939,6 +3182,7 @@ def register_wp12_nodeid(
         if entry.get("require_clean_worktree") and current_identity["status_short"]:
             raise PolicyError(f"registered {worktree_id} source worktree must be clean before nodeid inspection")
         current_fingerprint = _worktree_source_fingerprint(root, target)
+        current_test_dependencies = _test_source_dependency_inventory(root, module_name)
         previous = next((item for item in reversed(records) if item.get("target") == target), None)
         if previous is not None and previous.get("source_fingerprint") == current_fingerprint:
             raise PolicyError("nodeid and source revision are already registered")
@@ -2953,6 +3197,7 @@ def register_wp12_nodeid(
             "registered_at_utc": datetime.now(timezone.utc).isoformat(),
             "worktree_head": current_identity["head"],
             "source_fingerprint": current_fingerprint,
+            "test_source_dependencies": current_test_dependencies,
             **selection,
         }
         records.append(record)
@@ -2964,6 +3209,7 @@ def register_wp12_nodeid(
         "registered_count": len(nodeids),
         "registration_cap": entry["nodeid_registration"]["max_nodeids"],
         "selected_dofs": selection["selected_dofs"],
+        "test_source_dependency_count": len(current_test_dependencies),
         "timeout_seconds": selection["timeout_seconds"],
         "revision": sum(item.get("target") == target for item in records),
         "policy": str(POLICY_PATH.resolve()),

@@ -201,6 +201,146 @@ def test_hex8sri_source_identity_inventory_freezes_exact_raw_worktree_bytes() ->
     assert "QUALIFICATION_RELEASE" not in policy["worktrees"]
 
 
+def test_source_inventory_binds_recursive_test_local_imports_and_pytest_conftests(tmp_path: Path) -> None:
+    root = tmp_path / "science"
+    paths = {
+        "tests/__init__.py": '"tests package"\n',
+        "tests/unit/__init__.py": '"unit package"\n',
+        "conftest.py": "from root_test_fixture import ROOT_MARKER\n",
+        "root_test_fixture.py": "ROOT_MARKER = True\n",
+        "tests/unit/test_hex20_diagnostic.py": (
+            "from solveur.core import VALUE\nfrom wp12b_hex20_diagnostic_support import capture\n"
+            "import importlib as il\nfrom importlib import import_module as load_module\n"
+            "import builtins as bi\nfrom builtins import __import__ as import_by_name\n"
+            "il.import_module('tests.local_importlib_helper')\nload_module('tests.local_imported_helper')\n"
+            "__import__('tests.fromlist_package', fromlist=['helper'])\n"
+            "bi.__import__('tests.builtins_mod_helper')\nimport_by_name('tests.builtins_alias_helper')\n"
+            "def test_hex20_diagnostic():\n    assert capture() and VALUE == 1\n"
+        ),
+        "tests/unit/wp12b_hex20_diagnostic_support.py": (
+            "from wp12b_hex20_oracle import reference\ndef capture():\n    return reference()\n"
+        ),
+        "tests/unit/wp12b_hex20_oracle.py": "def reference():\n    return True\n",
+        "tests/conftest.py": "pytest_plugins = ['local_pytest_plugin']\nfrom common_test_fixture import FIXTURE\n",
+        "tests/local_pytest_plugin.py": "from plugin_helpers import PLUGIN_MARKER\n",
+        "tests/plugin_helpers.py": "PLUGIN_MARKER = True\n",
+        "tests/local_importlib_helper.py": "IMPORTLIB_MARKER = True\n",
+        "tests/local_imported_helper.py": "IMPORTED_MARKER = True\n",
+        "tests/builtins_mod_helper.py": "BUILTINS_MARKER = True\n",
+        "tests/builtins_alias_helper.py": "BUILTINS_ALIAS_MARKER = True\n",
+        "tests/fromlist_package/__init__.py": '"fromlist package"\n',
+        "tests/fromlist_package/helper.py": "HELPER_MARKER = True\n",
+        "tests/common_test_fixture.py": "FIXTURE = True\n",
+        "tests/unit/conftest.py": "from unit_test_fixture import FIXTURE\n",
+        "tests/unit/unit_test_fixture.py": "FIXTURE = True\n",
+        "tests/unit/test_unrelated.py": "def test_unrelated():\n    pass\n",
+        "src/solveur/__init__.py": '"solver"\n',
+        "src/solveur/core.py": "VALUE = 1\n",
+        "experiments/hex20/reference.py": "VALUE = 1\n",
+        "pyproject.toml": "[tool.pytest.ini_options]\n",
+        "pytest.ini": "[pytest]\n",
+    }
+    for relative, content in paths.items():
+        file_path = root / relative
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        file_path.write_text(content, encoding="utf-8")
+    subprocess.run(["git", "init", "--quiet"], cwd=root, check=True, capture_output=True, text=True)
+
+    target = "tests/unit/test_hex20_diagnostic.py::test_hex20_diagnostic"
+    inventory = MODULE._worktree_source_inventory(root, target)
+    dependency_inventory = MODULE._test_source_dependency_inventory(root, target.split("::", maxsplit=1)[0])
+
+    assert {
+        "tests/unit/wp12b_hex20_diagnostic_support.py",
+        "tests/unit/wp12b_hex20_oracle.py",
+        "tests/__init__.py",
+        "tests/unit/__init__.py",
+        "tests/common_test_fixture.py",
+        "tests/unit/unit_test_fixture.py",
+        "conftest.py",
+        "root_test_fixture.py",
+        "tests/local_pytest_plugin.py",
+        "tests/plugin_helpers.py",
+        "tests/local_importlib_helper.py",
+        "tests/local_imported_helper.py",
+        "tests/builtins_mod_helper.py",
+        "tests/builtins_alias_helper.py",
+        "tests/fromlist_package/__init__.py",
+        "tests/fromlist_package/helper.py",
+    } <= set(dependency_inventory)
+    assert {
+        "tests/unit/test_hex20_diagnostic.py",
+        "tests/unit/wp12b_hex20_diagnostic_support.py",
+        "tests/unit/wp12b_hex20_oracle.py",
+        "tests/__init__.py",
+        "tests/unit/__init__.py",
+        "tests/conftest.py",
+        "tests/common_test_fixture.py",
+        "tests/unit/conftest.py",
+        "tests/unit/unit_test_fixture.py",
+        "conftest.py",
+        "root_test_fixture.py",
+        "tests/local_pytest_plugin.py",
+        "tests/plugin_helpers.py",
+        "tests/local_importlib_helper.py",
+        "tests/local_imported_helper.py",
+        "tests/builtins_mod_helper.py",
+        "tests/builtins_alias_helper.py",
+        "tests/fromlist_package/__init__.py",
+        "tests/fromlist_package/helper.py",
+        "src/solveur/core.py",
+        "experiments/hex20/reference.py",
+        "pyproject.toml",
+        "pytest.ini",
+    } <= set(inventory)
+    assert "tests/unit/test_unrelated.py" not in inventory
+    original_fingerprint = MODULE._source_inventory_fingerprint(inventory)
+    (root / "tests/unit/wp12b_hex20_oracle.py").write_text("def reference():\n    return False\n", encoding="utf-8")
+    changed_fingerprint = MODULE._source_inventory_fingerprint(MODULE._worktree_source_inventory(root, target))
+    assert changed_fingerprint != original_fingerprint
+
+
+def test_source_inventory_rejects_unresolvable_dynamic_test_imports(tmp_path: Path) -> None:
+    target = tmp_path / "tests" / "unit" / "test_dynamic_import.py"
+    target.parent.mkdir(parents=True)
+    target.write_text(
+        "from importlib import import_module as load_module\n"
+        "def test_dynamic_import():\n    load_module(module_name)\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(MODULE.PolicyError, match="dynamic test import cannot be source-inventoried statically"):
+        MODULE._test_source_dependency_inventory(tmp_path, "tests/unit/test_dynamic_import.py")
+
+
+def test_source_inventory_rejects_local_wildcard_imports(tmp_path: Path) -> None:
+    package = tmp_path / "tests" / "unit" / "test_helpers"
+    package.mkdir(parents=True)
+    (package / "__init__.py").write_text('"helper package"\n', encoding="utf-8")
+    (tmp_path / "tests" / "unit" / "test_wildcard.py").write_text(
+        "from test_helpers import *\ndef test_wildcard():\n    pass\n", encoding="utf-8"
+    )
+
+    with pytest.raises(MODULE.PolicyError, match="wildcard import from a repository-local module"):
+        MODULE._test_source_dependency_inventory(tmp_path, "tests/unit/test_wildcard.py")
+
+
+@pytest.mark.parametrize(
+    "source",
+    [
+        "pytest_plugins += plugin_names\n",
+        "pytest_plugins.extend(plugin_names)\n",
+    ],
+)
+def test_source_inventory_rejects_dynamic_pytest_plugin_mutations(tmp_path: Path, source: str) -> None:
+    target = tmp_path / "tests" / "unit" / "test_dynamic_plugins.py"
+    target.parent.mkdir(parents=True)
+    target.write_text(source + "def test_dynamic_plugins():\n    pass\n", encoding="utf-8")
+
+    with pytest.raises(MODULE.PolicyError, match="pytest_plugins mutations must be statically resolvable"):
+        MODULE._test_source_dependency_inventory(tmp_path, "tests/unit/test_dynamic_plugins.py")
+
+
 def test_wp12b_corrective_campaign_sets_canonical_scope_and_separate_evidence_root(tmp_path: Path) -> None:
     policy = _policy()
     original = policy["worktrees"]["wp12_elements_loads"]
@@ -535,7 +675,18 @@ def _prepare_wp12_registration_context(tmp_path: Path, monkeypatch: pytest.Monke
         directory.mkdir(parents=True, exist_ok=True)
     (agent_root / "src" / "solveur" / "__init__.py").write_text('"synthetic package"\n', encoding="utf-8")
     module = agent_root / "tests" / "unit" / "test_candidate.py"
-    module.write_text("def test_candidate_case():\n    assert True\n", encoding="utf-8")
+    module.write_text(
+        "from candidate_support import SUPPORT_MARKER\n\ndef test_candidate_case():\n    assert SUPPORT_MARKER\n",
+        encoding="utf-8",
+    )
+    (agent_root / "tests" / "unit" / "candidate_support.py").write_text(
+        "from candidate_oracle import ORACLE_MARKER\n\nSUPPORT_MARKER = ORACLE_MARKER\n",
+        encoding="utf-8",
+    )
+    (agent_root / "tests" / "unit" / "candidate_oracle.py").write_text(
+        "ORACLE_MARKER = True\n",
+        encoding="utf-8",
+    )
 
     envelope = dict(MODULE.WP12_OWNER_ENVELOPES["wp12_wp07"])
     envelope["root"] = str(agent_root)
@@ -699,7 +850,7 @@ def test_wp12_exact_nodeid_registration_and_allowlist_selection_are_synthetic(
 ) -> None:
     from contextlib import nullcontext
 
-    _agent_root, policy_path, target = _prepare_wp12_registration_context(tmp_path, monkeypatch)
+    agent_root, policy_path, target = _prepare_wp12_registration_context(tmp_path, monkeypatch)
     monkeypatch.setattr(
         MODULE, "run_supervised_command", lambda *_args, **_kwargs: pytest.fail("registration must not launch pytest")
     )
@@ -724,6 +875,15 @@ def test_wp12_exact_nodeid_registration_and_allowlist_selection_are_synthetic(
     assert registration["selected_dofs"] == 12
     assert registration["timeout_seconds"] == 300
     assert registration["source_fingerprint"] == "c" * 64
+    assert registration["test_source_dependencies"] == {
+        "tests/unit/candidate_oracle.py": MODULE._sha256(agent_root / "tests" / "unit" / "candidate_oracle.py"),
+        "tests/unit/candidate_support.py": MODULE._sha256(agent_root / "tests" / "unit" / "candidate_support.py"),
+    }
+    active = MODULE._wp12_active_registration("wp12_wp07", target, policy["worktrees"]["wp12_wp07"], "c" * 64)
+    assert active["test_source_dependencies"] == registration["test_source_dependencies"]
+    (agent_root / "tests" / "unit" / "candidate_oracle.py").write_text("ORACLE_MARKER = False\n", encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="test-source dependency inventory changed"):
+        MODULE._wp12_active_registration("wp12_wp07", target, policy["worktrees"]["wp12_wp07"], "c" * 64)
     assert lock_paths == [MODULE.WP12_COORDINATION_ROOT / "locks" / "nodeid-registration.lock"]
     with pytest.raises(MODULE.PolicyError, match="exact nodeid"):
         MODULE.resolve_targets(
