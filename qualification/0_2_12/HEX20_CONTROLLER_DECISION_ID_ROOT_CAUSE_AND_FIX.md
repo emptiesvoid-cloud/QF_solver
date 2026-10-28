@@ -13,3 +13,9 @@ Vérifications synthétiques : 244 tests des suites politique, provenance et sup
 Limites de contrat : la désignation du contrôleur est actuellement une règle de l'AGENTS.md canonique, pas une vérification automatique de chemin dans ce validateur générique. Le scope HEX20 ne lie pas le reçu collect-only au manifeste dans le runner : une vérification opérationnelle de son identité est nécessaire. Les tests ne prétendent pas démontrer une protection automatique absente.
 
 Aucune fusion n'est effectuée sans autorisation applicable. Une désignation révisée et un nouveau fingerprint seront nécessaires après intégration avant toute préparation officielle.
+
+## Identités et contrat de référence
+
+Contrôleur officiellement désigné avant correction : HEAD `1b8d6a76b062039566dbf0f2bd508b7990035dca`, fingerprint `f6d2a49da3e41feab82da740d6155c6fc56e9b0f36e901bd260ca5823a0ff12a`. Source scientifique : HEAD `8f2b02b053af70cbaa23378adbd783dd99669b1b`, fingerprint `efe44ae1505eb130e15e8ce8c4ae5311b639353b674c94b393d75387655227fb`. Manifeste R2 historique SHA-256 `2783012c0080b591b3f3d8f1ba8be080e82cc75c9f557357d15b32d7aeccf59b`, reçu collect-only historique SHA-256 `083e2f9cc3b3a562d006ba2b1cc0b463ac0d198fa798374b4464e6c5c010f943` ; leurs identités de contrôleur ne sont pas transférables.
+
+Le cas prévoit 60 DDL, une tentative, 300 s et une RSS surveillée de 4096 MiB. Les assertions historiques R4 restent les critères actifs du code scientifique ; les nouveaux seuils QUAD8 et η∞ restent proposés et non contraignants. Aucune qualification globale ni nouveau résultat scientifique ne découle des contrôles synthétiques.
