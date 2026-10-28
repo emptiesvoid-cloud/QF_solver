@@ -74,6 +74,8 @@ L’intégration du contrôleur #49 n’a pas été autorisée et n’a pas eu l
 
 En conséquence, aucun nouveau reçu officiel collect-only ni manifeste PREPARED_NOT_AUTHORIZED n’existe pour cette identité. Le reçu C3 `pf-036904402cab` (`ad9d7836ec6839cc619377cdd67c2ffff45271666088a65a566f686286fe1a44`) et son ancien manifeste (`4090711004c87895c067c61d576098eef87e961ee0802c623dd6d0b3f6dc09db`) ont été relus et leurs hashes correspondent; ils restent inchangés, obsolètes pour la source restaurée et non réutilisés.
 
+Le scope R1 existant déclare toujours 60 DDL, une tentative totale et une par nodeid, 300 secondes et 4096 MiB de RSS surveillée (limite logicielle observée). Ces limites ne constituent pas une autorisation d’exécution pour la nouvelle identité.
+
 Après revue et intégration de #49 par les responsables autorisés :
 
 1. Recalculer le fingerprint complet du contrôleur depuis le worktree canonique exact.
