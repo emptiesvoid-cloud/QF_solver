@@ -786,6 +786,201 @@
           "selection_basis": "One free UX DDL in the harmonic BEAM2 base-acceleration fixture.",
           "timeout_seconds": 300,
           "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:27:54.856801+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:27:56.909214+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 has 12 translational DDL; nodes 0, 2, and 3 are fixed in UX/UY/UZ, leaving node 1 UX/UY/UZ free.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:27:58.970956+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:00.896555+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 2,
+          "selection_basis": "Two DDL in the analytical coupled generalized eigenproblem",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:02.975104+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One scalar generalized coordinate in the analytical impedance oracle",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_coupled_two_dof_complex_response_uses_full_projected_operators",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:05.067767+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 2,
+          "selection_basis": "Two projected coordinates in the complex impedance check",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_detects_exact_and_near_resonance_before_solving",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:07.160709+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One scalar generalized coordinate in the resonance conditioning check",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:09.286875+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Three free translational DDL in the bounded single-TET4 route comparison",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_newmark.py::test_sdof_free_undamped_matches_analytic_solution_and_initial_projection",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:11.336381+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the BEAM2 SDOF Newmark fixture",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_newmark.py::test_sdof_free_damped_matches_under_damped_analytic_solution",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:13.378978+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the damped BEAM2 SDOF fixture",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:15.466515+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the harmonic BEAM2 base-acceleration fixture.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:17.588998+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the transient BEAM2 base-acceleration fixture",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:19.243732+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "202d9cefb4fd3f997ff2f47962c686397f4883930c69d242f79a9c0be54afe58",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "Serialization-only node; 1 is schema minimum, no solver assembly or FEM DDL selected",
+          "timeout_seconds": 300,
+          "timeout_reason": null
         }
       ]
     },

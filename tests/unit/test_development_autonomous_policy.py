@@ -375,6 +375,10 @@ def test_wp12b_corrective_manifest_binds_campaign_and_remains_unapproved(
     target = WP12_ELEMENTS_LOADS_CORRECTIVE_NODEIDS[0]
     policy = _policy()
     entry = policy["worktrees"]["wp12_elements_loads_corrective"]
+    test_module = tmp_path / target.split("::", maxsplit=1)[0]
+    test_module.parent.mkdir(parents=True)
+    test_module.write_text("def test_wp12b_beam2_rotated_uniform_line_load():\n    pass\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "_registered_root", lambda *_args, **_kwargs: tmp_path)
     monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: policy)
     monkeypatch.setattr(
         MODULE,
@@ -605,8 +609,9 @@ def test_wp12_registry_has_distinct_exact_worktree_envelopes() -> None:
         )
 
 
-def test_dynamic_nodeids_are_allowlisted_only_for_the_dynamics_worktree() -> None:
+def test_dynamic_nodeids_are_allowlisted_only_for_the_dynamics_worktree(monkeypatch: pytest.MonkeyPatch) -> None:
     policy = _policy()
+    monkeypatch.setattr(MODULE, "_registered_root", lambda *_args, **_kwargs: MODULE.ROOT)
     for nodeid in WP12_DYNAMICS_NODEIDS:
         assert MODULE.resolve_targets("fem_exploratory", nodeid, policy, worktree_id="wp12_dynamics") == [nodeid]
         with pytest.raises(MODULE.PolicyError, match="exact nodeid in the registered worktree allowlist"):
@@ -1054,6 +1059,46 @@ def test_wp12_registration_revisions_preserve_history_and_reject_stale_source(
         MODULE._wp12_active_registration("wp12_wp07", target, policy["worktrees"]["wp12_wp07"], "e" * 64)
 
 
+def test_wp12_registration_refreshes_missing_dependency_inventory_append_only(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _agent_root, policy_path, target = _prepare_wp12_registration_context(tmp_path, monkeypatch)
+    dependencies = {
+        "tests/conftest.py": "1" * 64,
+        "tests/unit/candidate_support.py": "2" * 64,
+        "tests/unit/candidate_oracle.py": "3" * 64,
+    }
+    monkeypatch.setattr(MODULE, "_test_source_dependency_inventory", lambda *_args: dependencies)
+    details = {
+        "selected_dofs": 12,
+        "selection_basis": "Two-node BEAM2 reduced-harmonic registration metadata refresh",
+    }
+    MODULE.register_wp12_nodeid("wp12_wp07", target, "initial inspected source registration", **details)
+    policy = MODULE.load_policy(policy_path)
+    records = policy["worktrees"]["wp12_wp07"]["nodeid_registration_records"]
+    records[-1].pop("test_source_dependencies")
+    policy_path.write_text(json.dumps(policy, sort_keys=False) + "\n", encoding="utf-8")
+
+    refreshed = MODULE.register_wp12_nodeid(
+        "wp12_wp07",
+        target,
+        "Append the dependency inventory required by the controller provenance contract.",
+        **details,
+    )
+    assert refreshed["state"] == "NODEID_REGISTERED"
+    assert refreshed["revision"] == 2
+    policy = MODULE.load_policy(policy_path)
+    records = policy["worktrees"]["wp12_wp07"]["nodeid_registration_records"]
+    assert len(records) == 2
+    assert "test_source_dependencies" not in records[0]
+    assert records[1]["source_fingerprint"] == records[0]["source_fingerprint"]
+    assert records[1]["test_source_dependencies"] == dependencies
+    active = MODULE._wp12_active_registration("wp12_wp07", target, policy["worktrees"]["wp12_wp07"], "c" * 64)
+    assert active["test_source_dependencies"] == dependencies
+    with pytest.raises(MODULE.PolicyError, match="already registered"):
+        MODULE.register_wp12_nodeid("wp12_wp07", target, "duplicate refreshed source", **details)
+
+
 def test_wp12_registration_rejects_bad_paths_functions_and_repeats(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -1318,8 +1363,15 @@ def test_standard_test_target_is_confined_to_its_scope() -> None:
         MODULE.resolve_targets("unit", "tests/unit/../../scripts/test_release.py::test_outside", policy)
 
 
-def test_fem_scope_accepts_only_exact_registered_nodeids_and_worktree_pairs() -> None:
+def test_fem_scope_accepts_only_exact_registered_nodeids_and_worktree_pairs(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     policy = _policy()
+    for nodeid in policy["worktrees"]["d01"]["allowed_nodeids"]:
+        module_path = tmp_path / nodeid.split("::", maxsplit=1)[0]
+        module_path.parent.mkdir(parents=True, exist_ok=True)
+        module_path.write_text("def test_synthetic_registered_node():\n    pass\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "_registered_root", lambda *_args, **_kwargs: tmp_path)
     d01 = policy["worktrees"]["d01"]["allowed_nodeids"]
     for nodeid in d01:
         assert MODULE.resolve_targets("fem_exploratory", nodeid, policy, worktree_id="d01") == [nodeid]
@@ -1465,11 +1517,23 @@ def test_wp12_manifest_requires_the_exact_scope_mandate(tmp_path: Path, worktree
         "limits": MODULE._wp12_manifest_limits(entry, selection),
         "owner_decision": {
             "status": "APPROVED",
+            "decision_id": "owner-synthetic-mandate-0001",
             "approved_by": "Owner",
             "approved_at_utc": "2026-10-27T10:00:00Z",
             "reason": "Synthetic unit test of the scope-bound mandate contract.",
         },
     }
+    preflight_id = None
+    preflight_receipt = None
+    if worktree_id == "wp12_dynamics":
+        preflight_id = "pf-123456789abc"
+        preflight_path = evidence_root / "worktrees" / worktree_id / "preflight" / preflight_id / "preflight.json"
+        preflight_receipt = (preflight_path, "d" * 64)
+        payload["preflight"] = {
+            "preflight_id": preflight_id,
+            "receipt_path": str(preflight_path),
+            "receipt_sha256": preflight_receipt[1],
+        }
     if "campaign_id" in entry:
         payload["campaign_id"] = entry["campaign_id"]
     path = evidence_root / "authorizations" / worktree_id / "synthetic-mandate-0001.json"
@@ -1485,6 +1549,8 @@ def test_wp12_manifest_requires_the_exact_scope_mandate(tmp_path: Path, worktree
         source_fingerprint=payload["source_fingerprint"],
         controller_fingerprint=payload["controller_fingerprint"],
         selection=selection,
+        preflight_id=preflight_id,
+        preflight_receipt=preflight_receipt,
     )
     assert receipt["mandate_id"] == entry["development_mandate_id"]
 
@@ -1500,6 +1566,8 @@ def test_wp12_manifest_requires_the_exact_scope_mandate(tmp_path: Path, worktree
             source_fingerprint=payload["source_fingerprint"],
             controller_fingerprint=payload["controller_fingerprint"],
             selection=selection,
+            preflight_id=preflight_id,
+            preflight_receipt=preflight_receipt,
         )
 
 
@@ -1550,6 +1618,12 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
     monkeypatch.setattr(MODULE, "_controller_provenance", lambda: {"identity": "synthetic"})
     monkeypatch.setattr(MODULE, "_stable_fingerprint", lambda _value: "c" * 64)
     monkeypatch.setattr(MODULE, "_validate_wp12_execution_manifest", lambda *_a, **_kw: {"authorized": True})
+    if worktree_id == "wp12_dynamics":
+        monkeypatch.setattr(
+            MODULE,
+            "_validate_wp12_dynamics_preflight_receipt",
+            lambda *_args, **_kwargs: (tmp_path / "preflight.json", "d" * 64),
+        )
     monkeypatch.setattr(MODULE, "_run_root", lambda *_args, **_kwargs: store)
     monkeypatch.setattr(MODULE, "_wp12_resource_lock", lambda *_args, **_kwargs: nullcontext())
     monkeypatch.setattr(MODULE, "psutil", object())
@@ -1580,6 +1654,7 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
             "dev-mandate-propagation",
             worktree_id=worktree_id,
             reason="Synthetic pre-attempt mandate propagation test.",
+            preflight_id="pf-123456789abc" if worktree_id == "wp12_dynamics" else None,
             execution_manifest=tmp_path / "synthetic-authorized-manifest.json",
         )
     assert observed["mandate_id"] == entry["development_mandate_id"]
@@ -2441,13 +2516,39 @@ def test_exact_node_plugin_lifts_only_the_approved_native_skip() -> None:
 
 
 def test_d01_native_capability_is_scoped_only_to_the_exact_call(monkeypatch: pytest.MonkeyPatch) -> None:
+    from contextlib import contextmanager
+    import os
+
     policy = _policy()
     nodeid = policy["worktrees"]["d01"]["allowed_nodeids"][0]
-    guard_path = Path(policy["worktrees"]["d01"]["root"]) / "src/solveur/core/execution_guard.py"
-    guard_spec = importlib.util.spec_from_file_location("solveur.core.execution_guard", guard_path)
-    assert guard_spec is not None and guard_spec.loader is not None
-    guard = importlib.util.module_from_spec(guard_spec)
-    guard_spec.loader.exec_module(guard)
+    boundary = "solveur.core.analyses.reduced_harmonic.ReducedHarmonicResponseSolver.solve"
+    active_scope: dict[str, str | None] = {"nodeid": None}
+    guard = ModuleType("solveur.core.execution_guard")
+    guard.NO_NATIVE_EXECUTION_ENV = "QF_DEV_NO_NATIVE_EXECUTION"
+
+    class SolverExecutionBlockedError(RuntimeError):
+        pass
+
+    @contextmanager
+    def authorized_native_test_scope(authorized_nodeid: str):
+        previous = active_scope["nodeid"]
+        active_scope["nodeid"] = authorized_nodeid
+        try:
+            yield
+        finally:
+            active_scope["nodeid"] = previous
+
+    def require_solver_execution_allowed(requested_boundary: str) -> None:
+        if (
+            requested_boundary != boundary
+            or active_scope["nodeid"] != nodeid
+            or guard.NO_NATIVE_EXECUTION_ENV in os.environ
+        ):
+            raise SolverExecutionBlockedError("synthetic native execution denied")
+
+    guard.SolverExecutionBlockedError = SolverExecutionBlockedError
+    guard.authorized_native_test_scope = authorized_native_test_scope
+    guard.require_solver_execution_allowed = require_solver_execution_allowed
     solveur_package = ModuleType("solveur")
     solveur_package.__path__ = []
     core_package = ModuleType("solveur.core")
@@ -2459,7 +2560,6 @@ def test_d01_native_capability_is_scoped_only_to_the_exact_call(monkeypatch: pyt
     gate = PLUGIN.ExactNodeGate((nodeid,), allow_native_skip_override=True)
     wrapper = gate.pytest_runtest_call(SimpleNamespace(nodeid=nodeid))
     next(wrapper)
-    boundary = "solveur.core.analyses.reduced_harmonic.ReducedHarmonicResponseSolver.solve"
     guard.require_solver_execution_allowed(boundary)
     monkeypatch.setenv(guard.NO_NATIVE_EXECUTION_ENV, "1")
     with pytest.raises(guard.SolverExecutionBlockedError):
@@ -4640,6 +4740,436 @@ def test_wp12_dynamics_child_attestor_reports_skip_and_body_tripwires(monkeypatc
     )
     assert status == "PREFLIGHT_SKIPPED"
     assert payload is not None and payload["bodies_executed"] is True
+
+
+def _synthetic_wp12_dynamics_context(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> dict[str, Any]:
+    from contextlib import nullcontext
+
+    policy = _policy()
+    entry = policy["worktrees"]["wp12_dynamics"]
+    target = WP12_DYNAMICS_NODEIDS[10]
+    registration = next(record for record in reversed(entry["nodeid_registration_records"]) if record["target"] == target)
+    source_root = tmp_path / "science" / "src"
+    source_root.mkdir(parents=True)
+    science_root = source_root.parent
+    identity = {
+        "root": str(science_root),
+        "branch": entry["branch"],
+        "head": "a" * 40,
+        "tree": "b" * 40,
+        "status_short": "",
+    }
+    source_fingerprint = registration["source_fingerprint"]
+    controller_provenance = {
+        "identity": {"root": "synthetic-controller", "head": "c" * 40, "tree": "d" * 40},
+        "sha256": {"runner": "e" * 64, "pytest_plugin": "f" * 64, "policy": "1" * 64},
+        "runtime": {"python_version": "3.synthetic", "pytest_version": "synthetic"},
+    }
+    store = tmp_path / "evidence"
+    entry["evidence_root"] = str(store)
+    (store / "locks").mkdir(parents=True)
+    ledger_path = store / "node-attempt-ledger.json"
+    ledger_payload = {
+        "schema": "qfsolver-development-node-ledger-v1",
+        "mandate_id": entry["development_mandate_id"],
+        "entries": {},
+    }
+    ledger_path.write_text(json.dumps(ledger_payload, sort_keys=True) + "\n", encoding="utf-8")
+    ledger_sha = MODULE._sha256(ledger_path)
+    preflight_id = "pf-123456789abc"
+    receipt_dir = store / "worktrees" / "wp12_dynamics" / "preflight" / preflight_id
+    (receipt_dir / "output").mkdir(parents=True)
+    solver_origin = str(source_root / "solveur" / "__init__.py")
+    receipt = {
+        "schema": "qfsolver-development-wp12-dynamics-preflight-v1",
+        "mode": "DEVELOPMENT_AUTONOMOUS",
+        "mandate_id": entry["development_mandate_id"],
+        "worktree_id": "wp12_dynamics",
+        "target": target,
+        "preflight_id": preflight_id,
+        "phase": "PYTEST_COLLECT_ONLY",
+        "state": "PREFLIGHT_PASS",
+        "bodies_executed": False,
+        "attempt_reserved": False,
+        "ledger_touched": False,
+        "identity": identity,
+        "identity_after": identity,
+        "source_fingerprint": source_fingerprint,
+        "source_fingerprint_after": source_fingerprint,
+        "registration": {**registration, "timeout_seconds": 300},
+        "attempt_ledger": {
+            "path": str(ledger_path),
+            "sha256_before": ledger_sha,
+            "sha256_after": ledger_sha,
+            "touched": False,
+        },
+        "solver_origin_expected": solver_origin,
+        "solver_origin_observed": solver_origin,
+        "controller_provenance": controller_provenance,
+        "controller_provenance_after": controller_provenance,
+        "collected_nodeids": [target],
+        "skip_markers": [],
+        "return_code": 0,
+        "budgets": {"timeout_seconds": 300},
+    }
+    receipt_path = receipt_dir / "preflight.json"
+    receipt_path.write_text(json.dumps(receipt, sort_keys=True) + "\n", encoding="utf-8")
+    receipt_sha = MODULE._sha256(receipt_path)
+    (receipt_dir / "preflight.sha256.json").write_text(
+        json.dumps({"sha256": receipt_sha}, sort_keys=True) + "\n", encoding="utf-8"
+    )
+
+    monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: policy)
+    monkeypatch.setattr(MODULE, "_registered_root", lambda *_args, **_kwargs: science_root)
+    monkeypatch.setattr(
+        MODULE,
+        "resolve_targets",
+        lambda scope, requested, current_policy, *, worktree_id=None: [requested]
+        if scope == "fem_exploratory"
+        and worktree_id == "wp12_dynamics"
+        and requested in current_policy["worktrees"][worktree_id]["allowed_nodeids"]
+        else pytest.fail("synthetic dynamics fixture must resolve only its exact registered nodeid"),
+    )
+    monkeypatch.setattr(
+        MODULE,
+        "_test_source_dependency_inventory",
+        lambda *_args: registration.get("test_source_dependencies", {}),
+    )
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda *_args, **_kwargs: (entry, science_root, source_root, identity, source_fingerprint),
+    )
+    monkeypatch.setattr(MODULE, "_run_root", lambda *_args, **_kwargs: store)
+    monkeypatch.setattr(MODULE, "_controller_provenance", lambda: controller_provenance)
+    monkeypatch.setattr(MODULE, "_wp12_resource_lock", lambda *_args, **_kwargs: nullcontext())
+    monkeypatch.setattr(MODULE, "psutil", object())
+    monkeypatch.setattr(MODULE.shutil, "disk_usage", lambda _path: SimpleNamespace(free=2 * 1024**3))
+    monkeypatch.setattr(MODULE, "_worktree_source_fingerprint", lambda *_args, **_kwargs: source_fingerprint)
+    return {
+        "policy": policy,
+        "entry": entry,
+        "target": target,
+        "identity": identity,
+        "source_root": source_root,
+        "science_root": science_root,
+        "source_fingerprint": source_fingerprint,
+        "controller_provenance": controller_provenance,
+        "store": store,
+        "ledger_path": ledger_path,
+        "preflight_id": preflight_id,
+        "preflight_path": receipt_path,
+        "preflight_sha256": receipt_sha,
+    }
+
+
+def test_wp12_dynamics_preflight_receipt_validation_binds_exact_identities(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    receipt_path, receipt_sha = MODULE._validate_wp12_dynamics_preflight_receipt(
+        fixture["store"],
+        fixture["preflight_id"],
+        target=fixture["target"],
+        identity=fixture["identity"],
+        source_fingerprint=fixture["source_fingerprint"],
+        controller_provenance=fixture["controller_provenance"],
+    )
+    assert receipt_path == fixture["preflight_path"]
+    assert receipt_sha == fixture["preflight_sha256"]
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("bodies_executed", True),
+        ("attempt_reserved", True),
+        ("ledger_touched", True),
+        ("skip_markers", [{"marker": "skip"}]),
+        ("collected_nodeids", []),
+        ("solver_origin_observed", "C:/wrong/solveur/__init__.py"),
+        ("identity_after", {"head": "0" * 40}),
+        ("source_fingerprint_after", "0" * 64),
+        ("controller_provenance_after", {"changed": True}),
+    ],
+)
+def test_wp12_dynamics_preflight_receipt_rejects_tampered_attestations(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, field: str, value: Any
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    path = fixture["preflight_path"]
+    receipt = json.loads(path.read_text(encoding="utf-8"))
+    receipt[field] = value
+    path.write_text(json.dumps(receipt, sort_keys=True) + "\n", encoding="utf-8")
+    (path.parent / "preflight.sha256.json").write_text(
+        json.dumps({"sha256": MODULE._sha256(path)}, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    with pytest.raises(MODULE.PolicyError, match="does not match"):
+        MODULE._validate_wp12_dynamics_preflight_receipt(
+            fixture["store"],
+            fixture["preflight_id"],
+            target=fixture["target"],
+            identity=fixture["identity"],
+            source_fingerprint=fixture["source_fingerprint"],
+            controller_provenance=fixture["controller_provenance"],
+        )
+
+
+def test_wp12_dynamics_manifest_preparation_and_validation_bind_preflight(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    prepared = MODULE.prepare_wp12_execution_manifest(
+        "wp12_dynamics", fixture["target"], "wp12-synth-auth-0001", preflight_id=fixture["preflight_id"]
+    )
+    manifest_path = Path(prepared["path"])
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert manifest["state"] == "PREPARED_NOT_AUTHORIZED"
+    assert manifest["preflight"] == {
+        "preflight_id": fixture["preflight_id"],
+        "receipt_path": str(fixture["preflight_path"]),
+        "receipt_sha256": fixture["preflight_sha256"],
+    }
+    with pytest.raises(MODULE.PolicyError, match="collect-only preflight"):
+        MODULE.prepare_wp12_execution_manifest("wp12_dynamics", fixture["target"], "wp12-synth-auth-0002")
+
+    manifest["state"] = "OWNER_AUTHORIZED"
+    manifest["owner_decision"] = {
+        "status": "APPROVED",
+        "decision_id": "owner-wp12a-contract-0001",
+        "approved_by": "Owner",
+        "approved_at_utc": "2026-10-28T10:00:00Z",
+        "reason": "Synthetic exact-case WP12-A execution authorization for contract test.",
+    }
+    manifest_path.write_text(json.dumps(manifest, sort_keys=True) + "\n", encoding="utf-8")
+    selection = MODULE._wp12_active_registration(
+        "wp12_dynamics", fixture["target"], fixture["entry"], fixture["source_fingerprint"]
+    )
+    receipt = MODULE._validate_wp12_execution_manifest(
+        manifest_path,
+        worktree_id="wp12_dynamics",
+        target=fixture["target"],
+        entry=fixture["entry"],
+        identity=fixture["identity"],
+        source_fingerprint=fixture["source_fingerprint"],
+        controller_fingerprint=MODULE._stable_fingerprint(fixture["controller_provenance"]),
+        selection=selection,
+        preflight_id=fixture["preflight_id"],
+        preflight_receipt=(fixture["preflight_path"], fixture["preflight_sha256"]),
+    )
+    assert receipt["decision_id"] == "owner-wp12a-contract-0001"
+    assert receipt["authorization_id"] == "wp12-synth-auth-0001"
+    with pytest.raises(MODULE.PolicyError, match="does not bind its successful exact-node preflight"):
+        MODULE._validate_wp12_execution_manifest(
+            manifest_path,
+            worktree_id="wp12_dynamics",
+            target=fixture["target"],
+            entry=fixture["entry"],
+            identity=fixture["identity"],
+            source_fingerprint=fixture["source_fingerprint"],
+            controller_fingerprint=MODULE._stable_fingerprint(fixture["controller_provenance"]),
+            selection=selection,
+            preflight_id="pf-000000000000",
+            preflight_receipt=(fixture["preflight_path"], fixture["preflight_sha256"]),
+        )
+
+
+def test_wp12_dynamics_synthetic_end_to_end_reserves_and_archives_without_running_pytest(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    prepared = MODULE.prepare_wp12_execution_manifest(
+        "wp12_dynamics", fixture["target"], "wp12-synth-e2e-0001", preflight_id=fixture["preflight_id"]
+    )
+    manifest_path = Path(prepared["path"])
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["state"] = "OWNER_AUTHORIZED"
+    manifest["owner_decision"] = {
+        "status": "APPROVED",
+        "decision_id": "owner-wp12a-e2e-0001",
+        "approved_by": "Owner",
+        "approved_at_utc": "2026-10-28T10:00:00Z",
+        "reason": "Synthetic Owner authorization drives the bounded launcher contract test.",
+    }
+    manifest_path.write_text(json.dumps(manifest, sort_keys=True) + "\n", encoding="utf-8")
+    calls: list[dict[str, Any]] = []
+
+    def fake_supervised(command, *, cwd, environment, output_dir, temporary_dir, limits, poll_interval):
+        calls.append({"command": command, "cwd": cwd, "environment": environment, "limits": limits})
+        assert command[-1] == fixture["target"]
+        assert "--collect-only" not in command
+        assert limits["timeout_seconds"] == 300
+        (output_dir / "stdout.log").write_text("synthetic launch stub; pytest body deliberately not invoked\n", encoding="utf-8")
+        (output_dir / "stderr.log").write_text("", encoding="utf-8")
+        return SimpleNamespace(
+            status="PASS",
+            return_code=0,
+            elapsed_seconds=0.01,
+            peak_rss_bytes=1024,
+            peak_process_count=1,
+            stdout_bytes=64,
+            stderr_bytes=0,
+            archive_bytes=128,
+            temporary_bytes=0,
+            stop_reason=None,
+        )
+
+    monkeypatch.setattr(MODULE, "run_supervised_command", fake_supervised)
+    result, exit_code = MODULE.run_pytest(
+        "fem_exploratory",
+        fixture["target"],
+        "dev-synthetic-wp12a0001",
+        worktree_id="wp12_dynamics",
+        reason="Synthetic e2e launcher path; supervised child is stubbed and no mechanics run.",
+        preflight_id=fixture["preflight_id"],
+        execution_manifest=manifest_path,
+    )
+    assert exit_code == 0 and result["state"] == "PASS"
+    assert len(calls) == 1
+    assert calls[0]["environment"]["QF_DEV_SELECTED_DOFS"] == "1"
+    assert calls[0]["environment"]["QF_DEV_EVIDENCE_ROOT"] == str(fixture["store"])
+    run_record = json.loads(Path(result["record"]).read_text(encoding="utf-8"))
+    assert run_record["preflight_receipt"] == {
+        "path": str(fixture["preflight_path"]),
+        "sha256": fixture["preflight_sha256"],
+    }
+    assert run_record["execution_manifest"]["authorization_id"] == "wp12-synth-e2e-0001"
+    assert run_record["execution_manifest"]["decision_id"] == "owner-wp12a-e2e-0001"
+    ledger = json.loads(fixture["ledger_path"].read_text(encoding="utf-8"))
+    key = f"{fixture['entry']['development_mandate_id']}:wp12_dynamics:{fixture['target']}"
+    attempt = ledger["entries"][key][0]
+    assert attempt["state"] == "PASS"
+    assert attempt["authorization_id"] == "wp12-synth-e2e-0001"
+    assert attempt["owner_decision_id"] == "owner-wp12a-e2e-0001"
+    assert attempt["source_fingerprint"] == fixture["source_fingerprint"]
+
+
+@pytest.mark.parametrize(
+    "decision_id",
+    [None, "bad id with spaces"],
+    ids=["missing", "malformed"],
+)
+def test_wp12_dynamics_invalid_decision_id_refuses_before_reservation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, decision_id: str | None
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    prepared = MODULE.prepare_wp12_execution_manifest(
+        "wp12_dynamics", fixture["target"], "wp12-synth-decision-id-0001", preflight_id=fixture["preflight_id"]
+    )
+    manifest_path = Path(prepared["path"])
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["state"] = "OWNER_AUTHORIZED"
+    manifest["owner_decision"] = {
+        "status": "APPROVED",
+        "approved_by": "Owner",
+        "approved_at_utc": "2026-10-28T10:00:00Z",
+        "reason": "Synthetic malformed Owner decision ID must refuse before reservation.",
+    }
+    if decision_id is not None:
+        manifest["owner_decision"]["decision_id"] = decision_id
+    manifest_path.write_text(json.dumps(manifest, sort_keys=True) + "\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "_next_attempt", lambda *_args, **_kwargs: pytest.fail("must refuse before reservation"))
+    with pytest.raises(MODULE.PolicyError, match="requires a valid decision_id"):
+        MODULE.run_pytest(
+            "fem_exploratory",
+            fixture["target"],
+            "dev-synthetic-wp12a-decision-id",
+            worktree_id="wp12_dynamics",
+            reason="Synthetic invalid Owner decision ID refusal test.",
+            preflight_id=fixture["preflight_id"],
+            execution_manifest=manifest_path,
+        )
+    ledger = json.loads(fixture["ledger_path"].read_text(encoding="utf-8"))
+    assert ledger["entries"] == {}
+
+
+def test_wp12_dynamics_cli_routes_preflight_ids_for_manifest_and_execution(
+    monkeypatch: pytest.MonkeyPatch, capsys
+) -> None:
+    target = WP12_DYNAMICS_NODEIDS[10]
+    observed: dict[str, Any] = {}
+
+    def prepare(worktree_id, nodeid, authorization_id, *, preflight_id=None):
+        observed["prepare"] = (worktree_id, nodeid, authorization_id, preflight_id)
+        return {"state": "PREPARED_NOT_AUTHORIZED", "path": "synthetic.json"}
+
+    monkeypatch.setattr(MODULE, "prepare_wp12_execution_manifest", prepare)
+    assert MODULE.main(
+        [
+            "prepare-manifest",
+            "--worktree",
+            "wp12_dynamics",
+            "--target",
+            target,
+            "--authorization-id",
+            "wp12-cli-synthetic-001",
+            "--preflight-id",
+            "pf-123456789abc",
+        ]
+    ) == 0
+    assert observed["prepare"] == (
+        "wp12_dynamics",
+        target,
+        "wp12-cli-synthetic-001",
+        "pf-123456789abc",
+    )
+    capsys.readouterr()
+
+    def run(scope, nodeid, series_id, **kwargs):
+        observed["run"] = (scope, nodeid, series_id, kwargs)
+        return {"state": "SYNTHETIC_LAUNCH_ACCEPTED"}, 0
+
+    monkeypatch.setattr(MODULE, "run_pytest", run)
+    assert MODULE.main(
+        [
+            "test",
+            "--scope",
+            "fem_exploratory",
+            "--worktree",
+            "wp12_dynamics",
+            "--target",
+            target,
+            "--reason",
+            "Synthetic CLI wiring contract; test runner is stubbed.",
+            "--preflight-id",
+            "pf-123456789abc",
+            "--execution-manifest",
+            "synthetic.json",
+        ]
+    ) == 0
+    assert observed["run"][3]["preflight_id"] == "pf-123456789abc"
+    assert observed["run"][3]["execution_manifest"] == Path("synthetic.json")
+
+
+def test_wp12_dynamics_run_requires_preflight_before_attempt_creation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    prepared = MODULE.prepare_wp12_execution_manifest(
+        "wp12_dynamics", fixture["target"], "wp12-synth-gate-0001", preflight_id=fixture["preflight_id"]
+    )
+    manifest_path = Path(prepared["path"])
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["state"] = "OWNER_AUTHORIZED"
+    manifest["owner_decision"] = {
+        "status": "APPROVED",
+        "approved_by": "Owner",
+        "approved_at_utc": "2026-10-28T10:00:00Z",
+        "reason": "Synthetic Owner decision for missing-preflight refusal contract.",
+    }
+    manifest_path.write_text(json.dumps(manifest, sort_keys=True) + "\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "_next_attempt", lambda *_args, **_kwargs: pytest.fail("must refuse before creating attempt"))
+    with pytest.raises(MODULE.PolicyError, match="require a successful exact-node collect-only preflight"):
+        MODULE.run_pytest(
+            "fem_exploratory",
+            fixture["target"],
+            "dev-synthetic-wp12a-gate01",
+            worktree_id="wp12_dynamics",
+            reason="Synthetic missing collect-only receipt refusal contract.",
+            execution_manifest=manifest_path,
+        )
+    ledger = json.loads(fixture["ledger_path"].read_text(encoding="utf-8"))
+    assert ledger["entries"] == {}
 
 
 @pytest.mark.parametrize(

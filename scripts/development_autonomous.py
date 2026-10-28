@@ -1186,6 +1186,8 @@ def _validate_wp12_execution_manifest(
     source_fingerprint: str,
     controller_fingerprint: str,
     selection: Mapping[str, Any],
+    preflight_id: str | None = None,
+    preflight_receipt: tuple[Path, str] | None = None,
 ) -> dict[str, Any]:
     evidence_root = Path(entry["evidence_root"]).resolve()
     authorization_root = (evidence_root / "authorizations" / worktree_id).resolve()
@@ -1237,10 +1239,29 @@ def _validate_wp12_execution_manifest(
         raise PolicyError(
             "WP12 execution manifest does not bind this exact worktree, source, nodeid, controller and budget"
         )
+    if worktree_id == "wp12_dynamics":
+        decision_id = decision.get("decision_id")
+        if not isinstance(decision_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", decision_id):
+            raise PolicyError("WP12-A Owner decision requires a valid decision_id")
+    if worktree_id == "wp12_dynamics":
+        expected_preflight = (
+            {
+                "preflight_id": preflight_id,
+                "receipt_path": str(preflight_receipt[0]),
+                "receipt_sha256": preflight_receipt[1],
+            }
+            if preflight_id is not None and preflight_receipt is not None
+            else None
+        )
+        if expected_preflight is None or manifest.get("preflight") != expected_preflight:
+            raise PolicyError("WP12-A execution manifest does not bind its successful exact-node preflight receipt")
+    elif manifest.get("preflight") is not None:
+        raise PolicyError("only WP12-A dynamics manifests may bind a collect-only preflight receipt")
     return {
         "path": str(path),
         "sha256": _sha256(path),
         "authorization_id": manifest["authorization_id"],
+        "decision_id": decision.get("decision_id"),
         "mandate_id": manifest["mandate_id"],
         "owner_decision": decision,
     }
@@ -3184,7 +3205,11 @@ def register_wp12_nodeid(
         current_fingerprint = _worktree_source_fingerprint(root, target)
         current_test_dependencies = _test_source_dependency_inventory(root, module_name)
         previous = next((item for item in reversed(records) if item.get("target") == target), None)
-        if previous is not None and previous.get("source_fingerprint") == current_fingerprint:
+        if (
+            previous is not None
+            and previous.get("source_fingerprint") == current_fingerprint
+            and previous.get("test_source_dependencies") == current_test_dependencies
+        ):
             raise PolicyError("nodeid and source revision are already registered")
         if target not in nodeids:
             if len(nodeids) >= entry["nodeid_registration"]["max_nodeids"]:
@@ -4017,7 +4042,9 @@ def _validate_hex8sri_execution_ledger(ledger_path: Path, *, entry: Mapping[str,
                 raise PolicyError("HEX8-SRI ledger attempt lacks coherent Owner authorization provenance")
 
 
-def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization_id: str) -> dict[str, Any]:
+def prepare_wp12_execution_manifest(
+    worktree_id: str, target: str, authorization_id: str, preflight_id: str | None = None
+) -> dict[str, Any]:
     """Write an exact WP12 execution-manifest template that remains unapproved."""
     if worktree_id not in WP12_OWNER_ENVELOPES:
         raise PolicyError("WP12 execution manifests are available only for registered WP12 scopes")
@@ -4027,8 +4054,23 @@ def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization
     resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
     entry, _root, _source_root, identity, source_fingerprint = _registered_worktree(worktree_id, target, policy)
     selection = _wp12_active_registration(worktree_id, target, entry, source_fingerprint)
-    controller_fingerprint = _stable_fingerprint(_controller_provenance())
+    controller_provenance = _controller_provenance()
+    controller_fingerprint = _stable_fingerprint(controller_provenance)
     evidence_root = _run_root(policy, worktree_id)
+    preflight_receipt: tuple[Path, str] | None = None
+    if worktree_id == "wp12_dynamics":
+        if preflight_id is None:
+            raise PolicyError("WP12-A dynamics manifests require a successful exact-node collect-only preflight")
+        preflight_receipt = _validate_wp12_dynamics_preflight_receipt(
+            evidence_root,
+            preflight_id,
+            target=target,
+            identity=identity,
+            source_fingerprint=source_fingerprint,
+            controller_provenance=controller_provenance,
+        )
+    elif preflight_id is not None:
+        raise PolicyError("prepare-manifest accepts preflight receipt IDs only for WP12-A dynamics")
     manifest_dir = evidence_root / "authorizations" / worktree_id
     path = manifest_dir / f"{authorization_id}.json"
     with _exclusive_file_lock(evidence_root / "locks" / "manifest-template.lock"):
@@ -4052,6 +4094,17 @@ def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization
                 "approved_at_utc": None,
                 "reason": None,
             },
+            **(
+                {
+                    "preflight": {
+                        "preflight_id": preflight_id,
+                        "receipt_path": str(preflight_receipt[0]),
+                        "receipt_sha256": preflight_receipt[1],
+                    }
+                }
+                if preflight_id is not None and preflight_receipt is not None
+                else {}
+            ),
             "preparation_note": "Template only. A distinct Owner execution decision is required before setting OWNER_AUTHORIZED.",
         }
         _atomic_json(path, payload)
@@ -5218,6 +5271,72 @@ def _validate_d01_preflight_receipt(
     return record_path, actual_hash
 
 
+def _validate_wp12_dynamics_preflight_receipt(
+    store: Path,
+    preflight_id: str,
+    *,
+    target: str,
+    identity: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+) -> tuple[Path, str]:
+    """Require a checksummed, exact-node WP12-A collect-only receipt before manifest or attempt creation."""
+    if target not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
+        raise PolicyError("WP12-A preflight receipts are limited to the four exact registered dynamics nodes")
+    receipt_dir = _preflight_directory(store, "wp12_dynamics", preflight_id)
+    record_path = receipt_dir / "preflight.json"
+    sha_path = receipt_dir / "preflight.sha256.json"
+    if not record_path.is_file() or not sha_path.is_file():
+        raise PolicyError("a successful exact-node WP12-A collect-only preflight receipt is required")
+    try:
+        receipt = json.loads(record_path.read_text(encoding="utf-8"))
+        sidecar = json.loads(sha_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"WP12-A preflight receipt is unreadable: {exc}") from exc
+    if not isinstance(receipt, dict) or not isinstance(sidecar, dict):
+        raise PolicyError("WP12-A preflight receipt and checksum sidecar must be JSON objects")
+    actual_hash = _sha256(record_path)
+    registration = receipt.get("registration")
+    ledger = receipt.get("attempt_ledger")
+    budgets = receipt.get("budgets")
+    if not isinstance(registration, Mapping) or not isinstance(ledger, Mapping) or not isinstance(budgets, Mapping):
+        raise PolicyError("WP12-A preflight receipt lacks registration or ledger attestations")
+    if sidecar.get("sha256") != actual_hash:
+        raise PolicyError("WP12-A preflight receipt checksum mismatch")
+    if (
+        receipt.get("schema") != "qfsolver-development-wp12-dynamics-preflight-v1"
+        or receipt.get("state") != "PREFLIGHT_PASS"
+        or receipt.get("mode") != "DEVELOPMENT_AUTONOMOUS"
+        or receipt.get("mandate_id") != WP12_OWNER_ENVELOPES["wp12_dynamics"]["development_mandate_id"]
+        or receipt.get("worktree_id") != "wp12_dynamics"
+        or receipt.get("target") != target
+        or receipt.get("preflight_id") != preflight_id
+        or receipt.get("phase") != "PYTEST_COLLECT_ONLY"
+        or receipt.get("bodies_executed") is not False
+        or receipt.get("attempt_reserved") is not False
+        or receipt.get("ledger_touched") is not False
+        or receipt.get("identity") != dict(identity)
+        or receipt.get("identity_after") != dict(identity)
+        or receipt.get("source_fingerprint") != source_fingerprint
+        or receipt.get("source_fingerprint_after") != source_fingerprint
+        or receipt.get("controller_provenance") != dict(controller_provenance)
+        or receipt.get("controller_provenance_after") != dict(controller_provenance)
+        or receipt.get("solver_origin_observed") != receipt.get("solver_origin_expected")
+        or receipt.get("collected_nodeids") != [target]
+        or receipt.get("skip_markers") != []
+        or receipt.get("return_code") != 0
+        or registration.get("target") != target
+        or registration.get("source_fingerprint") != source_fingerprint
+        or registration.get("timeout_seconds") != budgets.get("timeout_seconds")
+        or ledger.get("touched") is not False
+        or not isinstance(ledger.get("sha256_before"), str)
+        or ledger.get("sha256_before") != ledger.get("sha256_after")
+        or ledger.get("sha256_after") != receipt.get("attempt_ledger", {}).get("sha256_after")
+    ):
+        raise PolicyError("WP12-A preflight does not match this exact source, controller, ledger and nodeid")
+    return record_path, actual_hash
+
+
 def run_pytest(
     scope_name: str,
     target: str | None,
@@ -5241,6 +5360,7 @@ def run_pytest(
     controller_provenance: dict[str, Any] | None = None
     execution_manifest_receipt: dict[str, Any] | None = None
     hex8sri_preflight_receipt: tuple[Path, str] | None = None
+    wp12_dynamics_preflight_receipt: tuple[Path, str] | None = None
     if is_registered:
         if not worktree_id or not target or not reason or not reason.strip():
             raise PolicyError("registered worktree tests require one exact target, worktree, and documented reason")
@@ -5320,8 +5440,20 @@ def run_pytest(
             )
             _validate_hex8sri_execution_test_contract(execution_root, target)
             ledger_context = (ledger_path, ledger_lock, mandate_id, predecessor)
+        elif worktree_id == "wp12_dynamics":
+            if preflight_id is None:
+                raise PolicyError("WP12-A dynamics attempts require a successful exact-node collect-only preflight")
+            controller_provenance = _controller_provenance()
+            wp12_dynamics_preflight_receipt = _validate_wp12_dynamics_preflight_receipt(
+                _run_root(policy, worktree_id),
+                preflight_id,
+                target=target,
+                identity=identity,
+                source_fingerprint=source_fingerprint,
+                controller_provenance=controller_provenance,
+            )
         elif preflight_id is not None:
-            raise PolicyError("preflight receipt IDs are supported only for D01 and the HEX8-SRI convergence mandate")
+            raise PolicyError("preflight receipt IDs are supported only for D01, WP12-A dynamics and HEX8-SRI")
         if worktree_id in WP12_OWNER_ENVELOPES:
             if execution_manifest is None:
                 raise PolicyError("WP12 FEM attempts require a distinct Owner-authorized execution manifest")
@@ -5336,6 +5468,8 @@ def run_pytest(
                 source_fingerprint=source_fingerprint,
                 controller_fingerprint=_stable_fingerprint(controller_provenance),
                 selection=wp12_registration,
+                preflight_id=preflight_id if worktree_id == "wp12_dynamics" else None,
+                preflight_receipt=wp12_dynamics_preflight_receipt,
             )
             # WP12 mandates are scope-specific. Preserve D01's separately handled
             # predecessor ledger while binding every WP12 ledger key to its scope.
@@ -5396,7 +5530,7 @@ def run_pytest(
         raise PolicyError("series ID must use the development-only format dev-<lowercase-id>")
     store = _run_root(policy, worktree_id)
     series_dir = _series_root(store, scope_name, worktree_id) / series_id
-    preflight_receipt: tuple[Path, str] | None = hex8sri_preflight_receipt
+    preflight_receipt: tuple[Path, str] | None = hex8sri_preflight_receipt or wp12_dynamics_preflight_receipt
     controller_provenance = controller_provenance or _controller_provenance()
     if worktree_id == "d01":
         assert preflight_id is not None and source_fingerprint is not None and target is not None
@@ -5457,7 +5591,9 @@ def run_pytest(
                         else None
                     ),
                     owner_decision_id=(
-                        execution_manifest_receipt["decision_id"] if execution_manifest_receipt is not None else None
+                        execution_manifest_receipt.get("decision_id")
+                        if execution_manifest_receipt is not None
+                        else None
                     ),
                     predecessor=ledger_predecessor,
                     controller_fingerprint=_stable_fingerprint(controller_provenance),
@@ -5499,7 +5635,9 @@ def run_pytest(
             ),
             wp12_selection=wp12_registration,
             wp12_attempt_id=controller_attempt_id,
-            wp12_manifest_receipt=execution_manifest_receipt,
+            wp12_manifest_receipt=(
+                execution_manifest_receipt if controller_attempt_id is not None else None
+            ),
             wp12_run_json_path=record_path if controller_attempt_id is not None else None,
         )
         if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
@@ -5531,7 +5669,7 @@ def run_pytest(
                     "QF_DEV_CONTROLLER_POLICY_SHA256": controller_hashes["policy"],
                     "QF_DEV_CONTROLLER_PLUGIN_SHA256": controller_hashes["pytest_plugin"],
                     "QF_DEV_AUTHORIZATION_ID": execution_manifest_receipt["authorization_id"],
-                    "QF_DEV_OWNER_DECISION_ID": execution_manifest_receipt["decision_id"],
+                    "QF_DEV_OWNER_DECISION_ID": execution_manifest_receipt.get("decision_id", ""),
                 }
             )
         child_native_guard = _validate_native_guard_environment(inherited_environment, environment)
@@ -5779,6 +5917,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     manifest_parser.add_argument("--worktree", choices=tuple(WP12_OWNER_ENVELOPES), required=True)
     manifest_parser.add_argument("--target", required=True, help="one previously registered exact nodeid")
     manifest_parser.add_argument("--authorization-id", required=True)
+    manifest_parser.add_argument(
+        "--preflight-id",
+        help="required for wp12_dynamics; binds the manifest to one successful collect-only receipt",
+    )
     hex8sri_manifest_parser = subparsers.add_parser(
         "prepare-hex8sri-manifest",
         help="write an exact HEX8-SRI execution template that remains PREPARED_NOT_AUTHORIZED",
@@ -5807,7 +5949,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     test_parser.add_argument(
         "--reason", help="short documented development hypothesis/reason for a registered nodeid attempt"
     )
-    test_parser.add_argument("--preflight-id", help="successful exact-node D01 or HEX8-SRI collect-only receipt ID")
+    test_parser.add_argument(
+        "--preflight-id",
+        help="successful exact-node collect-only receipt ID for D01, WP12-A dynamics or HEX8-SRI",
+    )
     test_parser.add_argument(
         "--execution-manifest", help="Owner-authorized WP12 or HEX8-SRI manifest under its mission authorization root"
     )
@@ -5829,7 +5974,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             exit_code = 0
         elif args.command == "prepare-manifest":
-            result = prepare_wp12_execution_manifest(args.worktree, args.target, args.authorization_id)
+            result = prepare_wp12_execution_manifest(
+                args.worktree, args.target, args.authorization_id, preflight_id=args.preflight_id
+            )
             exit_code = 0
         elif args.command == "prepare-hex8sri-manifest":
             result = prepare_hex8sri_execution_manifest(args.target, args.preflight_id, args.authorization_id)
