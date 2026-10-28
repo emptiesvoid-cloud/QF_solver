@@ -3309,6 +3309,14 @@ def _validate_hex8sri_execution_approval(
     limits = decision.get("limits_by_nodeid") if isinstance(decision, Mapping) else None
     manifest_bindings = decision.get("case_manifests_by_nodeid") if isinstance(decision, Mapping) else None
     if (
+        not isinstance(nodeids, list)
+        or not nodeids
+        or any(not isinstance(nodeid, str) for nodeid in nodeids)
+        or len(nodeids) != len(set(nodeids))
+        or not set(nodeids).issubset(set(HEX8SRI_FIRST6_NODEIDS))
+    ):
+        raise PolicyError("HEX8-SRI execution decision must select a non-empty unique subset of first-six nodeids")
+    if (
         not isinstance(decision, Mapping)
         or set(decision) != required
         or decision.get("schema") != HEX8SRI_EXECUTION_APPROVAL_SCHEMA
@@ -3326,7 +3334,6 @@ def _validate_hex8sri_execution_approval(
         or decision.get("scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
         or decision.get("mandate_id") != entry.get("development_mandate_id")
         or decision.get("campaign_id") != entry.get("campaign_id")
-        or nodeids != list(HEX8SRI_FIRST6_NODEIDS)
         or target not in nodeids
         or not set(nodeids).issubset(set(entry.get("allowed_nodeids", ())))
         or decision.get("source_fingerprint") != source_fingerprint
@@ -3576,6 +3583,25 @@ def _hex8sri_first6_current_case_manifest_bindings(
     return result
 
 
+def _hex8sri_selected_current_case_manifest_bindings(
+    decision: Mapping[str, Any], current_bindings: Mapping[str, Mapping[str, str]]
+) -> dict[str, Mapping[str, str]]:
+    """Require a decision to bind exactly the currently registered manifests it selects."""
+    nodeids = decision.get("authorized_nodeids")
+    if (
+        not isinstance(nodeids, list)
+        or not nodeids
+        or any(not isinstance(nodeid, str) for nodeid in nodeids)
+        or len(nodeids) != len(set(nodeids))
+        or not set(nodeids).issubset(set(HEX8SRI_FIRST6_NODEIDS))
+    ):
+        raise PolicyError("HEX8-SRI execution decision must select a non-empty unique subset of first-six nodeids")
+    selected = {nodeid: current_bindings[nodeid] for nodeid in nodeids}
+    if decision.get("case_manifests_by_nodeid") != selected:
+        raise PolicyError("HEX8-SRI execution decision does not match every current selected case manifest")
+    return selected
+
+
 def archive_hex8sri_owner_decision(decision_file: Path) -> dict[str, Any]:
     """Validate and immutably archive a freeze-only or execution Owner decision.
 
@@ -3609,16 +3635,16 @@ def archive_hex8sri_owner_decision(decision_file: Path) -> dict[str, Any]:
         current_bindings = _hex8sri_first6_current_case_manifest_bindings(
             entry, execution_root, controller_provenance
         )
-        if decision.get("case_manifests_by_nodeid") != current_bindings:
-            raise PolicyError("HEX8-SRI execution decision does not match all current first-six case manifests")
+        selected_bindings = _hex8sri_selected_current_case_manifest_bindings(decision, current_bindings)
+        authorized_nodeids = decision["authorized_nodeids"]
         validated = _validate_hex8sri_execution_approval(
             decision,
             store=_run_root(policy),
             entry=entry,
-            target=target,
+            target=authorized_nodeids[0],
             source_fingerprint=source_fingerprint,
             controller_provenance=controller_provenance,
-            case_manifest_binding=current_bindings[target],
+            case_manifest_binding=selected_bindings[authorized_nodeids[0]],
         )
         directory = _run_root(policy) / "authorizations" / scope_id / "owner-decisions" / "execution"
     else:

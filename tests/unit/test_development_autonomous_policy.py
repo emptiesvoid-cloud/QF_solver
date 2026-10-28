@@ -3288,10 +3288,13 @@ def test_hex8sri_convergence24_execution_refuses_before_ledger_or_launcher(
     assert list(tmp_path.iterdir()) == []
 
 
-def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]:
+def _synthetic_hex8sri_execution_authorization(
+    tmp_path: Path, *, authorized_nodeids: list[str] | None = None
+) -> dict[str, Any]:
     scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
     entry = json.loads(json.dumps(_policy()["worktrees"][scope_id]))
-    target = MODULE.HEX8SRI_FIRST6_NODEIDS[0]
+    selected_nodeids = list(MODULE.HEX8SRI_FIRST6_NODEIDS) if authorized_nodeids is None else authorized_nodeids
+    target = selected_nodeids[0] if selected_nodeids else MODULE.HEX8SRI_FIRST6_NODEIDS[0]
     identity = {
         "root": str(tmp_path / "synthetic-science-root"),
         "branch": entry["branch"],
@@ -3316,11 +3319,13 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
     }
     registration_sha256 = MODULE._hex8sri_manifest_registration_sha256(case_manifest)
     entry["case_manifests"][target]["sha256"] = registration_sha256
+    selected_case = MODULE._hex8sri_convergence24_case(target)
+    assert selected_case is not None
     binding = {
         "path": "registered/manifest.json",
         "sha256": "d" * 64,
         "registration_sha256": registration_sha256,
-        "case_id": "hex8_standard_nu_0p3_4x2x2",
+        "case_id": f"{selected_case[0]}_nu_{selected_case[1]}_{selected_case[2]}",
         "scope_id": scope_id,
     }
     source_fingerprint = MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT
@@ -3388,6 +3393,9 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
             "scope_id": scope_id,
         }
     now = MODULE.datetime.now(MODULE.timezone.utc).replace(microsecond=0)
+    selected_manifest_bindings = {
+        nodeid: manifest_bindings[nodeid] for nodeid in selected_nodeids if nodeid in manifest_bindings
+    }
     decision = {
         "schema": MODULE.HEX8SRI_EXECUTION_APPROVAL_SCHEMA,
         "decision_type": "EXECUTION_APPROVED",
@@ -3402,15 +3410,17 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
         "scope_id": scope_id,
         "mandate_id": entry["development_mandate_id"],
         "campaign_id": entry["campaign_id"],
-        "authorized_nodeids": list(MODULE.HEX8SRI_FIRST6_NODEIDS),
+        "authorized_nodeids": selected_nodeids,
         "source_fingerprint": source_fingerprint,
         "controller_fingerprint": MODULE._stable_fingerprint(controller),
         "controller_head": controller["identity"]["head"],
         "criteria_freeze_record": freeze_ref,
         "criteria_freeze": criteria_freeze,
-        "case_manifests_by_nodeid": manifest_bindings,
+        "case_manifests_by_nodeid": selected_manifest_bindings,
         "limits_by_nodeid": {
-            nodeid: MODULE._hex8sri_execution_limits(entry, nodeid) for nodeid in MODULE.HEX8SRI_FIRST6_NODEIDS
+            nodeid: MODULE._hex8sri_execution_limits(entry, nodeid)
+            for nodeid in selected_nodeids
+            if nodeid in manifest_bindings
         },
     }
     decision_path = store / "authorizations" / scope_id / "owner-decisions" / "execution" / f"{decision['decision_id']}.json"
@@ -3461,6 +3471,7 @@ def _synthetic_hex8sri_execution_authorization(tmp_path: Path) -> dict[str, Any]
         "freeze_path": freeze_path,
         "freeze_ref": freeze_ref,
         "manifest_bindings": manifest_bindings,
+        "selected_manifest_bindings": selected_manifest_bindings,
         "path": path,
         "payload": payload,
         "decision": decision,
@@ -3481,6 +3492,108 @@ def _validate_synthetic_hex8sri_execution(fixture: dict[str, Any]) -> dict[str, 
         preflight_id=fixture["preflight_id"],
         preflight_receipt=fixture["preflight"],
     )
+
+
+def _validate_synthetic_hex8sri_approval(fixture: dict[str, Any]) -> dict[str, Any]:
+    return MODULE._validate_hex8sri_execution_approval(
+        fixture["decision"],
+        store=fixture["store"],
+        entry=fixture["entry"],
+        target=fixture["target"],
+        source_fingerprint=fixture["source_fingerprint"],
+        controller_provenance=fixture["controller"],
+        case_manifest_binding=fixture["binding"],
+    )
+
+
+@pytest.mark.parametrize(
+    "selected", [[nodeid] for nodeid in MODULE.HEX8SRI_FIRST6_NODEIDS] + [[MODULE.HEX8SRI_FIRST6_NODEIDS[0], MODULE.HEX8SRI_FIRST6_NODEIDS[-1]]],
+    ids=[f"single-{index}" for index in range(6)] + ["two-nodeids"],
+)
+def test_hex8sri_execution_approval_accepts_explicit_registered_subset(
+    tmp_path: Path, selected: list[str]
+) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path, authorized_nodeids=selected)
+    approved = _validate_synthetic_hex8sri_approval(fixture)
+    assert approved["authorized_nodeids"] == selected
+    assert set(approved["case_manifests_by_nodeid"]) == set(selected)
+    assert set(approved["limits_by_nodeid"]) == set(selected)
+
+
+@pytest.mark.parametrize(
+    ("selection", "mutation", "message"),
+    [
+        ([], None, "non-empty unique subset"),
+        (["tests/verification/test_hex8_sri_convergence.py::test_not_registered"], None, "non-empty unique subset"),
+        ([MODULE.HEX8SRI_FIRST6_NODEIDS[0], MODULE.HEX8SRI_FIRST6_NODEIDS[0]], None, "non-empty unique subset"),
+        ([MODULE.HEX8SRI_FIRST6_NODEIDS[0]], "missing_manifest", "does not authorize this exact scope"),
+        ([MODULE.HEX8SRI_FIRST6_NODEIDS[0]], "mismatched_manifest", "does not authorize this exact scope"),
+        ([MODULE.HEX8SRI_FIRST6_NODEIDS[0]], "budget", "registered case budget"),
+        ([MODULE.HEX8SRI_FIRST6_NODEIDS[0]], "fingerprint", "exact scope, source, controller or nodeid"),
+    ],
+    ids=["empty", "unknown-nodeid", "duplicate-nodeid", "missing-manifest", "mismatched-manifest", "changed-budget", "wrong-fingerprint"],
+)
+def test_hex8sri_execution_approval_rejects_invalid_partial_selection(
+    tmp_path: Path, selection: list[str], mutation: str | None, message: str
+) -> None:
+    known = set(MODULE.HEX8SRI_FIRST6_NODEIDS)
+    fixture_selection = selection if all(nodeid in known for nodeid in selection) else [MODULE.HEX8SRI_FIRST6_NODEIDS[0]]
+    fixture = _synthetic_hex8sri_execution_authorization(tmp_path, authorized_nodeids=fixture_selection)
+    decision = fixture["decision"]
+    decision["authorized_nodeids"] = selection
+    if mutation == "missing_manifest":
+        decision["case_manifests_by_nodeid"] = {}
+    elif mutation == "mismatched_manifest":
+        decision["case_manifests_by_nodeid"][selection[0]] = {
+            **decision["case_manifests_by_nodeid"][selection[0]],
+            "sha256": "0" * 64,
+        }
+    elif mutation == "budget":
+        decision["limits_by_nodeid"][selection[0]]["timeout_seconds"] += 1
+    elif mutation == "fingerprint":
+        decision["source_fingerprint"] = "f" * 64
+    with pytest.raises(MODULE.PolicyError, match=message):
+        _validate_synthetic_hex8sri_approval(fixture)
+
+
+def test_hex8sri_execution_manifest_refuses_unselected_nodeid(tmp_path: Path) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(
+        tmp_path, authorized_nodeids=[MODULE.HEX8SRI_FIRST6_NODEIDS[0]]
+    )
+    fixture["payload"]["target"] = MODULE.HEX8SRI_FIRST6_NODEIDS[1]
+    fixture["path"].write_text(json.dumps(fixture["payload"], sort_keys=True) + "\n", encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="does not bind this exact source"):
+        _validate_synthetic_hex8sri_execution(fixture)
+
+
+def test_hex8sri_owner_archive_binds_only_selected_current_manifests(tmp_path: Path) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(
+        tmp_path, authorized_nodeids=[MODULE.HEX8SRI_FIRST6_NODEIDS[1]]
+    )
+    current = {
+        nodeid: dict(binding) for nodeid, binding in fixture["manifest_bindings"].items()
+    }
+    selected = MODULE._hex8sri_selected_current_case_manifest_bindings(fixture["decision"], current)
+    assert list(selected) == [MODULE.HEX8SRI_FIRST6_NODEIDS[1]]
+    assert selected == fixture["selected_manifest_bindings"]
+    altered = json.loads(json.dumps(fixture["decision"]))
+    altered["case_manifests_by_nodeid"][MODULE.HEX8SRI_FIRST6_NODEIDS[1]]["sha256"] = "0" * 64
+    with pytest.raises(MODULE.PolicyError, match="does not match every current selected"):
+        MODULE._hex8sri_selected_current_case_manifest_bindings(altered, current)
+    altered = json.loads(json.dumps(fixture["decision"]))
+    altered["case_manifests_by_nodeid"][MODULE.HEX8SRI_FIRST6_NODEIDS[0]] = current[MODULE.HEX8SRI_FIRST6_NODEIDS[0]]
+    with pytest.raises(MODULE.PolicyError, match="does not match every current selected"):
+        MODULE._hex8sri_selected_current_case_manifest_bindings(altered, current)
+
+
+def test_hex8sri_execution_manifest_refuses_missing_owner_decision(tmp_path: Path) -> None:
+    fixture = _synthetic_hex8sri_execution_authorization(
+        tmp_path, authorized_nodeids=[MODULE.HEX8SRI_FIRST6_NODEIDS[0]]
+    )
+    fixture["payload"]["owner_decision"] = None
+    fixture["path"].write_text(json.dumps(fixture["payload"], sort_keys=True) + "\n", encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="differs from its separately archived approval record"):
+        _validate_synthetic_hex8sri_execution(fixture)
 
 
 def test_hex8sri_execution_manifest_accepts_synthetic_owner_decision_and_exact_preflight(
@@ -3737,7 +3850,7 @@ def test_hex8sri_criteria_freeze_only_does_not_authorize_execution(tmp_path: Pat
         "sha256": MODULE._sha256(fixture["freeze_path"]),
     }
     fixture["path"].write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
-    with pytest.raises(MODULE.PolicyError, match="does not authorize this exact scope"):
+    with pytest.raises(MODULE.PolicyError, match="non-empty unique subset"):
         _validate_synthetic_hex8sri_execution(fixture)
 
 
