@@ -2501,11 +2501,15 @@ def _test_source_dependency_inventory(root: Path, target_module: str) -> dict[st
             package_initializer = parent / "__init__.py"
             if package_initializer.is_file():
                 resolved_initializer = package_initializer.resolve()
+                if not _is_within(resolved_initializer, repository_root):
+                    raise PolicyError(f"test package initializer escapes the repository: {package_initializer}")
                 roots_to_scan.add(resolved_initializer)
                 package_initializers.add(resolved_initializer)
         conftest = parent / "conftest.py"
         if conftest.is_file():
             resolved_conftest = conftest.resolve()
+            if not _is_within(resolved_conftest, repository_root):
+                raise PolicyError(f"pytest conftest escapes the repository: {conftest}")
             roots_to_scan.add(resolved_conftest)
             conftest_files.add(resolved_conftest)
         if parent == repository_root:
@@ -2545,14 +2549,23 @@ def _test_source_dependency_inventory(root: Path, target_module: str) -> dict[st
         found: set[Path] = set()
         importlib_names = {"importlib"}
         import_module_names = {"import_module"}
+        builtins_names = {"builtins"}
+        builtin_import_names = {"__import__"}
         for imported in ast.walk(tree):
             if isinstance(imported, ast.Import):
                 importlib_names.update(
                     alias.asname for alias in imported.names if alias.name == "importlib" and alias.asname
                 )
+                builtins_names.update(
+                    alias.asname for alias in imported.names if alias.name == "builtins" and alias.asname
+                )
             elif isinstance(imported, ast.ImportFrom) and imported.module == "importlib":
                 import_module_names.update(
                     alias.asname or alias.name for alias in imported.names if alias.name == "import_module"
+                )
+            elif isinstance(imported, ast.ImportFrom) and imported.module == "builtins":
+                builtin_import_names.update(
+                    alias.asname or alias.name for alias in imported.names if alias.name == "__import__"
                 )
 
         for node in ast.walk(tree):
@@ -2565,6 +2578,20 @@ def _test_source_dependency_inventory(root: Path, target_module: str) -> dict[st
                     if any(not isinstance(item, ast.Constant) or not isinstance(item.value, str) for item in values):
                         raise PolicyError(f"pytest_plugins must be a statically resolvable string sequence: {source}")
                     module_groups.extend((item.value.split("."), None) for item in values)
+            elif (
+                isinstance(node, ast.AugAssign)
+                and isinstance(node.target, ast.Name)
+                and node.target.id == "pytest_plugins"
+            ):
+                raise PolicyError(f"pytest_plugins mutations must be statically resolvable: {source}")
+            elif (
+                isinstance(node, ast.Call)
+                and isinstance(node.func, ast.Attribute)
+                and isinstance(node.func.value, ast.Name)
+                and node.func.value.id == "pytest_plugins"
+                and node.func.attr in {"append", "extend", "insert"}
+            ):
+                raise PolicyError(f"pytest_plugins mutations must be statically resolvable: {source}")
             if isinstance(node, ast.Import):
                 module_groups.extend((alias.name.split("."), None) for alias in node.names)
             elif isinstance(node, ast.ImportFrom):
@@ -2599,15 +2626,20 @@ def _test_source_dependency_inventory(root: Path, target_module: str) -> dict[st
                             module_groups.append(([*module_parts, alias.name], None))
             elif isinstance(node, ast.Call):
                 function = node.func
-                dynamic_import = isinstance(function, ast.Name) and function.id in {
-                    "__import__",
-                    *import_module_names,
-                }
+                dynamic_import = isinstance(function, ast.Name) and function.id in (
+                    builtin_import_names | import_module_names
+                )
                 dynamic_import = dynamic_import or (
                     isinstance(function, ast.Attribute)
                     and function.attr == "import_module"
                     and isinstance(function.value, ast.Name)
                     and function.value.id in importlib_names
+                )
+                dynamic_import = dynamic_import or (
+                    isinstance(function, ast.Attribute)
+                    and function.attr == "__import__"
+                    and isinstance(function.value, ast.Name)
+                    and function.value.id in builtins_names
                 )
                 if not dynamic_import:
                     continue
@@ -2624,7 +2656,7 @@ def _test_source_dependency_inventory(root: Path, target_module: str) -> dict[st
                 module_parts = import_name.split(".")
                 module_groups.append((module_parts, None))
                 fromlist = None
-                if isinstance(function, ast.Name) and function.id == "__import__":
+                if isinstance(function, ast.Name) and function.id in builtin_import_names:
                     if len(call.args) > 3:
                         fromlist = call.args[3]
                     else:

@@ -211,8 +211,10 @@ def test_source_inventory_binds_recursive_test_local_imports_and_pytest_conftest
         "tests/unit/test_hex20_diagnostic.py": (
             "from solveur.core import VALUE\nfrom wp12b_hex20_diagnostic_support import capture\n"
             "import importlib as il\nfrom importlib import import_module as load_module\n"
+            "import builtins as bi\nfrom builtins import __import__ as import_by_name\n"
             "il.import_module('tests.local_importlib_helper')\nload_module('tests.local_imported_helper')\n"
             "__import__('tests.fromlist_package', fromlist=['helper'])\n"
+            "bi.__import__('tests.builtins_mod_helper')\nimport_by_name('tests.builtins_alias_helper')\n"
             "def test_hex20_diagnostic():\n    assert capture() and VALUE == 1\n"
         ),
         "tests/unit/wp12b_hex20_diagnostic_support.py": (
@@ -224,6 +226,8 @@ def test_source_inventory_binds_recursive_test_local_imports_and_pytest_conftest
         "tests/plugin_helpers.py": "PLUGIN_MARKER = True\n",
         "tests/local_importlib_helper.py": "IMPORTLIB_MARKER = True\n",
         "tests/local_imported_helper.py": "IMPORTED_MARKER = True\n",
+        "tests/builtins_mod_helper.py": "BUILTINS_MARKER = True\n",
+        "tests/builtins_alias_helper.py": "BUILTINS_ALIAS_MARKER = True\n",
         "tests/fromlist_package/__init__.py": '"fromlist package"\n',
         "tests/fromlist_package/helper.py": "HELPER_MARKER = True\n",
         "tests/common_test_fixture.py": "FIXTURE = True\n",
@@ -259,6 +263,8 @@ def test_source_inventory_binds_recursive_test_local_imports_and_pytest_conftest
         "tests/plugin_helpers.py",
         "tests/local_importlib_helper.py",
         "tests/local_imported_helper.py",
+        "tests/builtins_mod_helper.py",
+        "tests/builtins_alias_helper.py",
         "tests/fromlist_package/__init__.py",
         "tests/fromlist_package/helper.py",
     } <= set(dependency_inventory)
@@ -278,6 +284,8 @@ def test_source_inventory_binds_recursive_test_local_imports_and_pytest_conftest
         "tests/plugin_helpers.py",
         "tests/local_importlib_helper.py",
         "tests/local_imported_helper.py",
+        "tests/builtins_mod_helper.py",
+        "tests/builtins_alias_helper.py",
         "tests/fromlist_package/__init__.py",
         "tests/fromlist_package/helper.py",
         "src/solveur/core.py",
@@ -315,6 +323,22 @@ def test_source_inventory_rejects_local_wildcard_imports(tmp_path: Path) -> None
 
     with pytest.raises(MODULE.PolicyError, match="wildcard import from a repository-local module"):
         MODULE._test_source_dependency_inventory(tmp_path, "tests/unit/test_wildcard.py")
+
+
+@pytest.mark.parametrize(
+    "source",
+    [
+        "pytest_plugins += plugin_names\n",
+        "pytest_plugins.extend(plugin_names)\n",
+    ],
+)
+def test_source_inventory_rejects_dynamic_pytest_plugin_mutations(tmp_path: Path, source: str) -> None:
+    target = tmp_path / "tests" / "unit" / "test_dynamic_plugins.py"
+    target.parent.mkdir(parents=True)
+    target.write_text(source + "def test_dynamic_plugins():\n    pass\n", encoding="utf-8")
+
+    with pytest.raises(MODULE.PolicyError, match="pytest_plugins mutations must be statically resolvable"):
+        MODULE._test_source_dependency_inventory(tmp_path, "tests/unit/test_dynamic_plugins.py")
 
 
 def test_wp12b_corrective_campaign_sets_canonical_scope_and_separate_evidence_root(tmp_path: Path) -> None:
