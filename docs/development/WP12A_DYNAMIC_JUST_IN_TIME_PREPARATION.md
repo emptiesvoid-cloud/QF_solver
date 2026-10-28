@@ -27,6 +27,12 @@ Prepare and review one case at a time:
 6. Verify the manifest remains `PREPARED_NOT_AUTHORIZED` and submit its exact
    SHA-256, nodeid, identities, budget, preflight receipt, and current ledger
    identity for a separate Owner decision. Preparation is not authorization.
+   Dynamics templates also contain `execution_authorized: false` and
+   `do_not_execute: true`. Only after the exact Owner approval, preserve the
+   original and record the approved decision on a separate authorized copy,
+   setting `state: OWNER_AUTHORIZED`, `execution_authorized: true` and
+   `do_not_execute: false`. The controller refuses inconsistent or missing
+   flags before reservation. Earlier receipts and manifests remain historical.
 7. Only after that exact decision has been recorded may the single approved case
    be invoked through the official `test --scope fem_exploratory` route. Preserve
    the resulting attempt and ledger records even if pytest fails.

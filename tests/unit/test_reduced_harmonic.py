@@ -429,6 +429,102 @@ def test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz()
     assert reduced.solver["frequency_records"][0]["omega_rad_s"] == 0.0
 
 
+def _wp12_complex_array(values: object) -> dict[str, object]:
+    """Represent complex arrays explicitly without losing their dimensions."""
+    array = np.asarray(values, dtype=np.complex128)
+    return {"shape": list(array.shape), "real": array.real.tolist(), "imag": array.imag.tolist()}
+
+
+def _wp12_phase_error(response: complex, reference: complex) -> float | None:
+    """A zero phasor has no phase, including when signed zeros occur."""
+    if abs(response) == 0.0 or abs(reference) == 0.0:
+        return None
+    return float(np.angle(response * np.conjugate(reference)))
+
+
+def _wp12_harmonic_vector_observation(
+    frequency_hz: float,
+    stiffness: np.ndarray,
+    mass: np.ndarray,
+    damping: np.ndarray,
+    force: np.ndarray,
+    free: np.ndarray,
+    direct: np.ndarray,
+    full: np.ndarray,
+    truncated: np.ndarray,
+) -> dict[str, object]:
+    """Archive response vectors and recomposed free-equation residuals; perform no solve."""
+    if not math.isfinite(frequency_hz) or frequency_hz < 0:
+        raise ValueError("Frequency must be finite and non-negative.")
+    vectors = [np.asarray(item, dtype=np.complex128) for item in (force, direct, full, truncated)]
+    force, direct, full, truncated = vectors
+    size = force.size
+    if force.ndim != 1 or any(item.shape != (size,) for item in vectors):
+        raise ValueError("Force and response vectors must have the same one-dimensional shape.")
+    if any(np.asarray(item).shape != (size, size) for item in (stiffness, mass, damping)):
+        raise ValueError("Physical operators must match the response vector dimensions.")
+    free = np.asarray(free, dtype=int)
+    if free.ndim != 1 or np.any(free < 0) or np.any(free >= size):
+        raise ValueError("Free indices must identify response degrees of freedom.")
+    omega = 2.0 * math.pi * frequency_hz
+    impedance = stiffness + 1j * omega * damping - omega**2 * mass
+    denominator = float(np.linalg.norm(direct))
+    full_difference = full - direct
+    truncated_difference = truncated - direct
+    return {
+        "frequency_hz": frequency_hz,
+        "omega_rad_s": omega,
+        "force_N": _wp12_complex_array(force),
+        "direct_response_m": _wp12_complex_array(direct),
+        "full_basis_response_m": _wp12_complex_array(full),
+        "truncated_response_m": _wp12_complex_array(truncated),
+        "full_minus_direct_m": _wp12_complex_array(full_difference),
+        "truncated_minus_direct_m": _wp12_complex_array(truncated_difference),
+        "truncated_minus_full_m": _wp12_complex_array(truncated - full),
+        "full_minus_direct_absolute_norm_m": float(np.linalg.norm(full_difference)),
+        "truncated_minus_direct_absolute_norm_m": float(np.linalg.norm(truncated_difference)),
+        "truncated_minus_full_absolute_norm_m": float(np.linalg.norm(truncated - full)),
+        "reference_norm_m": denominator,
+        "relative_error_defined": bool(math.isfinite(denominator) and denominator > np.finfo(float).tiny),
+        "full_minus_direct_relative_norm": (
+            float(np.linalg.norm(full_difference) / denominator)
+            if math.isfinite(denominator) and denominator > np.finfo(float).tiny else None
+        ),
+        "truncated_minus_direct_relative_norm": (
+            float(np.linalg.norm(truncated_difference) / denominator)
+            if math.isfinite(denominator) and denominator > np.finfo(float).tiny else None
+        ),
+        "physical_free_residual_N": {
+            name: _wp12_complex_array((impedance @ response - force)[free])
+            for name, response in (("direct", direct), ("full_basis", full), ("truncated", truncated))
+        },
+    }
+
+
+def _wp12_modal_observation(
+    omega: float,
+    modes: np.ndarray,
+    modal_mass: np.ndarray,
+    modal_stiffness: np.ndarray,
+    modal_damping: np.ndarray,
+    coordinates: np.ndarray,
+    free_response: np.ndarray,
+    free_force: np.ndarray,
+) -> dict[str, object]:
+    """Recompose modal residual and reconstruction using already available operators."""
+    projected_force = modes.T @ free_force
+    impedance = modal_stiffness + 1j * omega * modal_damping - omega**2 * modal_mass
+    reconstructed = modes @ coordinates
+    difference = reconstructed - free_response
+    return {
+        "projected_force": _wp12_complex_array(projected_force),
+        "modal_residual": _wp12_complex_array(impedance @ coordinates - projected_force),
+        "reconstructed_free_response_m": _wp12_complex_array(reconstructed),
+        "reconstruction_difference_m": _wp12_complex_array(difference),
+        "reconstruction_absolute_norm_m": float(np.linalg.norm(difference)),
+    }
+
+
 def test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation() -> None:
     """Emit complex response, phase, and residual observations around retained/omitted modes."""
     seed = _model(frequencies=[1.0])
@@ -529,6 +625,16 @@ def test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation() 
 
     observations: list[dict[str, float | str | None]] = []
     response_index = seed.dof_manager().index(1, "UX")
+    physical_k = prepared.stiffness_full.toarray()
+    physical_m = prepared.mass_full.toarray()
+    alpha = float(seed.analysis.parameters["rayleigh_alpha"])
+    beta = float(seed.analysis.parameters["rayleigh_beta"])
+    physical_c = alpha * physical_m + beta * physical_k
+    full_modal_c = full_basis.rayleigh_damping(prepared, alpha=alpha, beta=beta).matrix
+    truncated_modal_c = truncated_basis.rayleigh_damping(truncated_prepared, alpha=alpha, beta=beta).matrix
+    fixture_force = np.zeros(physical_k.shape[0], dtype=np.complex128)
+    fixture_force[response_index] = 1.0
+    vector_observations: list[dict[str, object]] = []
     for frequency_hz, direct, full, truncated, record, truncated_record in zip(
         frequency_values,
         direct_result.responses,
@@ -541,6 +647,34 @@ def test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation() 
         full_response = complex(full[response_index])
         truncated_response = complex(truncated[response_index])
         direct_norm = max(float(np.linalg.norm(direct)), np.finfo(float).tiny)
+        vector_observations.append(
+            _wp12_harmonic_vector_observation(
+                float(frequency_hz), physical_k, physical_m, physical_c, fixture_force,
+                prepared.free_dof_indices, direct, full, truncated,
+            )
+        )
+        vector_observations[-1]["full_modal_coordinates"] = _wp12_complex_array(
+            full_basis_result.modal_coordinates[len(vector_observations) - 1]
+        )
+        vector_observations[-1]["truncated_modal_coordinates"] = _wp12_complex_array(
+            truncated_result.modal_coordinates[len(vector_observations) - 1]
+        )
+        index = len(vector_observations) - 1
+        vector_observations[-1]["full_solver_frequency_record"] = dict(record)
+        vector_observations[-1]["truncated_solver_frequency_record"] = dict(truncated_record)
+        vector_observations[-1]["direct_solver_relative_residual"] = float(
+            direct_result.solver["relative_residual_norms"][index]
+        )
+        omega = 2.0 * math.pi * float(frequency_hz)
+        free = prepared.free_dof_indices
+        vector_observations[-1]["full_modal_diagnostics"] = _wp12_modal_observation(
+            omega, full_basis.modes, full_basis.projected_mass, full_basis.projected_stiffness,
+            full_modal_c, full_basis_result.modal_coordinates[index], full[free], fixture_force[free],
+        )
+        vector_observations[-1]["truncated_modal_diagnostics"] = _wp12_modal_observation(
+            omega, truncated_basis.modes, truncated_basis.projected_mass, truncated_basis.projected_stiffness,
+            truncated_modal_c, truncated_result.modal_coordinates[index], truncated[free], fixture_force[free],
+        )
         observations.append(
             {
                 "frequency_hz": float(frequency_hz),
@@ -558,8 +692,8 @@ def test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation() 
                 ),
                 "truncated_probe_real_m": truncated_response.real,
                 "truncated_probe_imag_m": truncated_response.imag,
-                "full_basis_phase_error_rad": float(np.angle(full_response * np.conjugate(direct_response))),
-                "truncated_phase_error_rad": float(np.angle(truncated_response * np.conjugate(direct_response))),
+                "full_basis_phase_error_rad": _wp12_phase_error(full_response, direct_response),
+                "truncated_phase_error_rad": _wp12_phase_error(truncated_response, direct_response),
                 "full_basis_vector_relative_error": float(np.linalg.norm(full - direct) / direct_norm),
                 "truncated_vector_relative_difference": float(np.linalg.norm(truncated - direct) / direct_norm),
                 "reduced_backward_error": float(record["reduced_backward_error"]),
@@ -570,6 +704,8 @@ def test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation() 
                 ),
                 "conditioning_indicator": float(record["conditioning_indicator"]),
                 "conditioning_status": str(record["conditioning_status"]),
+                "truncated_conditioning_indicator": float(truncated_record["conditioning_indicator"]),
+                "truncated_conditioning_status": str(truncated_record["conditioning_status"]),
                 "truncated_physical_free_backward_error": (
                     None
                     if truncated_record["physical_free_backward_error"] is None
@@ -607,6 +743,35 @@ def test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation() 
         "maximum_full_basis_vector_relative_error": maximum_full_basis_error,
         "assertion_results": {label: passed for label, passed in checks},
         "observations": observations,
+        "vector_observations": vector_observations,
+        "operators": {
+            "physical_stiffness_N_m": physical_k.tolist(),
+            "physical_mass_kg": physical_m.tolist(),
+            "physical_damping_N_s_m": physical_c.tolist(),
+            "free_dof_indices": prepared.free_dof_indices.tolist(),
+            "dof_signature": prepared.dof_signature,
+            "rayleigh_alpha_s_inv": alpha,
+            "rayleigh_beta_s": beta,
+            "full_modes": full_basis.modes.tolist(),
+            "truncated_modes": truncated_basis.modes.tolist(),
+            "full_mode_count": full_basis.mode_count,
+            "truncated_mode_count": truncated_basis.mode_count,
+            "full_basis_diagnostics": full_basis.diagnostics,
+            "truncated_basis_diagnostics": truncated_basis.diagnostics,
+            "full_eigenvalues_rad2_s2": full_basis.eigenvalues.tolist(),
+            "truncated_eigenvalues_rad2_s2": truncated_basis.eigenvalues.tolist(),
+            "full_projected_mass": full_basis.projected_mass.tolist(),
+            "full_projected_stiffness": full_basis.projected_stiffness.tolist(),
+            "full_projected_damping": full_modal_c.tolist(),
+            "truncated_projected_mass": truncated_basis.projected_mass.tolist(),
+            "truncated_projected_stiffness": truncated_basis.projected_stiffness.tolist(),
+            "truncated_projected_damping": truncated_modal_c.tolist(),
+            "normalization": "mass-normalized modal basis; verify Phi.T M Phi from archived operators",
+            "load": "fixture: 1 N along global node 1 UX at every requested frequency",
+            "physical_operator_note": "K and M from prepared system; C recomposed as alpha M + beta K",
+            "conditioning_note": "indicator is the minimum of scaled reciprocal condition and scaled singular floor",
+            "modal_residual_units": "generalized force; depends on modal normalization",
+        },
         "interpretation": {
             "full_basis_vs_direct": "route/projection/linear-solve cross-check on shared assembled operators",
             "truncated_vs_direct": "combined omitted-subspace and solve difference; not an error bound",

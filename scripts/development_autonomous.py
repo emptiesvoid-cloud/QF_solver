@@ -1260,6 +1260,8 @@ def _validate_wp12_execution_manifest(
         decision_id = decision.get("decision_id")
         if not isinstance(decision_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", decision_id):
             raise PolicyError("WP12-A Owner decision requires a valid decision_id")
+        if manifest.get("execution_authorized") is not True or manifest.get("do_not_execute") is not False:
+            raise PolicyError("WP12-A execution manifest has inconsistent explicit authorization flags")
     if worktree_id == "wp12_dynamics":
         expected_preflight = (
             {
@@ -4276,6 +4278,7 @@ def prepare_wp12_execution_manifest(
         payload = {
             "schema": "qfsolver-wp12-development-execution-v1",
             "state": "PREPARED_NOT_AUTHORIZED",
+            **({"execution_authorized": False, "do_not_execute": True} if worktree_id == "wp12_dynamics" else {}),
             "authorization_id": authorization_id,
             "worktree_id": worktree_id,
             "mandate_id": entry["development_mandate_id"],
