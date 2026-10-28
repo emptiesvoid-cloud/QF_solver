@@ -1,6 +1,6 @@
 # WP12-A CI recovery and controlled WP07 readiness
 
-**Current state:** local candidate is prepared for a safe CI PR; merge is gated by the repository ruleset's required scientific checks. No scientific execution has occurred.
+**Current state:** PR #51 is verified by the dedicated synthetic controller workflow and is mergeable on GitHub. The release branch has no configured branch protection; merge and controller switch remain separate authorization gates. No scientific execution has occurred.
 
 ## Canonical history coordinated
 
