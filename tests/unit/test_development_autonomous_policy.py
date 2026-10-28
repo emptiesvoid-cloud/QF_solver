@@ -77,6 +77,47 @@ def _policy() -> dict:
     return MODULE.load_policy()
 
 
+def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
+    repository_root = Path(__file__).resolve().parents[2]
+    agents_text = (repository_root / "AGENTS.md").read_text(encoding="utf-8")
+    declaration_marker = "For monitored FEM exploration, invoke only the shared controller at `"
+    declarations = [line for line in agents_text.splitlines() if declaration_marker in line]
+
+    assert len(declarations) == 1
+    expected_controller_path = (
+        r"C:\Users\fari\.codex\worktrees\wp12-shared-controller-148f850\qf_solver"
+        r"\scripts\development_autonomous.py"
+    )
+    expected_identity = (
+        "This clean, detached controller checkout is pinned to HEAD "
+        "`148f850412c907e62ae899961afc8ce5b18d0ded`, tree "
+        "`d24d73ee88b024923c14ad51ebcb3c9d99c5e4cd`, and official provenance fingerprint "
+        "`609390083ec1d0f21ed3afe12c94bcacea14fc5d403e930c06844c401d9de9f9`."
+    )
+    assert f"{declaration_marker}{expected_controller_path}`" in declarations[0]
+    assert expected_identity in declarations[0]
+    assert "Controller selection is resolved only by this canonical release-branch `AGENTS.md` entry." in agents_text
+    assert "do not recursively follow its snapshot `AGENTS.md`" in agents_text
+    assert "wp12-shared-controller-081d788" not in agents_text
+    assert "wp12-shared-controller-final-e420c6a" not in agents_text
+
+    tracked_agents = subprocess.run(
+        ["git", "ls-files", "-z", "--", "AGENTS.md", "**/AGENTS.md"],
+        cwd=repository_root,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout
+    assert tracked_agents.split("\0")[:-1] == ["AGENTS.md"]
+
+    runner_text = (repository_root / "scripts" / "development_autonomous.py").read_text(encoding="utf-8")
+    assert "ROOT = Path(__file__).resolve().parents[1]" in runner_text
+    workflow_text = (repository_root / ".github" / "workflows" / "wp12-controller-validation.yml").read_text(
+        encoding="utf-8"
+    )
+    assert '      - "AGENTS.md"' in workflow_text
+
+
 def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualification_separate() -> None:
     policy = _policy()
     assert policy["mode"] == "DEVELOPMENT_AUTONOMOUS"

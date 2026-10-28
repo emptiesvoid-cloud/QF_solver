@@ -4,6 +4,7 @@ on:
   pull_request:
     branches: [emptiesvoids-cloud/0.2.12]
     paths:
+      - "AGENTS.md"
       - ".github/workflows/wp12-controller-validation.yml"
       - "development_autonomous_policy.json"
       - "scripts/development_autonomous.py"
