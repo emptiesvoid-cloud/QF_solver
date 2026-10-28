@@ -85,20 +85,21 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
 
     assert len(declarations) == 1
     expected_controller_path = (
-        r"C:\Users\fari\.codex\worktrees\wp12-shared-controller-148f850\qf_solver"
+        r"C:\Users\fari\.codex\worktrees\wp12-shared-controller-dynreg-20261028\qf_solver"
         r"\scripts\development_autonomous.py"
     )
     expected_identity = (
         "This clean, detached controller checkout is pinned to HEAD "
-        "`148f850412c907e62ae899961afc8ce5b18d0ded`, tree "
-        "`d24d73ee88b024923c14ad51ebcb3c9d99c5e4cd`, and official provenance fingerprint "
-        "`609390083ec1d0f21ed3afe12c94bcacea14fc5d403e930c06844c401d9de9f9`."
+        "`b206e6f520e9b03c3c925c3bef20883f01aa9800`, tree "
+        "`6f16b0d1d5fe204707e6b784355d34c943f18db5`, and official provenance fingerprint "
+        "`e48d4e61f04df2819431465130b12c3d36f24f6f92fbdf8221f44190442e1e08`."
     )
     assert f"{declaration_marker}{expected_controller_path}`" in declarations[0]
     assert expected_identity in declarations[0]
     assert "Controller selection is resolved only by this canonical release-branch `AGENTS.md` entry." in agents_text
     assert "do not recursively follow its snapshot `AGENTS.md`" in agents_text
     assert "wp12-shared-controller-081d788" not in agents_text
+    assert "wp12-shared-controller-148f850" not in agents_text
     assert "wp12-shared-controller-final-e420c6a" not in agents_text
 
     tracked_agents = subprocess.run(

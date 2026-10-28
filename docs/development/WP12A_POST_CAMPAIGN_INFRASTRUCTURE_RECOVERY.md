@@ -1,6 +1,6 @@
 # WP12-A post-campaign infrastructure recovery
 
-**Status:** `WP12A_POST_CAMPAIGN_RECOVERED_PENDING_INTEGRATION`
+**Status:** `WP12A_POST_CAMPAIGN_RECOVERY_CONTROLLER_DESIGNATION_REVIEW_PENDING`
 
 **Scope:** synthetic/controller and evidence-writer recovery only. No FEM test
 body, assembly, eigensolve, harmonic solve, Newmark step, preflight, reservation,
@@ -23,7 +23,7 @@ Newmark attempt advanced that ledger, so those receipts correctly fail the
 current-ledger identity check. The controller’s strict preflight validation is
 unchanged; stale receipts are not made valid by this patch.
 
-## Changes prepared
+## Changes integrated and prepared
 
 - The Newmark, reduced-harmonic, and base-motion writers now read the captured
   controller policy, validate its hash, derive the evidence root, and accept
@@ -42,6 +42,30 @@ unchanged; stale receipts are not made valid by this patch.
   archived, using a new collect-only preflight and manifest against the current
   ledger. A previous Owner decision does not transfer to a replacement
   manifest.
+- PR #57 was merged to `emptiesvoids-cloud/0.2.12` as
+  `5d3d239aae90506efa2db40ff9af115e794f7bea`. The release contains the writer
+  fix and the synthetic tests above.
+- The exact three writer fixes were applied to the registered scientific
+  worktree and committed as `5f96dd604fe40279ead0186f49be77e7a0bbeac1` on
+  `codex/wp12-dynamic-harmonic-verification`. This changes only test-sidecar
+  instrumentation; it does not change solver equations, numerical criteria,
+  oracles, or thresholds.
+- The controller candidate appended source registrations for the three exact
+  nodeids against that science HEAD. The active allowlist remains 13 nodeids;
+  registration history grew from 34 to 37 records. No earlier registration
+  was replaced.
+- Candidate registration fingerprints are Newmark
+  `d4743785db99a79181281429827d0de688e5eae94e9ad285491040aaa75c7a8e`, reduced
+  harmonic `3a8c1324d0563214911e8f9abca87c09ddf98907d5d8ab01c822640c82baa4fe`,
+  and base motion
+  `f16bbeea012b8c86924215156b1ffbac23d2248d0b0194067bcd9af36a3c3909`.
+- A clean detached controller candidate is pinned at
+  `C:\Users\fari\.codex\worktrees\wp12-shared-controller-dynreg-20261028\qf_solver`:
+  HEAD `b206e6f520e9b03c3c925c3bef20883f01aa9800`, tree
+  `6f16b0d1d5fe204707e6b784355d34c943f18db5`, official fingerprint
+  `e48d4e61f04df2819431465130b12c3d36f24f6f92fbdf8221f44190442e1e08`.
+  A prospective root `AGENTS.md` pin and its unambiguous-resolution test are in
+  branch `fix/wp12a-source-registration-20261028`, awaiting PR review and CI.
 
 No runner, policy, solver equation, scientific oracle, threshold, historical
 manifest, decision, receipt, refusal, archive, or ledger was changed.
@@ -49,7 +73,8 @@ manifest, decision, receipt, refusal, archive, or ledger was changed.
 ## Synthetic validation
 
 The complete `scripts/run_wp12_controller_synthetic.py` suite finished with
-**254 passed, 0 failed, 0 skipped, 0 errors**. This includes synthetic cases for
+**254 passed, 0 failed, 0 skipped, 0 errors** on the registration/designation
+candidate after the full suite was rerun. This includes synthetic cases for
 all three writers accepting the exact `owner-authorized` location, rejecting a
 nested manifest path, preserving sidecars after a controlled assertion failure,
 and refusing to overwrite existing output. The campaign test advances only a
@@ -86,17 +111,20 @@ passed all 24 archive tests. This did not involve production evidence paths.
 
 ## Next preparation gate
 
-The code change is on a dedicated branch based on release HEAD
-`40d88187b3e640f2d5eef0d054c71877c5fb08d5`, pending PR integration. The active
-scientific worktree `E:\QFSolverAgents\wp12-dynamics` was not modified. After
-the code is integrated, its three writer changes must be propagated to that
-scientific source and the exact WP12-A node registrations refreshed, because
-their source fingerprints will change. Only then can the official controller
-run fresh collect-only preflights and prepare new manifests.
+PR #57 is merged. The candidate registration/designation change is on branch
+`fix/wp12a-source-registration-20261028`, based on that merge, and still needs
+its own review and CI before the root designation can take effect. The
+scientific worktree changes described above are limited to the three sidecar
+writers and have refreshed append-only registrations. No preflights or
+manifests have been created yet; they must be generated only after the
+designation change is integrated, and each preflight must bind the then-current
+Dynamics v2 ledger.
 
-No preflights or manifests were generated here. Newmark, reduced harmonic, and
-base motion each require separate Owner decisions tied to their new manifests.
-The reduced-harmonic and base-motion cases must be prepared just in time after
-the preceding reservation updates the ledger. Old manifests and decisions are
-not reusable. No classification here upgrades a development result to formal
+No scientific calculation, reservation, or preflight was performed. Once the
+controller designation is integrated, prepare a fresh Newmark collect-only
+preflight and manifest against the current ledger. Reduced harmonic and base
+motion must be prepared just in time after each preceding attempt is archived;
+their old preflights/manifests/decisions are not reusable. A Newmark pytest
+failure remains historical and its mechanical verdict is still not
+established. No result here upgrades development status to formal
 qualification.
