@@ -1652,6 +1652,8 @@ def test_wp12_manifest_requires_the_exact_scope_mandate(tmp_path: Path, worktree
     preflight_id = None
     preflight_receipt = None
     if worktree_id == "wp12_dynamics":
+        payload["execution_authorized"] = True
+        payload["do_not_execute"] = False
         preflight_id = "pf-123456789abc"
         preflight_path = evidence_root / "worktrees" / worktree_id / "preflight" / preflight_id / "preflight.json"
         preflight_receipt = (preflight_path, "d" * 64)
@@ -5256,6 +5258,8 @@ def test_wp12_dynamics_manifest_preparation_and_validation_bind_preflight(
     manifest_path = Path(prepared["path"])
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     assert manifest["state"] == "PREPARED_NOT_AUTHORIZED"
+    assert manifest["execution_authorized"] is False
+    assert manifest["do_not_execute"] is True
     assert manifest["preflight"] == {
         "preflight_id": fixture["preflight_id"],
         "receipt_path": str(fixture["preflight_path"]),
@@ -5265,6 +5269,8 @@ def test_wp12_dynamics_manifest_preparation_and_validation_bind_preflight(
         MODULE.prepare_wp12_execution_manifest("wp12_dynamics", fixture["target"], "wp12-synth-auth-0002")
 
     manifest["state"] = "OWNER_AUTHORIZED"
+    manifest["execution_authorized"] = True
+    manifest["do_not_execute"] = False
     manifest["owner_decision"] = {
         "status": "APPROVED",
         "decision_id": "owner-wp12a-contract-0001",
@@ -5317,6 +5323,8 @@ def test_wp12_dynamics_synthetic_end_to_end_reserves_and_archives_without_runnin
     manifest_path = Path(prepared["path"])
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["state"] = "OWNER_AUTHORIZED"
+    manifest["execution_authorized"] = True
+    manifest["do_not_execute"] = False
     manifest["owner_decision"] = {
         "status": "APPROVED",
         "decision_id": "owner-wp12a-e2e-0001",
@@ -5419,6 +5427,8 @@ def test_wp12_dynamics_invalid_decision_id_refuses_before_reservation(
     manifest_path = Path(prepared["path"])
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["state"] = "OWNER_AUTHORIZED"
+    manifest["execution_authorized"] = True
+    manifest["do_not_execute"] = False
     manifest["owner_decision"] = {
         "status": "APPROVED",
         "approved_by": "Owner",
@@ -5441,6 +5451,39 @@ def test_wp12_dynamics_invalid_decision_id_refuses_before_reservation(
         )
     assert not fixture["ledger_path"].exists()
     assert MODULE._sha256(fixture["predecessor_path"]) == fixture["predecessor_sha256"]
+
+
+@pytest.mark.parametrize(
+    ("execution_authorized", "do_not_execute"),
+    [(False, True), (True, True), (False, False), (None, None)],
+)
+def test_wp12_dynamics_inconsistent_execution_flags_refuse_before_reservation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, execution_authorized: bool | None, do_not_execute: bool | None
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    prepared = MODULE.prepare_wp12_execution_manifest(
+        "wp12_dynamics", fixture["target"], "wp12-synth-flags-0001", preflight_id=fixture["preflight_id"]
+    )
+    manifest_path = Path(prepared["path"])
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest.update({
+        "state": "OWNER_AUTHORIZED",
+        "execution_authorized": execution_authorized,
+        "do_not_execute": do_not_execute,
+        "owner_decision": {
+            "status": "APPROVED", "decision_id": "owner-synthetic-flags-0001", "approved_by": "Owner",
+            "approved_at_utc": "2026-10-28T10:00:00Z", "reason": "Synthetic refusal of inconsistent execution flags.",
+        },
+    })
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    monkeypatch.setattr(MODULE, "_next_attempt", lambda *_args, **_kwargs: pytest.fail("must refuse before reservation"))
+    with pytest.raises(MODULE.PolicyError, match="inconsistent explicit authorization flags"):
+        MODULE.run_pytest(
+            "fem_exploratory", fixture["target"], "dev-synthetic-wp12a-flags", worktree_id="wp12_dynamics",
+            reason="Synthetic refusal before reservation for inconsistent execution flags.",
+            preflight_id=fixture["preflight_id"], execution_manifest=manifest_path,
+        )
+    assert not fixture["ledger_path"].exists()
 
 
 def test_wp12_dynamics_cli_routes_preflight_ids_for_manifest_and_execution(
@@ -5511,6 +5554,8 @@ def test_wp12_dynamics_run_requires_preflight_before_attempt_creation(
     manifest_path = Path(prepared["path"])
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["state"] = "OWNER_AUTHORIZED"
+    manifest["execution_authorized"] = True
+    manifest["do_not_execute"] = False
     manifest["owner_decision"] = {
         "status": "APPROVED",
         "approved_by": "Owner",
