@@ -406,6 +406,16 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
     if _sha256(decision_path) != decision_reference.get("sha256"):
         raise RuntimeError("HEX8-SRI refused: Owner decision record SHA-256 mismatch")
     owner_decision = _strict_json_object(decision_path, "Owner decision record")
+    authorized_nodeids = owner_decision.get("authorized_nodeids")
+    if (
+        not isinstance(authorized_nodeids, list)
+        or not authorized_nodeids
+        or any(not isinstance(item, str) for item in authorized_nodeids)
+        or len(authorized_nodeids) != len(set(authorized_nodeids))
+        or not set(authorized_nodeids).issubset(set(FIRST6_NODEIDS))
+    ):
+        raise RuntimeError("HEX8-SRI refused: Owner decision must select unique registered first-six cases")
+    authorized_set = set(authorized_nodeids)
     if (
         owner_decision != execution_manifest.get("owner_decision")
         or owner_decision.get("schema") != "qfsolver-hex8sri-execution-approval-v1"
@@ -421,10 +431,10 @@ def _authorized_case(request: pytest.FixtureRequest, case_id: str) -> dict:
         or owner_decision.get("source_fingerprint") != fingerprint
         or owner_decision.get("controller_fingerprint") != execution_manifest.get("controller_fingerprint")
         or owner_decision.get("controller_head") != controller_identity.get("head")
-        or owner_decision.get("authorized_nodeids") != list(FIRST6_NODEIDS)
-        or set(owner_decision.get("case_manifests_by_nodeid", {})) != set(FIRST6_NODEIDS)
+        or nodeid not in authorized_set
+        or set(owner_decision.get("case_manifests_by_nodeid", {})) != authorized_set
         or owner_decision.get("case_manifests_by_nodeid", {}).get(nodeid) != case_binding
-        or set(owner_decision.get("limits_by_nodeid", {})) != set(FIRST6_NODEIDS)
+        or set(owner_decision.get("limits_by_nodeid", {})) != authorized_set
         or owner_decision.get("limits_by_nodeid", {}).get(nodeid) != execution_manifest.get("limits")
     ):
         raise RuntimeError("HEX8-SRI refused: Owner decision does not authorize this exact identity and case")
