@@ -660,6 +660,11 @@ def test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation() 
             truncated_result.modal_coordinates[len(vector_observations) - 1]
         )
         index = len(vector_observations) - 1
+        vector_observations[-1]["full_solver_frequency_record"] = dict(record)
+        vector_observations[-1]["truncated_solver_frequency_record"] = dict(truncated_record)
+        vector_observations[-1]["direct_solver_relative_residual"] = float(
+            direct_result.solver["relative_residual_norms"][index]
+        )
         omega = 2.0 * math.pi * float(frequency_hz)
         free = prepared.free_dof_indices
         vector_observations[-1]["full_modal_diagnostics"] = _wp12_modal_observation(
@@ -764,6 +769,7 @@ def test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation() 
             "normalization": "mass-normalized modal basis; verify Phi.T M Phi from archived operators",
             "load": "fixture: 1 N along global node 1 UX at every requested frequency",
             "physical_operator_note": "K and M from prepared system; C recomposed as alpha M + beta K",
+            "conditioning_note": "indicator is the minimum of scaled reciprocal condition and scaled singular floor",
             "modal_residual_units": "generalized force; depends on modal normalization",
         },
         "interpretation": {
