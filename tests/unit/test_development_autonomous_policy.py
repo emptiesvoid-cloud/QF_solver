@@ -1465,6 +1465,7 @@ def test_wp12_manifest_requires_the_exact_scope_mandate(tmp_path: Path, worktree
         "limits": MODULE._wp12_manifest_limits(entry, selection),
         "owner_decision": {
             "status": "APPROVED",
+            "decision_id": "owner-synthetic-mandate-0001",
             "approved_by": "Owner",
             "approved_at_utc": "2026-10-27T10:00:00Z",
             "reason": "Synthetic unit test of the scope-bound mandate contract.",
@@ -4843,6 +4844,7 @@ def test_wp12_dynamics_manifest_preparation_and_validation_bind_preflight(
     manifest["state"] = "OWNER_AUTHORIZED"
     manifest["owner_decision"] = {
         "status": "APPROVED",
+        "decision_id": "owner-wp12a-contract-0001",
         "approved_by": "Owner",
         "approved_at_utc": "2026-10-28T10:00:00Z",
         "reason": "Synthetic exact-case WP12-A execution authorization for contract test.",
@@ -4863,7 +4865,7 @@ def test_wp12_dynamics_manifest_preparation_and_validation_bind_preflight(
         preflight_id=fixture["preflight_id"],
         preflight_receipt=(fixture["preflight_path"], fixture["preflight_sha256"]),
     )
-    assert receipt["decision_id"] is None
+    assert receipt["decision_id"] == "owner-wp12a-contract-0001"
     assert receipt["authorization_id"] == "wp12-synth-auth-0001"
     with pytest.raises(MODULE.PolicyError, match="does not bind its successful exact-node preflight"):
         MODULE._validate_wp12_execution_manifest(
@@ -4892,6 +4894,7 @@ def test_wp12_dynamics_synthetic_end_to_end_reserves_and_archives_without_runnin
     manifest["state"] = "OWNER_AUTHORIZED"
     manifest["owner_decision"] = {
         "status": "APPROVED",
+        "decision_id": "owner-wp12a-e2e-0001",
         "approved_by": "Owner",
         "approved_at_utc": "2026-10-28T10:00:00Z",
         "reason": "Synthetic Owner authorization drives the bounded launcher contract test.",
@@ -4939,14 +4942,53 @@ def test_wp12_dynamics_synthetic_end_to_end_reserves_and_archives_without_runnin
         "sha256": fixture["preflight_sha256"],
     }
     assert run_record["execution_manifest"]["authorization_id"] == "wp12-synth-e2e-0001"
-    assert run_record["execution_manifest"]["decision_id"] is None
+    assert run_record["execution_manifest"]["decision_id"] == "owner-wp12a-e2e-0001"
     ledger = json.loads(fixture["ledger_path"].read_text(encoding="utf-8"))
     key = f"{fixture['entry']['development_mandate_id']}:wp12_dynamics:{fixture['target']}"
     attempt = ledger["entries"][key][0]
     assert attempt["state"] == "PASS"
     assert attempt["authorization_id"] == "wp12-synth-e2e-0001"
-    assert attempt.get("owner_decision_id") is None
+    assert attempt["owner_decision_id"] == "owner-wp12a-e2e-0001"
     assert attempt["source_fingerprint"] == fixture["source_fingerprint"]
+
+
+@pytest.mark.parametrize(
+    "decision_id",
+    [None, "bad id with spaces"],
+    ids=["missing", "malformed"],
+)
+def test_wp12_dynamics_invalid_decision_id_refuses_before_reservation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, decision_id: str | None
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    prepared = MODULE.prepare_wp12_execution_manifest(
+        "wp12_dynamics", fixture["target"], "wp12-synth-decision-id-0001", preflight_id=fixture["preflight_id"]
+    )
+    manifest_path = Path(prepared["path"])
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["state"] = "OWNER_AUTHORIZED"
+    manifest["owner_decision"] = {
+        "status": "APPROVED",
+        "approved_by": "Owner",
+        "approved_at_utc": "2026-10-28T10:00:00Z",
+        "reason": "Synthetic malformed Owner decision ID must refuse before reservation.",
+    }
+    if decision_id is not None:
+        manifest["owner_decision"]["decision_id"] = decision_id
+    manifest_path.write_text(json.dumps(manifest, sort_keys=True) + "\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "_next_attempt", lambda *_args, **_kwargs: pytest.fail("must refuse before reservation"))
+    with pytest.raises(MODULE.PolicyError, match="requires a valid decision_id"):
+        MODULE.run_pytest(
+            "fem_exploratory",
+            fixture["target"],
+            "dev-synthetic-wp12a-decision-id",
+            worktree_id="wp12_dynamics",
+            reason="Synthetic invalid Owner decision ID refusal test.",
+            preflight_id=fixture["preflight_id"],
+            execution_manifest=manifest_path,
+        )
+    ledger = json.loads(fixture["ledger_path"].read_text(encoding="utf-8"))
+    assert ledger["entries"] == {}
 
 
 def test_wp12_dynamics_cli_routes_preflight_ids_for_manifest_and_execution(

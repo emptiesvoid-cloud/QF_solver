@@ -1240,6 +1240,10 @@ def _validate_wp12_execution_manifest(
             "WP12 execution manifest does not bind this exact worktree, source, nodeid, controller and budget"
         )
     if worktree_id == "wp12_dynamics":
+        decision_id = decision.get("decision_id")
+        if not isinstance(decision_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", decision_id):
+            raise PolicyError("WP12-A Owner decision requires a valid decision_id")
+    if worktree_id == "wp12_dynamics":
         expected_preflight = (
             {
                 "preflight_id": preflight_id,
