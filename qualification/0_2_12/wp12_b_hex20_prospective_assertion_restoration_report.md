@@ -1,8 +1,10 @@
 # WP12-B HEX20 — restauration prospective des assertions R4
 
-**Statut :** `HEX20_PROSPECTIVE_ASSERTION_RESTORATION_REVIEW_READY`  
-**Base scientifique :** candidat C3, `37a4176deeeb42ec75e51c3d621cce170e9718e1`  
-**Branche de correction :** `emptiesvoids-cloud/wp12b-hex20-r4-assertions`  
+**Statut :** `HEX20_PROSPECTIVE_ASSERTION_RESTORATION_REVIEW_READY`
+
+**Base scientifique :** candidat C3, `37a4176deeeb42ec75e51c3d621cce170e9718e1`
+
+**Branche de correction :** `emptiesvoids-cloud/wp12b-hex20-r4-assertions`
 **Portée :** correction prospective du diagnostic HEX20; aucune nouvelle exécution FEM.
 
 ## 1. Assertions historiques C1
