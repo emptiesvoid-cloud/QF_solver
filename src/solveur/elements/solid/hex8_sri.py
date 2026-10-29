@@ -52,8 +52,7 @@ class Hex8SRIElement:
         coords = Hex8Element._validated_coords(coords)
         if not np.all(np.isfinite(coords)):
             raise ValueError("Invalid HEX8-SRI geometry: coordinates must be finite.")
-        span = max(float(np.max(np.ptp(coords, axis=0))), 1.0)
-        tolerance = 1.0e-14 * span**3
+        tolerance = Hex8Element._jacobian_determinant_tolerance(coords)
         integration_points = (*cls.integration_points, *cls.volumetric_integration_points)
         determinants = np.asarray(
             [cls.jacobian_determinant(coords, point) for point in integration_points]

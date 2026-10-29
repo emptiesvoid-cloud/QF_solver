@@ -5,6 +5,7 @@ on:
     branches: [emptiesvoids-cloud/0.2.12]
     paths:
       - ".github/workflows/hex8-sri-element-unit.yml"
+      - "src/solveur/elements/solid/hex8.py"
       - "src/solveur/elements/solid/hex8_sri.py"
       - "tests/unit/test_hex8_sri_element.py"
 
@@ -31,7 +32,7 @@ jobs:
           python -m pip install -r requirements/baseline-standard.txt
           python -m pip install -e . --no-deps
       - name: Ruff
-        run: python -m ruff check src/solveur/elements/solid/hex8_sri.py tests/unit/test_hex8_sri_element.py
+        run: python -m ruff check src/solveur/elements/solid/hex8.py src/solveur/elements/solid/hex8_sri.py tests/unit/test_hex8_sri_element.py
       - name: Affine patch
         run: python -m pytest -q tests/unit/test_hex8_sri_element.py::test_sri_affine_field_has_constant_strain_at_all_integration_points
       - name: Exact volumetric integration
@@ -44,5 +45,9 @@ jobs:
         run: python -m pytest -q tests/unit/test_hex8_sri_element.py::test_sri_rejects_negative_central_jacobian_missed_by_full_rule
       - name: Finite geometry guard
         run: python -m pytest -q tests/unit/test_hex8_sri_element.py::test_sri_rejects_nonfinite_geometry_coordinates
+      - name: Scale-relative geometry guard
+        run: python -m pytest -q tests/unit/test_hex8_sri_element.py::test_hex8_and_sri_geometry_validation_scales_with_element_size
+      - name: Standard HEX8 finite geometry guard
+        run: python -m pytest -q tests/unit/test_hex8_sri_element.py::test_standard_hex8_rejects_nonfinite_geometry_coordinates
       - name: Compile changed Python files
-        run: python -m py_compile src/solveur/elements/solid/hex8_sri.py tests/unit/test_hex8_sri_element.py
+        run: python -m py_compile src/solveur/elements/solid/hex8.py src/solveur/elements/solid/hex8_sri.py tests/unit/test_hex8_sri_element.py

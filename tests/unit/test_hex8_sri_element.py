@@ -174,3 +174,32 @@ def test_sri_rejects_nonfinite_geometry_coordinates() -> None:
 
     with pytest.raises(ValueError, match="coordinates must be finite"):
         Hex8SRIElement.validate_geometry(coords)
+
+
+def test_hex8_and_sri_geometry_validation_scales_with_element_size() -> None:
+    material = SolidMaterial(E=1000.0, nu=0.3)
+    standard = Hex8Element(material)
+    sri = Hex8SRIElement(material)
+    for scale in (1.0e-6, 1.0, 1.0e6):
+        coords = scale * unit_hex()
+
+        Hex8Element.validate_geometry(coords)
+        Hex8SRIElement.validate_geometry(coords)
+        assert np.all(np.isfinite(standard.stiffness(coords)))
+        assert np.all(np.isfinite(sri.stiffness(coords)))
+
+        near_degenerate = unit_hex()
+        near_degenerate[:, 2] *= 1.0e-15
+        near_degenerate *= scale
+        with pytest.raises(ValueError, match="Invalid HEX8 Jacobian determinant"):
+            Hex8Element.validate_geometry(near_degenerate)
+        with pytest.raises(ValueError, match="Invalid HEX8-SRI Jacobian determinant"):
+            Hex8SRIElement.validate_geometry(near_degenerate)
+
+
+def test_standard_hex8_rejects_nonfinite_geometry_coordinates() -> None:
+    coords = unit_hex()
+    coords[0, 0] = np.nan
+
+    with pytest.raises(ValueError, match="Invalid HEX8 Jacobian determinant"):
+        Hex8Element.validate_geometry(coords)
