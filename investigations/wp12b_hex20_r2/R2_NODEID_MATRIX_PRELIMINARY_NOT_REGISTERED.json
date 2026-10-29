@@ -1,0 +1,164 @@
+{
+  "schema": "wp12b-hex20-r2-nodeid-matrix-draft-v1",
+  "state": "NOT_REGISTERED_NOT_AUTHORIZED",
+  "science_head": "9b998f42c1543f9d40b2f7a7ef88fd59153a65ee",
+  "science_fingerprint": "8e6ac46ba6bc7ff3429c87077d795121a1d305f99b0006f80ab958b6ce90ca84",
+  "cases": [
+    {
+      "nodeid": "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual",
+      "kind": "AFFINE_SOLVE",
+      "selected_dofs": 60,
+      "fixed_dofs": 24,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "NOT_REGISTERED",
+      "proposed_set": "R2_CORE"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[0]",
+      "kind": "HEX20_TRACTION",
+      "face": 0,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[1]",
+      "kind": "HEX20_TRACTION",
+      "face": 1,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[2]",
+      "kind": "HEX20_TRACTION",
+      "face": 2,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[3]",
+      "kind": "HEX20_TRACTION",
+      "face": 3,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[4]",
+      "kind": "HEX20_TRACTION",
+      "face": 4,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[5]",
+      "kind": "HEX20_TRACTION",
+      "face": 5,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[0]",
+      "kind": "HEX20_PRESSURE",
+      "face": 0,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[1]",
+      "kind": "HEX20_PRESSURE",
+      "face": 1,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[2]",
+      "kind": "HEX20_PRESSURE",
+      "face": 2,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[3]",
+      "kind": "HEX20_PRESSURE",
+      "face": 3,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[4]",
+      "kind": "HEX20_PRESSURE",
+      "face": 4,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[5]",
+      "kind": "HEX20_PRESSURE",
+      "face": 5,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_linear_quad4_and_tri3_constant_traction_are_unchanged",
+      "kind": "QUAD4_TRI3_LOAD",
+      "selected_dofs": 12,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID",
+      "proposed_set": "R2_EXTENDED_OWNER_DISPOSITION_PENDING"
+    }
+  ],
+  "budget_note": "All limits are proposals pending reviewed policy and Owner decision. Static parameter IDs require official collection. EXTENDED retains pending Owner disposition; no MUST is assumed deferred.",
+  "sequential_timeout_ceiling_seconds_if_all_proposed": 4200,
+  "historical_ledger_sha256": "ab5a8e4967ca204898f2eeec52b50f0c6b8e603d0328c3dff06926ff10669f53"
+}
