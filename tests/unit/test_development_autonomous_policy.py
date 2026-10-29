@@ -157,6 +157,7 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
         "rotor",
         MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID,
         MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
+        MODULE.WP12B_HEX20_R2_WORKTREE_ID,
     }
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
 
@@ -1682,7 +1683,7 @@ def test_wp12_manifest_requires_the_exact_scope_mandate(tmp_path: Path, worktree
     }
     preflight_id = None
     preflight_receipt = None
-    if worktree_id == "wp12_dynamics":
+    if worktree_id in {"wp12_dynamics", MODULE.WP12B_HEX20_R2_WORKTREE_ID}:
         payload["execution_authorized"] = True
         payload["do_not_execute"] = False
         preflight_id = "pf-123456789abc"
@@ -1695,6 +1696,8 @@ def test_wp12_manifest_requires_the_exact_scope_mandate(tmp_path: Path, worktree
         }
     if "campaign_id" in entry:
         payload["campaign_id"] = entry["campaign_id"]
+    if worktree_id == MODULE.WP12B_HEX20_R2_WORKTREE_ID:
+        payload["scientific_criteria"] = MODULE.WP12B_HEX20_R2_CRITERIA
     path = evidence_root / "authorizations" / worktree_id / "synthetic-mandate-0001.json"
     path.parent.mkdir(parents=True)
     path.write_text(json.dumps(payload), encoding="utf-8")
@@ -1748,6 +1751,7 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
         "wp12_elements_loads_corrective": WP12_ELEMENTS_LOADS_CORRECTIVE_NODEIDS,
         "wp12_dynamics": WP12_DYNAMICS_NODEIDS,
         "wp12_hex20_affine_diagnostic": (WP12B_HEX20_DIAGNOSTIC_NODEID,),
+        MODULE.WP12B_HEX20_R2_WORKTREE_ID: (WP12B_HEX20_DIAGNOSTIC_NODEID,),
         "rotor": tuple(MODULE.WP12_ROTOR_NODEIDS),
     }
     target = targets[worktree_id][0]
@@ -1786,6 +1790,8 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
     )
     monkeypatch.setattr(MODULE, "_controller_provenance", lambda: {"identity": "synthetic"})
     monkeypatch.setattr(MODULE, "_stable_fingerprint", lambda _value: "c" * 64)
+    synthetic_manifest = tmp_path / "synthetic-authorized-manifest.json"
+    synthetic_manifest.write_text("{}", encoding="utf-8")
     monkeypatch.setattr(
         MODULE,
         "_validate_wp12_execution_manifest",
@@ -1793,6 +1799,8 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
             "authorized": True,
             "decision_id": "owner-synthetic-0001",
             "owner_decision": {"decision_id": "owner-synthetic-0001"},
+            "path": str(synthetic_manifest),
+            "sha256": MODULE._sha256(synthetic_manifest),
         },
     )
     if worktree_id == "wp12_dynamics":
@@ -1803,6 +1811,13 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
             "_validate_wp12_dynamics_preflight_receipt",
             lambda *_args, **_kwargs: (synthetic_preflight, MODULE._sha256(synthetic_preflight)),
         )
+    elif worktree_id == MODULE.WP12B_HEX20_R2_WORKTREE_ID:
+        synthetic_preflight = tmp_path / "preflight.json"
+        synthetic_preflight.write_text(json.dumps({"attempt_ledger": {"sha256_after": None}}), encoding="utf-8")
+        monkeypatch.setattr(
+            MODULE, "_validate_wp12b_hex20_r2_preflight_receipt",
+            lambda *_args, **_kwargs: (synthetic_preflight, MODULE._sha256(synthetic_preflight)),
+        )
     monkeypatch.setattr(MODULE, "_run_root", lambda *_args, **_kwargs: store)
     monkeypatch.setattr(MODULE, "_wp12_resource_lock", lambda *_args, **_kwargs: nullcontext())
     monkeypatch.setattr(MODULE, "psutil", object())
@@ -1810,7 +1825,10 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
     original_ledger_context = MODULE._node_ledger_context
 
     def observe_ledger_context(*args: Any) -> tuple[Path, Path, str, dict[str, str] | None]:
-        context = original_ledger_context(*args)
+        context = (
+            (store / "synthetic.json", store / "synthetic.lock", entry["development_mandate_id"], None)
+            if worktree_id == MODULE.WP12B_HEX20_R2_WORKTREE_ID else original_ledger_context(*args)
+        )
         observed["mandate_id"] = context[2]
         return context
 
@@ -1833,7 +1851,8 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
             "dev-mandate-propagation",
             worktree_id=worktree_id,
             reason="Synthetic pre-attempt mandate propagation test.",
-            preflight_id="pf-123456789abc" if worktree_id == "wp12_dynamics" else None,
+            preflight_id="pf-123456789abc"
+            if worktree_id in {"wp12_dynamics", MODULE.WP12B_HEX20_R2_WORKTREE_ID} else None,
             execution_manifest=tmp_path / "synthetic-authorized-manifest.json",
         )
     assert observed["mandate_id"] == entry["development_mandate_id"]
@@ -3242,7 +3261,7 @@ def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_s
         ).stdout
     )
     hex20_scope_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
-    assert set(worktrees) == set(baseline["worktrees"]) | {hex20_scope_id}
+    assert set(worktrees) == set(baseline["worktrees"]) | {hex20_scope_id, MODULE.WP12B_HEX20_R2_WORKTREE_ID}
     existing = {key: value for key, value in worktrees.items() if key != hex20_scope_id}
     for worktree_id, baseline_entry in baseline["worktrees"].items():
         if worktree_id == "wp12_dynamics":
@@ -4516,7 +4535,7 @@ def test_hex8sri_scope_refresh_leaves_historical_scope_registrations_unchanged()
     )
     current = _policy()
     hex20_scope_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
-    assert set(current["worktrees"]) == set(baseline["worktrees"]) | {hex20_scope_id}
+    assert set(current["worktrees"]) == set(baseline["worktrees"]) | {hex20_scope_id, MODULE.WP12B_HEX20_R2_WORKTREE_ID}
     for worktree_id, baseline_entry in baseline["worktrees"].items():
         if worktree_id == MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID:
             _assert_hex8sri_source_refresh_only(current["worktrees"][worktree_id], baseline_entry)

@@ -18,6 +18,7 @@ on:
       - "tests/unit/test_wp12_observable_archive_synthetic.py"
       - "tests/unit/test_wp12b_diagnostic_provenance.py"
       - "tests/unit/test_wp12b_hex20_r2_predecessor_synthetic.py"
+      - "tests/unit/test_wp12b_hex20_r2_chain_synthetic.py"
       - "tests/unit/test_wp12b_hex20_diagnostic_support.py"
       - "tests/unit/test_wp12b_owner_decision_contract.py"
   push:
@@ -59,6 +60,7 @@ jobs:
           tests/unit/test_wp12_observable_archive_synthetic.py
           tests/unit/test_wp12b_diagnostic_provenance.py
           tests/unit/test_wp12b_hex20_r2_predecessor_synthetic.py
+          tests/unit/test_wp12b_hex20_r2_chain_synthetic.py
           tests/unit/test_wp12b_hex20_diagnostic_support.py
           tests/unit/test_wp12b_owner_decision_contract.py
       - name: Compile controller sources and tests
@@ -75,6 +77,7 @@ jobs:
           tests/unit/test_wp12_observable_archive_synthetic.py
           tests/unit/test_wp12b_diagnostic_provenance.py
           tests/unit/test_wp12b_hex20_r2_predecessor_synthetic.py
+          tests/unit/test_wp12b_hex20_r2_chain_synthetic.py
           tests/unit/test_wp12b_hex20_diagnostic_support.py
           tests/unit/test_wp12b_owner_decision_contract.py
       - name: Validate policy JSON
