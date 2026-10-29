@@ -1,10 +1,15 @@
 """Independent symbolic derivation of manufactured elasticity; never imports QF Solver."""
 from __future__ import annotations
 import math
-import sympy as s
+try:
+    import sympy as s
+except ModuleNotFoundError:  # optional CAS aid; the standard test baseline omits SymPy
+    s = None
 
 
 def audit() -> None:
+    if s is None:
+        raise RuntimeError("the optional symbolic audit requires SymPy; install it to run this audit")
     x,y,z,lx,ly,lz,a,lam,mu=s.symbols("x y z Lx Ly Lz A lambda mu", real=True, positive=True)
     variables=(x,y,z)
     kx,ky,kz=s.pi/lx,s.pi/ly,s.pi/lz

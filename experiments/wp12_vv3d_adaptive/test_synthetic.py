@@ -1,5 +1,6 @@
 """Synthetic geometry and analytic-oracle checks; no FEM execution."""
 import hashlib
+import importlib.util
 import json
 import math
 import tempfile
@@ -312,9 +313,22 @@ class OracleContracts(unittest.TestCase):
             case_harness._free_residual_observable({"free_relative_residual": float("nan")})
 
     def test_independent_symbolic_oracle_matches_runtime_analytic_field(self):
+        if importlib.util.find_spec("sympy") is None:
+            self.skipTest("optional SymPy dependency is not installed")
         from experiments.wp12_vv3d_adaptive.oracle_symbolic_audit import audit
 
         audit()
+
+    def test_symbolic_audit_reports_its_optional_dependency_explicitly(self):
+        from experiments.wp12_vv3d_adaptive import oracle_symbolic_audit
+
+        previous = oracle_symbolic_audit.s
+        try:
+            oracle_symbolic_audit.s = None
+            with self.assertRaisesRegex(RuntimeError, "optional symbolic audit requires SymPy"):
+                oracle_symbolic_audit.audit()
+        finally:
+            oracle_symbolic_audit.s = previous
 
     def test_zero_fabricated_field_has_unit_relative_error(self):
         prepared=mesh.generate("HEX8",2)
