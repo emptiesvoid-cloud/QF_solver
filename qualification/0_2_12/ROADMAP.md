@@ -99,6 +99,8 @@ See [WP12_ACCELERATED_VV_REPORT.md](vv_local/wp12_accelerated/WP12_ACCELERATED_V
 | **WP12-E — Corrélation indépendante** | Comparaisons ciblées avec Code_Aster ou CalculiX et références physiques 3D lorsque les formulations sont comparables. | Optionnelle avant v0.2.12 et reportable à v0.3.0. Comparer seulement après rapprochement des éléments, quadrature, charges, contraintes et observables; une corrélation n’est pas une validation physique. |
 | **WP12-F — Consolidation finale** | Consolider la matrice des 62 capacités, les priorités MUST / SHOULD / DEFERRED, les preuves courantes et historiques, les états PASS / FAIL / INCONCLUSIVE et la recommandation finale WP12. | Le MUST est une exigence de disposition et de traçabilité bornée, pas une promotion automatique en PASS. La recommandation de clôture dépendra des rapports, écarts et décisions Owner réels. |
 
+**Disposition Owner WP12-A — 2026-10-29 :** `WP12A_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`, uniquement pour le périmètre, les limites et les exclusions de la [décision enregistrée](WP12A_OWNER_BOUNDED_CLOSURE_DECISION_20261029.md). Les preuves et échecs historiques demeurent inchangés ; WP12 et WP13 restent `OPEN`, sans qualification physique générale ni autorisation de publication.
+
 #### Résultats récents — preuves liées à leur propre identité
 
 | Campagne | Résultat à préserver | Identité et portée |
