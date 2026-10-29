@@ -98,6 +98,89 @@ def test_r2_ledger_binding_refuses_hardlink_to_predecessor(
     assert predecessor.read_bytes() == before
 
 
+def test_r2_reservation_is_independent_and_single_use(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    predecessor = tmp_path / "r1.json"
+    original = _write(predecessor, _ledger(), monkeypatch)
+    monkeypatch.setattr(controller, "WP12B_HEX20_R1_LEDGER_PATH", predecessor)
+    ledger, lock = tmp_path / "r2.json", tmp_path / "r2.lock"
+    arguments = {
+        "mandate_id": controller.WP12B_HEX20_R2_MANDATE_ID,
+        "worktree_id": controller.WP12B_HEX20_R2_WORKTREE_ID,
+        "target": controller.WP12B_HEX20_DIAGNOSTIC_NODEID,
+        "series_id": "synthetic-run",
+        "source_fingerprint": "a" * 64,
+        "controller_fingerprint": "b" * 64,
+        "reason": "synthetic reservation without FEM",
+        "maximum": 1,
+        "total_maximum": 1,
+        "authorization_id": "synthetic-auth",
+        "owner_decision_id": "synthetic-decision",
+        "predecessor": {
+            "path": str(predecessor.resolve()),
+            "sha256": controller.WP12B_HEX20_R1_LEDGER_SHA256,
+            "mandate_id": controller.WP12B_HEX20_R1_MANDATE_ID,
+        },
+        "require_ledger_snapshot": True,
+    }
+    key, number = controller._reserve_node_attempt(ledger, lock, **arguments)
+    assert number == 1
+    saved = ledger.read_bytes()
+    payload = json.loads(saved)
+    assert payload["predecessor"] == arguments["predecessor"]
+    assert payload["entries"][key][0]["owner_decision_id"] == "synthetic-decision"
+    with pytest.raises(controller.PolicyError, match="exhausted"):
+        controller._reserve_node_attempt(
+            ledger, lock, **arguments, expected_ledger_sha256=hashlib.sha256(saved).hexdigest()
+        )
+    assert ledger.read_bytes() == saved
+    assert predecessor.read_bytes() == original
+
+
+@pytest.mark.parametrize("mutation", ["target", "decision", "fingerprint", "budget", "predecessor", "snapshot"])
+def test_r2_reservation_refuses_invalid_inputs_before_writing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mutation: str
+) -> None:
+    predecessor = tmp_path / "r1.json"
+    original = _write(predecessor, _ledger(), monkeypatch)
+    monkeypatch.setattr(controller, "WP12B_HEX20_R1_LEDGER_PATH", predecessor)
+    ledger, lock = tmp_path / "r2.json", tmp_path / "r2.lock"
+    arguments = {
+        "mandate_id": controller.WP12B_HEX20_R2_MANDATE_ID,
+        "worktree_id": controller.WP12B_HEX20_R2_WORKTREE_ID,
+        "target": controller.WP12B_HEX20_DIAGNOSTIC_NODEID,
+        "series_id": "synthetic-run",
+        "source_fingerprint": "a" * 64,
+        "controller_fingerprint": "b" * 64,
+        "reason": "synthetic reservation without FEM",
+        "maximum": 1,
+        "total_maximum": 1,
+        "authorization_id": "synthetic-auth",
+        "owner_decision_id": "synthetic-decision",
+        "predecessor": {
+            "path": str(predecessor.resolve()),
+            "sha256": controller.WP12B_HEX20_R1_LEDGER_SHA256,
+            "mandate_id": controller.WP12B_HEX20_R1_MANDATE_ID,
+        },
+        "require_ledger_snapshot": True,
+    }
+    if mutation == "target":
+        arguments["target"] = "tests/unit/test_other.py::test_other"
+    elif mutation == "decision":
+        arguments["owner_decision_id"] = None
+    elif mutation == "fingerprint":
+        arguments["source_fingerprint"] = "invalid"
+    elif mutation == "budget":
+        arguments["maximum"] = 2
+    elif mutation == "predecessor":
+        arguments["predecessor"]["sha256"] = "0" * 64
+    else:
+        arguments["require_ledger_snapshot"] = False
+    with pytest.raises(controller.PolicyError, match="reservation identity"):
+        controller._reserve_node_attempt(ledger, lock, **arguments)
+    assert not ledger.exists() and not lock.exists()
+    assert predecessor.read_bytes() == original
+
+
 def test_r1_predecessor_refuses_missing_or_changed_bytes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     path = tmp_path / "r1.json"
     with pytest.raises(controller.PolicyError, match="missing or has a different SHA"):

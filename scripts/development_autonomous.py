@@ -374,6 +374,11 @@ WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_SCHEMA = "qfsolver-wp12b-hex20-diagnostic-colle
 WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_MARKER = "QF_DEV_WP12B_HEX20_DIAGNOSTIC_PREFLIGHT="
 WP12B_HEX20_R1_LEDGER_SHA256 = "ab5a8e4967ca204898f2eeec52b50f0c6b8e603d0328c3dff06926ff10669f53"
 WP12B_HEX20_R1_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTIC-2026-10-27-R1"
+WP12B_HEX20_R2_WORKTREE_ID = "wp12_hex20_affine_diagnostic_r2"
+WP12B_HEX20_R2_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTIC-2026-10-29-R2"
+WP12B_HEX20_R1_LEDGER_PATH = Path(
+    r"E:\QFSolverAgents\evidence\wp12b-hex20-affine-diagnostic-consolidated\node-attempt-ledger.json"
+)
 WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
     "wp12_wp07": {
         "root": r"E:\QFSolverAgents\wp07",
@@ -2986,7 +2991,36 @@ def _reserve_node_attempt(
 ) -> tuple[str, int]:
     key = f"{mandate_id}:{worktree_id}:{target}"
     schema = "qfsolver-development-node-ledger-v2" if predecessor is not None else "qfsolver-development-node-ledger-v1"
+    if worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
+        expected_predecessor = {
+            "path": str(WP12B_HEX20_R1_LEDGER_PATH.resolve()),
+            "sha256": WP12B_HEX20_R1_LEDGER_SHA256,
+            "mandate_id": WP12B_HEX20_R1_MANDATE_ID,
+        }
+        if (
+            mandate_id != WP12B_HEX20_R2_MANDATE_ID
+            or target != WP12B_HEX20_DIAGNOSTIC_NODEID
+            or predecessor != expected_predecessor
+            or maximum != 1
+            or total_maximum != 1
+            or not require_ledger_snapshot
+            or not isinstance(authorization_id, str)
+            or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", authorization_id)
+            or not isinstance(owner_decision_id, str)
+            or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", owner_decision_id)
+            or not re.fullmatch(r"[0-9a-f]{64}", source_fingerprint)
+            or not isinstance(controller_fingerprint, str)
+            or not re.fullmatch(r"[0-9a-f]{64}", controller_fingerprint)
+        ):
+            raise PolicyError("WP12-B HEX20 R2 reservation identity, predecessor, authorization or budget mismatch")
+        _validate_wp12b_hex20_r2_ledger_binding(
+            predecessor_path=WP12B_HEX20_R1_LEDGER_PATH, ledger_path=ledger_path, lock_path=lock_path
+        )
     with _node_attempt_locks(ledger_path, lock_path, worktree_id):
+        if worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
+            _validate_wp12b_hex20_r2_ledger_binding(
+                predecessor_path=WP12B_HEX20_R1_LEDGER_PATH, ledger_path=ledger_path, lock_path=lock_path
+            )
         if batch_binding is not None:
             required_batch_fields = {
                 "campaign_id",
@@ -3049,6 +3083,12 @@ def _reserve_node_attempt(
             or (predecessor is not None and ledger.get("predecessor") != dict(predecessor))
         ):
             raise PolicyError("development attempt ledger identity/schema mismatch")
+        if worktree_id == WP12B_HEX20_R2_WORKTREE_ID and (
+            set(ledger) != {"schema", "mandate_id", "entries", "predecessor"}
+            or set(ledger["entries"]) - {key}
+            or not all(isinstance(items, list) and len(items) <= 1 for items in ledger["entries"].values())
+        ):
+            raise PolicyError("WP12-B HEX20 R2 ledger contains invalid or foreign attempts")
         predecessor_counts: dict[str, int] = {}
         predecessor_total = 0
         predecessor_ledger: dict[str, Any] | None = None
