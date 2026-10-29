@@ -1,5 +1,6 @@
 """Synthetic geometry and analytic-oracle checks; no FEM execution."""
 import hashlib
+import importlib.util
 import json
 import math
 import tempfile
@@ -9,7 +10,7 @@ from itertools import combinations, product
 from pathlib import Path
 
 from experiments.wp12_vv3d_adaptive import (
-    basis, budget, evidence, field_error_draft, load_assembly_draft, mesh, metrics, model_draft,
+    basis, budget, case_harness, evidence, field_error_draft, load_assembly_draft, mesh, metrics, model_draft,
     oracle, prepare, quadrature, quality, sampling,
 )
 
@@ -173,7 +174,7 @@ class MeshContracts(unittest.TestCase):
         binding=json.loads((base/"PREPARED_CASE_BINDINGS_DRAFT.json").read_bytes())
         test_source=base.parents[1]/binding["test_source_path"]
         self.assertEqual(binding["test_source_sha256_provisional"],hashlib.sha256(test_source.read_bytes()).hexdigest())
-        self.assertFalse(binding["runner_registered"])
+        self.assertTrue(binding["runner_registered"])
         self.assertEqual(binding["matrix_sha256"],hashlib.sha256(raw).hexdigest())
         self.assertEqual(len(binding["cases"]),12)
         indexed={case["case_id"]:case for case in matrix["cases"]}
@@ -203,6 +204,132 @@ class MeshContracts(unittest.TestCase):
 
 
 class OracleContracts(unittest.TestCase):
+    def test_independent_shape_functions_and_gradients_satisfy_nodal_and_finite_difference_checks(self):
+        for family in mesh.FORMULATIONS:
+            tetra = family.startswith("TET")
+            if tetra:
+                corners = ((0.0, 0.0, 0.0), (1.0, 0.0, 0.0),
+                           (0.0, 1.0, 0.0), (0.0, 0.0, 1.0))
+                edges = field_error_draft._TET_EDGES
+                point = (0.17, 0.21, 0.13)
+            else:
+                corners = tuple(tuple(2 * value - 1 for value in corner)
+                                for corner in field_error_draft._HEX_CORNERS)
+                edges = field_error_draft._HEX_EDGES
+                point = (0.17, -0.21, 0.13)
+            nodal_points = list(corners)
+            if family in {"TET10", "HEX20"}:
+                nodal_points.extend(tuple((corners[left][axis] + corners[right][axis]) * 0.5
+                                          for axis in range(3)) for left, right in edges)
+            for node_index, nodal_point in enumerate(nodal_points):
+                values, _gradients = field_error_draft._shape_data(family, nodal_point)
+                for index, value in enumerate(values):
+                    self.assertAlmostEqual(value, 1.0 if index == node_index else 0.0, delta=2e-14)
+            values, gradients = field_error_draft._shape_data(family, point)
+            self.assertAlmostEqual(sum(values), 1.0, delta=2e-14)
+            step = 1.0e-6
+            for axis in range(3):
+                plus, minus = list(point), list(point)
+                plus[axis] += step
+                minus[axis] -= step
+                plus_values = field_error_draft._shape_data(family, tuple(plus))[0]
+                minus_values = field_error_draft._shape_data(family, tuple(minus))[0]
+                for index in range(len(values)):
+                    finite_difference = (plus_values[index] - minus_values[index]) / (2 * step)
+                    self.assertAlmostEqual(finite_difference, gradients[index][axis], delta=2e-9)
+
+    def test_independent_reference_quadrature_integrates_reference_moments(self):
+        for order in (4, 8, 12):
+            hexa = field_error_draft._hexahedron_rule(order)
+            tetra = field_error_draft._tetrahedron_rule(order)
+            self.assertAlmostEqual(sum(weight for *_point, weight in hexa), 8.0, delta=1e-12)
+            for degree in range(2 * order):
+                exact = 0.0 if degree % 2 else 8.0 / (degree + 1)
+                observed = sum(weight * r**degree for r, _s, _t, weight in hexa)
+                self.assertAlmostEqual(observed, exact, delta=2e-12)
+            self.assertAlmostEqual(sum(weight for *_point, weight in tetra), 1.0 / 6.0, delta=1e-12)
+            for exponents in ((1, 0, 0), (0, 1, 0), (0, 0, 1), (2, 0, 0), (1, 1, 0)):
+                numerator = math.prod(math.factorial(value) for value in exponents)
+                denominator = math.factorial(sum(exponents) + 3)
+                exact = numerator / denominator
+                observed = sum(weight * r**exponents[0] * s**exponents[1] * t**exponents[2]
+                               for r, s, t, weight in tetra)
+                self.assertAlmostEqual(observed, exact, delta=2e-12)
+
+    def test_independent_reference_sampling_reproduces_affine_fields(self):
+        gradient = ((0.1, 0.2, 0.0), (0.0, -0.3, 0.4), (0.2, 0.0, -0.1))
+        translation = (0.02, -0.03, 0.04)
+        expected_strain = (0.1, -0.3, -0.1, 0.2, 0.4, 0.2)
+        for family in mesh.FORMULATIONS:
+            prepared = mesh.generate(family, 2)
+            denominator = prepared["integer_coordinate_denominator"]
+            for skew in (False, True):
+                integer_nodes = prepared["nodes_integer"]
+                if skew:
+                    integer_nodes = [(point[0] + point[1], point[1], point[2])
+                                     for point in integer_nodes]
+                physical_nodes = [tuple(value / denominator for value in point)
+                                  for point in integer_nodes]
+                nodal = [tuple(sum(gradient[component][axis] * point[axis] for axis in range(3))
+                               + translation[component] for component in range(3))
+                         for point in physical_nodes]
+                point = (0.2, 0.2, 0.2) if family.startswith("TET") else (0.17, -0.21, 0.13)
+                sampled = field_error_draft.sample_cell_reference(
+                    family, prepared["connectivity_zero_based"][0], integer_nodes,
+                    denominator, nodal, point,
+                )
+                for actual, expected in zip(sampled["strain"], expected_strain):
+                    self.assertAlmostEqual(actual, expected, delta=2e-13)
+                expected_u = tuple(sum(gradient[component][axis] * sampled["point_m"][axis]
+                                       for axis in range(3)) + translation[component]
+                                   for component in range(3))
+                for actual, expected in zip(sampled["displacement_m"], expected_u):
+                    self.assertAlmostEqual(actual, expected, delta=2e-13)
+
+    def test_independent_integrals_of_fabricated_zero_fields_have_unit_relative_errors(self):
+        for family in mesh.FORMULATIONS:
+            prepared = mesh.generate(family, 2)
+            prepared["connectivity_zero_based"] = prepared["connectivity_zero_based"][:1]
+            nodal = [(0.0, 0.0, 0.0)] * prepared["summary"]["nodes"]
+            result = field_error_draft.integrated_errors(prepared, nodal, order=4)
+            for key in ("displacement_relative_l2", "energy_error_relative",
+                        "strain_error_relative", "stress_error_relative"):
+                self.assertAlmostEqual(result[key], 1.0, delta=2e-13)
+            self.assertEqual(result["scalar_energy_j"], 0.0)
+            self.assertEqual(result["status"], "DIAGNOSTIC_UNQUALIFIED")
+
+    def test_vv3d_residual_gate_copies_solver_reduced_residual_convention(self):
+        equilibrium = {
+            "free_relative_residual": 2.5e-9,
+            "free_residual_norm": 3.0e-4,
+            "external_load_norm": 600.0,
+            "internal_force_norm": 900.0,
+        }
+        observable = case_harness._free_residual_observable(equilibrium)
+        self.assertEqual(observable["value"], equilibrium["free_relative_residual"])
+        self.assertEqual(observable["unit"], "1")
+        self.assertEqual(observable["formula"], "||r_reduced||2 / max(||F_reduced||2, 1 N)")
+        with self.assertRaises(ValueError):
+            case_harness._free_residual_observable({"free_relative_residual": float("nan")})
+
+    def test_independent_symbolic_oracle_matches_runtime_analytic_field(self):
+        if importlib.util.find_spec("sympy") is None:
+            self.skipTest("optional SymPy dependency is not installed")
+        from experiments.wp12_vv3d_adaptive.oracle_symbolic_audit import audit
+
+        audit()
+
+    def test_symbolic_audit_reports_its_optional_dependency_explicitly(self):
+        from experiments.wp12_vv3d_adaptive import oracle_symbolic_audit
+
+        previous = oracle_symbolic_audit.s
+        try:
+            oracle_symbolic_audit.s = None
+            with self.assertRaisesRegex(RuntimeError, "optional symbolic audit requires SymPy"):
+                oracle_symbolic_audit.audit()
+        finally:
+            oracle_symbolic_audit.s = previous
+
     def test_zero_fabricated_field_has_unit_relative_error(self):
         prepared=mesh.generate("HEX8",2)
         nodal=[(0.0,0.0,0.0)]*prepared["summary"]["nodes"]

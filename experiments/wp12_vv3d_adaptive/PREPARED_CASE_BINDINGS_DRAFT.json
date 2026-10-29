@@ -110,10 +110,10 @@
     }
   ],
   "matrix_sha256": "013abf31c3876dcffd2a4128f804dc7f648121663f6b3b0757d0ca08ea702e9e",
-  "note": "Exact initial nodeids are named; controller registration and execution authorization remain pending.",
-  "runner_registered": false,
+  "note": "Exact initial nodeids are registered in the designated controller; case execution remains PREPARED_NOT_AUTHORIZED pending current identities, preflights, manifests, and Owner decision.",
+  "runner_registered": true,
   "schema": "qf-wp12-vv3d-case-binding-draft-v1",
   "state": "PREPARED_NOT_AUTHORIZED",
   "test_source_path": "tests/unit/test_wp12_vv3d_adaptive_prepared.py",
-  "test_source_sha256_provisional": "197e68daff601963fcf7a90911628d6faa2cf255334fe4223d225e23932cfbe7"
+  "test_source_sha256_provisional": "27f82fe15f5de3dc2e86c52b9ed30f52cae01bd6125bd8c35117d7cf8d820755"
 }

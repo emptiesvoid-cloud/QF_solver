@@ -1149,17 +1149,16 @@ def _run_prospective_case_with_context(
             "shear": "tensor", "integration_rule": "solver recovery points",
         }
 
-        # Evaluate with independent reference basis derivatives and 4/8-point
-        # rules. Agreement is an observation until the Owner freezes the gate.
+        # Evaluate with an independent postprocessor and 8/12-point rules.
+        # Agreement is an observation until the Owner freezes the gate.
         nodal_u = [tuple(float(result.displacements[result.dofs.index(node, dof)])
                          for dof in ("UX", "UY", "UZ")) for node in range(len(coordinates))]
         error8 = field_error_draft.integrated_errors(prepared, nodal_u, order=8)
         error12 = field_error_draft.integrated_errors(prepared, nodal_u, order=12)
         exact_scalar_energy = oracle.exact_energy_j()
         for order, error_record in ((8, error8), (12, error12)):
-            scalar_energy = _archived_scalar_energy(prepared, nodal_u, order)
+            scalar_energy = error_record["scalar_energy_j"]
             error_record["scalar_energy_relative_error"] = abs(scalar_energy - exact_scalar_energy) / exact_scalar_energy
-            error_record["scalar_energy_j"] = scalar_energy
         payload["observables"]["independent_quadrature_8_12"] = {
             "status": "DIAGNOSTIC_UNQUALIFIED", "order_8": error8, "order_12": error12,
             "note": "quadrature agreement and field norms require frozen Owner criteria",
@@ -1201,16 +1200,11 @@ def _run_prospective_case_with_context(
                 payload["observables"][name] = {"status": "AVAILABLE", "value": equilibrium[source], "unit": unit}
         if "free_relative_residual" in equilibrium:
             payload["observables"]["free_relative_residual"]["normalization"] = (
-                "solver-reported: free_residual_norm / max(norm(reduced_external), 1 N); diagnostic only"
+                "solver static-equilibrium convention: ||r_reduced||2 / max(||F_reduced||2, 1 N)"
             )
-        if {"free_residual_norm", "external_load_norm", "internal_force_norm"}.issubset(equilibrium):
-            payload["observables"]["vv3d_free_residual_relative"] = {
-                "status": "AVAILABLE",
-                "value": float(equilibrium["free_residual_norm"])
-                / max(float(equilibrium["external_load_norm"]), float(equilibrium["internal_force_norm"]), 1e-30),
-                "unit": "1",
-                "formula": "||r_free||2 / max(||F_external||2, ||F_internal||2, 1e-30 N)",
-            }
+            payload["observables"]["vv3d_free_residual_relative"] = (
+                _free_residual_observable(equilibrium)
+            )
         if {"secant_internal_energy", "external_work_at_final_load"}.issubset(equilibrium):
             internal_energy = float(equilibrium["secant_internal_energy"])
             external_work = float(equilibrium["external_work_at_final_load"])
@@ -1292,26 +1286,19 @@ def _relative_vector_difference(left: tuple[float, ...], right: tuple[float, ...
     return numerator / denominator
 
 
-def _archived_scalar_energy(prepared_mesh: dict[str, Any], nodal_u: list[tuple[float, ...]], order: int) -> float:
-    from experiments.wp12_vv3d_adaptive import oracle, quadrature, sampling
-
-    family = prepared_mesh["family"]
-    rule = quadrature.tetrahedron_duffy_rule(order) if family.startswith("TET") else quadrature.hexahedron_rule(order)
-    total = 0.0
-    for cell in prepared_mesh["connectivity_zero_based"]:
-        for r, s, t, reference_weight in rule:
-            sample = sampling.sample_cell(
-                family, cell, prepared_mesh["nodes_integer"], prepared_mesh["integer_coordinate_denominator"],
-                nodal_u, (r, s, t),
-            )
-            strain = sample["strain"]
-            stress = sample["stress_pa"]
-            density = 0.5 * sum(strain[i] * stress[i] for i in range(3))
-            density += 0.5 * sum(strain[i] * stress[i] for i in range(3, 6))
-            total += reference_weight * sample["jacobian_det_m3"] * density
-    if not math.isfinite(total) or total < 0 or oracle.exact_energy_j() <= 0:
-        raise ValueError("archived-state scalar energy is nonfinite or has no positive reference")
-    return total
+def _free_residual_observable(equilibrium: dict[str, Any]) -> dict[str, Any]:
+    """Bind the VV3D gate to the solver's documented reduced-equation residual."""
+    value = equilibrium.get("free_relative_residual")
+    if (isinstance(value, bool) or not isinstance(value, (int, float))
+            or not math.isfinite(value) or value < 0.0):
+        raise ValueError("solver audit has no finite nonnegative free relative residual")
+    return {
+        "status": "AVAILABLE",
+        "value": float(value),
+        "unit": "1",
+        "formula": "||r_reduced||2 / max(||F_reduced||2, 1 N)",
+        "source": "solveur.core.audit.static_equilibrium_summary.free_relative_residual",
+    }
 
 
 def process_archived_qpost(candidate_id: str, archive: dict[str, Any]) -> dict[str, Any]:
@@ -1347,13 +1334,12 @@ def process_archived_qpost(candidate_id: str, archive: dict[str, Any]) -> dict[s
         raise ValueError("archived displacement vector is missing, nonfinite or has the wrong length")
     nodal_u = [tuple(float(displacements[3 * node + axis]) for axis in range(3))
                for node in range(len(prepared["nodes_integer"]))]
-    from experiments.wp12_vv3d_adaptive import field_error_draft, oracle
+    from experiments.wp12_vv3d_adaptive import oracle, field_error_draft
 
     results = {order: field_error_draft.integrated_errors(prepared, nodal_u, order=order)
                for order in (8, 12)}
     for order in (8, 12):
-        energy = _archived_scalar_energy(prepared, nodal_u, order)
-        results[order]["scalar_energy_j"] = energy
+        energy = results[order]["scalar_energy_j"]
         results[order]["scalar_energy_relative_error"] = abs(energy - oracle.exact_energy_j()) / oracle.exact_energy_j()
     metric_keys = (
         "displacement_relative_l2", "energy_error_relative", "stress_error_relative",
