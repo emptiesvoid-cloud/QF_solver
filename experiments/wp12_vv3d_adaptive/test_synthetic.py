@@ -9,7 +9,8 @@ from itertools import combinations, product
 from pathlib import Path
 
 from experiments.wp12_vv3d_adaptive import (
-    basis, budget, evidence, load_assembly_draft, mesh, metrics, model_draft, oracle, prepare, quadrature, quality,
+    basis, budget, evidence, field_error_draft, load_assembly_draft, mesh, metrics, model_draft,
+    oracle, prepare, quadrature, quality, sampling,
 )
 
 
@@ -152,10 +153,102 @@ class MeshContracts(unittest.TestCase):
             self.assertEqual(quality.assess(json.loads((directory/case["mesh_file"]).read_bytes())),
                              {k:v for k,v in row.items() if k not in {"case_id","mesh_sha256"}})
 
+    def test_adaptive_meshes_are_bounded_and_reproducible(self):
+        directory=Path(__file__).parent/"adaptive_meshes_20261029"
+        index=json.loads((directory/"ADAPTIVE_MESH_INDEX_NOT_AUTHORIZED.json").read_bytes())
+        self.assertEqual(len(index["cases"]),4)
+        for item in index["cases"]:
+            raw=(directory/item["mesh_file"]).read_bytes()
+            self.assertEqual(hashlib.sha256(raw).hexdigest(),item["mesh_sha256"])
+            self.assertEqual(raw,prepare.encode(mesh.generate(item["family"],item["n"])))
+            self.assertLessEqual(item["summary"]["dofs"],30000)
+            self.assertFalse(item["execution_authorized"])
+            self.assertEqual(item["quality"],quality.assess(json.loads(raw)))
+            self.assertEqual(item["nested_with_n8"],item["n"] == 16)
+
+    def test_case_binding_draft_matches_the_frozen_mesh_index(self):
+        base=Path(__file__).parent
+        raw=(base/"prepared_20261029/MATRIX_NOT_AUTHORIZED.json").read_bytes()
+        matrix=json.loads(raw)
+        binding=json.loads((base/"PREPARED_CASE_BINDINGS_DRAFT.json").read_bytes())
+        test_source=base.parents[1]/binding["test_source_path"]
+        self.assertEqual(binding["test_source_sha256_provisional"],hashlib.sha256(test_source.read_bytes()).hexdigest())
+        self.assertFalse(binding["runner_registered"])
+        self.assertEqual(binding["matrix_sha256"],hashlib.sha256(raw).hexdigest())
+        self.assertEqual(len(binding["cases"]),12)
+        indexed={case["case_id"]:case for case in matrix["cases"]}
+        for item in binding["cases"]:
+            self.assertEqual(item["mesh_sha256"],indexed[item["case_id"]]["mesh_sha256"])
+            self.assertEqual(item["selected_dofs"],indexed[item["case_id"]]["dofs"])
+            self.assertIn(item["case_id"],item["nodeid"])
+            self.assertEqual(item["state"],"SKIPPED_NOT_AUTHORIZED")
+            self.assertEqual(hashlib.sha256((base/item["criteria_path"]).read_bytes()).hexdigest(),
+                             item["criteria_sha256_provisional"])
+
+    def test_adaptive_catalog_has_closed_identity_and_mesh_proposals(self):
+        base=Path(__file__).parent
+        catalog=json.loads((base/"ADAPTIVE_CATALOG_DRAFT.json").read_bytes())
+        cases=catalog["candidates"]
+        self.assertEqual(len(cases),12)
+        self.assertEqual(len({case["candidate_id"] for case in cases}),12)
+        self.assertEqual(len({case["nodeid"] for case in cases}),12)
+        for case in cases:
+            self.assertEqual(case["status"],"PREPARED_NOT_AUTHORIZED")
+            self.assertEqual(case["nodeid_status"],"IMPLEMENTED_SKIPPED_NOT_REGISTERED")
+            binding=case["prepared_mesh"]
+            self.assertEqual(hashlib.sha256((base/binding["path"]).read_bytes()).hexdigest(),binding["sha256"])
+            self.assertLessEqual(binding["selected_dofs"],30000)
+            self.assertEqual(hashlib.sha256((base/case["criteria_path"]).read_bytes()).hexdigest(),
+                             case["criteria_sha256_provisional"])
+
 
 class OracleContracts(unittest.TestCase):
+    def test_zero_fabricated_field_has_unit_relative_error(self):
+        prepared=mesh.generate("HEX8",2)
+        nodal=[(0.0,0.0,0.0)]*prepared["summary"]["nodes"]
+        result=field_error_draft.integrated_errors(prepared,nodal,order=4)
+        for key in ("displacement_relative_l2","energy_error_relative","stress_error_relative","strain_error_relative"):
+            self.assertAlmostEqual(result[key],1.0,delta=1e-13)
+        self.assertEqual(result["status"],"DIAGNOSTIC_UNQUALIFIED")
+
+    def test_affine_field_sampling_is_exact_for_all_families(self):
+        expected_strain=(0.1,-0.3,-0.1,0.2,0.4,0.2)
+        lam,mu=oracle.lame()
+        expected_stress=tuple(lam*sum(expected_strain[:3])+2*mu*v for v in expected_strain[:3])+tuple(
+            mu*v for v in expected_strain[3:]
+        )
+        for family in mesh.FORMULATIONS:
+            for skew in (False,True):
+                m=mesh.generate(family,2)
+                d=m["integer_coordinate_denominator"]
+                points=[(p[0]+p[1],p[1],p[2]) if skew else p for p in m["nodes_integer"]]
+                nodal=[]
+                for p in points:
+                    x,y,z=(v/d for v in p)
+                    nodal.append((0.1*x+0.2*y,-0.3*y+0.4*z,0.2*x-0.1*z))
+                reference=(0.2,0.2,0.2) if family.startswith("TET") else (0.2,-0.3,0.1)
+                sampled=sampling.sample_cell(family,m["connectivity_zero_based"][0],points,d,nodal,reference)
+                for actual,expected in zip(sampled["strain"],expected_strain):
+                    self.assertAlmostEqual(actual,expected,delta=1e-13)
+                for actual,expected in zip(sampled["stress_pa"],expected_stress):
+                    self.assertAlmostEqual(actual,expected,delta=1e-7)
+
+    def test_reference_shape_gradients_are_independently_differentiated(self):
+        h=1e-6
+        for family in mesh.FORMULATIONS:
+            point=(0.17,0.21,0.13) if family.startswith("TET") else (0.17,-0.21,0.13)
+            gradients=basis.shape_gradients(family,point)
+            for axis in range(3):
+                self.assertAlmostEqual(sum(g[axis] for g in gradients),0.0,delta=1e-13)
+                plus,minus=list(point),list(point)
+                plus[axis]+=h
+                minus[axis]-=h
+                vp,vm=basis.shape_values(family,tuple(plus)),basis.shape_values(family,tuple(minus))
+                for i in range(len(vp)):
+                    self.assertAlmostEqual(gradients[i][axis],(vp[i]-vm[i])/(2*h),delta=1e-9)
+
     def test_reference_quadrature_polynomial_moments(self):
-        for order in (4,8):
+        for order in (4,8,12):
             hexa = quadrature.hexahedron_rule(order)
             tetra = quadrature.tetrahedron_duffy_rule(order)
             self.assertAlmostEqual(sum(w for _,_,_,w in hexa),8.0,delta=1e-12)
@@ -164,6 +257,9 @@ class OracleContracts(unittest.TestCase):
             for coordinate in range(3):
                 self.assertAlmostEqual(sum(row[3]*row[coordinate] for row in tetra),1/24,delta=1e-13)
             self.assertTrue(all(row[3] > 0 for row in tetra))
+        for degree in range(24):
+            exact=0.0 if degree % 2 else 2/(degree+1)
+            self.assertAlmostEqual(sum(w*x**degree for x,w in quadrature._GAUSS[12]),exact,delta=1e-13)
 
     def test_postprocessing_on_fabricated_fields(self):
         values = metrics.field_errors([2.0], [(1.0,2.0,2.0)], [(0,0,0,0.1,0,0)],

@@ -1,0 +1,571 @@
+{
+  "automatic_retry": false,
+  "budget_caps_inherited_proposal": {
+    "attempts_total_initial_plus_adaptive": 24,
+    "concurrency": 1,
+    "cumulative_machine_seconds": 28800,
+    "maximum_dofs": 30000,
+    "note": "Proposed campaign caps only; no ledger, reservation, or authorization is created by this catalog.",
+    "rss_soft_limit_mib_per_process": 4096,
+    "timeout_seconds_per_attempt": 1200
+  },
+  "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+  "candidates": [
+    {
+      "candidate_id": "VV3D-ADAPT-TET4-H1",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet4_draft.json",
+      "criteria_sha256_provisional": "2950a590bd77aa823a97b37a852a7b5f341870756196266a95f1428dc91bc975",
+      "eligibility_condition": "At least one of the two initial displacement-L2 or energy-error slopes for TET4 is below its proposed floor, while all inputs are finite, the residual and force/moment/work-energy balances pass, and load/post-processing quadrature sensitivity passes.",
+      "execution_kind": "FEM",
+      "family": "TET4",
+      "kind": "uniform_h_refinement",
+      "mesh_rule": "Generate the conforming straight-sided n=16 successor of the n=8 Cartesian-cube six-tetrahedra-per-cube mesh using the same deterministic tetrahedralization rule. Verify positive determinants, conformity, quality, exact node sharing and selected DDL <= 30000.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET4-H1]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "attempts_max": 1,
+        "dofs_max": 30000,
+        "h_m": 0.0625,
+        "n": 16,
+        "timeout_seconds_max": 1200
+      },
+      "prepared_mesh": {
+        "divisions": [
+          16,
+          16,
+          16
+        ],
+        "path": "adaptive_meshes_20261029/mesh_tet4_h1.json",
+        "selected_dofs": 14739,
+        "sha256": "c98bbc868adb83bdb6d241195efec25ff824990b4d7f479496c658d9244a8684",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_frozen_nodeid_and_final_identity": true,
+      "seed_case": "VV3D-TET4-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "candidate_id": "VV3D-ADAPT-TET4-QLOAD",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet4_draft.json",
+      "criteria_sha256_provisional": "2950a590bd77aa823a97b37a852a7b5f341870756196266a95f1428dc91bc975",
+      "eligibility_condition": "Relative change in integrated body-force resultant or origin moment between the two proposed rules exceeds 1e-6, with finite positive weights and valid mesh geometry. This diagnoses load integration and does not establish solution accuracy.",
+      "execution_kind": "FEM",
+      "family": "TET4",
+      "kind": "body_load_quadrature_escalation",
+      "mesh_rule": "Reuse the exact L3 mesh and compare the predeclared order-8 and order-12 load rules for the same continuous MMS body force; the FEM job is distinct from the consumed L3 case.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET4-QLOAD]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "attempts_max": 1,
+        "dofs_max": 30000,
+        "quadrature_orders": [
+          8,
+          12
+        ],
+        "relative_resultant_or_moment_change_trigger_gt": 1e-06,
+        "timeout_seconds_max": 1200
+      },
+      "prepared_mesh": {
+        "divisions": [
+          8,
+          8,
+          8
+        ],
+        "path": "prepared_20261029/mesh_tet4_l3.json",
+        "selected_dofs": 2187,
+        "sha256": "f00aab7671a33d6cbada594651f9c03021d6de78020ec63a05a95012de035f48",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_new_rule_hash_and_nodeid": true,
+      "seed_case": "VV3D-TET4-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "candidate_id": "VV3D-ADAPT-TET4-QPOST",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet4_draft.json",
+      "criteria_sha256_provisional": "2950a590bd77aa823a97b37a852a7b5f341870756196266a95f1428dc91bc975",
+      "eligibility_condition": "Any nonzero displacement-L2, energy-error, stress-L2 or scalar-energy observable changes by more than 1e-4 relatively between proposed rules. A zero/undefined denominator is NOT_ASSESSABLE and stops rather than triggering this candidate.",
+      "execution_kind": "POSTPROCESS_ONLY",
+      "family": "TET4",
+      "is_fem_retry": false,
+      "kind": "archived_field_postprocessing_quadrature_escalation",
+      "mesh_rule": "Reuse the archived state of the exact L3 case without a new FEM solve; compare predeclared order-8 and order-12 error-integral rules under the shared time budget.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[TET4]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "charge_wall_seconds_to_global_budget": true,
+        "dofs_max": 30000,
+        "fem_attempts": 0,
+        "postprocessing_jobs_max": 1,
+        "postprocessing_wall_seconds_max": 1200,
+        "quadrature_orders": [
+          8,
+          12
+        ],
+        "relative_observable_change_trigger_gt": 0.0001
+      },
+      "prepared_mesh": {
+        "divisions": [
+          8,
+          8,
+          8
+        ],
+        "path": "prepared_20261029/mesh_tet4_l3.json",
+        "selected_dofs": 2187,
+        "sha256": "f00aab7671a33d6cbada594651f9c03021d6de78020ec63a05a95012de035f48",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_archived_authorized_state": true,
+      "requires_new_rule_hash_and_nodeid": true,
+      "seed_case": "VV3D-TET4-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "candidate_id": "VV3D-ADAPT-TET10-H1",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet10_draft.json",
+      "criteria_sha256_provisional": "cb5f4e329c3c614ae7458ea42316ca2a95593109e419485b96deb84ed89aa64f",
+      "eligibility_condition": "At least one of the two initial displacement-L2 or energy-error slopes for TET10 is below its proposed floor, while all integrity, residual, balance and quadrature prerequisites pass.",
+      "execution_kind": "FEM",
+      "family": "TET10",
+      "kind": "uniform_h_refinement",
+      "mesh_rule": "Generate a conforming straight-sided uniform n=10 TET10 mesh with globally shared quadratic edge nodes using the deterministic tetrahedralization rule. Verified expected size is 27,783 DDL. This is a non-nested refinement relative to n=8; compare errors against exact MMS fields and use actual h=0.1 m in any pairwise slope. Verify affine midsides, conformity, positive determinants, quality and selected DDL <= 30000 before presenting the candidate.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET10-H1]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "attempts_max": 1,
+        "dofs_max": 30000,
+        "h_m": 0.1,
+        "n": 10,
+        "timeout_seconds_max": 1200
+      },
+      "prepared_mesh": {
+        "divisions": [
+          10,
+          10,
+          10
+        ],
+        "path": "adaptive_meshes_20261029/mesh_tet10_h1.json",
+        "selected_dofs": 27783,
+        "sha256": "173dd25b88b0d173d85f036d031bf134f63ce7dfd119786e43d7effd17029dd0",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_frozen_nodeid_and_final_identity": true,
+      "seed_case": "VV3D-TET10-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "candidate_id": "VV3D-ADAPT-TET10-QLOAD",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet10_draft.json",
+      "criteria_sha256_provisional": "cb5f4e329c3c614ae7458ea42316ca2a95593109e419485b96deb84ed89aa64f",
+      "eligibility_condition": "Relative change in integrated body-force resultant or origin moment between the proposed rules exceeds 1e-6, with finite positive weights and valid mesh geometry.",
+      "execution_kind": "FEM",
+      "family": "TET10",
+      "kind": "body_load_quadrature_escalation",
+      "mesh_rule": "Reuse the exact L3 mesh and compare the predeclared order-8 and order-12 load rules for the same continuous MMS body force; the FEM job is distinct from the consumed L3 case.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET10-QLOAD]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "attempts_max": 1,
+        "dofs_max": 30000,
+        "quadrature_orders": [
+          8,
+          12
+        ],
+        "relative_resultant_or_moment_change_trigger_gt": 1e-06,
+        "timeout_seconds_max": 1200
+      },
+      "prepared_mesh": {
+        "divisions": [
+          8,
+          8,
+          8
+        ],
+        "path": "prepared_20261029/mesh_tet10_l3.json",
+        "selected_dofs": 14739,
+        "sha256": "3f1bd5e697d8d948ab8e2f98c5c7db19c9c3d125ea4933090af9943ea5f494d6",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_new_rule_hash_and_nodeid": true,
+      "seed_case": "VV3D-TET10-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "candidate_id": "VV3D-ADAPT-TET10-QPOST",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet10_draft.json",
+      "criteria_sha256_provisional": "cb5f4e329c3c614ae7458ea42316ca2a95593109e419485b96deb84ed89aa64f",
+      "eligibility_condition": "Any nonzero displacement-L2, energy-error, stress-L2 or scalar-energy observable changes by more than 1e-4 relatively between proposed rules. Undefined reference norms stop as NOT_ASSESSABLE.",
+      "execution_kind": "POSTPROCESS_ONLY",
+      "family": "TET10",
+      "is_fem_retry": false,
+      "kind": "archived_field_postprocessing_quadrature_escalation",
+      "mesh_rule": "Reuse the archived state of the exact L3 case without a new FEM solve; compare predeclared order-8 and order-12 error-integral rules under the shared time budget.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[TET10]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "charge_wall_seconds_to_global_budget": true,
+        "dofs_max": 30000,
+        "fem_attempts": 0,
+        "postprocessing_jobs_max": 1,
+        "postprocessing_wall_seconds_max": 1200,
+        "quadrature_orders": [
+          8,
+          12
+        ],
+        "relative_observable_change_trigger_gt": 0.0001
+      },
+      "prepared_mesh": {
+        "divisions": [
+          8,
+          8,
+          8
+        ],
+        "path": "prepared_20261029/mesh_tet10_l3.json",
+        "selected_dofs": 14739,
+        "sha256": "3f1bd5e697d8d948ab8e2f98c5c7db19c9c3d125ea4933090af9943ea5f494d6",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_archived_authorized_state": true,
+      "requires_new_rule_hash_and_nodeid": true,
+      "seed_case": "VV3D-TET10-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "candidate_id": "VV3D-ADAPT-HEX8-H1",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex8_draft.json",
+      "criteria_sha256_provisional": "b05ab349bf90c99aa487f8d546724dbe72f03cfecabc8974be559399fe83f20f",
+      "eligibility_condition": "At least one of the two initial displacement-L2 or energy-error slopes for HEX8 is below its proposed floor, while all integrity, residual, balance and quadrature prerequisites pass.",
+      "execution_kind": "FEM",
+      "family": "HEX8",
+      "kind": "uniform_h_refinement",
+      "mesh_rule": "Generate the conforming axis-aligned n=16 successor of the n=8 brick mesh using the same deterministic vertex ordering. Verify positive Jacobians, conformity, quality and selected DDL <= 30000.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX8-H1]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "attempts_max": 1,
+        "dofs_max": 30000,
+        "h_m": 0.0625,
+        "n": 16,
+        "timeout_seconds_max": 1200
+      },
+      "prepared_mesh": {
+        "divisions": [
+          16,
+          16,
+          16
+        ],
+        "path": "adaptive_meshes_20261029/mesh_hex8_h1.json",
+        "selected_dofs": 14739,
+        "sha256": "38fe997841a9c5c011f5acf5b8193eb2daae44eb5a19c4a3e037e097cd44543b",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_frozen_nodeid_and_final_identity": true,
+      "seed_case": "VV3D-HEX8-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "candidate_id": "VV3D-ADAPT-HEX8-QLOAD",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex8_draft.json",
+      "criteria_sha256_provisional": "b05ab349bf90c99aa487f8d546724dbe72f03cfecabc8974be559399fe83f20f",
+      "eligibility_condition": "Relative change in integrated body-force resultant or origin moment between the proposed rules exceeds 1e-6, with finite positive weights and valid mesh geometry.",
+      "execution_kind": "FEM",
+      "family": "HEX8",
+      "kind": "body_load_quadrature_escalation",
+      "mesh_rule": "Reuse the exact L3 mesh and compare the predeclared order-8 and order-12 load rules for the same continuous MMS body force; the FEM job is distinct from the consumed L3 case.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX8-QLOAD]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "attempts_max": 1,
+        "dofs_max": 30000,
+        "gauss_orders_per_axis": [
+          2,
+          3
+        ],
+        "quadrature_orders": [
+          8,
+          12
+        ],
+        "relative_resultant_or_moment_change_trigger_gt": 1e-06,
+        "timeout_seconds_max": 1200
+      },
+      "prepared_mesh": {
+        "divisions": [
+          8,
+          8,
+          8
+        ],
+        "path": "prepared_20261029/mesh_hex8_l3.json",
+        "selected_dofs": 2187,
+        "sha256": "f08a47a7bc05c6465e9d4cbcbf537e478f11411ada0a477345d2787fe387d883",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_new_rule_hash_and_nodeid": true,
+      "seed_case": "VV3D-HEX8-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "candidate_id": "VV3D-ADAPT-HEX8-QPOST",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex8_draft.json",
+      "criteria_sha256_provisional": "b05ab349bf90c99aa487f8d546724dbe72f03cfecabc8974be559399fe83f20f",
+      "eligibility_condition": "Any nonzero displacement-L2, energy-error, stress-L2 or scalar-energy observable changes by more than 1e-4 relatively between proposed rules. Undefined reference norms stop as NOT_ASSESSABLE.",
+      "execution_kind": "POSTPROCESS_ONLY",
+      "family": "HEX8",
+      "is_fem_retry": false,
+      "kind": "archived_field_postprocessing_quadrature_escalation",
+      "mesh_rule": "Reuse the archived state of the exact L3 case without a new FEM solve; compare predeclared order-8 and order-12 error-integral rules under the shared time budget.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[HEX8]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "charge_wall_seconds_to_global_budget": true,
+        "dofs_max": 30000,
+        "fem_attempts": 0,
+        "gauss_orders_per_axis": [
+          2,
+          3
+        ],
+        "postprocessing_jobs_max": 1,
+        "postprocessing_wall_seconds_max": 1200,
+        "quadrature_orders": [
+          8,
+          12
+        ],
+        "relative_observable_change_trigger_gt": 0.0001
+      },
+      "prepared_mesh": {
+        "divisions": [
+          8,
+          8,
+          8
+        ],
+        "path": "prepared_20261029/mesh_hex8_l3.json",
+        "selected_dofs": 2187,
+        "sha256": "f08a47a7bc05c6465e9d4cbcbf537e478f11411ada0a477345d2787fe387d883",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_archived_authorized_state": true,
+      "requires_new_rule_hash_and_nodeid": true,
+      "seed_case": "VV3D-HEX8-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "candidate_id": "VV3D-ADAPT-HEX20-H1",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex20_draft.json",
+      "criteria_sha256_provisional": "4fc7a4c7c8f3e965caab298686a39ee143bfc591c516126836c8f7ad9c88c3c5",
+      "eligibility_condition": "At least one of the two initial displacement-L2 or energy-error slopes for HEX20 is below its proposed floor, while all integrity, residual, balance and quadrature prerequisites pass. If the conforming mesh cannot meet all mesh and DDL conditions, mark candidate REFUSED; do not substitute another refinement.",
+      "execution_kind": "FEM",
+      "family": "HEX20",
+      "kind": "uniform_h_refinement",
+      "mesh_rule": "Generate a conforming straight-sided uniform n=12 HEX20 mesh with the same deterministic vertex ordering as the initial brick meshes. Verified size is 8,281 nodes and 24,843 DDL. This mesh is non-nested relative to initial n=8; retain it as a distinct adaptive case identity and use actual h=1/12 m in comparisons. Verify positive Jacobians, conformity, quality and selected DDL <= 30000 before presenting the candidate.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX20-H1]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "attempts_max": 1,
+        "dofs": 24843,
+        "dofs_max": 30000,
+        "h_m": 0.08333333333333333,
+        "n": 12,
+        "nodes": 8281,
+        "timeout_seconds_max": 1200
+      },
+      "prepared_mesh": {
+        "divisions": [
+          12,
+          12,
+          12
+        ],
+        "path": "adaptive_meshes_20261029/mesh_hex20_h1.json",
+        "selected_dofs": 24843,
+        "sha256": "79e39c5ce6d21022cc4ad293b46d5b5b7216584a6f006c80539d35b6da056dcc",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_frozen_nodeid_and_final_identity": true,
+      "seed_case": "VV3D-HEX20-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "candidate_id": "VV3D-ADAPT-HEX20-QLOAD",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex20_draft.json",
+      "criteria_sha256_provisional": "4fc7a4c7c8f3e965caab298686a39ee143bfc591c516126836c8f7ad9c88c3c5",
+      "eligibility_condition": "Relative change in integrated body-force resultant or origin moment between the proposed rules exceeds 1e-6, with finite positive weights and valid mesh geometry.",
+      "execution_kind": "FEM",
+      "family": "HEX20",
+      "kind": "body_load_quadrature_escalation",
+      "mesh_rule": "Reuse the exact L3 mesh and compare the predeclared order-8 and order-12 load rules for the same continuous MMS body force; the FEM job is distinct from the consumed L3 case.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX20-QLOAD]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "attempts_max": 1,
+        "dofs_max": 30000,
+        "gauss_orders_per_axis": [
+          2,
+          3
+        ],
+        "quadrature_orders": [
+          8,
+          12
+        ],
+        "relative_resultant_or_moment_change_trigger_gt": 1e-06,
+        "timeout_seconds_max": 1200
+      },
+      "prepared_mesh": {
+        "divisions": [
+          8,
+          8,
+          8
+        ],
+        "path": "prepared_20261029/mesh_hex20_l3.json",
+        "selected_dofs": 8019,
+        "sha256": "85f5616f84a16be1e2b5ad8719c2ba9263a0520edb6461bd497ab3c5c6869621",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_new_rule_hash_and_nodeid": true,
+      "seed_case": "VV3D-HEX20-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "candidate_id": "VV3D-ADAPT-HEX20-QPOST",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex20_draft.json",
+      "criteria_sha256_provisional": "4fc7a4c7c8f3e965caab298686a39ee143bfc591c516126836c8f7ad9c88c3c5",
+      "eligibility_condition": "Any nonzero displacement-L2, energy-error, stress-L2 or scalar-energy observable changes by more than 1e-4 relatively between proposed rules. Undefined reference norms stop as NOT_ASSESSABLE.",
+      "execution_kind": "POSTPROCESS_ONLY",
+      "family": "HEX20",
+      "is_fem_retry": false,
+      "kind": "archived_field_postprocessing_quadrature_escalation",
+      "mesh_rule": "Reuse the archived state of the exact L3 case without a new FEM solve; compare predeclared order-8 and order-12 error-integral rules under the shared time budget.",
+      "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[HEX20]",
+      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "numerical_conditions": {
+        "charge_wall_seconds_to_global_budget": true,
+        "dofs_max": 30000,
+        "fem_attempts": 0,
+        "gauss_orders_per_axis": [
+          2,
+          3
+        ],
+        "postprocessing_jobs_max": 1,
+        "postprocessing_wall_seconds_max": 1200,
+        "quadrature_orders": [
+          8,
+          12
+        ],
+        "relative_observable_change_trigger_gt": 0.0001
+      },
+      "prepared_mesh": {
+        "divisions": [
+          8,
+          8,
+          8
+        ],
+        "path": "prepared_20261029/mesh_hex20_l3.json",
+        "selected_dofs": 8019,
+        "sha256": "85f5616f84a16be1e2b5ad8719c2ba9263a0520edb6461bd497ab3c5c6869621",
+        "status": "PROVISIONAL_NOT_AUTHORIZED"
+      },
+      "requires_archived_authorized_state": true,
+      "requires_new_rule_hash_and_nodeid": true,
+      "seed_case": "VV3D-HEX20-L3",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    }
+  ],
+  "catalog_state": "CLOSED_DRAFT_MAX_12",
+  "criteria_reference": {
+    "acceptance_status": "PROPOSED_NOT_OWNER_APPROVED",
+    "adaptive_trigger_policy": "A numerical criterion makes a candidate eligible for review only. It never starts, registers, reserves, or authorizes a candidate. Infrastructure, provenance, finiteness, or incomplete-report failures stop the campaign rather than trigger an adaptive case.",
+    "document": "CRITERIA_AND_ADAPTIVE_DRAFT.md"
+  },
+  "execution_authorized": false,
+  "execution_state": "PREPARED_NOT_AUTHORIZED",
+  "global_owner_decision": {
+    "after_decision": "PASS continuation and only the preapproved numerical adaptive transitions may proceed autonomously, subject to exact runner, manifest, ledger, provenance, and budget checks. Out-of-table deviations and infrastructure/provenance/ledger failures stop for review.",
+    "before_decision": "No case or candidate may execute or reserve an attempt.",
+    "current_status": "NOT_ISSUED",
+    "required": true,
+    "scope": "One decision binds exact identities for all 12 initial cases, all 12 candidates in this closed adaptive catalog, source/test/runner fingerprints, exact nodeids, oracle and quadrature implementations, manifests, environment, criteria, budget, evidence destination, and conditional transition table."
+  },
+  "identity_note": "Provisional mesh bytes, SHA-256 and skipped nodeids are recorded; no source/runner fingerprint, official manifest, or approved contract exists. Final identities require review and must be bound by the Owner decision.",
+  "initial_cases_reference": {
+    "cases": [
+      "VV3D-TET4-L1",
+      "VV3D-TET4-L2",
+      "VV3D-TET4-L3",
+      "VV3D-TET10-L1",
+      "VV3D-TET10-L2",
+      "VV3D-TET10-L3",
+      "VV3D-HEX8-L1",
+      "VV3D-HEX8-L2",
+      "VV3D-HEX8-L3",
+      "VV3D-HEX20-L1",
+      "VV3D-HEX20-L2",
+      "VV3D-HEX20-L3"
+    ],
+    "matrix": "prepared_20261029/MATRIX_NOT_AUTHORIZED.json",
+    "nodeid_status": "NOT_IMPLEMENTED_NOT_REGISTERED",
+    "status": "PREPARED_NOT_AUTHORIZED"
+  },
+  "initial_vs_adaptive": "The 12 initial mesh cases and these 12 adaptive catalog entries are separate case identities. Adaptive entries supplement the initial cases and never overwrite, retry, relabel, or replace them.",
+  "max_adaptive_cases": 12,
+  "schema": "qf-wp12-vv3d-adaptive-catalog-draft-v1",
+  "stop_rules": [
+    "No retry of any reserved or consumed attempt.",
+    "No adaptation follows a provenance, infrastructure, interruption, timeout, incomplete-output, non-finiteness or invalid-geometry failure.",
+    "After the one global Owner decision, a complete PASS continues autonomously according to the approved case sequence; a numerical deviation may select only its exact preapproved catalog row and transition. Any deviation not represented in the approved table stops for review.",
+    "An adaptive eligibility signal is not permission to change identities and never expands the closed candidate set; it can select an already identified row covered by the global decision without a new per-case or per-candidate Owner decision.",
+    "All case and adaptation attempts share the campaign-wide proposed caps; no cap is borrowed from another WP12 campaign.",
+    "A mesh candidate that exceeds 30000 selected DDL or lacks verified conforming geometry is refused before any attempt reservation."
+  ],
+  "transition_rules": [
+    {
+      "execution_allowed": false,
+      "from": "PREPARED_NOT_AUTHORIZED",
+      "to": "READY_FOR_GLOBAL_DECISION",
+      "when": "All exact initial and adaptive mesh/rule identities, nodeids, source/test/runner fingerprints, environment, criteria, budgets, destinations and transition rows are reviewed and hashed; all exact preflights are clean."
+    },
+    {
+      "execution_allowed": "campaign scope only after runner checks",
+      "from": "READY_FOR_GLOBAL_DECISION",
+      "to": "CAMPAIGN_AUTHORIZED",
+      "when": "One Owner decision binds all 12 initial cases and all 12 candidates in this closed catalog, with their exact identities and the complete conditional transition table."
+    },
+    {
+      "execution_allowed": "one exact attempt within the globally approved campaign",
+      "from": "CAMPAIGN_AUTHORIZED",
+      "to": "ATTEMPT_CONSUMED",
+      "when": "Official runner immediately validates the covered manifest, exact case identity, ledger, provenance and resource limits."
+    },
+    {
+      "execution_allowed": "continue within the approved campaign",
+      "from": "RESULT_REVIEW",
+      "to": "CAMPAIGN_AUTHORIZED",
+      "when": "Complete attributable PASS with no adaptive trigger; continue the next case in the globally approved sequence."
+    },
+    {
+      "execution_allowed": false,
+      "from": "RESULT_REVIEW",
+      "to": "APPROVED_ADAPTIVE_CASE_QUEUED",
+      "when": "A complete attributable result satisfies an exact numeric trigger in the globally approved catalog row and decision table."
+    },
+    {
+      "execution_allowed": "one exact adaptive attempt within the approved campaign; no additional Owner decision",
+      "from": "APPROVED_ADAPTIVE_CASE_QUEUED",
+      "to": "ATTEMPT_CONSUMED",
+      "when": "Candidate is a solve-bearing case already covered by the global decision and official runner validates its manifest, registry, ledger, provenance and budget."
+    },
+    {
+      "execution_allowed": "one postprocessing job; zero FEM attempts and no retry",
+      "from": "APPROVED_ADAPTIVE_CASE_QUEUED",
+      "to": "POSTPROCESSING_JOB_CONSUMED",
+      "when": "Candidate is QPOST; immutable archived state from a globally authorized case is available, exact postprocessing implementation is covered, and the controlled postprocessing time is charged to the global seconds budget."
+    },
+    {
+      "execution_allowed": false,
+      "from": "POSTPROCESSING_JOB_CONSUMED",
+      "to": "RESULT_REVIEW",
+      "when": "Postprocessing report and receipt are complete and attributable to the archived state and approved rule identities."
+    },
+    {
+      "execution_allowed": false,
+      "from": "ANY",
+      "to": "STOPPED_FOR_REVIEW",
+      "when": "Out-of-table deviation, infrastructure/provenance/ledger failure, timeout, interruption, non-finite required data, invalid geometry, incomplete result or exhausted caps."
+    }
+  ]
+}

@@ -6,6 +6,7 @@ from itertools import product
 
 FORMULATIONS = ("TET4", "TET10", "HEX8", "HEX20")
 LEVELS = (2, 4, 8)
+ADAPTIVE_LEVELS = {"TET4": 16, "TET10": 10, "HEX8": 16, "HEX20": 12}
 HEX_CORNERS = ((0,0,0),(1,0,0),(1,1,0),(0,1,0),(0,0,1),(1,0,1),(1,1,1),(0,1,1))
 HEX_EDGES = ((0,1),(0,3),(0,4),(1,2),(1,5),(3,2),(2,6),(3,7),(4,5),(4,7),(5,6),(7,6))
 TET_EDGES = ((0,1),(1,2),(2,0),(0,3),(1,3),(2,3))
@@ -20,7 +21,7 @@ def _det(a: tuple[int, ...], b: tuple[int, ...], c: tuple[int, ...], d: tuple[in
 
 def generate(family: str, n: int) -> dict:
     """Unit cube, dyadic integer coordinates, positive affine cells, exact shared edge nodes."""
-    if family not in FORMULATIONS or n not in LEVELS:
+    if family not in FORMULATIONS or (n not in LEVELS and n != ADAPTIVE_LEVELS[family]):
         raise ValueError("family/level outside prepared matrix")
     high = family in ("TET10", "HEX20")
     tet = family.startswith("TET")
