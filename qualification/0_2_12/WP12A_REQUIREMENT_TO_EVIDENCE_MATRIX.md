@@ -1,5 +1,7 @@
 # WP12-A — Matrice exigences → preuves
 
+> **Mise à jour 2026-10-29 après batch P0 :** les statuts de cette matrice historique précèdent six PASS supplémentaires. La disposition actuelle, les limites et la décision proposée sont dans [la matrice de disposition release après P0](WP12A_P0_RELEASE_DISPOSITION_MATRIX.md). Les lignes ci-dessous sont conservées comme état historique, sans réécriture des preuves.
+
 Cette matrice suit les 20 capacités que `WP12_62_CAPABILITY_AUDIT.csv` attribue au chantier interne WP12-A : 11 `P0/MUST`, 8 `P1/SHOULD`, 1 `P2/DEFERRED`. Un statut de capacité est limité aux contrats, modèles et identités effectivement documentés ; un test précis peut être PASS pendant que la capacité plus large reste PARTIAL.
 
 **Rectification du 2026-10-29 :** les refus MPC/RBE ne sont pas tous non testés. Les deux fonctions synthétiques de `tests/unit/test_wp12a_mpc_rbe_route_preflight.py` couvrent 12 combinaisons et ont été rejouées avec succès dans le worktree de préparation fondé sur `20cb917f4e14c870cfef47b7437b170737035f29` (3 validations mixtes modales et 9 refus de préparation dynamique). L’addendum phase 2 de `wp12_a_final_verification_audit.md` rapportait déjà ces 12 PASS sur une identité antérieure. Ces refus ne démontrent pas le support mécanique dynamique MPC/RBE ni un refus universel de toutes les routes ; les lignes `CON-*` restent bornées.
