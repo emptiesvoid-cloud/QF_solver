@@ -2885,10 +2885,16 @@ def _reserve_node_attempt(
     controller_fingerprint: str | None = None,
     attempt_basis: str | None = None,
     hypothesis_id: str | None = None,
+    expected_ledger_sha256: str | None = None,
+    require_ledger_snapshot: bool = False,
 ) -> tuple[str, int]:
     key = f"{mandate_id}:{worktree_id}:{target}"
     schema = "qfsolver-development-node-ledger-v2" if predecessor is not None else "qfsolver-development-node-ledger-v1"
     with _exclusive_file_lock(lock_path):
+        if require_ledger_snapshot:
+            current_ledger_sha256 = _sha256(ledger_path) if ledger_path.is_file() else None
+            if current_ledger_sha256 != expected_ledger_sha256:
+                raise PolicyError("development attempt ledger changed before reservation")
         if ledger_path.exists():
             try:
                 ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
@@ -5623,6 +5629,7 @@ def run_pytest(
     execution_manifest_receipt: dict[str, Any] | None = None
     hex8sri_preflight_receipt: tuple[Path, str] | None = None
     wp12_dynamics_preflight_receipt: tuple[Path, str] | None = None
+    wp12_expected_ledger_sha256: str | None = None
     if is_registered:
         if not worktree_id or not target or not reason or not reason.strip():
             raise PolicyError("registered worktree tests require one exact target, worktree, and documented reason")
@@ -5715,6 +5722,13 @@ def run_pytest(
                 controller_provenance=controller_provenance,
                 policy=policy,
             )
+            try:
+                preflight_bytes = wp12_dynamics_preflight_receipt[0].read_bytes()
+                if hashlib.sha256(preflight_bytes).hexdigest() != wp12_dynamics_preflight_receipt[1]:
+                    raise PolicyError("WP12-A preflight receipt changed after validation")
+                wp12_expected_ledger_sha256 = json.loads(preflight_bytes)["attempt_ledger"]["sha256_after"]
+            except (OSError, ValueError, KeyError, TypeError) as exc:
+                raise PolicyError(f"WP12-A preflight ledger binding is unreadable: {exc}") from exc
         elif preflight_id is not None:
             raise PolicyError("preflight receipt IDs are supported only for D01, WP12-A dynamics and HEX8-SRI")
         if worktree_id in WP12_OWNER_ENVELOPES:
@@ -5864,6 +5878,8 @@ def run_pytest(
                     controller_fingerprint=_stable_fingerprint(controller_provenance),
                     attempt_basis=attempt_basis,
                     hypothesis_id=hypothesis_id,
+                    expected_ledger_sha256=wp12_expected_ledger_sha256,
+                    require_ledger_snapshot=worktree_id == "wp12_dynamics",
                 )
             except Exception:
                 attempt_dir.rmdir()

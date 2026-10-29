@@ -1765,10 +1765,12 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
         },
     )
     if worktree_id == "wp12_dynamics":
+        synthetic_preflight = tmp_path / "preflight.json"
+        synthetic_preflight.write_text(json.dumps({"attempt_ledger": {"sha256_after": None}}), encoding="utf-8")
         monkeypatch.setattr(
             MODULE,
             "_validate_wp12_dynamics_preflight_receipt",
-            lambda *_args, **_kwargs: (tmp_path / "preflight.json", "d" * 64),
+            lambda *_args, **_kwargs: (synthetic_preflight, MODULE._sha256(synthetic_preflight)),
         )
     monkeypatch.setattr(MODULE, "_run_root", lambda *_args, **_kwargs: store)
     monkeypatch.setattr(MODULE, "_wp12_resource_lock", lambda *_args, **_kwargs: nullcontext())
@@ -5311,6 +5313,33 @@ def test_wp12a_other_case_reservation_invalidates_prepared_case_preflight(
     assert fixture["preflight_path"].read_bytes() == original_preflight
     assert fixture["predecessor_path"].read_bytes() == predecessor
     assert not (fixture["store"] / "authorizations" / "wp12_dynamics" / "wp12-synthetic-case-b-0001.json").exists()
+
+
+def test_wp12a_ledger_change_between_preflight_and_reservation_is_refused_under_lock(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    entry = fixture["entry"]
+    assert not fixture["ledger_path"].exists()
+    fixture["ledger_path"].write_bytes(b'{"unexpected":"mutation"}\n')
+    unexpected = fixture["ledger_path"].read_bytes()
+    with pytest.raises(MODULE.PolicyError, match="ledger changed before reservation"):
+        MODULE._reserve_node_attempt(
+            fixture["ledger_path"],
+            fixture["ledger_path"].with_suffix(".lock"),
+            mandate_id=entry["development_mandate_id"],
+            worktree_id="wp12_dynamics",
+            target=fixture["target"],
+            series_id="dev-synthetic-ledger-race-0001",
+            source_fingerprint=fixture["source_fingerprint"],
+            reason="Synthetic mutation between receipt validation and reservation.",
+            maximum=entry["attempt_limit_per_nodeid"],
+            total_maximum=entry["max_total_attempts"],
+            predecessor=entry["node_attempt_ledger"]["predecessor"],
+            expected_ledger_sha256=None,
+            require_ledger_snapshot=True,
+        )
+    assert fixture["ledger_path"].read_bytes() == unexpected
 
 
 @pytest.mark.parametrize(
