@@ -84,7 +84,7 @@
       "candidate_id": "VV3D-ADAPT-TET4-QPOST",
       "criteria_path": "criteria_proposals_20261029/criteria_tet4_draft.json",
       "criteria_sha256_provisional": "2950a590bd77aa823a97b37a852a7b5f341870756196266a95f1428dc91bc975",
-      "eligibility_condition": "Any nonzero displacement-L2, energy-error, stress-L2 or scalar-energy observable changes by more than 1e-4 relatively between proposed rules. A zero/undefined denominator is NOT_ASSESSABLE and stops rather than triggering this candidate.",
+      "eligibility_condition": "Launch eligibility is the exact L3 seed PASS, immutable archive identity/hash, valid campaign decision and unused QPOST job slot. The 1e-4 relative-change threshold is evaluated only after the job as a diagnostic; it does not trigger launch or another case.",
       "execution_kind": "POSTPROCESS_ONLY",
       "family": "TET4",
       "is_fem_retry": false,
@@ -193,7 +193,7 @@
       "candidate_id": "VV3D-ADAPT-TET10-QPOST",
       "criteria_path": "criteria_proposals_20261029/criteria_tet10_draft.json",
       "criteria_sha256_provisional": "cb5f4e329c3c614ae7458ea42316ca2a95593109e419485b96deb84ed89aa64f",
-      "eligibility_condition": "Any nonzero displacement-L2, energy-error, stress-L2 or scalar-energy observable changes by more than 1e-4 relatively between proposed rules. Undefined reference norms stop as NOT_ASSESSABLE.",
+      "eligibility_condition": "Launch eligibility is the exact L3 seed PASS, immutable archive identity/hash, valid campaign decision and unused QPOST job slot. The 1e-4 relative-change threshold is evaluated only after the job as a diagnostic; it does not trigger launch or another case.",
       "execution_kind": "POSTPROCESS_ONLY",
       "family": "TET10",
       "is_fem_retry": false,
@@ -306,7 +306,7 @@
       "candidate_id": "VV3D-ADAPT-HEX8-QPOST",
       "criteria_path": "criteria_proposals_20261029/criteria_hex8_draft.json",
       "criteria_sha256_provisional": "b05ab349bf90c99aa487f8d546724dbe72f03cfecabc8974be559399fe83f20f",
-      "eligibility_condition": "Any nonzero displacement-L2, energy-error, stress-L2 or scalar-energy observable changes by more than 1e-4 relatively between proposed rules. Undefined reference norms stop as NOT_ASSESSABLE.",
+      "eligibility_condition": "Launch eligibility is the exact L3 seed PASS, immutable archive identity/hash, valid campaign decision and unused QPOST job slot. The 1e-4 relative-change threshold is evaluated only after the job as a diagnostic; it does not trigger launch or another case.",
       "execution_kind": "POSTPROCESS_ONLY",
       "family": "HEX8",
       "is_fem_retry": false,
@@ -425,7 +425,7 @@
       "candidate_id": "VV3D-ADAPT-HEX20-QPOST",
       "criteria_path": "criteria_proposals_20261029/criteria_hex20_draft.json",
       "criteria_sha256_provisional": "4fc7a4c7c8f3e965caab298686a39ee143bfc591c516126836c8f7ad9c88c3c5",
-      "eligibility_condition": "Any nonzero displacement-L2, energy-error, stress-L2 or scalar-energy observable changes by more than 1e-4 relatively between proposed rules. Undefined reference norms stop as NOT_ASSESSABLE.",
+      "eligibility_condition": "Launch eligibility is the exact L3 seed PASS, immutable archive identity/hash, valid campaign decision and unused QPOST job slot. The 1e-4 relative-change threshold is evaluated only after the job as a diagnostic; it does not trigger launch or another case.",
       "execution_kind": "POSTPROCESS_ONLY",
       "family": "HEX20",
       "is_fem_retry": false,
@@ -469,7 +469,7 @@
   "catalog_state": "CLOSED_DRAFT_MAX_12",
   "criteria_reference": {
     "acceptance_status": "PROPOSED_NOT_OWNER_APPROVED",
-    "adaptive_trigger_policy": "A numerical criterion makes a candidate eligible for review only. It never starts, registers, reserves, or authorizes a candidate. Infrastructure, provenance, finiteness, or incomplete-report failures stop the campaign rather than trigger an adaptive case.",
+    "adaptive_trigger_policy": "A FEM numeric criterion may select only its exact preapproved H1/QLOAD candidate; selection never starts, registers, reserves, or authorizes a candidate. QPOST launch eligibility instead requires exact L3 PASS, immutable hash-bound archive, valid global approval and unused QPOST slot. QPOST's 1e-4 comparison is computed after the job and is diagnostic only. Infrastructure, provenance, finiteness, or incomplete-report failures stop the campaign rather than trigger an adaptive case.",
     "document": "CRITERIA_AND_ADAPTIVE_DRAFT.md"
   },
   "execution_authorized": false,
@@ -508,7 +508,7 @@
     "No retry of any reserved or consumed attempt.",
     "No adaptation follows a provenance, infrastructure, interruption, timeout, incomplete-output, non-finiteness or invalid-geometry failure.",
     "After the one global Owner decision, a complete PASS continues autonomously according to the approved case sequence; a numerical deviation may select only its exact preapproved catalog row and transition. Any deviation not represented in the approved table stops for review.",
-    "An adaptive eligibility signal is not permission to change identities and never expands the closed candidate set; it can select an already identified row covered by the global decision without a new per-case or per-candidate Owner decision.",
+    "An adaptive eligibility signal is not permission to change identities and never expands the closed candidate set; a FEM H1/QLOAD signal can select only its approved row. QPOST requires the exact L3 PASS plus immutable archive and unused approved slot; its post-job 1e-4 diagnostic cannot launch QPOST or any follow-on work.",
     "All case and adaptation attempts share the campaign-wide proposed caps; no cap is borrowed from another WP12 campaign.",
     "A mesh candidate that exceeds 30000 selected DDL or lacks verified conforming geometry is refused before any attempt reservation."
   ],
@@ -535,13 +535,13 @@
       "execution_allowed": "continue within the approved campaign",
       "from": "RESULT_REVIEW",
       "to": "CAMPAIGN_AUTHORIZED",
-      "when": "Complete attributable PASS with no adaptive trigger; continue the next case in the globally approved sequence."
+      "when": "Complete attributable PASS with no FEM adaptive trigger; continue the next initial case in the globally approved sequence. After the exact family L3 PASS, its QPOST may be queued only under the separate QPOST eligibility row."
     },
     {
       "execution_allowed": false,
       "from": "RESULT_REVIEW",
       "to": "APPROVED_ADAPTIVE_CASE_QUEUED",
-      "when": "A complete attributable result satisfies an exact numeric trigger in the globally approved catalog row and decision table."
+      "when": "For FEM H1/QLOAD, a complete attributable result satisfies its exact numeric trigger. For QPOST, the exact corresponding L3 seed has PASS, its immutable archive is hash-bound, the campaign decision covers this job, and its one-job slot is unused. The post-job 1e-4 diagnostic is not a launch condition."
     },
     {
       "execution_allowed": "one exact adaptive attempt within the approved campaign; no additional Owner decision",
@@ -559,7 +559,7 @@
       "execution_allowed": false,
       "from": "POSTPROCESSING_JOB_CONSUMED",
       "to": "RESULT_REVIEW",
-      "when": "Postprocessing report and receipt are complete and attributable to the archived state and approved rule identities."
+      "when": "Postprocessing report and receipt are complete and attributable to the archived state and approved rule identities; record whether the 1e-4 diagnostic triggered, but launch no further job from that flag."
     },
     {
       "execution_allowed": false,

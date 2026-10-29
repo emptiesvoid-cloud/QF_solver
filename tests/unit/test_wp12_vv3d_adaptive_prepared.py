@@ -455,9 +455,8 @@ def _mock_qpost_quadrature(monkeypatch) -> None:
         "displacement_relative_l2": 0.20 if order == 8 else 0.21,
         "energy_error_relative": 0.30 if order == 8 else 0.32,
         "stress_error_relative": 0.40 if order == 8 else 0.44,
+        "scalar_energy_j": 0.8 if order == 8 else 0.9,
     })
-    monkeypatch.setattr(case_harness, "_archived_scalar_energy", lambda prepared, displacement, order:
-                        0.8 if order == 8 else 0.9)
 
 
 def _set_synthetic_qpost_env(monkeypatch, context: dict[str, str]) -> None:
@@ -703,8 +702,8 @@ def test_synthetic_adaptive_worker_persists_sidecar_with_faked_solver_and_load_h
         "energy_error_norm_sqrt_j": 0.0, "energy_error_relative": 0.3,
         "strain_error_l2_m_3_2": 0.0, "strain_error_relative": 0.4,
         "stress_error_l2_pa_m_3_2": 0.0, "stress_error_relative": 0.4,
+        "scalar_energy_j": 1.0,
     })
-    monkeypatch.setattr(case_harness, "_archived_scalar_energy", lambda prepared, displacement, order: 1.0)
     monkeypatch.setattr(case_harness, "evaluate_case_criteria", lambda payload, rules: {
         rule["id"]: {"status": "PASS", "classification": rule["classification"]}
         if rule["classification"] == "CASE_GATE"
@@ -756,6 +755,14 @@ def test_synthetic_qpost_launch_eligibility_is_seed_archive_and_slot_only(tmp_pa
     assert launch["status"] == "ELIGIBLE"
     assert launch["trigger"] == "SEED_PASS_ARCHIVE_BOUND_SLOT_UNUSED"
     assert "maximum_relative_change" not in launch
+    _, candidates, _ = case_harness._adaptive_inventory()
+    for candidate in candidates.values():
+        if candidate["execution_kind"] == "POSTPROCESS_ONLY":
+            condition = candidate["eligibility_condition"]
+            assert "exact L3 seed PASS" in condition
+            assert "evaluated only after the job" in condition
+            assert "does not trigger launch or another case" in condition
+            assert "changes by more than 1e-4" not in condition
 
     missing_archive = dict(record["source"])
     missing_archive.pop("archive")
@@ -784,9 +791,8 @@ def test_synthetic_qpost_processes_only_fabricated_archived_state(monkeypatch) -
         "displacement_relative_l2": 0.20 if order == 8 else 0.21,
         "energy_error_relative": 0.30 if order == 8 else 0.32,
         "stress_error_relative": 0.40 if order == 8 else 0.44,
+        "scalar_energy_j": 0.8 if order == 8 else 0.9,
     })
-    monkeypatch.setattr(case_harness, "_archived_scalar_energy", lambda prepared, displacement, order:
-                        0.8 if order == 8 else 0.9)
     outcome = case_harness.process_archived_qpost(candidate_id, archive)
     assert outcome["status"] == "COMPLETED_UNASSESSED"
     assert outcome["criteria_status"] == "DIAGNOSTIC_UNQUALIFIED"
