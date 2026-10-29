@@ -7,6 +7,7 @@ records are workflow evidence, not a cryptographic signature or OS sandbox.
 from __future__ import annotations
 
 import hashlib
+import importlib.metadata
 import json
 import re
 import uuid
@@ -15,7 +16,7 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 
-BATCH_CONTRACT_SCHEMA = "qfsolver-wp12a-p0-batch-contract-v1"
+BATCH_CONTRACT_SCHEMA = "qfsolver-wp12a-p0-batch-contract-v2"
 BATCH_DECISION_SCHEMA = "qfsolver-wp12a-p0-batch-owner-decision-v1"
 BATCH_RECEIPT_SCHEMA = "qfsolver-wp12a-p0-batch-case-receipt-v1"
 CASE_MANIFEST_SCHEMA = "qfsolver-wp12a-p0-scientific-case-v1"
@@ -61,6 +62,14 @@ def _read_json(path: Path) -> Any:
 
 def _raw_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _scientific_runtime_versions(controller: Any) -> dict[str, str]:
+    """Read installed numerical-library versions without importing scientific modules."""
+    try:
+        return {name: importlib.metadata.version(name) for name in ("numpy", "scipy")}
+    except importlib.metadata.PackageNotFoundError as exc:
+        raise controller.PolicyError("P0 batch requires installed NumPy and SciPy distributions") from exc
 
 
 def _within(path: Path, root: Path) -> bool:
@@ -133,6 +142,7 @@ def prepare_contract(
     store = controller._run_root(policy, worktree_id)
     provenance = controller._controller_provenance()
     controller_fingerprint = controller._stable_fingerprint(provenance)
+    scientific_runtime = _scientific_runtime_versions(controller)
     cases: list[dict[str, Any]] = []
     seen: set[str] = set()
     common_identity: dict[str, Any] | None = None
@@ -290,6 +300,8 @@ def prepare_contract(
         current_sha = _raw_sha256(ledger_path) if current_bytes is not None else None
         if current_sha != baseline_sha or current_bytes != baseline_bytes:
             raise controller.PolicyError("Dynamics ledger changed while the P0 batch contract was being prepared")
+        if _scientific_runtime_versions(controller) != scientific_runtime:
+            raise controller.PolicyError("scientific runtime versions changed while preparing the P0 batch")
         batch_dir = store / "authorizations" / worktree_id / "batches" / campaign_id
         snapshot_path = batch_dir / "ledger-baseline.json"
         contract_path = batch_dir / "contract.json"
@@ -313,6 +325,7 @@ def prepare_contract(
             "worktree_id": worktree_id,
             "mandate_id": mandate_id,
             "controller": {"provenance": provenance, "fingerprint": controller_fingerprint},
+            "scientific_runtime": scientific_runtime,
             "ordered_cases": cases,
             "initial_ledger": {
                 "path": str(ledger_path),
@@ -396,7 +409,7 @@ def _validated_authorization(
         raise controller.PolicyError("P0 batch contract and Owner decision must be JSON objects")
     contract_fields = {
         "schema", "state", "execution_authorized", "do_not_execute", "campaign_id", "worktree_id",
-        "mandate_id", "controller", "ordered_cases", "initial_ledger", "attempt_policy",
+        "mandate_id", "controller", "scientific_runtime", "ordered_cases", "initial_ledger", "attempt_policy",
         "continuation_policy", "decision_path", "prepared_at_utc",
     }
     if not isinstance(contract.get("attempt_policy"), Mapping) or set(contract["attempt_policy"]) != {
@@ -446,6 +459,8 @@ def _validated_authorization(
     fingerprint = controller._stable_fingerprint(provenance)
     if contract.get("controller") != {"provenance": provenance, "fingerprint": fingerprint}:
         raise controller.PolicyError("P0 batch controller identity or fingerprint changed")
+    if contract.get("scientific_runtime") != _scientific_runtime_versions(controller):
+        raise controller.PolicyError("P0 batch NumPy or SciPy version changed after contract preparation")
     cases = contract.get("ordered_cases")
     if (
         not isinstance(cases, list)
@@ -1173,6 +1188,7 @@ def run_batch(
                 controller._atomic_json_new(authorized_path, execution_manifest)
                 authorized_sha = _raw_sha256(authorized_path)
                 series_id = f"dev-p0-{hashlib.sha256(contract['campaign_id'].encode()).hexdigest()[:8]}-{index + 1:02d}-{preflight_id[-6:]}"
+                _validate_live_case(controller, policy, contract, case)
                 result, exit_code = controller.run_pytest(
                     "fem_exploratory",
                     case["nodeid"],
@@ -1254,6 +1270,8 @@ def run_batch(
 
 
 def _validate_live_case(controller: Any, policy: Mapping[str, Any], contract: Mapping[str, Any], case: Mapping[str, Any]) -> None:
+    if contract.get("scientific_runtime") != _scientific_runtime_versions(controller):
+        raise controller.PolicyError("P0 batch stopped because NumPy or SciPy version changed")
     target = case["nodeid"]
     controller.resolve_targets("fem_exploratory", target, policy, worktree_id="wp12_dynamics")
     entry, _root, _source_root, identity, source_fingerprint = controller._registered_worktree(
