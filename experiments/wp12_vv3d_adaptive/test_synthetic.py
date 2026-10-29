@@ -8,7 +8,7 @@ from collections import Counter
 from itertools import combinations, product
 from pathlib import Path
 
-from experiments.wp12_vv3d_adaptive import basis, budget, mesh, metrics, oracle, prepare
+from experiments.wp12_vv3d_adaptive import basis, budget, mesh, metrics, oracle, prepare, quadrature
 
 
 class MeshContracts(unittest.TestCase):
@@ -75,8 +75,27 @@ class MeshContracts(unittest.TestCase):
             self.assertEqual((dest/"MATRIX_NOT_AUTHORIZED.json").read_bytes(),snapshot)
             self.assertEqual(len(json.loads(snapshot)["cases"]),12)
 
+    def test_checked_in_meshes_reproduce_byte_for_byte(self):
+        directory = Path(__file__).parent/"prepared_20261029"
+        matrix = json.loads((directory/"MATRIX_NOT_AUTHORIZED.json").read_bytes())
+        for case in matrix["cases"]:
+            raw = (directory/case["mesh_file"]).read_bytes()
+            self.assertEqual(hashlib.sha256(raw).hexdigest(),case["mesh_sha256"])
+            self.assertEqual(raw,prepare.encode(mesh.generate(case["formulation"],case["divisions"][0])))
+
 
 class OracleContracts(unittest.TestCase):
+    def test_reference_quadrature_polynomial_moments(self):
+        for order in (4,8):
+            hexa = quadrature.hexahedron_rule(order)
+            tetra = quadrature.tetrahedron_duffy_rule(order)
+            self.assertAlmostEqual(sum(w for _,_,_,w in hexa),8.0,delta=1e-12)
+            self.assertAlmostEqual(sum(w*x*x for x,_,_,w in hexa),8/3,delta=1e-12)
+            self.assertAlmostEqual(sum(w for _,_,_,w in tetra),1/6,delta=1e-13)
+            for coordinate in range(3):
+                self.assertAlmostEqual(sum(row[3]*row[coordinate] for row in tetra),1/24,delta=1e-13)
+            self.assertTrue(all(row[3] > 0 for row in tetra))
+
     def test_postprocessing_on_fabricated_fields(self):
         values = metrics.field_errors([2.0], [(1.0,2.0,2.0)], [(0,0,0,0.1,0,0)],
                                       lame_lambda_pa=2.0, shear_mu_pa=3.0)

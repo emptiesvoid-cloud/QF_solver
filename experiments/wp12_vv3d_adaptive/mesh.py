@@ -27,7 +27,6 @@ def generate(family: str, n: int) -> dict:
     nodes: list[tuple[int, int, int]] = []
     nodeids: dict[tuple[int, int, int], int] = {}
     cells: list[list[int]] = []
-    det_values: list[int] = []
 
     def insert(p: tuple[int, int, int]) -> int:
         if p not in nodeids:
@@ -43,9 +42,6 @@ def generate(family: str, n: int) -> dict:
                 determinant = _det(*corners)
                 if determinant <= 0:
                     raise ValueError("nonpositive affine tetrahedron orientation")
-                det_values.append(determinant)
-            else:
-                det_values.append(8)  # unit reference [-1,1]^3, physical det=1/(8*n^3)
             ids = [insert(p) for p in corners]
             if high:
                 edges = TET_EDGES if tet else HEX_EDGES
