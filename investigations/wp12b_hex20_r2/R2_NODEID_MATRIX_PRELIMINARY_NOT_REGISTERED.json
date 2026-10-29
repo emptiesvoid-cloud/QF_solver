@@ -1,0 +1,150 @@
+{
+  "schema": "wp12b-hex20-r2-nodeid-matrix-draft-v1",
+  "state": "NOT_REGISTERED_NOT_AUTHORIZED",
+  "science_head": "c2d93e255382b74a0cda64693db67a01fcd86268",
+  "science_fingerprint": "95a555f13a704139eaa15c975acdc8e1fdd0e10c35408614e3170564b2708f97",
+  "cases": [
+    {
+      "nodeid": "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual",
+      "kind": "AFFINE_SOLVE",
+      "selected_dofs": 60,
+      "fixed_dofs": 24,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "NOT_REGISTERED"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[0]",
+      "kind": "HEX20_TRACTION",
+      "face": 0,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[1]",
+      "kind": "HEX20_TRACTION",
+      "face": 1,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[2]",
+      "kind": "HEX20_TRACTION",
+      "face": 2,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[3]",
+      "kind": "HEX20_TRACTION",
+      "face": 3,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[4]",
+      "kind": "HEX20_TRACTION",
+      "face": 4,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_face_traction_against_exact_quad8_weights[5]",
+      "kind": "HEX20_TRACTION",
+      "face": 5,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[0]",
+      "kind": "HEX20_PRESSURE",
+      "face": 0,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[1]",
+      "kind": "HEX20_PRESSURE",
+      "face": 1,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[2]",
+      "kind": "HEX20_PRESSURE",
+      "face": 2,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[3]",
+      "kind": "HEX20_PRESSURE",
+      "face": 3,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[4]",
+      "kind": "HEX20_PRESSURE",
+      "face": 4,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_hex20_planar_pressure_has_expected_outward_normal[5]",
+      "kind": "HEX20_PRESSURE",
+      "face": 5,
+      "selected_dofs": 60,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    },
+    {
+      "nodeid": "tests/verification/test_wp12b_hex20_face_quadrature_prepared.py::test_linear_quad4_and_tri3_constant_traction_are_unchanged",
+      "kind": "QUAD4_TRI3_LOAD",
+      "selected_dofs": 12,
+      "attempts_proposed": 1,
+      "timeout_seconds_proposed": 300,
+      "rss_mib_proposed": 4096,
+      "state": "SKIPPED_NOT_REGISTERED_STATIC_ID"
+    }
+  ],
+  "budget_note": "All limits are proposals pending reviewed policy and Owner decision. Static parameter IDs require official collection.",
+  "sequential_timeout_ceiling_seconds_if_all_proposed": 4200,
+  "historical_ledger_sha256": "ab5a8e4967ca204898f2eeec52b50f0c6b8e603d0328c3dff06926ff10669f53"
+}

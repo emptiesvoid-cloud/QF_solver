@@ -354,6 +354,8 @@ WP12B_HEX20_DIAGNOSTIC_NODEID = (
 )
 WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_SCHEMA = "qfsolver-wp12b-hex20-diagnostic-collect-only-v1"
 WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_MARKER = "QF_DEV_WP12B_HEX20_DIAGNOSTIC_PREFLIGHT="
+WP12B_HEX20_R1_LEDGER_SHA256 = "ab5a8e4967ca204898f2eeec52b50f0c6b8e603d0328c3dff06926ff10669f53"
+WP12B_HEX20_R1_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTIC-2026-10-27-R1"
 WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
     "wp12_wp07": {
         "root": r"E:\QFSolverAgents\wp07",
@@ -3212,6 +3214,35 @@ def _validate_wp12_dynamics_ledger(
         current_total += len(attempts)
     if predecessor_total + current_total > total_limit:
         raise PolicyError("WP12-A dynamics ledger exceeds its inherited mission attempt limit")
+
+
+def _validate_wp12b_hex20_r1_predecessor(path: Path) -> dict[str, Any]:
+    """Read the immutable R1 ledger before any future R2 activity; never write it."""
+    if not path.is_file() or _sha256(path) != WP12B_HEX20_R1_LEDGER_SHA256:
+        raise PolicyError("WP12-B HEX20 R1 predecessor ledger is missing or has a different SHA-256")
+    try:
+        ledger = json.loads(
+            path.read_text(encoding="utf-8"),
+            parse_constant=lambda value: (_ for _ in ()).throw(ValueError(f"non-finite JSON token {value}")),
+        )
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"WP12-B HEX20 R1 predecessor ledger is unreadable: {exc}") from exc
+    key = f"{WP12B_HEX20_R1_MANDATE_ID}:{WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID}:{WP12B_HEX20_DIAGNOSTIC_NODEID}"
+    entries = ledger.get("entries") if isinstance(ledger, dict) else None
+    if (
+        not isinstance(ledger, dict)
+        or ledger.get("schema") != "qfsolver-development-node-ledger-v1"
+        or ledger.get("mandate_id") != WP12B_HEX20_R1_MANDATE_ID
+        or not isinstance(entries, dict)
+        or set(entries) != {key}
+        or not isinstance(entries[key], list)
+        or len(entries[key]) != 1
+        or not isinstance(entries[key][0], dict)
+        or entries[key][0].get("attempt") != 1
+        or entries[key][0].get("state") != "PROVENANCE_MISMATCH"
+    ):
+        raise PolicyError("WP12-B HEX20 R1 predecessor ledger has an incompatible history")
+    return ledger
 
 
 def _node_ledger_context(
