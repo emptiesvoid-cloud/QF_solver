@@ -16,6 +16,7 @@ import numpy as np
 from scipy.sparse import csr_matrix
 
 DIAGNOSTIC_SCOPE_ID = "wp12_hex20_affine_diagnostic"
+DIAGNOSTIC_R2_SCOPE_ID = "wp12_hex20_affine_diagnostic_r2"
 DIAGNOSTIC_NODEID = "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual"
 FACE_PLANES = ((2, -1), (2, 1), (1, -1), (0, 1), (1, 1), (0, -1))
 DOF_COMPONENTS = ("UX", "UY", "UZ")
@@ -162,9 +163,11 @@ def require_diagnostic_binding(
 ) -> ControllerBinding:
     """Fail closed unless the future controller passes the full run/manifest binding."""
     env = os.environ if environ is None else environ
+    scope_id = env.get("QF_DEV_WORKTREE_ID", "")
+    if scope_id not in (DIAGNOSTIC_SCOPE_ID, DIAGNOSTIC_R2_SCOPE_ID):
+        raise RuntimeError("Controller value QF_DEV_WORKTREE_ID is not a registered HEX20 diagnostic scope.")
     expected = {
         "QF_DEVELOPMENT_AUTONOMOUS": "1",
-        "QF_DEV_WORKTREE_ID": DIAGNOSTIC_SCOPE_ID,
         "QF_DEV_SELECTED_DOFS": "60",
     }
     for key, value in expected.items():
@@ -220,7 +223,7 @@ def require_diagnostic_binding(
     if (
         run_record.get("controller_attempt_id") != attempt_id
         or run_record.get("state") != "RUNNING"
-        or run_record.get("worktree_id") != DIAGNOSTIC_SCOPE_ID
+        or run_record.get("worktree_id") != scope_id
         or run_identity.get("head") is None
         or execution_manifest.get("authorization_id") != manifest_id
         or execution_manifest.get("sha256") != manifest_sha256
@@ -230,7 +233,7 @@ def require_diagnostic_binding(
     ):
         raise RuntimeError("Controller run.json does not bind this attempt, manifest, nodeid and 60-DOF selection.")
     return ControllerBinding(
-        worktree_id=DIAGNOSTIC_SCOPE_ID,
+        worktree_id=scope_id,
         attempt_id=attempt_id,
         manifest_id=manifest_id,
         manifest_sha256=manifest_sha256,

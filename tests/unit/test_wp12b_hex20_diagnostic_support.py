@@ -52,14 +52,15 @@ def _hex20_coordinates() -> np.ndarray:
     return np.vstack([corners, [(corners[first] + corners[second]) / 2.0 for first, second in edges]])
 
 
-def test_binding_requires_exact_scope_attempt_and_manifest(tmp_path: Path) -> None:
+@pytest.mark.parametrize("scope_id", ["wp12_hex20_affine_diagnostic", "wp12_hex20_affine_diagnostic_r2"])
+def test_binding_requires_exact_scope_attempt_and_manifest(tmp_path: Path, scope_id: str) -> None:
     run_json_path = tmp_path / "run.json"
     run_json_path.write_text(
         json.dumps(
             {
                 "controller_attempt_id": "dev-0123456789ab-attempt-1",
                 "state": "RUNNING",
-                "worktree_id": "wp12_hex20_affine_diagnostic",
+                "worktree_id": scope_id,
                 "series_id": "dev-0123456789ab",
                 "attempt": 1,
                 "target": [
@@ -77,7 +78,7 @@ def test_binding_requires_exact_scope_attempt_and_manifest(tmp_path: Path) -> No
     )
     environment = {
         "QF_DEVELOPMENT_AUTONOMOUS": "1",
-        "QF_DEV_WORKTREE_ID": "wp12_hex20_affine_diagnostic",
+        "QF_DEV_WORKTREE_ID": scope_id,
         "QF_DEV_SELECTED_DOFS": "60",
         "QF_DEV_ATTEMPT_ID": "dev-0123456789ab-attempt-1",
         "QF_DEV_MANIFEST_ID": "WP12B-HEX20-AFFINE-DIAG-R1",
@@ -87,11 +88,17 @@ def test_binding_requires_exact_scope_attempt_and_manifest(tmp_path: Path) -> No
     }
 
     binding = require_diagnostic_binding(environment)
-    assert binding.worktree_id == "wp12_hex20_affine_diagnostic"
+    assert binding.worktree_id == scope_id
     assert binding.attempt_id == environment["QF_DEV_ATTEMPT_ID"]
     assert binding.manifest_id == environment["QF_DEV_MANIFEST_ID"]
     assert binding.manifest_sha256 == "a" * 64
     assert binding.selected_dofs == 60
+
+    other_scope = ("wp12_hex20_affine_diagnostic_r2" if scope_id == "wp12_hex20_affine_diagnostic"
+                   else "wp12_hex20_affine_diagnostic")
+    environment["QF_DEV_WORKTREE_ID"] = other_scope
+    with pytest.raises(RuntimeError, match="does not bind"):
+        require_diagnostic_binding(environment)
 
     environment["QF_DEV_WORKTREE_ID"] = "wp12_elements_loads_corrective"
     with pytest.raises(RuntimeError, match="QF_DEV_WORKTREE_ID"):
