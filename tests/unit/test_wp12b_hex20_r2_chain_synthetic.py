@@ -2,6 +2,7 @@
 from __future__ import annotations
 import hashlib
 import json
+from contextlib import nullcontext
 from pathlib import Path
 from types import SimpleNamespace
 import pytest
@@ -29,6 +30,7 @@ def _fixture(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
              "development_mandate_id": c.WP12B_HEX20_R2_MANDATE_ID,
              "campaign_id": "R2-SYNTHETIC", "target_max_dofs": 60, "attempt_limit_per_nodeid": 1,
              "max_fem_cases_per_attempt": 1,
+             "allow_native_vv_skip_override": False,
              "max_total_attempts": 1, "budgets": {"timeout_seconds": 300, **c.WP12_RUN_BUDGETS},
              "node_attempt_ledger": {"path": "node-attempt-ledger-r2.json", "predecessor": binding}}
     policy = {"worktrees": {c.WP12B_HEX20_R2_WORKTREE_ID: entry}}
@@ -165,6 +167,69 @@ def test_r2_preflight_writer_emits_receipt_accepted_by_validator(tmp_path: Path,
         controller_provenance=f["prov"], policy=f["policy"])
     assert validated == (Path(result["receipt"]), result["receipt_sha256"])
     assert not f["ledger"].exists()
+
+
+@pytest.mark.parametrize("numerical,valid_sidecar", [("PASS", True), ("PYTEST_FAILED", False)])
+def test_r2_runner_simulates_complete_attempt_without_fem(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, numerical: str, valid_sidecar: bool
+):
+    f = _fixture(tmp_path, monkeypatch)
+    f["entry"]["concurrency_class"] = "parallel"
+    f["policy"].update(minimum_free_disk_mib=1, poll_interval_seconds=0.01)
+    monkeypatch.setattr(c, "load_policy", lambda *a: f["policy"])
+    monkeypatch.setattr(c, "resolve_targets", lambda *a, **k: [f["target"]])
+    monkeypatch.setattr(c, "_registered_worktree", lambda *a, **k: (
+        f["entry"], f["science"], f["science"] / "src", f["identity"], f["fp"]
+    ))
+    monkeypatch.setattr(c, "_worktree_source_fingerprint", lambda *a: f["fp"])
+    monkeypatch.setattr(c, "_run_root", lambda *a: f["store"])
+    monkeypatch.setattr(c, "_controller_provenance", lambda: f["prov"])
+    monkeypatch.setattr(c, "_wp12_resource_lock", lambda *a, **k: nullcontext())
+    monkeypatch.setattr(c, "psutil", object())
+    monkeypatch.setattr(c.shutil, "disk_usage", lambda *a: SimpleNamespace(free=10**12))
+    digest = c._sha256(f["path"])
+    manifest = {"schema": "qfsolver-wp12-development-execution-v1", "state": "OWNER_AUTHORIZED",
+        "execution_authorized": True, "do_not_execute": False, "authorization_id": "synthetic-auth-1",
+        "worktree_id": c.WP12B_HEX20_R2_WORKTREE_ID, "mandate_id": f["mandate"], "campaign_id": "R2-SYNTHETIC",
+        "target": f["target"], "identity": f["identity"], "source_fingerprint": f["fp"],
+        "controller_fingerprint": c._stable_fingerprint(f["prov"]),
+        "limits": c._wp12_manifest_limits(f["entry"], f["registration"]),
+        "scientific_criteria": c.WP12B_HEX20_R2_CRITERIA,
+        "owner_decision": {"status": "APPROVED", "approved_by": "Owner", "approved_at_utc": "2026-10-29T10:00:00+00:00",
+            "reason": "Synthetic decision for contract test only", "decision_id": "synthetic-decision-1"},
+        "preflight": {"preflight_id": f["lid"], "receipt_path": str(f["path"]), "receipt_sha256": digest}}
+    manifest_path = f["store"] / "authorizations" / c.WP12B_HEX20_R2_WORKTREE_ID / "synthetic.json"
+    _write(manifest_path, manifest)
+    def supervised(command, *, output_dir, environment, **kwargs):
+        assert command[-1] == f["target"]
+        origin = f["receipt"]["solver_origin_expected"]
+        (output_dir / "stdout.log").write_text("QF_DEV_SOLVER_ORIGIN=" + origin + "\n", encoding="utf-8")
+        (output_dir / "stderr.log").write_text("", encoding="utf-8")
+        attempt = environment["QF_DEV_ATTEMPT_ID"]
+        sidecar = f["store"] / "wp12b_hex20_affine_diagnostic" / f"{attempt}.json"
+        _write(sidecar, {"schema": "qfsolver-wp12b-hex20-affine-diagnostic-v2" if valid_sidecar else "unknown",
+            "identity": {"nodeid": f["target"]}, "diagnostic_criteria": {"r2_face_nodal_gate": {
+                "rtol": 1e-12, "atol_N": 1e-6, "status": "PROPOSED_FOR_OWNER; ASSERTED_AFTER_PRE_ASSERTION_ARCHIVE"}},
+            "controller": {"worktree_id": c.WP12B_HEX20_R2_WORKTREE_ID, "selected_dofs": 60,
+                "controller_attempt_id": attempt, "manifest_id": environment["QF_DEV_MANIFEST_ID"],
+                "manifest_sha256": environment["QF_DEV_MANIFEST_SHA256"],
+                "run_json_path": environment["QF_DEV_RUN_JSON_PATH"]}})
+        return SimpleNamespace(status=numerical, return_code=0 if numerical == "PASS" else 1,
+            elapsed_seconds=0.01, peak_rss_bytes=1, peak_process_count=1, stdout_bytes=1, stderr_bytes=0,
+            archive_bytes=1, temporary_bytes=1, stop_reason=None)
+    monkeypatch.setattr(c, "run_supervised_command", supervised)
+    result, _exit_code = c.run_pytest("fem_exploratory", f["target"], "dev-synthetic",
+        worktree_id=c.WP12B_HEX20_R2_WORKTREE_ID, reason="Synthetic run without FEM",
+        preflight_id=f["lid"], execution_manifest=manifest_path)
+    record = json.loads(Path(result["record"]).read_text(encoding="utf-8"))
+    assert record["scientific_state"] == numerical
+    assert record["provenance_state"] == ("VERIFIED" if valid_sidecar else "PROVENANCE_MISMATCH")
+    assert record["state"] == (numerical if valid_sidecar else "PROVENANCE_MISMATCH")
+    with pytest.raises(c.PolicyError):
+        c.run_pytest("fem_exploratory", f["target"], "dev-synthetic-two",
+            worktree_id=c.WP12B_HEX20_R2_WORKTREE_ID, reason="Synthetic repeat without FEM",
+            preflight_id=f["lid"], execution_manifest=manifest_path)
+    assert c._sha256(f["predecessor"]) == f["binding"]["sha256"]
 
 
 @pytest.mark.parametrize("mutation", ["decision", "nodeid", "fingerprint", "budget", "preflight", "prepared", "criteria"])

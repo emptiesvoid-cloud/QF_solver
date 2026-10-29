@@ -6574,8 +6574,27 @@ def run_pytest(
         if sidecar_binding is not None:
             final["diagnostic_sidecar"] = sidecar_binding
             if worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
-                final["scientific_state"] = state
-                final["provenance_state"] = sidecar_binding["status"]
+                final["scientific_state"] = result.status
+                observed_origin = None
+                try:
+                    observed_origin = _observed_solver_origin(
+                        (output_dir / "stdout.log").read_text(encoding="utf-8", errors="replace")
+                        + "\n" + (output_dir / "stderr.log").read_text(encoding="utf-8", errors="replace")
+                    )
+                    provenance_valid = (
+                        post_fingerprint == source_fingerprint
+                        and _controller_provenance() == controller_provenance
+                        and source_root is not None
+                        and observed_origin == str((source_root / "solveur" / "__init__.py").resolve())
+                        and sidecar_binding["status"] == "VERIFIED"
+                    )
+                except (OSError, PolicyError):
+                    provenance_valid = False
+                final["provenance_state"] = "VERIFIED" if provenance_valid else "PROVENANCE_MISMATCH"
+                final["solver_origin_observed"] = observed_origin
+                if not provenance_valid:
+                    state = "PROVENANCE_MISMATCH"
+                    final["state"] = state
             if sidecar_binding["status"] != "VERIFIED":
                 state = "PROVENANCE_MISMATCH"
                 final["state"] = state
