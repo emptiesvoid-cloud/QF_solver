@@ -719,6 +719,9 @@ def write_diagnostic_sidecar(
         },
     }
     if binding.worktree_id == DIAGNOSTIC_R2_SCOPE_ID:
+        record["diagnostic_criteria"]["observed_without_acceptance_threshold"].pop("face_nodal_force_difference")
+        record["diagnostic_criteria"]["proposed_owner_limits_not_active"].pop("face_nodal_force_rtol")
+        record["diagnostic_criteria"]["proposed_owner_limits_not_active"].pop("face_nodal_force_atol_N")
         record["diagnostic_criteria"]["r2_face_nodal_gate"] = {
             "rtol": R2_FACE_NODAL_RTOL,
             "atol_N": R2_FACE_NODAL_ATOL_N,

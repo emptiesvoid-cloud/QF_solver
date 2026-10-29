@@ -244,6 +244,8 @@ def test_sidecar_is_atomic_bound_and_refuses_overwrite(tmp_path: Path, scope_id:
     if scope_id.endswith("_r2"):
         assert record["assembly"]["face_contributions"][0]["acceptance"].startswith("R2_GATE_PROPOSED_FOR_OWNER")
         assert record["diagnostic_criteria"]["r2_face_nodal_gate"]["atol_N"] == 1.0e-6
+        assert "face_nodal_force_difference" not in record["diagnostic_criteria"]["observed_without_acceptance_threshold"]
+        assert "face_nodal_force_rtol" not in record["diagnostic_criteria"]["proposed_owner_limits_not_active"]
     else:
         assert record["assembly"]["face_contributions"][0]["acceptance"].startswith("OBSERVATIONAL_ONLY")
     assert record["diagnostic_criteria"]["historical_r4_assertions"]["recovered_stress"]["atol_Pa"] == 1.0e-4
