@@ -528,6 +528,58 @@ def test_contract_rejects_different_git_identities_even_with_valid_case_fingerpr
         BATCH.prepare_contract(controller, "wp12a-p0-divergent-git-identity", controller.case_paths)
 
 
+def test_contract_freezes_numerical_library_versions_and_refuses_drift_before_preflight(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    versions = {"numpy": "2.2.6", "scipy": "1.15.2"}
+    monkeypatch.setattr(BATCH, "_scientific_runtime_versions", lambda _controller: dict(versions))
+    controller = FakeController(tmp_path)
+    auth = _authorize_fixture(controller)
+    contract = json.loads(auth[0].read_text(encoding="utf-8"))
+    assert contract["scientific_runtime"] == versions
+
+    versions["numpy"] = "2.3.0"
+    with pytest.raises(SyntheticPolicyError, match="NumPy or SciPy version changed"):
+        _run(controller, auth)
+    assert controller.preflight_count == 0
+    assert controller.reservation_count == 0
+
+
+def test_numerical_library_drift_after_preflight_refuses_before_reservation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    versions = {"numpy": "2.2.6", "scipy": "1.15.2"}
+    monkeypatch.setattr(BATCH, "_scientific_runtime_versions", lambda _controller: dict(versions))
+    controller = FakeController(tmp_path)
+    auth = _authorize_fixture(controller)
+    original_preflight = controller.preflight_wp12_dynamics_pytest
+
+    def changed_runtime(target: str, *, policy: Mapping[str, Any]) -> dict[str, Any]:
+        result = original_preflight(target, policy=policy)
+        versions["scipy"] = "1.16.0"
+        return result
+
+    monkeypatch.setattr(controller, "preflight_wp12_dynamics_pytest", changed_runtime)
+    with pytest.raises(SyntheticPolicyError, match="NumPy or SciPy version changed"):
+        _run(controller, auth)
+    assert controller.preflight_count == 1
+    assert controller.reservation_count == 0
+
+
+def test_missing_numerical_distribution_refuses_contract_preparation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def missing_distribution(name: str) -> str:
+        if name == "scipy":
+            raise BATCH.importlib.metadata.PackageNotFoundError(name)
+        return "2.2.6"
+
+    monkeypatch.setattr(BATCH.importlib.metadata, "version", missing_distribution)
+    controller = FakeController(tmp_path)
+    with pytest.raises(SyntheticPolicyError, match="requires installed NumPy and SciPy"):
+        BATCH.prepare_contract(controller, "wp12a-p0-missing-library", controller.case_paths)
+
+
 def test_scientific_failure_continues_only_when_closed_contract_allows_it(batch_harness: Any) -> None:
     controller, auth = batch_harness
     controller.outcomes[0] = "PYTEST_FAILED"
