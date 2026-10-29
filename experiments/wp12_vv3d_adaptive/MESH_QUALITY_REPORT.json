@@ -1,0 +1,127 @@
+{
+  "matrix_sha256": "f926cf6cb1f591739f91285d44ead05257396df7e01f65456af3b9ab8f3b0672",
+  "results": [
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-TET4-L1",
+      "jacobian_det_max_m3": 0.125,
+      "jacobian_det_min_m3": 0.125,
+      "mesh_sha256": "507e14e2e0d9f7c4829ebbc0a3266977b9d4c3462f49fad365a77190acd359ea",
+      "quality_kind": "tetra_mean_ratio",
+      "quality_max": 0.7559526299369239,
+      "quality_min": 0.7559526299369239
+    },
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-TET4-L2",
+      "jacobian_det_max_m3": 0.015625,
+      "jacobian_det_min_m3": 0.015625,
+      "mesh_sha256": "23009054229061fbe94fb22abfbbee787e208e75916c8cc232d9d5118e51e00b",
+      "quality_kind": "tetra_mean_ratio",
+      "quality_max": 0.7559526299369239,
+      "quality_min": 0.7559526299369239
+    },
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-TET4-L3",
+      "jacobian_det_max_m3": 0.001953125,
+      "jacobian_det_min_m3": 0.001953125,
+      "mesh_sha256": "f00aab7671a33d6cbada594651f9c03021d6de78020ec63a05a95012de035f48",
+      "quality_kind": "tetra_mean_ratio",
+      "quality_max": 0.7559526299369239,
+      "quality_min": 0.7559526299369239
+    },
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-TET10-L1",
+      "jacobian_det_max_m3": 0.125,
+      "jacobian_det_min_m3": 0.125,
+      "mesh_sha256": "b9276d47d6850ce19edc421035f6826614b93b51ca0500d06bd082d8838a1d69",
+      "quality_kind": "tetra_mean_ratio",
+      "quality_max": 0.7559526299369239,
+      "quality_min": 0.7559526299369239
+    },
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-TET10-L2",
+      "jacobian_det_max_m3": 0.015625,
+      "jacobian_det_min_m3": 0.015625,
+      "mesh_sha256": "d5d7243f5dc6bc2c60adf41a97dfd06f95e3b02c87e5208228e2023773c37713",
+      "quality_kind": "tetra_mean_ratio",
+      "quality_max": 0.7559526299369239,
+      "quality_min": 0.7559526299369239
+    },
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-TET10-L3",
+      "jacobian_det_max_m3": 0.001953125,
+      "jacobian_det_min_m3": 0.001953125,
+      "mesh_sha256": "3f1bd5e697d8d948ab8e2f98c5c7db19c9c3d125ea4933090af9943ea5f494d6",
+      "quality_kind": "tetra_mean_ratio",
+      "quality_max": 0.7559526299369239,
+      "quality_min": 0.7559526299369239
+    },
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-HEX8-L1",
+      "jacobian_det_max_m3": 0.015625,
+      "jacobian_det_min_m3": 0.015625,
+      "mesh_sha256": "fdaedb4bfefd48508d35fe347afa44cfc1557376a043ff131e93c6dc6490544e",
+      "quality_kind": "inverse_brick_aspect_ratio",
+      "quality_max": 1.0,
+      "quality_min": 1.0
+    },
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-HEX8-L2",
+      "jacobian_det_max_m3": 0.001953125,
+      "jacobian_det_min_m3": 0.001953125,
+      "mesh_sha256": "5a059c03ffc4919acaf608b35c6d5f5e2dc9e25e7a2a868d88d6bdfbb6ee6a5b",
+      "quality_kind": "inverse_brick_aspect_ratio",
+      "quality_max": 1.0,
+      "quality_min": 1.0
+    },
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-HEX8-L3",
+      "jacobian_det_max_m3": 0.000244140625,
+      "jacobian_det_min_m3": 0.000244140625,
+      "mesh_sha256": "f08a47a7bc05c6465e9d4cbcbf537e478f11411ada0a477345d2787fe387d883",
+      "quality_kind": "inverse_brick_aspect_ratio",
+      "quality_max": 1.0,
+      "quality_min": 1.0
+    },
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-HEX20-L1",
+      "jacobian_det_max_m3": 0.015625,
+      "jacobian_det_min_m3": 0.015625,
+      "mesh_sha256": "6f9372f05bfb36a97dfa8b376cfd7d456b647cca16699baf132525d753fc85c3",
+      "quality_kind": "inverse_brick_aspect_ratio",
+      "quality_max": 1.0,
+      "quality_min": 1.0
+    },
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-HEX20-L2",
+      "jacobian_det_max_m3": 0.001953125,
+      "jacobian_det_min_m3": 0.001953125,
+      "mesh_sha256": "deaa2857c29d3efd52a5f16ab7f26971401bb66c6bc003dd0e93571ca34b0cf2",
+      "quality_kind": "inverse_brick_aspect_ratio",
+      "quality_max": 1.0,
+      "quality_min": 1.0
+    },
+    {
+      "basis": "affine vertices; geometry-only, no FEM evaluation",
+      "case_id": "VV3D-HEX20-L3",
+      "jacobian_det_max_m3": 0.000244140625,
+      "jacobian_det_min_m3": 0.000244140625,
+      "mesh_sha256": "85f5616f84a16be1e2b5ad8719c2ba9263a0520edb6461bd497ab3c5c6869621",
+      "quality_kind": "inverse_brick_aspect_ratio",
+      "quality_max": 1.0,
+      "quality_min": 1.0
+    }
+  ],
+  "schema": "qf-wp12-vv3d-geometry-audit-v1",
+  "scope": "geometry only; no FEM assembly, solver or numerical eigensolve"
+}

@@ -8,10 +8,24 @@ from collections import Counter
 from itertools import combinations, product
 from pathlib import Path
 
-from experiments.wp12_vv3d_adaptive import basis, budget, mesh, metrics, oracle, prepare, quadrature
+from experiments.wp12_vv3d_adaptive import basis, budget, mesh, metrics, model_draft, oracle, prepare, quadrature, quality
 
 
 class MeshContracts(unittest.TestCase):
+    def test_model_templates_remain_explicitly_non_executable(self):
+        for family in mesh.FORMULATIONS:
+            prepared = mesh.generate(family,2)
+            wrapper = model_draft.build_template(prepared)
+            self.assertFalse(wrapper["executable"])
+            model = wrapper["model_template"]
+            self.assertIsNone(model["loads"])
+            self.assertEqual(len(model["nodes"]),prepared["summary"]["nodes"])
+            self.assertEqual(len(model["elements"]),prepared["summary"]["elements"])
+            self.assertEqual(3*len(model["fixed_dofs"]),prepared["summary"]["fixed_dofs"])
+            self.assertEqual({item["type"] for item in model["elements"]},{family})
+        with self.assertRaises(ValueError):
+            model_draft.build_template({"schema":"unexpected"})
+
     def test_budget_arithmetic_is_conservative_and_does_not_reserve(self):
         budget.check_plan(budget.BudgetSnapshot(23,27600), timeout_seconds=1200, rss_mib=4096, dofs=30000)
         for snap,kwargs in (
@@ -35,6 +49,10 @@ class MeshContracts(unittest.TestCase):
                     self.assertLessEqual(info["dofs"], 30000)
                     self.assertGreater(info["free_dofs"], 0)
                     self.assertGreater(info["affine_jacobian_min_m3"], 0)
+                    quality_result = quality.assess(m)
+                    self.assertGreater(quality_result["quality_min"],0)
+                    self.assertLessEqual(quality_result["quality_max"],1.0+1e-12)
+                    self.assertAlmostEqual(quality_result["jacobian_det_min_m3"],info["affine_jacobian_min_m3"])
                     self.assertEqual(info["dofs"], info["fixed_dofs"] + info["free_dofs"])
                     if n == 2:
                         self.assertEqual((info["elements"], info["nodes"]), expected[family])
@@ -59,6 +77,15 @@ class MeshContracts(unittest.TestCase):
         self.assertEqual(set(faces.values()), {1,2})
         self.assertEqual(sum(count == 1 for count in faces.values()), 12*2**2)
 
+    def test_quadratic_warp_is_not_mislabeled_affine(self):
+        for family in ("TET10","HEX20"):
+            prepared = mesh.generate(family,2)
+            corner_count = 4 if family == "TET10" else 8
+            node = prepared["connectivity_zero_based"][0][corner_count]
+            prepared["nodes_integer"][node] = tuple(x+1 for x in prepared["nodes_integer"][node])
+            with self.assertRaisesRegex(ValueError,"not affine"):
+                quality.assess(prepared)
+
     def test_outputs_are_hash_bound_and_cannot_overwrite(self):
         with tempfile.TemporaryDirectory() as temp:
             dest = Path(temp)/"prepared"
@@ -82,6 +109,19 @@ class MeshContracts(unittest.TestCase):
             raw = (directory/case["mesh_file"]).read_bytes()
             self.assertEqual(hashlib.sha256(raw).hexdigest(),case["mesh_sha256"])
             self.assertEqual(raw,prepare.encode(mesh.generate(case["formulation"],case["divisions"][0])))
+
+    def test_geometry_report_matches_prepared_meshes(self):
+        directory = Path(__file__).parent/"prepared_20261029"
+        raw = (directory/"MATRIX_NOT_AUTHORIZED.json").read_bytes()
+        matrix = json.loads(raw)
+        report = json.loads((Path(__file__).parent/"MESH_QUALITY_REPORT.json").read_bytes())
+        self.assertEqual(report["matrix_sha256"],hashlib.sha256(raw).hexdigest())
+        self.assertEqual(len(report["results"]),12)
+        for case,row in zip(matrix["cases"],report["results"]):
+            self.assertEqual(case["case_id"],row["case_id"])
+            self.assertEqual(case["mesh_sha256"],row["mesh_sha256"])
+            self.assertEqual(quality.assess(json.loads((directory/case["mesh_file"]).read_bytes())),
+                             {k:v for k,v in row.items() if k not in {"case_id","mesh_sha256"}})
 
 
 class OracleContracts(unittest.TestCase):
