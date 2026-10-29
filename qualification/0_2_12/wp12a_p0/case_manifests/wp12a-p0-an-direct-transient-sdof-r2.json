@@ -1,0 +1,47 @@
+{
+  "case_id": "wp12a-p0-an-direct-transient-sdof",
+  "conditions_of_stop": [
+    "source/controller/criteria/budget/nodeid/provenance mismatch",
+    "ledger transition not attributable to this approved campaign",
+    "infrastructure failure",
+    "incomplete RESERVED attempt",
+    "pytest failure is not one exact assertion failure or its JUnit report is unavailable"
+  ],
+  "continue_after": [
+    "PASS",
+    "SCIENTIFIC_ASSERTION_FAILED"
+  ],
+  "criteria": {
+    "acceptance": "Existing initial-energy rtol=1e-12, final-energy rtol=1e-10, energy drift <1e-10, residual <1e-10; no general convergence claim.",
+    "acceptance_source_sha256": "4a1245f0d8da9cbdcbf97b982d7a3cbab979c55042ed8fc9d2f5b0eaaa59a930",
+    "oracle": "Analytical initial strain energy for the one-free-DOF TET4 fixture, compared with the initial and final total energies; energy drift and dynamic residual assertions.",
+    "oracle_independence": "The scalar strain-energy formula is evaluated independently from volume, modulus and initial displacement. The fixture assembly is not independently validated, and no closed-form displacement history is asserted."
+  },
+  "criteria_sha256": "640e1f99948e464942d6a0c3df2bd9269567c661bb62521fb679d39c79a5e70a",
+  "identity": {
+    "branch": "codex/wp12-dynamic-harmonic-verification",
+    "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+    "root": "E:\\QFSolverAgents\\wp12-dynamics",
+    "status_short": "",
+    "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+  },
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
+  "max_attempts": 1,
+  "nodeid": "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+  "schema": "qfsolver-wp12a-p0-scientific-case-v1",
+  "science": {
+    "branch": "codex/wp12-dynamic-harmonic-verification",
+    "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+    "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+  },
+  "selection": {
+    "selected_dofs": 1,
+    "selection_basis": "Single TET4 fixture: 12 total translational DDL, one free dynamic coordinate.",
+    "timeout_reason": null,
+    "timeout_seconds": 300
+  },
+  "source_fingerprint": "f314c4d8011f9b9b815ee92ddc04d4386798a5a104bed528122649b2067efec1",
+  "state": "PROPOSED_NOT_AUTHORIZED",
+  "test_module_sha256": "4a1245f0d8da9cbdcbf97b982d7a3cbab979c55042ed8fc9d2f5b0eaaa59a930",
+  "worktree_id": "wp12_dynamics"
+}
