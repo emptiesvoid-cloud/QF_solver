@@ -20,6 +20,36 @@ CAMPAIGN_DIR = Path(__file__).parent / "prepared_20261029"
 MATRIX_PATH = CAMPAIGN_DIR / "MATRIX_NOT_AUTHORIZED.json"
 VV3D_LEDGER_FILENAME = "node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl"
 NOT_AUTHORIZED_FINGERPRINT = "0" * 64
+ADAPTIVE_CATALOG_PATH = Path(__file__).parent / "ADAPTIVE_CATALOG_DRAFT.json"
+ADAPTIVE_RECEIPT_SCHEMA = "qf-wp12-vv3d-adaptive-runner-receipt-v1"
+ADAPTIVE_RECEIPT_CONTRACT = (
+    "The controller must emit a strict-JSON receipt with schema/status, campaign_id, candidate_id, "
+    "nodeid, execution_kind, seed_case, catalog_sha256, mesh_sha256, criteria_sha256, rule_sha256, "
+    "source_hashes, scientific_fingerprint, controller_fingerprint, manifest_sha256, authorization_id, "
+    "campaign_decision={status,decision_id,decision_sha256,catalog_sha256}, "
+    "transition_decision={status,decision_id,decision_sha256,source_case_id,candidate_id,eligibility_sha256}, "
+    "eligibility_record={path,sha256} binding strict JSON {candidate_id,source,result}, eligibility={status,sha256}, "
+    "evidence_root, and candidate-kind-specific reservation/archive fields. "
+    "FEM uses status RESERVED and a unique attempt_id with attempt_reserved=true; QPOST uses "
+    "POSTPROCESS_RESERVED, postprocessing_job_id, attempt_reserved=false, postprocessing_reserved=true, "
+    "and archive={path,sha256,source_case_id,source_mesh_sha256,source_manifest_sha256,source_attempt_id}. "
+    "The external controller authenticates Owner decisions and performs any reservation; this child parser "
+    "only checks exact binding and never reserves or authenticates Owner identity itself."
+)
+ADAPTIVE_SOURCE_FILES = (
+    "experiments/wp12_vv3d_adaptive/case_harness.py",
+    "experiments/wp12_vv3d_adaptive/load_assembly_draft.py",
+    "experiments/wp12_vv3d_adaptive/field_error_draft.py",
+    "experiments/wp12_vv3d_adaptive/sampling.py",
+    "experiments/wp12_vv3d_adaptive/quadrature.py",
+    "experiments/wp12_vv3d_adaptive/basis.py",
+    "experiments/wp12_vv3d_adaptive/oracle.py",
+    "experiments/wp12_vv3d_adaptive/mesh.py",
+    "experiments/wp12_vv3d_adaptive/metrics.py",
+    "experiments/wp12_vv3d_adaptive/criteria_evaluator.py",
+    "experiments/wp12_vv3d_adaptive/evidence.py",
+    "tests/unit/test_wp12_vv3d_adaptive_prepared.py",
+)
 
 OBSERVABLES = (
     "displacement_l2_m_5_2",
@@ -117,6 +147,340 @@ def load_prepared_cases() -> list[dict[str, Any]]:
 def _expected_nodeid(case_id: str) -> str:
     return ("tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case"
             f"[{case_id}]")
+
+
+def _strict_json(raw: bytes, label: str) -> Any:
+    def unique_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"duplicate JSON key in {label}")
+            result[key] = value
+        return result
+
+    try:
+        return json.loads(raw, object_pairs_hook=unique_pairs,
+                          parse_constant=lambda token: (_ for _ in ()).throw(ValueError(token)))
+    except (ValueError, json.JSONDecodeError) as exc:
+        raise ValueError(f"{label} is not strict JSON") from exc
+
+
+def _sha256(raw: bytes) -> str:
+    return hashlib.sha256(raw).hexdigest()
+
+
+def _adaptive_inventory() -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]], str]:
+    """Load the registered closed set while retaining its not-authorized state."""
+    raw = ADAPTIVE_CATALOG_PATH.read_bytes()
+    catalog = _strict_json(raw, "adaptive catalog")
+    if (not isinstance(catalog, dict)
+            or catalog.get("campaign_id") != "WP12-VV3D-ADAPTIVE-20261029-R1"):
+        raise ValueError("unexpected adaptive-catalog campaign identity")
+    candidates = catalog.get("candidates")
+    expected_ids = {
+        f"VV3D-ADAPT-{family}-{kind}"
+        for family in ("TET4", "TET10", "HEX8", "HEX20")
+        for kind in ("H1", "QLOAD", "QPOST")
+    }
+    if (not isinstance(candidates, list) or len(candidates) != 12
+            or {candidate.get("candidate_id") for candidate in candidates if isinstance(candidate, dict)}
+            != expected_ids):
+        raise ValueError("adaptive catalog is not the closed set of twelve candidates")
+    if any(candidate.get("status") != "PREPARED_NOT_AUTHORIZED"
+           or candidate.get("nodeid_status") != "REGISTERED_PREPARED_NOT_AUTHORIZED"
+           for candidate in candidates):
+        raise ValueError("adaptive catalog contains a candidate outside its preparation-only state")
+    by_id = {candidate["candidate_id"]: candidate for candidate in candidates}
+    return candidates, by_id, _sha256(raw)
+
+
+def _safe_catalog_file(relative: str) -> Path:
+    if (not isinstance(relative, str) or not relative or Path(relative).is_absolute()
+            or "\\" in relative or any(part in {"", ".", ".."} for part in relative.split("/"))):
+        raise ValueError("adaptive catalog path is not a safe relative path")
+    root = Path(__file__).resolve().parent
+    path = (root / relative).resolve(strict=True)
+    if path != root and root not in path.parents:
+        raise ValueError("adaptive catalog path escapes the experiment directory")
+    return path
+
+
+def _adaptive_bindings(candidate: dict[str, Any]) -> dict[str, Any]:
+    """Compute current catalog, candidate, mesh, rule and source identities."""
+    _, candidates, catalog_sha256 = _adaptive_inventory()
+    candidate_id = candidate.get("candidate_id")
+    if candidate_id not in candidates or candidates[candidate_id] != candidate:
+        raise ValueError("candidate is not the exact record in the closed adaptive catalog")
+    prepared = candidate.get("prepared_mesh")
+    if not isinstance(prepared, dict):
+        raise ValueError("adaptive candidate has no prepared mesh identity")
+    mesh_path = _safe_catalog_file(prepared.get("path"))
+    mesh_sha256 = _sha256(mesh_path.read_bytes())
+    if mesh_sha256 != prepared.get("sha256"):
+        raise ValueError("adaptive candidate mesh hash differs from the catalog")
+    criteria_path = _safe_catalog_file(candidate.get("criteria_path"))
+    criteria_sha256 = _sha256(criteria_path.read_bytes())
+    if criteria_sha256 != candidate.get("criteria_sha256_provisional"):
+        raise ValueError("adaptive criteria source hash differs from the catalog")
+    repo_root = Path(__file__).resolve().parents[2]
+    source_hashes: dict[str, str] = {}
+    for relative in ADAPTIVE_SOURCE_FILES:
+        path = (repo_root / relative).resolve(strict=True)
+        if repo_root not in path.parents:
+            raise ValueError("adaptive source path escapes the repository")
+        source_hashes[relative] = _sha256(path.read_bytes())
+    rule_identity = {
+        "execution_kind": candidate["execution_kind"],
+        "kind": candidate["kind"],
+        "mesh_rule": candidate["mesh_rule"],
+        "numerical_conditions": candidate["numerical_conditions"],
+        "criteria_sha256": criteria_sha256,
+        "quadrature_source_sha256": source_hashes["experiments/wp12_vv3d_adaptive/quadrature.py"],
+        "field_error_source_sha256": source_hashes["experiments/wp12_vv3d_adaptive/field_error_draft.py"],
+    }
+    canonical = json.dumps(rule_identity, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+    return {
+        "catalog_sha256": catalog_sha256,
+        "candidate_sha256": _sha256(json.dumps(candidate, sort_keys=True, separators=(",", ":"),
+                                      allow_nan=False).encode()),
+        "mesh_sha256": mesh_sha256,
+        "criteria_sha256": criteria_sha256,
+        "rule_sha256": _sha256(canonical),
+        "source_hashes": source_hashes,
+    }
+
+
+def _adaptive_candidate_nodeid(candidate: dict[str, Any]) -> str:
+    nodeid = candidate.get("nodeid")
+    if not isinstance(nodeid, str) or not nodeid.startswith("tests/unit/test_wp12_vv3d_adaptive_prepared.py::"):
+        raise ValueError("adaptive candidate nodeid is missing or outside the prepared test module")
+    candidate_id = candidate["candidate_id"]
+    if candidate["execution_kind"] == "POSTPROCESS_ONLY":
+        expected = ("tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case"
+                    f"[{candidate['family']}]" )
+    else:
+        expected = ("tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case"
+                    f"[{candidate_id}]")
+    if nodeid != expected:
+        raise ValueError("adaptive candidate nodeid does not match its exact parameter identity")
+    return nodeid
+
+
+def evaluate_adaptive_eligibility(candidate_id: str, source: dict[str, Any]) -> dict[str, Any]:
+    """Pure evaluation of catalog trigger conditions from archived seed observations."""
+    _, candidates, _catalog_sha = _adaptive_inventory()
+    if candidate_id not in candidates:
+        raise ValueError("candidate is outside the closed adaptive catalog")
+    candidate = candidates[candidate_id]
+    kind = candidate["kind"]
+    conditions = candidate["numerical_conditions"]
+    family = candidate["family"]
+    if not isinstance(source, dict):
+        raise ValueError("adaptive eligibility source must be a mapping")
+    if kind == "uniform_h_refinement":
+        seed_levels = source.get("seed_cases")
+        if not isinstance(seed_levels, dict) or set(seed_levels) != {f"VV3D-{family}-L{i}" for i in (1, 2, 3)}:
+            return {"status": "NOT_ASSESSABLE", "reason": "THREE_EXACT_SEED_CASES_REQUIRED"}
+        gate_ids = {"finite", "det_j_positive", "free_residual", "energy_identity", "force_closure",
+                    "moment_closure", "load_quadrature", "post_quadrature"}
+        errors_u: list[float] = []
+        errors_e: list[float] = []
+        hs: list[float] = []
+        for level in (1, 2, 3):
+            record = seed_levels[f"VV3D-{family}-L{level}"]
+            if (not isinstance(record, dict) or not isinstance(record.get("observables"), dict)
+                    or not isinstance(record.get("criteria"), dict)):
+                return {"status": "NOT_ASSESSABLE", "reason": f"MISSING_LEVEL_{level}_EVIDENCE"}
+            if any(record["criteria"].get(gate, {}).get("status") != "PASS" for gate in gate_ids):
+                return {"status": "INELIGIBLE", "reason": f"SEED_LEVEL_{level}_CASE_GATE_FAILED"}
+            obs = record["observables"]
+            u = obs.get("displacement_l2_m_5_2", {})
+            e = obs.get("energy_error_norm_sqrt_j", {})
+            if (u.get("status") not in {"AVAILABLE", "DIAGNOSTIC_UNQUALIFIED"}
+                    or e.get("status") not in {"AVAILABLE", "DIAGNOSTIC_UNQUALIFIED"}):
+                return {"status": "NOT_ASSESSABLE", "reason": f"MISSING_LEVEL_{level}_FIELD_ERROR"}
+            uv, ev = u.get("relative_error"), e.get("relative_error")
+            if (isinstance(uv, bool) or isinstance(ev, bool) or not isinstance(uv, (int, float))
+                    or not isinstance(ev, (int, float)) or not math.isfinite(uv) or not math.isfinite(ev)
+                    or uv <= 0 or ev <= 0):
+                return {"status": "NOT_ASSESSABLE", "reason": f"INVALID_LEVEL_{level}_FIELD_ERROR"}
+            errors_u.append(float(uv))
+            errors_e.append(float(ev))
+            h = 1.0 / (2 ** level)
+            # The prepared matrix uses n=(2,4,8), hence h=(1/2,1/4,1/8).
+            hs.append(h)
+        from experiments.wp12_vv3d_adaptive.metrics import observed_orders
+        pu = observed_orders(hs, errors_u)
+        pe = observed_orders(hs, errors_e)
+        criteria = _strict_json(_safe_catalog_file(candidate["criteria_path"]).read_bytes(), "family criteria")
+        floors = {rule["id"]: rule["threshold"] for rule in criteria["criteria"]
+                  if rule["id"] in {"displacement_order", "energy_order"}}
+        if set(floors) != {"displacement_order", "energy_order"}:
+            return {"status": "NOT_ASSESSABLE", "reason": "SLOPE_FLOORS_MISSING"}
+        trigger = (any(value is not None and value < floors["displacement_order"] for value in pu)
+                   or any(value is not None and value < floors["energy_order"] for value in pe))
+        return {"status": "ELIGIBLE" if trigger else "INELIGIBLE",
+                "trigger": "SLOPE_BELOW_PROPOSED_FLOOR" if trigger else "NO_SLOPE_TRIGGER",
+                "displacement_orders": pu, "energy_orders": pe, "h_m": hs}
+    if kind == "body_load_quadrature_escalation":
+        load = source.get("load_quadrature_8_12")
+        if not isinstance(load, dict):
+            return {"status": "NOT_ASSESSABLE", "reason": "LOAD_QUADRATURE_OBSERVATION_MISSING"}
+        low, high = load.get("order_8"), load.get("order_12")
+        try:
+            resultant = _relative_vector_difference(tuple(low["force_closure_n"]), tuple(high["force_closure_n"]))
+            moment = _relative_vector_difference(tuple(low["moment_closure_nm"]), tuple(high["moment_closure_nm"]))
+        except (KeyError, TypeError, ValueError) as exc:
+            return {"status": "NOT_ASSESSABLE", "reason": f"LOAD_BALANCE_INVALID:{type(exc).__name__}"}
+        trigger = max(resultant, moment)
+        floor = float(conditions["relative_resultant_or_moment_change_trigger_gt"])
+        return {"status": "ELIGIBLE" if trigger > floor else "INELIGIBLE",
+                "trigger": "LOAD_RESULTANT_OR_MOMENT_SENSITIVITY" if trigger > floor else "LOAD_RULES_AGREE",
+                "resultant_relative_change": resultant, "moment_relative_change": moment,
+                "threshold": floor}
+    if kind == "archived_field_postprocessing_quadrature_escalation":
+        post = source.get("quadrature_relative_difference", {})
+        values = post.get("value") if isinstance(post, dict) else None
+        expected = {"displacement_relative_l2", "energy_error_relative", "stress_error_relative",
+                    "scalar_energy_relative_error"}
+        if not isinstance(values, dict) or not expected.issubset(values):
+            return {"status": "NOT_ASSESSABLE", "reason": "COMPLETE_POSTPROCESS_SENSITIVITY_REQUIRED"}
+        finite = [values[name] for name in expected]
+        if any(isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+               or value < 0 for value in finite):
+            return {"status": "NOT_ASSESSABLE", "reason": "POSTPROCESS_SENSITIVITY_NONFINITE"}
+        threshold = float(conditions["relative_observable_change_trigger_gt"])
+        trigger = max(finite)
+        return {"status": "ELIGIBLE" if trigger > threshold else "INELIGIBLE",
+                "trigger": "POSTPROCESS_QUADRATURE_SENSITIVITY" if trigger > threshold else "POSTPROCESS_RULES_AGREE",
+                "maximum_relative_change": trigger, "threshold": threshold}
+    return {"status": "NOT_ASSESSABLE", "reason": "UNSUPPORTED_ADAPTIVE_KIND"}
+
+
+def validate_adaptive_runner_receipt(candidate_id: str, receipt: dict[str, Any]) -> dict[str, Any]:
+    """Validate the exact child-side adaptive receipt contract, without reservation."""
+    _, candidates, catalog_sha256 = _adaptive_inventory()
+    if candidate_id not in candidates:
+        raise PermissionError("adaptive candidate is outside the closed catalog")
+    candidate = candidates[candidate_id]
+    bindings = _adaptive_bindings(candidate)
+    expected_nodeid = _adaptive_candidate_nodeid(candidate)
+    execution_kind = candidate["execution_kind"]
+    if not isinstance(receipt, dict) or receipt.get("schema") != ADAPTIVE_RECEIPT_SCHEMA:
+        raise PermissionError("adaptive runner receipt schema mismatch")
+    base = {
+        "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+        "candidate_id": candidate_id,
+        "nodeid": expected_nodeid,
+        "execution_kind": execution_kind,
+        "seed_case": candidate["seed_case"],
+        "catalog_sha256": catalog_sha256,
+        "candidate_sha256": bindings["candidate_sha256"],
+        "mesh_sha256": bindings["mesh_sha256"],
+        "criteria_sha256": bindings["criteria_sha256"],
+        "rule_sha256": bindings["rule_sha256"],
+        "source_hashes": bindings["source_hashes"],
+    }
+    if any(receipt.get(key) != value for key, value in base.items()):
+        raise PermissionError("adaptive runner receipt does not bind the exact candidate/nodeid/mesh/rule/sources")
+    for name in ("manifest_sha256", "scientific_fingerprint", "controller_fingerprint"):
+        if not isinstance(receipt.get(name), str) or not re.fullmatch(r"[0-9a-f]{64}", receipt[name]):
+            raise PermissionError(f"adaptive runner receipt has invalid {name}")
+    for decision_name in ("campaign_decision", "transition_decision"):
+        decision = receipt.get(decision_name)
+        if (not isinstance(decision, dict) or decision.get("status") != "APPROVED"
+                or not isinstance(decision.get("decision_id"), str) or not decision["decision_id"]
+                or not isinstance(decision.get("decision_sha256"), str)
+                or not re.fullmatch(r"[0-9a-f]{64}", decision["decision_sha256"])):
+            raise PermissionError(f"adaptive runner receipt lacks approved {decision_name}")
+    campaign_decision = receipt["campaign_decision"]
+    if campaign_decision.get("catalog_sha256") != catalog_sha256:
+        raise PermissionError("adaptive campaign decision is not bound to the closed catalog")
+    transition = receipt["transition_decision"]
+    if (transition.get("source_case_id") != candidate["seed_case"]
+            or transition.get("candidate_id") != candidate_id
+            or not isinstance(transition.get("eligibility_sha256"), str)
+            or not re.fullmatch(r"[0-9a-f]{64}", transition["eligibility_sha256"])):
+        raise PermissionError("adaptive transition decision does not bind the seed/candidate eligibility")
+    eligibility_ref = receipt.get("eligibility_record")
+    if (not isinstance(eligibility_ref, dict) or not isinstance(eligibility_ref.get("path"), str)
+            or eligibility_ref.get("sha256") != transition["eligibility_sha256"]):
+        raise PermissionError("adaptive receipt does not bind a raw eligibility record")
+    try:
+        eligibility_path = Path(eligibility_ref["path"]).resolve(strict=True)
+        eligibility_raw = eligibility_path.read_bytes()
+    except OSError as exc:
+        raise PermissionError("adaptive eligibility record is unavailable") from exc
+    if _sha256(eligibility_raw) != eligibility_ref["sha256"]:
+        raise PermissionError("adaptive eligibility record SHA-256 mismatch")
+    eligibility_record = _strict_json(eligibility_raw, "adaptive eligibility record")
+    if (not isinstance(eligibility_record, dict)
+            or eligibility_record.get("schema") != "qf-wp12-vv3d-adaptive-eligibility-v1"
+            or eligibility_record.get("candidate_id") != candidate_id):
+        raise PermissionError("adaptive eligibility record identity mismatch")
+    computed_eligibility = evaluate_adaptive_eligibility(candidate_id, eligibility_record.get("source"))
+    eligibility = receipt.get("eligibility")
+    if (computed_eligibility.get("status") != "ELIGIBLE"
+            or eligibility_record.get("result") != computed_eligibility
+            or not isinstance(eligibility, dict) or eligibility.get("status") != "ELIGIBLE"
+            or eligibility.get("sha256") != transition["eligibility_sha256"]):
+        raise PermissionError("adaptive receipt lacks the exact eligible transition record")
+    if not isinstance(receipt.get("evidence_root"), str) or not receipt["evidence_root"]:
+        raise PermissionError("adaptive runner receipt has no evidence root")
+    if execution_kind == "FEM":
+        if (receipt.get("status") != "RESERVED" or receipt.get("attempt_reserved") is not True
+                or receipt.get("postprocessing_reserved") is not False
+                or not isinstance(receipt.get("attempt_id"), str)
+                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", receipt["attempt_id"])):
+            raise PermissionError("adaptive FEM receipt does not bind one reserved exact attempt")
+    elif execution_kind == "POSTPROCESS_ONLY":
+        archive = receipt.get("archive")
+        if (receipt.get("status") != "POSTPROCESS_RESERVED"
+                or receipt.get("attempt_reserved") is not False
+                or receipt.get("postprocessing_reserved") is not True
+                or not isinstance(receipt.get("postprocessing_job_id"), str)
+                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", receipt["postprocessing_job_id"])
+                or not isinstance(archive, dict)
+                or archive.get("source_case_id") != candidate["seed_case"]
+                or archive.get("source_mesh_sha256") != bindings["mesh_sha256"]
+                or archive.get("source_manifest_sha256") != receipt.get("source_manifest_sha256")
+                or not re.fullmatch(r"[0-9a-f]{64}", str(archive.get("sha256", "")))
+                or not isinstance(archive.get("path"), str)
+                or not isinstance(archive.get("source_attempt_id"), str)):
+            raise PermissionError("adaptive QPOST receipt does not bind an archived state without FEM attempt")
+        if not re.fullmatch(r"[0-9a-f]{64}", str(receipt.get("source_manifest_sha256", ""))):
+            raise PermissionError("adaptive QPOST receipt has invalid source manifest identity")
+    else:
+        raise PermissionError("unsupported adaptive execution kind")
+    return {**base, **receipt, "nodeid": expected_nodeid, "bindings": bindings}
+
+
+def require_adaptive_runner_receipt(candidate_id: str) -> dict[str, Any]:
+    """Load and check a controller-produced adaptive receipt; never reserve work."""
+    expected_nodeid = None
+    _, candidates, _ = _adaptive_inventory()
+    candidate = candidates.get(candidate_id)
+    if candidate is None:
+        raise PermissionError("adaptive candidate is outside the closed catalog")
+    expected_nodeid = _adaptive_candidate_nodeid(candidate)
+    if (os.environ.get("QF_DEV_VV3D_ADAPTIVE_CANDIDATE_ID") != candidate_id
+            or os.environ.get("QF_DEV_TARGET_NODEID") != expected_nodeid):
+        raise PermissionError("adaptive candidate/nodeid runner context mismatch")
+    receipt_path = os.environ.get("QF_DEV_VV3D_ADAPTIVE_RECEIPT_PATH", "")
+    receipt_sha = os.environ.get("QF_DEV_VV3D_ADAPTIVE_RECEIPT_SHA256", "")
+    if not receipt_path or not re.fullmatch(r"[0-9a-f]{64}", receipt_sha):
+        raise PermissionError("adaptive runner receipt context is missing")
+    try:
+        resolved = Path(receipt_path).resolve(strict=True)
+        raw = resolved.read_bytes()
+    except OSError as exc:
+        raise PermissionError("adaptive runner receipt is unavailable") from exc
+    if _sha256(raw) != receipt_sha:
+        raise PermissionError("adaptive runner receipt raw SHA-256 mismatch")
+    receipt = _strict_json(raw, "adaptive runner receipt")
+    verified = validate_adaptive_runner_receipt(candidate_id, receipt)
+    verified["receipt_sha256"] = receipt_sha
+    return verified
 
 
 def require_authorized_execution(case_id: str) -> dict[str, Any]:
@@ -494,6 +858,11 @@ def run_prospective_case(
                          for dof in ("UX", "UY", "UZ")) for node in range(len(coordinates))]
         error8 = field_error_draft.integrated_errors(prepared, nodal_u, order=8)
         error12 = field_error_draft.integrated_errors(prepared, nodal_u, order=12)
+        exact_scalar_energy = oracle.exact_energy_j()
+        for order, error_record in ((8, error8), (12, error12)):
+            scalar_energy = _archived_scalar_energy(prepared, nodal_u, order)
+            error_record["scalar_energy_relative_error"] = abs(scalar_energy - exact_scalar_energy) / exact_scalar_energy
+            error_record["scalar_energy_j"] = scalar_energy
         payload["observables"]["independent_quadrature_8_12"] = {
             "status": "DIAGNOSTIC_UNQUALIFIED", "order_8": error8, "order_12": error12,
             "note": "quadrature agreement and field norms require frozen Owner criteria",
@@ -606,7 +975,8 @@ def run_prospective_case(
 
 
 def _relative_observable_difference(low: dict[str, Any], high: dict[str, Any]) -> dict[str, float]:
-    keys = ("displacement_relative_l2", "energy_error_relative", "strain_error_relative", "stress_error_relative")
+    keys = ("displacement_relative_l2", "energy_error_relative", "strain_error_relative",
+            "stress_error_relative", "scalar_energy_relative_error")
     differences: dict[str, float] = {}
     for key in keys:
         left, right = float(low[key]), float(high[key])
@@ -623,6 +993,155 @@ def _relative_vector_difference(left: tuple[float, ...], right: tuple[float, ...
     if denominator <= 1e-30:
         return 0.0 if numerator <= 1e-30 else math.inf
     return numerator / denominator
+
+
+def _archived_scalar_energy(prepared_mesh: dict[str, Any], nodal_u: list[tuple[float, ...]], order: int) -> float:
+    from experiments.wp12_vv3d_adaptive import oracle, quadrature, sampling
+
+    family = prepared_mesh["family"]
+    rule = quadrature.tetrahedron_duffy_rule(order) if family.startswith("TET") else quadrature.hexahedron_rule(order)
+    total = 0.0
+    for cell in prepared_mesh["connectivity_zero_based"]:
+        for r, s, t, reference_weight in rule:
+            sample = sampling.sample_cell(
+                family, cell, prepared_mesh["nodes_integer"], prepared_mesh["integer_coordinate_denominator"],
+                nodal_u, (r, s, t),
+            )
+            strain = sample["strain"]
+            stress = sample["stress_pa"]
+            density = 0.5 * sum(strain[i] * stress[i] for i in range(3))
+            density += 0.5 * sum(strain[i] * stress[i] for i in range(3, 6))
+            total += reference_weight * sample["jacobian_det_m3"] * density
+    if not math.isfinite(total) or total < 0 or oracle.exact_energy_j() <= 0:
+        raise ValueError("archived-state scalar energy is nonfinite or has no positive reference")
+    return total
+
+
+def process_archived_qpost(candidate_id: str, archive: dict[str, Any]) -> dict[str, Any]:
+    """Pure archived-displacement postprocessing; no solve or assembly occurs.
+
+    Expected archive schema is ``qf-wp12-vv3d-state-archive-v1`` with the exact
+    catalog seed case, mesh SHA, source manifest/attempt identity and a finite
+    node-major full-order displacement vector. The caller must separately
+    validate archive bytes against the controller receipt before using this
+    function; this pure helper is used directly only with synthetic fixtures.
+    """
+    _, candidates, _ = _adaptive_inventory()
+    candidate = candidates.get(candidate_id)
+    if candidate is None or candidate.get("execution_kind") != "POSTPROCESS_ONLY":
+        raise ValueError("QPOST candidate is outside the closed archived-state set")
+    bindings = _adaptive_bindings(candidate)
+    if (not isinstance(archive, dict)
+            or archive.get("schema") != "qf-wp12-vv3d-state-archive-v1"
+            or archive.get("campaign_id") != "WP12-VV3D-ADAPTIVE-20261029-R1"
+            or archive.get("case_id") != candidate["seed_case"]
+            or archive.get("mesh_sha256") != bindings["mesh_sha256"]
+            or archive.get("case_state") != "OWNER_AUTHORIZED_EXECUTION"
+            or archive.get("execution_status") != "COMPLETED_UNASSESSED"
+            or not re.fullmatch(r"[0-9a-f]{64}", str(archive.get("manifest_sha256", "")))
+            or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", str(archive.get("attempt_id", "")))):
+        raise ValueError("archived QPOST state is not bound to the exact authorized seed case")
+    prepared_path = _safe_catalog_file(candidate["prepared_mesh"]["path"])
+    prepared = _strict_json(prepared_path.read_bytes(), "QPOST mesh")
+    displacements = archive.get("nodal_displacements_m")
+    if (not isinstance(displacements, list) or len(displacements) != 3 * len(prepared["nodes_integer"])
+            or any(isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+                   for value in displacements)):
+        raise ValueError("archived displacement vector is missing, nonfinite or has the wrong length")
+    nodal_u = [tuple(float(displacements[3 * node + axis]) for axis in range(3))
+               for node in range(len(prepared["nodes_integer"]))]
+    from experiments.wp12_vv3d_adaptive import field_error_draft, oracle
+
+    results = {order: field_error_draft.integrated_errors(prepared, nodal_u, order=order)
+               for order in (8, 12)}
+    for order in (8, 12):
+        energy = _archived_scalar_energy(prepared, nodal_u, order)
+        results[order]["scalar_energy_j"] = energy
+        results[order]["scalar_energy_relative_error"] = abs(energy - oracle.exact_energy_j()) / oracle.exact_energy_j()
+    metric_keys = (
+        "displacement_relative_l2", "energy_error_relative", "stress_error_relative",
+        "scalar_energy_relative_error",
+    )
+    differences: dict[str, float] = {}
+    for name in metric_keys:
+        low, high = results[8][name], results[12][name]
+        scale = max(abs(low), abs(high))
+        if not math.isfinite(low) or not math.isfinite(high) or scale <= 1e-30:
+            return {"status": "NOT_ASSESSABLE", "reason": f"ZERO_OR_NONFINITE_DENOMINATOR:{name}",
+                    "order_8": results[8], "order_12": results[12]}
+        differences[name] = abs(low - high) / scale
+    threshold = float(candidate["numerical_conditions"]["relative_observable_change_trigger_gt"])
+    maximum = max(differences.values())
+    return {
+        "status": "COMPLETED_UNASSESSED",
+        "candidate_id": candidate_id,
+        "mesh_sha256": bindings["mesh_sha256"],
+        "archive_attempt_id": archive["attempt_id"],
+        "orders": [8, 12],
+        "order_8": results[8],
+        "order_12": results[12],
+        "relative_changes": differences,
+        "maximum_relative_change": maximum,
+        "triggered": maximum > threshold,
+        "threshold": threshold,
+        "criteria_status": "DIAGNOSTIC_UNQUALIFIED",
+    }
+
+
+def run_registered_qpost_candidate(family: str) -> dict[str, Any]:
+    """Controller-bound QPOST entry; persists a sidecar for success or processing failure."""
+    candidate_id = f"VV3D-ADAPT-{family}-QPOST"
+    receipt = require_adaptive_runner_receipt(candidate_id)
+    archive_ref = receipt["archive"]
+    attempt_id = receipt["postprocessing_job_id"]
+    _, candidates, _ = _adaptive_inventory()
+    candidate = candidates[candidate_id]
+    outcome: dict[str, Any] = {"status": "NOT_EXPOSED"}
+    failure: BaseException | None = None
+    sidecar = {
+        "schema": "qf-wp12-vv3d-observables-v1",
+        "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+        "case_id": candidate_id,
+        "attempt_id": attempt_id,
+        "case_state": "OWNER_AUTHORIZED_POSTPROCESS_ONLY",
+        "mesh_sha256": candidate["prepared_mesh"]["sha256"],
+        "scientific_fingerprint": receipt["scientific_fingerprint"],
+        "controller_fingerprint": receipt["controller_fingerprint"],
+        "manifest_sha256": receipt["manifest_sha256"],
+        "runner_receipt_sha256": receipt["receipt_sha256"],
+        "archive_sha256": archive_ref["sha256"],
+        "observables": {"qpost": {"status": "NOT_EXPOSED"}},
+        "criteria": {"qpost_trigger": {"status": "NOT_ASSESSED"}},
+        "execution": {"status": "STARTED", "attempt_reserved": False,
+                      "postprocessing_reserved": True, "fem_started": False},
+    }
+    try:
+        archive_path = Path(archive_ref["path"]).resolve(strict=True)
+        archive_raw = archive_path.read_bytes()
+        if _sha256(archive_raw) != archive_ref["sha256"]:
+            raise PermissionError("QPOST archived-state SHA-256 mismatch")
+        archive = _strict_json(archive_raw, "QPOST archived state")
+        if (archive.get("case_id") != archive_ref["source_case_id"]
+                or archive.get("mesh_sha256") != archive_ref["source_mesh_sha256"]
+                or archive.get("manifest_sha256") != archive_ref["source_manifest_sha256"]
+                or archive.get("attempt_id") != archive_ref["source_attempt_id"]):
+            raise PermissionError("QPOST archive contents differ from the runner receipt binding")
+        outcome = process_archived_qpost(candidate_id, archive)
+        sidecar["observables"]["qpost"] = outcome
+        sidecar["execution"]["status"] = "COMPLETED_UNASSESSED"
+    except BaseException as exc:
+        failure = exc
+        outcome = {"status": "FAILED_OR_INCOMPLETE", "error_type": type(exc).__name__, "error": str(exc)}
+    finally:
+        if failure is not None:
+            sidecar["observables"]["qpost"] = outcome
+            sidecar["execution"]["status"] = "FAILED_OR_INCOMPLETE"
+            sidecar["execution"]["error_type"] = type(failure).__name__
+        evidence.write_observables(Path(receipt["evidence_root"]), candidate_id, attempt_id,
+                                   sanitize_for_evidence(sidecar))
+    if failure is not None:
+        raise failure
+    return {"payload": sidecar, "outcome": outcome}
 
 
 def _load_quadrature_relative_diagnostics(

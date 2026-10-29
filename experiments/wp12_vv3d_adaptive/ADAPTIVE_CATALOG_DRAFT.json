@@ -21,7 +21,7 @@
       "kind": "uniform_h_refinement",
       "mesh_rule": "Generate the conforming straight-sided n=16 successor of the n=8 Cartesian-cube six-tetrahedra-per-cube mesh using the same deterministic tetrahedralization rule. Verify positive determinants, conformity, quality, exact node sharing and selected DDL <= 30000.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET4-H1]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "attempts_max": 1,
         "dofs_max": 30000,
@@ -54,7 +54,7 @@
       "kind": "body_load_quadrature_escalation",
       "mesh_rule": "Reuse the exact L3 mesh and compare the predeclared order-8 and order-12 load rules for the same continuous MMS body force; the FEM job is distinct from the consumed L3 case.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET4-QLOAD]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "attempts_max": 1,
         "dofs_max": 30000,
@@ -91,7 +91,7 @@
       "kind": "archived_field_postprocessing_quadrature_escalation",
       "mesh_rule": "Reuse the archived state of the exact L3 case without a new FEM solve; compare predeclared order-8 and order-12 error-integral rules under the shared time budget.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[TET4]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "charge_wall_seconds_to_global_budget": true,
         "dofs_max": 30000,
@@ -130,7 +130,7 @@
       "kind": "uniform_h_refinement",
       "mesh_rule": "Generate a conforming straight-sided uniform n=10 TET10 mesh with globally shared quadratic edge nodes using the deterministic tetrahedralization rule. Verified expected size is 27,783 DDL. This is a non-nested refinement relative to n=8; compare errors against exact MMS fields and use actual h=0.1 m in any pairwise slope. Verify affine midsides, conformity, positive determinants, quality and selected DDL <= 30000 before presenting the candidate.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET10-H1]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "attempts_max": 1,
         "dofs_max": 30000,
@@ -163,7 +163,7 @@
       "kind": "body_load_quadrature_escalation",
       "mesh_rule": "Reuse the exact L3 mesh and compare the predeclared order-8 and order-12 load rules for the same continuous MMS body force; the FEM job is distinct from the consumed L3 case.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET10-QLOAD]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "attempts_max": 1,
         "dofs_max": 30000,
@@ -200,7 +200,7 @@
       "kind": "archived_field_postprocessing_quadrature_escalation",
       "mesh_rule": "Reuse the archived state of the exact L3 case without a new FEM solve; compare predeclared order-8 and order-12 error-integral rules under the shared time budget.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[TET10]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "charge_wall_seconds_to_global_budget": true,
         "dofs_max": 30000,
@@ -239,7 +239,7 @@
       "kind": "uniform_h_refinement",
       "mesh_rule": "Generate the conforming axis-aligned n=16 successor of the n=8 brick mesh using the same deterministic vertex ordering. Verify positive Jacobians, conformity, quality and selected DDL <= 30000.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX8-H1]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "attempts_max": 1,
         "dofs_max": 30000,
@@ -272,7 +272,7 @@
       "kind": "body_load_quadrature_escalation",
       "mesh_rule": "Reuse the exact L3 mesh and compare the predeclared order-8 and order-12 load rules for the same continuous MMS body force; the FEM job is distinct from the consumed L3 case.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX8-QLOAD]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "attempts_max": 1,
         "dofs_max": 30000,
@@ -313,7 +313,7 @@
       "kind": "archived_field_postprocessing_quadrature_escalation",
       "mesh_rule": "Reuse the archived state of the exact L3 case without a new FEM solve; compare predeclared order-8 and order-12 error-integral rules under the shared time budget.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[HEX8]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "charge_wall_seconds_to_global_budget": true,
         "dofs_max": 30000,
@@ -356,7 +356,7 @@
       "kind": "uniform_h_refinement",
       "mesh_rule": "Generate a conforming straight-sided uniform n=12 HEX20 mesh with the same deterministic vertex ordering as the initial brick meshes. Verified size is 8,281 nodes and 24,843 DDL. This mesh is non-nested relative to initial n=8; retain it as a distinct adaptive case identity and use actual h=1/12 m in comparisons. Verify positive Jacobians, conformity, quality and selected DDL <= 30000 before presenting the candidate.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX20-H1]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "attempts_max": 1,
         "dofs": 24843,
@@ -391,7 +391,7 @@
       "kind": "body_load_quadrature_escalation",
       "mesh_rule": "Reuse the exact L3 mesh and compare the predeclared order-8 and order-12 load rules for the same continuous MMS body force; the FEM job is distinct from the consumed L3 case.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX20-QLOAD]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "attempts_max": 1,
         "dofs_max": 30000,
@@ -432,7 +432,7 @@
       "kind": "archived_field_postprocessing_quadrature_escalation",
       "mesh_rule": "Reuse the archived state of the exact L3 case without a new FEM solve; compare predeclared order-8 and order-12 error-integral rules under the shared time budget.",
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[HEX20]",
-      "nodeid_status": "IMPLEMENTED_SKIPPED_NOT_REGISTERED",
+      "nodeid_status": "REGISTERED_PREPARED_NOT_AUTHORIZED",
       "numerical_conditions": {
         "charge_wall_seconds_to_global_budget": true,
         "dofs_max": 30000,
@@ -481,7 +481,7 @@
     "required": true,
     "scope": "One decision binds exact identities for all 12 initial cases, all 12 candidates in this closed adaptive catalog, source/test/runner fingerprints, exact nodeids, oracle and quadrature implementations, manifests, environment, criteria, budget, evidence destination, and conditional transition table."
   },
-  "identity_note": "Provisional mesh bytes, SHA-256 and skipped nodeids are recorded; no source/runner fingerprint, official manifest, or approved contract exists. Final identities require review and must be bound by the Owner decision.",
+  "identity_note": "Provisional mesh bytes, SHA-256 and exact registered adaptive nodeids are recorded; execution remains PREPARED_NOT_AUTHORIZED. No source/runner fingerprint, official manifest, or approved contract exists. Final identities require review and must be bound by the Owner decision.",
   "initial_cases_reference": {
     "cases": [
       "VV3D-TET4-L1",

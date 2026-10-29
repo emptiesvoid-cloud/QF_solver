@@ -36,8 +36,8 @@ def test_prepared_adaptive_fem_case(case_id: str) -> None:
 
 @pytest.mark.parametrize("family", ["TET4", "TET10", "HEX8", "HEX20"])
 def test_prepared_archived_postprocess_case(family: str) -> None:
-    """Prospective archived-field postprocessing only; never performs an FEM solve."""
-    pytest.skip(f"VV3D-ADAPT-{family}-QPOST: PREPARED_NOT_AUTHORIZED; archived-state path is not integrated")
+    """Controller-bound QPOST reads an archived displacement field only."""
+    case_harness.run_registered_qpost_candidate(family)
 
 
 def test_synthetic_inventory_hashes_and_execution_gate(monkeypatch) -> None:
@@ -252,3 +252,281 @@ def test_synthetic_campaign_criteria_remain_unassessed() -> None:
     outcome = case_harness.evaluate_case_criteria(payload, [*mandatory, deferred])
     assert outcome["displacement_order"]["status"] == "NOT_ASSESSED"
     assert outcome["displacement_order"]["classification"] == "CAMPAIGN_GATE_DEFERRED"
+
+
+def _synthetic_adaptive_receipt(tmp_path: Path, candidate_id: str) -> dict:
+    _, candidates, catalog_sha = case_harness._adaptive_inventory()
+    candidate = candidates[candidate_id]
+    binding = case_harness._adaptive_bindings(candidate)
+    if candidate["kind"] == "uniform_h_refinement":
+        source = {"seed_cases": {f"VV3D-{candidate['family']}-L{level}": {
+            "observables": {
+                "displacement_l2_m_5_2": {"status": "AVAILABLE", "relative_error": 0.9 / (level ** 0.8)},
+                "energy_error_norm_sqrt_j": {"status": "AVAILABLE", "relative_error": 0.8 / (level ** 0.2)},
+            },
+            "criteria": {name: {"status": "PASS"} for name in (
+                "finite", "det_j_positive", "free_residual", "energy_identity", "force_closure",
+                "moment_closure", "load_quadrature", "post_quadrature")},
+        } for level in (1, 2, 3)}}
+    elif candidate["kind"] == "body_load_quadrature_escalation":
+        source = {"load_quadrature_8_12": {
+            "order_8": {"force_closure_n": [0, 0, 1.1], "moment_closure_nm": [0.5, 0, 0]},
+            "order_12": {"force_closure_n": [0, 0, 1.0], "moment_closure_nm": [0.4, 0, 0]},
+        }}
+    else:
+        source = {"quadrature_relative_difference": {"value": {
+            "displacement_relative_l2": 0.2, "energy_error_relative": 0.2,
+            "stress_error_relative": 0.2, "scalar_energy_relative_error": 0.2,
+        }}}
+    eligibility_result = case_harness.evaluate_adaptive_eligibility(candidate_id, source)
+    eligibility_raw = (json.dumps({"schema": "qf-wp12-vv3d-adaptive-eligibility-v1",
+                                   "candidate_id": candidate_id, "source": source,
+                                   "result": eligibility_result}, sort_keys=True, separators=(",", ":"),
+                                  allow_nan=False) + "\n").encode()
+    eligibility_path = tmp_path / f"eligibility-{candidate_id}.json"
+    eligibility_path.write_bytes(eligibility_raw)
+    eligibility_sha = hashlib.sha256(eligibility_raw).hexdigest()
+    transition = {
+        "status": "APPROVED", "decision_id": "SYNTHETIC-TRANSITION-01",
+        "decision_sha256": "d" * 64, "source_case_id": candidate["seed_case"],
+        "candidate_id": candidate_id, "eligibility_sha256": eligibility_sha,
+    }
+    receipt = {
+        "schema": case_harness.ADAPTIVE_RECEIPT_SCHEMA,
+        "status": "RESERVED" if candidate["execution_kind"] == "FEM" else "POSTPROCESS_RESERVED",
+        "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1", "candidate_id": candidate_id,
+        "nodeid": candidate["nodeid"], "execution_kind": candidate["execution_kind"],
+        "seed_case": candidate["seed_case"], **binding,
+        "manifest_sha256": "a" * 64, "scientific_fingerprint": "b" * 64,
+        "controller_fingerprint": "c" * 64, "authorization_id": "SYNTHETIC-ADAPT-AUTH-01",
+        "campaign_decision": {"status": "APPROVED", "decision_id": "SYNTHETIC-CAMPAIGN-01",
+                              "decision_sha256": "f" * 64, "catalog_sha256": catalog_sha},
+        "transition_decision": transition,
+        "eligibility_record": {"path": str(eligibility_path), "sha256": eligibility_sha},
+        "eligibility": {"status": "ELIGIBLE", "sha256": eligibility_sha},
+        "evidence_root": "synthetic/evidence",
+    }
+    if candidate["execution_kind"] == "FEM":
+        receipt.update({"attempt_reserved": True, "postprocessing_reserved": False,
+                        "attempt_id": "SYNTHETIC-ADAPT-ATTEMPT-01"})
+    else:
+        receipt.update({
+            "attempt_reserved": False, "postprocessing_reserved": True,
+            "postprocessing_job_id": "SYNTHETIC-QPOST-JOB-01", "source_manifest_sha256": "9" * 64,
+            "archive": {"path": "synthetic/archive.json", "sha256": "8" * 64,
+                        "source_case_id": candidate["seed_case"],
+                        "source_mesh_sha256": candidate["prepared_mesh"]["sha256"],
+                        "source_manifest_sha256": "9" * 64, "source_attempt_id": "SYNTHETIC-SEED-ATTEMPT-01"},
+        })
+    return receipt
+
+
+def _synthetic_qpost_wrapper_context(tmp_path: Path, *, archive_changes: dict | None = None) -> tuple[dict, Path]:
+    candidate_id = "VV3D-ADAPT-TET4-QPOST"
+    _, candidates, _ = case_harness._adaptive_inventory()
+    candidate = candidates[candidate_id]
+    mesh = json.loads(case_harness._safe_catalog_file(candidate["prepared_mesh"]["path"]).read_bytes())
+    archive = {
+        "schema": "qf-wp12-vv3d-state-archive-v1",
+        "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+        "case_id": candidate["seed_case"],
+        "mesh_sha256": candidate["prepared_mesh"]["sha256"],
+        "case_state": "OWNER_AUTHORIZED_EXECUTION",
+        "execution_status": "COMPLETED_UNASSESSED",
+        "manifest_sha256": "9" * 64,
+        "attempt_id": "SYNTHETIC-SEED-ATTEMPT-01",
+        "nodal_displacements_m": [0.0] * (3 * len(mesh["nodes_integer"])),
+    }
+    archive.update(archive_changes or {})
+    archive_path = tmp_path / "synthetic-state-archive.json"
+    archive_raw = (json.dumps(archive, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode()
+    archive_path.write_bytes(archive_raw)
+
+    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
+    receipt["evidence_root"] = str(tmp_path / "evidence")
+    receipt["archive"] = {
+        "path": str(archive_path),
+        "sha256": hashlib.sha256(archive_raw).hexdigest(),
+        "source_case_id": candidate["seed_case"],
+        "source_mesh_sha256": candidate["prepared_mesh"]["sha256"],
+        "source_manifest_sha256": receipt["source_manifest_sha256"],
+        "source_attempt_id": "SYNTHETIC-SEED-ATTEMPT-01",
+    }
+    receipt_path = tmp_path / "synthetic-adaptive-runner-receipt.json"
+    receipt_raw = (json.dumps(receipt, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode()
+    receipt_path.write_bytes(receipt_raw)
+    return ({
+        "QF_DEV_VV3D_ADAPTIVE_CANDIDATE_ID": candidate_id,
+        "QF_DEV_TARGET_NODEID": candidate["nodeid"],
+        "QF_DEV_VV3D_ADAPTIVE_RECEIPT_PATH": str(receipt_path),
+        "QF_DEV_VV3D_ADAPTIVE_RECEIPT_SHA256": hashlib.sha256(receipt_raw).hexdigest(),
+    }, archive_path)
+
+
+def _mock_qpost_quadrature(monkeypatch) -> None:
+    from experiments.wp12_vv3d_adaptive import field_error_draft
+
+    monkeypatch.setattr(field_error_draft, "integrated_errors", lambda prepared, displacement, *, order: {
+        "displacement_relative_l2": 0.20 if order == 8 else 0.21,
+        "energy_error_relative": 0.30 if order == 8 else 0.32,
+        "stress_error_relative": 0.40 if order == 8 else 0.44,
+    })
+    monkeypatch.setattr(case_harness, "_archived_scalar_energy", lambda prepared, displacement, order:
+                        0.8 if order == 8 else 0.9)
+
+
+def _set_synthetic_qpost_env(monkeypatch, context: dict[str, str]) -> None:
+    for name, value in context.items():
+        monkeypatch.setenv(name, value)
+
+
+def _synthetic_qpost_sidecar(tmp_path: Path) -> Path:
+    return (tmp_path / "evidence" / "VV3D-ADAPT-TET4-QPOST" / "SYNTHETIC-QPOST-JOB-01"
+            / "observables.json")
+
+
+def test_synthetic_adaptive_catalog_has_exact_twelve_candidate_nodeids() -> None:
+    candidates, by_id, _ = case_harness._adaptive_inventory()
+    catalog = json.loads(case_harness.ADAPTIVE_CATALOG_PATH.read_text(encoding="utf-8"))
+    assert len(candidates) == len(by_id) == 12
+    assert catalog["execution_authorized"] is False
+    assert catalog["execution_state"] == "PREPARED_NOT_AUTHORIZED"
+    for candidate in candidates:
+        assert case_harness._adaptive_candidate_nodeid(candidate) == candidate["nodeid"]
+        assert candidate["nodeid_status"] == "REGISTERED_PREPARED_NOT_AUTHORIZED"
+        assert candidate["status"] == "PREPARED_NOT_AUTHORIZED"
+        assert case_harness._adaptive_bindings(candidate)["mesh_sha256"] == candidate["prepared_mesh"]["sha256"]
+
+
+def test_synthetic_adaptive_receipt_binds_candidate_rule_decisions_and_sources(tmp_path) -> None:
+    candidate_id = "VV3D-ADAPT-TET4-QPOST"
+    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
+    verified = case_harness.validate_adaptive_runner_receipt(candidate_id, receipt)
+    assert verified["candidate_id"] == candidate_id
+    assert verified["transition_decision"]["candidate_id"] == candidate_id
+    assert verified["campaign_decision"]["catalog_sha256"] == receipt["catalog_sha256"]
+
+    receipt["rule_sha256"] = "0" * 64
+    with pytest.raises(PermissionError, match="candidate/nodeid/mesh/rule/sources"):
+        case_harness.validate_adaptive_runner_receipt(candidate_id, receipt)
+
+
+def test_synthetic_adaptive_eligibility_uses_closed_transition_conditions() -> None:
+    seed_cases = {}
+    for level, (u, energy) in enumerate(((0.9, 0.8), (0.5, 0.7), (0.1, 0.6)), 1):
+        case_id = f"VV3D-TET4-L{level}"
+        seed_cases[case_id] = {
+            "observables": {"displacement_l2_m_5_2": {"status": "AVAILABLE", "relative_error": u},
+                            "energy_error_norm_sqrt_j": {"status": "AVAILABLE", "relative_error": energy}},
+            "criteria": {name: {"status": "PASS"} for name in (
+                "finite", "det_j_positive", "free_residual", "energy_identity", "force_closure",
+                "moment_closure", "load_quadrature", "post_quadrature")},
+        }
+    h1 = case_harness.evaluate_adaptive_eligibility("VV3D-ADAPT-TET4-H1", {"seed_cases": seed_cases})
+    assert h1["status"] == "ELIGIBLE"
+
+    qload = case_harness.evaluate_adaptive_eligibility("VV3D-ADAPT-TET4-QLOAD", {
+        "load_quadrature_8_12": {
+            "order_8": {"force_closure_n": [0, 0, 1.1], "moment_closure_nm": [0.5, 0, 0]},
+            "order_12": {"force_closure_n": [0, 0, 1.0], "moment_closure_nm": [0.4, 0, 0]},
+        },
+    })
+    assert qload["status"] == "ELIGIBLE"
+    missing = case_harness.evaluate_adaptive_eligibility("VV3D-ADAPT-TET4-QPOST", {})
+    assert missing["status"] == "NOT_ASSESSABLE"
+
+
+def test_synthetic_qpost_processes_only_fabricated_archived_state(monkeypatch) -> None:
+    from experiments.wp12_vv3d_adaptive import field_error_draft
+
+    candidate_id = "VV3D-ADAPT-TET4-QPOST"
+    candidate = case_harness._adaptive_inventory()[1][candidate_id]
+    mesh = json.loads(case_harness._safe_catalog_file(candidate["prepared_mesh"]["path"]).read_bytes())
+    archive = {
+        "schema": "qf-wp12-vv3d-state-archive-v1",
+        "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+        "case_id": candidate["seed_case"], "mesh_sha256": candidate["prepared_mesh"]["sha256"],
+        "case_state": "OWNER_AUTHORIZED_EXECUTION", "execution_status": "COMPLETED_UNASSESSED",
+        "manifest_sha256": "9" * 64, "attempt_id": "SYNTHETIC-SEED-ATTEMPT-01",
+        "nodal_displacements_m": [0.0] * (3 * len(mesh["nodes_integer"])),
+    }
+    monkeypatch.setattr(field_error_draft, "integrated_errors", lambda prepared, displacement, *, order: {
+        "displacement_relative_l2": 0.20 if order == 8 else 0.21,
+        "energy_error_relative": 0.30 if order == 8 else 0.32,
+        "stress_error_relative": 0.40 if order == 8 else 0.44,
+    })
+    monkeypatch.setattr(case_harness, "_archived_scalar_energy", lambda prepared, displacement, order:
+                        0.8 if order == 8 else 0.9)
+    outcome = case_harness.process_archived_qpost(candidate_id, archive)
+    assert outcome["status"] == "COMPLETED_UNASSESSED"
+    assert outcome["criteria_status"] == "DIAGNOSTIC_UNQUALIFIED"
+    assert outcome["triggered"] is True
+    assert set(outcome["relative_changes"]) == {
+        "displacement_relative_l2", "energy_error_relative", "stress_error_relative",
+        "scalar_energy_relative_error",
+    }
+
+
+def test_synthetic_qpost_wrapper_accepts_exact_receipt_and_writes_sidecar(tmp_path, monkeypatch) -> None:
+    context, _archive_path = _synthetic_qpost_wrapper_context(tmp_path)
+    _set_synthetic_qpost_env(monkeypatch, context)
+    _mock_qpost_quadrature(monkeypatch)
+
+    bound = case_harness.require_adaptive_runner_receipt("VV3D-ADAPT-TET4-QPOST")
+    assert bound["nodeid"] == context["QF_DEV_TARGET_NODEID"]
+    result = case_harness.run_registered_qpost_candidate("TET4")
+    sidecar = _synthetic_qpost_sidecar(tmp_path)
+    saved = json.loads(sidecar.read_bytes())
+    assert result["outcome"]["status"] == "COMPLETED_UNASSESSED"
+    assert saved["execution"] == {
+        "status": "COMPLETED_UNASSESSED", "attempt_reserved": False,
+        "postprocessing_reserved": True, "fem_started": False,
+    }
+    assert saved["archive_sha256"] == bound["archive"]["sha256"]
+
+
+def test_synthetic_qpost_wrapper_rejects_tampered_archive_and_preserves_error_sidecar(
+    tmp_path, monkeypatch,
+) -> None:
+    context, archive_path = _synthetic_qpost_wrapper_context(tmp_path)
+    _set_synthetic_qpost_env(monkeypatch, context)
+    archive_path.write_bytes(archive_path.read_bytes() + b"tampered")
+
+    with pytest.raises(PermissionError, match="archived-state SHA-256"):
+        case_harness.run_registered_qpost_candidate("TET4")
+    saved = json.loads(_synthetic_qpost_sidecar(tmp_path).read_bytes())
+    assert saved["execution"]["status"] == "FAILED_OR_INCOMPLETE"
+    assert saved["execution"]["fem_started"] is False
+    assert saved["observables"]["qpost"]["status"] == "FAILED_OR_INCOMPLETE"
+
+
+@pytest.mark.parametrize(
+    ("field", "wrong_value"),
+    [("attempt_id", "SYNTHETIC-OTHER-ATTEMPT"), ("mesh_sha256", "0" * 64)],
+)
+def test_synthetic_qpost_wrapper_rejects_wrong_archive_source_and_preserves_sidecar(
+    tmp_path, monkeypatch, field, wrong_value,
+) -> None:
+    context, _archive_path = _synthetic_qpost_wrapper_context(
+        tmp_path, archive_changes={field: wrong_value},
+    )
+    _set_synthetic_qpost_env(monkeypatch, context)
+
+    with pytest.raises(PermissionError, match="archive contents differ"):
+        case_harness.run_registered_qpost_candidate("TET4")
+    saved = json.loads(_synthetic_qpost_sidecar(tmp_path).read_bytes())
+    assert saved["execution"]["status"] == "FAILED_OR_INCOMPLETE"
+    assert saved["observables"]["qpost"]["error_type"] == "PermissionError"
+
+
+def test_synthetic_qpost_wrapper_refuses_duplicate_sidecar_without_overwrite(tmp_path, monkeypatch) -> None:
+    context, _archive_path = _synthetic_qpost_wrapper_context(tmp_path)
+    _set_synthetic_qpost_env(monkeypatch, context)
+    _mock_qpost_quadrature(monkeypatch)
+    case_harness.run_registered_qpost_candidate("TET4")
+    sidecar = _synthetic_qpost_sidecar(tmp_path)
+    original = sidecar.read_bytes()
+
+    with pytest.raises(FileExistsError):
+        case_harness.run_registered_qpost_candidate("TET4")
+    assert sidecar.read_bytes() == original
