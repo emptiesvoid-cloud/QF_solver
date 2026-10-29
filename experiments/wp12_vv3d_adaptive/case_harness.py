@@ -322,6 +322,271 @@ def _adaptive_candidate_nodeid(candidate: dict[str, Any]) -> str:
     return nodeid
 
 
+CAMPAIGN_GATE_IDS = frozenset({
+    "displacement_error_L3", "energy_error_L3", "stress_error_L3", "scalar_energy_error_L3",
+    "displacement_order", "energy_order",
+})
+CAMPAIGN_INPUT_CASE_GATE_IDS = frozenset({
+    "finite", "det_j_positive", "free_residual", "energy_identity", "force_closure",
+    "moment_closure", "load_quadrature", "post_quadrature",
+})
+
+
+def _inconclusive_campaign_assessment(reason: str) -> dict[str, Any]:
+    criteria = {
+        name: {"classification": "CAMPAIGN_GATE", "status": "INCONCLUSIVE", "reason": reason}
+        for name in sorted(CAMPAIGN_GATE_IDS)
+    }
+    return _campaign_assessment("INCONCLUSIVE", criteria, {}, reason)
+
+
+def evaluate_campaign_criteria(
+    family: str, seed_cases: dict[str, Any], rules: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Evaluate frozen family-level criteria using only paired archived observations.
+
+    L3 limits are evaluated as soon as the exact L3 evidence exists. Order gates
+    require all three exact mesh levels. Missing not-yet-run levels remain
+    NOT_ASSESSED; malformed, interrupted, nonfinite, or contradictory evidence
+    is INCONCLUSIVE. This function performs no assembly or solver work.
+    """
+    expected_families = {"TET4", "TET10", "HEX8", "HEX20"}
+    if family not in expected_families:
+        raise ValueError("campaign criteria require an exact registered element family")
+    expected_cases = {f"VV3D-{family}-L{level}" for level in (1, 2, 3)}
+    if not isinstance(seed_cases, dict) or any(case_id not in expected_cases for case_id in seed_cases):
+        return _inconclusive_campaign_assessment("SEED_CASE_IDENTITY_INVALID")
+
+    frozen_rules: dict[str, dict[str, Any]] = {}
+    try:
+        for rule in rules:
+            if not isinstance(rule, dict) or rule.get("id") not in CAMPAIGN_GATE_IDS:
+                continue
+            name = rule["id"]
+            if name in frozen_rules or rule.get("classification") != "CAMPAIGN_GATE":
+                raise ValueError("campaign gate is duplicated or not frozen as CAMPAIGN_GATE")
+            if rule.get("unit") != "1":
+                raise ValueError("campaign gate must retain its dimensionless unit")
+            frozen_rules[name] = rule
+        if set(frozen_rules) != CAMPAIGN_GATE_IDS:
+            raise ValueError("the exact six frozen campaign gates are required")
+        for name, expected_operator in (
+            ("displacement_error_L3", "LE"), ("energy_error_L3", "LE"),
+            ("stress_error_L3", "LE"), ("scalar_energy_error_L3", "LE"),
+            ("displacement_order", "GE"), ("energy_order", "GE"),
+        ):
+            rule = frozen_rules[name]
+            if rule.get("operator") != expected_operator:
+                raise ValueError(f"frozen campaign gate {name} has an unexpected operator")
+            criteria_evaluator.evaluate(rule, 0.0)
+    except (KeyError, TypeError, ValueError) as exc:
+        return _inconclusive_campaign_assessment(f"FROZEN_CRITERIA_INVALID:{exc}")
+
+    verdicts: dict[str, dict[str, Any]] = {
+        name: {"classification": "CAMPAIGN_GATE", "status": "NOT_ASSESSED",
+              "reason": "REQUIRED_EVIDENCE_NOT_YET_AVAILABLE"}
+        for name in sorted(CAMPAIGN_GATE_IDS)
+    }
+    level_metrics: dict[str, dict[str, Any]] = {}
+    interrupted = {
+        case_id: record.get("state")
+        for case_id, record in seed_cases.items()
+        if isinstance(record, dict) and record.get("state") in {
+            "PYTEST_FAILED", "SCIENTIFIC_DEVIATION", "INCONCLUSIVE", "TIMEOUT", "INTERRUPTED",
+            "RESOURCE_LIMIT", "INFRA_ERROR", "PROVENANCE_MISMATCH",
+        }
+    }
+
+    def mark_inconclusive(name: str, reason: str) -> None:
+        verdicts[name] = {"classification": "CAMPAIGN_GATE", "status": "INCONCLUSIVE", "reason": reason}
+
+    def record_is_valid(case_id: str, record: Any) -> bool:
+        if not isinstance(record, dict) or record.get("case_id") != case_id:
+            return False
+        if not isinstance(record.get("observables"), dict) or not isinstance(record.get("criteria"), dict):
+            return False
+        if any(
+            not isinstance(record["criteria"].get(name), dict)
+            or record["criteria"][name].get("classification") != "CASE_GATE"
+            or record["criteria"][name].get("status") != "PASS"
+            for name in CAMPAIGN_INPUT_CASE_GATE_IDS
+        ):
+            return False
+        if record.get("state") != "PASS":
+            return False
+        if record.get("provenance_state") != "VERIFIED":
+            return False
+        if record.get("sidecar_valid") is not True:
+            return False
+        for digest_name in ("sidecar_sha256", "mesh_sha256", "manifest_sha256",
+                            "scientific_fingerprint", "controller_fingerprint"):
+            digest = record.get(digest_name)
+            if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+                return False
+        level = int(case_id.rsplit("-L", maxsplit=1)[1])
+        if record.get("h_m") != 1.0 / (2 ** level):
+            return False
+        return True
+
+    invalid_present = sorted(
+        case_id for case_id, record in seed_cases.items()
+        if not record_is_valid(case_id, record)
+    )
+    if invalid_present:
+        missing_present = sorted(expected_cases.difference(seed_cases))
+        reason = "PRESENT_SEED_EVIDENCE_NOT_A_COMPLETE_CASE_GATE_PASS:" + ",".join(invalid_present)
+        if missing_present:
+            reason += ";MISSING_LEVELS:" + ",".join(missing_present)
+        return _inconclusive_campaign_assessment(
+            reason,
+        )
+
+    for case_id in expected_cases.intersection(seed_cases):
+        record = seed_cases[case_id]
+        if not record_is_valid(case_id, record):
+            continue
+        observations = record.get("observables")
+        if not isinstance(observations, dict):
+            continue
+        extracted: dict[str, Any] = {"case_id": case_id, "h_m": record.get("h_m")}
+        for output_name, observable_name, value_key in (
+            ("displacement_error", "displacement_l2_m_5_2", "relative_error"),
+            ("energy_error", "energy_error_norm_sqrt_j", "relative_error"),
+            ("stress_error", "stress_l2_pa", "relative_error"),
+            ("scalar_energy_error", "scalar_energy_relative_error", "value"),
+        ):
+            source = observations.get(observable_name)
+            value = source.get(value_key) if isinstance(source, dict) else None
+            extracted[output_name] = value
+            extracted[f"{output_name}_status"] = source.get("status") if isinstance(source, dict) else None
+        level_metrics[case_id] = extracted
+
+    l3_id = f"VV3D-{family}-L3"
+    l3 = seed_cases.get(l3_id)
+    l3_values = {
+        "displacement_error_L3": ("displacement_error", "displacement_l2_m_5_2"),
+        "energy_error_L3": ("energy_error", "energy_error_norm_sqrt_j"),
+        "stress_error_L3": ("stress_error", "stress_l2_pa"),
+        "scalar_energy_error_L3": ("scalar_energy_error", "scalar_energy_relative_error"),
+    }
+    if l3 is not None:
+        if l3_id in interrupted:
+            for name in l3_values:
+                mark_inconclusive(name, f"L3_ATTEMPT_{interrupted[l3_id]}")
+        elif not record_is_valid(l3_id, l3):
+            for name in l3_values:
+                mark_inconclusive(name, "L3_EVIDENCE_OR_PROVENANCE_INVALID")
+        else:
+            extracted_l3 = level_metrics.get(l3_id, {})
+            for gate_id, (value_name, observable_name) in l3_values.items():
+                value = extracted_l3.get(value_name)
+                source = l3.get("observables", {}).get(observable_name, {})
+                if (not isinstance(source, dict)
+                        or source.get("status") not in {"AVAILABLE", "DIAGNOSTIC_UNQUALIFIED"}
+                        or isinstance(value, bool) or not isinstance(value, (int, float))
+                        or not math.isfinite(value) or value < 0):
+                    mark_inconclusive(gate_id, "L3_METRIC_MISSING_NONFINITE_OR_INVALID")
+                    continue
+                evaluated = criteria_evaluator.evaluate(frozen_rules[gate_id], float(value))
+                evaluated_status = evaluated.get("status")
+                verdicts[gate_id] = {
+                    "classification": "CAMPAIGN_GATE",
+                    "status": ("PASS" if evaluated_status == "PROVISIONAL_PASS" else
+                               "FAIL" if evaluated_status == "PROVISIONAL_FAIL" else "INCONCLUSIVE"),
+                    "operator": frozen_rules[gate_id]["operator"],
+                    "threshold": frozen_rules[gate_id]["threshold"],
+                    "unit": frozen_rules[gate_id]["unit"], "observation": float(value),
+                    "observable": observable_name,
+                }
+
+    missing_cases = expected_cases.difference(seed_cases)
+    if interrupted:
+        reason = "INTERRUPTED_LEVELS:" + ",".join(
+            f"{key}={value}" for key, value in sorted(interrupted.items())
+        )
+        if missing_cases:
+            reason += ";MISSING_LEVELS:" + ",".join(sorted(missing_cases))
+        for gate_id in ("displacement_order", "energy_order"):
+            mark_inconclusive(gate_id, reason)
+    elif missing_cases:
+        for gate_id in ("displacement_order", "energy_order"):
+            verdicts[gate_id] = {
+                "classification": "CAMPAIGN_GATE", "status": "NOT_ASSESSED",
+                "reason": "THREE_EXACT_LEVELS_REQUIRED", "missing_case_ids": sorted(missing_cases),
+            }
+    else:
+        invalid_levels = [case_id for case_id in sorted(expected_cases)
+                          if case_id not in interrupted and not record_is_valid(case_id, seed_cases[case_id])]
+        if invalid_levels:
+            reason = "LEVEL_EVIDENCE_OR_PROVENANCE_INVALID:" + ",".join(invalid_levels)
+            for gate_id in ("displacement_order", "energy_order"):
+                mark_inconclusive(gate_id, reason)
+        else:
+            from experiments.wp12_vv3d_adaptive.metrics import observed_orders
+
+            h_values = [level_metrics.get(f"VV3D-{family}-L{level}", {}).get("h_m") for level in (1, 2, 3)]
+            for gate_id, metric_name in (
+                ("displacement_order", "displacement_error"), ("energy_order", "energy_error"),
+            ):
+                errors = [level_metrics.get(f"VV3D-{family}-L{level}", {}).get(metric_name)
+                          for level in (1, 2, 3)]
+                statuses = [level_metrics.get(f"VV3D-{family}-L{level}", {}).get(f"{metric_name}_status")
+                            for level in (1, 2, 3)]
+                if (any(status not in {"AVAILABLE", "DIAGNOSTIC_UNQUALIFIED"} for status in statuses)
+                        or any(isinstance(value, bool) or not isinstance(value, (int, float))
+                        or not math.isfinite(value) or value <= 0 for value in errors)
+                        or any(isinstance(value, bool) or not isinstance(value, (int, float))
+                               or not math.isfinite(value) or value <= 0 for value in h_values)):
+                    mark_inconclusive(gate_id, "ORDER_INPUT_MISSING_NONFINITE_OR_ZERO")
+                    continue
+                try:
+                    orders = observed_orders([float(value) for value in h_values],
+                                             [float(value) for value in errors])
+                except ValueError as exc:
+                    mark_inconclusive(gate_id, f"ORDER_INPUT_INVALID:{exc}")
+                    continue
+                if len(orders) != 2 or any(value is None or not math.isfinite(value) for value in orders):
+                    mark_inconclusive(gate_id, "BOTH_ADJACENT_ORDERS_REQUIRED")
+                    continue
+                threshold = float(frozen_rules[gate_id]["threshold"])
+                interval_pass = [value >= threshold for value in orders]
+                verdicts[gate_id] = {
+                    "classification": "CAMPAIGN_GATE",
+                    "status": "PASS" if all(interval_pass) else "FAIL",
+                    "operator": "GE", "threshold": threshold, "unit": "1",
+                    "observations": [float(value) for value in orders],
+                    "intervals": ["L1-L2", "L2-L3"],
+                    "mesh_sizes_m": [float(value) for value in h_values],
+                    "errors": [float(value) for value in errors],
+                    "interval_pass": interval_pass,
+                }
+
+    statuses = [item["status"] for item in verdicts.values()]
+    if "FAIL" in statuses:
+        overall = "FAIL"
+    elif "INCONCLUSIVE" in statuses:
+        overall = "INCONCLUSIVE"
+    elif "NOT_ASSESSED" in statuses:
+        overall = "NOT_ASSESSED"
+    else:
+        overall = "PASS"
+    return _campaign_assessment(overall, verdicts, level_metrics)
+
+
+def _campaign_assessment(
+    status: str, criteria: dict[str, Any], level_metrics: dict[str, Any], reason: str | None = None,
+) -> dict[str, Any]:
+    return {
+        "schema": "qf-wp12-vv3d-campaign-assessment-v1", "status": status,
+        "decision": ("SCIENTIFIC_DEVIATION_STOP" if status == "FAIL" else
+                     "STOP_INCONCLUSIVE" if status == "INCONCLUSIVE" else
+                     "WAIT_FOR_REQUIRED_RESULTS" if status == "NOT_ASSESSED" else "CONTINUE"),
+        "criteria": criteria, "level_metrics": level_metrics,
+        "blocking_failures": sorted(name for name, item in criteria.items() if item.get("status") == "FAIL"),
+        **({"reason": reason} if reason else {}),
+    }
+
+
 def evaluate_adaptive_eligibility(candidate_id: str, source: dict[str, Any]) -> dict[str, Any]:
     """Pure evaluation of catalog trigger conditions from archived seed observations."""
     _, candidates, _catalog_sha = _adaptive_inventory()
@@ -337,6 +602,12 @@ def evaluate_adaptive_eligibility(candidate_id: str, source: dict[str, Any]) -> 
         seed_levels = source.get("seed_cases")
         if not isinstance(seed_levels, dict) or set(seed_levels) != {f"VV3D-{family}-L{i}" for i in (1, 2, 3)}:
             return {"status": "NOT_ASSESSABLE", "reason": "THREE_EXACT_SEED_CASES_REQUIRED"}
+        criteria = _strict_json(_safe_catalog_file(candidate["criteria_path"]).read_bytes(), "family criteria")
+        campaign_assessment = evaluate_campaign_criteria(family, seed_levels, criteria["criteria"])
+        if campaign_assessment["status"] != "PASS":
+            status = "INELIGIBLE" if campaign_assessment["status"] == "FAIL" else "NOT_ASSESSABLE"
+            return {"status": status, "reason": "CAMPAIGN_GATES_NOT_PASS",
+                    "campaign_assessment": campaign_assessment}
         gate_ids = {"finite", "det_j_positive", "free_residual", "energy_identity", "force_closure",
                     "moment_closure", "load_quadrature", "post_quadrature"}
         errors_u: list[float] = []
@@ -368,7 +639,6 @@ def evaluate_adaptive_eligibility(candidate_id: str, source: dict[str, Any]) -> 
         from experiments.wp12_vv3d_adaptive.metrics import observed_orders
         pu = observed_orders(hs, errors_u)
         pe = observed_orders(hs, errors_e)
-        criteria = _strict_json(_safe_catalog_file(candidate["criteria_path"]).read_bytes(), "family criteria")
         floors = {rule["id"]: rule["threshold"] for rule in criteria["criteria"]
                   if rule["id"] in {"displacement_order", "energy_order"}}
         if set(floors) != {"displacement_order", "energy_order"}:

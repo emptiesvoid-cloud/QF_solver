@@ -254,6 +254,186 @@ def test_synthetic_campaign_criteria_remain_unassessed() -> None:
     assert outcome["displacement_order"]["classification"] == "CAMPAIGN_GATE_DEFERRED"
 
 
+def _synthetic_campaign_seed_cases(
+    *, family: str = "TET4", displacement_errors: tuple[float, float, float] = (0.08, 0.034, 0.014),
+    energy_errors: tuple[float, float, float] = (0.16, 0.09, 0.05),
+) -> dict[str, dict]:
+    cases: dict[str, dict] = {}
+    for level, (displacement_error, energy_error) in enumerate(
+        zip(displacement_errors, energy_errors, strict=True), start=1,
+    ):
+        case_id = f"VV3D-{family}-L{level}"
+        cases[case_id] = {
+            "case_id": case_id, "state": "PASS", "provenance_state": "VERIFIED",
+            "sidecar_valid": True, "sidecar_sha256": f"{level:x}" * 64,
+            "manifest_sha256": f"{level + 1:x}" * 64, "mesh_sha256": f"{level + 2:x}" * 64,
+            "scientific_fingerprint": "a" * 64, "controller_fingerprint": "b" * 64,
+            "h_m": 1.0 / (2 ** level),
+            "observables": {
+                "displacement_l2_m_5_2": {"status": "DIAGNOSTIC_UNQUALIFIED",
+                                           "relative_error": displacement_error},
+                "energy_error_norm_sqrt_j": {"status": "DIAGNOSTIC_UNQUALIFIED",
+                                              "relative_error": energy_error},
+                "stress_l2_pa": {"status": "DIAGNOSTIC_UNQUALIFIED", "relative_error": 0.2},
+                "scalar_energy_relative_error": {"status": "AVAILABLE", "value": 0.04},
+            },
+            "criteria": {name: {"status": "PASS", "classification": "CASE_GATE"} for name in (
+                "finite", "det_j_positive", "free_residual", "energy_identity", "force_closure",
+                "moment_closure", "load_quadrature", "post_quadrature",
+            )},
+        }
+    return cases
+
+
+def _campaign_rules(family: str = "TET4") -> list[dict]:
+    criteria_path = case_harness._safe_catalog_file(
+        f"criteria_proposals_20261029/criteria_{family.lower()}_draft.json",
+    )
+    return json.loads(criteria_path.read_bytes())["criteria"]
+
+
+def test_synthetic_campaign_gates_pass_and_preserve_all_refinement_metrics() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "PASS"
+    assert assessment["decision"] == "CONTINUE"
+    assert {value["status"] for value in assessment["criteria"].values()} == {"PASS"}
+    assert set(assessment["level_metrics"]) == {f"VV3D-TET4-L{level}" for level in (1, 2, 3)}
+    assert assessment["criteria"]["displacement_order"]["intervals"] == ["L1-L2", "L2-L3"]
+
+
+@pytest.mark.parametrize("state", ["PYTEST_FAILED", "SCIENTIFIC_DEVIATION", "INCONCLUSIVE"])
+def test_synthetic_campaign_rejects_nonpass_case_state_even_with_finite_observables(state: str) -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L3"]["state"] = state
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "INCONCLUSIVE"
+    assert assessment["decision"] == "STOP_INCONCLUSIVE"
+    assert {item["status"] for item in assessment["criteria"].values()} == {"INCONCLUSIVE"}
+
+
+def test_synthetic_campaign_rejects_case_gate_failure_hidden_in_a_pass_state() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L1"]["criteria"]["force_closure"]["status"] = "FAIL"
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "INCONCLUSIVE"
+    assert assessment["decision"] == "STOP_INCONCLUSIVE"
+    assert all(item["status"] != "PASS" for item in assessment["criteria"].values())
+
+
+def test_synthetic_campaign_partial_pytest_failure_is_not_downgraded_to_not_assessed() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L1"]["state"] = "PYTEST_FAILED"
+    del seeds["VV3D-TET4-L2"]
+    del seeds["VV3D-TET4-L3"]
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["displacement_order"]["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["energy_order"]["status"] == "INCONCLUSIVE"
+
+
+def test_synthetic_campaign_gate_failure_is_scientific_deviation_stop() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L3"]["observables"]["displacement_l2_m_5_2"]["relative_error"] = 0.2
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "FAIL"
+    assert assessment["decision"] == "SCIENTIFIC_DEVIATION_STOP"
+    assert assessment["criteria"]["displacement_error_L3"]["status"] == "FAIL"
+    assert "displacement_error_L3" in assessment["blocking_failures"]
+
+
+def test_synthetic_campaign_missing_refinement_is_not_assessed_not_pass() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    del seeds["VV3D-TET4-L2"]
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "NOT_ASSESSED"
+    assert assessment["criteria"]["displacement_order"]["status"] == "NOT_ASSESSED"
+    assert assessment["criteria"]["energy_order"]["status"] == "NOT_ASSESSED"
+    assert assessment["criteria"]["displacement_error_L3"]["status"] == "PASS"
+
+
+def test_synthetic_campaign_missing_l3_metric_is_inconclusive() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L3"]["observables"].pop("stress_l2_pa")
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["stress_error_L3"]["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["stress_error_L3"]["status"] != "PASS"
+
+
+def test_synthetic_campaign_unavailable_level_metric_never_passes_order_gate() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L2"]["observables"]["displacement_l2_m_5_2"]["status"] = "NOT_AVAILABLE"
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["criteria"]["displacement_order"]["status"] == "INCONCLUSIVE"
+    assert assessment["status"] == "INCONCLUSIVE"
+
+
+def test_synthetic_campaign_nonfinite_metric_is_inconclusive() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L3"]["observables"]["energy_error_norm_sqrt_j"]["relative_error"] = float("nan")
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["energy_error_L3"]["status"] == "INCONCLUSIVE"
+
+
+def test_synthetic_campaign_interrupted_refinement_is_inconclusive() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L2"].update({"state": "INTERRUPTED", "sidecar_valid": False})
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["displacement_order"]["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["energy_order"]["status"] == "INCONCLUSIVE"
+
+
+def test_synthetic_campaign_interruption_is_not_downgraded_to_missing_data() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L1"].update({"state": "TIMEOUT", "sidecar_valid": False})
+    del seeds["VV3D-TET4-L2"]
+    del seeds["VV3D-TET4-L3"]
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["displacement_order"]["status"] == "INCONCLUSIVE"
+    assert "MISSING_LEVELS" in assessment["criteria"]["energy_order"]["reason"]
+
+
+def test_synthetic_campaign_missing_run_state_is_inconclusive() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L3"].pop("state")
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["displacement_error_L3"]["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["displacement_order"]["status"] == "INCONCLUSIVE"
+
+
+def test_synthetic_campaign_invalid_seed_or_frozen_rules_are_explicitly_inconclusive() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET10-L1"] = seeds.pop("VV3D-TET4-L1")
+    identity_failure = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+    assert identity_failure["status"] == "INCONCLUSIVE"
+    assert {result["status"] for result in identity_failure["criteria"].values()} == {"INCONCLUSIVE"}
+
+    rules = _campaign_rules()
+    malformed = [rule for rule in rules if rule["id"] != "energy_order"]
+    criteria_failure = case_harness.evaluate_campaign_criteria(
+        "TET4", _synthetic_campaign_seed_cases(), malformed,
+    )
+    assert criteria_failure["status"] == "INCONCLUSIVE"
+    assert {result["status"] for result in criteria_failure["criteria"].values()} == {"INCONCLUSIVE"}
+
+
 def _synthetic_adaptive_receipt(
     tmp_path: Path, candidate_id: str, *, qpost_archive: dict | None = None,
 ) -> dict:
@@ -722,18 +902,22 @@ def test_synthetic_adaptive_worker_persists_sidecar_with_faked_solver_and_load_h
 
 
 def test_synthetic_adaptive_eligibility_uses_closed_transition_conditions() -> None:
-    seed_cases = {}
-    for level, (u, energy) in enumerate(((0.9, 0.8), (0.5, 0.7), (0.1, 0.6)), 1):
-        case_id = f"VV3D-TET4-L{level}"
-        seed_cases[case_id] = {
-            "observables": {"displacement_l2_m_5_2": {"status": "AVAILABLE", "relative_error": u},
-                            "energy_error_norm_sqrt_j": {"status": "AVAILABLE", "relative_error": energy}},
-            "criteria": {name: {"status": "PASS"} for name in (
-                "finite", "det_j_positive", "free_residual", "energy_identity", "force_closure",
-                "moment_closure", "load_quadrature", "post_quadrature")},
-        }
-    h1 = case_harness.evaluate_adaptive_eligibility("VV3D-ADAPT-TET4-H1", {"seed_cases": seed_cases})
-    assert h1["status"] == "ELIGIBLE"
+    seed_cases = _synthetic_campaign_seed_cases()
+    h1 = case_harness.evaluate_adaptive_eligibility(
+        "VV3D-ADAPT-TET4-H1", {"seed_cases": seed_cases},
+    )
+    assert h1["status"] == "INELIGIBLE"
+    assert h1["trigger"] == "NO_SLOPE_TRIGGER"
+
+    below_floor = _synthetic_campaign_seed_cases(
+        displacement_errors=(0.9, 0.5, 0.1), energy_errors=(0.8, 0.7, 0.6),
+    )
+    stopped = case_harness.evaluate_adaptive_eligibility(
+        "VV3D-ADAPT-TET4-H1", {"seed_cases": below_floor},
+    )
+    assert stopped["status"] == "INELIGIBLE"
+    assert stopped["reason"] == "CAMPAIGN_GATES_NOT_PASS"
+    assert stopped["campaign_assessment"]["status"] == "FAIL"
 
     qload = case_harness.evaluate_adaptive_eligibility("VV3D-ADAPT-TET4-QLOAD", {
         "load_quadrature_8_12": {
@@ -744,8 +928,6 @@ def test_synthetic_adaptive_eligibility_uses_closed_transition_conditions() -> N
     assert qload["status"] == "ELIGIBLE"
     missing = case_harness.evaluate_adaptive_eligibility("VV3D-ADAPT-TET4-QPOST", {})
     assert missing["status"] == "NOT_ASSESSABLE"
-
-
 def test_synthetic_qpost_launch_eligibility_is_seed_archive_and_slot_only(tmp_path) -> None:
     candidate_id = "VV3D-ADAPT-TET4-QPOST"
     receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
