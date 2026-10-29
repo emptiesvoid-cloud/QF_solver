@@ -1,4 +1,4 @@
-"""WP12 VV3D prepared case nodes; all FEM entries remain disabled."""
+"""WP12 VV3D prepared nodes; FEM entries remain controller-gated."""
 from __future__ import annotations
 
 import hashlib
@@ -30,8 +30,8 @@ def test_prepared_fem_case(case_id: str) -> None:
      for kind in ("H1", "QLOAD")],
 )
 def test_prepared_adaptive_fem_case(case_id: str) -> None:
-    """Prospective adaptive FEM identities; no execution before official registration."""
-    pytest.skip(f"{case_id}: PREPARED_NOT_AUTHORIZED; adaptive execution is not integrated")
+    """Controller-gated adaptive FEM identities; no local authorization is inferred."""
+    case_harness.run_registered_adaptive_fem_candidate(case_id)
 
 
 @pytest.mark.parametrize("family", ["TET4", "TET10", "HEX8", "HEX20"])
@@ -254,11 +254,64 @@ def test_synthetic_campaign_criteria_remain_unassessed() -> None:
     assert outcome["displacement_order"]["classification"] == "CAMPAIGN_GATE_DEFERRED"
 
 
-def _synthetic_adaptive_receipt(tmp_path: Path, candidate_id: str) -> dict:
+def _synthetic_adaptive_receipt(
+    tmp_path: Path, candidate_id: str, *, qpost_archive: dict | None = None,
+) -> dict:
     _, candidates, catalog_sha = case_harness._adaptive_inventory()
     candidate = candidates[candidate_id]
     binding = case_harness._adaptive_bindings(candidate)
-    if candidate["kind"] == "uniform_h_refinement":
+    evidence_root = tmp_path / "evidence"
+    evidence_root.mkdir(exist_ok=True)
+    campaign_decision = {"status": "APPROVED", "decision_id": "SYNTHETIC-CAMPAIGN-01",
+                         "decision_sha256": "f" * 64, "catalog_sha256": catalog_sha}
+    transition = {
+        "status": "APPROVED", "decision_id": "SYNTHETIC-TRANSITION-01",
+        "decision_sha256": "d" * 64, "source_case_id": candidate["seed_case"],
+        "candidate_id": candidate_id,
+    }
+    archive_meta = None
+    if candidate["execution_kind"] == "POSTPROCESS_ONLY":
+        archive_document = qpost_archive or {
+            "schema": "qf-wp12-vv3d-state-archive-v1",
+            "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+            "case_id": candidate["seed_case"],
+            "mesh_sha256": candidate["prepared_mesh"]["sha256"],
+            "case_state": "OWNER_AUTHORIZED_EXECUTION", "execution_status": "COMPLETED_UNASSESSED",
+            "manifest_sha256": "9" * 64, "attempt_id": "SYNTHETIC-SEED-ATTEMPT-01",
+            "nodal_displacements_m": [],
+        }
+        archive_raw = (json.dumps(archive_document, sort_keys=True, separators=(",", ":"),
+                                      allow_nan=False) + "\n").encode()
+        archive_path = evidence_root / f"archive-{candidate_id}.json"
+        archive_path.write_bytes(archive_raw)
+        archive_meta = {
+            "status": "AVAILABLE", "path": str(archive_path), "sha256": hashlib.sha256(archive_raw).hexdigest(),
+            "source_case_id": archive_document["case_id"],
+            "source_mesh_sha256": archive_document["mesh_sha256"],
+            "source_manifest_sha256": archive_document["manifest_sha256"],
+            "source_attempt_id": archive_document["attempt_id"],
+        }
+        source = {
+            "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1", "candidate_id": candidate_id,
+            "postprocessing_job_id": "SYNTHETIC-QPOST-JOB-01",
+            "seed_case": {
+                "case_id": candidate["seed_case"], "status": "PASS",
+                "source_run_receipt_sha256": "7" * 64,
+                "manifest_sha256": archive_meta["source_manifest_sha256"],
+                "attempt_id": archive_meta["source_attempt_id"],
+                "mesh_sha256": archive_meta["source_mesh_sha256"],
+            },
+            "archive": archive_meta,
+            "campaign_decision": {"decision_id": campaign_decision["decision_id"],
+                                  "decision_sha256": campaign_decision["decision_sha256"]},
+            "postprocessing_slot": {"postprocessing_jobs_used": 0,
+                                    "postprocessing_jobs_max": candidate["numerical_conditions"]["postprocessing_jobs_max"]},
+        }
+        transition_source_sha = hashlib.sha256(json.dumps(
+            source, sort_keys=True, separators=(",", ":"), allow_nan=False,
+        ).encode("utf-8")).hexdigest()
+        transition["eligibility_source_sha256"] = transition_source_sha
+    elif candidate["kind"] == "uniform_h_refinement":
         source = {"seed_cases": {f"VV3D-{candidate['family']}-L{level}": {
             "observables": {
                 "displacement_l2_m_5_2": {"status": "AVAILABLE", "relative_error": 0.9 / (level ** 0.8)},
@@ -268,29 +321,24 @@ def _synthetic_adaptive_receipt(tmp_path: Path, candidate_id: str) -> dict:
                 "finite", "det_j_positive", "free_residual", "energy_identity", "force_closure",
                 "moment_closure", "load_quadrature", "post_quadrature")},
         } for level in (1, 2, 3)}}
-    elif candidate["kind"] == "body_load_quadrature_escalation":
+    else:
         source = {"load_quadrature_8_12": {
             "order_8": {"force_closure_n": [0, 0, 1.1], "moment_closure_nm": [0.5, 0, 0]},
             "order_12": {"force_closure_n": [0, 0, 1.0], "moment_closure_nm": [0.4, 0, 0]},
         }}
-    else:
-        source = {"quadrature_relative_difference": {"value": {
-            "displacement_relative_l2": 0.2, "energy_error_relative": 0.2,
-            "stress_error_relative": 0.2, "scalar_energy_relative_error": 0.2,
-        }}}
     eligibility_result = case_harness.evaluate_adaptive_eligibility(candidate_id, source)
-    eligibility_raw = (json.dumps({"schema": "qf-wp12-vv3d-adaptive-eligibility-v1",
-                                   "candidate_id": candidate_id, "source": source,
-                                   "result": eligibility_result}, sort_keys=True, separators=(",", ":"),
-                                  allow_nan=False) + "\n").encode()
-    eligibility_path = tmp_path / f"eligibility-{candidate_id}.json"
+    eligibility_record = {"schema": "qf-wp12-vv3d-adaptive-eligibility-v1",
+                          "candidate_id": candidate_id, "source": source,
+                          "result": eligibility_result}
+    if candidate["execution_kind"] == "POSTPROCESS_ONLY":
+        eligibility_record["transition_decision"] = transition
+    eligibility_raw = (json.dumps(eligibility_record, sort_keys=True, separators=(",", ":"),
+                                   allow_nan=False) + "\n").encode()
+    eligibility_path = evidence_root / f"eligibility-{candidate_id}.json"
     eligibility_path.write_bytes(eligibility_raw)
     eligibility_sha = hashlib.sha256(eligibility_raw).hexdigest()
-    transition = {
-        "status": "APPROVED", "decision_id": "SYNTHETIC-TRANSITION-01",
-        "decision_sha256": "d" * 64, "source_case_id": candidate["seed_case"],
-        "candidate_id": candidate_id, "eligibility_sha256": eligibility_sha,
-    }
+    if candidate["execution_kind"] == "FEM":
+        transition["eligibility_sha256"] = eligibility_sha
     receipt = {
         "schema": case_harness.ADAPTIVE_RECEIPT_SCHEMA,
         "status": "RESERVED" if candidate["execution_kind"] == "FEM" else "POSTPROCESS_RESERVED",
@@ -299,30 +347,75 @@ def _synthetic_adaptive_receipt(tmp_path: Path, candidate_id: str) -> dict:
         "seed_case": candidate["seed_case"], **binding,
         "manifest_sha256": "a" * 64, "scientific_fingerprint": "b" * 64,
         "controller_fingerprint": "c" * 64, "authorization_id": "SYNTHETIC-ADAPT-AUTH-01",
-        "campaign_decision": {"status": "APPROVED", "decision_id": "SYNTHETIC-CAMPAIGN-01",
-                              "decision_sha256": "f" * 64, "catalog_sha256": catalog_sha},
-        "transition_decision": transition,
+        "campaign_decision": campaign_decision, "transition_decision": transition,
         "eligibility_record": {"path": str(eligibility_path), "sha256": eligibility_sha},
         "eligibility": {"status": "ELIGIBLE", "sha256": eligibility_sha},
-        "evidence_root": "synthetic/evidence",
+        "evidence_root": str(evidence_root), "allowed_evidence_roots": [str(evidence_root)],
+        "preflight_receipt_sha256": "e" * 64,
+        "frozen_criteria": json.loads(
+            case_harness._safe_catalog_file(candidate["criteria_path"]).read_bytes(),
+        )["criteria"],
     }
     if candidate["execution_kind"] == "FEM":
         receipt.update({"attempt_reserved": True, "postprocessing_reserved": False,
-                        "attempt_id": "SYNTHETIC-ADAPT-ATTEMPT-01"})
+                        "attempt_id": "SYNTHETIC-ADAPT-ATTEMPT-01",
+                        "reservation_id": "SYNTHETIC-ADAPT-RESERVATION-01",
+                        "selected_dofs": candidate["prepared_mesh"]["selected_dofs"],
+                        "timeout_seconds": candidate["numerical_conditions"]["timeout_seconds_max"],
+                        "attempt_number": 1, "max_attempts": 1})
     else:
         receipt.update({
             "attempt_reserved": False, "postprocessing_reserved": True,
-            "postprocessing_job_id": "SYNTHETIC-QPOST-JOB-01", "source_manifest_sha256": "9" * 64,
-            "archive": {"path": "synthetic/archive.json", "sha256": "8" * 64,
-                        "source_case_id": candidate["seed_case"],
-                        "source_mesh_sha256": candidate["prepared_mesh"]["sha256"],
-                        "source_manifest_sha256": "9" * 64, "source_attempt_id": "SYNTHETIC-SEED-ATTEMPT-01"},
+            "postprocessing_job_id": source["postprocessing_job_id"],
+            "source_manifest_sha256": archive_meta["source_manifest_sha256"],
+            "source_run_receipt_sha256": source["seed_case"]["source_run_receipt_sha256"],
+            "postprocessing_jobs_used_before": 0, "postprocessing_jobs_used_after": 1,
+            "postprocessing_jobs_max": candidate["numerical_conditions"]["postprocessing_jobs_max"],
+            "archive": {key: value for key, value in archive_meta.items() if key != "status"},
         })
+    manifest = {
+        "schema": "qf-wp12-vv3d-adaptive-execution-manifest-v1",
+        **{key: receipt[key] for key in (
+            "campaign_id", "candidate_id", "nodeid", "execution_kind", "seed_case",
+            "catalog_sha256", "candidate_sha256", "mesh_sha256", "criteria_sha256",
+            "rule_sha256", "source_hashes",
+        )},
+        "authorization_id": receipt["authorization_id"],
+        "scientific_fingerprint": receipt["scientific_fingerprint"],
+        "controller_fingerprint": receipt["controller_fingerprint"],
+        "campaign_decision": receipt["campaign_decision"],
+        "transition_decision": receipt["transition_decision"],
+        "execution_authorized": True, "do_not_execute": False,
+        "frozen_criteria": receipt["frozen_criteria"],
+        "frozen_criteria_sha256": hashlib.sha256(json.dumps(
+            receipt["frozen_criteria"], sort_keys=True, separators=(",", ":"), allow_nan=False,
+        ).encode()).hexdigest(),
+        "preflight_receipt_sha256": receipt["preflight_receipt_sha256"],
+        "evidence_root": receipt["evidence_root"],
+    }
+    if candidate["execution_kind"] == "FEM":
+        manifest.update({"attempt_id": receipt["attempt_id"], "reservation_id": receipt["reservation_id"],
+                         "selected_dofs": receipt["selected_dofs"], "timeout_seconds": receipt["timeout_seconds"],
+                         "attempt_number": receipt["attempt_number"], "max_attempts": receipt["max_attempts"]})
+    else:
+        manifest.update({
+            "postprocessing_job_id": receipt["postprocessing_job_id"],
+            "source_run_receipt_sha256": receipt["source_run_receipt_sha256"],
+            "postprocessing_jobs_used_before": receipt["postprocessing_jobs_used_before"],
+            "postprocessing_jobs_used_after": receipt["postprocessing_jobs_used_after"],
+            "postprocessing_jobs_max": receipt["postprocessing_jobs_max"],
+        })
+    manifest_raw = (json.dumps(manifest, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode()
+    manifest_path = evidence_root / f"manifest-{candidate_id}.json"
+    manifest_path.write_bytes(manifest_raw)
+    receipt["manifest_path"] = str(manifest_path)
+    receipt["manifest_sha256"] = hashlib.sha256(manifest_raw).hexdigest()
     return receipt
 
 
 def _synthetic_qpost_wrapper_context(tmp_path: Path, *, archive_changes: dict | None = None) -> tuple[dict, Path]:
     candidate_id = "VV3D-ADAPT-TET4-QPOST"
+    (tmp_path / "evidence").mkdir(exist_ok=True)
     _, candidates, _ = case_harness._adaptive_inventory()
     candidate = candidates[candidate_id]
     mesh = json.loads(case_harness._safe_catalog_file(candidate["prepared_mesh"]["path"]).read_bytes())
@@ -337,21 +430,12 @@ def _synthetic_qpost_wrapper_context(tmp_path: Path, *, archive_changes: dict | 
         "attempt_id": "SYNTHETIC-SEED-ATTEMPT-01",
         "nodal_displacements_m": [0.0] * (3 * len(mesh["nodes_integer"])),
     }
-    archive.update(archive_changes or {})
-    archive_path = tmp_path / "synthetic-state-archive.json"
-    archive_raw = (json.dumps(archive, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode()
-    archive_path.write_bytes(archive_raw)
-
-    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
-    receipt["evidence_root"] = str(tmp_path / "evidence")
-    receipt["archive"] = {
-        "path": str(archive_path),
-        "sha256": hashlib.sha256(archive_raw).hexdigest(),
-        "source_case_id": candidate["seed_case"],
-        "source_mesh_sha256": candidate["prepared_mesh"]["sha256"],
-        "source_manifest_sha256": receipt["source_manifest_sha256"],
-        "source_attempt_id": "SYNTHETIC-SEED-ATTEMPT-01",
-    }
+    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id, qpost_archive=archive)
+    archive_path = tmp_path / "evidence" / f"archive-{candidate_id}.json"
+    if archive_changes:
+        archive.update(archive_changes)
+        archive_raw = (json.dumps(archive, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode()
+        archive_path.write_bytes(archive_raw)
     receipt_path = tmp_path / "synthetic-adaptive-runner-receipt.json"
     receipt_raw = (json.dumps(receipt, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode()
     receipt_path.write_bytes(receipt_raw)
@@ -360,6 +444,7 @@ def _synthetic_qpost_wrapper_context(tmp_path: Path, *, archive_changes: dict | 
         "QF_DEV_TARGET_NODEID": candidate["nodeid"],
         "QF_DEV_VV3D_ADAPTIVE_RECEIPT_PATH": str(receipt_path),
         "QF_DEV_VV3D_ADAPTIVE_RECEIPT_SHA256": hashlib.sha256(receipt_raw).hexdigest(),
+        "QF_DEV_EVIDENCE_ROOT": str(tmp_path / "evidence"),
     }, archive_path)
 
 
@@ -378,6 +463,16 @@ def _mock_qpost_quadrature(monkeypatch) -> None:
 def _set_synthetic_qpost_env(monkeypatch, context: dict[str, str]) -> None:
     for name, value in context.items():
         monkeypatch.setenv(name, value)
+
+
+def _set_synthetic_adaptive_env(monkeypatch, candidate_id: str, receipt_path: Path, receipt_raw: bytes) -> None:
+    _, candidates, _ = case_harness._adaptive_inventory()
+    receipt = json.loads(receipt_raw)
+    monkeypatch.setenv("QF_DEV_VV3D_ADAPTIVE_CANDIDATE_ID", candidate_id)
+    monkeypatch.setenv("QF_DEV_TARGET_NODEID", candidates[candidate_id]["nodeid"])
+    monkeypatch.setenv("QF_DEV_VV3D_ADAPTIVE_RECEIPT_PATH", str(receipt_path))
+    monkeypatch.setenv("QF_DEV_VV3D_ADAPTIVE_RECEIPT_SHA256", hashlib.sha256(receipt_raw).hexdigest())
+    monkeypatch.setenv("QF_DEV_EVIDENCE_ROOT", receipt["evidence_root"])
 
 
 def _synthetic_qpost_sidecar(tmp_path: Path) -> Path:
@@ -411,6 +506,222 @@ def test_synthetic_adaptive_receipt_binds_candidate_rule_decisions_and_sources(t
         case_harness.validate_adaptive_runner_receipt(candidate_id, receipt)
 
 
+def test_synthetic_adaptive_receipt_requires_authorization_and_raw_manifest_binding(tmp_path) -> None:
+    candidate_id = "VV3D-ADAPT-TET4-QPOST"
+    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
+    missing_auth = dict(receipt)
+    missing_auth.pop("authorization_id")
+    with pytest.raises(PermissionError, match="authorization_id"):
+        case_harness.validate_adaptive_runner_receipt(candidate_id, missing_auth)
+
+    manifest_path = Path(receipt["manifest_path"])
+    manifest_path.write_bytes(manifest_path.read_bytes() + b"tampered")
+    with pytest.raises(PermissionError, match="raw manifest SHA-256"):
+        case_harness.validate_adaptive_runner_receipt(candidate_id, receipt)
+
+
+@pytest.mark.parametrize("path_kind", ["eligibility", "archive", "manifest"])
+def test_synthetic_adaptive_receipt_rejects_evidence_paths_outside_allowed_roots(tmp_path, path_kind) -> None:
+    candidate_id = "VV3D-ADAPT-TET4-QPOST"
+    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
+    outside = tmp_path / f"outside-{path_kind}.json"
+    if path_kind == "eligibility":
+        outside.write_bytes(Path(receipt["eligibility_record"]["path"]).read_bytes())
+        receipt["eligibility_record"]["path"] = str(outside)
+        reason = "eligibility record path is outside"
+    elif path_kind == "archive":
+        outside.write_bytes(b"synthetic archived-state placeholder")
+        receipt["archive"]["path"] = str(outside)
+        reason = "QPOST archive path is outside"
+    else:
+        outside.write_bytes(Path(receipt["manifest_path"]).read_bytes())
+        receipt["manifest_path"] = str(outside)
+        reason = "manifest path is outside"
+    with pytest.raises(PermissionError, match=reason):
+        case_harness.validate_adaptive_runner_receipt(candidate_id, receipt)
+
+
+@pytest.mark.parametrize("field", ["source_attempt_id", "source_mesh_sha256"])
+def test_synthetic_qpost_receipt_rejects_archive_source_mismatch(tmp_path, field) -> None:
+    candidate_id = "VV3D-ADAPT-TET4-QPOST"
+    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
+    receipt["archive"][field] = (
+        "SYNTHETIC-OTHER-ATTEMPT" if field == "source_attempt_id" else "0" * 64
+    )
+    with pytest.raises(PermissionError, match="QPOST receipt does not bind an archived state"):
+        case_harness.validate_adaptive_runner_receipt(candidate_id, receipt)
+
+
+def test_synthetic_adaptive_receipt_rejects_evidence_root_outside_allowlist(tmp_path) -> None:
+    candidate_id = "VV3D-ADAPT-TET4-QPOST"
+    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
+    outside_root = tmp_path / "outside-root"
+    outside_root.mkdir()
+    receipt["evidence_root"] = str(outside_root)
+    with pytest.raises(PermissionError, match="evidence root is not an allowed"):
+        case_harness.validate_adaptive_runner_receipt(candidate_id, receipt)
+
+
+def test_synthetic_adaptive_runner_rejects_controller_evidence_root_mismatch(tmp_path, monkeypatch) -> None:
+    context, _archive_path = _synthetic_qpost_wrapper_context(tmp_path)
+    _set_synthetic_qpost_env(monkeypatch, context)
+    outside_root = tmp_path / "wrong-controller-root"
+    outside_root.mkdir()
+    monkeypatch.setenv("QF_DEV_EVIDENCE_ROOT", str(outside_root))
+    with pytest.raises(PermissionError, match="differs from the controller assignment"):
+        case_harness.require_adaptive_runner_receipt("VV3D-ADAPT-TET4-QPOST")
+
+
+@pytest.mark.parametrize("family", ["TET4", "TET10", "HEX8", "HEX20"])
+@pytest.mark.parametrize("kind", ["H1", "QLOAD"])
+def test_synthetic_adaptive_fem_entrypoint_refuses_missing_receipt_before_worker(
+    tmp_path, monkeypatch, family, kind,
+) -> None:
+    from experiments.wp12_vv3d_adaptive import load_assembly_draft
+
+    candidate_id = f"VV3D-ADAPT-{family}-{kind}"
+    _, candidates, _ = case_harness._adaptive_inventory()
+    monkeypatch.setenv("QF_DEV_VV3D_ADAPTIVE_CANDIDATE_ID", candidate_id)
+    monkeypatch.setenv("QF_DEV_TARGET_NODEID", candidates[candidate_id]["nodeid"])
+    monkeypatch.delenv("QF_DEV_VV3D_ADAPTIVE_RECEIPT_PATH", raising=False)
+    monkeypatch.delenv("QF_DEV_VV3D_ADAPTIVE_RECEIPT_SHA256", raising=False)
+    monkeypatch.setattr(case_harness, "_run_prospective_case_with_context",
+                        lambda *args, **kwargs: pytest.fail("common FEM worker reached without a receipt"))
+    monkeypatch.setattr(load_assembly_draft, "assemble_body_load",
+                        lambda *args, **kwargs: pytest.fail("load adapter reached without a receipt"))
+    with pytest.raises(PermissionError, match="receipt context is missing"):
+        case_harness.run_registered_adaptive_fem_candidate(candidate_id)
+
+
+@pytest.mark.parametrize("family", ["TET4", "TET10", "HEX8", "HEX20"])
+@pytest.mark.parametrize("kind", ["H1", "QLOAD"])
+def test_synthetic_adaptive_fem_entrypoint_rejects_tampered_receipt_before_worker(
+    tmp_path, monkeypatch, family, kind,
+) -> None:
+    from experiments.wp12_vv3d_adaptive import load_assembly_draft
+
+    candidate_id = f"VV3D-ADAPT-{family}-{kind}"
+    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
+    receipt_path = tmp_path / "adaptive-runner-receipt.json"
+    receipt_raw = (json.dumps(receipt, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode()
+    receipt_path.write_bytes(receipt_raw + b"tampered")
+    _set_synthetic_adaptive_env(monkeypatch, candidate_id, receipt_path, receipt_raw)
+    monkeypatch.setattr(case_harness, "_run_prospective_case_with_context",
+                        lambda *args, **kwargs: pytest.fail("common FEM worker reached with a tampered receipt"))
+    monkeypatch.setattr(load_assembly_draft, "assemble_body_load",
+                        lambda *args, **kwargs: pytest.fail("load adapter reached with a tampered receipt"))
+    with pytest.raises(PermissionError, match="raw SHA-256 mismatch"):
+        case_harness.run_registered_adaptive_fem_candidate(candidate_id)
+
+
+@pytest.mark.parametrize(
+    ("field", "wrong_value"),
+    [("selected_dofs", 1), ("timeout_seconds", 1), ("attempt_number", 2)],
+)
+def test_synthetic_adaptive_fem_entrypoint_rejects_budget_mismatch_before_worker(
+    tmp_path, monkeypatch, field, wrong_value,
+) -> None:
+    from experiments.wp12_vv3d_adaptive import load_assembly_draft
+
+    candidate_id = "VV3D-ADAPT-TET4-QLOAD"
+    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
+    receipt[field] = wrong_value
+    receipt_path = tmp_path / "adaptive-runner-receipt.json"
+    receipt_raw = (json.dumps(receipt, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode()
+    receipt_path.write_bytes(receipt_raw)
+    _set_synthetic_adaptive_env(monkeypatch, candidate_id, receipt_path, receipt_raw)
+    monkeypatch.setattr(case_harness, "_run_prospective_case_with_context",
+                        lambda *args, **kwargs: pytest.fail("common FEM worker reached with a budget mismatch"))
+    monkeypatch.setattr(load_assembly_draft, "assemble_body_load",
+                        lambda *args, **kwargs: pytest.fail("load adapter reached with a budget mismatch"))
+    with pytest.raises(PermissionError, match="reserved exact attempt"):
+        case_harness.run_registered_adaptive_fem_candidate(candidate_id)
+
+
+def test_synthetic_adaptive_worker_persists_sidecar_with_faked_solver_and_load_hooks(
+    tmp_path, monkeypatch,
+) -> None:
+    import solveur.api.public as public_api
+    from experiments.wp12_vv3d_adaptive import field_error_draft, load_assembly_draft, metrics, oracle
+
+    candidate_id = "VV3D-ADAPT-TET4-QLOAD"
+    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
+    receipt_path = tmp_path / "adaptive-runner-receipt.json"
+    receipt_raw = (json.dumps(receipt, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode()
+    receipt_path.write_bytes(receipt_raw)
+    _set_synthetic_adaptive_env(monkeypatch, candidate_id, receipt_path, receipt_raw)
+    calls = {"load_adapter": 0, "model_factory": 0, "solver": 0}
+
+    class SyntheticVector(list):
+        def tolist(self):
+            return list(self)
+
+    class SyntheticDofs:
+        @staticmethod
+        def index(node, dof):
+            return 3 * node + {"UX": 0, "UY": 1, "UZ": 2}[dof]
+
+    class SyntheticModel:
+        @classmethod
+        def from_raw(cls, **kwargs):
+            calls["model_factory"] += 1
+            instance = cls()
+            instance.nodes = kwargs["nodes"]
+            return instance
+
+    class SyntheticResult:
+        status = "SYNTHETIC_ONLY"
+        audit = None
+
+        def __init__(self, node_count):
+            self.displacements = SyntheticVector([0.0] * (3 * node_count))
+            self.dofs = SyntheticDofs()
+
+    def fake_load_adapter(prepared, *, order, execution_context, permit_validator):
+        assert order in (8, 12)
+        assert permit_validator(execution_context) is True
+        calls["load_adapter"] += 1
+        return [0.0] * (3 * len(prepared["nodes_integer"]))
+
+    def fake_solver(model):
+        calls["solver"] += 1
+        return SyntheticResult(len(model.nodes))
+
+    monkeypatch.setattr(load_assembly_draft, "assemble_body_load", fake_load_adapter)
+    monkeypatch.setattr(public_api, "FiniteElementModel", SyntheticModel)
+    monkeypatch.setattr(public_api, "solve_model", fake_solver)
+    monkeypatch.setattr(public_api, "recover_solid_stress_field", lambda model, displacements: {"elements": []})
+    monkeypatch.setattr(metrics, "force_moment_balance", lambda coordinates, loads, reactions: {
+        "force_closure_n": (0.0, 0.0, 0.0), "moment_closure_nm": (0.0, 0.0, 0.0),
+    })
+    monkeypatch.setattr(oracle, "exact_global_balance", lambda: {
+        "body_force_n": (0.0, 0.0, 0.0), "body_moment_origin_nm": (0.0, 0.0, 0.0),
+    })
+    monkeypatch.setattr(oracle, "exact_energy_j", lambda: 1.0)
+    monkeypatch.setattr(field_error_draft, "integrated_errors", lambda prepared, displacement, *, order: {
+        "displacement_l2_m_5_2": 0.0, "displacement_relative_l2": 0.2,
+        "energy_error_norm_sqrt_j": 0.0, "energy_error_relative": 0.3,
+        "strain_error_l2_m_3_2": 0.0, "strain_error_relative": 0.4,
+        "stress_error_l2_pa_m_3_2": 0.0, "stress_error_relative": 0.4,
+    })
+    monkeypatch.setattr(case_harness, "_archived_scalar_energy", lambda prepared, displacement, order: 1.0)
+    monkeypatch.setattr(case_harness, "evaluate_case_criteria", lambda payload, rules: {
+        rule["id"]: {"status": "PASS", "classification": rule["classification"]}
+        if rule["classification"] == "CASE_GATE"
+        else {"status": "NOT_ASSESSED", "classification": rule["classification"]}
+        for rule in rules
+    })
+
+    outcome = case_harness.run_registered_adaptive_fem_candidate(candidate_id)
+    sidecar = Path(receipt["evidence_root"]) / candidate_id / receipt["attempt_id"] / "observables.json"
+    saved = json.loads(sidecar.read_bytes())
+    assert calls == {"load_adapter": 2, "model_factory": 1, "solver": 1}
+    assert outcome["payload"]["execution"]["status"] == "COMPLETED_UNASSESSED"
+    assert outcome["payload"]["execution"]["fem_started"] is True
+    assert saved["mesh_sha256"] == receipt["mesh_sha256"]
+    assert saved["runner_receipt_sha256"] == hashlib.sha256(receipt_raw).hexdigest()
+
+
 def test_synthetic_adaptive_eligibility_uses_closed_transition_conditions() -> None:
     seed_cases = {}
     for level, (u, energy) in enumerate(((0.9, 0.8), (0.5, 0.7), (0.1, 0.6)), 1):
@@ -434,6 +745,25 @@ def test_synthetic_adaptive_eligibility_uses_closed_transition_conditions() -> N
     assert qload["status"] == "ELIGIBLE"
     missing = case_harness.evaluate_adaptive_eligibility("VV3D-ADAPT-TET4-QPOST", {})
     assert missing["status"] == "NOT_ASSESSABLE"
+
+
+def test_synthetic_qpost_launch_eligibility_is_seed_archive_and_slot_only(tmp_path) -> None:
+    candidate_id = "VV3D-ADAPT-TET4-QPOST"
+    receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)
+    record = json.loads(Path(receipt["eligibility_record"]["path"]).read_bytes())
+    launch = case_harness.evaluate_adaptive_eligibility(candidate_id, record["source"])
+    assert launch == record["result"]
+    assert launch["status"] == "ELIGIBLE"
+    assert launch["trigger"] == "SEED_PASS_ARCHIVE_BOUND_SLOT_UNUSED"
+    assert "maximum_relative_change" not in launch
+
+    missing_archive = dict(record["source"])
+    missing_archive.pop("archive")
+    assert case_harness.evaluate_adaptive_eligibility(candidate_id, missing_archive)["status"] == "NOT_ASSESSABLE"
+    spent_slot = dict(record["source"])
+    spent_slot["postprocessing_slot"] = {"postprocessing_jobs_used": 1,
+                                         "postprocessing_jobs_max": 1}
+    assert case_harness.evaluate_adaptive_eligibility(candidate_id, spent_slot)["status"] == "INELIGIBLE"
 
 
 def test_synthetic_qpost_processes_only_fabricated_archived_state(monkeypatch) -> None:
@@ -512,7 +842,7 @@ def test_synthetic_qpost_wrapper_rejects_wrong_archive_source_and_preserves_side
     )
     _set_synthetic_qpost_env(monkeypatch, context)
 
-    with pytest.raises(PermissionError, match="archive contents differ"):
+    with pytest.raises(PermissionError, match="archived-state SHA-256 mismatch"):
         case_harness.run_registered_qpost_candidate("TET4")
     saved = json.loads(_synthetic_qpost_sidecar(tmp_path).read_bytes())
     assert saved["execution"]["status"] == "FAILED_OR_INCOMPLETE"

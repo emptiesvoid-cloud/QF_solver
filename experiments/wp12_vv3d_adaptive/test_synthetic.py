@@ -194,7 +194,7 @@ class MeshContracts(unittest.TestCase):
         self.assertEqual(len({case["nodeid"] for case in cases}),12)
         for case in cases:
             self.assertEqual(case["status"],"PREPARED_NOT_AUTHORIZED")
-            self.assertEqual(case["nodeid_status"],"IMPLEMENTED_SKIPPED_NOT_REGISTERED")
+            self.assertEqual(case["nodeid_status"],"REGISTERED_PREPARED_NOT_AUTHORIZED")
             binding=case["prepared_mesh"]
             self.assertEqual(hashlib.sha256((base/binding["path"]).read_bytes()).hexdigest(),binding["sha256"])
             self.assertLessEqual(binding["selected_dofs"],30000)

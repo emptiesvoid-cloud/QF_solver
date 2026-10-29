@@ -26,12 +26,24 @@ ADAPTIVE_RECEIPT_CONTRACT = (
     "The controller must emit a strict-JSON receipt with schema/status, campaign_id, candidate_id, "
     "nodeid, execution_kind, seed_case, catalog_sha256, mesh_sha256, criteria_sha256, rule_sha256, "
     "source_hashes, scientific_fingerprint, controller_fingerprint, manifest_sha256, authorization_id, "
+    "manifest_path, preflight_receipt_sha256, and allowed_evidence_roots. The raw manifest must be inside "
+    "an allowed root and bind the receipt identities, authorization_id, decision records, attempt/job ID, "
+    "evidence_root, and the exact frozen catalog criteria plus their canonical digest. Eligibility and archive "
+    "files must resolve under the allowed roots; evidence_root must match QF_DEV_EVIDENCE_ROOT. "
     "campaign_decision={status,decision_id,decision_sha256,catalog_sha256}, "
-    "transition_decision={status,decision_id,decision_sha256,source_case_id,candidate_id,eligibility_sha256}, "
-    "eligibility_record={path,sha256} binding strict JSON {candidate_id,source,result}, eligibility={status,sha256}, "
-    "evidence_root, and candidate-kind-specific reservation/archive fields. "
-    "FEM uses status RESERVED and a unique attempt_id with attempt_reserved=true; QPOST uses "
-    "POSTPROCESS_RESERVED, postprocessing_job_id, attempt_reserved=false, postprocessing_reserved=true, "
+    "transition_decision binds source_case_id and candidate_id plus eligibility_sha256 (FEM) or "
+    "eligibility_source_sha256 (QPOST). QPOST source binds campaign/candidate/job IDs, seed PASS and "
+    "source run receipt SHA, seed manifest/attempt/mesh, archive path/raw SHA/source identities, campaign "
+    "decision id+SHA and postprocessing_jobs_used=0/max=1. "
+    "eligibility_record={path,sha256} binding strict JSON {candidate_id,source,transition_decision,result}; "
+    "QPOST transition eligibility_source_sha256 is the SHA-256 of canonical source JSON from "
+    "json.dumps(source, sort_keys=True, separators=(',', ':'), allow_nan=False).encode('utf-8') with no newline, "
+    "while eligibility_record.sha256 binds the full raw file. "
+    "allowed_evidence_roots containing all eligibility/archive/evidence destinations. FEM uses status RESERVED, "
+    "unique reservation_id and attempt_id, selected_dofs, timeout_seconds, attempt_number=1, max_attempts=1, "
+    "attempt_reserved=true; QPOST uses "
+    "POSTPROCESS_RESERVED, postprocessing_job_id, source_run_receipt_sha256, "
+    "postprocessing_jobs_used_before=0/after=1/max=1, attempt_reserved=false, postprocessing_reserved=true, "
     "and archive={path,sha256,source_case_id,source_mesh_sha256,source_manifest_sha256,source_attempt_id}. "
     "The external controller authenticates Owner decisions and performs any reservation; this child parser "
     "only checks exact binding and never reserves or authenticates Owner identity itself."
@@ -167,6 +179,50 @@ def _strict_json(raw: bytes, label: str) -> Any:
 
 def _sha256(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
+
+
+def _path_within_roots(raw_path: str, roots: list[Path], label: str) -> Path:
+    if not isinstance(raw_path, str) or not raw_path:
+        raise PermissionError(f"adaptive {label} path is missing")
+    try:
+        resolved = Path(raw_path).resolve(strict=True)
+    except OSError as exc:
+        raise PermissionError(f"adaptive {label} path is unavailable") from exc
+    if not any(resolved == root or root in resolved.parents for root in roots):
+        raise PermissionError(f"adaptive {label} path is outside the allowed evidence roots")
+    return resolved
+
+
+def _read_bound_manifest(receipt: dict[str, Any], base: dict[str, Any]) -> tuple[dict[str, Any], Path]:
+    manifest_path = receipt.get("manifest_path")
+    if not isinstance(manifest_path, str) or not manifest_path:
+        raise PermissionError("adaptive receipt has no raw manifest path")
+    roots_raw = receipt.get("allowed_evidence_roots")
+    if not isinstance(roots_raw, list) or not roots_raw:
+        raise PermissionError("adaptive manifest receipt has no allowed evidence roots")
+    try:
+        roots = [Path(root).resolve(strict=True) for root in roots_raw]
+        path = _path_within_roots(manifest_path, roots, "manifest")
+        raw = path.read_bytes()
+    except PermissionError:
+        raise
+    except OSError as exc:
+        raise PermissionError("adaptive raw manifest is unavailable") from exc
+    if _sha256(raw) != receipt["manifest_sha256"]:
+        raise PermissionError("adaptive raw manifest SHA-256 mismatch")
+    manifest = _strict_json(raw, "adaptive manifest")
+    if (not isinstance(manifest, dict)
+            or manifest.get("schema") != "qf-wp12-vv3d-adaptive-execution-manifest-v1"
+            or manifest.get("execution_authorized") is not True
+            or manifest.get("do_not_execute") is not False
+            or any(manifest.get(key) != value for key, value in base.items())
+            or manifest.get("authorization_id") != receipt.get("authorization_id")
+            or manifest.get("scientific_fingerprint") != receipt.get("scientific_fingerprint")
+            or manifest.get("controller_fingerprint") != receipt.get("controller_fingerprint")
+            or manifest.get("campaign_decision") != receipt.get("campaign_decision")
+            or manifest.get("transition_decision") != receipt.get("transition_decision")):
+        raise PermissionError("adaptive manifest does not bind the authorized receipt identities")
+    return manifest, path
 
 
 def _adaptive_inventory() -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]], str]:
@@ -339,21 +395,50 @@ def evaluate_adaptive_eligibility(candidate_id: str, source: dict[str, Any]) -> 
                 "resultant_relative_change": resultant, "moment_relative_change": moment,
                 "threshold": floor}
     if kind == "archived_field_postprocessing_quadrature_escalation":
-        post = source.get("quadrature_relative_difference", {})
-        values = post.get("value") if isinstance(post, dict) else None
-        expected = {"displacement_relative_l2", "energy_error_relative", "stress_error_relative",
-                    "scalar_energy_relative_error"}
-        if not isinstance(values, dict) or not expected.issubset(values):
-            return {"status": "NOT_ASSESSABLE", "reason": "COMPLETE_POSTPROCESS_SENSITIVITY_REQUIRED"}
-        finite = [values[name] for name in expected]
-        if any(isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
-               or value < 0 for value in finite):
-            return {"status": "NOT_ASSESSABLE", "reason": "POSTPROCESS_SENSITIVITY_NONFINITE"}
-        threshold = float(conditions["relative_observable_change_trigger_gt"])
-        trigger = max(finite)
-        return {"status": "ELIGIBLE" if trigger > threshold else "INELIGIBLE",
-                "trigger": "POSTPROCESS_QUADRATURE_SENSITIVITY" if trigger > threshold else "POSTPROCESS_RULES_AGREE",
-                "maximum_relative_change": trigger, "threshold": threshold}
+        if (source.get("campaign_id") != "WP12-VV3D-ADAPTIVE-20261029-R1"
+                or source.get("candidate_id") != candidate_id
+                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", str(source.get("postprocessing_job_id", "")))):
+            return {"status": "NOT_ASSESSABLE", "reason": "EXACT_QPOST_JOB_IDENTITY_REQUIRED"}
+        seed = source.get("seed_case")
+        archive = source.get("archive")
+        slot = source.get("postprocessing_slot")
+        if (not isinstance(seed, dict) or seed.get("case_id") != candidate["seed_case"]
+                or seed.get("status") != "PASS"
+                or seed.get("mesh_sha256") != candidate["prepared_mesh"]["sha256"]
+                or not re.fullmatch(r"[0-9a-f]{64}", str(seed.get("source_run_receipt_sha256", "")))
+                or not re.fullmatch(r"[0-9a-f]{64}", str(seed.get("manifest_sha256", "")))
+                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", str(seed.get("attempt_id", "")))):
+            return {"status": "NOT_ASSESSABLE", "reason": "EXACT_SEED_CASE_EVIDENCE_REQUIRED"}
+        campaign_decision = source.get("campaign_decision")
+        if (not isinstance(campaign_decision, dict)
+                or not isinstance(campaign_decision.get("decision_id"), str)
+                or not campaign_decision["decision_id"]
+                or not re.fullmatch(r"[0-9a-f]{64}", str(campaign_decision.get("decision_sha256", "")))):
+            return {"status": "NOT_ASSESSABLE", "reason": "APPROVED_CAMPAIGN_DECISION_REQUIRED"}
+        if (not isinstance(archive, dict) or archive.get("status") != "AVAILABLE"
+                or archive.get("source_case_id") != candidate["seed_case"]
+                or archive.get("source_mesh_sha256") != candidate["prepared_mesh"]["sha256"]
+                or archive.get("source_manifest_sha256") != seed.get("manifest_sha256")
+                or archive.get("source_attempt_id") != seed.get("attempt_id")
+                or not isinstance(archive.get("path"), str) or not archive["path"]
+                or not re.fullmatch(r"[0-9a-f]{64}", str(archive.get("source_manifest_sha256", "")))
+                or not re.fullmatch(r"[0-9a-f]{64}", str(archive.get("sha256", "")))
+                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", str(archive.get("source_attempt_id", "")))):
+            return {"status": "NOT_ASSESSABLE", "reason": "EXACT_ARCHIVED_SEED_STATE_REQUIRED"}
+        if (not isinstance(slot, dict)
+                or type(slot.get("postprocessing_jobs_used")) is not int
+                or type(slot.get("postprocessing_jobs_max")) is not int
+                or slot.get("postprocessing_jobs_max") != conditions.get("postprocessing_jobs_max")
+                or slot.get("postprocessing_jobs_used") != 0
+                or conditions.get("postprocessing_jobs_max") != 1):
+            return {"status": "INELIGIBLE", "reason": "NO_UNUSED_QPOST_SLOT"}
+        source_hash = _sha256(json.dumps(
+            source, sort_keys=True, separators=(",", ":"), allow_nan=False,
+        ).encode("utf-8"))
+        return {"status": "ELIGIBLE", "trigger": "SEED_PASS_ARCHIVE_BOUND_SLOT_UNUSED",
+                "postprocessing_jobs_used": 0,
+                "postprocessing_jobs_max": conditions["postprocessing_jobs_max"],
+                "eligibility_source_sha256": source_hash}
     return {"status": "NOT_ASSESSABLE", "reason": "UNSUPPORTED_ADAPTIVE_KIND"}
 
 
@@ -386,6 +471,27 @@ def validate_adaptive_runner_receipt(candidate_id: str, receipt: dict[str, Any])
     for name in ("manifest_sha256", "scientific_fingerprint", "controller_fingerprint"):
         if not isinstance(receipt.get(name), str) or not re.fullmatch(r"[0-9a-f]{64}", receipt[name]):
             raise PermissionError(f"adaptive runner receipt has invalid {name}")
+    if (not isinstance(receipt.get("authorization_id"), str)
+            or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", receipt["authorization_id"])):
+        raise PermissionError("adaptive runner receipt has invalid authorization_id")
+    roots_raw = receipt.get("allowed_evidence_roots")
+    if not isinstance(roots_raw, list) or not roots_raw or any(not isinstance(root, str) or not root for root in roots_raw):
+        raise PermissionError("adaptive runner receipt has no allowed evidence roots")
+    try:
+        roots = [Path(root).resolve(strict=True) for root in roots_raw]
+    except OSError as exc:
+        raise PermissionError("adaptive allowed evidence root is unavailable") from exc
+    if any(not root.is_dir() for root in roots):
+        raise PermissionError("adaptive allowed evidence root is not a directory")
+    try:
+        evidence_root = Path(receipt.get("evidence_root", "")).resolve(strict=True)
+    except (OSError, TypeError) as exc:
+        raise PermissionError("adaptive runner evidence root is unavailable") from exc
+    if not evidence_root.is_dir() or evidence_root not in roots:
+        raise PermissionError("adaptive evidence root is not an allowed evidence root")
+    if (not isinstance(receipt.get("preflight_receipt_sha256"), str)
+            or not re.fullmatch(r"[0-9a-f]{64}", receipt["preflight_receipt_sha256"])):
+        raise PermissionError("adaptive runner receipt has invalid preflight receipt identity")
     for decision_name in ("campaign_decision", "transition_decision"):
         decision = receipt.get(decision_name)
         if (not isinstance(decision, dict) or decision.get("status") != "APPROVED"
@@ -397,18 +503,25 @@ def validate_adaptive_runner_receipt(candidate_id: str, receipt: dict[str, Any])
     if campaign_decision.get("catalog_sha256") != catalog_sha256:
         raise PermissionError("adaptive campaign decision is not bound to the closed catalog")
     transition = receipt["transition_decision"]
+    transition_hash_key = ("eligibility_source_sha256" if execution_kind == "POSTPROCESS_ONLY"
+                           else "eligibility_sha256")
     if (transition.get("source_case_id") != candidate["seed_case"]
             or transition.get("candidate_id") != candidate_id
-            or not isinstance(transition.get("eligibility_sha256"), str)
-            or not re.fullmatch(r"[0-9a-f]{64}", transition["eligibility_sha256"])):
+            or not isinstance(transition.get(transition_hash_key), str)
+            or not re.fullmatch(r"[0-9a-f]{64}", transition[transition_hash_key])):
         raise PermissionError("adaptive transition decision does not bind the seed/candidate eligibility")
     eligibility_ref = receipt.get("eligibility_record")
     if (not isinstance(eligibility_ref, dict) or not isinstance(eligibility_ref.get("path"), str)
-            or eligibility_ref.get("sha256") != transition["eligibility_sha256"]):
+            or not isinstance(eligibility_ref.get("sha256"), str)
+            or not re.fullmatch(r"[0-9a-f]{64}", eligibility_ref["sha256"])
+            or (execution_kind != "POSTPROCESS_ONLY"
+                and eligibility_ref["sha256"] != transition["eligibility_sha256"])):
         raise PermissionError("adaptive receipt does not bind a raw eligibility record")
     try:
-        eligibility_path = Path(eligibility_ref["path"]).resolve(strict=True)
+        eligibility_path = _path_within_roots(eligibility_ref["path"], roots, "eligibility record")
         eligibility_raw = eligibility_path.read_bytes()
+    except PermissionError:
+        raise
     except OSError as exc:
         raise PermissionError("adaptive eligibility record is unavailable") from exc
     if _sha256(eligibility_raw) != eligibility_ref["sha256"]:
@@ -416,43 +529,145 @@ def validate_adaptive_runner_receipt(candidate_id: str, receipt: dict[str, Any])
     eligibility_record = _strict_json(eligibility_raw, "adaptive eligibility record")
     if (not isinstance(eligibility_record, dict)
             or eligibility_record.get("schema") != "qf-wp12-vv3d-adaptive-eligibility-v1"
-            or eligibility_record.get("candidate_id") != candidate_id):
+            or eligibility_record.get("candidate_id") != candidate_id
+            or (execution_kind == "POSTPROCESS_ONLY"
+                and eligibility_record.get("transition_decision") != transition)):
         raise PermissionError("adaptive eligibility record identity mismatch")
     computed_eligibility = evaluate_adaptive_eligibility(candidate_id, eligibility_record.get("source"))
     eligibility = receipt.get("eligibility")
     if (computed_eligibility.get("status") != "ELIGIBLE"
             or eligibility_record.get("result") != computed_eligibility
             or not isinstance(eligibility, dict) or eligibility.get("status") != "ELIGIBLE"
-            or eligibility.get("sha256") != transition["eligibility_sha256"]):
+            or eligibility.get("sha256") != eligibility_ref["sha256"]
+            or (execution_kind == "POSTPROCESS_ONLY"
+                and computed_eligibility.get("eligibility_source_sha256")
+                != transition["eligibility_source_sha256"])):
         raise PermissionError("adaptive receipt lacks the exact eligible transition record")
-    if not isinstance(receipt.get("evidence_root"), str) or not receipt["evidence_root"]:
-        raise PermissionError("adaptive runner receipt has no evidence root")
+    manifest, manifest_path = _read_bound_manifest(receipt, base)
+    criteria_document = _strict_json(
+        _safe_catalog_file(candidate["criteria_path"]).read_bytes(), "adaptive criteria source",
+    )
+    expected_criteria = criteria_document.get("criteria") if isinstance(criteria_document, dict) else None
+    frozen_criteria = manifest.get("frozen_criteria")
+    frozen_raw = json.dumps(frozen_criteria, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
     if execution_kind == "FEM":
+        reservation_binding_matches = (
+            manifest.get("attempt_id") == receipt.get("attempt_id")
+            and manifest.get("reservation_id") == receipt.get("reservation_id")
+        )
+    else:
+        reservation_binding_matches = (
+            manifest.get("postprocessing_job_id") == receipt.get("postprocessing_job_id")
+        )
+    if (not isinstance(frozen_criteria, list) or not frozen_criteria
+            or frozen_criteria != expected_criteria
+            or _sha256(frozen_raw) != manifest.get("frozen_criteria_sha256")
+            or not reservation_binding_matches
+            or manifest.get("preflight_receipt_sha256") != receipt.get("preflight_receipt_sha256")
+            or manifest.get("evidence_root") != receipt.get("evidence_root")):
+        raise PermissionError("adaptive manifest frozen criteria or reservation binding mismatch")
+    if execution_kind == "FEM":
+        numerical = candidate["numerical_conditions"]
+        selected_dofs = candidate["prepared_mesh"]["selected_dofs"]
         if (receipt.get("status") != "RESERVED" or receipt.get("attempt_reserved") is not True
                 or receipt.get("postprocessing_reserved") is not False
                 or not isinstance(receipt.get("attempt_id"), str)
-                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", receipt["attempt_id"])):
+                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", receipt["attempt_id"])
+                or not isinstance(receipt.get("reservation_id"), str)
+                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", receipt["reservation_id"])
+                or type(receipt.get("selected_dofs")) is not int
+                or receipt.get("selected_dofs") != selected_dofs
+                or receipt.get("selected_dofs") > numerical.get("dofs_max", 0)
+                or type(receipt.get("timeout_seconds")) is not int
+                or receipt.get("timeout_seconds") != numerical.get("timeout_seconds_max")
+                or type(receipt.get("attempt_number")) is not int
+                or receipt.get("attempt_number") != 1 or receipt.get("max_attempts") != 1
+                or type(receipt.get("max_attempts")) is not int
+                or type(manifest.get("selected_dofs")) is not int
+                or manifest.get("selected_dofs") != selected_dofs
+                or type(manifest.get("timeout_seconds")) is not int
+                or manifest.get("timeout_seconds") != numerical.get("timeout_seconds_max")
+                or type(manifest.get("attempt_number")) is not int
+                or manifest.get("attempt_number") != 1
+                or type(manifest.get("max_attempts")) is not int or manifest.get("max_attempts") != 1):
             raise PermissionError("adaptive FEM receipt does not bind one reserved exact attempt")
     elif execution_kind == "POSTPROCESS_ONLY":
         archive = receipt.get("archive")
-        if (receipt.get("status") != "POSTPROCESS_RESERVED"
+        source_record = eligibility_record.get("source", {})
+        seed_record = source_record.get("seed_case", {}) if isinstance(source_record, dict) else {}
+        slot_record = source_record.get("postprocessing_slot", {}) if isinstance(source_record, dict) else {}
+        if (not isinstance(source_record, dict) or not isinstance(seed_record, dict)
+                or receipt.get("status") != "POSTPROCESS_RESERVED"
                 or receipt.get("attempt_reserved") is not False
                 or receipt.get("postprocessing_reserved") is not True
                 or not isinstance(receipt.get("postprocessing_job_id"), str)
                 or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", receipt["postprocessing_job_id"])
+                or type(receipt.get("postprocessing_jobs_used_before")) is not int
+                or receipt.get("postprocessing_jobs_used_before") != 0
+                or type(receipt.get("postprocessing_jobs_used_after")) is not int
+                or receipt.get("postprocessing_jobs_used_after") != 1
+                or type(receipt.get("postprocessing_jobs_max")) is not int
+                or receipt.get("postprocessing_jobs_max") != candidate["numerical_conditions"].get("postprocessing_jobs_max")
+                or type(manifest.get("postprocessing_jobs_used_before")) is not int
+                or manifest.get("postprocessing_jobs_used_before") != 0
+                or type(manifest.get("postprocessing_jobs_used_after")) is not int
+                or manifest.get("postprocessing_jobs_used_after") != 1
+                or type(manifest.get("postprocessing_jobs_max")) is not int
+                or manifest.get("postprocessing_jobs_max") != candidate["numerical_conditions"].get("postprocessing_jobs_max")
+                or manifest.get("source_run_receipt_sha256") != receipt.get("source_run_receipt_sha256")
+                or source_record.get("campaign_id") != receipt["campaign_id"]
+                or source_record.get("candidate_id") != candidate_id
+                or source_record.get("postprocessing_job_id") != receipt["postprocessing_job_id"]
+                or slot_record != {
+                    "postprocessing_jobs_used": receipt.get("postprocessing_jobs_used_before"),
+                    "postprocessing_jobs_max": receipt.get("postprocessing_jobs_max"),
+                }
+                or source_record.get("campaign_decision") != {
+                    "decision_id": campaign_decision["decision_id"],
+                    "decision_sha256": campaign_decision["decision_sha256"],
+                }
+                or not isinstance(receipt.get("source_run_receipt_sha256"), str)
+                or not re.fullmatch(r"[0-9a-f]{64}", receipt["source_run_receipt_sha256"])
+                or seed_record.get("source_run_receipt_sha256") != receipt["source_run_receipt_sha256"]
                 or not isinstance(archive, dict)
                 or archive.get("source_case_id") != candidate["seed_case"]
                 or archive.get("source_mesh_sha256") != bindings["mesh_sha256"]
                 or archive.get("source_manifest_sha256") != receipt.get("source_manifest_sha256")
+                or seed_record.get("manifest_sha256") != archive.get("source_manifest_sha256")
+                or seed_record.get("attempt_id") != archive.get("source_attempt_id")
+                or seed_record.get("mesh_sha256") != archive.get("source_mesh_sha256")
                 or not re.fullmatch(r"[0-9a-f]{64}", str(archive.get("sha256", "")))
                 or not isinstance(archive.get("path"), str)
                 or not isinstance(archive.get("source_attempt_id"), str)):
             raise PermissionError("adaptive QPOST receipt does not bind an archived state without FEM attempt")
         if not re.fullmatch(r"[0-9a-f]{64}", str(receipt.get("source_manifest_sha256", ""))):
             raise PermissionError("adaptive QPOST receipt has invalid source manifest identity")
+        archive_path = _path_within_roots(archive["path"], roots, "QPOST archive")
+        eligible_archive = eligibility_record.get("source", {}).get("archive")
+        expected_archive_source = {
+            "status": "AVAILABLE", "path": str(archive_path), "sha256": archive["sha256"],
+            "source_case_id": archive["source_case_id"],
+            "source_mesh_sha256": archive["source_mesh_sha256"],
+            "source_manifest_sha256": archive["source_manifest_sha256"],
+            "source_attempt_id": archive["source_attempt_id"],
+        }
+        try:
+            eligible_archive_path = _path_within_roots(eligible_archive.get("path", ""), roots,
+                                                       "QPOST eligibility archive")
+        except AttributeError as exc:
+            raise PermissionError("adaptive QPOST eligibility is not bound to the archived state") from exc
+        if eligible_archive != expected_archive_source or eligible_archive_path != archive_path:
+            raise PermissionError("adaptive QPOST eligibility is not bound to the reserved archived state")
+        transition_source_hash = _sha256(json.dumps(
+            eligibility_record["source"], sort_keys=True, separators=(",", ":"), allow_nan=False,
+        ).encode("utf-8"))
+        if transition.get("eligibility_source_sha256") != transition_source_hash:
+            raise PermissionError("adaptive QPOST transition does not bind its canonical source digest")
     else:
         raise PermissionError("unsupported adaptive execution kind")
-    return {**base, **receipt, "nodeid": expected_nodeid, "bindings": bindings}
+    return {**base, **receipt, "manifest_path": str(manifest_path), "manifest": manifest,
+            "archive_path": str(archive_path) if execution_kind == "POSTPROCESS_ONLY" else None,
+            "nodeid": expected_nodeid, "bindings": bindings}
 
 
 def require_adaptive_runner_receipt(candidate_id: str) -> dict[str, Any]:
@@ -479,8 +694,66 @@ def require_adaptive_runner_receipt(candidate_id: str) -> dict[str, Any]:
         raise PermissionError("adaptive runner receipt raw SHA-256 mismatch")
     receipt = _strict_json(raw, "adaptive runner receipt")
     verified = validate_adaptive_runner_receipt(candidate_id, receipt)
+    try:
+        expected_evidence_root = Path(os.environ.get("QF_DEV_EVIDENCE_ROOT", "")).resolve(strict=True)
+        receipt_evidence_root = Path(verified["evidence_root"]).resolve(strict=True)
+    except OSError as exc:
+        raise PermissionError("adaptive controller evidence root context is unavailable") from exc
+    if expected_evidence_root != receipt_evidence_root:
+        raise PermissionError("adaptive receipt evidence root differs from the controller assignment")
     verified["receipt_sha256"] = receipt_sha
     return verified
+
+
+def run_registered_adaptive_fem_candidate(candidate_id: str) -> dict[str, Any]:
+    """Run one exact H1/QLOAD candidate after receipt and manifest validation."""
+    receipt = require_adaptive_runner_receipt(candidate_id)
+    _, candidates, _ = _adaptive_inventory()
+    candidate = candidates.get(candidate_id)
+    if (candidate is None or candidate["execution_kind"] != "FEM"
+            or candidate["kind"] not in {"uniform_h_refinement", "body_load_quadrature_escalation"}):
+        raise PermissionError("adaptive FEM entrypoint accepts only catalogued H1/QLOAD candidates")
+    prepared_path = _safe_catalog_file(candidate["prepared_mesh"]["path"])
+    prepared_raw = prepared_path.read_bytes()
+    if _sha256(prepared_raw) != receipt["mesh_sha256"]:
+        raise PermissionError("adaptive FEM mesh changed after receipt validation")
+    prepared = _strict_json(prepared_raw, "adaptive FEM mesh")
+    conditions = candidate["numerical_conditions"]
+    if (prepared.get("family") != candidate["family"]
+            or prepared.get("summary", {}).get("dofs") != candidate["prepared_mesh"].get("selected_dofs")
+            or conditions.get("dofs", prepared.get("summary", {}).get("dofs"))
+            != prepared.get("summary", {}).get("dofs")
+            or conditions.get("dofs_max", 0) < prepared.get("summary", {}).get("dofs", 0)):
+        raise PermissionError("adaptive catalog mesh family or selected DDL does not match its exact candidate")
+    manifest = receipt["manifest"]
+    execution_context = {
+        "campaign_id": receipt["campaign_id"], "case_id": candidate_id,
+        "nodeid": receipt["nodeid"], "manifest_sha256": receipt["manifest_sha256"],
+        "manifest_path": receipt["manifest_path"],
+        "scientific_fingerprint": receipt["scientific_fingerprint"],
+        "controller_fingerprint": receipt["controller_fingerprint"],
+        "authorization_id": receipt["authorization_id"],
+        "evidence_root": receipt["evidence_root"], "attempt_id": receipt["attempt_id"],
+        "reservation_id": receipt["reservation_id"],
+        "owner_decision_sha256": receipt["campaign_decision"]["decision_sha256"],
+        "preflight_receipt_sha256": receipt["preflight_receipt_sha256"],
+        "runner_receipt_sha256": receipt["receipt_sha256"],
+        "frozen_criteria": manifest["frozen_criteria"],
+    }
+    case_record = {
+        "case_id": candidate_id, "level": "ADAPTIVE", "formulation": candidate["family"],
+        "mesh_sha256": receipt["mesh_sha256"],
+        "affine_jacobian_min_m3": prepared["summary"]["affine_jacobian_min_m3"],
+    }
+    outcome = _run_prospective_case_with_context(
+        candidate_id, case_record, receipt["attempt_id"], Path(receipt["evidence_root"]),
+        scientific_fingerprint=receipt["scientific_fingerprint"],
+        controller_fingerprint=receipt["controller_fingerprint"],
+        manifest_sha256=receipt["manifest_sha256"], execution_context=execution_context,
+        prepared_mesh=prepared,
+    )
+    assert_prospective_acceptance(outcome["payload"])
+    return outcome
 
 
 def require_authorized_execution(case_id: str) -> dict[str, Any]:
@@ -704,6 +977,31 @@ def run_prospective_case(
     receipt. Sidecar persistence is in ``finally`` and precedes caller assertions.
     """
     execution_context = require_authorized_execution(case_id)
+    cases = {case["case_id"]: case for case in load_prepared_cases()}
+    if case_id not in cases:
+        raise ValueError(f"unknown prepared VV3D case: {case_id}")
+    return _run_prospective_case_with_context(
+        case_id, cases[case_id], attempt_id, evidence_root,
+        scientific_fingerprint=scientific_fingerprint,
+        controller_fingerprint=controller_fingerprint,
+        manifest_sha256=manifest_sha256,
+        execution_context=execution_context,
+    )
+
+
+def _run_prospective_case_with_context(
+    case_id: str,
+    case: dict[str, Any],
+    attempt_id: str,
+    evidence_root: Path,
+    *,
+    scientific_fingerprint: str,
+    controller_fingerprint: str,
+    manifest_sha256: str,
+    execution_context: dict[str, Any],
+    prepared_mesh: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Run the common prospective body with a caller-verified exact context."""
 
     # Imports with FEM effects are deliberately below the first fail-closed step.
     import time
@@ -715,10 +1013,6 @@ def run_prospective_case(
             or evidence_root.resolve() != Path(execution_context["evidence_root"]).resolve()):
         raise PermissionError("caller fingerprints differ from the validated runner context")
 
-    cases = {case["case_id"]: case for case in load_prepared_cases()}
-    if case_id not in cases:
-        raise ValueError(f"unknown prepared VV3D case: {case_id}")
-    case = cases[case_id]
     payload = synthetic_not_exposed_payload(case_id, attempt_id)
     payload.update({
         "scientific_fingerprint": scientific_fingerprint,
@@ -742,7 +1036,10 @@ def run_prospective_case(
         from solveur.api.public import FiniteElementModel, recover_solid_stress_field, solve_model
         from experiments.wp12_vv3d_adaptive import field_error_draft, load_assembly_draft, metrics, oracle
 
-        prepared = json.loads((CAMPAIGN_DIR / case["mesh_file"]).read_bytes())
+        if prepared_mesh is None:
+            prepared = json.loads((CAMPAIGN_DIR / case["mesh_file"]).read_bytes())
+        else:
+            prepared = prepared_mesh
         family = case["formulation"]
         denominator = prepared["integer_coordinate_denominator"]
         coordinates = [tuple(value / denominator for value in point) for point in prepared["nodes_integer"]]
@@ -1116,7 +1413,7 @@ def run_registered_qpost_candidate(family: str) -> dict[str, Any]:
                       "postprocessing_reserved": True, "fem_started": False},
     }
     try:
-        archive_path = Path(archive_ref["path"]).resolve(strict=True)
+        archive_path = Path(receipt["archive_path"])
         archive_raw = archive_path.read_bytes()
         if _sha256(archive_raw) != archive_ref["sha256"]:
             raise PermissionError("QPOST archived-state SHA-256 mismatch")
@@ -1246,17 +1543,24 @@ def assert_prospective_acceptance(payload: dict[str, Any]) -> None:
 
 def synthetic_not_exposed_payload(case_id: str, attempt_id: str) -> dict[str, Any]:
     """Build synthetic, explicitly unassessed evidence; zero hashes are sentinels."""
-    cases = {case["case_id"]: case for case in load_prepared_cases()}
-    if case_id not in cases:
-        raise ValueError(f"unknown prepared VV3D case: {case_id}")
-    case = cases[case_id]
+    if case_id.startswith("VV3D-ADAPT-"):
+        _, candidates, _ = _adaptive_inventory()
+        candidate = candidates.get(case_id)
+        if candidate is None:
+            raise ValueError(f"unknown prepared adaptive VV3D candidate: {case_id}")
+        mesh_sha256 = candidate["prepared_mesh"]["sha256"]
+    else:
+        cases = {case["case_id"]: case for case in load_prepared_cases()}
+        if case_id not in cases:
+            raise ValueError(f"unknown prepared VV3D case: {case_id}")
+        mesh_sha256 = cases[case_id]["mesh_sha256"]
     return {
         "schema": "qf-wp12-vv3d-observables-v1",
         "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
         "case_id": case_id,
         "attempt_id": attempt_id,
         "case_state": "PREPARED_NOT_AUTHORIZED",
-        "mesh_sha256": case["mesh_sha256"],
+        "mesh_sha256": mesh_sha256,
         "scientific_fingerprint": NOT_AUTHORIZED_FINGERPRINT,
         "controller_fingerprint": NOT_AUTHORIZED_FINGERPRINT,
         "manifest_sha256": NOT_AUTHORIZED_FINGERPRINT,
