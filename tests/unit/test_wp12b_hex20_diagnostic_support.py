@@ -136,7 +136,8 @@ def test_affine_and_residual_oracle_on_synthetic_linear_system() -> None:
     np.testing.assert_allclose(metrics["calculated"]["u_difference_from_affine_m"], np.zeros(3))
 
 
-def test_sidecar_is_atomic_bound_and_refuses_overwrite(tmp_path: Path) -> None:
+@pytest.mark.parametrize("scope_id", ["wp12_hex20_affine_diagnostic", "wp12_hex20_affine_diagnostic_r2"])
+def test_sidecar_is_atomic_bound_and_refuses_overwrite(tmp_path: Path, scope_id: str) -> None:
     model = SimpleNamespace(
         nodes=_hex20_coordinates(),
         elements=[SimpleNamespace(type="HEX20", nodes=tuple(range(20)), material="steel")],
@@ -147,7 +148,7 @@ def test_sidecar_is_atomic_bound_and_refuses_overwrite(tmp_path: Path) -> None:
         distributed_loads=[],
     )
     binding = ControllerBinding(
-        worktree_id="wp12_hex20_affine_diagnostic",
+        worktree_id=scope_id,
         attempt_id="dev-0123456789ab-attempt-1",
         manifest_id="WP12B-HEX20-AFFINE-DIAG-R1",
         manifest_sha256="a" * 64,
@@ -240,11 +241,16 @@ def test_sidecar_is_atomic_bound_and_refuses_overwrite(tmp_path: Path) -> None:
     assert record["result"]["recovered_stress_voigt_Pa"] == [2.0, 3.0, 4.0, 0.0, 0.0, 0.0]
     assert record["result"]["historical_r4_energy_reference_J"] == 0.5
     assert record["assembly"]["face_contributions"][0]["comparison_units"] == "N"
-    assert record["assembly"]["face_contributions"][0]["acceptance"].startswith("OBSERVATIONAL_ONLY")
+    if scope_id.endswith("_r2"):
+        assert record["assembly"]["face_contributions"][0]["acceptance"].startswith("R2_GATE_PROPOSED_FOR_OWNER")
+        assert record["diagnostic_criteria"]["r2_face_nodal_gate"]["atol_N"] == 1.0e-6
+    else:
+        assert record["assembly"]["face_contributions"][0]["acceptance"].startswith("OBSERVATIONAL_ONLY")
     assert record["diagnostic_criteria"]["historical_r4_assertions"]["recovered_stress"]["atol_Pa"] == 1.0e-4
-    assert record["diagnostic_criteria"]["proposed_owner_limits_not_active"]["status"] == (
-        "OWNER_APPROVAL_REQUIRED; NOT ASSERTED"
-    )
+    if not scope_id.endswith("_r2"):
+        assert record["diagnostic_criteria"]["proposed_owner_limits_not_active"]["status"] == (
+            "OWNER_APPROVAL_REQUIRED; NOT ASSERTED"
+        )
     assert "||K[free,:] @ u_affine - F[free]||_inf" in record["residuals"]["r_affine_eta_inf_definition"]
     with pytest.raises(AssertionError):
         assert_historical_r4_acceptance(
@@ -300,3 +306,12 @@ def test_historical_r4_assertions_use_archived_acceptance_values() -> None:
             expected_stress_voigt=expected_stress,
             exact_energy_j=exact_energy,
         )
+
+
+def test_r2_nodal_gate_accepts_roundoff_and_rejects_changed_distribution() -> None:
+    from wp12b_hex20_diagnostic_support import assert_r2_face_nodal_load
+
+    expected = np.asarray([-2.0e6, 4.0e6, 0.0])
+    assert_r2_face_nodal_load(expected + np.asarray([1.0e-7, -1.0e-7, 1.0e-7]), expected)
+    with pytest.raises(AssertionError):
+        assert_r2_face_nodal_load(expected + np.asarray([1.0, -1.0, 0.0]), expected)

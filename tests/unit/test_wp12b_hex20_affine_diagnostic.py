@@ -10,6 +10,8 @@ from solveur.core.model import FiniteElementModel
 from solveur.core.solver import LinearStaticSolver
 from wp12b_hex20_diagnostic_support import (
     DIAGNOSTIC_NODEID,
+    DIAGNOSTIC_R2_SCOPE_ID,
+    assert_r2_face_nodal_load,
     affine_vector,
     assert_historical_r4_acceptance,
     capture_solver_assembly,
@@ -197,6 +199,8 @@ def test_wp12b_hex20_affine_patch_archives_residual(monkeypatch) -> None:
         np.add.at(actual_vector, actual["indices"], actual["values"])
         assert actual_vector.shape == expected["vector_N"].shape
         assert np.isfinite(actual_vector).all()
+        if binding.worktree_id == DIAGNOSTIC_R2_SCOPE_ID:
+            assert_r2_face_nodal_load(actual_vector, np.asarray(expected["vector_N"]))
     production_faces = np.zeros(60, dtype=np.float64)
     for actual in capture["face_integrations"]:
         np.add.at(production_faces, actual["indices"], actual["values"])

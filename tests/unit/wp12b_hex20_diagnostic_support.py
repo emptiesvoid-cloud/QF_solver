@@ -34,6 +34,8 @@ R4_FREE_RESIDUAL_MAX = 1.0e-10
 R4_FORCE_BALANCE_MAX = 1.0e-12
 R4_MOMENT_BALANCE_MAX = 1.0e-12
 R4_ENERGY_IDENTITY_MAX = 1.0e-10
+R2_FACE_NODAL_RTOL = 1.0e-12
+R2_FACE_NODAL_ATOL_N = 1.0e-6
 
 
 def assert_historical_r4_acceptance(
@@ -304,6 +306,11 @@ def capture_solver_assembly(solver: Any, monkeypatch: Any) -> dict[str, Any]:
     return capture
 
 
+def assert_r2_face_nodal_load(actual: np.ndarray, expected: np.ndarray) -> None:
+    """Compare a captured face load to its independent QUAD8 oracle."""
+    np.testing.assert_allclose(actual, expected, rtol=R2_FACE_NODAL_RTOL, atol=R2_FACE_NODAL_ATOL_N)
+
+
 def independent_face_load(
     nodes: np.ndarray,
     face: int,
@@ -526,7 +533,11 @@ def write_diagnostic_sidecar(
                 "difference_norm_inf_N": float(np.max(np.abs(actual_vector - expected_vector))),
                 "comparison_definition": "production integrated nodal force minus geometric QUAD8 nodal force",
                 "comparison_units": "N",
-                "acceptance": "OBSERVATIONAL_ONLY; diagnostic thresholds require separate Owner approval",
+                "acceptance": (
+                    "R2_GATE_PROPOSED_FOR_OWNER; ASSERTED_AFTER_PRE_ASSERTION_ARCHIVE"
+                    if binding.worktree_id == DIAGNOSTIC_R2_SCOPE_ID
+                    else "OBSERVATIONAL_ONLY; diagnostic thresholds require separate Owner approval"
+                ),
             }
         )
 
@@ -707,6 +718,16 @@ def write_diagnostic_sidecar(
             "status": "HISTORICAL_R4_REQUIRED; DIAGNOSTIC_LIMITS_PENDING_OWNER",
         },
     }
+    if binding.worktree_id == DIAGNOSTIC_R2_SCOPE_ID:
+        record["diagnostic_criteria"]["r2_face_nodal_gate"] = {
+            "rtol": R2_FACE_NODAL_RTOL,
+            "atol_N": R2_FACE_NODAL_ATOL_N,
+            "reference": "independent geometric QUAD8 nodal vector per loaded face",
+            "status": "PROPOSED_FOR_OWNER; ASSERTED_AFTER_PRE_ASSERTION_ARCHIVE",
+        }
+        record["diagnostic_criteria"]["proposed_owner_limits_not_active"]["status"] = (
+            "R1_HISTORY; R2_FACE_GATE_PROPOSED_FOR_OWNER; AFFINE_BACKWARD_ERROR_NOT_ASSERTED"
+        )
     directory = binding.evidence_root / "wp12b_hex20_affine_diagnostic"
     path = directory / f"{binding.attempt_id}.json"
     _atomic_json_no_overwrite(path, record)
