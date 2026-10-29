@@ -20,13 +20,25 @@ def fixture_contract():
             "max_attempts":1,"trigger":None})
     return {"schema":c.SCHEMA,"campaign_id":c.CAMPAIGN,"budget":dict(c.BUDGET),
         "controller_fingerprint":"e"*64,"scientific_fingerprint":"f"*64,"cases":cases,
+        "adaptive_catalog":{"catalog_sha256":"a"*64,"candidates":{
+            candidate:{"candidate_sha256":"b"*64,"mesh_sha256":"c"*64,
+                      "criteria_sha256":"d"*64,"rule_sha256":"e"*64}
+            for candidate in sorted(c.QPOST_IDS | {f"VV3D-ADAPT-{family}-{kind}"
+                for family in ("TET4","TET10","HEX8","HEX20") for kind in ("H1","QLOAD")})}},
+        "qpost_jobs":[{"job_id":job,"nodeid":f"tests/unit/test_vv3d.py::test_qpost[{job}]",
+            "source_family":job.split("-")[2],"manifest_sha256":"1"*64,"oracle_sha256":"2"*64,
+            "criteria_sha256":"3"*64,"manifest_path":f"{job}-manifest.json","oracle_path":f"{job}-oracle.txt",
+            "criteria_path":f"{job}-criteria.json","timeout_seconds":1200,"rss_soft_limit_mib":4096,"max_jobs":1}
+            for job in sorted(c.QPOST_IDS)],
         "transitions":{**dict.fromkeys(c.STOP_STATES,"STOP"),"PASS":"CONTINUE_INITIAL_ORDER_AND_TRIGGERED_ADAPTIVE",
                        "SCIENTIFIC_DEVIATION":"STOP"},
         "initial_ledger_sha256":"0"*64}
 
 
 def validate(contract):
-    c.validate_contract(contract,registered_nodeids={x["nodeid"] for x in fixture_contract()["cases"]},
+    base=fixture_contract()
+    c.validate_contract(contract,registered_nodeids={x["nodeid"] for x in base["cases"]}
+                        | {x["nodeid"] for x in base["qpost_jobs"]},
                         controller_fingerprint="e"*64,scientific_fingerprint="f"*64)
 
 
@@ -61,7 +73,8 @@ def test_vv3d_decision_binds_exact_raw_contract_and_case_order():
     sha=hashlib.sha256(raw).hexdigest()
     decision={"schema":c.DECISION_SCHEMA,"campaign_id":c.CAMPAIGN,"decision_id":"synthetic-owner-decision",
         "approved_by":"Owner","approved_at_utc":"2026-10-29T10:00:00Z","contract_sha256":sha,
-        "case_ids":[x["case_id"] for x in contract["cases"]],"status":"APPROVED"}
+        "case_ids":[x["case_id"] for x in contract["cases"]]
+                   +[x["job_id"] for x in contract["qpost_jobs"]],"status":"APPROVED"}
     c.validate_decision(contract,decision,contract_bytes=raw)
     for bad in (dict(decision,status="NOT_AUTHORIZED"),dict(decision,contract_sha256="0"*64),
                 dict(decision,case_ids=decision["case_ids"][:-1]),dict(decision,approved_by="other")):
@@ -82,7 +95,7 @@ def test_vv3d_adaptive_cases_require_registered_trigger_and_explicit_transition(
     contract["cases"].append(adaptive)
     source=contract["cases"][0]["case_id"]
     contract["transitions"]["SCIENTIFIC_DEVIATION"]={source:[adaptive["case_id"],contract["cases"][1]["case_id"]]}
-    nodes={case["nodeid"] for case in contract["cases"]}
+    nodes={case["nodeid"] for case in contract["cases"]}|{job["nodeid"] for job in contract["qpost_jobs"]}
     c.validate_contract(contract,registered_nodeids=nodes,controller_fingerprint="e"*64,scientific_fingerprint="f"*64)
     for mutation in ("unknown_trigger","nonfinite","unlisted_transition","duplicate_transition"):
         bad=copy.deepcopy(contract)
@@ -96,6 +109,41 @@ def test_vv3d_adaptive_cases_require_registered_trigger_and_explicit_transition(
             bad["transitions"]["SCIENTIFIC_DEVIATION"]={source:[adaptive["case_id"],adaptive["case_id"]]}
         with pytest.raises(c.VV3DContractError):
             c.validate_contract(bad,registered_nodeids=nodes,controller_fingerprint="e"*64,scientific_fingerprint="f"*64)
+
+
+def test_adaptive_eligibility_requires_measured_trigger_or_approved_failure_route():
+    contract=fixture_contract()
+    source=contract["cases"][0]["case_id"]
+    destination=copy.deepcopy(contract["cases"][0])
+    destination.update(case_id="VV3D-ADAPT-TEST",phase="ADAPTIVE",nodeid="tests/unit/test_vv3d.py::test_adapt",
+        trigger={"source_case_id":source,"observable":"energy_error","operator":"GT","threshold":0.02,"unit":"1"})
+    contract["cases"].append(destination)
+    contract["transitions"]["SCIENTIFIC_DEVIATION"]={source:[destination["case_id"]]}
+    decision={"decision_id":"owner-decision"}
+    receipt={"schema":"qf-wp12-vv3d-transition-eligibility-v1","campaign_id":c.CAMPAIGN,
+        "contract_sha256":"1"*64,"decision_id":"owner-decision","decision_sha256":"2"*64,
+        "source_case_id":source,"destination_case_id":destination["case_id"],"source_status":"PASS",
+        "source_result_sha256":"3"*64,"transition_kind":"PASS_TRIGGER",
+        "trigger_observation":{"observable":"energy_error","value":0.03,"unit":"1",
+                               "operator":"GT","threshold":0.02,"result":True}}
+    c.validate_transition_eligibility(contract,decision,contract_sha256="1"*64,decision_sha256="2"*64,
+        source_case_id=source,destination_case_id=destination["case_id"],source_status="PASS",
+        source_result_sha256="3"*64,source_observables={"energy_error":{"value":0.03,"unit":"1"}},receipt=receipt)
+    bad=copy.deepcopy(receipt)
+    bad["trigger_observation"]["value"]=0.01
+    with pytest.raises(c.VV3DContractError):
+        c.validate_transition_eligibility(contract,decision,contract_sha256="1"*64,decision_sha256="2"*64,
+            source_case_id=source,destination_case_id=destination["case_id"],source_status="PASS",
+            source_result_sha256="3"*64,source_observables={"energy_error":{"value":0.03,"unit":"1"}},receipt=bad)
+    fail_receipt={**receipt,"source_status":"FAIL","transition_kind":"APPROVED_SCIENTIFIC_DEVIATION",
+                  "trigger_observation":None}
+    c.validate_transition_eligibility(contract,decision,contract_sha256="1"*64,decision_sha256="2"*64,
+        source_case_id=source,destination_case_id=destination["case_id"],source_status="FAIL",
+        source_result_sha256="3"*64,source_observables={},receipt=fail_receipt)
+    with pytest.raises(c.VV3DContractError):
+        c.validate_transition_eligibility(contract,decision,contract_sha256="1"*64,decision_sha256="2"*64,
+            source_case_id=source,destination_case_id=destination["case_id"],source_status="TIMEOUT",
+            source_result_sha256="3"*64,source_observables={},receipt=receipt)
 
 
 def test_vv3d_artifact_bindings_are_confined_and_checked(tmp_path: Path):
@@ -123,6 +171,19 @@ def test_vv3d_artifact_bindings_are_confined_and_checked(tmp_path: Path):
         raw=json.dumps(manifest).encode()
         case["manifest_sha256"]=hashlib.sha256(raw).hexdigest()
         (roots["manifest"]/case["manifest_path"]).write_bytes(raw)
+    for job in contract["qpost_jobs"]:
+        oracle=b"synthetic QPOST oracle"
+        criteria=json.dumps({"schema":"qf-wp12-vv3d-qpost-criteria-v1","criteria":[{"id":"finite","operator":"ALL_TRUE"}]}).encode()
+        job["oracle_sha256"]=hashlib.sha256(oracle).hexdigest()
+        job["criteria_sha256"]=hashlib.sha256(criteria).hexdigest()
+        (roots["oracle"]/job["oracle_path"]).write_bytes(oracle)
+        (roots["criteria"]/job["criteria_path"]).write_bytes(criteria)
+        manifest={"schema":"qf-wp12-vv3d-qpost-manifest-v1","state":"PREPARED_NOT_AUTHORIZED",
+                  **{key:job[key] for key in ("job_id","nodeid","source_family","oracle_sha256","criteria_sha256",
+                                               "timeout_seconds","rss_soft_limit_mib","max_jobs")}}
+        raw=json.dumps(manifest).encode()
+        job["manifest_sha256"]=hashlib.sha256(raw).hexdigest()
+        (roots["manifest"]/job["manifest_path"]).write_bytes(raw)
     validate(contract)
     c.verify_artifact_bindings(contract,roots=roots)
     first=contract["cases"][0]

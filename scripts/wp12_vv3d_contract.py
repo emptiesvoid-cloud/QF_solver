@@ -14,6 +14,7 @@ CAMPAIGN = "WP12-VV3D-ADAPTIVE-20261029-R1"
 SCHEMA = "qf-wp12-vv3d-contract-v1"
 DECISION_SCHEMA = "qf-wp12-vv3d-owner-decision-v1"
 INITIAL_IDS = frozenset(f"VV3D-{family}-L{level}" for family in ("TET4", "TET10", "HEX8", "HEX20") for level in (1,2,3))
+QPOST_IDS = frozenset(f"VV3D-ADAPT-{family}-QPOST" for family in ("TET4", "TET10", "HEX8", "HEX20"))
 BUDGET = {"attempts_max":24,"cumulative_seconds_max":28800,"timeout_max_seconds":1200,
           "rss_soft_limit_mib":4096,"dofs_max":30000,"concurrency":1,"implicit_retry":False}
 STOP_STATES = frozenset({"INFRASTRUCTURE_FAILURE", "PROVENANCE_FAILURE", "LEDGER_FAILURE", "INSUFFICIENT_BUDGET"})
@@ -60,7 +61,7 @@ def validate_contract(contract: Mapping[str, Any], *, registered_nodeids: set[st
     or enable execution. The runner must additionally validate all raw-byte hashes.
     """
     required = {"schema","campaign_id","budget","controller_fingerprint","scientific_fingerprint",
-                "cases","transitions","initial_ledger_sha256"}
+                "cases","adaptive_catalog","qpost_jobs","transitions","initial_ledger_sha256"}
     if not isinstance(contract, Mapping) or set(contract) != required:
         raise VV3DContractError("contract has missing or unexpected fields")
     if (contract["schema"] != SCHEMA or contract["campaign_id"] != CAMPAIGN
@@ -119,6 +120,37 @@ def validate_contract(contract: Mapping[str, Any], *, registered_nodeids: set[st
         raise VV3DContractError("initial case set is incomplete")
     if any(case["trigger"]["source_case_id"] not in initial for case in cases if case["phase"] == "ADAPTIVE"):
         raise VV3DContractError("adaptive trigger refers to an unknown initial case")
+    qpost_jobs = contract["qpost_jobs"]
+    qpost_fields = {"job_id","nodeid","source_family","manifest_sha256","oracle_sha256","criteria_sha256",
+                    "manifest_path","oracle_path","criteria_path","timeout_seconds","rss_soft_limit_mib","max_jobs"}
+    if not isinstance(qpost_jobs, list) or len(qpost_jobs) != len(QPOST_IDS):
+        raise VV3DContractError("campaign contract must register exactly four catalogued QPOST jobs")
+    seen_qpost: set[str] = set()
+    for job in qpost_jobs:
+        if (not isinstance(job, Mapping) or set(job) != qpost_fields
+                or job.get("job_id") not in QPOST_IDS or job.get("job_id") in seen_qpost
+                or job.get("nodeid") not in registered_nodeids or job.get("nodeid") in nodes
+                or job.get("source_family") not in {"TET4","TET10","HEX8","HEX20"}
+                or not all(_sha(job.get(key)) for key in ("manifest_sha256","oracle_sha256","criteria_sha256"))
+                or not all(_safe_relative_path(job.get(key)) for key in ("manifest_path","oracle_path","criteria_path"))
+                or type(job.get("timeout_seconds")) is not int or not 0 < job["timeout_seconds"] <= BUDGET["timeout_max_seconds"]
+                or job.get("rss_soft_limit_mib") != BUDGET["rss_soft_limit_mib"]
+                or job.get("max_jobs") != 1):
+            raise VV3DContractError("QPOST identity, registration, paths or budget is invalid")
+        seen_qpost.add(job["job_id"])
+    adaptive_catalog=contract["adaptive_catalog"]
+    adaptive_ids={f"VV3D-ADAPT-{family}-{kind}" for family in ("TET4","TET10","HEX8","HEX20")
+                  for kind in ("H1","QLOAD","QPOST")}
+    if (not isinstance(adaptive_catalog,Mapping) or set(adaptive_catalog) != {"catalog_sha256","candidates"}
+            or not _sha(adaptive_catalog.get("catalog_sha256"))
+            or not isinstance(adaptive_catalog.get("candidates"),Mapping)
+            or set(adaptive_catalog["candidates"]) != adaptive_ids):
+        raise VV3DContractError("campaign contract must bind the exact closed 12-candidate adaptive catalog")
+    for candidate_id,binding in adaptive_catalog["candidates"].items():
+        if (not isinstance(binding,Mapping)
+                or set(binding) != {"candidate_sha256","mesh_sha256","criteria_sha256","rule_sha256"}
+                or not all(_sha(binding.get(field)) for field in binding)):
+            raise VV3DContractError(f"adaptive candidate binding is incomplete for {candidate_id}")
     transitions=contract["transitions"]
     if not isinstance(transitions,Mapping) or set(transitions) != STOP_STATES | {"PASS", "SCIENTIFIC_DEVIATION"}:
         raise VV3DContractError("transition table is incomplete")
@@ -154,6 +186,21 @@ def verify_artifact_bindings(contract: Mapping[str, Any], *, roots: Mapping[str,
     """Read and verify each bound file's raw SHA, without modifying evidence."""
     if set(roots) != {"mesh", "manifest", "oracle", "criteria"}:
         raise VV3DContractError("artifact roots must be explicit for all four binding classes")
+    def read_bound(kind: str, relative: Any, expected_sha: str) -> bytes:
+        if not _safe_relative_path(relative):
+            raise VV3DContractError(f"{kind} path is not a safe relative path")
+        try:
+            base=roots[kind].resolve(strict=True)
+            path=(base / relative).resolve(strict=True)
+            path.relative_to(base)
+            if not path.is_file():
+                raise VV3DContractError(f"{kind} artifact is not a regular file")
+            raw=path.read_bytes()
+        except (OSError, ValueError) as exc:
+            raise VV3DContractError(f"{kind} artifact missing or outside its root") from exc
+        if hashlib.sha256(raw).hexdigest() != expected_sha:
+            raise VV3DContractError(f"{kind} artifact SHA-256 mismatch")
+        return raw
     for case in contract["cases"]:
         contents: dict[str, bytes] = {}
         for kind,root in roots.items():
@@ -222,6 +269,25 @@ def verify_artifact_bindings(contract: Mapping[str, Any], *, roots: Mapping[str,
                 or any(by_rule[name]["operator"] != "LE" or by_rule[name]["threshold"] < 0
                        for name in mandatory - {"finite","det_j_positive"})):
             raise VV3DContractError("mandatory criteria require explicit consistent numerical limits")
+    for job in contract["qpost_jobs"]:
+        manifest_raw=read_bound("manifest",job["manifest_path"],job["manifest_sha256"])
+        read_bound("oracle",job["oracle_path"],job["oracle_sha256"])
+        criteria_raw=read_bound("criteria",job["criteria_path"],job["criteria_sha256"])
+        try:
+            manifest=_strict_json_bytes(manifest_raw)
+            criteria=_strict_json_bytes(criteria_raw)
+        except (ValueError,TypeError) as exc:
+            raise VV3DContractError("QPOST manifest or criteria is invalid strict JSON") from exc
+        expected={"schema":"qf-wp12-vv3d-qpost-manifest-v1","state":"PREPARED_NOT_AUTHORIZED",
+                  "job_id":job["job_id"],"nodeid":job["nodeid"],"source_family":job["source_family"],
+                  "oracle_sha256":job["oracle_sha256"],"criteria_sha256":job["criteria_sha256"],
+                  "timeout_seconds":job["timeout_seconds"],"rss_soft_limit_mib":job["rss_soft_limit_mib"],
+                  "max_jobs":job["max_jobs"]}
+        if not isinstance(manifest,Mapping) or any(manifest.get(key) != value for key,value in expected.items()):
+            raise VV3DContractError("QPOST manifest does not match its exact catalog binding")
+        if (not isinstance(criteria,Mapping) or criteria.get("schema") != "qf-wp12-vv3d-qpost-criteria-v1"
+                or not isinstance(criteria.get("criteria"),list) or not criteria["criteria"]):
+            raise VV3DContractError("QPOST criteria are missing or malformed")
 
 
 def validate_decision(contract: Mapping[str, Any], decision: Mapping[str, Any], *, contract_bytes: bytes) -> None:
@@ -231,11 +297,12 @@ def validate_decision(contract: Mapping[str, Any], decision: Mapping[str, Any], 
         raise VV3DContractError("Owner decision has missing or unexpected fields")
     parsed = _strict_json_bytes(contract_bytes)
     contract_sha256 = hashlib.sha256(contract_bytes).hexdigest()
+    expected_case_ids = [c["case_id"] for c in contract["cases"]] + [j["job_id"] for j in contract["qpost_jobs"]]
     if (parsed != contract or not _sha(contract_sha256)
             or decision["schema"] != DECISION_SCHEMA or decision["campaign_id"] != CAMPAIGN
             or decision["contract_sha256"] != contract_sha256 or decision["status"] != "APPROVED"
             or decision["approved_by"] != "Owner" or not isinstance(decision["decision_id"],str)
-            or not SAFE_RE.fullmatch(decision["decision_id"]) or decision["case_ids"] != [c["case_id"] for c in contract["cases"]]):
+            or not SAFE_RE.fullmatch(decision["decision_id"]) or decision["case_ids"] != expected_case_ids):
         raise VV3DContractError("Owner decision does not bind this exact contract and ordered cases")
     try:
         instant=datetime.fromisoformat(decision["approved_at_utc"].replace("Z","+00:00"))
@@ -243,3 +310,73 @@ def validate_decision(contract: Mapping[str, Any], decision: Mapping[str, Any], 
         raise VV3DContractError("Owner decision requires UTC timestamp") from exc
     if instant.tzinfo is None or instant.utcoffset() != timezone.utc.utcoffset(instant):
         raise VV3DContractError("Owner decision timestamp must be UTC")
+
+
+def validate_transition_eligibility(
+    contract: Mapping[str, Any], decision: Mapping[str, Any], *, contract_sha256: str,
+    decision_sha256: str, source_case_id: str, destination_case_id: str,
+    source_status: str, source_result_sha256: str, source_observables: Mapping[str, Any],
+    receipt: Mapping[str, Any],
+) -> None:
+    """Validate a closed-catalog continuation receipt before an adaptive reservation.
+
+    A PASS continuation must satisfy the destination's frozen measurable trigger.
+    A scientific FAIL continuation must be explicitly listed in the contract's
+    source-to-destination deviation table. Infrastructure/provenance/ledger and
+    budget outcomes are always stop-only.
+    """
+    if not all(_sha(value) for value in (contract_sha256, decision_sha256, source_result_sha256)):
+        raise VV3DContractError("transition receipt is missing a valid source/contract/decision digest")
+    by_id={case["case_id"]:case for case in contract["cases"]}
+    source=by_id.get(source_case_id)
+    destination=by_id.get(destination_case_id)
+    if source is None or destination is None or destination.get("phase") != "ADAPTIVE":
+        raise VV3DContractError("transition source or adaptive destination is outside the frozen case catalog")
+    if destination["trigger"]["source_case_id"] != source_case_id:
+        raise VV3DContractError("adaptive destination trigger names a different source case")
+    expected_fields={"schema","campaign_id","contract_sha256","decision_id","decision_sha256",
+                     "source_case_id","destination_case_id","source_status","source_result_sha256",
+                     "transition_kind","trigger_observation"}
+    if not isinstance(receipt,Mapping) or set(receipt) != expected_fields:
+        raise VV3DContractError("transition eligibility receipt has missing or unexpected fields")
+    if any(receipt.get(key) != value for key,value in {
+        "schema":"qf-wp12-vv3d-transition-eligibility-v1","campaign_id":CAMPAIGN,
+        "contract_sha256":contract_sha256,"decision_id":decision.get("decision_id"),
+        "decision_sha256":decision_sha256,"source_case_id":source_case_id,
+        "destination_case_id":destination_case_id,"source_status":source_status,
+        "source_result_sha256":source_result_sha256,
+    }.items()):
+        raise VV3DContractError("transition eligibility receipt is bound to a different run or Owner contract")
+    transitions=contract["transitions"]
+    if source_status == "PASS":
+        trigger=destination["trigger"]
+        observation=receipt.get("trigger_observation")
+        if not isinstance(observation,Mapping) or set(observation) != {"observable","value","unit","operator","threshold","result"}:
+            raise VV3DContractError("PASS adaptive transition requires the exact measured trigger observation")
+        value=source_observables.get(trigger["observable"])
+        if isinstance(value,Mapping):
+            actual=value.get("value")
+            unit=value.get("unit")
+        else:
+            actual=value
+            unit=trigger["unit"]
+        if (isinstance(actual,bool) or not isinstance(actual,(int,float)) or not math.isfinite(actual)
+                or unit != trigger["unit"]):
+            raise VV3DContractError("source run does not expose the finite trigger observable in its declared unit")
+        operators={"LT":lambda a,b:a<b,"LE":lambda a,b:a<=b,"GT":lambda a,b:a>b,"GE":lambda a,b:a>=b}
+        passed=operators[trigger["operator"]](actual,trigger["threshold"])
+        expected_observation={"observable":trigger["observable"],"value":actual,"unit":unit,
+                              "operator":trigger["operator"],"threshold":trigger["threshold"],"result":passed}
+        if observation != expected_observation or not passed:
+            raise VV3DContractError("adaptive trigger is not satisfied by the source run's archived observable")
+    elif source_status == "FAIL":
+        permitted=transitions["SCIENTIFIC_DEVIATION"]
+        if (not isinstance(permitted,Mapping) or destination_case_id not in permitted.get(source_case_id,[])
+                or receipt.get("transition_kind") != "APPROVED_SCIENTIFIC_DEVIATION"
+                or receipt.get("trigger_observation") is not None):
+            raise VV3DContractError("scientific deviation transition is not explicitly Owner-approved")
+    else:
+        raise VV3DContractError("infrastructure, provenance, ledger and budget outcomes must stop the campaign")
+    expected_kind="PASS_TRIGGER" if source_status == "PASS" else "APPROVED_SCIENTIFIC_DEVIATION"
+    if receipt.get("transition_kind") != expected_kind:
+        raise VV3DContractError("transition receipt kind does not match the approved transition")

@@ -172,3 +172,44 @@ class Hex8SRIConvergence24Attestor:
             stream.write("\n")
             stream.flush()
             os.fsync(stream.fileno())
+
+
+class VV3DCollectOnlyAttestor:
+    """Emit one exact-node VV3D collect-only report without invoking test bodies."""
+
+    def __init__(self, expected_nodeid: str, *, scope_id: str) -> None:
+        self.expected_nodeid = expected_nodeid
+        self.scope_id = scope_id
+        self.collected_nodeids: list[str] = []
+        self.skip_markers: list[dict[str, str]] = []
+        self.bodies_executed = False
+
+    def pytest_collection_finish(self, session) -> None:
+        self.collected_nodeids = [item.nodeid for item in session.items]
+        for item in session.items:
+            for marker in item.iter_markers():
+                if marker.name in {"skip", "skipif"}:
+                    self.skip_markers.append({"nodeid": item.nodeid, "marker": marker.name,
+                                              "reason": str(marker.kwargs.get("reason", ""))})
+
+    def pytest_runtest_call(self, item) -> None:
+        self.bodies_executed = True
+
+    def pytest_sessionfinish(self, session, exitstatus: int) -> None:
+        report_text = os.environ.get("QF_DEV_PREFLIGHT_COLLECTION_REPORT")
+        if not report_text:
+            return
+        report = {
+            "schema": "qfsolver-wp12-vv3d-collection-v1", "scope_id": self.scope_id,
+            "target": self.expected_nodeid, "collected_nodeids": self.collected_nodeids,
+            "skip_markers": self.skip_markers, "bodies_executed": self.bodies_executed,
+            "exitstatus": int(exitstatus),
+        }
+        destination = Path(report_text).resolve()
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        descriptor = os.open(destination, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as stream:
+            json.dump(report, stream, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())

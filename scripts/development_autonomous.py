@@ -66,6 +66,63 @@ HEX8SRI_CRITERIA_FREEZE_DECISION_SCHEMA = "qfsolver-hex8sri-criteria-freeze-deci
 HEX8SRI_EXECUTION_APPROVAL_SCHEMA = "qfsolver-hex8sri-execution-approval-v1"
 HEX8SRI_CRITERIA_CONTRACT_SCHEMA = "qfsolver-hex8sri-criteria-contract-v1"
 HEX8SRI_CRITERIA_CONTRACT_REVISION = "first6-4x2x2-owner-criteria-2026-10-27-r1"
+VV3D_WORKTREE_ID = "wp12_vv3d_adaptive"
+VV3D_CAMPAIGN_ID = "WP12-VV3D-ADAPTIVE-20261029-R1"
+VV3D_INITIAL_CASE_IDS = tuple(
+    f"VV3D-{family}-L{level}"
+    for family in ("TET4", "TET10", "HEX8", "HEX20")
+    for level in (1, 2, 3)
+)
+VV3D_INITIAL_NODEIDS = tuple(
+    "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[" + case_id + "]"
+    for case_id in VV3D_INITIAL_CASE_IDS
+)
+VV3D_ADAPTIVE_FEM_NODEIDS = tuple(
+    "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-"
+    f"{family}-{kind}]"
+    for family in ("TET4", "TET10", "HEX8", "HEX20")
+    for kind in ("H1", "QLOAD")
+)
+VV3D_QPOST_NODEIDS = tuple(
+    "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case["
+    f"{family}]"
+    for family in ("TET4", "TET10", "HEX8", "HEX20")
+)
+VV3D_INITIAL_DOFS = {
+    "VV3D-TET4-L1": 81, "VV3D-TET4-L2": 375, "VV3D-TET4-L3": 2187,
+    "VV3D-TET10-L1": 375, "VV3D-TET10-L2": 2187, "VV3D-TET10-L3": 14739,
+    "VV3D-HEX8-L1": 81, "VV3D-HEX8-L2": 375, "VV3D-HEX8-L3": 2187,
+    "VV3D-HEX20-L1": 243, "VV3D-HEX20-L2": 1275, "VV3D-HEX20-L3": 8019,
+}
+VV3D_ADAPTIVE_DOFS = {
+    VV3D_ADAPTIVE_FEM_NODEIDS[0]: 14739, VV3D_ADAPTIVE_FEM_NODEIDS[1]: 2187,
+    VV3D_ADAPTIVE_FEM_NODEIDS[2]: 27783, VV3D_ADAPTIVE_FEM_NODEIDS[3]: 14739,
+    VV3D_ADAPTIVE_FEM_NODEIDS[4]: 14739, VV3D_ADAPTIVE_FEM_NODEIDS[5]: 2187,
+    VV3D_ADAPTIVE_FEM_NODEIDS[6]: 24843, VV3D_ADAPTIVE_FEM_NODEIDS[7]: 8019,
+}
+VV3D_QPOST_DOFS = {
+    VV3D_QPOST_NODEIDS[0]: 2187, VV3D_QPOST_NODEIDS[1]: 14739,
+    VV3D_QPOST_NODEIDS[2]: 2187, VV3D_QPOST_NODEIDS[3]: 8019,
+}
+VV3D_ALL_NODEIDS = (*VV3D_INITIAL_NODEIDS, *VV3D_ADAPTIVE_FEM_NODEIDS, *VV3D_QPOST_NODEIDS)
+VV3D_ALL_DOFS = {
+    **{nodeid: VV3D_INITIAL_DOFS[nodeid.rsplit("[", maxsplit=1)[-1][:-1]] for nodeid in VV3D_INITIAL_NODEIDS},
+    **VV3D_ADAPTIVE_DOFS, **VV3D_QPOST_DOFS,
+}
+VV3D_ADAPTIVE_SOURCE_FILES = (
+    "experiments/wp12_vv3d_adaptive/case_harness.py",
+    "experiments/wp12_vv3d_adaptive/load_assembly_draft.py",
+    "experiments/wp12_vv3d_adaptive/field_error_draft.py",
+    "experiments/wp12_vv3d_adaptive/sampling.py",
+    "experiments/wp12_vv3d_adaptive/quadrature.py",
+    "experiments/wp12_vv3d_adaptive/basis.py",
+    "experiments/wp12_vv3d_adaptive/oracle.py",
+    "experiments/wp12_vv3d_adaptive/mesh.py",
+    "experiments/wp12_vv3d_adaptive/metrics.py",
+    "experiments/wp12_vv3d_adaptive/criteria_evaluator.py",
+    "experiments/wp12_vv3d_adaptive/evidence.py",
+    "tests/unit/test_wp12_vv3d_adaptive_prepared.py",
+)
 HEX8SRI_CONVERGENCE24_MANIFEST_BINDING = "canonical_case_content_v1"
 HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT = "bb6238db9954ff2992347b980c0dfc681f73b74433f76e01dd94e40811c85ea3"
 HEX8SRI_CONVERGENCE24_SOURCE_HEAD = "5304e3f00e73a916d1af4c1d75375a9b051f0524"
@@ -895,10 +952,13 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             raise PolicyError(f"scope {name} total output limit exceeds its two stream limits")
     worktrees = policy.get("worktrees")
     legacy_worktree_ids = {"d01", "c01", "e01"}
-    expected_worktree_ids = legacy_worktree_ids | set(WP12_OWNER_ENVELOPES) | {HEX8SRI_CONVERGENCE24_WORKTREE_ID}
+    expected_worktree_ids = legacy_worktree_ids | set(WP12_OWNER_ENVELOPES) | {
+        HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+        VV3D_WORKTREE_ID,
+    }
     if not isinstance(worktrees, dict) or set(worktrees) != expected_worktree_ids:
         raise PolicyError(
-            "the worktree registry must retain all existing scopes and the isolated HEX8-SRI preparation scope"
+            "the worktree registry must retain all existing scopes plus isolated HEX8-SRI and VV3D scopes"
         )
     required_budget_fields = (
         "timeout_seconds",
@@ -932,7 +992,8 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             entry.get("attempt_limit_per_nodeid"), f"worktrees.{worktree_id}.attempt_limit_per_nodeid"
         )
         is_hex8sri_convergence24 = worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID
-        if not is_wp12 and not is_hex8sri_convergence24 and attempt_limit != 3:
+        is_vv3d = worktree_id == VV3D_WORKTREE_ID
+        if not is_wp12 and not is_hex8sri_convergence24 and not is_vv3d and attempt_limit != 3:
             raise PolicyError("this Owner mandate permits at most three attempts per nodeid")
         if is_hex8sri_convergence24 and attempt_limit != 1:
             raise PolicyError("HEX8-SRI convergence preparation is limited to one future attempt per nodeid")
@@ -946,7 +1007,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         if budgets["output_total_limit_mib"] > 2 * budgets["output_stream_limit_mib"]:
             raise PolicyError(f"worktree {worktree_id} aggregate output exceeds its two stream caps")
         expected_test_root = (
-            "tests/unit" if worktree_id in {"c01", "e01", *WP12_OWNER_ENVELOPES} else "tests/verification"
+            "tests/unit" if worktree_id in {"c01", "e01", VV3D_WORKTREE_ID, *WP12_OWNER_ENVELOPES} else "tests/verification"
         )
         if entry["pytest_root"] != expected_test_root:
             raise PolicyError(f"worktree {worktree_id} is bound to the wrong test class")
@@ -963,6 +1024,8 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
                 raise PolicyError(f"worktree {worktree_id} nodeid escapes its approved test root")
             if is_wp12:
                 _validate_wp12_nodeid_syntax(nodeid, worktree_id=worktree_id)
+            if is_vv3d and nodeid not in VV3D_ALL_NODEIDS:
+                raise PolicyError("VV3D catalogue accepts only its exact 12 initial, 8 adaptive, and 4 QPOST nodeids")
             if worktree_id == "e01" and re.search(r"(?i)(tet|hex|beam|assembly|fem)", nodeid):
                 raise PolicyError("E01 allowlist may contain only non-FEM constitutive-math tests")
         if is_wp12:
@@ -1087,6 +1150,47 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             or not re.fullmatch(r"[0-9a-f]{64}", str(binding.get("sha256", "")))
         ):
             raise PolicyError(f"HEX8-SRI case manifest binding is invalid for {nodeid}")
+    vv3d = worktrees[VV3D_WORKTREE_ID]
+    expected_vv3d_budget = {
+        "timeout_seconds": 1200,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 32,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 1024,
+        "archive_size_limit_mib": 256,
+    }
+    if (
+        vv3d.get("campaign_id") != "WP12-VV3D-ADAPTIVE-20261029-R1"
+        or vv3d.get("development_mandate_id") != "DEVELOPMENT_AUTONOMOUS-WP12-VV3D-ADAPTIVE-2026-10-29-R1"
+        or vv3d.get("execution_authorized") is not False
+        or vv3d.get("execution_capability") != "INITIAL_AND_CLOSED_CATALOG_ADAPTIVE_FEM_AND_QPOST_RUNNER_PATHS"
+        or vv3d.get("runner_capabilities") != {"initial_fem": True, "adaptive_fem": True, "qpost": True}
+        or vv3d.get("root") != r"C:\Users\fari\.codex\worktrees\wp12-vv3d-adaptive\qf_solver"
+        or vv3d.get("git_root") != vv3d.get("root")
+        or vv3d.get("branch") != "emptiesvoids-cloud/research-wp12-vv3d-adaptive"
+        or vv3d.get("baseline_commit") != "b4ac817cdb565c45f8f8d92a9c10bbb609f6df37"
+        or vv3d.get("source_root") != "src"
+        or vv3d.get("pytest_root") != "tests/unit"
+        or vv3d.get("evidence_root") != r"E:\QFSolverAgents\evidence\wp12-vv3d-adaptive"
+        or vv3d.get("require_clean_worktree") is not True
+        or vv3d.get("allow_native_vv_skip_override") is not False
+        or vv3d.get("attempt_limit_per_nodeid") != 1
+        or vv3d.get("max_total_attempts") != 24
+        or vv3d.get("max_total_seconds") != 28800
+        or vv3d.get("max_timeout_seconds") != 1200
+        or vv3d.get("target_max_dofs") != 30000
+        or vv3d.get("rss_soft_limit_mib") != 4096
+        or vv3d.get("concurrency_class") != "vv3d_serial"
+        or vv3d.get("nodeid_registration") != {"enabled": False, "max_nodeids": 24}
+        or vv3d.get("budgets") != expected_vv3d_budget
+        or vv3d.get("allowed_nodeids") != list(VV3D_ALL_NODEIDS)
+        or vv3d.get("adaptive_fem_nodeids") != list(VV3D_ADAPTIVE_FEM_NODEIDS)
+        or vv3d.get("qpost_nodeids") != list(VV3D_QPOST_NODEIDS)
+        or vv3d.get("per_node_selected_dofs") != VV3D_ALL_DOFS
+        or vv3d.get("node_attempt_ledger") != {"path": "node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl"}
+    ):
+        raise PolicyError("VV3D must retain its exact catalogue, pending Owner gate, supported runner capability map, and budgets")
     if policy.get("resource_coordination_root") != str(WP12_COORDINATION_ROOT):
         raise PolicyError("WP12 runs must use the one registered shared resource coordination root")
     d01 = worktrees["d01"]
@@ -1446,6 +1550,7 @@ def build_pytest_command(
     collect_only: bool = False,
     rotor_collect_only_attestation: bool = False,
     hex8sri_convergence24_collect_only_attestation: bool = False,
+    vv3d_collect_only_attestation: bool = False,
     wp12_dynamics_collect_only_attestation: bool = False,
     wp12b_hex20_diagnostic_collect_only_attestation: bool = False,
     junit_xml_path: Path | None = None,
@@ -1453,6 +1558,7 @@ def build_pytest_command(
     attestation_modes = (
         rotor_collect_only_attestation,
         hex8sri_convergence24_collect_only_attestation,
+        vv3d_collect_only_attestation,
         wp12_dynamics_collect_only_attestation,
         wp12b_hex20_diagnostic_collect_only_attestation,
     )
@@ -1469,6 +1575,10 @@ def build_pytest_command(
             not collect_only or allow_native_skip_override or targets[0] not in _hex8sri_convergence24_nodeids()
         ):
             raise PolicyError("HEX8-SRI attestation is restricted to exact preparation-only collect-only nodes")
+        if vv3d_collect_only_attestation and (
+            not collect_only or allow_native_skip_override or targets[0] not in VV3D_ALL_NODEIDS
+        ):
+            raise PolicyError("VV3D attestation is restricted to exact skip-free collect-only catalog nodes")
         if wp12_dynamics_collect_only_attestation and (not collect_only or allow_native_skip_override):
             raise PolicyError("WP12 dynamics attestation requires collect-only without any skip override")
         if wp12_dynamics_collect_only_attestation and targets[0] not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
@@ -1518,6 +1628,9 @@ def build_pytest_command(
                 "if mode == 'hex8sri-convergence24-preflight':",
                 "    from development_autonomous_pytest_plugin import Hex8SRIConvergence24Attestor",
                 "    plugins.append(Hex8SRIConvergence24Attestor(target, scope_id='hex8sri-convergence24'))",
+                "if mode == 'vv3d-preflight':",
+                "    from development_autonomous_pytest_plugin import VV3DCollectOnlyAttestor",
+                "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_adaptive'))",
                 "if mode == 'wp12-dynamics-preflight':",
                 "    from development_autonomous_pytest_plugin import ExactCollectOnlyAttestor",
                 "    attestor = ExactCollectOnlyAttestor(",
@@ -1543,6 +1656,8 @@ def build_pytest_command(
             bootstrap_mode = "rotor-preflight"
         elif hex8sri_convergence24_collect_only_attestation:
             bootstrap_mode = "hex8sri-convergence24-preflight"
+        elif vv3d_collect_only_attestation:
+            bootstrap_mode = "vv3d-preflight"
         elif wp12_dynamics_collect_only_attestation:
             bootstrap_mode = "wp12-dynamics-preflight"
         elif wp12b_hex20_diagnostic_collect_only_attestation:
@@ -2615,7 +2730,14 @@ def _next_attempt(
     worktree_id: str | None = None,
     target: str | None = None,
 ) -> tuple[int, Path]:
-    series_dir.mkdir(parents=True, exist_ok=True)
+    if worktree_id == VV3D_WORKTREE_ID:
+        try:
+            campaign_store = series_dir.parents[2]
+        except IndexError as exc:
+            raise PolicyError("VV3D attempt path is not nested in its campaign store") from exc
+        _create_campaign_directory(campaign_store, series_dir)
+    else:
+        series_dir.mkdir(parents=True, exist_ok=True)
     metadata_path = series_dir / "series.json"
     metadata = {
         "schema": "qfsolver-development-series-v2",
@@ -3369,6 +3491,13 @@ def _run_root(policy: Mapping[str, Any], worktree_id: str | None = None) -> Path
         if _is_within(root, checkout) or _is_within(root, coordination_root) or _is_within(coordination_root, root):
             raise PolicyError("WP12 evidence must be separate from source and shared coordination roots")
         return root
+    if worktree_id == VV3D_WORKTREE_ID:
+        root = Path(policy["worktrees"][worktree_id]["evidence_root"]).resolve()
+        checkout = Path(policy["worktrees"][worktree_id]["git_root"]).resolve()
+        coordination_root = WP12_COORDINATION_ROOT.resolve()
+        if _is_within(root, checkout) or _is_within(root, coordination_root) or _is_within(coordination_root, root):
+            raise PolicyError("VV3D evidence must be separate from source and shared coordination roots")
+        return root
     root = (ROOT / policy["run_store"]).resolve()
     if not _is_within(root, ROOT.resolve()) or _is_within(root, (ROOT / "qualification").resolve()):
         raise PolicyError("development run store must be inside the worktree and outside qualification")
@@ -3646,7 +3775,7 @@ def _node_ledger_context(
 
 def _series_root(store: Path, scope_name: str, worktree_id: str | None) -> Path:
     if worktree_id is not None:
-        if worktree_id not in {"d01", "c01", "e01", *WP12_OWNER_ENVELOPES}:
+        if worktree_id not in {"d01", "c01", "e01", VV3D_WORKTREE_ID, *WP12_OWNER_ENVELOPES}:
             raise PolicyError("unknown worktree output namespace")
         return store / "worktrees" / worktree_id
     if scope_name not in STANDARD_SCOPES:
@@ -3806,6 +3935,23 @@ def _controller_provenance() -> dict[str, Any]:
             "psutil_version": importlib.metadata.version("psutil") if psutil is not None else None,
         },
     }
+
+
+def _vv3d_controller_provenance() -> dict[str, Any]:
+    """Bind VV3D's imported contract and ledger code without changing other scopes.
+
+    The generic fingerprint is a long-lived identity used by existing scopes. VV3D
+    executes two additional controller modules, so its scope-specific identity must
+    include their raw bytes while leaving those older scope identities unchanged.
+    """
+    provenance = dict(_controller_provenance())
+    hashes = dict(provenance.get("sha256", {}))
+    for name in ("wp12_vv3d_contract", "wp12_vv3d_ledger"):
+        path = Path(__file__).with_name(f"{name}.py").resolve(strict=True)
+        hashes[name] = _sha256(path)
+    provenance["sha256"] = hashes
+    provenance["vv3d_provenance_revision"] = "vv3d-executable-components-v1"
+    return provenance
 
 
 def _hex8sri_convergence24_manifest(
@@ -5648,6 +5794,1020 @@ def preflight_hex8sri_convergence24_pytest(
     }
 
 
+def preflight_wp12_vv3d_pytest(
+    target: str, preflight_id: str | None = None, *, policy: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Collect exactly one registered VV3D node; this never reserves campaign budget."""
+    current_policy = load_policy() if policy is None else dict(policy)
+    worktree_id = VV3D_WORKTREE_ID
+    targets = resolve_targets("fem_exploratory", target, current_policy, worktree_id=worktree_id)
+    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
+        worktree_id, target, current_policy
+    )
+    matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "prepared_20261029" / "MATRIX_NOT_AUTHORIZED.json"
+    try:
+        matrix = _read_strict_json(matrix_path)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"VV3D prepared matrix is unreadable: {exc}") from exc
+    cases = matrix.get("cases") if isinstance(matrix, Mapping) else None
+    case_id = target.rsplit("[", maxsplit=1)[-1][:-1]
+    expected_dofs = entry["per_node_selected_dofs"].get(target)
+    if target in VV3D_INITIAL_NODEIDS:
+        expected_ids = {nodeid.rsplit("[", maxsplit=1)[-1][:-1] for nodeid in VV3D_INITIAL_NODEIDS}
+        if (not isinstance(cases, list) or len(cases) != len(expected_ids)
+                or {item.get("case_id") for item in cases if isinstance(item, Mapping)} != expected_ids):
+            raise PolicyError("VV3D prepared matrix differs from the exact twelve-case controller catalogue")
+        case = next((item for item in cases if item.get("case_id") == case_id), None)
+        if (case is None or case.get("nodeid") != target or case.get("dofs") != expected_dofs
+                or case.get("execution_authorized") is not False or case.get("do_not_execute") is not True
+                or case.get("nodeid_status") != "PREPARED_NOT_AUTHORIZED"):
+            raise PolicyError("VV3D case identity or preparation-only state does not match controller registration")
+        mesh_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "prepared_20261029" / str(case.get("mesh_file", ""))
+        expected_mesh_sha = case.get("mesh_sha256")
+    else:
+        candidate, adaptive_bindings = _vv3d_adaptive_candidate_metadata(execution_root, target)
+        case = candidate
+        case_id = candidate["candidate_id"]
+        if (case.get("candidate_id") != case_id or case.get("nodeid") != target
+                or candidate.get("status") != "PREPARED_NOT_AUTHORIZED"
+                or candidate.get("nodeid_status") != "REGISTERED_PREPARED_NOT_AUTHORIZED"
+                or candidate.get("prepared_mesh", {}).get("selected_dofs") != expected_dofs):
+            raise PolicyError("VV3D adaptive candidate differs from exact controller node/DDL registration")
+        mesh_path = (execution_root / "experiments" / "wp12_vv3d_adaptive" /
+                     str(candidate["prepared_mesh"]["path"]))
+        expected_mesh_sha = adaptive_bindings["mesh_sha256"]
+    if not mesh_path.is_file() or _sha256(mesh_path) != expected_mesh_sha:
+        raise PolicyError("VV3D mesh raw SHA-256 does not match the prepared case/catalog binding")
+
+    store = _run_root(current_policy, worktree_id)
+    if psutil is None:
+        raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
+    minimum_free_mib = int(current_policy["minimum_free_disk_mib"])
+    free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free,
+                     shutil.disk_usage(store.parent if not store.exists() else store).free)
+    if free_bytes < minimum_free_mib * 1024 * 1024:
+        raise PolicyError(f"insufficient free disk for VV3D collect-only: {free_bytes} bytes")
+    preflight_id = preflight_id or f"pf-{uuid.uuid4().hex[:12]}"
+    receipt_dir = _preflight_directory(store, worktree_id, preflight_id)
+    if receipt_dir.exists():
+        raise PolicyError("VV3D preflight ID already exists; refusing to overwrite a prior receipt")
+    temporary_dir = receipt_dir / "tmp"
+    output_dir = receipt_dir / "output"
+    temporary_dir.mkdir(parents=True)
+    output_dir.mkdir()
+    collection_report_path = temporary_dir / "collection-report.json"
+    limits = dict(entry["budgets"])
+    limits["minimum_free_disk_mib"] = minimum_free_mib
+    command = build_pytest_command(
+        "fem_exploratory", targets, temporary_dir, repository_root=execution_root,
+        source_root=source_root, controller_root=ROOT, collect_only=True,
+        vv3d_collect_only_attestation=True,
+    )
+    environment = build_child_environment(temporary_dir, source_root=source_root)
+    environment.update({
+        "QF_DEV_WORKTREE_ID": worktree_id,
+        "QF_DEV_SELECTED_DOFS": str(expected_dofs),
+        "QF_DEV_MAX_DOFS": str(entry["target_max_dofs"]),
+        "QF_DEV_PREFLIGHT_COLLECTION_REPORT": str(collection_report_path),
+    })
+    ledger = store / str(entry["node_attempt_ledger"]["path"])
+    initial_ledger_sha = _sha256(ledger) if ledger.is_file() else None
+    record_path = receipt_dir / "preflight.json"
+    started_at = datetime.now(timezone.utc).isoformat()
+    try:
+        with _exclusive_file_lock(store / "locks" / "vv3d-preflight.lock"):
+            result = run_supervised_command(
+                command, cwd=execution_root, environment=environment, output_dir=output_dir,
+                temporary_dir=temporary_dir, limits=limits,
+                poll_interval=float(current_policy["poll_interval_seconds"]),
+            )
+    except OSError as exc:
+        _atomic_json(record_path, {
+            "schema": "qfsolver-development-vv3d-preflight-v1", "state": "PREFLIGHT_LAUNCH_FAILED",
+            "campaign_id": VV3D_CAMPAIGN_ID, "worktree_id": worktree_id, "target": target,
+            "preflight_id": preflight_id, "attempt_reserved": False, "bodies_executed": False,
+            "started_at_utc": started_at, "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+            "launch_error": f"{type(exc).__name__}: {exc}",
+        })
+        raise PolicyError(f"VV3D collect-only preflight could not launch: {exc}") from exc
+    stdout = (output_dir / "stdout.log").read_text(encoding="utf-8", errors="replace")
+    stderr = (output_dir / "stderr.log").read_text(encoding="utf-8", errors="replace")
+    report = _read_strict_json(collection_report_path) if collection_report_path.is_file() else None
+    expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
+    observed_origin = _observed_solver_origin(stdout + "\n" + stderr)
+    after_entry, after_root, after_src, after_identity, after_fingerprint = _registered_worktree(
+        worktree_id, target, current_policy
+    )
+    if after_entry != entry or after_root != execution_root or after_src != source_root \
+            or after_identity != identity or after_fingerprint != source_fingerprint:
+        state = "PREFLIGHT_SOURCE_CHANGED"
+    elif (result.status == "PASS" and observed_origin == expected_origin and isinstance(report, Mapping)
+          and report.get("schema") == "qfsolver-wp12-vv3d-collection-v1"
+          and report.get("scope_id") == worktree_id and report.get("target") == target
+          and report.get("collected_nodeids") == [target] and report.get("skip_markers") == []
+          and report.get("bodies_executed") is False and report.get("exitstatus") == 0):
+        state = "PREFLIGHT_PASS"
+    else:
+        state = "PREFLIGHT_FAILED"
+    final = {
+        "schema": "qfsolver-development-vv3d-preflight-v1", "state": state, "status": state,
+        "campaign_id": VV3D_CAMPAIGN_ID, "worktree_id": worktree_id, "target": target, "nodeid": target,
+        "case_id": case_id, "preflight_id": preflight_id, "identity": identity,
+        "source_fingerprint": source_fingerprint, "controller_provenance": _vv3d_controller_provenance(),
+        "solver_origin_expected": expected_origin, "solver_origin_observed": observed_origin,
+        "collection_report": report, "selected_nodeids": [target] if state == "PREFLIGHT_PASS" else [],
+        "skipped": 0 if state == "PREFLIGHT_PASS" else None,
+        "attempt_reserved": False, "reservation_created": False, "bodies_executed": False,
+        "ledger_path": str(ledger), "ledger_sha256_before": initial_ledger_sha,
+        "ledger_sha256_after": _sha256(ledger) if ledger.is_file() else None,
+        "command": command, "budgets": limits, "started_at_utc": started_at,
+        "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+        "return_code": result.return_code, "elapsed_seconds": result.elapsed_seconds,
+        "peak_rss_bytes": result.peak_rss_bytes, "stop_reason": result.stop_reason,
+    }
+    _atomic_json(record_path, final)
+    receipt_sha = _sha256(record_path)
+    _atomic_json(receipt_dir / "preflight.sha256.json", {"sha256": receipt_sha})
+    if state != "PREFLIGHT_PASS":
+        raise PolicyError(f"VV3D collect-only preflight failed closed: {state}")
+    return {"preflight_id": preflight_id, "state": state, "bodies_executed": False,
+            "attempt_reserved": False, "nodeid": target, "receipt": str(record_path),
+            "receipt_sha256": receipt_sha, "metrics": final}
+
+
+def _vv3d_execution_bindings(
+    *, target: str, preflight_id: str, manifest_path: Path, entry: Mapping[str, Any], execution_root: Path,
+    identity: Mapping[str, Any], source_fingerprint: str, controller_provenance: Mapping[str, Any],
+    store: Path,
+) -> tuple[dict[str, Any], dict[str, Any], str, str, str, str]:
+    """Validate campaign decision, exact case manifest and collect-only receipt before reservation."""
+    if target in VV3D_ADAPTIVE_FEM_NODEIDS:
+        return _vv3d_adaptive_fem_launch_bindings(
+            target=target, preflight_id=preflight_id, manifest_path=manifest_path,
+            entry=entry, execution_root=execution_root, identity=identity,
+            source_fingerprint=source_fingerprint, controller_provenance=controller_provenance,
+            store=store,
+        )
+    vv3d_contract = _load_vv3d_contract_module()
+
+    manifest_path = manifest_path.resolve(strict=True)
+    auth_root = (store / "authorizations" / VV3D_WORKTREE_ID).resolve()
+    try:
+        manifest_path.relative_to(auth_root)
+    except ValueError as exc:
+        raise PolicyError("VV3D execution manifest must be inside the isolated campaign authorization root") from exc
+    manifest_raw = manifest_path.read_bytes()
+    try:
+        manifest = _read_strict_json(manifest_path)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"VV3D execution manifest is invalid: {exc}") from exc
+    contract_path = auth_root / "campaign-contract.json"
+    decision_path = auth_root / "campaign-decision.json"
+    try:
+        contract_raw = contract_path.read_bytes()
+        decision_raw = decision_path.read_bytes()
+        contract = _read_strict_json(contract_path)
+        decision = _read_strict_json(decision_path)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"VV3D frozen campaign contract or Owner decision is unavailable: {exc}") from exc
+    registered_nodes = set(VV3D_INITIAL_NODEIDS) | set(VV3D_ADAPTIVE_FEM_NODEIDS) | set(VV3D_QPOST_NODEIDS)
+    controller_fingerprint = _stable_fingerprint(controller_provenance)
+    try:
+        vv3d_contract.validate_contract(
+            contract, registered_nodeids=registered_nodes,
+            controller_fingerprint=controller_fingerprint, scientific_fingerprint=source_fingerprint,
+        )
+        vv3d_contract.validate_decision(contract, decision, contract_bytes=contract_raw)
+        vv3d_contract.verify_artifact_bindings(
+            contract, roots={kind: execution_root / "experiments" / "wp12_vv3d_adaptive"
+                             for kind in ("mesh", "manifest", "oracle", "criteria")},
+        )
+    except (ValueError, KeyError, TypeError) as exc:
+        raise PolicyError(f"VV3D campaign decision or bound contract is invalid: {exc}") from exc
+    case_id = target.rsplit("[", maxsplit=1)[-1][:-1]
+    contract_case = next((case for case in contract["cases"] if case.get("case_id") == case_id), None)
+    matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "prepared_20261029" / "MATRIX_NOT_AUTHORIZED.json"
+    matrix = _read_strict_json(matrix_path)
+    matrix_case = next((case for case in matrix["cases"] if case.get("case_id") == case_id), None)
+    if contract_case is None or matrix_case is None or contract_case.get("nodeid") != target:
+        raise PolicyError("VV3D exact nodeid is not present in both the approved contract and prepared case matrix")
+    transition_binding = None
+    if contract_case.get("phase") == "ADAPTIVE":
+        receipt_binding = manifest.get("transition_eligibility")
+        if not isinstance(receipt_binding, Mapping) or set(receipt_binding) != {"path", "sha256"}:
+            raise PolicyError("adaptive VV3D case requires an immutable eligibility receipt binding")
+        if not re.fullmatch(r"[0-9a-f]{64}", str(receipt_binding.get("sha256", ""))):
+            raise PolicyError("adaptive eligibility receipt SHA-256 is invalid")
+        eligibility_root = (auth_root / "eligibility").resolve()
+        eligibility_path = (auth_root / str(receipt_binding["path"])).resolve(strict=True)
+        try:
+            eligibility_path.relative_to(eligibility_root)
+        except ValueError as exc:
+            raise PolicyError("adaptive eligibility receipt must be below the campaign eligibility root") from exc
+        eligibility_raw = eligibility_path.read_bytes()
+        if hashlib.sha256(eligibility_raw).hexdigest() != receipt_binding["sha256"]:
+            raise PolicyError("adaptive eligibility receipt SHA-256 mismatch")
+        eligibility = _read_strict_json(eligibility_path)
+        source_case_id = contract_case["trigger"]["source_case_id"]
+        source_records = []
+        for candidate in store.rglob("run.json") if store.exists() else ():
+            try:
+                value = _read_strict_json(candidate)
+            except (OSError, ValueError, json.JSONDecodeError):
+                continue
+            if value.get("case_id") == source_case_id and value.get("state") != "RUNNING":
+                source_records.append((candidate, value))
+        if len(source_records) != 1:
+            raise PolicyError("adaptive transition requires exactly one completed source-case run record")
+        source_path, source_record = source_records[0]
+        source_status = {"PASS": "PASS", "PYTEST_FAILED": "FAIL"}.get(
+            source_record.get("state"), str(source_record.get("state")),
+        )
+        try:
+            vv3d_contract.validate_transition_eligibility(
+                contract, decision, contract_sha256=hashlib.sha256(contract_raw).hexdigest(),
+                decision_sha256=hashlib.sha256(decision_raw).hexdigest(),
+                source_case_id=source_case_id, destination_case_id=case_id,
+                source_status=source_status, source_result_sha256=hashlib.sha256(source_path.read_bytes()).hexdigest(),
+                source_observables=source_record.get("scientific_observables", {}), receipt=eligibility,
+            )
+        except (ValueError, KeyError, TypeError) as exc:
+            raise PolicyError(f"adaptive continuation receipt is invalid: {exc}") from exc
+        transition_binding = {
+            "transition_receipt_sha256": receipt_binding["sha256"],
+            "transition_source_case_id": source_case_id,
+            "transition_destination_case_id": case_id,
+        }
+    criteria_path = (execution_root / "experiments" / "wp12_vv3d_adaptive" /
+                     str(contract_case["criteria_path"])).resolve(strict=True)
+    try:
+        criteria_path.relative_to((execution_root / "experiments" / "wp12_vv3d_adaptive").resolve())
+        criteria_document = _read_strict_json(criteria_path)
+        frozen_criteria = criteria_document["criteria"]
+        frozen_criteria_sha = hashlib.sha256(json.dumps(
+            frozen_criteria, sort_keys=True, separators=(",", ":"), allow_nan=False,
+        ).encode("utf-8")).hexdigest()
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        raise PolicyError(f"VV3D frozen criteria artifact is invalid: {exc}") from exc
+    expected = {
+        "schema": "qf-wp12-vv3d-case-manifest-v1", "campaign_id": VV3D_CAMPAIGN_ID,
+        "case_id": case_id, "nodeid": target, "state": "OWNER_AUTHORIZED",
+        "execution_authorized": True, "do_not_execute": False,
+        "mesh_sha256": matrix_case.get("mesh_sha256"),
+        "selected_dofs": matrix_case.get("dofs"),
+        "timeout_seconds": matrix_case.get("timeout_max_seconds"),
+        "rss_soft_limit_mib": 4096, "max_attempts": 1,
+        "criteria_sha256": frozen_criteria_sha,
+        "frozen_criteria": frozen_criteria,
+        "scientific_fingerprint": source_fingerprint, "controller_fingerprint": controller_fingerprint,
+    }
+    if not isinstance(manifest, Mapping) or any(manifest.get(key) != value for key, value in expected.items()):
+        raise PolicyError("VV3D Owner manifest identity, state or budget does not match this exact case")
+    if (manifest.get("campaign_contract_sha256") != hashlib.sha256(contract_raw).hexdigest()
+            or manifest.get("prepared_case_manifest_sha256") != contract_case.get("manifest_sha256")):
+        raise PolicyError("VV3D execution manifest is not bound to the approved campaign and prepared case")
+    approved = manifest.get("owner_decision")
+    if (not isinstance(approved, Mapping) or approved.get("status") != "APPROVED"
+            or approved.get("approved_by") != "Owner" or approved.get("decision_id") != decision.get("decision_id")
+            or approved.get("decision_sha256") != hashlib.sha256(decision_raw).hexdigest()):
+        raise PolicyError("VV3D execution manifest does not reference the exact archived campaign Owner decision")
+    # This static preparation policy advertises runner capability only. The
+    # exact Owner decision, authorized case manifest, collect-only receipt and
+    # provenance checks above/below are the sole execution gate.
+    preflight = manifest.get("preflight")
+    if (not isinstance(preflight, Mapping) or preflight.get("nodeid") != target
+            or preflight.get("preflight_id") != preflight_id or preflight.get("status") != "PREFLIGHT_PASS"):
+        raise PolicyError("VV3D execution manifest lacks the exact successful collect-only preflight")
+    preflight_path = Path(str(preflight.get("receipt_path", ""))).resolve(strict=True)
+    try:
+        preflight_path.relative_to(store.resolve())
+    except ValueError as exc:
+        raise PolicyError("VV3D preflight receipt must be inside the candidate run store") from exc
+    preflight_raw = preflight_path.read_bytes()
+    preflight_digest = hashlib.sha256(preflight_raw).hexdigest()
+    if preflight_digest != preflight.get("receipt_sha256"):
+        raise PolicyError("VV3D preflight raw-byte SHA-256 mismatch")
+    try:
+        preflight_sha_sidecar = _read_strict_json(
+            preflight_path.parent / "preflight.sha256.json"
+        )
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"VV3D preflight checksum sidecar is unavailable: {exc}") from exc
+    if preflight_sha_sidecar.get("sha256") != preflight_digest:
+        raise PolicyError("VV3D preflight checksum sidecar does not match its immutable receipt")
+    preflight_receipt = _read_strict_json(preflight_path)
+    if (preflight_receipt.get("status") != "PREFLIGHT_PASS" or preflight_receipt.get("target") != target
+            or preflight_receipt.get("nodeid") != target or preflight_receipt.get("preflight_id") != preflight_id
+            or preflight_receipt.get("source_fingerprint") != source_fingerprint
+            or preflight_receipt.get("controller_provenance") != dict(controller_provenance)
+            or preflight_receipt.get("identity") != dict(identity)
+            or preflight_receipt.get("bodies_executed") is not False
+            or preflight_receipt.get("attempt_reserved") is not False
+            or preflight_receipt.get("reservation_created") is not False
+            or preflight_receipt.get("selected_nodeids") != [target]
+            or preflight_receipt.get("skipped") != 0):
+        raise PolicyError("VV3D preflight receipt does not attest this exact source and node without skips")
+    manifest_sha = hashlib.sha256(manifest_raw).hexdigest()
+    resolved_manifest = dict(manifest)
+    if transition_binding is not None:
+        resolved_manifest["_validated_transition_binding"] = transition_binding
+    return resolved_manifest, dict(preflight_receipt), manifest_sha, preflight_digest, decision["decision_id"], hashlib.sha256(decision_raw).hexdigest()
+
+
+def _vv3d_adaptive_fem_launch_bindings(
+    *, target: str, preflight_id: str, manifest_path: Path, entry: Mapping[str, Any],
+    execution_root: Path, identity: Mapping[str, Any], source_fingerprint: str,
+    controller_provenance: Mapping[str, Any], store: Path,
+) -> tuple[dict[str, Any], dict[str, Any], str, str, str, str]:
+    """Validate H1/QLOAD authorization against exact seed sidecars before reservation."""
+    import importlib
+    import sys
+    vv3d_contract = _load_vv3d_contract_module()
+
+    candidate, bindings = _vv3d_adaptive_candidate_metadata(execution_root, target)
+    if candidate.get("execution_kind") != "FEM" or candidate.get("kind") not in {
+        "uniform_h_refinement", "body_load_quadrature_escalation",
+    }:
+        raise PolicyError("adaptive FEM route accepts only the closed H1/QLOAD catalog")
+    candidate_id = str(candidate["candidate_id"])
+    auth_root = (store / "authorizations" / VV3D_WORKTREE_ID).resolve(strict=True)
+    manifest_path = manifest_path.resolve(strict=True)
+    manifest_raw = manifest_path.read_bytes()
+    manifest = _read_strict_json(manifest_path)
+    contract_path = auth_root / "campaign-contract.json"
+    decision_path = auth_root / "campaign-decision.json"
+    contract_raw, decision_raw = contract_path.read_bytes(), decision_path.read_bytes()
+    contract, decision = _read_strict_json(contract_path), _read_strict_json(decision_path)
+    controller_fingerprint = _stable_fingerprint(controller_provenance)
+    try:
+        vv3d_contract.validate_contract(
+            contract, registered_nodeids=set(VV3D_ALL_NODEIDS),
+            controller_fingerprint=controller_fingerprint, scientific_fingerprint=source_fingerprint,
+        )
+        vv3d_contract.validate_decision(contract, decision, contract_bytes=contract_raw)
+        vv3d_contract.verify_artifact_bindings(
+            contract, roots={kind: execution_root / "experiments" / "wp12_vv3d_adaptive"
+                             for kind in ("mesh", "manifest", "oracle", "criteria")},
+        )
+    except (ValueError, KeyError, TypeError) as exc:
+        raise PolicyError(f"adaptive campaign contract/Owner decision is invalid: {exc}") from exc
+    case = next((item for item in contract["cases"] if item.get("case_id") == candidate_id), None)
+    catalog_binding = contract["adaptive_catalog"]["candidates"].get(candidate_id)
+    if (case is None or case.get("phase") != "ADAPTIVE" or case.get("nodeid") != target
+            or not isinstance(case.get("trigger"), Mapping)
+            or case["trigger"].get("source_case_id") != candidate.get("seed_case")
+            or not isinstance(catalog_binding, Mapping)
+            or any(catalog_binding.get(key) != bindings.get(key) for key in
+                   ("candidate_sha256", "mesh_sha256", "criteria_sha256", "rule_sha256"))):
+        raise PolicyError("adaptive candidate does not match exact approved contract and catalog bindings")
+    evidence_root = Path(str(entry["evidence_root"])).resolve(strict=True)
+    try:
+        manifest_path.relative_to(evidence_root)
+    except ValueError as exc:
+        raise PolicyError("adaptive manifest must be inside the assigned evidence root") from exc
+    if manifest.get("schema") != "qf-wp12-vv3d-adaptive-execution-manifest-v1":
+        raise PolicyError("adaptive manifest schema is not the science harness contract")
+    campaign_decision = {
+        "status": "APPROVED", "decision_id": decision["decision_id"],
+        "decision_sha256": hashlib.sha256(decision_raw).hexdigest(),
+        "catalog_sha256": bindings["catalog_sha256"],
+    }
+    transition = manifest.get("transition_decision")
+    eligibility_ref = manifest.get("eligibility_record")
+    if (not isinstance(transition, Mapping) or transition.get("status") != "APPROVED"
+            or transition.get("source_case_id") != candidate["seed_case"]
+            or transition.get("candidate_id") != candidate_id
+            or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", str(transition.get("decision_id", "")))
+            or not re.fullmatch(r"[0-9a-f]{64}", str(transition.get("decision_sha256", "")))
+            or not isinstance(eligibility_ref, Mapping)
+            or set(eligibility_ref) != {"path", "sha256"}
+            or not re.fullmatch(r"[0-9a-f]{64}", str(eligibility_ref.get("sha256", "")))
+            or transition.get("eligibility_sha256") != eligibility_ref.get("sha256")):
+        raise PolicyError("adaptive manifest lacks an exact approved transition and eligibility binding")
+    eligibility_path = (evidence_root / str(eligibility_ref["path"])).resolve(strict=True)
+    try:
+        eligibility_path.relative_to(evidence_root)
+    except ValueError as exc:
+        raise PolicyError("adaptive eligibility receipt escapes the evidence root") from exc
+    eligibility_raw = eligibility_path.read_bytes()
+    if hashlib.sha256(eligibility_raw).hexdigest() != eligibility_ref["sha256"]:
+        raise PolicyError("adaptive eligibility receipt raw-byte SHA-256 mismatch")
+    eligibility_record = _read_strict_json(eligibility_path)
+    if eligibility_record.get("schema") != "qf-wp12-vv3d-adaptive-eligibility-v1" or eligibility_record.get(
+            "candidate_id") != candidate_id:
+        raise PolicyError("adaptive eligibility receipt identity mismatch")
+
+    # Reconstruct eligibility input only from immutable completed seed records
+    # and their hashed sidecars; a manifest cannot supply synthetic observations.
+    source = _vv3d_adaptive_source_from_completed_runs(
+        candidate=candidate, store=store, evidence_root=evidence_root,
+        ledger_path=store / str(entry["node_attempt_ledger"]["path"]),
+        campaign_id=VV3D_CAMPAIGN_ID, source_fingerprint=source_fingerprint,
+        controller_fingerprint=controller_fingerprint,
+    )
+    if eligibility_record.get("source") != source:
+        raise PolicyError("adaptive eligibility input differs from completed seed sidecars")
+    sys.path.insert(0, str(execution_root))
+    try:
+        science_harness = importlib.import_module("experiments.wp12_vv3d_adaptive.case_harness")
+        evaluated = science_harness.evaluate_adaptive_eligibility(candidate_id, source)
+    except (ImportError, ValueError, KeyError, TypeError) as exc:
+        raise PolicyError(f"science eligibility evaluator could not validate the exact seed data: {exc}") from exc
+    finally:
+        try:
+            sys.path.remove(str(execution_root))
+        except ValueError:
+            pass
+    if evaluated.get("status") != "ELIGIBLE" or eligibility_record.get("result") != evaluated:
+        raise PolicyError("adaptive transition is not eligible under the frozen science evaluator")
+    expected_transition = {
+        "status": "APPROVED", "decision_id": campaign_decision["decision_id"],
+        "decision_sha256": campaign_decision["decision_sha256"],
+        "source_case_id": candidate["seed_case"], "candidate_id": candidate_id,
+        "eligibility_sha256": eligibility_ref["sha256"],
+    }
+    if dict(transition) != expected_transition:
+        raise PolicyError("adaptive transition is not the exact campaign-approved trigger binding")
+
+    criteria_path = (execution_root / "experiments" / "wp12_vv3d_adaptive" /
+                     candidate["criteria_path"]).resolve(strict=True)
+    criteria_doc = _read_strict_json(criteria_path)
+    frozen_criteria = criteria_doc.get("criteria")
+    frozen_sha = hashlib.sha256(json.dumps(
+        frozen_criteria, sort_keys=True, separators=(",", ":"), allow_nan=False,
+    ).encode()).hexdigest()
+    preflight_path = (_preflight_directory(store, VV3D_WORKTREE_ID, preflight_id) / "preflight.json").resolve(strict=True)
+    preflight_raw = preflight_path.read_bytes()
+    preflight = _read_strict_json(preflight_path)
+    preflight_sha = hashlib.sha256(preflight_raw).hexdigest()
+    if (preflight.get("nodeid") != target or preflight.get("preflight_id") != preflight_id
+            or preflight.get("status") != "PREFLIGHT_PASS" or preflight.get("bodies_executed") is not False
+            or preflight.get("attempt_reserved") is not False or preflight.get("selected_nodeids") != [target]
+            or preflight.get("skipped") != 0 or preflight.get("identity") != dict(identity)
+            or preflight.get("source_fingerprint") != source_fingerprint
+            or preflight.get("controller_provenance") != dict(controller_provenance)
+            or manifest.get("preflight_receipt_sha256") != preflight_sha):
+        raise PolicyError("adaptive preflight does not bind the exact node/source/controller")
+    expected = {
+        "campaign_id": VV3D_CAMPAIGN_ID, "candidate_id": candidate_id, "nodeid": target,
+        "execution_kind": "FEM", "seed_case": candidate["seed_case"],
+        **bindings, "authorization_id": manifest.get("authorization_id"),
+        "scientific_fingerprint": source_fingerprint, "controller_fingerprint": controller_fingerprint,
+        "campaign_decision": campaign_decision, "transition_decision": dict(transition),
+        "execution_authorized": True, "do_not_execute": False,
+        "frozen_criteria": frozen_criteria, "frozen_criteria_sha256": frozen_sha,
+        "preflight_receipt_sha256": preflight_sha, "evidence_root": str(evidence_root),
+        "attempt_id": manifest.get("attempt_id"), "reservation_id": manifest.get("reservation_id"),
+        "selected_dofs": candidate["prepared_mesh"]["selected_dofs"],
+        "timeout_seconds": candidate["numerical_conditions"]["timeout_seconds_max"],
+        "attempt_number": 1, "max_attempts": 1,
+    }
+    if any(manifest.get(key) != value for key, value in expected.items()):
+        raise PolicyError("adaptive manifest differs from exact candidate, criteria, provenance or budget")
+    for name in ("authorization_id", "attempt_id", "reservation_id"):
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", str(manifest.get(name, ""))):
+            raise PolicyError(f"adaptive manifest {name} is invalid")
+    manifest_sha = hashlib.sha256(manifest_raw).hexdigest()
+    contract_sha = hashlib.sha256(contract_raw).hexdigest()
+    decision_sha = campaign_decision["decision_sha256"]
+    receipt_fields = {
+        "schema": "qf-wp12-vv3d-adaptive-runner-receipt-v1", "status": "RESERVED",
+        "campaign_id": VV3D_CAMPAIGN_ID, "candidate_id": candidate_id, "nodeid": target,
+        "execution_kind": "FEM", "seed_case": candidate["seed_case"], **bindings,
+        "manifest_sha256": manifest_sha, "manifest_path": str(manifest_path),
+        "authorization_id": manifest["authorization_id"],
+        "scientific_fingerprint": source_fingerprint, "controller_fingerprint": controller_fingerprint,
+        "preflight_receipt_sha256": preflight_sha, "campaign_decision": campaign_decision,
+        "transition_decision": dict(transition),
+        "eligibility_record": {"path": str(eligibility_path), "sha256": eligibility_ref["sha256"]},
+        "eligibility": {"status": "ELIGIBLE", "sha256": eligibility_ref["sha256"]},
+        "allowed_evidence_roots": [str(evidence_root), str(auth_root)], "evidence_root": str(evidence_root),
+        "frozen_criteria": frozen_criteria,
+        "attempt_id": manifest["attempt_id"], "reservation_id": manifest["reservation_id"],
+        "selected_dofs": expected["selected_dofs"], "timeout_seconds": expected["timeout_seconds"],
+        "attempt_number": 1, "max_attempts": 1, "attempt_reserved": True,
+        "postprocessing_reserved": False,
+    }
+    result_manifest = dict(manifest)
+    result_manifest.update({"case_id": candidate_id, "mesh_sha256": bindings["mesh_sha256"],
+                            "rss_soft_limit_mib": 4096, "archive_size_limit_mib": 256,
+                            "campaign_contract_sha256": contract_sha,
+                            "_validated_transition_binding": {
+                                "transition_receipt_sha256": eligibility_ref["sha256"],
+                                "transition_source_case_id": candidate["seed_case"],
+                                "transition_destination_case_id": candidate_id,
+                            }, "_runner_receipt_fields": receipt_fields})
+    return (result_manifest, dict(preflight), manifest_sha, preflight_sha,
+            str(decision["decision_id"]), decision_sha)
+
+
+def _vv3d_adaptive_source_from_completed_runs(
+    *, candidate: Mapping[str, Any], store: Path, evidence_root: Path, ledger_path: Path,
+    campaign_id: str, source_fingerprint: str, controller_fingerprint: str,
+) -> dict[str, Any]:
+    """Read source observations from completed PASS run receipts and their immutable sidecars."""
+    case_ids = ([f"VV3D-{candidate['family']}-L{level}" for level in (1, 2, 3)]
+                if candidate["kind"] == "uniform_h_refinement" else [str(candidate["seed_case"])])
+    try:
+        from wp12_vv3d_ledger import BudgetLedger
+    except ModuleNotFoundError:
+        from scripts.wp12_vv3d_ledger import BudgetLedger
+    ledger_records = BudgetLedger(ledger_path, allowed_root=store).verify()
+    source_records: dict[str, tuple[Path, Mapping[str, Any], Mapping[str, Any]]] = {}
+    for case_id in case_ids:
+        matches = []
+        for path in store.rglob("run.json") if store.exists() else ():
+            try:
+                run = _read_strict_json(path)
+            except (OSError, ValueError, json.JSONDecodeError):
+                continue
+            if run.get("campaign_id") == campaign_id and run.get("case_id") == case_id and run.get("state") == "PASS":
+                matches.append((path, run))
+        if len(matches) != 1:
+            raise PolicyError(f"adaptive source requires exactly one PASS record for {case_id}")
+        run_path, run = matches[0]
+        attempt_start = next((item for item in ledger_records if item.get("event") == "ATTEMPT_STARTED"
+                              and item.get("case_id") == case_id
+                              and item.get("attempt_id") == run.get("attempt_id")), None)
+        attempt_finish = next((item for item in ledger_records if item.get("event") == "ATTEMPT_FINISHED"
+                               and attempt_start is not None
+                               and item.get("run_id") == attempt_start.get("run_id")), None)
+        if (attempt_start is None or attempt_finish is None or attempt_finish.get("status") != "PASS"
+                or attempt_start.get("manifest_sha256") != run.get("manifest", {}).get("sha256")
+                or run.get("source_fingerprint") != source_fingerprint
+                or run.get("controller_fingerprint") != controller_fingerprint):
+            raise PolicyError(f"adaptive source ledger does not record the exact PASS attempt for {case_id}")
+        sidecar_ref = run.get("observables_sidecar")
+        if not isinstance(sidecar_ref, Mapping) or set(sidecar_ref) != {"path", "sha256"}:
+            raise PolicyError(f"adaptive source {case_id} has no immutable sidecar binding")
+        sidecar_path = Path(str(sidecar_ref["path"])).resolve(strict=True)
+        try:
+            sidecar_path.relative_to(evidence_root)
+        except ValueError as exc:
+            raise PolicyError("adaptive source sidecar escapes the evidence root") from exc
+        raw = sidecar_path.read_bytes()
+        if hashlib.sha256(raw).hexdigest() != sidecar_ref["sha256"]:
+            raise PolicyError(f"adaptive source sidecar hash mismatch for {case_id}")
+        sidecar = _read_strict_json(sidecar_path)
+        if (sidecar.get("campaign_id") != campaign_id or sidecar.get("case_id") != case_id
+                or sidecar.get("attempt_id") != run.get("attempt_id")
+                or sidecar.get("mesh_sha256") != run.get("mesh_sha256")
+                or sidecar.get("manifest_sha256") != run.get("manifest", {}).get("sha256")
+                or sidecar.get("scientific_fingerprint") != run.get("source_fingerprint")
+                or sidecar.get("controller_fingerprint") != run.get("controller_fingerprint")
+                or sidecar.get("scientific_fingerprint") != source_fingerprint
+                or sidecar.get("controller_fingerprint") != controller_fingerprint
+                or sidecar.get("execution", {}).get("status") != "COMPLETED_UNASSESSED"):
+            raise PolicyError(f"adaptive source sidecar identity differs from PASS run {case_id}")
+        source_records[case_id] = (run_path, run, sidecar)
+    if candidate["kind"] == "uniform_h_refinement":
+        return {"seed_cases": {
+            case_id: {"observables": sidecar.get("observables"), "criteria": sidecar.get("criteria")}
+            for case_id, (_path, _run, sidecar) in source_records.items()
+        }}
+    _path, _run, sidecar = source_records[str(candidate["seed_case"])]
+    load = sidecar.get("observables", {}).get("load_quadrature_8_12")
+    if not isinstance(load, Mapping):
+        raise PolicyError("QLOAD seed sidecar lacks the frozen order-8/order-12 observation")
+    return {"load_quadrature_8_12": load}
+
+
+def _vv3d_adaptive_candidate_metadata(execution_root: Path, target: str) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Recompute the science harness's closed adaptive catalog bindings without importing it."""
+    experiment_root = (execution_root / "experiments" / "wp12_vv3d_adaptive").resolve(strict=True)
+    catalog_path = experiment_root / "ADAPTIVE_CATALOG_DRAFT.json"
+    try:
+        catalog_raw = catalog_path.read_bytes()
+        catalog = _read_strict_json(catalog_path)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"VV3D adaptive catalog is unavailable or invalid: {exc}") from exc
+    candidates = catalog.get("candidates") if isinstance(catalog, Mapping) else None
+    expected_ids = {f"VV3D-ADAPT-{family}-{kind}" for family in ("TET4", "TET10", "HEX8", "HEX20")
+                    for kind in ("H1", "QLOAD", "QPOST")}
+    if (catalog.get("campaign_id") != VV3D_CAMPAIGN_ID or not isinstance(candidates, list)
+            or {item.get("candidate_id") for item in candidates if isinstance(item, Mapping)} != expected_ids
+            or len(candidates) != 12):
+        raise PolicyError("VV3D adaptive catalog differs from the exact twelve-candidate catalog")
+    candidate_id = next((cid for cid in expected_ids if any(
+        isinstance(item, Mapping) and item.get("candidate_id") == cid and item.get("nodeid") == target
+        for item in candidates)), None)
+    candidate = next((item for item in candidates if item.get("candidate_id") == candidate_id), None)
+    if candidate is None or candidate.get("status") != "PREPARED_NOT_AUTHORIZED":
+        raise PolicyError("VV3D adaptive candidate is absent or not in its frozen preparation state")
+    expected_nodeid = (
+        f"tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[{candidate['family']}]"
+        if candidate.get("execution_kind") == "POSTPROCESS_ONLY"
+        else f"tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[{candidate_id}]"
+    )
+    if candidate.get("nodeid") != expected_nodeid:
+        raise PolicyError("VV3D adaptive nodeid differs from its exact parametrized identity")
+    prepared = candidate.get("prepared_mesh")
+    if not isinstance(prepared, Mapping):
+        raise PolicyError("VV3D adaptive candidate has no mesh binding")
+    mesh_path = (experiment_root / str(prepared.get("path", ""))).resolve(strict=True)
+    try:
+        mesh_path.relative_to(experiment_root)
+    except ValueError as exc:
+        raise PolicyError("VV3D adaptive mesh path escapes its source root") from exc
+    mesh_sha = _sha256(mesh_path)
+    criteria_path = (experiment_root / str(candidate.get("criteria_path", ""))).resolve(strict=True)
+    try:
+        criteria_path.relative_to(experiment_root)
+    except ValueError as exc:
+        raise PolicyError("VV3D adaptive criteria path escapes its source root") from exc
+    criteria_sha = _sha256(criteria_path)
+    if mesh_sha != prepared.get("sha256") or criteria_sha != candidate.get("criteria_sha256_provisional"):
+        raise PolicyError("VV3D adaptive catalog mesh or criteria raw-byte fingerprint mismatch")
+    source_hashes = {}
+    for relative in VV3D_ADAPTIVE_SOURCE_FILES:
+        path = (execution_root / relative).resolve(strict=True)
+        try:
+            path.relative_to(execution_root.resolve())
+        except ValueError as exc:
+            raise PolicyError("VV3D adaptive source inventory path escapes the science checkout") from exc
+        source_hashes[relative] = _sha256(path)
+    rule_identity = {
+        "execution_kind": candidate["execution_kind"], "kind": candidate["kind"],
+        "mesh_rule": candidate["mesh_rule"], "numerical_conditions": candidate["numerical_conditions"],
+        "criteria_sha256": criteria_sha,
+        "quadrature_source_sha256": source_hashes["experiments/wp12_vv3d_adaptive/quadrature.py"],
+        "field_error_source_sha256": source_hashes["experiments/wp12_vv3d_adaptive/field_error_draft.py"],
+    }
+    rule_raw = json.dumps(rule_identity, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+    bindings = {
+        "catalog_sha256": hashlib.sha256(catalog_raw).hexdigest(),
+        "candidate_sha256": hashlib.sha256(json.dumps(candidate, sort_keys=True, separators=(",", ":"),
+                                             allow_nan=False).encode()).hexdigest(),
+        "mesh_sha256": mesh_sha, "criteria_sha256": criteria_sha,
+        "rule_sha256": hashlib.sha256(rule_raw).hexdigest(), "source_hashes": source_hashes,
+    }
+    return dict(candidate), bindings
+
+
+def _write_vv3d_state_archive(
+    *, evidence_root: Path, case_id: str, attempt_id: str, mesh_sha256: str,
+    manifest_sha256: str, scientific_fingerprint: str, controller_fingerprint: str,
+) -> dict[str, str] | None:
+    """Create a QPOST input archive from a completed initial-case sidecar, once.
+
+    This is post-run bookkeeping only. Missing displacement evidence is kept as
+    missing and never synthesized from an incomplete or failed run.
+    """
+    if (not isinstance(case_id, str) or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,79}", case_id) is None
+            or not isinstance(attempt_id, str)
+            or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,79}", attempt_id) is None):
+        raise PolicyError("VV3D archive case/attempt identity is invalid")
+    sidecar_path = evidence_root.resolve(strict=True) / case_id / attempt_id / "observables.json"
+    sidecar = _read_strict_json(sidecar_path)
+    if (not isinstance(sidecar, Mapping) or sidecar.get("schema") != "qf-wp12-vv3d-observables-v1"
+            or sidecar.get("campaign_id") != VV3D_CAMPAIGN_ID or sidecar.get("case_id") != case_id
+            or sidecar.get("attempt_id") != attempt_id or sidecar.get("mesh_sha256") != mesh_sha256
+            or sidecar.get("manifest_sha256") != manifest_sha256
+            or sidecar.get("scientific_fingerprint") != scientific_fingerprint
+            or sidecar.get("controller_fingerprint") != controller_fingerprint
+            or not isinstance(sidecar.get("execution"), Mapping)
+            or sidecar["execution"].get("status") != "COMPLETED_UNASSESSED"):
+        raise PolicyError("VV3D source sidecar does not represent the exact completed authorized case")
+    displacement = sidecar.get("observables", {}).get("nodal_displacements_m", {})
+    values = displacement.get("value") if isinstance(displacement, Mapping) else None
+    if (not isinstance(values, list) or not values or any(
+            isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+            for value in values)):
+        raise PolicyError("VV3D QPOST source sidecar has no complete finite nodal displacement vector")
+    archive = {
+        "schema": "qf-wp12-vv3d-state-archive-v1", "campaign_id": VV3D_CAMPAIGN_ID,
+        "case_id": case_id, "mesh_sha256": mesh_sha256,
+        "case_state": "OWNER_AUTHORIZED_EXECUTION", "execution_status": "COMPLETED_UNASSESSED",
+        "manifest_sha256": manifest_sha256, "attempt_id": attempt_id,
+        "nodal_displacements_m": values,
+    }
+    raw = (json.dumps(archive, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode("utf-8")
+    target = sidecar_path.parent / "state-archive.json"
+    try:
+        with target.open("xb") as stream:
+            stream.write(raw)
+            stream.flush()
+            os.fsync(stream.fileno())
+    except FileExistsError as exc:
+        raise PolicyError("VV3D source state archive already exists; refusing overwrite") from exc
+    return {"path": str(target.resolve()), "sha256": hashlib.sha256(raw).hexdigest()}
+
+
+def _is_symlink_or_junction(path: Path) -> bool:
+    if path.is_symlink():
+        return True
+    junction_check = getattr(path, "is_junction", None)
+    return bool(junction_check()) if callable(junction_check) else False
+
+
+def _create_campaign_directory(root: Path, target: Path) -> None:
+    """Create a new campaign directory without traversing a symlink ancestor."""
+    root.mkdir(parents=True, exist_ok=True)
+    if _is_symlink_or_junction(root):
+        raise PolicyError("VV3D campaign root must not be a symlink or junction")
+    root_abs = root.resolve(strict=True)
+    target_abs = target.absolute()
+    try:
+        relative = target_abs.relative_to(root.absolute())
+    except ValueError as exc:
+        raise PolicyError("VV3D run directory is outside its campaign store") from exc
+    current = root_abs
+    for part in relative.parts:
+        current = current / part
+        if _is_symlink_or_junction(current):
+            raise PolicyError("VV3D run path contains a symlink or junction component")
+        if current.exists():
+            if not current.is_dir():
+                raise PolicyError("VV3D run path component is not a directory")
+        else:
+            current.mkdir()
+
+
+def _vv3d_qpost_launch_bindings(
+    *, target: str, preflight_id: str, manifest_path: Path, entry: Mapping[str, Any],
+    execution_root: Path, identity: Mapping[str, Any], source_fingerprint: str,
+    controller_provenance: Mapping[str, Any], store: Path,
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    """Validate QPOST's launch preconditions and freeze its source/archive proof.
+
+    QPOST launch eligibility is source PASS + exact immutable displacement archive
+    + unused catalog slot. Its 1e-4 quadrature sensitivity is an output criterion,
+    never a precondition to computing that output.
+    """
+    try:
+        from wp12_vv3d_ledger import BudgetLedger
+    except ModuleNotFoundError:  # imported as scripts.development_autonomous by tests
+        from scripts.wp12_vv3d_ledger import BudgetLedger
+
+    candidate, bindings = _vv3d_adaptive_candidate_metadata(execution_root, target)
+    if candidate.get("execution_kind") != "POSTPROCESS_ONLY":
+        raise PolicyError("QPOST launch binding requires a catalogued POSTPROCESS_ONLY candidate")
+    candidate_id = str(candidate["candidate_id"])
+    campaign_id = VV3D_CAMPAIGN_ID
+    controller_fingerprint = _stable_fingerprint(controller_provenance)
+    try:
+        evidence_root = Path(str(entry.get("evidence_root", ""))).resolve(strict=True)
+        auth_root = (store / "authorizations" / VV3D_WORKTREE_ID).resolve(strict=True)
+    except OSError as exc:
+        raise PolicyError("VV3D QPOST evidence and authorization roots must already exist") from exc
+    if not evidence_root.is_dir() or not auth_root.is_dir():
+        raise PolicyError("VV3D QPOST evidence and authorization roots must be directories")
+    manifest_path = manifest_path.resolve(strict=True)
+    try:
+        manifest_path.relative_to(auth_root)
+    except ValueError as exc:
+        raise PolicyError("VV3D QPOST manifest must be inside its campaign authorization root") from exc
+    manifest_raw = manifest_path.read_bytes()
+    manifest = _read_strict_json(manifest_path)
+    contract_path = auth_root / "campaign-contract.json"
+    decision_path = auth_root / "campaign-decision.json"
+    contract_raw = contract_path.read_bytes()
+    decision_raw = decision_path.read_bytes()
+    contract = _read_strict_json(contract_path)
+    decision = _read_strict_json(decision_path)
+    try:
+        vv3d_contract = _load_vv3d_contract_module()
+        vv3d_contract.validate_contract(
+            contract, registered_nodeids=set(VV3D_ALL_NODEIDS),
+            controller_fingerprint=_stable_fingerprint(controller_provenance),
+            scientific_fingerprint=source_fingerprint,
+        )
+        vv3d_contract.validate_decision(contract, decision, contract_bytes=contract_raw)
+        vv3d_contract.verify_artifact_bindings(
+            contract, roots={kind: execution_root / "experiments" / "wp12_vv3d_adaptive"
+                             for kind in ("mesh", "manifest", "oracle", "criteria")},
+        )
+    except (ValueError, KeyError, TypeError) as exc:
+        raise PolicyError(f"VV3D QPOST campaign contract or Owner decision is invalid: {exc}") from exc
+    job = next((item for item in contract.get("qpost_jobs", []) if item.get("job_id") == candidate_id), None)
+    if job is None or job.get("nodeid") != target:
+        raise PolicyError("VV3D QPOST job/nodeid is not present in the exact approved campaign contract")
+    expected_base = {
+        "campaign_id": campaign_id, "candidate_id": candidate_id, "nodeid": target,
+        "execution_kind": "POSTPROCESS_ONLY", "seed_case": candidate["seed_case"],
+        "catalog_sha256": bindings["catalog_sha256"], "candidate_sha256": bindings["candidate_sha256"],
+        "mesh_sha256": bindings["mesh_sha256"], "criteria_sha256": bindings["criteria_sha256"],
+        "rule_sha256": bindings["rule_sha256"], "source_hashes": bindings["source_hashes"],
+    }
+    if (manifest.get("schema") != "qf-wp12-vv3d-adaptive-execution-manifest-v1"
+            or manifest.get("execution_authorized") is not True or manifest.get("do_not_execute") is not False
+            or any(manifest.get(key) != value for key, value in expected_base.items())
+            or manifest.get("scientific_fingerprint") != source_fingerprint
+            or manifest.get("controller_fingerprint") != _stable_fingerprint(controller_provenance)):
+        raise PolicyError("VV3D QPOST execution manifest does not bind the exact catalog and source identities")
+    decision_ref = manifest.get("campaign_decision")
+    expected_decision = {
+        "status": "APPROVED", "decision_id": decision.get("decision_id"),
+        "decision_sha256": hashlib.sha256(decision_raw).hexdigest(),
+        "catalog_sha256": bindings["catalog_sha256"],
+    }
+    if decision_ref != expected_decision:
+        raise PolicyError("VV3D QPOST manifest does not bind the exact campaign Owner decision/catalog")
+
+    # Confirm the exact seed has one completed PASS record and that the append-only
+    # campaign ledger agrees before reading its state archive.
+    case_id = str(candidate["seed_case"])
+    records = []
+    for path in store.rglob("run.json") if store.exists() else ():
+        try:
+            value = _read_strict_json(path)
+        except (OSError, ValueError, json.JSONDecodeError):
+            continue
+        if value.get("case_id") == case_id and value.get("state") != "RUNNING":
+            records.append((path, value))
+    if len(records) != 1:
+        raise PolicyError("VV3D QPOST requires exactly one completed seed result")
+    source_run_path, source_run = records[0]
+    source_manifest_sha = source_run.get("manifest", {}).get("sha256")
+    source_attempt = source_run.get("attempt_id")
+    archive_ref = source_run.get("qpost_state_archive")
+    if (source_run.get("campaign_id") != campaign_id
+            or source_run.get("scientific_state") != "PASS" or source_run.get("provenance_state") != "VERIFIED"
+            or source_run.get("source_fingerprint") != source_fingerprint
+            or source_run.get("controller_fingerprint") != controller_fingerprint
+            or not isinstance(source_manifest_sha, str) or not isinstance(source_attempt, str)
+            or not isinstance(archive_ref, Mapping) or not isinstance(archive_ref.get("path"), str)
+            or not re.fullmatch(r"[0-9a-f]{64}", str(archive_ref.get("sha256", "")))):
+        raise PolicyError("VV3D QPOST requires a verified PASS seed and its immutable state archive")
+    ledger_path = store / str(entry["node_attempt_ledger"]["path"])
+    ledger = BudgetLedger(ledger_path, allowed_root=store)
+    ledger_records = list(ledger.verify())
+    source_starts = [r for r in ledger_records if r.get("event") == "ATTEMPT_STARTED" and r.get("case_id") == case_id]
+    if (len(source_starts) != 1 or source_starts[0].get("manifest_sha256") != source_manifest_sha
+            or any(r.get("event") == "POSTPROCESS_STARTED" and r.get("job_id") == candidate_id
+                   for r in ledger_records)):
+        raise PolicyError("VV3D QPOST seed ledger provenance or unused job slot is invalid")
+    source_finishes = [r for r in ledger_records if r.get("event") == "ATTEMPT_FINISHED"
+                       and r.get("run_id") == source_starts[0].get("run_id")]
+    if len(source_finishes) != 1 or source_finishes[0].get("status") != "PASS":
+        raise PolicyError("VV3D QPOST ledger does not attest the exact seed PASS")
+    archive_path = Path(str(archive_ref["path"])).resolve(strict=True)
+    allowed_root = Path(str(entry["evidence_root"])).resolve(strict=True)
+    try:
+        archive_path.relative_to(allowed_root)
+    except ValueError as exc:
+        raise PolicyError("VV3D QPOST archive is outside the approved evidence root") from exc
+    archive_raw = archive_path.read_bytes()
+    archive_sha = hashlib.sha256(archive_raw).hexdigest()
+    archive = _read_strict_json(archive_path)
+    if (archive_sha != archive_ref["sha256"] or archive.get("schema") != "qf-wp12-vv3d-state-archive-v1"
+            or archive.get("campaign_id") != campaign_id or archive.get("case_id") != case_id
+            or archive.get("mesh_sha256") != bindings["mesh_sha256"]
+            or archive.get("case_state") != "OWNER_AUTHORIZED_EXECUTION"
+            or archive.get("execution_status") != "COMPLETED_UNASSESSED"
+            or archive.get("manifest_sha256") != source_manifest_sha
+            or archive.get("attempt_id") != source_attempt):
+        raise PolicyError("VV3D QPOST state archive identity/content is invalid")
+
+    source_hash = hashlib.sha256(source_run_path.read_bytes()).hexdigest()
+    transition_ref = manifest.get("transition_decision")
+    if (not isinstance(transition_ref, Mapping) or transition_ref.get("status") != "APPROVED"
+            or transition_ref.get("source_case_id") != case_id
+            or transition_ref.get("candidate_id") != candidate_id):
+        raise PolicyError("VV3D QPOST transition decision does not bind this seed and catalogued job")
+    source = {
+        "campaign_id": campaign_id, "candidate_id": candidate_id,
+        "postprocessing_job_id": manifest.get("postprocessing_job_id"), "seed_case": {
+            "case_id": case_id, "status": "PASS", "source_run_receipt_sha256": source_hash,
+            "manifest_sha256": source_manifest_sha, "attempt_id": source_attempt,
+            "mesh_sha256": bindings["mesh_sha256"],
+        },
+        "archive": {"status": "AVAILABLE", "path": str(archive_path), "sha256": archive_sha,
+                    "source_case_id": case_id, "source_mesh_sha256": bindings["mesh_sha256"],
+                    "source_manifest_sha256": source_manifest_sha, "source_attempt_id": source_attempt},
+        "campaign_decision": {"decision_id": decision.get("decision_id"),
+                              "decision_sha256": hashlib.sha256(decision_raw).hexdigest()},
+        "transition_decision": {"decision_id": transition_ref.get("decision_id"),
+                                "decision_sha256": transition_ref.get("decision_sha256")},
+        "postprocessing_slot": {"postprocessing_jobs_used": 0, "postprocessing_jobs_max": 1},
+    }
+    source_sha = hashlib.sha256(json.dumps(source, sort_keys=True, separators=(",", ":"),
+                                           allow_nan=False).encode()).hexdigest()
+    if transition_ref.get("eligibility_sha256") != source_sha:
+        raise PolicyError("VV3D QPOST transition decision does not bind the canonical launch-eligibility source")
+    expected_transition = {
+        "status": "APPROVED", "decision_id": expected_decision["decision_id"],
+        "decision_sha256": expected_decision["decision_sha256"],
+        "source_case_id": case_id, "candidate_id": candidate_id,
+        "eligibility_sha256": source_sha,
+    }
+    if dict(transition_ref) != expected_transition:
+        raise PolicyError("VV3D QPOST transition is not the exact campaign-approved eligibility binding")
+    eligibility_record = {
+        "schema": "qf-wp12-vv3d-adaptive-eligibility-v1", "candidate_id": candidate_id,
+        "source": source,
+        "result": {
+            "status": "ELIGIBLE", "trigger": "SEED_PASS_ARCHIVE_BOUND_SLOT_UNUSED",
+            "postprocessing_jobs_used": 0,
+            "postprocessing_jobs_max": candidate["numerical_conditions"]["postprocessing_jobs_max"],
+            "eligibility_source_sha256": source_sha,
+            "postprocess_result_trigger_gt": candidate["numerical_conditions"][
+                "relative_observable_change_trigger_gt"],
+        },
+    }
+    eligibility_raw = (json.dumps(eligibility_record, sort_keys=True, separators=(",", ":"),
+                                  allow_nan=False) + "\n").encode("utf-8")
+    eligibility_path = evidence_root / "eligibility" / f"{candidate_id}.json"
+    eligibility_path.parent.mkdir(parents=True, exist_ok=True)
+    eligibility_sha = hashlib.sha256(eligibility_raw).hexdigest()
+    try:
+        with eligibility_path.open("xb") as stream:
+            stream.write(eligibility_raw)
+            stream.flush()
+            os.fsync(stream.fileno())
+    except FileExistsError:
+        if eligibility_path.read_bytes() != eligibility_raw:
+            raise PolicyError("VV3D QPOST eligibility record exists with different bytes")
+    frozen_criteria = _read_strict_json(
+        (execution_root / "experiments" / "wp12_vv3d_adaptive" / candidate["criteria_path"]).resolve(strict=True)
+    )["criteria"]
+    frozen_sha = hashlib.sha256(json.dumps(frozen_criteria, sort_keys=True, separators=(",", ":"),
+                                           allow_nan=False).encode()).hexdigest()
+    preflight_path = (_preflight_directory(store, VV3D_WORKTREE_ID, preflight_id) / "preflight.json").resolve(strict=True)
+    try:
+        preflight_path.relative_to(store.resolve())
+    except ValueError as exc:
+        raise PolicyError("VV3D QPOST preflight must be within the campaign run store") from exc
+    preflight_receipt = _read_strict_json(preflight_path)
+    if (hashlib.sha256(preflight_path.read_bytes()).hexdigest() != manifest.get("preflight_receipt_sha256")
+            or preflight_receipt.get("preflight_id") != preflight_id
+            or preflight_receipt.get("target") != target or preflight_receipt.get("nodeid") != target
+            or preflight_receipt.get("status") != "PREFLIGHT_PASS"
+            or preflight_receipt.get("bodies_executed") is not False
+            or preflight_receipt.get("attempt_reserved") is not False
+            or preflight_receipt.get("reservation_created") is not False
+            or preflight_receipt.get("selected_nodeids") != [target] or preflight_receipt.get("skipped") != 0
+            or preflight_receipt.get("source_fingerprint") != source_fingerprint
+            or preflight_receipt.get("identity") != dict(identity)
+            or preflight_receipt.get("controller_provenance") != dict(controller_provenance)):
+        raise PolicyError("VV3D QPOST preflight receipt provenance is invalid")
+    if (not isinstance(manifest.get("authorization_id"), str)
+            or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", manifest["authorization_id"]) is None
+            or manifest.get("frozen_criteria") != frozen_criteria
+            or manifest.get("frozen_criteria_sha256") != frozen_sha
+            or manifest.get("preflight_receipt_sha256") != hashlib.sha256(preflight_path.read_bytes()).hexdigest()
+            or manifest.get("evidence_root") != str(evidence_root)
+            or not isinstance(manifest.get("postprocessing_job_id"), str)
+            or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,79}", manifest["postprocessing_job_id"]) is None):
+        raise PolicyError("VV3D QPOST manifest criteria, reservation slot or evidence binding is invalid")
+    job_manifest = next((item for item in contract.get("qpost_jobs", [])
+                         if item.get("job_id") == candidate_id), None)
+    if (job_manifest is None or job_manifest.get("nodeid") != target
+            or manifest.get("job_manifest_sha256") != job_manifest.get("manifest_sha256")
+            or type(manifest.get("timeout_seconds")) is not int
+            or manifest.get("timeout_seconds") != job_manifest.get("timeout_seconds")
+            or type(manifest.get("rss_soft_limit_mib")) is not int
+            or manifest.get("rss_soft_limit_mib") != job_manifest.get("rss_soft_limit_mib")
+            or type(manifest.get("postprocessing_jobs_used_before")) is not int
+            or manifest.get("postprocessing_jobs_used_before") != 0
+            or type(manifest.get("postprocessing_jobs_used_after")) is not int
+            or manifest.get("postprocessing_jobs_used_after") != 1
+            or type(manifest.get("postprocessing_jobs_max")) is not int
+            or manifest.get("postprocessing_jobs_max") != job_manifest.get("max_jobs")
+            or manifest.get("source_run_receipt_sha256") != source_hash):
+        raise PolicyError("VV3D QPOST manifest is not bound to the approved QPOST catalog row")
+    receipt_fields = {
+        "schema": "qf-wp12-vv3d-adaptive-runner-receipt-v1", "status": "POSTPROCESS_RESERVED",
+        "candidate_id": candidate_id, "nodeid": target, "execution_kind": "POSTPROCESS_ONLY",
+        "seed_case": case_id, "catalog_sha256": bindings["catalog_sha256"],
+        "candidate_sha256": bindings["candidate_sha256"], "mesh_sha256": bindings["mesh_sha256"],
+        "criteria_sha256": bindings["criteria_sha256"], "rule_sha256": bindings["rule_sha256"],
+        "source_hashes": bindings["source_hashes"],
+        "manifest_sha256": hashlib.sha256(manifest_raw).hexdigest(),
+        "manifest_path": str(manifest_path), "authorization_id": manifest["authorization_id"],
+        "scientific_fingerprint": source_fingerprint,
+        "controller_fingerprint": _stable_fingerprint(controller_provenance),
+        "preflight_receipt_sha256": hashlib.sha256(preflight_path.read_bytes()).hexdigest(),
+        "campaign_decision": expected_decision,
+        "transition_decision": dict(transition_ref),
+        "eligibility_record": {"path": str(eligibility_path.resolve()), "sha256": eligibility_sha},
+        "eligibility": {"status": "ELIGIBLE", "sha256": eligibility_sha},
+        "allowed_evidence_roots": [str(evidence_root), str(auth_root)], "evidence_root": str(evidence_root),
+        "archive": {"path": str(archive_path), "sha256": archive_sha,
+                    "source_case_id": case_id, "source_mesh_sha256": bindings["mesh_sha256"],
+                    "source_manifest_sha256": source_manifest_sha, "source_attempt_id": source_attempt},
+        "source_manifest_sha256": source_manifest_sha,
+        "postprocessing_reserved": True, "postprocessing_job_id": manifest["postprocessing_job_id"],
+        "attempt_reserved": False, "frozen_criteria": frozen_criteria,
+        "postprocessing_jobs_used_before": 0, "postprocessing_jobs_used_after": 1,
+        "postprocessing_jobs_max": int(candidate["numerical_conditions"]["postprocessing_jobs_max"]),
+        "source_run_receipt_sha256": source_hash,
+        "eligibility_threshold": candidate["numerical_conditions"]["relative_observable_change_trigger_gt"],
+    }
+    if manifest.get("campaign_decision") != expected_decision or manifest.get("transition_decision") != dict(transition_ref):
+        raise PolicyError("VV3D QPOST manifest decision bindings differ from the verified decisions")
+    return dict(manifest), dict(preflight_receipt), receipt_fields
+
+
+def _load_vv3d_contract_module() -> Any:
+    """Load the same source module in script and package-import execution modes."""
+    try:
+        import wp12_vv3d_contract as vv3d_contract
+    except ModuleNotFoundError:  # imported as scripts.development_autonomous by tests/tools
+        from scripts import wp12_vv3d_contract as vv3d_contract
+    return vv3d_contract
+
+
 def preflight_pytest(
     worktree_id: str,
     target: str,
@@ -5655,6 +6815,10 @@ def preflight_pytest(
 ) -> dict[str, Any]:
     """Collect one exact registered node without reserving a FEM attempt."""
     policy = load_policy()
+    if worktree_id == VV3D_WORKTREE_ID:
+        if target not in policy["worktrees"][VV3D_WORKTREE_ID]["allowed_nodeids"]:
+            raise PolicyError("VV3D preflight target is outside the exact closed case catalogue")
+        return preflight_wp12_vv3d_pytest(target, preflight_id, policy=policy)
     if worktree_id == "rotor":
         return preflight_rotor_pytest(target, preflight_id, policy=policy)
     if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
@@ -6015,6 +7179,489 @@ def _validate_wp12b_hex20_r2_preflight_receipt(
     return path, digest
 
 
+def run_wp12_vv3d_pytest(
+    target: str | None, series_id: str | None, *, worktree_id: str, reason: str,
+    preflight_id: str | None, execution_manifest: Path | None,
+) -> tuple[dict[str, Any], int]:
+    """Run one Owner-approved VV3D case through the campaign ledger and monitor."""
+    policy = load_policy()
+    if worktree_id != VV3D_WORKTREE_ID or target not in (*VV3D_INITIAL_NODEIDS, *VV3D_ADAPTIVE_FEM_NODEIDS):
+        raise PolicyError("VV3D runner accepts only one exact registered initial or H1/QLOAD FEM nodeid")
+    if not reason or not reason.strip() or not preflight_id or execution_manifest is None:
+        raise PolicyError("VV3D requires a reason, exact collect-only preflight, and case execution manifest")
+    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
+        worktree_id, target, policy
+    )
+    controller_provenance = _vv3d_controller_provenance()
+    store = _run_root(policy, worktree_id)
+    manifest, preflight, manifest_sha, preflight_sha, decision_id, decision_sha = _vv3d_execution_bindings(
+        target=target, preflight_id=preflight_id, manifest_path=execution_manifest,
+        entry=entry, execution_root=execution_root,
+        identity=identity, source_fingerprint=source_fingerprint,
+        controller_provenance=controller_provenance, store=store,
+    )
+    case_id = manifest["case_id"]
+    selected_dofs = manifest["selected_dofs"]
+    timeout = manifest["timeout_seconds"]
+    scope = dict(entry["budgets"])
+    scope["timeout_seconds"] = timeout
+    scope["archive_size_limit_mib"] = manifest.get("archive_size_limit_mib", 256)
+    if (selected_dofs != entry["per_node_selected_dofs"].get(target)
+            or selected_dofs > entry["target_max_dofs"] or timeout > entry["max_timeout_seconds"]
+            or scope["rss_soft_limit_mib"] != manifest["rss_soft_limit_mib"]
+            or scope["archive_size_limit_mib"] != 256):
+        raise PolicyError("VV3D case selection or resource envelope exceeds the exact policy")
+    if psutil is None:
+        raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
+    free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free,
+                     shutil.disk_usage(store.parent if not store.exists() else store).free)
+    if free_bytes < int(policy["minimum_free_disk_mib"] * 1024 * 1024):
+        raise PolicyError("insufficient free disk before VV3D campaign reservation")
+    if series_id is None:
+        series_id = f"dev-{uuid.uuid4().hex[:12]}"
+    if not SERIES_RE.fullmatch(series_id):
+        raise PolicyError("series ID must use the development-only format dev-<lowercase-id>")
+    campaign_ledger_path = store / str(entry["node_attempt_ledger"]["path"])
+    series_dir = _series_root(store, "fem_exploratory", worktree_id) / series_id
+    evidence_root = str(Path(entry["evidence_root"]).resolve())
+    controller_fingerprint = _stable_fingerprint(controller_provenance)
+    adaptive = target in VV3D_ADAPTIVE_FEM_NODEIDS
+    attempt_id = str(manifest["attempt_id"]) if adaptive else f"{series_id}-attempt-1"
+    try:
+        from wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
+    except ModuleNotFoundError:  # imported as scripts.development_autonomous by tests
+        from scripts.wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
+
+    store.mkdir(parents=True, exist_ok=True)
+    campaign_ledger = BudgetLedger(campaign_ledger_path, allowed_root=store)
+    with _exclusive_file_lock(store / "locks" / "vv3d-campaign-exclusive.lock"):
+        number, attempt_dir = _next_attempt(
+            series_dir, series_id, "fem_exploratory", 1, worktree_id=worktree_id, target=target,
+        )
+        if number != 1:
+            raise PolicyError("VV3D case attempts are single-use; no retry is allowed")
+        temp_dir = attempt_dir / "tmp"
+        output_dir = attempt_dir / "output"
+        temp_dir.mkdir()
+        output_dir.mkdir()
+        runner_receipt_path = attempt_dir / "vv3d-runner-reservation.json"
+        run_binding = RunBinding(
+            contract_sha256=manifest["campaign_contract_sha256"], decision_id=decision_id,
+            decision_sha256=decision_sha, manifest_sha256=manifest_sha, preflight_sha256=preflight_sha,
+            **manifest.get("_validated_transition_binding", {}),
+        )
+        case_binding = RunnerCaseBinding(
+            case_id=case_id, nodeid=target, attempt_id=attempt_id,
+            authorization_id=manifest["authorization_id"],
+            source_fingerprint=source_fingerprint, controller_fingerprint=controller_fingerprint,
+            selected_dofs=selected_dofs, timeout_seconds=timeout, rss_soft_limit_mib=4096,
+            archive_limit_mib=256, evidence_root=evidence_root,
+            reservation_id=(str(manifest["reservation_id"]) if adaptive else None),
+        )
+        try:
+            runner_receipt = campaign_ledger.start_runner_attempt(
+                binding=run_binding, case=case_binding, receipt_path=runner_receipt_path,
+                receipt_fields=(manifest.get("_runner_receipt_fields") if adaptive else None),
+            )
+        except Exception:
+            # No campaign reservation succeeded, so the empty local attempt directory
+            # can be removed without altering the campaign ledger.
+            try:
+                temp_dir.rmdir()
+                output_dir.rmdir()
+                attempt_dir.rmdir()
+            except OSError:
+                pass
+            raise
+        reservation_started_monotonic = time.monotonic()
+        runner_receipt_sha = runner_receipt["receipt_sha256"]
+        record_path = attempt_dir / "run.json"
+        command = build_pytest_command(
+            "fem_exploratory", [target], temp_dir, repository_root=execution_root,
+            source_root=source_root, controller_root=ROOT,
+        )
+        environment = build_child_environment(temp_dir, source_root=source_root)
+        if adaptive:
+            environment.update({
+                "QF_DEV_VV3D_ADAPTIVE_CANDIDATE_ID": case_id,
+                "QF_DEV_TARGET_NODEID": target,
+                "QF_DEV_VV3D_ADAPTIVE_RECEIPT_PATH": str(runner_receipt_path),
+                "QF_DEV_VV3D_ADAPTIVE_RECEIPT_SHA256": runner_receipt_sha,
+                "QF_DEV_EVIDENCE_ROOT": evidence_root,
+            })
+        else:
+            environment.update({
+            "QF_DEV_WORKTREE_ID": worktree_id,
+            "QF_DEV_CAMPAIGN_SCOPE_ID": worktree_id,
+            "QF_DEV_VV3D_CASE_ID": case_id,
+            "QF_DEV_TARGET_NODEID": target,
+            "QF_DEV_MANIFEST_PATH": str(execution_manifest.resolve()),
+            "QF_DEV_MANIFEST_SHA256": manifest_sha,
+            "QF_DEV_AUTHORIZATION_ID": manifest["authorization_id"],
+            "QF_DEV_VV3D_SCIENCE_FINGERPRINT": source_fingerprint,
+            "QF_DEV_CONTROLLER_FINGERPRINT": controller_fingerprint,
+            "QF_DEV_EVIDENCE_ROOT": evidence_root,
+            "QF_DEV_VV3D_RUNNER_RECEIPT_PATH": str(runner_receipt_path),
+            "QF_DEV_VV3D_RUNNER_RECEIPT_SHA256": runner_receipt_sha,
+            })
+        started_at = datetime.now(timezone.utc).isoformat()
+        initial = {
+            "schema": "qfsolver-development-vv3d-run-v1", "state": "RUNNING",
+            "campaign_id": VV3D_CAMPAIGN_ID, "case_id": case_id, "attempt_id": attempt_id,
+            "worktree_id": worktree_id,
+            "target": target, "reason": reason.strip(), "identity": identity,
+            "source_fingerprint": source_fingerprint, "controller_fingerprint": controller_fingerprint,
+            "controller_provenance": controller_provenance,
+            "manifest": {"path": str(execution_manifest.resolve()), "sha256": manifest_sha},
+            "mesh_sha256": manifest["mesh_sha256"],
+            "preflight": {"id": preflight_id, "sha256": preflight_sha},
+            "campaign_decision": {"decision_id": decision_id, "sha256": decision_sha},
+            "campaign_ledger": {"path": str(campaign_ledger_path), "sha256_after_reservation": runner_receipt["ledger_sha256_after_reservation"]},
+            "runner_receipt": {"path": str(runner_receipt_path), "sha256": runner_receipt_sha},
+            "command": command, "budgets": scope, "started_at_utc": started_at,
+            "scientific_state": None, "provenance_state": "PENDING",
+        }
+        _atomic_json(record_path, initial)
+        scope["minimum_free_disk_mib"] = policy["minimum_free_disk_mib"]
+        try:
+            result = run_supervised_command(
+                command, cwd=execution_root, environment=environment, output_dir=output_dir,
+                temporary_dir=temp_dir, limits=scope, poll_interval=float(policy["poll_interval_seconds"]),
+            )
+            science_state = result.status
+            try:
+                after_entry, _after_root, _after_source, after_identity, after_fingerprint = _registered_worktree(
+                    worktree_id, target, policy
+                )
+                origin = _observed_solver_origin(
+                    (output_dir / "stdout.log").read_text(encoding="utf-8", errors="replace") + "\n" +
+                    (output_dir / "stderr.log").read_text(encoding="utf-8", errors="replace")
+                )
+                expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
+                provenance_state = ("VERIFIED" if after_entry == entry and after_identity == identity
+                                    and after_fingerprint == source_fingerprint
+                                    and _vv3d_controller_provenance() == controller_provenance
+                                    and origin == expected_origin else "PROVENANCE_MISMATCH")
+            except (OSError, PolicyError):
+                origin = None
+                provenance_state = "PROVENANCE_MISMATCH"
+            final_state = science_state if provenance_state == "VERIFIED" else "PROVENANCE_MISMATCH"
+            sidecar_path = Path(evidence_root) / case_id / attempt_id / "observables.json"
+            sidecar_ref = None
+            scientific_observables = None
+            scientific_criteria = None
+            sidecar_doc: Mapping[str, Any] | None = None
+            if sidecar_path.is_file():
+                try:
+                    candidate_sidecar = _read_strict_json(sidecar_path)
+                    sidecar_execution = (candidate_sidecar.get("execution")
+                                         if isinstance(candidate_sidecar, Mapping) else None)
+                    if (isinstance(candidate_sidecar, Mapping)
+                            and candidate_sidecar.get("schema") == "qf-wp12-vv3d-observables-v1"
+                            and candidate_sidecar.get("campaign_id") == VV3D_CAMPAIGN_ID
+                            and candidate_sidecar.get("case_id") == case_id
+                            and candidate_sidecar.get("attempt_id") == attempt_id
+                            and candidate_sidecar.get("case_state") == "OWNER_AUTHORIZED_EXECUTION"
+                            and candidate_sidecar.get("runner_receipt_sha256") == runner_receipt_sha
+                            and candidate_sidecar.get("mesh_sha256") == manifest.get("mesh_sha256")
+                            and candidate_sidecar.get("manifest_sha256") == manifest_sha
+                            and candidate_sidecar.get("scientific_fingerprint") == source_fingerprint
+                            and candidate_sidecar.get("controller_fingerprint") == controller_fingerprint
+                            and isinstance(sidecar_execution, Mapping)
+                            and sidecar_execution.get("status") in {
+                                "COMPLETED_UNASSESSED", "FAILED_OR_INCOMPLETE"}
+                            and sidecar_execution.get("attempt_reserved") is True
+                            and sidecar_execution.get("fem_started") is True
+                            and (science_state != "PASS"
+                                 or sidecar_execution.get("status") == "COMPLETED_UNASSESSED")):
+                        sidecar_doc = candidate_sidecar
+                        sidecar_ref = {"path": str(sidecar_path.resolve()), "sha256": _sha256(sidecar_path)}
+                        scientific_observables = sidecar_doc.get("observables")
+                        scientific_criteria = sidecar_doc.get("criteria")
+                except (OSError, ValueError, TypeError, json.JSONDecodeError):
+                    sidecar_ref = None
+            if sidecar_ref is None:
+                provenance_state = "PROVENANCE_MISMATCH"
+                final_state = "PROVENANCE_MISMATCH"
+            state_archive = None
+            state_archive_error = None
+            if final_state == "PASS" and not adaptive:
+                try:
+                    state_archive = _write_vv3d_state_archive(
+                        evidence_root=Path(evidence_root), case_id=case_id, attempt_id=attempt_id,
+                        mesh_sha256=str(manifest["mesh_sha256"]), manifest_sha256=manifest_sha,
+                        scientific_fingerprint=source_fingerprint,
+                        controller_fingerprint=controller_fingerprint,
+                    )
+                except (OSError, PolicyError, TypeError, ValueError) as exc:
+                    state_archive_error = f"{type(exc).__name__}: {exc}"
+                if state_archive is None or state_archive_error is not None:
+                    provenance_state = "PROVENANCE_MISMATCH"
+                    final_state = "PROVENANCE_MISMATCH"
+            if provenance_state != "VERIFIED":
+                ledger_status = "INFRA_ERROR"
+            elif science_state == "PASS":
+                ledger_status = "PASS"
+            elif science_state == "PYTEST_FAILED":
+                ledger_status = "FAIL"
+            elif "TIMEOUT" in science_state:
+                ledger_status = "TIMEOUT"
+            elif "INTERRUPTED" in science_state:
+                ledger_status = "INTERRUPTED"
+            else:
+                ledger_status = "RESOURCE_LIMIT"
+            campaign_ledger.finish_runner_attempt(
+                run_id=runner_receipt["reservation_id"], status=ledger_status,
+                elapsed_seconds=result.elapsed_seconds,
+            )
+            final = {
+                **initial, "state": final_state, "scientific_state": science_state,
+                "provenance_state": provenance_state, "solver_origin_observed": origin,
+                "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+                "return_code": result.return_code, "elapsed_seconds": result.elapsed_seconds,
+                "peak_rss_bytes": result.peak_rss_bytes, "peak_process_count": result.peak_process_count,
+                "stdout_bytes": result.stdout_bytes, "stderr_bytes": result.stderr_bytes,
+                "stdout_sha256": _sha256(output_dir / "stdout.log"),
+                "stderr_sha256": _sha256(output_dir / "stderr.log"),
+                "archive_bytes": result.archive_bytes, "temporary_bytes": result.temporary_bytes,
+                "stop_reason": result.stop_reason,
+                "qpost_state_archive": state_archive,
+                "qpost_state_archive_error": state_archive_error,
+                "observables_sidecar": sidecar_ref,
+                "scientific_observables": scientific_observables,
+                "scientific_criteria": scientific_criteria,
+                "campaign_ledger_sha256_after_completion": _sha256(campaign_ledger_path),
+            }
+            _atomic_json(record_path, final)
+            return {"series_id": series_id, "attempt": 1, "state": final_state,
+                    "record": str(record_path), "metrics": final}, (0 if final_state == "PASS" else 1)
+        except Exception as exc:
+            # Handled launcher/infrastructure errors consume the reserved attempt
+            # and elapsed budget. A hard process termination leaves ATTEMPT_STARTED
+            # open, which the ledger treats as an unrecoverable blocking reservation.
+            elapsed = max(0.0, time.monotonic() - reservation_started_monotonic)
+            try:
+                campaign_ledger.finish_runner_attempt(
+                    run_id=runner_receipt["reservation_id"], status="INFRA_ERROR", elapsed_seconds=elapsed,
+                )
+            except Exception:
+                pass
+            _atomic_json(record_path, {
+                **initial, "state": "INFRA_ERROR", "scientific_state": "NOT_COMPLETED",
+                "provenance_state": "NOT_VERIFIED", "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+                "error": f"{type(exc).__name__}: {exc}",
+            })
+            return {"series_id": series_id, "attempt": 1, "state": "INFRA_ERROR", "record": str(record_path)}, 1
+
+
+def run_wp12_vv3d_qpost_pytest(
+    target: str, series_id: str | None, *, reason: str, preflight_id: str | None,
+    execution_manifest: Path | None,
+) -> tuple[dict[str, Any], int]:
+    """Run one catalogued archive-only QPOST job; it consumes seconds, not FEM attempts."""
+    policy = load_policy()
+    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
+        VV3D_WORKTREE_ID, target, policy,
+    )
+    if not reason.strip() or not preflight_id or execution_manifest is None:
+        raise PolicyError("VV3D QPOST requires a reason, exact preflight, and exact execution manifest")
+    if psutil is None:
+        raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
+    controller_provenance = _vv3d_controller_provenance()
+    store = _run_root(policy, VV3D_WORKTREE_ID)
+    manifest, preflight, receipt_fields = _vv3d_qpost_launch_bindings(
+        target=target, preflight_id=preflight_id, manifest_path=execution_manifest,
+        entry=entry, execution_root=execution_root, identity=identity,
+        source_fingerprint=source_fingerprint, controller_provenance=controller_provenance,
+        store=store,
+    )
+    if series_id is None:
+        series_id = f"dev-{uuid.uuid4().hex[:12]}"
+    if not SERIES_RE.fullmatch(series_id):
+        raise PolicyError("series ID must use the development-only format dev-<lowercase-id>")
+    candidate_id = str(manifest["candidate_id"])
+    case_id = str(manifest["seed_case"])
+    source_manifest_sha = str(receipt_fields["source_manifest_sha256"])
+    archive_ref = receipt_fields["archive"]
+    ledger_path = store / str(entry["node_attempt_ledger"]["path"])
+    evidence_root = str(Path(entry["evidence_root"]).resolve())
+    controller_fingerprint = _stable_fingerprint(controller_provenance)
+    qpost_id = str(manifest["postprocessing_job_id"])
+    run_dir = _series_root(store, "fem_exploratory", VV3D_WORKTREE_ID) / "qpost" / qpost_id / series_id
+    _create_campaign_directory(store, run_dir)
+    temp_dir, output_dir = run_dir / "tmp", run_dir / "output"
+    temp_dir.mkdir()
+    output_dir.mkdir()
+    receipt_path = run_dir / "vv3d-adaptive-runner-receipt.json"
+    try:
+        from wp12_vv3d_ledger import BudgetLedger, RunBinding
+    except ModuleNotFoundError:  # imported as scripts.development_autonomous by tests
+        from scripts.wp12_vv3d_ledger import BudgetLedger, RunBinding
+
+    ledger = BudgetLedger(ledger_path, allowed_root=store)
+    binding = RunBinding(
+        contract_sha256=hashlib.sha256((store / "authorizations" / VV3D_WORKTREE_ID /
+                                        "campaign-contract.json").read_bytes()).hexdigest(),
+        decision_id=str(receipt_fields["campaign_decision"]["decision_id"]),
+        decision_sha256=str(receipt_fields["campaign_decision"]["decision_sha256"]),
+        manifest_sha256=source_manifest_sha,
+        preflight_sha256=str(receipt_fields["preflight_receipt_sha256"]),
+        transition_receipt_sha256=str(receipt_fields["eligibility_record"]["sha256"]),
+        transition_source_case_id=case_id,
+        transition_destination_case_id=candidate_id,
+    )
+    timeout = min(int(manifest.get("timeout_seconds", 1200)), 1200)
+    if type(manifest.get("timeout_seconds")) is not int or timeout <= 0:
+        raise PolicyError("VV3D QPOST manifest timeout is invalid")
+    scope = dict(entry["budgets"])
+    scope.update({"timeout_seconds": timeout, "archive_size_limit_mib": 256,
+                  "minimum_free_disk_mib": policy["minimum_free_disk_mib"]})
+    free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free,
+                     shutil.disk_usage(store.parent if not store.exists() else store).free)
+    if free_bytes < int(policy["minimum_free_disk_mib"] * 1024 * 1024):
+        raise PolicyError("insufficient free disk before VV3D QPOST reservation")
+    try:
+        with _exclusive_file_lock(store / "locks" / "vv3d-campaign-exclusive.lock"):
+            receipt = ledger.start_runner_postprocess_job(
+                job_id=candidate_id, source_case_id=case_id,
+                archived_state_sha256=str(archive_ref["sha256"]), binding=binding,
+                nodeid=target, source_fingerprint=source_fingerprint,
+                controller_fingerprint=controller_fingerprint, evidence_root=evidence_root,
+                receipt_path=receipt_path, job_manifest_sha256=str(receipt_fields["manifest_sha256"]),
+                receipt_fields=receipt_fields,
+            )
+            receipt_sha = str(receipt["receipt_sha256"])
+            command = build_pytest_command(
+                "fem_exploratory", [target], temp_dir, repository_root=execution_root,
+                source_root=source_root, controller_root=ROOT,
+            )
+            environment = build_child_environment(temp_dir, source_root=source_root)
+            environment.update({
+                "QF_DEV_WORKTREE_ID": VV3D_WORKTREE_ID,
+                "QF_DEV_VV3D_ADAPTIVE_CANDIDATE_ID": candidate_id,
+                "QF_DEV_TARGET_NODEID": target,
+                "QF_DEV_VV3D_ADAPTIVE_RECEIPT_PATH": str(receipt_path),
+                "QF_DEV_VV3D_ADAPTIVE_RECEIPT_SHA256": receipt_sha,
+                "QF_DEV_EVIDENCE_ROOT": evidence_root,
+            })
+            started_monotonic = time.monotonic()
+            try:
+                result = run_supervised_command(
+                    command, cwd=execution_root, environment=environment,
+                    output_dir=output_dir, temporary_dir=temp_dir, limits=scope,
+                    poll_interval=float(policy["poll_interval_seconds"]),
+                )
+                science_state = result.status
+                provenance_state = "VERIFIED"
+                after_entry, _after_root, _after_source, after_identity, after_fingerprint = _registered_worktree(
+                    VV3D_WORKTREE_ID, target, policy,
+                )
+                if (after_entry != entry or after_identity != identity or after_fingerprint != source_fingerprint
+                        or _vv3d_controller_provenance() != controller_provenance):
+                    provenance_state = "PROVENANCE_MISMATCH"
+                qpost_sidecar_path = (Path(evidence_root) / candidate_id / qpost_id / "observables.json")
+                qpost_sidecar = None
+                if qpost_sidecar_path.is_file():
+                    try:
+                        qpost_sidecar = _read_strict_json(qpost_sidecar_path)
+                    except (OSError, ValueError, json.JSONDecodeError):
+                        provenance_state = "PROVENANCE_MISMATCH"
+                qpost_execution = (qpost_sidecar.get("execution")
+                                   if isinstance(qpost_sidecar, Mapping) else None)
+                if (not isinstance(qpost_sidecar, Mapping)
+                        or qpost_sidecar.get("schema") != "qf-wp12-vv3d-observables-v1"
+                        or qpost_sidecar.get("campaign_id") != VV3D_CAMPAIGN_ID
+                        or qpost_sidecar.get("case_id") != candidate_id
+                        or qpost_sidecar.get("attempt_id") != qpost_id
+                        or qpost_sidecar.get("case_state") != "OWNER_AUTHORIZED_POSTPROCESS_ONLY"
+                        or qpost_sidecar.get("mesh_sha256") != receipt_fields["mesh_sha256"]
+                        or qpost_sidecar.get("manifest_sha256") != receipt_fields["manifest_sha256"]
+                        or qpost_sidecar.get("scientific_fingerprint") != source_fingerprint
+                        or qpost_sidecar.get("controller_fingerprint") != controller_fingerprint
+                        or qpost_sidecar.get("runner_receipt_sha256") != receipt_sha
+                        or qpost_sidecar.get("archive_sha256") != archive_ref["sha256"]
+                        or not isinstance(qpost_execution, Mapping)
+                        or qpost_execution.get("status") not in {
+                            "COMPLETED_UNASSESSED", "FAILED_OR_INCOMPLETE"}):
+                    provenance_state = "PROVENANCE_MISMATCH"
+                elif (qpost_execution.get("attempt_reserved") is not False
+                      or qpost_execution.get("postprocessing_reserved") is not True
+                      or qpost_execution.get("fem_started") is not False):
+                    provenance_state = "PROVENANCE_MISMATCH"
+                receipt_raw = receipt_path.read_bytes()
+                receipt_checksum = receipt_path.with_suffix(receipt_path.suffix + ".sha256.json")
+                if (hashlib.sha256(receipt_raw).hexdigest() != receipt_sha
+                        or _read_strict_json(receipt_checksum).get("sha256") != receipt_sha
+                        or receipt.get("attempt_reserved") is not False
+                        or receipt.get("postprocessing_reserved") is not True):
+                    provenance_state = "PROVENANCE_MISMATCH"
+                qpost_result = (qpost_sidecar.get("observables", {}).get("qpost", {})
+                                if isinstance(qpost_sidecar, Mapping) else {})
+                observed_max = qpost_result.get("maximum_relative_change") if isinstance(qpost_result, Mapping) else None
+                threshold = float(receipt_fields["eligibility_threshold"])
+                if (science_state == "PASS" and provenance_state == "VERIFIED"
+                        and (isinstance(observed_max, bool) or not isinstance(observed_max, (int, float))
+                             or not math.isfinite(observed_max))):
+                    final_state = "INCONCLUSIVE"
+                else:
+                    final_state = science_state if provenance_state == "VERIFIED" else "PROVENANCE_MISMATCH"
+                run_id = str(receipt["reservation_id"])
+                ledger_status = ("PASS" if science_state == "PASS" and provenance_state == "VERIFIED"
+                                 and final_state != "INCONCLUSIVE" else
+                                 "FAIL" if science_state == "PYTEST_FAILED" and provenance_state == "VERIFIED"
+                                 else "INFRA_ERROR")
+                ledger.finish_runner_postprocess_job(
+                    run_id=run_id, status=ledger_status, elapsed_seconds=result.elapsed_seconds,
+                )
+                record = {
+                    "schema": "qfsolver-development-vv3d-qpost-run-v1", "state": final_state,
+                    "campaign_id": VV3D_CAMPAIGN_ID, "candidate_id": candidate_id, "nodeid": target,
+                    "source_case_id": case_id, "source_manifest_sha256": source_manifest_sha,
+                    "archive": archive_ref, "manifest_sha256": receipt_fields["manifest_sha256"],
+                    "preflight_sha256": receipt_fields["preflight_receipt_sha256"],
+                    "runner_receipt": {"path": str(receipt_path), "sha256": receipt_sha},
+                    "identity": identity, "source_fingerprint": source_fingerprint,
+                    "controller_provenance": controller_provenance, "provenance_state": provenance_state,
+                    "command": command,
+                    "budgets": scope, "return_code": result.return_code,
+                    "elapsed_seconds": result.elapsed_seconds, "peak_rss_bytes": result.peak_rss_bytes,
+                    "stdout_sha256": _sha256(output_dir / "stdout.log"),
+                    "stderr_sha256": _sha256(output_dir / "stderr.log"),
+                    "qpost_sidecar": (str(qpost_sidecar_path) if qpost_sidecar_path.is_file() else None),
+                    "qpost_sidecar_sha256": (_sha256(qpost_sidecar_path) if qpost_sidecar_path.is_file() else None),
+                    "qpost_observable_maximum_relative_change": observed_max,
+                    "qpost_frozen_trigger_threshold": threshold,
+                    "qpost_scientific_output": qpost_result,
+                    "qpost_triggered": (bool(observed_max > threshold)
+                                        if isinstance(observed_max, (int, float)) and not isinstance(observed_max, bool)
+                                        else None),
+                    "stop_reason": result.stop_reason,
+                }
+                record_path = run_dir / "run.json"
+                _atomic_json(record_path, record)
+                return {"state": final_state, "record": str(record_path), "metrics": record}, (
+                    0 if final_state == "PASS" else 1
+                )
+            except Exception as exc:
+                elapsed = max(0.0, time.monotonic() - started_monotonic)
+                try:
+                    ledger.finish_runner_postprocess_job(
+                        run_id=str(receipt["reservation_id"]), status="INFRA_ERROR", elapsed_seconds=elapsed,
+                    )
+                except Exception:
+                    pass
+                record_path = run_dir / "run.json"
+                record = {"schema": "qfsolver-development-vv3d-qpost-run-v1", "state": "INFRA_ERROR",
+                          "campaign_id": VV3D_CAMPAIGN_ID, "candidate_id": candidate_id,
+                          "nodeid": target, "source_case_id": case_id,
+                          "runner_receipt": {"path": str(receipt_path), "sha256": receipt_sha},
+                          "elapsed_seconds": elapsed, "error": f"{type(exc).__name__}: {exc}"}
+                _atomic_json(record_path, record)
+                return {"state": "INFRA_ERROR", "record": str(record_path), "metrics": record}, 1
+    except Exception:
+        raise
+
+
 def run_pytest(
     scope_name: str,
     target: str | None,
@@ -6029,6 +7676,27 @@ def run_pytest(
     batch_context: Mapping[str, Any] | None = None,
 ) -> tuple[dict[str, Any], int]:
     policy = load_policy()
+    if worktree_id == VV3D_WORKTREE_ID:
+        vv3d_entry = policy["worktrees"][VV3D_WORKTREE_ID]
+        if target not in vv3d_entry["allowed_nodeids"]:
+            raise PolicyError("VV3D target is outside the exact initial case catalogue")
+        if scope_name != "fem_exploratory":
+            raise PolicyError("VV3D only supports its registered FEM exploratory scope")
+        if target in VV3D_ADAPTIVE_FEM_NODEIDS and vv3d_entry["runner_capabilities"]["adaptive_fem"] is not True:
+            raise PolicyError("VV3D adaptive FEM dispatch is not integrated with the science receipt contract")
+        if target in VV3D_QPOST_NODEIDS and vv3d_entry["runner_capabilities"]["qpost"] is not True:
+            raise PolicyError("VV3D QPOST dispatch is not integrated with the science receipt/archive contract")
+        if target in VV3D_QPOST_NODEIDS:
+            if not reason or not reason.strip() or not preflight_id or execution_manifest is None:
+                raise PolicyError("VV3D QPOST requires a reason, exact preflight, and exact execution manifest")
+            return run_wp12_vv3d_qpost_pytest(
+                target, series_id, reason=reason, preflight_id=preflight_id,
+                execution_manifest=Path(execution_manifest),
+            )
+        return run_wp12_vv3d_pytest(
+            target, series_id, worktree_id=worktree_id, reason=reason or "",
+            preflight_id=preflight_id, execution_manifest=Path(execution_manifest) if execution_manifest else None,
+        )
     is_registered = scope_name in WORKTREE_SCOPES
     targets = resolve_targets(scope_name, target, policy, worktree_id=worktree_id)
     entry: dict[str, Any] | None = None
@@ -6657,6 +8325,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
             WP12B_HEX20_R2_WORKTREE_ID,
             HEX8SRI_CONVERGENCE24_WORKTREE_ID,
+            VV3D_WORKTREE_ID,
         ),
         required=True,
     )
