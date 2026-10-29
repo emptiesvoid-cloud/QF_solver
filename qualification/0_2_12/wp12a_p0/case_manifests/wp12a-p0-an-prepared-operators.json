@@ -1,0 +1,47 @@
+{
+  "case_id": "wp12a-p0-an-prepared-operators",
+  "conditions_of_stop": [
+    "source/controller/criteria/budget/nodeid/provenance mismatch",
+    "ledger transition not attributable to this approved campaign",
+    "infrastructure failure",
+    "incomplete RESERVED attempt",
+    "pytest failure is not one exact assertion failure or its JUnit report is unavailable"
+  ],
+  "continue_after": [
+    "PASS",
+    "SCIENTIFIC_ASSERTION_FAILED"
+  ],
+  "criteria": {
+    "acceptance": "Existing count and identity assertions remain exactly as encoded by the unchanged test.",
+    "acceptance_source_sha256": "8320c5422b699e74984255c190885d0ec4b88d1bb03a221284d883ecb3ea6975",
+    "oracle": "Prepared dynamic system assembly count and operator identity across excitation changes.",
+    "oracle_independence": "API/identity invariant checked against the same in-process operator objects; not a numerical external oracle."
+  },
+  "criteria_sha256": "bbba866d39d74952dd6a82a74cbef71f0bac12d72b582ed6a35cfd2dc6cd95a0",
+  "identity": {
+    "branch": "codex/wp12-dynamic-harmonic-verification",
+    "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+    "root": "E:\\QFSolverAgents\\wp12-dynamics",
+    "status_short": "",
+    "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+  },
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
+  "max_attempts": 1,
+  "nodeid": "tests/unit/test_prepared_dynamic_system.py::test_prepared_system_assembles_once_and_excitation_does_not_invalidate_operators",
+  "schema": "qfsolver-wp12a-p0-scientific-case-v1",
+  "science": {
+    "branch": "codex/wp12-dynamic-harmonic-verification",
+    "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+    "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+  },
+  "selection": {
+    "selected_dofs": 3,
+    "selection_basis": "Single TET4 fixture: 12 total translational DDL, 3 free coordinates in the existing test.",
+    "timeout_reason": null,
+    "timeout_seconds": 300
+  },
+  "source_fingerprint": "2604e9d0d837a9860f70210be2fc96da1d124cb063d896884dc9033b96a30f23",
+  "state": "PROPOSED_NOT_AUTHORIZED",
+  "test_module_sha256": "8320c5422b699e74984255c190885d0ec4b88d1bb03a221284d883ecb3ea6975",
+  "worktree_id": "wp12_dynamics"
+}
