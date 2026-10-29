@@ -9,11 +9,34 @@ from itertools import combinations, product
 from pathlib import Path
 
 from experiments.wp12_vv3d_adaptive import (
-    basis, budget, load_assembly_draft, mesh, metrics, model_draft, oracle, prepare, quadrature, quality,
+    basis, budget, evidence, load_assembly_draft, mesh, metrics, model_draft, oracle, prepare, quadrature, quality,
 )
 
 
 class MeshContracts(unittest.TestCase):
+    def test_observables_writer_is_create_only_on_fabricated_data(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)/"evidence"
+            payload = {"schema":"qf-wp12-vv3d-observables-v1","case_id":"SYNTHETIC-CASE",
+                "attempt_id":"SYNTHETIC-ATTEMPT","mesh_sha256":"a"*64,"scientific_fingerprint":"b"*64,
+                "controller_fingerprint":"c"*64,"manifest_sha256":"d"*64,
+                "observables":{"example":{"value":1.0,"unit":"m"},"missing":{"status":"NOT_EXPOSED"}},
+                "criteria":{"example":"NOT_ASSESSED"}}
+            receipt=evidence.write_observables(root,"SYNTHETIC-CASE","SYNTHETIC-ATTEMPT",payload)
+            path=Path(receipt["path"])
+            saved=path.read_bytes()
+            self.assertEqual(receipt["sha256"],hashlib.sha256(saved).hexdigest())
+            with self.assertRaises(FileExistsError):
+                evidence.write_observables(root,"SYNTHETIC-CASE","SYNTHETIC-ATTEMPT",payload)
+            self.assertEqual(path.read_bytes(),saved)
+            with self.assertRaises(ValueError):
+                evidence.write_observables(root,"../unsafe","SYNTHETIC-ATTEMPT",payload)
+            payload["observables"]["example"]["value"] = float("nan")
+            payload["attempt_id"]="SYNTHETIC-NAN"
+            with self.assertRaises(ValueError):
+                evidence.write_observables(root,"SYNTHETIC-CASE","SYNTHETIC-NAN",payload)
+            self.assertFalse((root/"SYNTHETIC-CASE"/"SYNTHETIC-NAN").exists())
+
     def test_load_assembly_public_entry_refuses_without_authorization(self):
         with self.assertRaisesRegex(PermissionError, "PREPARED_NOT_AUTHORIZED"):
             load_assembly_draft.assemble_body_load({}, order=8)
