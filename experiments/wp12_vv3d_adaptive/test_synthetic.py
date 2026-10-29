@@ -39,7 +39,7 @@ class MeshContracts(unittest.TestCase):
             self.assertFalse((root/"SYNTHETIC-CASE"/"SYNTHETIC-NAN").exists())
 
     def test_load_assembly_public_entry_refuses_without_authorization(self):
-        with self.assertRaisesRegex(PermissionError, "PREPARED_NOT_AUTHORIZED"):
+        with self.assertRaisesRegex(PermissionError, "validated controller permit"):
             load_assembly_draft.assemble_body_load({}, order=8)
 
     def test_model_templates_remain_explicitly_non_executable(self):
@@ -180,8 +180,8 @@ class MeshContracts(unittest.TestCase):
         for item in binding["cases"]:
             self.assertEqual(item["mesh_sha256"],indexed[item["case_id"]]["mesh_sha256"])
             self.assertEqual(item["selected_dofs"],indexed[item["case_id"]]["dofs"])
-            self.assertIn(item["case_id"],item["nodeid"])
-            self.assertEqual(item["state"],"SKIPPED_NOT_AUTHORIZED")
+            self.assertEqual(item["nodeid"],indexed[item["case_id"]]["nodeid"])
+            self.assertEqual(item["state"],"PREPARED_NOT_AUTHORIZED")
             self.assertEqual(hashlib.sha256((base/item["criteria_path"]).read_bytes()).hexdigest(),
                              item["criteria_sha256_provisional"])
 

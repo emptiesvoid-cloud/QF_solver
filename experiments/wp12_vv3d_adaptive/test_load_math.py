@@ -54,7 +54,7 @@ class LoadAdapterMath(unittest.TestCase):
             "HEX20": (-1.0,) * 8 + (4/3,) * 12,
         }
         for family in mesh.FORMULATIONS:
-            for order in (4, 8):
+            for order in (4, 8, 12):
                 rule = (quadrature.tetrahedron_duffy_rule(order) if family.startswith("TET")
                         else quadrature.hexahedron_rule(order))
                 integrals = [0.0] * len(expected[family])
@@ -84,9 +84,33 @@ class LoadAdapterMath(unittest.TestCase):
             load_assembly_draft._affine_cell_geometry(
                 "HEX8", cell, prepared["nodes_integer"], prepared["integer_coordinate_denominator"])
 
-    def test_global_entry_point_stays_closed(self):
-        with self.assertRaisesRegex(PermissionError, "PREPARED_NOT_AUTHORIZED"):
-            load_assembly_draft.assemble_body_load({}, order=8)
+    def test_entry_point_requires_a_complete_controller_context(self):
+        prepared = mesh.generate("HEX8", 2)
+        with self.assertRaisesRegex(PermissionError, "validated controller permit"):
+            load_assembly_draft.assemble_body_load(prepared, order=8)
+
+    def test_entry_point_refuses_without_or_after_controller_validation(self):
+        prepared = mesh.generate("TET4", 2)
+        context = {
+            "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+            "case_id": "VV3D-TET4-L1",
+            "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L1]",
+            "manifest_sha256": "a" * 64,
+            "scientific_fingerprint": "b" * 64,
+            "controller_fingerprint": "c" * 64,
+        }
+        called = []
+        with self.assertRaisesRegex(PermissionError, "rejected"):
+            load_assembly_draft.assemble_body_load(
+                prepared, order=8, execution_context=context,
+                permit_validator=lambda received: called.append(received) or False,
+            )
+        self.assertEqual(called, [context])
+        with self.assertRaisesRegex(PermissionError, "requires a validated controller permit"):
+            load_assembly_draft.assemble_body_load(
+                prepared, order=8, execution_context={"case_id": context["case_id"]},
+                permit_validator=lambda _received: True,
+            )
 
 
 if __name__ == "__main__":

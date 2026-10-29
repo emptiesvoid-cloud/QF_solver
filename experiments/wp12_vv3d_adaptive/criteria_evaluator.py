@@ -11,8 +11,21 @@ from typing import Any
 
 def evaluate(rule: dict[str, Any], observation: Any) -> dict[str, Any]:
     """Return a prospective verdict for a single numeric or finiteness rule."""
-    if rule.get("classification") not in {"CASE_GATE", "CASE_DIAGNOSTIC", "CAMPAIGN_GATE"}:
+    classification = rule.get("classification")
+    if classification not in {
+        "CASE_GATE", "CASE_DIAGNOSTIC", "CAMPAIGN_GATE", "CAMPAIGN_GATE_DEFERRED",
+    }:
         raise ValueError("invalid criterion classification")
+    if classification == "CAMPAIGN_GATE_DEFERRED":
+        operator = rule.get("operator")
+        threshold = rule.get("threshold")
+        if operator not in {"LE", "GE", "GT"}:
+            raise ValueError("unsupported deferred criterion operator")
+        if (isinstance(threshold, bool) or not isinstance(threshold, (int, float))
+                or not math.isfinite(threshold)):
+            raise ValueError("deferred criterion threshold must be finite")
+        return {"status": "NOT_ASSESSED", "classification": classification,
+                "reason": "DEFERRED_UNTIL_CAMPAIGN_EVIDENCE_EXISTS"}
     operator = rule.get("operator")
     threshold = rule.get("threshold")
     if operator == "ALL_TRUE":

@@ -1,6 +1,8 @@
 """Pointwise interpolation for postprocessing supplied displacement data; no solve or assembly."""
 from __future__ import annotations
 
+import math
+
 from experiments.wp12_vv3d_adaptive import basis, load_assembly_draft, oracle
 
 
@@ -22,6 +24,22 @@ def sample_cell(family, cell, coordinates_integer, denominator, nodal_displaceme
     """
     if len(nodal_displacements) != len(coordinates_integer):
         raise ValueError("displacement/node count mismatch")
+    expected_nodes = {"TET4": 4, "TET10": 10, "HEX8": 8, "HEX20": 20}
+    if family not in expected_nodes or len(cell) != expected_nodes[family]:
+        raise ValueError("unsupported family or shape/connectivity mismatch")
+    if (len(reference_point) != 3
+            or not all(isinstance(value, (int, float)) and not isinstance(value, bool)
+                       and math.isfinite(value) for value in reference_point)):
+        raise ValueError("reference point must contain three finite coordinates")
+    if family.startswith("TET"):
+        if any(value < 0 for value in reference_point) or sum(reference_point) > 1:
+            raise ValueError("reference point lies outside tetrahedron")
+    elif any(value < -1 or value > 1 for value in reference_point):
+        raise ValueError("reference point lies outside hexahedron")
+    if any(len(vector) != 3 or any(isinstance(value, bool) or not isinstance(value, (int, float))
+                                   or not math.isfinite(value) for value in vector)
+           for vector in nodal_displacements):
+        raise ValueError("nodal displacements must be finite triples")
     origin,jacobian,det=load_assembly_draft._affine_cell_geometry(family,cell,coordinates_integer,denominator)
     inverse=_inverse3(jacobian)
     shape=basis.shape_values(family,reference_point)

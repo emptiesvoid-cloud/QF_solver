@@ -32,3 +32,10 @@ def test_invalid_or_mutated_rule_is_rejected():
     ):
         with pytest.raises(ValueError):
             evaluate(rule, 0)
+
+
+def test_deferred_campaign_gate_never_passes_without_campaign_evidence():
+    rule = {"classification": "CAMPAIGN_GATE_DEFERRED", "operator": "LE", "threshold": 0.02}
+    outcome = evaluate(rule, 0.0)
+    assert outcome["status"] == "NOT_ASSESSED"
+    assert outcome["reason"] == "DEFERRED_UNTIL_CAMPAIGN_EVIDENCE_EXISTS"

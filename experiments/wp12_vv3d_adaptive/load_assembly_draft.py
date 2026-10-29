@@ -1,12 +1,13 @@
-"""Draft consistent volumetric load adapter. Never call the private candidate integrator.
+"""Prospective consistent volume-load integration for affine VV3D meshes.
 
-This module is NOT registered with the official controller and is NOT authorized.
-Public assembly fails closed. The draft below is source for review only; it has not
-been executed or validated against an independent element-force oracle.
+The numerical path is implemented, but it remains unreachable unless a caller
+provides a permit validator bound to the official runner's validated execution
+context. This module does not implement or authenticate that controller.
 """
 from __future__ import annotations
 
 import math
+from collections.abc import Callable, Mapping
 from experiments.wp12_vv3d_adaptive import basis, mesh as mesh_tools, oracle, quadrature
 
 
@@ -14,9 +15,30 @@ _CORNER_COUNTS = {"TET4": 4, "TET10": 4, "HEX8": 8, "HEX20": 8}
 _NODE_COUNTS = {"TET4": 4, "TET10": 10, "HEX8": 8, "HEX20": 20}
 
 
-def assemble_body_load(mesh: dict, *, order: int) -> list[float]:
-    """Deny execution until a reviewed, source-bound official controller gate exists."""
-    raise PermissionError("WP12-VV3D load assembly is PREPARED_NOT_AUTHORIZED and not registered")
+def assemble_body_load(
+    prepared_mesh: dict,
+    *,
+    order: int,
+    execution_context: Mapping[str, str] | None = None,
+    permit_validator: Callable[[Mapping[str, str]], bool] | None = None,
+) -> list[float]:
+    """Integrate the analytic body force only after an external gate validates it.
+
+    The official runner must supply a validator that checks its actual signed or
+    source-bound permit and exact case context. A boolean flag or environment
+    variable is deliberately insufficient. There is no default validator, and
+    this research module does not claim to authenticate the Owner/controller.
+    This FEM load assembly function has not been called in this preparation.
+    """
+    required = {"campaign_id", "case_id", "nodeid", "manifest_sha256",
+                "scientific_fingerprint", "controller_fingerprint"}
+    if (not isinstance(execution_context, Mapping) or set(execution_context) != required
+            or any(not isinstance(value, str) or not value for value in execution_context.values())
+            or permit_validator is None or not callable(permit_validator)):
+        raise PermissionError("VV3D load assembly requires a validated controller permit")
+    if permit_validator(execution_context) is not True:
+        raise PermissionError("VV3D controller rejected the execution permit")
+    return _candidate_integrate_body_load_DO_NOT_EXECUTE(prepared_mesh, order)
 
 
 def _affine_cell_geometry(family: str, cell: list[int] | tuple[int, ...],
@@ -79,11 +101,12 @@ def _det3(matrix: tuple[tuple[float, float, float], ...]) -> float:
 
 
 def _candidate_integrate_body_load_DO_NOT_EXECUTE(prepared_mesh: dict, order: int) -> list[float]:
-    """Unexecuted implementation draft for affine cells, independently reviewed before use.
+    """Form ``f_e = integral N^T f dV`` and scatter over affine cells.
 
-    For each element, form f_e = integral N^T f dV with 4- or 8-point
-    tensor-product reference quadrature and scatter to a global nodal vector.
-    It explicitly performs FEM load assembly: running it needs Owner approval.
+    This performs FEM load-vector assembly, even though it does not construct a
+    stiffness matrix or solve. It must only be entered through
+    :func:`assemble_body_load` with an official validator. Affine straight-sided
+    cells only; curved high-order mappings are rejected.
     """
     family = prepared_mesh["family"]
     coordinates = prepared_mesh["nodes_integer"]
@@ -91,6 +114,8 @@ def _candidate_integrate_body_load_DO_NOT_EXECUTE(prepared_mesh: dict, order: in
     tet = family in {"TET4", "TET10"}
     if family not in {"TET4", "TET10", "HEX8", "HEX20"}:
         raise ValueError("unsupported element")
+    if order not in {4, 8, 12}:
+        raise ValueError("load integration supports only the prepared 4, 8 or 12 point rules")
     rule = quadrature.tetrahedron_duffy_rule(order) if tet else quadrature.hexahedron_rule(order)
     out = [0.0] * (3 * len(coordinates))
     for cell in prepared_mesh["connectivity_zero_based"]:
