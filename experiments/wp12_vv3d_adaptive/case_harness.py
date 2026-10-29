@@ -392,7 +392,8 @@ def evaluate_campaign_criteria(
         case_id: record.get("state")
         for case_id, record in seed_cases.items()
         if isinstance(record, dict) and record.get("state") in {
-            "TIMEOUT", "INTERRUPTED", "RESOURCE_LIMIT", "INFRA_ERROR", "PROVENANCE_MISMATCH",
+            "PYTEST_FAILED", "SCIENTIFIC_DEVIATION", "INCONCLUSIVE", "TIMEOUT", "INTERRUPTED",
+            "RESOURCE_LIMIT", "INFRA_ERROR", "PROVENANCE_MISMATCH",
         }
     }
 
@@ -407,11 +408,11 @@ def evaluate_campaign_criteria(
         if any(
             not isinstance(record["criteria"].get(name), dict)
             or record["criteria"][name].get("classification") != "CASE_GATE"
-            or record["criteria"][name].get("status") not in {"PASS", "FAIL"}
+            or record["criteria"][name].get("status") != "PASS"
             for name in CAMPAIGN_INPUT_CASE_GATE_IDS
         ):
             return False
-        if record.get("state") not in {"PASS", "PYTEST_FAILED"}:
+        if record.get("state") != "PASS":
             return False
         if record.get("provenance_state") != "VERIFIED":
             return False
@@ -426,6 +427,19 @@ def evaluate_campaign_criteria(
         if record.get("h_m") != 1.0 / (2 ** level):
             return False
         return True
+
+    invalid_present = sorted(
+        case_id for case_id, record in seed_cases.items()
+        if not record_is_valid(case_id, record)
+    )
+    if invalid_present:
+        missing_present = sorted(expected_cases.difference(seed_cases))
+        reason = "PRESENT_SEED_EVIDENCE_NOT_A_COMPLETE_CASE_GATE_PASS:" + ",".join(invalid_present)
+        if missing_present:
+            reason += ";MISSING_LEVELS:" + ",".join(missing_present)
+        return _inconclusive_campaign_assessment(
+            reason,
+        )
 
     for case_id in expected_cases.intersection(seed_cases):
         record = seed_cases[case_id]

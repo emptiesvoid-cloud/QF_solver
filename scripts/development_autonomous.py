@@ -6020,8 +6020,8 @@ def _vv3d_execution_bindings(
         if len(source_records) != 1:
             raise PolicyError("adaptive transition requires exactly one completed source-case run record")
         source_path, source_record = source_records[0]
-        if source_record.get("campaign_gate_status") in {"FAIL", "INCONCLUSIVE"}:
-            raise PolicyError("a failed or inconclusive campaign gate records STOP; no adaptive transition is allowed")
+        if not _vv3d_seed_passes_required_gates(source_record, require_campaign_pass=True):
+            raise PolicyError("adaptive transitions require a consistent verified source PASS and campaign-gate PASS")
         source_status = {"PASS": "PASS", "PYTEST_FAILED": "FAIL"}.get(
             source_record.get("state"), str(source_record.get("state")),
         )
@@ -6362,6 +6362,10 @@ def _vv3d_adaptive_source_from_completed_runs(
                 or sidecar.get("controller_fingerprint") != controller_fingerprint
                 or sidecar.get("execution", {}).get("status") != "COMPLETED_UNASSESSED"):
             raise PolicyError(f"adaptive source sidecar identity differs from PASS run {case_id}")
+        if not _vv3d_seed_passes_required_gates(
+                run, require_campaign_pass=(candidate["kind"] == "body_load_quadrature_escalation"
+                                             or case_id.endswith("-L3"))):
+            raise PolicyError(f"adaptive source is not a consistent verified PASS for {case_id}")
         source_records[case_id] = (run_path, run, sidecar)
     if candidate["kind"] == "uniform_h_refinement":
         matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "prepared_20261029" / "MATRIX_NOT_AUTHORIZED.json"
@@ -6661,7 +6665,7 @@ def _vv3d_qpost_launch_bindings(
     source_attempt = source_run.get("attempt_id")
     archive_ref = source_run.get("qpost_state_archive")
     if (source_run.get("campaign_id") != campaign_id
-            or source_run.get("scientific_state") != "PASS" or source_run.get("provenance_state") != "VERIFIED"
+            or not _vv3d_seed_passes_required_gates(source_run, require_campaign_pass=True)
             or source_run.get("source_fingerprint") != source_fingerprint
             or source_run.get("controller_fingerprint") != controller_fingerprint
             or not isinstance(source_manifest_sha, str) or not isinstance(source_attempt, str)
@@ -7232,6 +7236,41 @@ def _vv3d_campaign_disposition(assessment: Mapping[str, Any]) -> dict[str, str |
     raise PolicyError("VV3D campaign assessment has an unknown terminal status")
 
 
+def _vv3d_terminal_disposition(
+    *, science_state: str, provenance_state: str, campaign_gate_status: str | None,
+) -> dict[str, str]:
+    """Preserve the observed test/provenance state while applying campaign STOP gates."""
+    if provenance_state != "VERIFIED":
+        return {"run_state": "PROVENANCE_MISMATCH", "ledger_status": "INFRA_ERROR"}
+    if science_state == "PYTEST_FAILED":
+        return {"run_state": "PYTEST_FAILED", "ledger_status": "FAIL"}
+    if science_state != "PASS":
+        if "TIMEOUT" in science_state:
+            ledger_status = "TIMEOUT"
+        elif "INTERRUPTED" in science_state:
+            ledger_status = "INTERRUPTED"
+        elif science_state == "INFRA_ERROR":
+            ledger_status = "INFRA_ERROR"
+        else:
+            ledger_status = "RESOURCE_LIMIT"
+        return {"run_state": science_state, "ledger_status": ledger_status}
+    if campaign_gate_status == "FAIL":
+        return {"run_state": "SCIENTIFIC_DEVIATION", "ledger_status": "FAIL"}
+    if campaign_gate_status == "INCONCLUSIVE":
+        return {"run_state": "INCONCLUSIVE", "ledger_status": "INCONCLUSIVE"}
+    if campaign_gate_status not in {None, "PASS", "NOT_ASSESSED"}:
+        raise PolicyError("VV3D campaign assessment has an unknown terminal status")
+    return {"run_state": "PASS", "ledger_status": "PASS"}
+
+
+def _vv3d_seed_passes_required_gates(run: Mapping[str, Any], *, require_campaign_pass: bool) -> bool:
+    """Check that an adaptive seed is a consistent verified PASS with the required gates."""
+    if (run.get("state") != "PASS" or run.get("scientific_state") != "PASS"
+            or run.get("provenance_state") != "VERIFIED"):
+        return False
+    return not require_campaign_pass or run.get("campaign_gate_status") == "PASS"
+
+
 def _vv3d_assess_campaign_family_after_run(
     *, case_id: str, attempt_id: str, science_state: str, provenance_state: str,
     sidecar_doc: Mapping[str, Any] | None, sidecar_ref: Mapping[str, str] | None,
@@ -7279,7 +7318,7 @@ def _vv3d_assess_campaign_family_after_run(
         result: dict[str, Any] = {
             "case_id": seed_case_id, "h_m": h_m,
             "mesh_sha256": expected_matrix.get("mesh_sha256"),
-            "state": run.get("scientific_state", run.get("state")),
+            "state": run.get("state", run.get("scientific_state")),
             "provenance_state": run.get("provenance_state"),
             "sidecar_valid": False,
         }
@@ -7361,23 +7400,13 @@ def _vv3d_assess_campaign_family_after_run(
             if len(finishes) != 1:
                 result["state"] = "PROVENANCE_MISMATCH"
                 return result
-            if run.get("provenance_state") != "VERIFIED":
-                expected_finish_status = "INFRA_ERROR"
-            elif run.get("campaign_gate_status") == "FAIL":
-                expected_finish_status = "FAIL"
-            elif run.get("campaign_gate_status") == "INCONCLUSIVE":
-                expected_finish_status = "INCONCLUSIVE"
-            elif run.get("scientific_state") == "PASS":
-                expected_finish_status = "PASS"
-            elif run.get("scientific_state") == "PYTEST_FAILED":
-                expected_finish_status = "FAIL"
-            elif "TIMEOUT" in str(run.get("scientific_state")):
-                expected_finish_status = "TIMEOUT"
-            elif "INTERRUPTED" in str(run.get("scientific_state")):
-                expected_finish_status = "INTERRUPTED"
-            else:
-                expected_finish_status = "RESOURCE_LIMIT"
-            if finishes[0].get("status") != expected_finish_status:
+            expected_disposition = _vv3d_terminal_disposition(
+                science_state=str(run.get("scientific_state", run.get("state", ""))),
+                provenance_state=str(run.get("provenance_state", "")),
+                campaign_gate_status=run.get("campaign_gate_status"),
+            )
+            if (finishes[0].get("status") != expected_disposition["ledger_status"]
+                    or run.get("state") != expected_disposition["run_state"]):
                 result["state"] = "PROVENANCE_MISMATCH"
                 return result
         result.update({
@@ -7684,9 +7713,6 @@ def run_wp12_vv3d_pytest(
                         campaign_ledger=campaign_ledger,
                     )
                     campaign_gate_status = campaign_assessment.get("status")
-                    campaign_disposition = _vv3d_campaign_disposition(campaign_assessment)
-                    if campaign_disposition["run_state"] is not None:
-                        final_state = campaign_disposition["run_state"]
                 except (OSError, PolicyError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
                     # The scientific attempt remains consumed. A failure to produce
                     # a provenance-bound assessment blocks continuation as infrastructure.
@@ -7699,6 +7725,11 @@ def run_wp12_vv3d_pytest(
                         "reason": f"ASSESSMENT_ARCHIVE_OR_PROVENANCE_ERROR:{type(exc).__name__}:{exc}",
                     }
                     campaign_gate_status = "INCONCLUSIVE"
+            terminal = _vv3d_terminal_disposition(
+                science_state=science_state, provenance_state=provenance_state,
+                campaign_gate_status=campaign_gate_status,
+            )
+            final_state = terminal["run_state"]
             state_archive = None
             state_archive_error = None
             if final_state == "PASS" and not adaptive:
@@ -7713,23 +7744,12 @@ def run_wp12_vv3d_pytest(
                     state_archive_error = f"{type(exc).__name__}: {exc}"
                 if state_archive is None or state_archive_error is not None:
                     provenance_state = "PROVENANCE_MISMATCH"
-                    final_state = "PROVENANCE_MISMATCH"
-            if provenance_state != "VERIFIED":
-                ledger_status = "INFRA_ERROR"
-            elif campaign_gate_status == "FAIL":
-                ledger_status = "FAIL"
-            elif campaign_gate_status == "INCONCLUSIVE":
-                ledger_status = "INCONCLUSIVE"
-            elif science_state == "PASS":
-                ledger_status = "PASS"
-            elif science_state == "PYTEST_FAILED":
-                ledger_status = "FAIL"
-            elif "TIMEOUT" in science_state:
-                ledger_status = "TIMEOUT"
-            elif "INTERRUPTED" in science_state:
-                ledger_status = "INTERRUPTED"
-            else:
-                ledger_status = "RESOURCE_LIMIT"
+            terminal = _vv3d_terminal_disposition(
+                science_state=science_state, provenance_state=provenance_state,
+                campaign_gate_status=campaign_gate_status,
+            )
+            final_state = terminal["run_state"]
+            ledger_status = terminal["ledger_status"]
             campaign_ledger.finish_runner_attempt(
                 run_id=runner_receipt["reservation_id"], status=ledger_status,
                 elapsed_seconds=result.elapsed_seconds,

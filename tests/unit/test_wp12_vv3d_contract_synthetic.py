@@ -86,7 +86,7 @@ def test_vv3d_decision_binds_exact_raw_contract_and_case_order():
         c.validate_decision(contract,decision,contract_bytes=b'{"schema":1,"schema":2}')
 
 
-def test_vv3d_adaptive_cases_require_registered_trigger_and_explicit_transition():
+def test_vv3d_adaptive_cases_reject_scientific_deviation_transitions():
     contract=fixture_contract()
     adaptive=copy.deepcopy(contract["cases"][0])
     adaptive.update(case_id="VV3D-ADAPTIVE-001",phase="ADAPTIVE",nodeid="tests/unit/test_vv3d.py::test_case[ADAPTIVE]",
@@ -94,9 +94,13 @@ def test_vv3d_adaptive_cases_require_registered_trigger_and_explicit_transition(
                  "operator":"GT","threshold":0.02,"unit":"1"})
     contract["cases"].append(adaptive)
     source=contract["cases"][0]["case_id"]
-    contract["transitions"]["SCIENTIFIC_DEVIATION"]={source:[adaptive["case_id"],contract["cases"][1]["case_id"]]}
     nodes={case["nodeid"] for case in contract["cases"]}|{job["nodeid"] for job in contract["qpost_jobs"]}
     c.validate_contract(contract,registered_nodeids=nodes,controller_fingerprint="e"*64,scientific_fingerprint="f"*64)
+    bad_transition=copy.deepcopy(contract)
+    bad_transition["transitions"]["SCIENTIFIC_DEVIATION"]={source:[adaptive["case_id"]]}
+    with pytest.raises(c.VV3DContractError, match="scientific deviation must stop"):
+        c.validate_contract(bad_transition,registered_nodeids=nodes,
+                            controller_fingerprint="e"*64,scientific_fingerprint="f"*64)
     for mutation in ("unknown_trigger","nonfinite","unlisted_transition","duplicate_transition"):
         bad=copy.deepcopy(contract)
         if mutation == "unknown_trigger":
@@ -111,14 +115,13 @@ def test_vv3d_adaptive_cases_require_registered_trigger_and_explicit_transition(
             c.validate_contract(bad,registered_nodeids=nodes,controller_fingerprint="e"*64,scientific_fingerprint="f"*64)
 
 
-def test_adaptive_eligibility_requires_measured_trigger_or_approved_failure_route():
+def test_adaptive_eligibility_requires_measured_pass_trigger_and_refuses_failure_route():
     contract=fixture_contract()
     source=contract["cases"][0]["case_id"]
     destination=copy.deepcopy(contract["cases"][0])
     destination.update(case_id="VV3D-ADAPT-TEST",phase="ADAPTIVE",nodeid="tests/unit/test_vv3d.py::test_adapt",
         trigger={"source_case_id":source,"observable":"energy_error","operator":"GT","threshold":0.02,"unit":"1"})
     contract["cases"].append(destination)
-    contract["transitions"]["SCIENTIFIC_DEVIATION"]={source:[destination["case_id"]]}
     decision={"decision_id":"owner-decision"}
     receipt={"schema":"qf-wp12-vv3d-transition-eligibility-v1","campaign_id":c.CAMPAIGN,
         "contract_sha256":"1"*64,"decision_id":"owner-decision","decision_sha256":"2"*64,
@@ -137,9 +140,10 @@ def test_adaptive_eligibility_requires_measured_trigger_or_approved_failure_rout
             source_result_sha256="3"*64,source_observables={"energy_error":{"value":0.03,"unit":"1"}},receipt=bad)
     fail_receipt={**receipt,"source_status":"FAIL","transition_kind":"APPROVED_SCIENTIFIC_DEVIATION",
                   "trigger_observation":None}
-    c.validate_transition_eligibility(contract,decision,contract_sha256="1"*64,decision_sha256="2"*64,
-        source_case_id=source,destination_case_id=destination["case_id"],source_status="FAIL",
-        source_result_sha256="3"*64,source_observables={},receipt=fail_receipt)
+    with pytest.raises(c.VV3DContractError, match="non-PASS outcomes stop"):
+        c.validate_transition_eligibility(contract,decision,contract_sha256="1"*64,decision_sha256="2"*64,
+            source_case_id=source,destination_case_id=destination["case_id"],source_status="FAIL",
+            source_result_sha256="3"*64,source_observables={},receipt=fail_receipt)
     with pytest.raises(c.VV3DContractError):
         c.validate_transition_eligibility(contract,decision,contract_sha256="1"*64,decision_sha256="2"*64,
             source_case_id=source,destination_case_id=destination["case_id"],source_status="TIMEOUT",

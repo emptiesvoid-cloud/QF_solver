@@ -303,6 +303,39 @@ def test_synthetic_campaign_gates_pass_and_preserve_all_refinement_metrics() -> 
     assert assessment["criteria"]["displacement_order"]["intervals"] == ["L1-L2", "L2-L3"]
 
 
+@pytest.mark.parametrize("state", ["PYTEST_FAILED", "SCIENTIFIC_DEVIATION", "INCONCLUSIVE"])
+def test_synthetic_campaign_rejects_nonpass_case_state_even_with_finite_observables(state: str) -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L3"]["state"] = state
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "INCONCLUSIVE"
+    assert assessment["decision"] == "STOP_INCONCLUSIVE"
+    assert {item["status"] for item in assessment["criteria"].values()} == {"INCONCLUSIVE"}
+
+
+def test_synthetic_campaign_rejects_case_gate_failure_hidden_in_a_pass_state() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L1"]["criteria"]["force_closure"]["status"] = "FAIL"
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "INCONCLUSIVE"
+    assert assessment["decision"] == "STOP_INCONCLUSIVE"
+    assert all(item["status"] != "PASS" for item in assessment["criteria"].values())
+
+
+def test_synthetic_campaign_partial_pytest_failure_is_not_downgraded_to_not_assessed() -> None:
+    seeds = _synthetic_campaign_seed_cases()
+    seeds["VV3D-TET4-L1"]["state"] = "PYTEST_FAILED"
+    del seeds["VV3D-TET4-L2"]
+    del seeds["VV3D-TET4-L3"]
+    assessment = case_harness.evaluate_campaign_criteria("TET4", seeds, _campaign_rules())
+
+    assert assessment["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["displacement_order"]["status"] == "INCONCLUSIVE"
+    assert assessment["criteria"]["energy_order"]["status"] == "INCONCLUSIVE"
+
+
 def test_synthetic_campaign_gate_failure_is_scientific_deviation_stop() -> None:
     seeds = _synthetic_campaign_seed_cases()
     seeds["VV3D-TET4-L3"]["observables"]["displacement_l2_m_5_2"]["relative_error"] = 0.2
@@ -416,6 +449,47 @@ def test_synthetic_campaign_verdict_controls_runner_stop_without_changing_qpost(
     assert development_autonomous._vv3d_campaign_disposition({"status": "INCONCLUSIVE"}) == {
         "run_state": "INCONCLUSIVE", "ledger_status": "INCONCLUSIVE",
     }
+
+
+@pytest.mark.parametrize(("science", "provenance", "campaign", "run_state", "ledger"), [
+    ("PASS", "VERIFIED", "PASS", "PASS", "PASS"),
+    ("PASS", "VERIFIED", "NOT_ASSESSED", "PASS", "PASS"),
+    ("PASS", "VERIFIED", "FAIL", "SCIENTIFIC_DEVIATION", "FAIL"),
+    ("PASS", "VERIFIED", "INCONCLUSIVE", "INCONCLUSIVE", "INCONCLUSIVE"),
+    ("PYTEST_FAILED", "VERIFIED", "INCONCLUSIVE", "PYTEST_FAILED", "FAIL"),
+    ("WALL_TIMEOUT_EXCEEDED", "VERIFIED", "INCONCLUSIVE", "WALL_TIMEOUT_EXCEEDED", "TIMEOUT"),
+    ("PASS", "PROVENANCE_MISMATCH", "FAIL", "PROVENANCE_MISMATCH", "INFRA_ERROR"),
+])
+def test_synthetic_terminal_disposition_preserves_primary_failure_and_stop(
+    science: str, provenance: str, campaign: str, run_state: str, ledger: str,
+) -> None:
+    from scripts import development_autonomous
+
+    assert development_autonomous._vv3d_terminal_disposition(
+        science_state=science, provenance_state=provenance, campaign_gate_status=campaign,
+    ) == {"run_state": run_state, "ledger_status": ledger}
+
+
+@pytest.mark.parametrize(("run", "require_campaign_pass", "expected"), [
+    ({"state": "PASS", "scientific_state": "PASS", "provenance_state": "VERIFIED",
+      "campaign_gate_status": "PASS"}, True, True),
+    ({"state": "PASS", "scientific_state": "PASS", "provenance_state": "VERIFIED",
+      "campaign_gate_status": "NOT_ASSESSED"}, True, False),
+    ({"state": "SCIENTIFIC_DEVIATION", "scientific_state": "PASS", "provenance_state": "VERIFIED",
+      "campaign_gate_status": "FAIL"}, True, False),
+    ({"state": "INCONCLUSIVE", "scientific_state": "PASS", "provenance_state": "VERIFIED",
+      "campaign_gate_status": "INCONCLUSIVE"}, True, False),
+    ({"state": "PASS", "scientific_state": "PYTEST_FAILED", "provenance_state": "VERIFIED",
+      "campaign_gate_status": "PASS"}, True, False),
+])
+def test_synthetic_qload_qpost_and_h1_seeds_require_consistent_pass_bindings(
+    run: dict, require_campaign_pass: bool, expected: bool,
+) -> None:
+    from scripts import development_autonomous
+
+    assert development_autonomous._vv3d_seed_passes_required_gates(
+        run, require_campaign_pass=require_campaign_pass,
+    ) is expected
 
 
 def test_synthetic_campaign_runner_archives_bound_metrics_before_disposition(tmp_path) -> None:
