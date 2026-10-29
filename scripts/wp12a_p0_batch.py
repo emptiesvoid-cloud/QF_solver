@@ -136,7 +136,6 @@ def prepare_contract(
     cases: list[dict[str, Any]] = []
     seen: set[str] = set()
     common_identity: dict[str, Any] | None = None
-    common_fingerprint: str | None = None
     case_ids: set[str] = set()
 
     for ordinal, supplied_path in enumerate(case_manifest_paths, start=1):
@@ -176,9 +175,8 @@ def prepare_contract(
         )
         if common_identity is None:
             common_identity = dict(identity)
-            common_fingerprint = source_fingerprint
-        elif identity != common_identity or source_fingerprint != common_fingerprint:
-            raise controller.PolicyError("all P0 case manifests must share one frozen scientific identity")
+        elif identity != common_identity:
+            raise controller.PolicyError("all P0 case manifests must share one frozen scientific checkout identity")
         selection = controller._wp12_active_registration(worktree_id, target, active_entry, source_fingerprint)
         expected_selection = {
             "selected_dofs": selection["selected_dofs"],

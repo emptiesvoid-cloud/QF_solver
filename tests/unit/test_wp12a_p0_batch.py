@@ -119,7 +119,7 @@ class FakeController:
             source_path = self.science / module_path
             source_path.parent.mkdir(parents=True, exist_ok=True)
             if not source_path.exists():
-                source_path.write_text("# synthetic source identity; no FEM body\n", encoding="utf-8")
+                source_path.write_text(f"# synthetic source identity for {module_path}; no FEM body\n", encoding="utf-8")
             digest = self.sha256(source_path)
             self.fingerprints[module_path] = hashlib.sha256(("source:" + digest).encode()).hexdigest()
             dofs = 2 if target == NODES[0] else 3 if target in NODES[1:3] or target == NODES[5] else 1
@@ -491,6 +491,41 @@ def test_batch_runs_six_exact_cases_sequentially_with_independent_receipts(batch
     assert len(receipts) == len(NODES)
     assert [json.loads(path.read_text(encoding="utf-8"))["nodeid"] for path in receipts] == list(NODES)
     assert len({json.loads(path.read_text(encoding="utf-8"))["run_record_sha256"] for path in receipts}) == len(NODES)
+
+
+def test_contract_preserves_per_case_source_fingerprints_for_one_git_identity(tmp_path: Path) -> None:
+    controller = FakeController(tmp_path)
+    fingerprints = {
+        controller.fingerprints[target.split("::", maxsplit=1)[0]] for target in NODES
+    }
+    assert len(fingerprints) > 1
+
+    prepared = BATCH.prepare_contract(controller, "wp12a-p0-case-fingerprints", controller.case_paths)
+    contract = json.loads(Path(prepared["contract_path"]).read_text(encoding="utf-8"))
+
+    assert {json.dumps(case["identity"], sort_keys=True) for case in contract["ordered_cases"]} == {
+        json.dumps(controller.identity, sort_keys=True)
+    }
+    assert {case["source_fingerprint"] for case in contract["ordered_cases"]} == fingerprints
+    assert [case["nodeid"] for case in contract["ordered_cases"]] == list(NODES)
+
+
+def test_contract_rejects_different_git_identities_even_with_valid_case_fingerprints(tmp_path: Path) -> None:
+    controller = FakeController(tmp_path)
+    registered_worktree = controller._registered_worktree
+
+    def divergent_identity(
+        worktree_id: str, target: str, policy: Mapping[str, Any]
+    ) -> tuple[dict[str, Any], Path, Path, dict[str, Any], str]:
+        result = registered_worktree(worktree_id, target, policy)
+        if target == NODES[1]:
+            result[3]["head"] = "f" * 40
+        return result
+
+    controller._registered_worktree = divergent_identity  # type: ignore[method-assign]
+
+    with pytest.raises(SyntheticPolicyError, match="frozen scientific checkout identity"):
+        BATCH.prepare_contract(controller, "wp12a-p0-divergent-git-identity", controller.case_paths)
 
 
 def test_scientific_failure_continues_only_when_closed_contract_allows_it(batch_harness: Any) -> None:
