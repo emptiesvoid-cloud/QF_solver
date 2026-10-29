@@ -8,10 +8,16 @@ from collections import Counter
 from itertools import combinations, product
 from pathlib import Path
 
-from experiments.wp12_vv3d_adaptive import basis, budget, mesh, metrics, model_draft, oracle, prepare, quadrature, quality
+from experiments.wp12_vv3d_adaptive import (
+    basis, budget, load_assembly_draft, mesh, metrics, model_draft, oracle, prepare, quadrature, quality,
+)
 
 
 class MeshContracts(unittest.TestCase):
+    def test_load_assembly_public_entry_refuses_without_authorization(self):
+        with self.assertRaisesRegex(PermissionError, "PREPARED_NOT_AUTHORIZED"):
+            load_assembly_draft.assemble_body_load({}, order=8)
+
     def test_model_templates_remain_explicitly_non_executable(self):
         for family in mesh.FORMULATIONS:
             prepared = mesh.generate(family,2)
