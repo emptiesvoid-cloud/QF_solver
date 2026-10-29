@@ -6,7 +6,7 @@
 
 ## Identités et hashes proposés
 
-- Dépôt de préparation : branche `fix/wp12a-p0-batch-preparation-20261029`, commit de départ `f8eba3f3b8677ac650362c38f5dfb82c90e220ad` ; le worktree contient encore le diff de proposition en cours.
+- Dépôt de préparation : branche `fix/wp12a-p0-batch-preparation-20261029`; prototype préparé dans `224b5c90`, synchronisé avec le correctif déjà intégré #72 (`aea4ce54`, merge local `77859da4`). Le diff proposé est calculé contre la branche release actuelle; aucun changement n’est encore intégré à cette branche.
 - Source scientifique propre : `E:\QFSolverAgents\wp12-dynamics`, `codex/wp12-dynamic-harmonic-verification`, HEAD `7406e34efc28ed8f18c15440115595dfa3dd9ca5`, tree `a618d0d1790ab8642f408a78b2d2856debcc60c0`.
 - Contrôleur canonique actuel : HEAD `0d91fc5a9bc09875526af6f17cf42c3ac666c5b7`, tree `3d57c36c948c9cc3fbc8a5d399fc465245c54a11`, fingerprint `4fdbd810091de83ff5f729edfb4b9a20b660156e60dfa136c50eab97350e6afb`. Il ne reconnaît pas encore le protocole batch et n’offre pas les six préflights proposés.
 - Contrat Owner de proposition : [WP12A_P0_BATCH_OWNER_CONTRACT_PROPOSAL.json](wp12a_p0/WP12A_P0_BATCH_OWNER_CONTRACT_PROPOSAL.json), SHA-256 `c96974b3764b2222705fd13bf048c85016593f978316f9e136d0cf44e5935dd8`. Ce JSON est `PROPOSAL_ONLY`; son SHA n’autorise aucune exécution.
@@ -46,9 +46,10 @@ La procédure `run-wp12a-p0-batch` refuse si une identité change, si un préfli
 ## Vérifications synthétiques de cette proposition
 
 - `py -m pytest -q tests/unit/test_wp12a_p0_batch.py tests/unit/test_development_autonomous_policy.py` : **269 PASS**.
-- `py -m pytest -q tests/unit/test_wp12b_owner_decision_contract.py tests/unit/test_wp12b_diagnostic_provenance.py tests/unit/test_wp12b_hex20_diagnostic_support.py tests/unit/test_hex8sri_manifest_refresh.py tests/unit/test_wp12a_mpc_rbe_route_preflight.py` : **45 PASS**.
-- Ruff sur les quatre modules Python modifiés : **PASS**.
-- `py_compile` des quatre modules : **PASS**.
+- `py -m pytest -q tests/unit/test_wp12b_owner_decision_contract.py tests/unit/test_wp12b_diagnostic_provenance.py tests/unit/test_wp12b_hex20_diagnostic_support.py tests/unit/test_wp12b_hex20_quadrature_math.py tests/unit/test_hex8sri_manifest_refresh.py tests/unit/test_wp12a_mpc_rbe_route_preflight.py` : **51 PASS**.
+- `py scripts/run_wp12_controller_synthetic.py` : **320 PASS, 0 FAIL, 0 skip, 0 erreur**. La liste du script ne contient que des modules de contrôleur et des doubles synthétiques; elle n’inclut pas les corps des tests Newmark, harmonique ou base-motion.
+- Ruff sur les cinq fichiers Python modifiés : **PASS**.
+- `py_compile` des cinq fichiers Python : **PASS**.
 - Validation JSON : **8 fichiers PASS** ; `git diff --check` : **PASS**.
 
-Ces 314 tests utilisent des fichiers temporaires, un faux contrôleur et des reçus/JUnit synthétiques. Ils ne lancent aucun nodeid scientifique et n’écrivent pas dans les ledgers officiels. Aucun préflight officiel n’a été effectué. La PR reste à revoir, et la proposition de plafond 18 ne doit pas être activée avant l’approbation Owner correspondante.
+Les deux sélections pytest utilisent des fichiers temporaires, un faux contrôleur et des reçus/JUnit synthétiques; elles couvrent 320 tests avec paramètres au total, sans additionner une seconde fois l’exécution du script CI qui rejoue les contrats synthétiques un par un. Elles ne lancent aucun nodeid scientifique et n’écrivent pas dans les ledgers officiels. Aucun préflight officiel n’a été effectué. Le workflow GitHub déclenché sur PR vers la branche release exécute cette seule suite synthétique, Ruff, compilation, validation JSON et `git diff --check`; le gate général qui inclut des vérifications d’ingénierie cible `main` et ne s’exécute pas sur cette PR. La PR reste à revoir, et la proposition de plafond 18 ne doit pas être activée avant l’approbation Owner correspondante.
