@@ -6020,6 +6020,8 @@ def _vv3d_execution_bindings(
         if len(source_records) != 1:
             raise PolicyError("adaptive transition requires exactly one completed source-case run record")
         source_path, source_record = source_records[0]
+        if not _vv3d_seed_passes_required_gates(source_record, require_campaign_pass=True):
+            raise PolicyError("adaptive transitions require a consistent verified source PASS and campaign-gate PASS")
         source_status = {"PASS": "PASS", "PYTEST_FAILED": "FAIL"}.get(
             source_record.get("state"), str(source_record.get("state")),
         )
@@ -6200,7 +6202,7 @@ def _vv3d_adaptive_fem_launch_bindings(
     # Reconstruct eligibility input only from immutable completed seed records
     # and their hashed sidecars; a manifest cannot supply synthetic observations.
     source = _vv3d_adaptive_source_from_completed_runs(
-        candidate=candidate, store=store, evidence_root=evidence_root,
+        candidate=candidate, store=store, evidence_root=evidence_root, execution_root=execution_root,
         ledger_path=store / str(entry["node_attempt_ledger"]["path"]),
         campaign_id=VV3D_CAMPAIGN_ID, source_fingerprint=source_fingerprint,
         controller_fingerprint=controller_fingerprint,
@@ -6302,7 +6304,8 @@ def _vv3d_adaptive_fem_launch_bindings(
 
 
 def _vv3d_adaptive_source_from_completed_runs(
-    *, candidate: Mapping[str, Any], store: Path, evidence_root: Path, ledger_path: Path,
+    *, candidate: Mapping[str, Any], store: Path, evidence_root: Path, execution_root: Path,
+    ledger_path: Path,
     campaign_id: str, source_fingerprint: str, controller_fingerprint: str,
 ) -> dict[str, Any]:
     """Read source observations from completed PASS run receipts and their immutable sidecars."""
@@ -6359,11 +6362,51 @@ def _vv3d_adaptive_source_from_completed_runs(
                 or sidecar.get("controller_fingerprint") != controller_fingerprint
                 or sidecar.get("execution", {}).get("status") != "COMPLETED_UNASSESSED"):
             raise PolicyError(f"adaptive source sidecar identity differs from PASS run {case_id}")
+        if not _vv3d_seed_passes_required_gates(
+                run, require_campaign_pass=(candidate["kind"] == "body_load_quadrature_escalation"
+                                             or case_id.endswith("-L3"))):
+            raise PolicyError(f"adaptive source is not a consistent verified PASS for {case_id}")
         source_records[case_id] = (run_path, run, sidecar)
     if candidate["kind"] == "uniform_h_refinement":
+        matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "prepared_20261029" / "MATRIX_NOT_AUTHORIZED.json"
+        matrix = _read_strict_json(matrix_path)
+        matrix_cases = {item.get("case_id"): item for item in matrix.get("cases", []) if isinstance(item, Mapping)}
+        l3_run = source_records[f"VV3D-{candidate['family']}-L3"][1]
+        assessment_ref = l3_run.get("campaign_assessment")
+        if (l3_run.get("campaign_gate_status") != "PASS"
+                or not isinstance(assessment_ref, Mapping)
+                or not isinstance(assessment_ref.get("path"), str)
+                or not re.fullmatch(r"[0-9a-f]{64}", str(assessment_ref.get("sha256", "")))):
+            raise PolicyError("H1 requires a complete passing campaign-gate assessment archived by the runner")
+        assessment_path = Path(assessment_ref["path"]).resolve(strict=True)
+        try:
+            assessment_path.relative_to(evidence_root.resolve(strict=True))
+        except ValueError as exc:
+            raise PolicyError("H1 campaign assessment escapes the assigned evidence root") from exc
+        assessment_raw = assessment_path.read_bytes()
+        if hashlib.sha256(assessment_raw).hexdigest() != assessment_ref["sha256"]:
+            raise PolicyError("H1 campaign assessment SHA-256 mismatch")
+        assessment_record = _read_strict_json(assessment_path)
+        if (assessment_record.get("schema") != "qf-wp12-vv3d-campaign-assessment-record-v1"
+                or assessment_record.get("campaign_id") != campaign_id
+                or assessment_record.get("family") != candidate["family"]
+                or assessment_record.get("assessment", {}).get("status") != "PASS"
+                or assessment_record.get("scientific_fingerprint") != source_fingerprint
+                or assessment_record.get("controller_fingerprint") != controller_fingerprint):
+            raise PolicyError("H1 campaign assessment record does not bind the exact passing family and identities")
         return {"seed_cases": {
-            case_id: {"observables": sidecar.get("observables"), "criteria": sidecar.get("criteria")}
-            for case_id, (_path, _run, sidecar) in source_records.items()
+            case_id: {
+                "case_id": case_id, "state": run.get("state"),
+                "provenance_state": run.get("provenance_state"), "sidecar_valid": True,
+                "sidecar_sha256": run.get("observables_sidecar", {}).get("sha256"),
+                "manifest_sha256": run.get("manifest", {}).get("sha256"),
+                "mesh_sha256": run.get("mesh_sha256"),
+                "scientific_fingerprint": run.get("source_fingerprint"),
+                "controller_fingerprint": run.get("controller_fingerprint"),
+                "h_m": 1.0 / matrix_cases[case_id]["divisions"][0],
+                "observables": sidecar.get("observables"), "criteria": sidecar.get("criteria"),
+            }
+            for case_id, (_path, run, sidecar) in source_records.items()
         }}
     _path, _run, sidecar = source_records[str(candidate["seed_case"])]
     load = sidecar.get("observables", {}).get("load_quadrature_8_12")
@@ -6622,7 +6665,7 @@ def _vv3d_qpost_launch_bindings(
     source_attempt = source_run.get("attempt_id")
     archive_ref = source_run.get("qpost_state_archive")
     if (source_run.get("campaign_id") != campaign_id
-            or source_run.get("scientific_state") != "PASS" or source_run.get("provenance_state") != "VERIFIED"
+            or not _vv3d_seed_passes_required_gates(source_run, require_campaign_pass=True)
             or source_run.get("source_fingerprint") != source_fingerprint
             or source_run.get("controller_fingerprint") != controller_fingerprint
             or not isinstance(source_manifest_sha, str) or not isinstance(source_attempt, str)
@@ -7179,6 +7222,278 @@ def _validate_wp12b_hex20_r2_preflight_receipt(
     return path, digest
 
 
+def _vv3d_campaign_disposition(assessment: Mapping[str, Any]) -> dict[str, str | None]:
+    """Map a persisted campaign-gate verdict to runner/ledger terminal states."""
+    status = assessment.get("status")
+    if status == "PASS":
+        return {"run_state": None, "ledger_status": None}
+    if status == "FAIL":
+        return {"run_state": "SCIENTIFIC_DEVIATION", "ledger_status": "FAIL"}
+    if status == "INCONCLUSIVE":
+        return {"run_state": "INCONCLUSIVE", "ledger_status": "INCONCLUSIVE"}
+    if status == "NOT_ASSESSED":
+        return {"run_state": None, "ledger_status": None}
+    raise PolicyError("VV3D campaign assessment has an unknown terminal status")
+
+
+def _vv3d_terminal_disposition(
+    *, science_state: str, provenance_state: str, campaign_gate_status: str | None,
+) -> dict[str, str]:
+    """Preserve the observed test/provenance state while applying campaign STOP gates."""
+    if provenance_state != "VERIFIED":
+        return {"run_state": "PROVENANCE_MISMATCH", "ledger_status": "INFRA_ERROR"}
+    if science_state == "PYTEST_FAILED":
+        return {"run_state": "PYTEST_FAILED", "ledger_status": "FAIL"}
+    if science_state != "PASS":
+        if "TIMEOUT" in science_state:
+            ledger_status = "TIMEOUT"
+        elif "INTERRUPTED" in science_state:
+            ledger_status = "INTERRUPTED"
+        elif science_state == "INFRA_ERROR":
+            ledger_status = "INFRA_ERROR"
+        else:
+            ledger_status = "RESOURCE_LIMIT"
+        return {"run_state": science_state, "ledger_status": ledger_status}
+    if campaign_gate_status == "FAIL":
+        return {"run_state": "SCIENTIFIC_DEVIATION", "ledger_status": "FAIL"}
+    if campaign_gate_status == "INCONCLUSIVE":
+        return {"run_state": "INCONCLUSIVE", "ledger_status": "INCONCLUSIVE"}
+    if campaign_gate_status not in {None, "PASS", "NOT_ASSESSED"}:
+        raise PolicyError("VV3D campaign assessment has an unknown terminal status")
+    return {"run_state": "PASS", "ledger_status": "PASS"}
+
+
+def _vv3d_seed_passes_required_gates(run: Mapping[str, Any], *, require_campaign_pass: bool) -> bool:
+    """Check that an adaptive seed is a consistent verified PASS with the required gates."""
+    if (run.get("state") != "PASS" or run.get("scientific_state") != "PASS"
+            or run.get("provenance_state") != "VERIFIED"):
+        return False
+    return not require_campaign_pass or run.get("campaign_gate_status") == "PASS"
+
+
+def _vv3d_assess_campaign_family_after_run(
+    *, case_id: str, attempt_id: str, science_state: str, provenance_state: str,
+    sidecar_doc: Mapping[str, Any] | None, sidecar_ref: Mapping[str, str] | None,
+    current_manifest: Mapping[str, Any], current_manifest_sha256: str,
+    current_manifest_path: Path,
+    evidence_root: Path, store: Path, execution_root: Path,
+    source_fingerprint: str, controller_fingerprint: str, campaign_ledger: Any,
+) -> tuple[dict[str, Any], dict[str, str]]:
+    """Assess and immutably archive one family's campaign criteria after an initial case.
+
+    Prior levels are admitted only through completed runner records, their bound
+    manifest and sidecar bytes, and the append-only VV3D ledger. The current
+    level uses the just-validated sidecar and its still-open reservation.
+    """
+    family, level_text = case_id.rsplit("-L", maxsplit=1)
+    family = family.removeprefix("VV3D-")
+    if family not in {"TET4", "TET10", "HEX8", "HEX20"} or level_text not in {"1", "2", "3"}:
+        raise PolicyError("campaign assessment requires an exact initial family case")
+    case_ids = [f"VV3D-{family}-L{level}" for level in (1, 2, 3)]
+    matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "prepared_20261029" / "MATRIX_NOT_AUTHORIZED.json"
+    matrix = _read_strict_json(matrix_path)
+    matrix_cases = {item.get("case_id"): item for item in matrix.get("cases", []) if isinstance(item, Mapping)}
+    if matrix.get("campaign_id") != VV3D_CAMPAIGN_ID or any(case not in matrix_cases for case in case_ids):
+        raise PolicyError("campaign assessment matrix does not bind the exact family L1/L2/L3 cases")
+    criteria = current_manifest.get("frozen_criteria")
+    criteria_raw = json.dumps(criteria, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+    criteria_sha256 = hashlib.sha256(criteria_raw).hexdigest()
+    if current_manifest.get("criteria_sha256") != criteria_sha256:
+        raise PolicyError("campaign assessment criteria differ from the exact current manifest")
+
+    ledger_records = list(campaign_ledger.verify())
+    seeds: dict[str, dict[str, Any]] = {}
+    input_refs: list[dict[str, Any]] = []
+    root = evidence_root.resolve(strict=False)
+    store_root = store.resolve(strict=True)
+
+    def seed_record(seed_case_id: str, run: Mapping[str, Any], *, current: bool = False) -> dict[str, Any]:
+        expected_matrix = matrix_cases[seed_case_id]
+        divisions = expected_matrix.get("divisions")
+        if (not isinstance(divisions, list) or len(divisions) != 3
+                or any(type(value) is not int or value <= 0 for value in divisions)
+                or len(set(divisions)) != 1):
+            raise PolicyError(f"campaign mesh size is not defined by the exact uniform mesh: {seed_case_id}")
+        h_m = 1.0 / divisions[0]  # Frozen unit-cube protocol: h=1/n.
+        result: dict[str, Any] = {
+            "case_id": seed_case_id, "h_m": h_m,
+            "mesh_sha256": expected_matrix.get("mesh_sha256"),
+            "state": run.get("state", run.get("scientific_state")),
+            "provenance_state": run.get("provenance_state"),
+            "sidecar_valid": False,
+        }
+        manifest_meta = run.get("manifest")
+        sidecar_meta = run.get("observables_sidecar")
+        if (run.get("campaign_id") != VV3D_CAMPAIGN_ID or run.get("case_id") != seed_case_id
+                or run.get("source_fingerprint") != source_fingerprint
+                or run.get("controller_fingerprint") != controller_fingerprint
+                or run.get("provenance_state") != "VERIFIED"
+                or run.get("mesh_sha256") != expected_matrix.get("mesh_sha256")
+                or not isinstance(manifest_meta, Mapping)
+                or not isinstance(sidecar_meta, Mapping)):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        manifest_path = current_manifest_path if current else Path(str(manifest_meta.get("path", ""))).resolve(strict=True)
+        if not current:
+            try:
+                manifest_path.relative_to(store_root)
+            except ValueError:
+                result["state"] = "PROVENANCE_MISMATCH"
+                return result
+        manifest_raw = manifest_path.read_bytes()
+        manifest_sha = hashlib.sha256(manifest_raw).hexdigest()
+        if manifest_sha != (current_manifest_sha256 if current else manifest_meta.get("sha256")):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        prior_manifest = _read_strict_json(manifest_path)
+        if (prior_manifest.get("case_id") != seed_case_id
+                or prior_manifest.get("mesh_sha256") != expected_matrix.get("mesh_sha256")
+                or prior_manifest.get("frozen_criteria") != criteria
+                or prior_manifest.get("criteria_sha256") != criteria_sha256):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        sidecar_path = (Path(str(sidecar_meta.get("path", ""))).resolve(strict=True) if not current
+                        else Path(str(sidecar_meta.get("path", ""))).resolve(strict=True))
+        try:
+            sidecar_path.relative_to(root)
+        except ValueError:
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        sidecar_raw = sidecar_path.read_bytes()
+        sidecar_sha = hashlib.sha256(sidecar_raw).hexdigest()
+        if sidecar_sha != sidecar_meta.get("sha256"):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        sidecar = _read_strict_json(sidecar_path)
+        if (sidecar.get("schema") != "qf-wp12-vv3d-observables-v1"
+                or sidecar.get("campaign_id") != VV3D_CAMPAIGN_ID
+                or sidecar.get("case_id") != seed_case_id
+                or sidecar.get("attempt_id") != run.get("attempt_id")
+                or sidecar.get("mesh_sha256") != expected_matrix.get("mesh_sha256")
+                or sidecar.get("manifest_sha256") != manifest_sha
+                or sidecar.get("scientific_fingerprint") != source_fingerprint
+                or sidecar.get("controller_fingerprint") != controller_fingerprint
+                or not isinstance(sidecar.get("observables"), Mapping)
+                or not isinstance(sidecar.get("criteria"), Mapping)):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+
+        expected_nodeid = expected_matrix.get("nodeid")
+        starts = [entry for entry in ledger_records
+                  if entry.get("event") == "ATTEMPT_STARTED" and entry.get("case_id") == seed_case_id]
+        if (len(starts) != 1 or starts[0].get("manifest_sha256") != manifest_sha
+                or starts[0].get("attempt_id") != run.get("attempt_id")
+                or starts[0].get("nodeid") != expected_nodeid
+                or run.get("target") != expected_nodeid
+                or starts[0].get("source_fingerprint") != source_fingerprint
+                or starts[0].get("controller_fingerprint") != controller_fingerprint
+                or starts[0].get("selected_dofs") != expected_matrix.get("dofs")):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        finishes = [entry for entry in ledger_records
+                    if entry.get("event") == "ATTEMPT_FINISHED" and entry.get("run_id") == starts[0].get("run_id")]
+        if current:
+            if finishes:
+                result["state"] = "PROVENANCE_MISMATCH"
+                return result
+        else:
+            if len(finishes) != 1:
+                result["state"] = "PROVENANCE_MISMATCH"
+                return result
+            expected_disposition = _vv3d_terminal_disposition(
+                science_state=str(run.get("scientific_state", run.get("state", ""))),
+                provenance_state=str(run.get("provenance_state", "")),
+                campaign_gate_status=run.get("campaign_gate_status"),
+            )
+            if (finishes[0].get("status") != expected_disposition["ledger_status"]
+                    or run.get("state") != expected_disposition["run_state"]):
+                result["state"] = "PROVENANCE_MISMATCH"
+                return result
+        result.update({
+            "state": run.get("scientific_state", run.get("state")),
+            "provenance_state": "VERIFIED", "sidecar_valid": True,
+            "sidecar_sha256": sidecar_sha, "manifest_sha256": manifest_sha,
+            "scientific_fingerprint": source_fingerprint,
+            "controller_fingerprint": controller_fingerprint,
+            "observables": sidecar["observables"], "criteria": sidecar["criteria"],
+        })
+        input_refs.append({
+            "case_id": seed_case_id, "state": result["state"], "h_m": h_m,
+            "mesh_sha256": result["mesh_sha256"], "manifest_sha256": manifest_sha,
+            "sidecar_path": str(sidecar_path), "sidecar_sha256": sidecar_sha,
+        })
+        return result
+
+    for seed_case_id in case_ids:
+        if seed_case_id == case_id:
+            current_run = {
+                "campaign_id": VV3D_CAMPAIGN_ID, "case_id": case_id, "attempt_id": attempt_id,
+                "target": matrix_cases[case_id].get("nodeid"),
+                "scientific_state": science_state, "provenance_state": provenance_state,
+                "source_fingerprint": source_fingerprint, "controller_fingerprint": controller_fingerprint,
+                "mesh_sha256": current_manifest.get("mesh_sha256"),
+                "manifest": {"path": str(current_manifest_path), "sha256": current_manifest_sha256},
+                "observables_sidecar": dict(sidecar_ref) if sidecar_ref else None,
+            }
+            seeds[seed_case_id] = seed_record(seed_case_id, current_run, current=True)
+            continue
+        matches: list[Mapping[str, Any]] = []
+        for record_path in store.rglob("run.json") if store.exists() else ():
+            try:
+                candidate_record = _read_strict_json(record_path)
+            except (OSError, ValueError, json.JSONDecodeError):
+                continue
+            if (candidate_record.get("campaign_id") == VV3D_CAMPAIGN_ID
+                    and candidate_record.get("case_id") == seed_case_id
+                    and candidate_record.get("state") != "RUNNING"):
+                matches.append(candidate_record)
+        if len(matches) > 1:
+            seeds[seed_case_id] = {"case_id": seed_case_id, "state": "PROVENANCE_MISMATCH",
+                                   "provenance_state": "PROVENANCE_MISMATCH", "sidecar_valid": False}
+        elif matches:
+            seeds[seed_case_id] = seed_record(seed_case_id, matches[0])
+
+    import importlib
+    import sys
+    sys.path.insert(0, str(execution_root))
+    try:
+        science_harness = importlib.import_module("experiments.wp12_vv3d_adaptive.case_harness")
+        assessment = science_harness.evaluate_campaign_criteria(family, seeds, criteria)
+    except Exception as exc:
+        campaign_criteria = {
+            name: {"classification": "CAMPAIGN_GATE", "status": "INCONCLUSIVE",
+                   "reason": "CAMPAIGN_EVALUATOR_ERROR"}
+            for name in (
+                "displacement_error_L3", "energy_error_L3", "stress_error_L3",
+                "scalar_energy_error_L3", "displacement_order", "energy_order",
+            )
+        }
+        assessment = {
+            "schema": "qf-wp12-vv3d-campaign-assessment-v1", "status": "INCONCLUSIVE",
+            "decision": "STOP_INCONCLUSIVE", "criteria": campaign_criteria, "level_metrics": {},
+            "blocking_failures": [], "reason": f"CAMPAIGN_EVALUATOR_ERROR:{type(exc).__name__}:{exc}",
+        }
+    finally:
+        try:
+            sys.path.remove(str(execution_root))
+        except ValueError:
+            pass
+    record = {
+        "schema": "qf-wp12-vv3d-campaign-assessment-record-v1",
+        "campaign_id": VV3D_CAMPAIGN_ID, "family": family,
+        "evaluated_after_case_id": case_id, "evaluated_after_attempt_id": attempt_id,
+        "scientific_fingerprint": source_fingerprint,
+        "controller_fingerprint": controller_fingerprint,
+        "criteria_sha256": criteria_sha256,
+        "input_evidence": sorted(input_refs, key=lambda item: item["case_id"]),
+        "assessment": assessment,
+    }
+    assessment_path = (evidence_root / "campaign-assessments" / family /
+                       f"{case_id}-{attempt_id}.json")
+    _atomic_json_new(assessment_path, record)
+    return assessment, {"path": str(assessment_path.resolve()), "sha256": _sha256(assessment_path)}
+
+
 def run_wp12_vv3d_pytest(
     target: str | None, series_id: str | None, *, worktree_id: str, reason: str,
     preflight_id: str | None, execution_manifest: Path | None,
@@ -7383,6 +7698,38 @@ def run_wp12_vv3d_pytest(
             if sidecar_ref is None:
                 provenance_state = "PROVENANCE_MISMATCH"
                 final_state = "PROVENANCE_MISMATCH"
+            campaign_assessment = None
+            campaign_assessment_ref = None
+            campaign_gate_status = None
+            if not adaptive:
+                try:
+                    campaign_assessment, campaign_assessment_ref = _vv3d_assess_campaign_family_after_run(
+                        case_id=case_id, attempt_id=attempt_id, science_state=science_state,
+                        provenance_state=provenance_state, sidecar_doc=sidecar_doc, sidecar_ref=sidecar_ref,
+                        current_manifest=manifest, current_manifest_sha256=manifest_sha,
+                        current_manifest_path=execution_manifest.resolve(strict=True),
+                        evidence_root=Path(evidence_root), store=store, execution_root=execution_root,
+                        source_fingerprint=source_fingerprint, controller_fingerprint=controller_fingerprint,
+                        campaign_ledger=campaign_ledger,
+                    )
+                    campaign_gate_status = campaign_assessment.get("status")
+                except (OSError, PolicyError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
+                    # The scientific attempt remains consumed. A failure to produce
+                    # a provenance-bound assessment blocks continuation as infrastructure.
+                    provenance_state = "PROVENANCE_MISMATCH"
+                    final_state = "PROVENANCE_MISMATCH"
+                    campaign_assessment = {
+                        "schema": "qf-wp12-vv3d-campaign-assessment-v1",
+                        "status": "INCONCLUSIVE", "decision": "STOP_INCONCLUSIVE",
+                        "criteria": {}, "level_metrics": {}, "blocking_failures": [],
+                        "reason": f"ASSESSMENT_ARCHIVE_OR_PROVENANCE_ERROR:{type(exc).__name__}:{exc}",
+                    }
+                    campaign_gate_status = "INCONCLUSIVE"
+            terminal = _vv3d_terminal_disposition(
+                science_state=science_state, provenance_state=provenance_state,
+                campaign_gate_status=campaign_gate_status,
+            )
+            final_state = terminal["run_state"]
             state_archive = None
             state_archive_error = None
             if final_state == "PASS" and not adaptive:
@@ -7397,19 +7744,12 @@ def run_wp12_vv3d_pytest(
                     state_archive_error = f"{type(exc).__name__}: {exc}"
                 if state_archive is None or state_archive_error is not None:
                     provenance_state = "PROVENANCE_MISMATCH"
-                    final_state = "PROVENANCE_MISMATCH"
-            if provenance_state != "VERIFIED":
-                ledger_status = "INFRA_ERROR"
-            elif science_state == "PASS":
-                ledger_status = "PASS"
-            elif science_state == "PYTEST_FAILED":
-                ledger_status = "FAIL"
-            elif "TIMEOUT" in science_state:
-                ledger_status = "TIMEOUT"
-            elif "INTERRUPTED" in science_state:
-                ledger_status = "INTERRUPTED"
-            else:
-                ledger_status = "RESOURCE_LIMIT"
+            terminal = _vv3d_terminal_disposition(
+                science_state=science_state, provenance_state=provenance_state,
+                campaign_gate_status=campaign_gate_status,
+            )
+            final_state = terminal["run_state"]
+            ledger_status = terminal["ledger_status"]
             campaign_ledger.finish_runner_attempt(
                 run_id=runner_receipt["reservation_id"], status=ledger_status,
                 elapsed_seconds=result.elapsed_seconds,
@@ -7430,6 +7770,9 @@ def run_wp12_vv3d_pytest(
                 "observables_sidecar": sidecar_ref,
                 "scientific_observables": scientific_observables,
                 "scientific_criteria": scientific_criteria,
+                "campaign_gate_status": campaign_gate_status,
+                "campaign_assessment": campaign_assessment_ref,
+                "campaign_assessment_result": campaign_assessment,
                 "campaign_ledger_sha256_after_completion": _sha256(campaign_ledger_path),
             }
             _atomic_json(record_path, final)

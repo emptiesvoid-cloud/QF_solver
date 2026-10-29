@@ -157,21 +157,8 @@ def validate_contract(contract: Mapping[str, Any], *, registered_nodeids: set[st
     if (any(transitions[s] != "STOP" for s in STOP_STATES)
             or transitions["PASS"] != "CONTINUE_INITIAL_ORDER_AND_TRIGGERED_ADAPTIVE"):
         raise VV3DContractError("infrastructure, provenance, ledger and budget failures must stop")
-    permitted=transitions["SCIENTIFIC_DEVIATION"]
-    if permitted != "STOP":
-        if not isinstance(permitted,Mapping):
-            raise VV3DContractError("scientific deviation transitions must map exact source cases to destinations")
-        by_id={case["case_id"]:case for case in cases}
-        for source,destinations in permitted.items():
-            if (source not in ids or not isinstance(destinations,list)
-                    or any(not isinstance(item,str) for item in destinations)
-                    or len(destinations) != len(set(destinations))
-                    or any(item not in ids or item == source for item in destinations)):
-                raise VV3DContractError("scientific deviation transition has invalid source or destinations")
-            for destination in destinations:
-                case=by_id[destination]
-                if case["phase"] == "ADAPTIVE" and case["trigger"]["source_case_id"] != source:
-                    raise VV3DContractError("adaptive transition does not match its approved source trigger")
+    if transitions["SCIENTIFIC_DEVIATION"] != "STOP":
+        raise VV3DContractError("scientific deviation must stop this campaign; diagnostics require a separate campaign")
     canonical_sha256(contract)
 
 
@@ -321,9 +308,9 @@ def validate_transition_eligibility(
     """Validate a closed-catalog continuation receipt before an adaptive reservation.
 
     A PASS continuation must satisfy the destination's frozen measurable trigger.
-    A scientific FAIL continuation must be explicitly listed in the contract's
-    source-to-destination deviation table. Infrastructure/provenance/ledger and
-    budget outcomes are always stop-only.
+    Only PASS can continue within this campaign. A scientific deviation closes
+    the campaign; any post-failure diagnostic must use an independently
+    authorized campaign, ledger, manifest, and provenance chain.
     """
     if not all(_sha(value) for value in (contract_sha256, decision_sha256, source_result_sha256)):
         raise VV3DContractError("transition receipt is missing a valid source/contract/decision digest")
@@ -347,7 +334,6 @@ def validate_transition_eligibility(
         "source_result_sha256":source_result_sha256,
     }.items()):
         raise VV3DContractError("transition eligibility receipt is bound to a different run or Owner contract")
-    transitions=contract["transitions"]
     if source_status == "PASS":
         trigger=destination["trigger"]
         observation=receipt.get("trigger_observation")
@@ -369,14 +355,8 @@ def validate_transition_eligibility(
                               "operator":trigger["operator"],"threshold":trigger["threshold"],"result":passed}
         if observation != expected_observation or not passed:
             raise VV3DContractError("adaptive trigger is not satisfied by the source run's archived observable")
-    elif source_status == "FAIL":
-        permitted=transitions["SCIENTIFIC_DEVIATION"]
-        if (not isinstance(permitted,Mapping) or destination_case_id not in permitted.get(source_case_id,[])
-                or receipt.get("transition_kind") != "APPROVED_SCIENTIFIC_DEVIATION"
-                or receipt.get("trigger_observation") is not None):
-            raise VV3DContractError("scientific deviation transition is not explicitly Owner-approved")
     else:
-        raise VV3DContractError("infrastructure, provenance, ledger and budget outcomes must stop the campaign")
-    expected_kind="PASS_TRIGGER" if source_status == "PASS" else "APPROVED_SCIENTIFIC_DEVIATION"
+        raise VV3DContractError("non-PASS outcomes stop this campaign; a diagnostic requires a separate authorization")
+    expected_kind="PASS_TRIGGER"
     if receipt.get("transition_kind") != expected_kind:
         raise VV3DContractError("transition receipt kind does not match the approved transition")
