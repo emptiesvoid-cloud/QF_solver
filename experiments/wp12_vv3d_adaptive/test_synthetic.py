@@ -170,11 +170,20 @@ class OracleContracts(unittest.TestCase):
                                       lame_lambda_pa=2.0, shear_mu_pa=3.0)
         self.assertAlmostEqual(values["displacement_l2_m_5_2"], math.sqrt(18.0))
         self.assertAlmostEqual(values["energy_error_norm_sqrt_j"], math.sqrt(2*3*0.1**2))
+        self.assertAlmostEqual(metrics.stress_error_l2([2.0],[(0,0,0,1,0,0)]),2.0)
         balance = metrics.force_moment_balance([(1,0,0),(0,1,0)],[(0,0,2),(0,0,0)],[(0,0,0),(0,0,-2)])
         self.assertEqual(balance["force_closure_n"],(0,0,0))
         self.assertEqual(balance["moment_closure_nm"],(-2,-2,0))
         with self.assertRaises(ValueError):
             metrics.field_errors([0],[(0,0,0)],[(0,0,0,0,0,0)],lame_lambda_pa=1,shear_mu_pa=1)
+
+    def test_pairwise_orders_do_not_invent_convergence(self):
+        self.assertEqual(metrics.observed_orders([0.5,0.25,0.125],[0.5,0.25,0.125]),(1.0,1.0))
+        self.assertEqual(metrics.observed_orders([0.5,0.25,0.125],[0.5,0.0,0.0]),(None,None))
+        for sizes,errors in (([0.5,0.25],[1,0.5]),([0.5,0.5,0.25],[1,0.5,0.25]),
+                             ([0.5,0.25,0.125],[1,float("nan"),0.25])):
+            with self.assertRaises(ValueError):
+                metrics.observed_orders(sizes,errors)
 
     def test_basis_interpolation_and_partition_of_unity(self):
         tet_corners = ((0,0,0),(1,0,0),(0,1,0),(0,0,1))

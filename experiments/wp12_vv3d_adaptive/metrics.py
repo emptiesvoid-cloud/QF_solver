@@ -58,3 +58,29 @@ def force_moment_balance(
         for i,value in enumerate((y*fz-z*fy,z*fx-x*fz,x*fy-y*fx)):
             moment[i] += value
     return {"force_closure_n": tuple(force), "moment_closure_nm": tuple(moment)}
+
+
+def observed_orders(mesh_sizes_m: Sequence[float], errors: Sequence[float]) -> tuple[float | None, ...]:
+    """Return pairwise slopes; no conclusion about asymptotics or passing a gate."""
+    if len(mesh_sizes_m) != len(errors) or len(errors) < 3:
+        raise ValueError("at least three paired mesh sizes and errors are required")
+    if (any(not math.isfinite(h) or h <= 0 for h in mesh_sizes_m)
+            or any(mesh_sizes_m[i] <= mesh_sizes_m[i+1] for i in range(len(mesh_sizes_m)-1))
+            or any(not math.isfinite(e) or e < 0 for e in errors)):
+        raise ValueError("mesh sizes must decrease strictly and errors must be finite and nonnegative")
+    return tuple(None if errors[i] == 0 or errors[i+1] == 0
+                 else math.log(errors[i]/errors[i+1])/math.log(mesh_sizes_m[i]/mesh_sizes_m[i+1])
+                 for i in range(len(errors)-1))
+
+
+def stress_error_l2(weights_m3: Sequence[float], stress_error_pa: Sequence[Sequence[float]]) -> float:
+    """Frobenius L2 norm, with tensor shear (not engineering shear) in Voigt slots."""
+    if not weights_m3 or len(weights_m3) != len(stress_error_pa):
+        raise ValueError("invalid paired stress samples")
+    total = 0.0
+    for weight,ds in zip(weights_m3,stress_error_pa):
+        if not math.isfinite(weight) or weight <= 0:
+            raise ValueError("quadrature weights must be finite and positive")
+        _finite_vector(ds,6)
+        total += weight*(sum(x*x for x in ds[:3])+2*sum(x*x for x in ds[3:]))
+    return math.sqrt(total)
