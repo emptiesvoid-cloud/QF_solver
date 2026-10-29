@@ -347,6 +347,10 @@ WP12_DYNAMICS_PREFLIGHT_NODEIDS = (
     "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
     "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
     "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+    "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+    "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase",
+    "tests/unit/test_reduced_harmonic.py::test_coupled_two_dof_complex_response_uses_full_projected_operators",
+    "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_detects_exact_and_near_resonance_before_solving",
 )
 WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID = "wp12_hex20_affine_diagnostic"
 WP12B_HEX20_DIAGNOSTIC_NODEID = (
@@ -1338,7 +1342,7 @@ def build_pytest_command(
         if wp12_dynamics_collect_only_attestation and (not collect_only or allow_native_skip_override):
             raise PolicyError("WP12 dynamics attestation requires collect-only without any skip override")
         if wp12_dynamics_collect_only_attestation and targets[0] not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
-            raise PolicyError("WP12-A dynamics attestation is restricted to its four exact collect-only nodeids")
+            raise PolicyError("WP12-A dynamics attestation is restricted to its reviewed exact collect-only nodeids")
         if wp12b_hex20_diagnostic_collect_only_attestation and (
             not collect_only
             or allow_native_skip_override
@@ -4543,7 +4547,7 @@ def preflight_wp12_dynamics_pytest(
 ) -> dict[str, Any]:
     """Collect one WP12-A dynamics node without reserving an attempt."""
     if target not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
-        raise PolicyError("WP12-A dynamics preflight is limited to its four exact registered nodeids")
+        raise PolicyError("WP12-A dynamics preflight is limited to its reviewed exact registered nodeids")
     return _preflight_wp12_attested_pytest(
         target,
         preflight_id,
@@ -5529,7 +5533,7 @@ def _validate_wp12_dynamics_preflight_receipt(
 ) -> tuple[Path, str]:
     """Require a checksummed, exact-node WP12-A collect-only receipt before manifest or attempt creation."""
     if target not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
-        raise PolicyError("WP12-A preflight receipts are limited to the four exact registered dynamics nodes")
+        raise PolicyError("WP12-A preflight receipts are limited to the reviewed exact registered dynamics nodes")
     receipt_dir = _preflight_directory(store, "wp12_dynamics", preflight_id)
     record_path = receipt_dir / "preflight.json"
     sha_path = receipt_dir / "preflight.sha256.json"
