@@ -58,6 +58,7 @@ HEX8SRI_CONVERGENCE24_CAMPAIGN_ID = "HEX8-SRI-CONVERGENCE-24-2026-10-27"
 HEX8SRI_CONVERGENCE24_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1"
 HEX8SRI_CONVERGENCE24_LEDGER = "node-attempt-ledger-hex8sri-convergence24.json"
 WP12_DYNAMICS_LEDGER = "node-attempt-ledger-wp12-dynamics-v2.json"
+_WP12A_BATCH_LOCK_LOCAL = threading.local()
 WP12_DYNAMICS_LEGACY_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v1"
 HEX8SRI_EXECUTION_MANIFEST_SCHEMA = "qfsolver-hex8sri-convergence24-execution-v1"
 HEX8SRI_CRITERIA_FREEZE_SCHEMA = "qfsolver-hex8sri-criteria-freeze-v1"
@@ -347,6 +348,23 @@ WP12_DYNAMICS_PREFLIGHT_NODEIDS = (
     "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
     "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
     "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+    "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+    "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase",
+    "tests/unit/test_reduced_harmonic.py::test_coupled_two_dof_complex_response_uses_full_projected_operators",
+    "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_detects_exact_and_near_resonance_before_solving",
+    "tests/unit/test_modal_basis_damping.py::test_degenerate_subspace_rotation_and_sign_are_equivalent_and_residual_safe",
+    "tests/unit/test_modal_basis_damping.py::test_rayleigh_projection_and_modal_damping_provenance_and_cluster_guard",
+    "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+    "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase",
+    "tests/unit/test_prepared_dynamic_system.py::test_prepared_system_assembles_once_and_excitation_does_not_invalidate_operators",
+)
+WP12_DYNAMICS_P0_BATCH_NODEIDS = (
+    "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+    "tests/unit/test_modal_basis_damping.py::test_degenerate_subspace_rotation_and_sign_are_equivalent_and_residual_safe",
+    "tests/unit/test_modal_basis_damping.py::test_rayleigh_projection_and_modal_damping_provenance_and_cluster_guard",
+    "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+    "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase",
+    "tests/unit/test_prepared_dynamic_system.py::test_prepared_system_assembles_once_and_excitation_does_not_invalidate_operators",
 )
 WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID = "wp12_hex20_affine_diagnostic"
 WP12B_HEX20_DIAGNOSTIC_NODEID = (
@@ -435,7 +453,7 @@ WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
         "max_timeout_seconds": 300,
         "max_total_attempts": 130,
         "attempt_limit_per_nodeid": 10,
-        "max_registered_nodeids": 13,
+        "max_registered_nodeids": 18,
         "max_dofs": None,
         "max_fem_cases_per_attempt": 1,
         "concurrency_class": "parallel",
@@ -1205,6 +1223,7 @@ def _validate_wp12_execution_manifest(
     selection: Mapping[str, Any],
     preflight_id: str | None = None,
     preflight_receipt: tuple[Path, str] | None = None,
+    batch_binding: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     evidence_root = Path(entry["evidence_root"]).resolve()
     authorization_root = (evidence_root / "authorizations" / worktree_id).resolve()
@@ -1275,6 +1294,68 @@ def _validate_wp12_execution_manifest(
         )
         if expected_preflight is None or manifest.get("preflight") != expected_preflight:
             raise PolicyError("WP12-A execution manifest does not bind its successful exact-node preflight receipt")
+        recorded_batch = manifest.get("batch_authorization")
+        if batch_binding is None:
+            if recorded_batch is not None:
+                raise PolicyError("a batch-authorized manifest requires the official batch execution path")
+        else:
+            batch_fields = {
+                "campaign_id", "contract_path", "contract_sha256", "decision_path", "decision_id",
+                "decision_sha256", "case_ordinal", "nodeid", "case_manifest_path", "case_manifest_sha256",
+                "preflight_id", "preflight_receipt_sha256", "authorization_id", "prepared_manifest_path",
+                "prepared_manifest_sha256",
+            }
+            if (
+                worktree_id != "wp12_dynamics"
+                or not isinstance(recorded_batch, Mapping)
+                or set(recorded_batch) != batch_fields
+                or set(batch_binding) != batch_fields
+                or dict(recorded_batch) != dict(batch_binding)
+                or decision.get("decision_id") != batch_binding.get("decision_id")
+                or batch_binding.get("nodeid") != target
+                or not isinstance(batch_binding.get("campaign_id"), str)
+                or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", batch_binding["campaign_id"])
+                or not isinstance(batch_binding.get("case_ordinal"), int)
+                or batch_binding["case_ordinal"] < 1
+                or batch_binding.get("authorization_id") != manifest.get("authorization_id")
+                or batch_binding.get("preflight_id") != preflight_id
+                or batch_binding.get("preflight_receipt_sha256") != preflight_receipt[1]
+            ):
+                raise PolicyError("WP12-A execution manifest does not bind the exact approved batch case")
+            batch_root = authorization_root / "batches" / str(batch_binding["campaign_id"])
+            bound_paths = (
+                ("contract_path", "contract.json", batch_root, batch_binding["contract_sha256"]),
+                ("decision_path", "owner-decision.json", batch_root, batch_binding["decision_sha256"]),
+                ("prepared_manifest_path", f"{manifest['authorization_id']}.json", authorization_root,
+                 batch_binding["prepared_manifest_sha256"]),
+            )
+            for path_key, expected_name, root, expected_sha in bound_paths:
+                try:
+                    bound_path = Path(str(batch_binding[path_key])).resolve(strict=True)
+                except OSError as exc:
+                    raise PolicyError(f"WP12-A batch-bound {path_key} is missing") from exc
+                if (
+                    bound_path.name != expected_name
+                    or not _is_within(bound_path, root.resolve())
+                    or not bound_path.is_file()
+                    or not re.fullmatch(r"[0-9a-f]{64}", str(expected_sha))
+                    or _sha256(bound_path) != expected_sha
+                ):
+                    raise PolicyError(f"WP12-A batch-bound {path_key} identity or SHA-256 changed")
+            try:
+                case_path = Path(str(batch_binding["case_manifest_path"])).resolve(strict=True)
+            except OSError as exc:
+                raise PolicyError("WP12-A batch case manifest is missing") from exc
+            if (
+                not _is_within(case_path, ROOT.resolve())
+                or not case_path.is_file()
+                or not re.fullmatch(r"[0-9a-f]{64}", str(batch_binding["case_manifest_sha256"]))
+                or _sha256(case_path) != batch_binding["case_manifest_sha256"]
+            ):
+                raise PolicyError("WP12-A batch case manifest identity or SHA-256 changed")
+            case_payload = _read_strict_json(case_path)
+            if not isinstance(case_payload, Mapping) or case_payload.get("nodeid") != target:
+                raise PolicyError("WP12-A batch case manifest does not contain the exact execution nodeid")
     elif manifest.get("preflight") is not None:
         raise PolicyError("only WP12-A dynamics manifests may bind a collect-only preflight receipt")
     return {
@@ -1338,7 +1419,7 @@ def build_pytest_command(
         if wp12_dynamics_collect_only_attestation and (not collect_only or allow_native_skip_override):
             raise PolicyError("WP12 dynamics attestation requires collect-only without any skip override")
         if wp12_dynamics_collect_only_attestation and targets[0] not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
-            raise PolicyError("WP12-A dynamics attestation is restricted to its four exact collect-only nodeids")
+            raise PolicyError("WP12-A dynamics attestation is restricted to its reviewed exact collect-only nodeids")
         if wp12b_hex20_diagnostic_collect_only_attestation and (
             not collect_only
             or allow_native_skip_override
@@ -2542,6 +2623,18 @@ def _exclusive_file_lock(path: Path) -> Iterator[None]:
         stream.close()
 
 
+@contextmanager
+def _node_attempt_locks(ledger_path: Path, ledger_lock: Path, worktree_id: str) -> Iterator[None]:
+    """Serialize Dynamics reservations against an active batch; other scopes keep their old lock path."""
+    if worktree_id == "wp12_dynamics" and not getattr(_WP12A_BATCH_LOCK_LOCAL, "held", False):
+        with _exclusive_file_lock(ledger_path.with_suffix(".batch.lock")):
+            with _exclusive_file_lock(ledger_lock):
+                yield
+    else:
+        with _exclusive_file_lock(ledger_lock):
+            yield
+
+
 def _test_source_dependency_inventory(root: Path, target_module: str) -> dict[str, str]:
     """Hash repository-local Python imports reachable from a target and its pytest setup."""
     repository_root = root.resolve()
@@ -2885,10 +2978,58 @@ def _reserve_node_attempt(
     controller_fingerprint: str | None = None,
     attempt_basis: str | None = None,
     hypothesis_id: str | None = None,
+    expected_ledger_sha256: str | None = None,
+    require_ledger_snapshot: bool = False,
+    batch_binding: Mapping[str, Any] | None = None,
 ) -> tuple[str, int]:
     key = f"{mandate_id}:{worktree_id}:{target}"
     schema = "qfsolver-development-node-ledger-v2" if predecessor is not None else "qfsolver-development-node-ledger-v1"
-    with _exclusive_file_lock(lock_path):
+    with _node_attempt_locks(ledger_path, lock_path, worktree_id):
+        if batch_binding is not None:
+            required_batch_fields = {
+                "campaign_id",
+                "contract_path",
+                "contract_sha256",
+                "decision_path",
+                "decision_id",
+                "decision_sha256",
+                "case_ordinal",
+                "nodeid",
+                "case_manifest_path",
+                "case_manifest_sha256",
+                "preflight_id",
+                "preflight_receipt_sha256",
+                "authorization_id",
+                "prepared_manifest_path",
+                "prepared_manifest_sha256",
+            }
+            if (
+                worktree_id != "wp12_dynamics"
+                or set(batch_binding) != required_batch_fields
+                or batch_binding.get("nodeid") != target
+                or batch_binding.get("authorization_id") != authorization_id
+                or batch_binding.get("decision_id") != owner_decision_id
+                or any(
+                    not re.fullmatch(r"[0-9a-f]{64}", str(batch_binding.get(field, "")))
+                    for field in (
+                        "contract_sha256",
+                        "decision_sha256",
+                        "case_manifest_sha256",
+                        "preflight_receipt_sha256",
+                        "prepared_manifest_sha256",
+                    )
+                )
+                or not isinstance(batch_binding.get("case_ordinal"), int)
+                or batch_binding["case_ordinal"] < 1
+                or any(not isinstance(batch_binding.get(field), str) for field in (
+                    "contract_path", "decision_path", "case_manifest_path", "prepared_manifest_path"
+                ))
+            ):
+                raise PolicyError("WP12-A P0 batch attempt provenance is malformed")
+        if require_ledger_snapshot:
+            current_ledger_sha256 = _sha256(ledger_path) if ledger_path.is_file() else None
+            if current_ledger_sha256 != expected_ledger_sha256:
+                raise PolicyError("development attempt ledger changed before reservation")
         if ledger_path.exists():
             try:
                 ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
@@ -3040,6 +3181,8 @@ def _reserve_node_attempt(
         }
         if owner_decision_id is not None:
             record["owner_decision_id"] = owner_decision_id
+        if batch_binding is not None:
+            record["batch"] = dict(batch_binding)
         if worktree_id == "wp12_dynamics":
             record["predecessor_attempts_for_nodeid"] = inherited_node_attempts
         attempts.append(record)
@@ -3056,8 +3199,12 @@ def _complete_node_attempt(
     state: str,
     finished_at_utc: str,
     post_fingerprint: str,
+    worktree_id: str = "",
+    expected_ledger_sha256: str | None = None,
 ) -> None:
-    with _exclusive_file_lock(lock_path):
+    with _node_attempt_locks(ledger_path, lock_path, worktree_id):
+        if expected_ledger_sha256 is not None and _sha256(ledger_path) != expected_ledger_sha256:
+            raise PolicyError("development attempt ledger changed before batch attempt completion")
         try:
             ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
             attempts = ledger["entries"][key]
@@ -4547,7 +4694,7 @@ def preflight_wp12_dynamics_pytest(
 ) -> dict[str, Any]:
     """Collect one WP12-A dynamics node without reserving an attempt."""
     if target not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
-        raise PolicyError("WP12-A dynamics preflight is limited to its four exact registered nodeids")
+        raise PolicyError("WP12-A dynamics preflight is limited to its reviewed exact registered nodeids")
     return _preflight_wp12_attested_pytest(
         target,
         preflight_id,
@@ -5533,7 +5680,7 @@ def _validate_wp12_dynamics_preflight_receipt(
 ) -> tuple[Path, str]:
     """Require a checksummed, exact-node WP12-A collect-only receipt before manifest or attempt creation."""
     if target not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
-        raise PolicyError("WP12-A preflight receipts are limited to the four exact registered dynamics nodes")
+        raise PolicyError("WP12-A preflight receipts are limited to the reviewed exact registered dynamics nodes")
     receipt_dir = _preflight_directory(store, "wp12_dynamics", preflight_id)
     record_path = receipt_dir / "preflight.json"
     sha_path = receipt_dir / "preflight.sha256.json"
@@ -5610,6 +5757,7 @@ def run_pytest(
     execution_manifest: Path | None = None,
     attempt_basis: str | None = None,
     hypothesis_id: str | None = None,
+    batch_context: Mapping[str, Any] | None = None,
 ) -> tuple[dict[str, Any], int]:
     policy = load_policy()
     is_registered = scope_name in WORKTREE_SCOPES
@@ -5623,9 +5771,12 @@ def run_pytest(
     execution_manifest_receipt: dict[str, Any] | None = None
     hex8sri_preflight_receipt: tuple[Path, str] | None = None
     wp12_dynamics_preflight_receipt: tuple[Path, str] | None = None
+    wp12_expected_ledger_sha256: str | None = None
     if is_registered:
         if not worktree_id or not target or not reason or not reason.strip():
             raise PolicyError("registered worktree tests require one exact target, worktree, and documented reason")
+        if batch_context is not None and worktree_id != "wp12_dynamics":
+            raise PolicyError("WP12-A batch context is valid only for the Dynamics scope")
         entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
             worktree_id,
             target,
@@ -5715,6 +5866,13 @@ def run_pytest(
                 controller_provenance=controller_provenance,
                 policy=policy,
             )
+            try:
+                preflight_bytes = wp12_dynamics_preflight_receipt[0].read_bytes()
+                if hashlib.sha256(preflight_bytes).hexdigest() != wp12_dynamics_preflight_receipt[1]:
+                    raise PolicyError("WP12-A preflight receipt changed after validation")
+                wp12_expected_ledger_sha256 = json.loads(preflight_bytes)["attempt_ledger"]["sha256_after"]
+            except (OSError, ValueError, KeyError, TypeError) as exc:
+                raise PolicyError(f"WP12-A preflight ledger binding is unreadable: {exc}") from exc
         elif preflight_id is not None:
             raise PolicyError("preflight receipt IDs are supported only for D01, WP12-A dynamics and HEX8-SRI")
         if worktree_id in WP12_OWNER_ENVELOPES:
@@ -5733,6 +5891,7 @@ def run_pytest(
                 selection=wp12_registration,
                 preflight_id=preflight_id if worktree_id == "wp12_dynamics" else None,
                 preflight_receipt=wp12_dynamics_preflight_receipt,
+                batch_binding=batch_context,
             )
             if worktree_id == WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID:
                 _validate_wp12b_decision_receipt(execution_manifest_receipt)
@@ -5829,6 +5988,7 @@ def run_pytest(
         )
         ledger_key: str | None = None
         ledger_number: int | None = None
+        wp12_reserved_ledger_sha256: str | None = None
         if is_registered:
             assert (
                 worktree_id is not None and source_fingerprint is not None and reason is not None and target is not None
@@ -5864,7 +6024,12 @@ def run_pytest(
                     controller_fingerprint=_stable_fingerprint(controller_provenance),
                     attempt_basis=attempt_basis,
                     hypothesis_id=hypothesis_id,
+                    expected_ledger_sha256=wp12_expected_ledger_sha256,
+                    require_ledger_snapshot=worktree_id == "wp12_dynamics",
+                    batch_binding=batch_context,
                 )
+                if batch_context is not None:
+                    wp12_reserved_ledger_sha256 = _sha256(node_ledger_path)
             except Exception:
                 attempt_dir.rmdir()
                 raise
@@ -5886,7 +6051,7 @@ def run_pytest(
             source_root=source_root,
             controller_root=ROOT,
             allow_native_skip_override=bool(entry and entry["allow_native_vv_skip_override"]),
-            junit_xml_path=(output_dir / "pytest-results.xml") if worktree_id == "d01" else None,
+            junit_xml_path=(output_dir / "pytest-results.xml") if worktree_id == "d01" or batch_context is not None else None,
         )
         environment = build_child_environment(
             temp_dir,
@@ -5966,6 +6131,7 @@ def run_pytest(
                 else None
             ),
             "execution_manifest": execution_manifest_receipt,
+            **({"batch_context": dict(batch_context)} if batch_context is not None else {}),
             "command": command,
             "budgets": dict(scope),
             "wp12_case_selection": (
@@ -6041,6 +6207,8 @@ def run_pytest(
                     state="LAUNCH_FAILED",
                     finished_at_utc=finished_at,
                     post_fingerprint=post_fingerprint,
+                    worktree_id=worktree_id or "",
+                    expected_ledger_sha256=wp12_reserved_ledger_sha256,
                 )
             return {
                 "series_id": series_id,
@@ -6120,6 +6288,8 @@ def run_pytest(
                 state=state,
                 finished_at_utc=finished_at,
                 post_fingerprint=post_fingerprint,
+                worktree_id=worktree_id or "",
+                expected_ledger_sha256=wp12_reserved_ledger_sha256,
             )
         return {
             "series_id": series_id,
@@ -6133,6 +6303,24 @@ def run_pytest(
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
+    p0_batch_prepare_parser = subparsers.add_parser(
+        "prepare-wp12a-p0-batch",
+        help="freeze an ordered WP12-A P0 case contract and ledger baseline; does not authorize or run FEM",
+    )
+    p0_batch_prepare_parser.add_argument("--campaign-id", required=True)
+    p0_batch_prepare_parser.add_argument(
+        "--case-manifest", action="append", required=True, type=Path,
+        help="one exact inspected scientific case manifest; repeat in the approved execution order",
+    )
+    p0_batch_run_parser = subparsers.add_parser(
+        "run-wp12a-p0-batch",
+        help="execute an explicitly Owner-authorized closed P0 batch sequentially with JIT preflights",
+    )
+    p0_batch_run_parser.add_argument("--contract", required=True, type=Path)
+    p0_batch_run_parser.add_argument("--contract-sha256", required=True)
+    p0_batch_run_parser.add_argument("--decision", required=True, type=Path)
+    p0_batch_run_parser.add_argument("--decision-sha256", required=True)
+    p0_batch_run_parser.add_argument("--resume", action="store_true")
     preflight_parser = subparsers.add_parser(
         "preflight",
         help=(
@@ -6227,7 +6415,24 @@ def main(argv: Sequence[str] | None = None) -> int:
     test_parser.add_argument("--hypothesis-id", help="unique ID required for a same-input new diagnostic hypothesis")
     args = parser.parse_args(argv)
     try:
-        if args.command == "register-nodeid":
+        if args.command == "prepare-wp12a-p0-batch":
+            from wp12a_p0_batch import prepare_contract
+
+            result = prepare_contract(sys.modules[__name__], args.campaign_id, args.case_manifest)
+            exit_code = 0
+        elif args.command == "run-wp12a-p0-batch":
+            from wp12a_p0_batch import run_batch
+
+            result = run_batch(
+                sys.modules[__name__],
+                args.contract,
+                args.contract_sha256,
+                args.decision,
+                args.decision_sha256,
+                resume=args.resume,
+            )
+            exit_code = 0 if result["state"] == "BATCH_COMPLETED" else 1
+        elif args.command == "register-nodeid":
             result = register_wp12_nodeid(
                 args.worktree,
                 args.target,

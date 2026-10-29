@@ -537,7 +537,7 @@
       "require_clean_worktree": true,
       "nodeid_registration": {
         "enabled": true,
-        "max_nodeids": 13
+        "max_nodeids": 18
       },
       "budgets": {
         "archive_size_limit_mib": 256,
@@ -561,7 +561,12 @@
         "tests/unit/test_modal_newmark.py::test_sdof_free_damped_matches_under_damped_analytic_solution",
         "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
         "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
-        "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata"
+        "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata",
+        "tests/unit/test_modal_basis_damping.py::test_degenerate_subspace_rotation_and_sign_are_equivalent_and_residual_safe",
+        "tests/unit/test_modal_basis_damping.py::test_rayleigh_projection_and_modal_damping_provenance_and_cluster_guard",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+        "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase",
+        "tests/unit/test_prepared_dynamic_system.py::test_prepared_system_assembles_once_and_excitation_does_not_invalidate_operators"
       ],
       "nodeid_registration_records": [
         {
@@ -1062,6 +1067,83 @@
           },
           "selected_dofs": 1,
           "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_basis_damping.py::test_degenerate_subspace_rotation_and_sign_are_equivalent_and_residual_safe",
+          "reason": "Inspect degenerate modal subspace rotations and sign invariance with residual checks.",
+          "registered_at_utc": "2026-10-29T06:07:58.177179+00:00",
+          "worktree_head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Three modal coordinates in a fixed 3x3 synthetic eigensystem; no mesh assembly beyond the existing unit fixture.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_basis_damping.py::test_rayleigh_projection_and_modal_damping_provenance_and_cluster_guard",
+          "reason": "Check Rayleigh damping projection provenance and modal cluster guard.",
+          "registered_at_utc": "2026-10-29T06:07:59.778177+00:00",
+          "worktree_head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 fixture: 12 total translational DDL, 3 free DDL selected by the existing test.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+          "reason": "Check direct transient SDOF against the closed form and energy assertions.",
+          "registered_at_utc": "2026-10-29T06:08:01.238396+00:00",
+          "worktree_head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "source_fingerprint": "f314c4d8011f9b9b815ee92ddc04d4386798a5a104bed528122649b2067efec1",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6",
+            "tests/unit/test_mesh_validation.py": "0c6cd80e6625102ac036d0c822ff1fad6c6be6b90487abe6de9a3ee465a34e65"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "Single TET4 fixture: 12 total translational DDL, one free dynamic coordinate.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase",
+          "reason": "Check direct harmonic SDOF amplitude, phase, DC and damped response.",
+          "registered_at_utc": "2026-10-29T06:08:02.830800+00:00",
+          "worktree_head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "source_fingerprint": "f314c4d8011f9b9b815ee92ddc04d4386798a5a104bed528122649b2067efec1",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6",
+            "tests/unit/test_mesh_validation.py": "0c6cd80e6625102ac036d0c822ff1fad6c6be6b90487abe6de9a3ee465a34e65"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "Single TET4 fixture: 12 total translational DDL, one free dynamic coordinate.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_prepared_dynamic_system.py::test_prepared_system_assembles_once_and_excitation_does_not_invalidate_operators",
+          "reason": "Check prepared operators are assembled once and excitation preserves them.",
+          "registered_at_utc": "2026-10-29T06:08:04.295624+00:00",
+          "worktree_head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "source_fingerprint": "2604e9d0d837a9860f70210be2fc96da1d124cb063d896884dc9033b96a30f23",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 fixture: 12 total translational DDL, 3 free coordinates in the existing test.",
           "timeout_seconds": 300,
           "timeout_reason": null
         }

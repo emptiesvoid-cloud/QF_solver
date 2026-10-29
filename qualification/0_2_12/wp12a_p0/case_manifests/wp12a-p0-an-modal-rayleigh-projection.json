@@ -1,0 +1,47 @@
+{
+  "case_id": "wp12a-p0-an-modal-rayleigh-projection",
+  "conditions_of_stop": [
+    "source/controller/criteria/budget/nodeid/provenance mismatch",
+    "ledger transition not attributable to this approved campaign",
+    "infrastructure failure",
+    "incomplete RESERVED attempt",
+    "pytest failure is not one exact assertion failure or its JUnit report is unavailable"
+  ],
+  "continue_after": [
+    "PASS",
+    "SCIENTIFIC_ASSERTION_FAILED"
+  ],
+  "criteria": {
+    "acceptance": "Existing Rayleigh assertions: rtol=1e-10 and atol=1e-10; all other guards remain as encoded by the unchanged test.",
+    "acceptance_source_sha256": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca",
+    "oracle": "Rayleigh damping projection, modal damping provenance and eigenvalue-cluster guard.",
+    "oracle_independence": "Formula-level Rayleigh reference and projected matrices share the test fixture matrices and production projection route; cross-check is bounded and partly internal."
+  },
+  "criteria_sha256": "47482ac2216c20d16e8ae7d6af286928685375539ec78b57bf07d09c5b4ea119",
+  "identity": {
+    "branch": "codex/wp12-dynamic-harmonic-verification",
+    "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+    "root": "E:\\QFSolverAgents\\wp12-dynamics",
+    "status_short": "",
+    "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+  },
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
+  "max_attempts": 1,
+  "nodeid": "tests/unit/test_modal_basis_damping.py::test_rayleigh_projection_and_modal_damping_provenance_and_cluster_guard",
+  "schema": "qfsolver-wp12a-p0-scientific-case-v1",
+  "science": {
+    "branch": "codex/wp12-dynamic-harmonic-verification",
+    "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+    "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+  },
+  "selection": {
+    "selected_dofs": 3,
+    "selection_basis": "Single TET4 fixture: 12 total translational DDL, 3 free DDL selected by the existing test.",
+    "timeout_reason": null,
+    "timeout_seconds": 300
+  },
+  "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+  "state": "PROPOSED_NOT_AUTHORIZED",
+  "test_module_sha256": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca",
+  "worktree_id": "wp12_dynamics"
+}

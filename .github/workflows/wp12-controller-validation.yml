@@ -9,7 +9,9 @@ on:
       - "development_autonomous_policy.json"
       - "scripts/development_autonomous.py"
       - "scripts/run_wp12_controller_synthetic.py"
+      - "scripts/wp12a_p0_batch.py"
       - "tests/unit/test_development_autonomous_policy.py"
+      - "tests/unit/test_wp12a_p0_batch.py"
       - "tests/unit/test_modal_newmark.py"
       - "tests/unit/test_reduced_harmonic.py"
       - "tests/unit/test_wp07_uniform_base_acceleration.py"
@@ -47,7 +49,9 @@ jobs:
           python -m ruff check
           scripts/development_autonomous.py
           scripts/run_wp12_controller_synthetic.py
+          scripts/wp12a_p0_batch.py
           tests/unit/test_development_autonomous_policy.py
+          tests/unit/test_wp12a_p0_batch.py
           tests/unit/test_modal_newmark.py
           tests/unit/test_reduced_harmonic.py
           tests/unit/test_wp07_uniform_base_acceleration.py
@@ -60,7 +64,9 @@ jobs:
           python -m py_compile
           scripts/development_autonomous.py
           scripts/run_wp12_controller_synthetic.py
+          scripts/wp12a_p0_batch.py
           tests/unit/test_development_autonomous_policy.py
+          tests/unit/test_wp12a_p0_batch.py
           tests/unit/test_modal_newmark.py
           tests/unit/test_reduced_harmonic.py
           tests/unit/test_wp07_uniform_base_acceleration.py

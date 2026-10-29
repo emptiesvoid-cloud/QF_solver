@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import base64
+import copy
 import hashlib
 import json
 import math
@@ -47,6 +48,7 @@ WP12_DYNAMICS_NODEIDS = (
 )
 
 WP12_DYNAMICS_PREFLIGHT_NODEID = WP12_DYNAMICS_NODEIDS[0]
+WP12_DYNAMICS_P0_NEW_NODEIDS = tuple(MODULE.WP12_DYNAMICS_P0_BATCH_NODEIDS[1:])
 WP12B_HEX20_DIAGNOSTIC_NODEID = MODULE.WP12B_HEX20_DIAGNOSTIC_NODEID
 WP12_ELEMENTS_VERIFICATION_NODEIDS = (
     "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
@@ -75,6 +77,26 @@ WP12_ELEMENTS_LOADS_CORRECTIVE_FINGERPRINTS = (
 
 def _policy() -> dict:
     return MODULE.load_policy()
+
+
+def _assert_wp12a_p0_registration_extension(current: dict[str, Any], baseline: dict[str, Any]) -> None:
+    """Require a five-node append-only proposal while preserving all original entries."""
+    new_nodeids = list(WP12_DYNAMICS_P0_NEW_NODEIDS)
+    assert baseline["nodeid_registration"]["max_nodeids"] == 13
+    assert current["nodeid_registration"] == {"enabled": True, "max_nodeids": 18}
+    assert current["allowed_nodeids"] == baseline["allowed_nodeids"] + new_nodeids
+    old_records = baseline["nodeid_registration_records"]
+    current_records = current["nodeid_registration_records"]
+    assert current_records[: len(old_records)] == old_records
+    assert [record["target"] for record in current_records[-5:]] == new_nodeids
+    normalized = copy.deepcopy(current)
+    normalized["allowed_nodeids"] = baseline["allowed_nodeids"]
+    normalized["nodeid_registration_records"] = old_records
+    normalized["nodeid_registration"] = baseline["nodeid_registration"]
+    # The tracked baseline predates the separately approved Dynamics v2 ledger
+    # migration; this test's callers assert that predecessor link independently.
+    normalized.pop("node_attempt_ledger", None)
+    assert normalized == baseline
 
 
 def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
@@ -567,11 +589,13 @@ def test_wp12_registry_has_distinct_exact_worktree_envelopes() -> None:
         assert entry["max_total_attempts"] == attempts
         assert entry["target_max_dofs"] == max_dofs
         if worktree_id == "wp12_dynamics":
-            assert entry["allowed_nodeids"] == list(WP12_DYNAMICS_NODEIDS)
+            assert entry["allowed_nodeids"] == [*WP12_DYNAMICS_NODEIDS, *WP12_DYNAMICS_P0_NEW_NODEIDS]
             records = entry["nodeid_registration_records"]
             assert all(len(record["worktree_head"]) == 40 for record in entry["nodeid_registration_records"])
             assert all(len(record["source_fingerprint"]) == 64 for record in entry["nodeid_registration_records"])
-            assert {record["target"] for record in records} == set(WP12_DYNAMICS_NODEIDS)
+            assert {record["target"] for record in records} == set(
+                [*WP12_DYNAMICS_NODEIDS, *WP12_DYNAMICS_P0_NEW_NODEIDS]
+            )
             assert all(record["target"] in entry["allowed_nodeids"] for record in records)
             assert all(record["selected_dofs"] > 0 and record["timeout_seconds"] == 300 for record in records)
             newmark_target = "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables"
@@ -1316,7 +1340,7 @@ def test_wp12_dynamics_attempt_ledger_preserves_authorized_node_and_total_caps(
     predecessor_path = tmp_path / "node-attempt-ledger.json"
     predecessor_entries = {
         f"{predecessor_mandate}:wp12_dynamics:{target}": [{"attempt": index} for index in range(1, count + 1)]
-        for target, count in zip(MODULE.WP12_DYNAMICS_PREFLIGHT_NODEIDS, (3, 1, 1, 0), strict=True)
+        for target, count in zip(MODULE.WP12_DYNAMICS_PREFLIGHT_NODEIDS[:4], (3, 1, 1, 0), strict=True)
         if count
     }
     predecessor_path.write_text(
@@ -1514,7 +1538,14 @@ def test_wp12_rotor_scope_is_exact_and_separate_from_dynamics() -> None:
     rotor = MODULE.WP12_ROTOR_NODEIDS
     assert len(rotor) == 8
     assert set(policy["worktrees"]["rotor"]["allowed_nodeids"]) == rotor
-    assert len(policy["worktrees"]["wp12_dynamics"]["allowed_nodeids"]) == 13
+    dynamics = policy["worktrees"]["wp12_dynamics"]
+    assert len(dynamics["allowed_nodeids"]) == 18
+    assert dynamics["nodeid_registration"]["max_nodeids"] == 18
+    assert dynamics["max_total_attempts"] == 130
+    assert dynamics["attempt_limit_per_nodeid"] == 10
+    assert set(MODULE.WP12_DYNAMICS_P0_BATCH_NODEIDS).issubset(dynamics["allowed_nodeids"])
+    assert set(MODULE.WP12_DYNAMICS_P0_BATCH_NODEIDS).issubset(MODULE.WP12_DYNAMICS_PREFLIGHT_NODEIDS)
+    assert dynamics["allowed_nodeids"][-5:] == list(MODULE.WP12_DYNAMICS_P0_BATCH_NODEIDS[1:])
     assert policy["worktrees"]["rotor"]["attempt_limit_per_nodeid"] == 1
     assert policy["worktrees"]["rotor"]["max_total_attempts"] == 8
 
@@ -1765,10 +1796,12 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
         },
     )
     if worktree_id == "wp12_dynamics":
+        synthetic_preflight = tmp_path / "preflight.json"
+        synthetic_preflight.write_text(json.dumps({"attempt_ledger": {"sha256_after": None}}), encoding="utf-8")
         monkeypatch.setattr(
             MODULE,
             "_validate_wp12_dynamics_preflight_receipt",
-            lambda *_args, **_kwargs: (tmp_path / "preflight.json", "d" * 64),
+            lambda *_args, **_kwargs: (synthetic_preflight, MODULE._sha256(synthetic_preflight)),
         )
     monkeypatch.setattr(MODULE, "_run_root", lambda *_args, **_kwargs: store)
     monkeypatch.setattr(MODULE, "_wp12_resource_lock", lambda *_args, **_kwargs: nullcontext())
@@ -2152,7 +2185,7 @@ def test_rotor_preflight_refuses_a_fake_solver_import_path(tmp_path: Path) -> No
 @pytest.mark.parametrize(
     ("worktree_id", "expected_message"),
     [
-        ("wp12_dynamics", "limited to its four exact registered nodeids"),
+        ("wp12_dynamics", "limited to its reviewed exact registered nodeids"),
         ("wp12_hex20_affine_diagnostic", "limited to its exact registered nodeid"),
         ("wp12_elements", "enabled only for D01, rotor, WP12 dynamics, WP12-B HEX20 diagnostic"),
         ("c01", "enabled only for D01, rotor, WP12 dynamics, WP12-B HEX20 diagnostic"),
@@ -3228,7 +3261,7 @@ def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_s
             "mandate_id": MODULE.WP12_DYNAMICS_LEGACY_MANDATE_ID,
         },
     }
-    assert dynamics_current["allowed_nodeids"] == dynamics_baseline["allowed_nodeids"]
+    _assert_wp12a_p0_registration_extension(dynamics_current, dynamics_baseline)
     assert (
         dynamics_current["nodeid_registration_records"][: len(dynamics_baseline["nodeid_registration_records"])]
         == (dynamics_baseline["nodeid_registration_records"])
@@ -4491,7 +4524,7 @@ def test_hex8sri_scope_refresh_leaves_historical_scope_registrations_unchanged()
             assert current["worktrees"][worktree_id] == baseline_entry
     current_dynamics = current["worktrees"]["wp12_dynamics"]
     baseline_dynamics = baseline["worktrees"]["wp12_dynamics"]
-    assert current_dynamics["allowed_nodeids"] == baseline_dynamics["allowed_nodeids"]
+    _assert_wp12a_p0_registration_extension(current_dynamics, baseline_dynamics)
     assert (
         current_dynamics["nodeid_registration_records"][: len(baseline_dynamics["nodeid_registration_records"])]
         == (baseline_dynamics["nodeid_registration_records"])
@@ -4576,7 +4609,7 @@ def _wp12_dynamics_attestation(**updates: Any) -> str:
     return MODULE.WP12_DYNAMICS_PREFLIGHT_ATTESTATION_PREFIX + json.dumps(payload)
 
 
-def test_wp12_dynamics_collect_only_command_is_limited_to_four_exact_nodes(tmp_path: Path) -> None:
+def test_wp12_dynamics_collect_only_command_is_limited_to_reviewed_exact_nodes(tmp_path: Path) -> None:
     command = MODULE.build_pytest_command(
         "fem_exploratory",
         [WP12_DYNAMICS_PREFLIGHT_NODEID],
@@ -4590,7 +4623,23 @@ def test_wp12_dynamics_collect_only_command_is_limited_to_four_exact_nodes(tmp_p
     assert command[-1] == WP12_DYNAMICS_PREFLIGHT_NODEID
     assert "wp12-dynamics-preflight" in command[3]
 
-    with pytest.raises(MODULE.PolicyError, match="four exact collect-only nodeids"):
+    for target in MODULE.WP12_DYNAMICS_PREFLIGHT_NODEIDS:
+        command = MODULE.build_pytest_command(
+            "fem_exploratory",
+            [target],
+            tmp_path,
+            repository_root=tmp_path,
+            source_root=tmp_path / "src",
+            wp12_dynamics_collect_only_attestation=True,
+            collect_only=True,
+        )
+        assert command[-1] == target
+        assert "--collect-only" in command
+
+    policy_targets = set(MODULE.load_policy()["worktrees"]["wp12_dynamics"]["allowed_nodeids"])
+    assert set(MODULE.WP12_DYNAMICS_PREFLIGHT_NODEIDS) <= policy_targets
+
+    with pytest.raises(MODULE.PolicyError, match="reviewed exact collect-only nodeids"):
         MODULE.build_pytest_command(
             "fem_exploratory",
             ["tests/unit/test_other.py::test_unregistered"],
@@ -4611,6 +4660,25 @@ def test_wp12_dynamics_collect_only_command_is_limited_to_four_exact_nodes(tmp_p
             allow_native_skip_override=True,
             collect_only=True,
         )
+
+
+@pytest.mark.parametrize("target", MODULE.WP12_DYNAMICS_PREFLIGHT_NODEIDS[4:])
+def test_wp12a_p0_preflight_routes_exact_registered_node_without_reservation(
+    target: str, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    calls: list[tuple[str, str | None]] = []
+
+    def fake_collect(nodeid: str, preflight_id: str | None, **kwargs: Any) -> dict[str, Any]:
+        calls.append((nodeid, preflight_id))
+        assert kwargs["worktree_id"] == "wp12_dynamics"
+        assert kwargs["attestation_mode"] == "wp12_dynamics_collect_only_attestation"
+        return {"state": "PREFLIGHT_PASS", "bodies_executed": False, "attempt_reserved": False}
+
+    monkeypatch.setattr(MODULE, "_preflight_wp12_attested_pytest", fake_collect)
+    monkeypatch.setattr(MODULE, "_reserve_node_attempt", lambda *args, **kwargs: pytest.fail("reservation forbidden"))
+    result = MODULE.preflight_wp12_dynamics_pytest(target, "pf-123456789abc")
+    assert calls == [(target, "pf-123456789abc")]
+    assert result == {"state": "PREFLIGHT_PASS", "bodies_executed": False, "attempt_reserved": False}
 
 
 def _wp12b_hex20_diagnostic_attestation(**updates: Any) -> str:
@@ -4952,7 +5020,7 @@ def _synthetic_wp12_dynamics_context(tmp_path: Path, monkeypatch: pytest.MonkeyP
             f"{predecessor_mandate}:wp12_dynamics:{nodeid}": [
                 {"attempt": index} for index in range(1, count + 1)
             ]
-            for nodeid, count in zip(MODULE.WP12_DYNAMICS_PREFLIGHT_NODEIDS, (3, 1, 1, 0), strict=True)
+            for nodeid, count in zip(MODULE.WP12_DYNAMICS_PREFLIGHT_NODEIDS[:4], (3, 1, 1, 0), strict=True)
             if count
         },
     }
@@ -5240,6 +5308,71 @@ def test_wp12_dynamics_campaign_refreshes_preflight_and_manifest_after_prior_res
     assert manifest["limits"]["timeout_seconds"] == 300
 
 
+def test_wp12a_other_case_reservation_invalidates_prepared_case_preflight(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    entry = fixture["entry"]
+    other_target = MODULE.WP12_DYNAMICS_PREFLIGHT_NODEIDS[0]
+    assert other_target != fixture["target"]
+    original_preflight = fixture["preflight_path"].read_bytes()
+    predecessor = fixture["predecessor_path"].read_bytes()
+
+    MODULE._reserve_node_attempt(
+        fixture["ledger_path"],
+        fixture["ledger_path"].with_suffix(".lock"),
+        mandate_id=entry["development_mandate_id"],
+        worktree_id="wp12_dynamics",
+        target=other_target,
+        series_id="dev-synthetic-other-case-0001",
+        source_fingerprint=fixture["source_fingerprint"],
+        reason="Synthetic independent case advances only a temporary campaign ledger.",
+        maximum=entry["attempt_limit_per_nodeid"],
+        total_maximum=entry["max_total_attempts"],
+        authorization_id="wp12-synthetic-other-auth-001",
+        owner_decision_id="owner-synthetic-other-001",
+        predecessor=entry["node_attempt_ledger"]["predecessor"],
+        controller_fingerprint="2" * 64,
+    )
+
+    ledger_after_other_case = fixture["ledger_path"].read_bytes()
+    with pytest.raises(MODULE.PolicyError, match="does not match this exact source, controller, ledger and nodeid"):
+        MODULE.prepare_wp12_execution_manifest(
+            "wp12_dynamics", fixture["target"], "wp12-synthetic-case-b-0001", preflight_id=fixture["preflight_id"]
+        )
+    assert fixture["ledger_path"].read_bytes() == ledger_after_other_case
+    assert fixture["preflight_path"].read_bytes() == original_preflight
+    assert fixture["predecessor_path"].read_bytes() == predecessor
+    assert not (fixture["store"] / "authorizations" / "wp12_dynamics" / "wp12-synthetic-case-b-0001.json").exists()
+
+
+def test_wp12a_ledger_change_between_preflight_and_reservation_is_refused_under_lock(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    entry = fixture["entry"]
+    assert not fixture["ledger_path"].exists()
+    fixture["ledger_path"].write_bytes(b'{"unexpected":"mutation"}\n')
+    unexpected = fixture["ledger_path"].read_bytes()
+    with pytest.raises(MODULE.PolicyError, match="ledger changed before reservation"):
+        MODULE._reserve_node_attempt(
+            fixture["ledger_path"],
+            fixture["ledger_path"].with_suffix(".lock"),
+            mandate_id=entry["development_mandate_id"],
+            worktree_id="wp12_dynamics",
+            target=fixture["target"],
+            series_id="dev-synthetic-ledger-race-0001",
+            source_fingerprint=fixture["source_fingerprint"],
+            reason="Synthetic mutation between receipt validation and reservation.",
+            maximum=entry["attempt_limit_per_nodeid"],
+            total_maximum=entry["max_total_attempts"],
+            predecessor=entry["node_attempt_ledger"]["predecessor"],
+            expected_ledger_sha256=None,
+            require_ledger_snapshot=True,
+        )
+    assert fixture["ledger_path"].read_bytes() == unexpected
+
+
 @pytest.mark.parametrize(
     ("field", "value"),
     [
@@ -5337,6 +5470,167 @@ def test_wp12_dynamics_manifest_preparation_and_validation_bind_preflight(
             selection=selection,
             preflight_id="pf-000000000000",
             preflight_receipt=(fixture["preflight_path"], fixture["preflight_sha256"]),
+        )
+
+
+def test_wp12a_batch_lock_serializes_dynamics_and_preserves_other_scope_lock_path(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from contextlib import contextmanager
+
+    calls: list[Path] = []
+
+    @contextmanager
+    def synthetic_lock(path: Path):
+        calls.append(Path(path))
+        yield
+
+    monkeypatch.setattr(MODULE, "_exclusive_file_lock", synthetic_lock)
+    ledger_path = tmp_path / "node-attempt-ledger-wp12-dynamics-v2.json"
+    ledger_lock = tmp_path / "node-attempt-ledger.lock"
+    with MODULE._node_attempt_locks(ledger_path, ledger_lock, "wp12_dynamics"):
+        assert calls == [ledger_path.with_suffix(".batch.lock"), ledger_lock]
+
+    calls.clear()
+    MODULE._WP12A_BATCH_LOCK_LOCAL.held = True
+    try:
+        with MODULE._node_attempt_locks(ledger_path, ledger_lock, "wp12_dynamics"):
+            assert calls == [ledger_lock]
+    finally:
+        MODULE._WP12A_BATCH_LOCK_LOCAL.held = False
+
+    calls.clear()
+    with MODULE._node_attempt_locks(ledger_path, ledger_lock, MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID):
+        assert calls == [ledger_lock]
+
+
+def _synthetic_wp12a_batch_manifest_context(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> dict[str, Any]:
+    fixture = _synthetic_wp12_dynamics_context(tmp_path, monkeypatch)
+    target = fixture["target"]
+    auth_id = "wp12-synth-batch-auth-01"
+    prepared = MODULE.prepare_wp12_execution_manifest(
+        "wp12_dynamics", target, auth_id, preflight_id=fixture["preflight_id"]
+    )
+    prepared_path = Path(prepared["path"]).resolve(strict=True)
+    prepared_sha = MODULE._sha256(prepared_path)
+
+    batch_root = fixture["store"] / "authorizations" / "wp12_dynamics" / "batches" / "wp12a-p0-synthetic-01"
+    batch_root.mkdir(parents=True)
+    contract_path = batch_root / "contract.json"
+    decision_path = batch_root / "owner-decision.json"
+    contract_path.write_text('{"schema":"synthetic-closed-contract"}\n', encoding="utf-8")
+    decision_path.write_text('{"schema":"synthetic-owner-decision"}\n', encoding="utf-8")
+
+    monkeypatch.setattr(MODULE, "ROOT", tmp_path / "controller-repository")
+    # The case manifest is fully synthetic and stays below pytest's temp path.
+    case_path = MODULE.ROOT / "qualification" / "0_2_12" / "wp12a_p0" / "case_manifests" / "case-01.json"
+    case_path.parent.mkdir(parents=True)
+    case_path.write_text(json.dumps({"nodeid": target}, sort_keys=True) + "\n", encoding="utf-8")
+    case_sha = MODULE._sha256(case_path)
+
+    decision_id = "owner-synthetic-p0-batch-01"
+    binding = {
+        "campaign_id": "wp12a-p0-synthetic-01",
+        "contract_path": str(contract_path.resolve()),
+        "contract_sha256": MODULE._sha256(contract_path),
+        "decision_path": str(decision_path.resolve()),
+        "decision_id": decision_id,
+        "decision_sha256": MODULE._sha256(decision_path),
+        "case_ordinal": 1,
+        "nodeid": target,
+        "case_manifest_path": str(case_path.resolve()),
+        "case_manifest_sha256": case_sha,
+        "preflight_id": fixture["preflight_id"],
+        "preflight_receipt_sha256": fixture["preflight_sha256"],
+        "authorization_id": auth_id,
+        "prepared_manifest_path": str(prepared_path),
+        "prepared_manifest_sha256": prepared_sha,
+    }
+    authorized_path = fixture["store"] / "authorizations" / "wp12_dynamics" / "owner-authorized" / f"{auth_id}.json"
+    authorized_path.parent.mkdir(parents=True)
+    authorized_manifest = json.loads(prepared_path.read_text(encoding="utf-8"))
+    authorized_manifest.update(
+        {
+            "state": "OWNER_AUTHORIZED",
+            "execution_authorized": True,
+            "do_not_execute": False,
+            "batch_authorization": binding,
+            "owner_decision": {
+                "status": "APPROVED",
+                "decision_id": decision_id,
+                "approved_by": "Owner",
+                "approved_at_utc": "2026-10-29T10:00:00Z",
+                "reason": "Synthetic batch contract validation; no scientific run is performed.",
+            },
+        }
+    )
+    authorized_path.write_text(json.dumps(authorized_manifest, sort_keys=True) + "\n", encoding="utf-8")
+    selection = MODULE._wp12_active_registration(
+        "wp12_dynamics", target, fixture["entry"], fixture["source_fingerprint"]
+    )
+    return {**fixture, "target": target, "binding": binding, "authorized_path": authorized_path, "selection": selection}
+
+
+def test_wp12_dynamics_batch_manifest_requires_and_validates_all_bound_artifacts(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _synthetic_wp12a_batch_manifest_context(tmp_path, monkeypatch)
+    receipt = MODULE._validate_wp12_execution_manifest(
+        fixture["authorized_path"],
+        worktree_id="wp12_dynamics",
+        target=fixture["target"],
+        entry=fixture["entry"],
+        identity=fixture["identity"],
+        source_fingerprint=fixture["source_fingerprint"],
+        controller_fingerprint=MODULE._stable_fingerprint(fixture["controller_provenance"]),
+        selection=fixture["selection"],
+        preflight_id=fixture["preflight_id"],
+        preflight_receipt=(fixture["preflight_path"], fixture["preflight_sha256"]),
+        batch_binding=fixture["binding"],
+    )
+    assert receipt["decision_id"] == fixture["binding"]["decision_id"]
+    assert receipt["authorization_id"] == fixture["binding"]["authorization_id"]
+
+    with pytest.raises(MODULE.PolicyError, match="official batch execution path"):
+        MODULE._validate_wp12_execution_manifest(
+            fixture["authorized_path"],
+            worktree_id="wp12_dynamics",
+            target=fixture["target"],
+            entry=fixture["entry"],
+            identity=fixture["identity"],
+            source_fingerprint=fixture["source_fingerprint"],
+            controller_fingerprint=MODULE._stable_fingerprint(fixture["controller_provenance"]),
+            selection=fixture["selection"],
+            preflight_id=fixture["preflight_id"],
+            preflight_receipt=(fixture["preflight_path"], fixture["preflight_sha256"]),
+        )
+
+
+@pytest.mark.parametrize("bound_file", ["contract", "decision", "prepared", "case"])
+def test_wp12_dynamics_batch_manifest_refuses_changed_bound_artifact(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, bound_file: str
+) -> None:
+    fixture = _synthetic_wp12a_batch_manifest_context(tmp_path, monkeypatch)
+    path = Path(fixture["binding"][{
+        "contract": "contract_path",
+        "decision": "decision_path",
+        "prepared": "prepared_manifest_path",
+        "case": "case_manifest_path",
+    }[bound_file]])
+    path.write_text(path.read_text(encoding="utf-8") + " ", encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="identity or SHA-256 changed"):
+        MODULE._validate_wp12_execution_manifest(
+            fixture["authorized_path"],
+            worktree_id="wp12_dynamics",
+            target=fixture["target"],
+            entry=fixture["entry"],
+            identity=fixture["identity"],
+            source_fingerprint=fixture["source_fingerprint"],
+            controller_fingerprint=MODULE._stable_fingerprint(fixture["controller_provenance"]),
+            selection=fixture["selection"],
+            preflight_id=fixture["preflight_id"],
+            preflight_receipt=(fixture["preflight_path"], fixture["preflight_sha256"]),
+            batch_binding=fixture["binding"],
         )
 
 
