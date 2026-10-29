@@ -1767,6 +1767,71 @@
           "sha256": "01b493f2af7867330723a5dc3ce6a723fb481269035ba92a5f8d4749a6ce741b"
         }
       }
+    },
+    "wp12_hex20_affine_diagnostic_r2": {
+      "purpose": "WP12-B prospective HEX20 R2-CORE affine diagnostic; separate Owner decision required",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\wp12b-hex20-r2-prospective",
+      "git_root": "E:\\QFSolverAgents\\wp12b-hex20-r2-prospective",
+      "branch": "research/wp12b-hex20-r2-prospective",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12b-hex20-affine-diagnostic-r2",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 1,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 60,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTIC-2026-10-29-R2",
+      "require_clean_worktree": true,
+      "execution_scope_id": "wp12_hex20_affine_diagnostic_r2",
+      "campaign_id": "WP12B-HEX20-AFFINE-DIAGNOSTIC-R2-2026-10-29",
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 1
+      },
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual"
+      ],
+      "nodeid_registration_records": [
+        {
+          "target": "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual",
+          "campaign_id": "WP12B-HEX20-AFFINE-DIAGNOSTIC-R2-2026-10-29",
+          "reason": "Prospective R2 after corrected QUAD8 quadrature; independently compare face nodal loads and affine state while retaining R1 evidence.",
+          "registered_at_utc": "2026-10-29T10:04:21.061884+00:00",
+          "worktree_head": "9b998f42c1543f9d40b2f7a7ef88fd59153a65ee",
+          "source_fingerprint": "8e6ac46ba6bc7ff3429c87077d795121a1d305f99b0006f80ab958b6ce90ca84",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6",
+            "tests/unit/wp12b_hex20_diagnostic_support.py": "7ed3f44f074be56d89aaac69ffda544506b4235b11d55078f188b24674c6b93b"
+          },
+          "selected_dofs": 60,
+          "selection_basis": "20 quadratic solid nodes \u00d7 3 translational DOFs; the fixture constrains 24 DOFs and solves the remaining 36.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        }
+      ],
+      "node_attempt_ledger": {
+        "path": "node-attempt-ledger-r2.json",
+        "predecessor": {
+          "path": "E:\\QFSolverAgents\\evidence\\wp12b-hex20-affine-diagnostic-consolidated\\node-attempt-ledger.json",
+          "sha256": "ab5a8e4967ca204898f2eeec52b50f0c6b8e603d0328c3dff06926ff10669f53",
+          "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTIC-2026-10-27-R1"
+        }
+      }
     }
   },
   "resource_coordination_root": "E:\\QFSolverAgents\\evidence\\.wp12-coordination"

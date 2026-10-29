@@ -379,6 +379,15 @@ WP12B_HEX20_R2_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTI
 WP12B_HEX20_R1_LEDGER_PATH = Path(
     r"E:\QFSolverAgents\evidence\wp12b-hex20-affine-diagnostic-consolidated\node-attempt-ledger.json"
 )
+WP12B_HEX20_R2_CRITERIA = {
+    "displacement_rtol": 1e-10, "displacement_atol_m": 1e-13,
+    "stress_rtol": 1e-10, "stress_atol_pa": 1e-4,
+    "energy_relative_atol": 1e-10, "free_residual_max": 1e-10,
+    "force_balance_max": 1e-12, "moment_balance_max": 1e-12, "energy_identity_max": 1e-10,
+    "face_nodal_force_rtol": 1e-12, "face_nodal_force_atol_n": 1e-6,
+    "additional_assertions": "finiteness, mesh and solver PASS, fixed indices, five faces, dimensions",
+    "face_nodal_gate_status": "PROPOSED_FOR_OWNER",
+}
 WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
     "wp12_wp07": {
         "root": r"E:\QFSolverAgents\wp07",
@@ -495,6 +504,22 @@ WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
         "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTIC-2026-10-27-R1",
         "campaign_id": "WP12B-HEX20-AFFINE-DIAGNOSTIC-R1-2026-10-27",
         "execution_scope_id": WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
+    },
+    WP12B_HEX20_R2_WORKTREE_ID: {
+        "root": r"E:\QFSolverAgents\wp12b-hex20-r2-prospective",
+        "branch": "research/wp12b-hex20-r2-prospective",
+        "evidence_root": r"E:\QFSolverAgents\evidence\wp12b-hex20-affine-diagnostic-r2",
+        "timeout_seconds": 300,
+        "max_timeout_seconds": 300,
+        "max_total_attempts": 1,
+        "attempt_limit_per_nodeid": 1,
+        "max_registered_nodeids": 1,
+        "max_dofs": 60,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "parallel",
+        "development_mandate_id": WP12B_HEX20_R2_MANDATE_ID,
+        "campaign_id": "WP12B-HEX20-AFFINE-DIAGNOSTIC-R2-2026-10-29",
+        "execution_scope_id": WP12B_HEX20_R2_WORKTREE_ID,
     },
 }
 WP12_RUN_BUDGETS = {
@@ -982,6 +1007,17 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             if budgets != expected_budgets:
                 raise PolicyError(f"{worktree_id} budgets must match its Owner-approved resource envelope exactly")
 
+    r2_ledger = worktrees[WP12B_HEX20_R2_WORKTREE_ID].get("node_attempt_ledger")
+    if r2_ledger != {
+        "path": "node-attempt-ledger-r2.json",
+        "predecessor": {
+            "path": str(WP12B_HEX20_R1_LEDGER_PATH),
+            "sha256": WP12B_HEX20_R1_LEDGER_SHA256,
+            "mandate_id": WP12B_HEX20_R1_MANDATE_ID,
+        },
+    } or worktrees[WP12B_HEX20_R2_WORKTREE_ID].get("allowed_nodeids") != [WP12B_HEX20_DIAGNOSTIC_NODEID]:
+        raise PolicyError("WP12-B HEX20 R2 must retain its exact node and independent predecessor ledger")
+
     dynamics_ledger = worktrees["wp12_dynamics"].get("node_attempt_ledger")
     if not isinstance(dynamics_ledger, dict) or set(dynamics_ledger) != {"path", "predecessor"}:
         raise PolicyError("WP12-A dynamics requires a dedicated ledger linked to its immutable predecessor")
@@ -1282,7 +1318,7 @@ def _validate_wp12_execution_manifest(
         raise PolicyError(
             "WP12 execution manifest does not bind this exact worktree, source, nodeid, controller and budget"
         )
-    if worktree_id in {"wp12_dynamics", WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID}:
+    if worktree_id in {"wp12_dynamics", WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID, WP12B_HEX20_R2_WORKTREE_ID}:
         decision_id = decision.get("decision_id")
         if not isinstance(decision_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", decision_id):
             raise PolicyError(f"{worktree_id} Owner decision requires a valid decision_id")
@@ -1363,6 +1399,16 @@ def _validate_wp12_execution_manifest(
             case_payload = _read_strict_json(case_path)
             if not isinstance(case_payload, Mapping) or case_payload.get("nodeid") != target:
                 raise PolicyError("WP12-A batch case manifest does not contain the exact execution nodeid")
+    elif worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
+        expected_preflight = (
+            {"preflight_id": preflight_id, "receipt_path": str(preflight_receipt[0]),
+             "receipt_sha256": preflight_receipt[1]}
+            if preflight_id is not None and preflight_receipt is not None else None
+        )
+        if (manifest.get("execution_authorized") is not True or manifest.get("do_not_execute") is not False
+                or manifest.get("scientific_criteria") != WP12B_HEX20_R2_CRITERIA
+                or expected_preflight is None or manifest.get("preflight") != expected_preflight):
+            raise PolicyError("WP12-B R2 execution requires its exact authorized preflight binding")
     elif manifest.get("preflight") is not None:
         raise PolicyError("only WP12-A dynamics manifests may bind a collect-only preflight receipt")
     return {
@@ -1748,7 +1794,7 @@ def _wp12b_hex20_diagnostic_sidecar(
     sidecar_limit_bytes: int | None,
 ) -> dict[str, Any] | None:
     """Verify and hash-link the exact prospective HEX20 sidecar into final run.json."""
-    if worktree_id != WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID:
+    if worktree_id not in {WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID, WP12B_HEX20_R2_WORKTREE_ID}:
         return None
     reasons: list[str] = []
     if target != WP12B_HEX20_DIAGNOSTIC_NODEID:
@@ -1834,6 +1880,18 @@ def _wp12b_hex20_diagnostic_sidecar(
         reasons.append("sidecar schema mismatch")
     if not isinstance(sidecar_identity, dict) or sidecar_identity.get("nodeid") != target:
         reasons.append("nodeid mismatch")
+    if worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
+        criteria = sidecar.get("diagnostic_criteria") if isinstance(sidecar, dict) else None
+        gate = criteria.get("r2_face_nodal_gate") if isinstance(criteria, dict) else None
+        if (
+            not isinstance(sidecar, dict)
+            or sidecar.get("schema") != "qfsolver-wp12b-hex20-affine-diagnostic-v2"
+            or not isinstance(gate, dict)
+            or gate.get("rtol") != 1.0e-12
+            or gate.get("atol_N") != 1.0e-6
+            or gate.get("status") != "PROPOSED_FOR_OWNER; ASSERTED_AFTER_PRE_ASSERTION_ARCHIVE"
+        ):
+            reasons.append("R2 nodal gate provenance mismatch")
     return {
         "status": "VERIFIED" if not reasons else "PROVENANCE_MISMATCH",
         "path": str(resolved),
@@ -3245,6 +3303,10 @@ def _complete_node_attempt(
     expected_ledger_sha256: str | None = None,
 ) -> None:
     with _node_attempt_locks(ledger_path, lock_path, worktree_id):
+        if worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
+            _validate_wp12b_hex20_r2_ledger_binding(
+                predecessor_path=WP12B_HEX20_R1_LEDGER_PATH, ledger_path=ledger_path, lock_path=lock_path
+            )
         if expected_ledger_sha256 is not None and _sha256(ledger_path) != expected_ledger_sha256:
             raise PolicyError("development attempt ledger changed before batch attempt completion")
         try:
@@ -3461,6 +3523,36 @@ def _node_ledger_context(
     worktree_id: str,
 ) -> tuple[Path, Path, str, dict[str, str] | None]:
     entry = policy["worktrees"][worktree_id]
+    if worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
+        config = entry.get("node_attempt_ledger")
+        expected_predecessor = {
+            "path": str(WP12B_HEX20_R1_LEDGER_PATH.resolve()),
+            "sha256": WP12B_HEX20_R1_LEDGER_SHA256,
+            "mandate_id": WP12B_HEX20_R1_MANDATE_ID,
+        }
+        if not isinstance(config, Mapping) or config.get("path") != "node-attempt-ledger-r2.json":
+            raise PolicyError("WP12-B HEX20 R2 requires its dedicated ledger")
+        if config.get("predecessor") != expected_predecessor:
+            raise PolicyError("WP12-B HEX20 R2 predecessor binding is invalid")
+        ledger_path = (store / config["path"]).resolve()
+        lock_path = ledger_path.with_suffix(".lock")
+        if not _is_within(ledger_path, store.resolve()):
+            raise PolicyError("WP12-B HEX20 R2 ledger escapes its evidence root")
+        _validate_wp12b_hex20_r2_ledger_binding(
+            predecessor_path=WP12B_HEX20_R1_LEDGER_PATH, ledger_path=ledger_path, lock_path=lock_path
+        )
+        if ledger_path.exists():
+            ledger = _read_strict_json(ledger_path)
+            expected_key = f"{WP12B_HEX20_R2_MANDATE_ID}:{worktree_id}:{WP12B_HEX20_DIAGNOSTIC_NODEID}"
+            if (not isinstance(ledger, dict) or set(ledger) != {"schema", "mandate_id", "entries", "predecessor"}
+                    or ledger.get("schema") != "qfsolver-development-node-ledger-v2"
+                    or ledger.get("mandate_id") != WP12B_HEX20_R2_MANDATE_ID
+                    or ledger.get("predecessor") != expected_predecessor
+                    or not isinstance(ledger.get("entries"), dict)
+                    or set(ledger["entries"]) - {expected_key}
+                    or any(not isinstance(items, list) or len(items) > 1 for items in ledger["entries"].values())):
+                raise PolicyError("WP12-B HEX20 R2 ledger identity or entries are invalid")
+        return ledger_path, lock_path, WP12B_HEX20_R2_MANDATE_ID, expected_predecessor
     if worktree_id == "wp12_dynamics":
         config = entry.get("node_attempt_ledger")
         if not isinstance(config, Mapping) or config.get("path") != WP12_DYNAMICS_LEDGER:
@@ -4527,6 +4619,13 @@ def prepare_wp12_execution_manifest(
             controller_provenance=controller_provenance,
             policy=policy,
         )
+    elif worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
+        if preflight_id is None:
+            raise PolicyError("WP12-B R2 manifests require a successful exact-node preflight")
+        preflight_receipt = _validate_wp12b_hex20_r2_preflight_receipt(
+            evidence_root, preflight_id, target=target, identity=identity,
+            source_fingerprint=source_fingerprint, controller_provenance=controller_provenance, policy=policy,
+        )
     elif preflight_id is not None:
         raise PolicyError("prepare-manifest accepts preflight receipt IDs only for WP12-A dynamics")
     manifest_dir = evidence_root / "authorizations" / worktree_id
@@ -4537,7 +4636,8 @@ def prepare_wp12_execution_manifest(
         payload = {
             "schema": "qfsolver-wp12-development-execution-v1",
             "state": "PREPARED_NOT_AUTHORIZED",
-            **({"execution_authorized": False, "do_not_execute": True} if worktree_id == "wp12_dynamics" else {}),
+            **({"execution_authorized": False, "do_not_execute": True}
+               if worktree_id in {"wp12_dynamics", WP12B_HEX20_R2_WORKTREE_ID} else {}),
             "authorization_id": authorization_id,
             "worktree_id": worktree_id,
             "mandate_id": entry["development_mandate_id"],
@@ -4547,6 +4647,8 @@ def prepare_wp12_execution_manifest(
             "source_fingerprint": source_fingerprint,
             "controller_fingerprint": controller_fingerprint,
             "limits": _wp12_manifest_limits(entry, selection),
+            **({"scientific_criteria": WP12B_HEX20_R2_CRITERIA}
+               if worktree_id == WP12B_HEX20_R2_WORKTREE_ID else {}),
             "owner_decision": {
                 "status": "NOT_AUTHORIZED",
                 "approved_by": None,
@@ -4803,7 +4905,8 @@ def preflight_wp12_dynamics_pytest(
 
 
 def preflight_wp12b_hex20_diagnostic_pytest(
-    target: str, preflight_id: str | None = None, *, policy: Mapping[str, Any] | None = None
+    target: str, preflight_id: str | None = None, *, policy: Mapping[str, Any] | None = None,
+    worktree_id: str = WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
 ) -> dict[str, Any]:
     """Collect the one exact HEX20 diagnostic node without reserving an attempt."""
     if target != WP12B_HEX20_DIAGNOSTIC_NODEID:
@@ -4812,10 +4915,12 @@ def preflight_wp12b_hex20_diagnostic_pytest(
         target,
         preflight_id,
         policy=policy,
-        worktree_id=WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
+        worktree_id=worktree_id,
         schema=WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_SCHEMA,
         marker=WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_MARKER,
-        preflight_schema="qfsolver-development-wp12b-hex20-diagnostic-preflight-v1",
+        preflight_schema=("qfsolver-development-wp12b-hex20-r2-preflight-v1"
+                          if worktree_id == WP12B_HEX20_R2_WORKTREE_ID
+                          else "qfsolver-development-wp12b-hex20-diagnostic-preflight-v1"),
         attestation_mode="wp12b_hex20_diagnostic_collect_only_attestation",
         label="WP12-B HEX20 diagnostic",
     )
@@ -4888,7 +4993,7 @@ def _preflight_wp12_attested_pytest(
     ledger_predecessor: dict[str, str] | None = None
     predecessor_path: Path | None = None
     predecessor_sha256_before: str | None = None
-    if worktree_id == "wp12_dynamics":
+    if worktree_id in {"wp12_dynamics", WP12B_HEX20_R2_WORKTREE_ID}:
         ledger_path, _ledger_lock, ledger_mandate_id, ledger_predecessor = _node_ledger_context(
             current_policy, store, worktree_id
         )
@@ -4904,7 +5009,7 @@ def _preflight_wp12_attested_pytest(
         "sha256_before": ledger_sha256_before,
         "touched": False,
     }
-    if worktree_id == "wp12_dynamics":
+    if worktree_id in {"wp12_dynamics", WP12B_HEX20_R2_WORKTREE_ID}:
         attempt_ledger_initial.update(
             {
                 "predecessor": ledger_predecessor,
@@ -4962,7 +5067,7 @@ def _preflight_wp12_attested_pytest(
                     "sha256_after": ledger_sha256_after,
                     **(
                         {"predecessor_sha256_after": predecessor_sha256_after}
-                        if worktree_id == "wp12_dynamics"
+                        if worktree_id in {"wp12_dynamics", WP12B_HEX20_R2_WORKTREE_ID}
                         else {}
                     ),
                     "touched": ledger_touched,
@@ -5026,7 +5131,7 @@ def _preflight_wp12_attested_pytest(
             "sha256_after": ledger_sha256_after,
             **(
                 {"predecessor_sha256_after": predecessor_sha256_after}
-                if worktree_id == "wp12_dynamics"
+                if worktree_id in {"wp12_dynamics", WP12B_HEX20_R2_WORKTREE_ID}
                 else {}
             ),
             "touched": ledger_touched,
@@ -5556,8 +5661,8 @@ def preflight_pytest(
         return preflight_hex8sri_convergence24_pytest(target, preflight_id, policy=policy)
     if worktree_id == "wp12_dynamics":
         return preflight_wp12_dynamics_pytest(target, preflight_id, policy=policy)
-    if worktree_id == WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID:
-        return preflight_wp12b_hex20_diagnostic_pytest(target, preflight_id, policy=policy)
+    if worktree_id in {WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID, WP12B_HEX20_R2_WORKTREE_ID}:
+        return preflight_wp12b_hex20_diagnostic_pytest(target, preflight_id, policy=policy, worktree_id=worktree_id)
     if worktree_id != "d01":
         raise PolicyError(
             "collect-only preflight is enabled only for D01, rotor, WP12 dynamics, WP12-B HEX20 diagnostic, "
@@ -5840,6 +5945,76 @@ def _validate_wp12_dynamics_preflight_receipt(
     return record_path, actual_hash
 
 
+def _validate_wp12b_hex20_r2_preflight_receipt(
+    store: Path, preflight_id: str, *, target: str, identity: Mapping[str, Any],
+    source_fingerprint: str, controller_provenance: Mapping[str, Any], policy: Mapping[str, Any],
+) -> tuple[Path, str]:
+    """Bind one checksummed R2 collect-only receipt to the current sources and ledgers."""
+    if target != WP12B_HEX20_DIAGNOSTIC_NODEID:
+        raise PolicyError("WP12-B R2 preflight target is not registered")
+    receipt_dir = _preflight_directory(store, WP12B_HEX20_R2_WORKTREE_ID, preflight_id)
+    path, sidecar_path = receipt_dir / "preflight.json", receipt_dir / "preflight.sha256.json"
+    try:
+        receipt = _read_strict_json(path)
+        sidecar = _read_strict_json(sidecar_path)
+        digest = _sha256(path)
+    except (OSError, ValueError) as exc:
+        raise PolicyError(f"WP12-B R2 preflight receipt is unreadable: {exc}") from exc
+    if not isinstance(receipt, Mapping) or not isinstance(sidecar, Mapping) or sidecar != {"sha256": digest}:
+        raise PolicyError("WP12-B R2 preflight receipt checksum mismatch")
+    entry = policy["worktrees"][WP12B_HEX20_R2_WORKTREE_ID]
+    ledger_path, _lock, mandate, predecessor = _node_ledger_context(policy, store, WP12B_HEX20_R2_WORKTREE_ID)
+    if ledger_path.exists():
+        current_ledger = _read_strict_json(ledger_path)
+        if any(current_ledger["entries"].values()):
+            raise PolicyError("WP12-B R2 attempt has already been consumed")
+    ledger = receipt.get("attempt_ledger")
+    current_sha = _sha256(ledger_path) if ledger_path.is_file() else None
+    expected_origin = str((Path(entry["root"]) / entry["source_root"] / "solveur" / "__init__.py").resolve())
+    registration = _wp12_active_registration(WP12B_HEX20_R2_WORKTREE_ID, target, entry, source_fingerprint)
+    stdout_path, stderr_path = receipt_dir / "output" / "stdout.log", receipt_dir / "output" / "stderr.log"
+    if (not stdout_path.is_file() or not stderr_path.is_file()
+            or receipt.get("stdout_sha256") != _sha256(stdout_path)
+            or receipt.get("stderr_sha256") != _sha256(stderr_path)):
+        raise PolicyError("WP12-B R2 preflight output evidence is missing or changed")
+    stdout = stdout_path.read_text(encoding="utf-8", errors="replace")
+    stderr = stderr_path.read_text(encoding="utf-8", errors="replace")
+    attestation_status, _attestation = _validate_wp12_collect_attestation(
+        stdout, target=target, solver_origin=expected_origin, selected_dofs=60, max_dofs=60,
+        worktree_id=WP12B_HEX20_R2_WORKTREE_ID, schema=WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_SCHEMA,
+        marker=WP12B_HEX20_DIAGNOSTIC_PREFLIGHT_MARKER,
+    )
+    if attestation_status != "PREFLIGHT_PASS" or _observed_solver_origin(stdout + "\n" + stderr) != expected_origin:
+        raise PolicyError("WP12-B R2 preflight output attestation is invalid")
+    if (
+        receipt.get("schema") != "qfsolver-development-wp12b-hex20-r2-preflight-v1"
+        or receipt.get("state") != "PREFLIGHT_PASS"
+        or receipt.get("mode") != "DEVELOPMENT_AUTONOMOUS"
+        or receipt.get("mandate_id") != mandate
+        or receipt.get("worktree_id") != WP12B_HEX20_R2_WORKTREE_ID
+        or receipt.get("target") != target or receipt.get("preflight_id") != preflight_id
+        or receipt.get("phase") != "PYTEST_COLLECT_ONLY" or receipt.get("bodies_executed") is not False
+        or receipt.get("attempt_reserved") is not False or receipt.get("ledger_touched") is not False
+        or receipt.get("identity") != dict(identity) or receipt.get("identity_after") != dict(identity)
+        or receipt.get("source_fingerprint") != source_fingerprint
+        or receipt.get("source_fingerprint_after") != source_fingerprint
+        or receipt.get("controller_provenance") != dict(controller_provenance)
+        or receipt.get("controller_provenance_after") != dict(controller_provenance)
+        or receipt.get("solver_origin_expected") != expected_origin
+        or receipt.get("solver_origin_observed") != expected_origin
+        or receipt.get("collected_nodeids") != [target] or receipt.get("skip_markers") != []
+        or receipt.get("return_code") != 0 or receipt.get("registration") != registration
+        or receipt.get("budgets") != dict(entry["budgets"])
+        or not isinstance(ledger, Mapping) or ledger.get("path") != str(ledger_path)
+        or ledger.get("touched") is not False or ledger.get("sha256_before") != current_sha
+        or ledger.get("sha256_after") != current_sha or ledger.get("predecessor") != predecessor
+        or ledger.get("predecessor_sha256_before") != WP12B_HEX20_R1_LEDGER_SHA256
+        or ledger.get("predecessor_sha256_after") != WP12B_HEX20_R1_LEDGER_SHA256
+    ):
+        raise PolicyError("WP12-B R2 preflight identity, provenance, ledger or nodeid mismatch")
+    return path, digest
+
+
 def run_pytest(
     scope_name: str,
     target: str | None,
@@ -5967,6 +6142,18 @@ def run_pytest(
                 wp12_expected_ledger_sha256 = json.loads(preflight_bytes)["attempt_ledger"]["sha256_after"]
             except (OSError, ValueError, KeyError, TypeError) as exc:
                 raise PolicyError(f"WP12-A preflight ledger binding is unreadable: {exc}") from exc
+        elif worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
+            if preflight_id is None or execution_manifest is None:
+                raise PolicyError("WP12-B R2 requires its exact preflight and an authorized manifest")
+            controller_provenance = _controller_provenance()
+            wp12_dynamics_preflight_receipt = _validate_wp12b_hex20_r2_preflight_receipt(
+                _run_root(policy, worktree_id), preflight_id, target=target, identity=identity,
+                source_fingerprint=source_fingerprint, controller_provenance=controller_provenance, policy=policy,
+            )
+            preflight_bytes = wp12_dynamics_preflight_receipt[0].read_bytes()
+            if hashlib.sha256(preflight_bytes).hexdigest() != wp12_dynamics_preflight_receipt[1]:
+                raise PolicyError("WP12-B R2 preflight changed after validation")
+            wp12_expected_ledger_sha256 = json.loads(preflight_bytes)["attempt_ledger"]["sha256_after"]
         elif preflight_id is not None:
             raise PolicyError("preflight receipt IDs are supported only for D01, WP12-A dynamics and HEX8-SRI")
         if worktree_id in WP12_OWNER_ENVELOPES:
@@ -5983,11 +6170,11 @@ def run_pytest(
                 source_fingerprint=source_fingerprint,
                 controller_fingerprint=_stable_fingerprint(controller_provenance),
                 selection=wp12_registration,
-                preflight_id=preflight_id if worktree_id == "wp12_dynamics" else None,
+                preflight_id=preflight_id if worktree_id in {"wp12_dynamics", WP12B_HEX20_R2_WORKTREE_ID} else None,
                 preflight_receipt=wp12_dynamics_preflight_receipt,
                 batch_binding=batch_context,
             )
-            if worktree_id == WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID:
+            if worktree_id in {WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID, WP12B_HEX20_R2_WORKTREE_ID}:
                 _validate_wp12b_decision_receipt(execution_manifest_receipt)
             # WP12 mandates are scope-specific. Preserve D01's separately handled
             # predecessor ledger while binding every WP12 ledger key to its scope.
@@ -6062,6 +6249,22 @@ def run_pytest(
             guard_state=_native_guard_environment(inherited_environment),
         )
     with scenario_lock:
+        if worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
+            assert target is not None and preflight_id is not None and execution_manifest_receipt is not None
+            current_policy = load_policy()
+            current_entry, _root, _source, current_identity, current_fingerprint = _registered_worktree(
+                worktree_id, target, current_policy
+            )
+            if (current_entry != entry or current_identity != identity or current_fingerprint != source_fingerprint
+                    or _controller_provenance() != controller_provenance):
+                raise PolicyError("WP12-B R2 source, policy or controller changed before reservation")
+            current_preflight = _validate_wp12b_hex20_r2_preflight_receipt(
+                store, preflight_id, target=target, identity=identity, source_fingerprint=source_fingerprint,
+                controller_provenance=controller_provenance, policy=current_policy,
+            )
+            if (current_preflight != preflight_receipt
+                    or _sha256(Path(execution_manifest_receipt["path"])) != execution_manifest_receipt["sha256"]):
+                raise PolicyError("WP12-B R2 preflight or execution manifest changed before reservation")
         number, attempt_dir = _next_attempt(
             series_dir,
             series_id,
@@ -6119,10 +6322,10 @@ def run_pytest(
                     attempt_basis=attempt_basis,
                     hypothesis_id=hypothesis_id,
                     expected_ledger_sha256=wp12_expected_ledger_sha256,
-                    require_ledger_snapshot=worktree_id == "wp12_dynamics",
+                    require_ledger_snapshot=worktree_id in {"wp12_dynamics", WP12B_HEX20_R2_WORKTREE_ID},
                     batch_binding=batch_context,
                 )
-                if batch_context is not None:
+                if batch_context is not None or worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
                     wp12_reserved_ledger_sha256 = _sha256(node_ledger_path)
             except Exception:
                 attempt_dir.rmdir()
@@ -6134,7 +6337,8 @@ def run_pytest(
         record_path = attempt_dir / "run.json"
         controller_attempt_id = (
             f"{series_id}-attempt-{ledger_number or number}"
-            if worktree_id == WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID and execution_manifest_receipt is not None
+            if worktree_id in {WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID, WP12B_HEX20_R2_WORKTREE_ID}
+            and execution_manifest_receipt is not None
             else None
         )
         command = build_pytest_command(
@@ -6369,6 +6573,9 @@ def run_pytest(
         )
         if sidecar_binding is not None:
             final["diagnostic_sidecar"] = sidecar_binding
+            if worktree_id == WP12B_HEX20_R2_WORKTREE_ID:
+                final["scientific_state"] = state
+                final["provenance_state"] = sidecar_binding["status"]
             if sidecar_binding["status"] != "VERIFIED":
                 state = "PROVENANCE_MISMATCH"
                 final["state"] = state
@@ -6429,6 +6636,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "rotor",
             "wp12_dynamics",
             WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
+            WP12B_HEX20_R2_WORKTREE_ID,
             HEX8SRI_CONVERGENCE24_WORKTREE_ID,
         ),
         required=True,
