@@ -3392,6 +3392,29 @@ def _validate_wp12b_hex20_r1_predecessor(path: Path) -> dict[str, Any]:
     return ledger
 
 
+def _validate_wp12b_hex20_r2_ledger_binding(
+    *, predecessor_path: Path, ledger_path: Path, lock_path: Path
+) -> dict[str, Any]:
+    """Validate the read-only R1 link and prevent R2 paths aliasing R1.
+
+    The caller must repeat this check under the R2 reservation lock before
+    writing an R2 record. This check alone does not register or authorize R2.
+    """
+    predecessor = predecessor_path.resolve()
+    ledger = ledger_path.resolve()
+    lock = lock_path.resolve()
+    if len({predecessor, ledger, lock}) != 3:
+        raise PolicyError("WP12-B HEX20 R2 ledger and lock must be distinct from the R1 ledger")
+    for left, right in ((ledger_path, predecessor_path), (lock_path, predecessor_path), (ledger_path, lock_path)):
+        if left.exists() and right.exists():
+            try:
+                if left.samefile(right):
+                    raise PolicyError("WP12-B HEX20 R2 ledger paths alias the same file")
+            except OSError as exc:
+                raise PolicyError(f"WP12-B HEX20 ledger identity cannot be verified: {exc}") from exc
+    return _validate_wp12b_hex20_r1_predecessor(predecessor_path)
+
+
 def _node_ledger_context(
     policy: Mapping[str, Any],
     store: Path,
