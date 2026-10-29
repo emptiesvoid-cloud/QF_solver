@@ -68,7 +68,8 @@ def test_child_environment_rejects_partial_or_malformed_binding(tmp_path: Path) 
         )
 
 
-def test_run_json_sidecar_link_verifies_all_shared_identities(tmp_path: Path) -> None:
+@pytest.mark.parametrize("schema_version", ["v1", "v2"])
+def test_run_json_sidecar_link_verifies_all_shared_identities(tmp_path: Path, schema_version: str) -> None:
     evidence_root = tmp_path / "evidence"
     attempt_dir = evidence_root / "wp12b_hex20_affine_diagnostic"
     attempt_dir.mkdir(parents=True)
@@ -89,7 +90,7 @@ def test_run_json_sidecar_link_verifies_all_shared_identities(tmp_path: Path) ->
     )
     sidecar_path = attempt_dir / f"{ATTEMPT_ID}.json"
     sidecar = {
-        "schema": "qfsolver-wp12b-hex20-affine-diagnostic-v1",
+        "schema": f"qfsolver-wp12b-hex20-affine-diagnostic-{schema_version}",
         "identity": {"nodeid": NODEID},
         "controller": {
             "worktree_id": WORKTREE_ID,
@@ -116,6 +117,23 @@ def test_run_json_sidecar_link_verifies_all_shared_identities(tmp_path: Path) ->
     assert result is not None
     assert result["status"] == "VERIFIED"
     assert result["sha256"] == MODULE._sha256(sidecar_path)
+
+    for unsupported in ("qfsolver-wp12b-hex20-affine-diagnostic-v3", [schema_version], None):
+        sidecar["schema"] = unsupported
+        sidecar_path.write_text(json.dumps(sidecar), encoding="utf-8")
+        unknown = MODULE._wp12b_hex20_diagnostic_sidecar(
+            worktree_id=WORKTREE_ID,
+            target=NODEID,
+            evidence_root=str(evidence_root),
+            attempt_id=ATTEMPT_ID,
+            manifest_receipt=MANIFEST,
+            selected_dofs=60,
+            run_json_path=run_json_path,
+            sidecar_limit_bytes=256 * 1024 * 1024,
+        )
+        assert unknown is not None and unknown["status"] == "PROVENANCE_MISMATCH"
+        assert "sidecar schema mismatch" in unknown["reasons"]
+    sidecar["schema"] = f"qfsolver-wp12b-hex20-affine-diagnostic-{schema_version}"
 
     sidecar["controller"]["manifest_sha256"] = "b" * 64
     sidecar_path.write_text(json.dumps(sidecar), encoding="utf-8")

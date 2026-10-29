@@ -1819,7 +1819,11 @@ def _wp12b_hex20_diagnostic_sidecar(
     if sidecar_limit_bytes is not None and sidecar_bytes > sidecar_limit_bytes:
         reasons.append("sidecar exceeds the registered archive-size budget")
     sidecar_identity = sidecar.get("identity") if isinstance(sidecar, dict) else None
-    if not isinstance(sidecar_identity, dict) or sidecar.get("schema") != "qfsolver-wp12b-hex20-affine-diagnostic-v1":
+    supported_schemas = (
+        "qfsolver-wp12b-hex20-affine-diagnostic-v1",
+        "qfsolver-wp12b-hex20-affine-diagnostic-v2",
+    )
+    if not isinstance(sidecar_identity, dict) or sidecar.get("schema") not in supported_schemas:
         reasons.append("sidecar schema mismatch")
     if not isinstance(sidecar_identity, dict) or sidecar_identity.get("nodeid") != target:
         reasons.append("nodeid mismatch")
