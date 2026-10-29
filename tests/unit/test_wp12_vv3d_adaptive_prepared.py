@@ -173,6 +173,26 @@ def test_synthetic_preflight_skip_or_manifest_mutation_is_refused(tmp_path, monk
         case_harness.require_authorized_execution("VV3D-TET4-L1")
 
 
+@pytest.mark.parametrize(
+    ("field", "replacement"),
+    [("timeout_seconds", 1201), ("decision_sha256", "f" * 64)],
+)
+def test_synthetic_runner_receipt_budget_or_decision_mismatch_is_refused(
+    tmp_path, monkeypatch, field, replacement,
+) -> None:
+    _manifest, env = _synthetic_runner_manifest(tmp_path)
+    receipt_path = Path(env["QF_DEV_VV3D_RUNNER_RECEIPT_PATH"])
+    receipt = json.loads(receipt_path.read_bytes())
+    receipt[field] = replacement
+    receipt_raw = (json.dumps(receipt, sort_keys=True, separators=(",", ":")) + "\n").encode()
+    receipt_path.write_bytes(receipt_raw)
+    env["QF_DEV_VV3D_RUNNER_RECEIPT_SHA256"] = hashlib.sha256(receipt_raw).hexdigest()
+    for name, value in env.items():
+        monkeypatch.setenv(name, value)
+    with pytest.raises(PermissionError, match="runner receipt"):
+        case_harness.require_authorized_execution("VV3D-TET4-L1")
+
+
 def test_synthetic_sidecar_is_written_before_observable_assertions(tmp_path) -> None:
     case_id = "VV3D-TET4-L1"
     receipt = case_harness.write_synthetic_sidecar(tmp_path / "evidence", case_id, "SYNTHETIC-001")
