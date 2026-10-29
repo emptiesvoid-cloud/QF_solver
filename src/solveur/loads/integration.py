@@ -355,6 +355,17 @@ def _pyramid5_body_vector(coords: np.ndarray, force_density: np.ndarray) -> np.n
     return local
 
 
+def _quadrilateral_face_gauss_rule(node_count: int) -> tuple[tuple[float, float], ...]:
+    """Return the one-dimensional Gauss rule used on a QUAD4 or QUAD8 face."""
+    if node_count == 4:
+        point = 1.0 / math.sqrt(3.0)
+        return ((-point, 1.0), (point, 1.0))
+    if node_count == 8:
+        point = math.sqrt(3.0 / 5.0)
+        return ((-point, 5.0 / 9.0), (0.0, 8.0 / 9.0), (point, 5.0 / 9.0))
+    raise ValueError("Quadrilateral face rule requires four or eight nodes.")
+
+
 def _solid_face_vector(
     coords: np.ndarray,
     face_nodes: tuple[int, ...],
@@ -365,14 +376,11 @@ def _solid_face_vector(
     local = np.zeros(coords.shape[0] * 3, dtype=float)
     face_coords = coords[list(face_nodes)]
     if len(face_nodes) in {4, 8}:
-        abscissa = 1.0 / math.sqrt(3.0)
-        points_1d = (-abscissa, 0.0, abscissa) if len(face_nodes) == 8 else (-abscissa, abscissa)
-        one_d_weights = {float(-abscissa): 5.0 / 9.0, 0.0: 8.0 / 9.0, float(abscissa): 5.0 / 9.0}
-        for xi in points_1d:
-            for eta in points_1d:
+        rule = _quadrilateral_face_gauss_rule(len(face_nodes))
+        for xi, weight_xi in rule:
+            for eta, weight_eta in rule:
                 if len(face_nodes) == 8:
                     shape, derivatives = _quad8_shape_data(xi, eta)
-                    quadrature_weight = one_d_weights[float(xi)] * one_d_weights[float(eta)]
                 else:
                     signs = np.asarray(((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)))
                     shape = 0.25 * (1.0 + signs[:, 0] * xi) * (1.0 + signs[:, 1] * eta)
@@ -382,7 +390,7 @@ def _solid_face_vector(
                             0.25 * signs[:, 1] * (1.0 + signs[:, 0] * xi),
                         )
                     )
-                    quadrature_weight = 1.0
+                quadrature_weight = weight_xi * weight_eta
                 tangent_u = derivatives[:, 0] @ face_coords
                 tangent_v = derivatives[:, 1] @ face_coords
                 area_vector = np.cross(tangent_u, tangent_v)
