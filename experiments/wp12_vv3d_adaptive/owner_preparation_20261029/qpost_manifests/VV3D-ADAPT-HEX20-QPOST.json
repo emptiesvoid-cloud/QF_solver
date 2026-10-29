@@ -1,0 +1,16 @@
+{
+  "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+  "criteria_sha256": "2f005c6ad9b12c8a0c760ce2c0144d666c4994f8f33a96b89c740f93536f1019",
+  "do_not_execute": true,
+  "execution_authorized": false,
+  "fem_attempts": 0,
+  "job_id": "VV3D-ADAPT-HEX20-QPOST",
+  "max_jobs": 1,
+  "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[HEX20]",
+  "oracle_sha256": "97a57660bd31d6f2ce112d07c554561da227b4e786ddfd7f66f1658427e2f4c5",
+  "rss_soft_limit_mib": 4096,
+  "schema": "qf-wp12-vv3d-qpost-manifest-v1",
+  "source_family": "HEX20",
+  "state": "PREPARED_NOT_AUTHORIZED",
+  "timeout_seconds": 1200
+}

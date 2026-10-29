@@ -1,0 +1,17 @@
+{
+  "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+  "case_id": "VV3D-ADAPT-TET4-QLOAD",
+  "criteria_sha256": "2950a590bd77aa823a97b37a852a7b5f341870756196266a95f1428dc91bc975",
+  "do_not_execute": true,
+  "execution_authorized": false,
+  "family": "TET4",
+  "max_attempts": 1,
+  "mesh_sha256": "f00aab7671a33d6cbada594651f9c03021d6de78020ec63a05a95012de035f48",
+  "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET4-QLOAD]",
+  "oracle_sha256": "97a57660bd31d6f2ce112d07c554561da227b4e786ddfd7f66f1658427e2f4c5",
+  "rss_soft_limit_mib": 4096,
+  "schema": "qf-wp12-vv3d-case-manifest-v1",
+  "selected_dofs": 2187,
+  "state": "PREPARED_NOT_AUTHORIZED",
+  "timeout_seconds": 1200
+}

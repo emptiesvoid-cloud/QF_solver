@@ -1,0 +1,17 @@
+{
+  "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+  "case_id": "VV3D-HEX8-L2",
+  "criteria_sha256": "b05ab349bf90c99aa487f8d546724dbe72f03cfecabc8974be559399fe83f20f",
+  "do_not_execute": true,
+  "execution_authorized": false,
+  "family": "HEX8",
+  "max_attempts": 1,
+  "mesh_sha256": "5a059c03ffc4919acaf608b35c6d5f5e2dc9e25e7a2a868d88d6bdfbb6ee6a5b",
+  "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L2]",
+  "oracle_sha256": "97a57660bd31d6f2ce112d07c554561da227b4e786ddfd7f66f1658427e2f4c5",
+  "rss_soft_limit_mib": 4096,
+  "schema": "qf-wp12-vv3d-case-manifest-v1",
+  "selected_dofs": 375,
+  "state": "PREPARED_NOT_AUTHORIZED",
+  "timeout_seconds": 1200
+}

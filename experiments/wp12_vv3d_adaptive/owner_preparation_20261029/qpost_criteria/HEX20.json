@@ -1,0 +1,17 @@
+{
+  "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+  "criteria": [
+    {
+      "classification": "CASE_DIAGNOSTIC",
+      "evaluation_stage": "after_postprocessing_only_not_launch_eligibility",
+      "id": "post_quadrature_sensitivity",
+      "operator": "GT",
+      "threshold": 0.0001,
+      "unit": "1"
+    }
+  ],
+  "job_id": "VV3D-ADAPT-HEX20-QPOST",
+  "schema": "qf-wp12-vv3d-qpost-criteria-v1",
+  "source_family": "HEX20",
+  "status": "PROPOSED_NOT_OWNER_APPROVED"
+}
