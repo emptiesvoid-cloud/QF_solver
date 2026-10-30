@@ -112,6 +112,10 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
         r"E:\QFSolverAgents\controllers\wp12-vv3d-r2-controller-5e2e722\qf_solver"
         r"\scripts\development_autonomous.py"
     )
+    diagnostic_path = (
+        r"E:\QFSolverAgents\controllers\wp12-vv3d-tet4-l3-diagnostic-controller-b6255ce7\qf_solver"
+        r"\scripts\development_autonomous.py"
+    )
     declarations = []
     for line in agents_text.splitlines():
         if line.startswith("- "):
@@ -123,13 +127,18 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
             declarations.extend((path, line) for path in paths)
     assert [path for path, _ in declarations].count(r1_path) == 1
     assert [path for path, _ in declarations].count(r2_path) == 1
-    assert len(declarations) == 2
+    assert [path for path, _ in declarations].count(diagnostic_path) == 1
+    assert len(declarations) == 3
     r1 = next(line for path, line in declarations if path == r1_path)
     r2 = next(line for path, line in declarations if path == r2_path)
+    diagnostic = next(line for path, line in declarations if path == diagnostic_path)
     assert "outside VV3D R2" in r1
     assert "VV3D R2 only" in r2
     assert "`wp12_vv3d_recovery_r2`" in r2
     assert "`wp12_vv3d_recovery_r2`" not in r1
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" in diagnostic
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" not in r1
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" not in r2
 
     def assert_pin(declaration: str, label: str, value: str) -> None:
         assert re.search(rf"\b{re.escape(label)}\s+`{value}`", declaration)
@@ -142,6 +151,9 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
     assert_pin(r2, "tree", "33970cead41711b24c3d52889de2ec8bd991189c")
     assert_pin(r2, "generic fingerprint", "5094c1f7024105b967b7718582639c77bc78f72741b0a0e7189d5ac81cc72fb5")
     assert_pin(r2, "VV3D R2-scope fingerprint", "851194718819999d483710435d0e119c799787e5962148b3e50672a99f6f387e")
+    assert_pin(diagnostic, "HEAD", "b6255ce70953552ca1874842d7099cde796a8a66")
+    assert_pin(diagnostic, "tree", "5d8435c3ae170969434315b1dab1c3ef36f6c02c")
+    assert_pin(diagnostic, "diagnostic-scope fingerprint", "c3d2d0946b9bf2063d4cb3bf4143877eaec0f93d2c4751178baad427d2e0c987")
     assert_pin(
         r2,
         "VV3D R1-scope fingerprint (recorded for comparison only)",
