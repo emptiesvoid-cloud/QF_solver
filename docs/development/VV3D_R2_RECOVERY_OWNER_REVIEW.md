@@ -27,6 +27,22 @@ rewritten, copied into the R2 ledger, nor used as an R2 PASS. The R2 ledger is
 currently absent, hence has no reservations or attempts. Its first reservation
 must re-verify the exact R1 digest and both terminal R1 records.
 
+The immutable proof references are:
+
+| R1 case | Run receipt SHA-256 | Case manifest SHA-256 | Preflight / receipt SHA-256 | Runner reservation SHA-256 | Campaign assessment SHA-256 | Sidecar |
+|---|---|---|---|---|---|---|
+| TET4-L1 | `01e573446940385ec13c9ff451e8b3dc7cf55c237b16c6016adbc1f987868fad` | `e007def750c030c754e69a267deb56bb7d69bbf09908c8319da28a49a00d8c3a` | `pf-217d6cea7241` / `be7fb80cb074d35bd9fbbfc37394e4731aeef481b8a178fd8d60d6f90bf8edab` | `2230416793c05bbaa4f1778f72f5b0de470847d5a8cb4f2184ba7df3d76b9797` | `ccd71b62914ce9970f952945317bb2098474134319dcfc90b514a34788d1abf6` | `37f8be6b9d2a3ae9ef86466ef9436b8658ad6ed884aec1e53cb7282aad256515` |
+| TET4-L2 | `2d9ccafae7dd4337caa0d1aba5e766225e97dff8fcb1d2805037c4ab6a0ea888` | `77f50690cea826c26aa7ce46d18e55d1acb8a4760acfd3668c7c4f4309d19e97` | `pf-9acefc5c2977` / `2d47ae8dde707cbd520560c03c04d12dbd3328ac796c6e1ee63bc3713f94391c` | `e0344ee2b0189cd7dc7462b72addc9ca5b4792c16262db41e1b3c9d47b6b0379` | `9d2d720df978a633fdbf83f797e557eb36c5bd0950d26017bbfa6a257395281b` | none; rejected before scientific observables |
+
+R1's TET4-L1 contract bound the oracle at
+`97a57660bd31d6f2ce112d07c554561da227b4e786ddfd7f66f1658427e2f4c5`. The
+current scientific worktree's raw oracle bytes hash to
+`1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496`; its Git
+blob hash is `9e6a8ee7af75e0515cc1bcdb0c3e0e8c49fa89ec487675436b8cd61395ae05d1`.
+This historical byte-provenance discrepancy is recorded, not repaired in R1.
+R2 binds the current raw oracle bytes and the per-family criteria bytes
+explicitly; it does not claim that the old R1 oracle binding was identical.
+
 Combined R1 elapsed time observed: `18.66116849996615 s`. The 28,800-second
 ceiling therefore leaves `28,781.338831500034 s` before R2. Twelve full
 1,200-second R2 reservations would use at most 14,400 seconds and leave at
