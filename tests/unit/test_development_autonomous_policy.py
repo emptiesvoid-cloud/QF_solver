@@ -4676,7 +4676,7 @@ def test_hex8sri_scope_refresh_leaves_historical_scope_registrations_unchanged()
     hex20_scope_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
     assert set(current["worktrees"]) == set(baseline["worktrees"]) | {
         hex20_scope_id, MODULE.WP12B_HEX20_R2_WORKTREE_ID, MODULE.VV3D_WORKTREE_ID,
-        MODULE.VV3D_R2_WORKTREE_ID,
+        MODULE.VV3D_R2_WORKTREE_ID, MODULE.VV3D_FAMILY_REMAINDER_WORKTREE_ID,
     }
     for worktree_id, baseline_entry in baseline["worktrees"].items():
         if worktree_id == MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID:
