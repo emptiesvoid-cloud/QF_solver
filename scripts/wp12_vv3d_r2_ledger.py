@@ -14,16 +14,28 @@ import re
 from typing import Any
 import uuid
 
-from scripts.wp12_vv3d_ledger import (
-    BudgetLedger as R1BudgetLedger,
-    LedgerError,
-    RunBinding,
-    RunnerCaseBinding,
-    _canonical,
-    _exclusive_lock,
-    _sha256,
-    _valid_elapsed,
-)
+if __package__:
+    from .wp12_vv3d_ledger import (
+        BudgetLedger as R1BudgetLedger,
+        LedgerError,
+        RunBinding,
+        RunnerCaseBinding,
+        _canonical,
+        _exclusive_lock,
+        _sha256,
+        _valid_elapsed,
+    )
+else:
+    from wp12_vv3d_ledger import (
+        BudgetLedger as R1BudgetLedger,
+        LedgerError,
+        RunBinding,
+        RunnerCaseBinding,
+        _canonical,
+        _exclusive_lock,
+        _sha256,
+        _valid_elapsed,
+    )
 
 
 CAMPAIGN_ID = "WP12-VV3D-RECOVERY-20261030-R2"
