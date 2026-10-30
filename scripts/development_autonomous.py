@@ -66,6 +66,7 @@ HEX8SRI_CRITERIA_FREEZE_DECISION_SCHEMA = "qfsolver-hex8sri-criteria-freeze-deci
 HEX8SRI_EXECUTION_APPROVAL_SCHEMA = "qfsolver-hex8sri-execution-approval-v1"
 HEX8SRI_CRITERIA_CONTRACT_SCHEMA = "qfsolver-hex8sri-criteria-contract-v1"
 HEX8SRI_CRITERIA_CONTRACT_REVISION = "first6-4x2x2-owner-criteria-2026-10-27-r1"
+HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION = "refined3-8x4x4-nu04999-owner-criteria-2026-10-30-r1"
 VV3D_WORKTREE_ID = "wp12_vv3d_adaptive"
 VV3D_CAMPAIGN_ID = "WP12-VV3D-ADAPTIVE-20261029-R1"
 VV3D_INITIAL_CASE_IDS = tuple(
@@ -124,17 +125,17 @@ VV3D_ADAPTIVE_SOURCE_FILES = (
     "tests/unit/test_wp12_vv3d_adaptive_prepared.py",
 )
 HEX8SRI_CONVERGENCE24_MANIFEST_BINDING = "canonical_case_content_v1"
-HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT = "bb6238db9954ff2992347b980c0dfc681f73b74433f76e01dd94e40811c85ea3"
-HEX8SRI_CONVERGENCE24_SOURCE_HEAD = "5304e3f00e73a916d1af4c1d75375a9b051f0524"
-HEX8SRI_CONVERGENCE24_SOURCE_TREE = "5d995ab972e8627d266e1cd2b86d2b858b93f84a"
+HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT = "64d5760e1c904d110a1c1ce9bc490f3f64fdc5168b264de244a7cd878e6c4f2d"
+HEX8SRI_CONVERGENCE24_SOURCE_HEAD = "e251883a0dd13e20628eb2ee229b630603af1efb"
+HEX8SRI_CONVERGENCE24_SOURCE_TREE = "fdf9e76cff3293be3705cf29a3226fb480a928ad"
 HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_PATH = (
-    "docs/development/hex8sri-source-byte-inventory-5304e3f0.json"
+    "docs/development/hex8sri-source-byte-inventory-e251883a.json"
 )
-HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256 = "13eaa22b2f9ea9bb4c88a9605c96e65451fefef500b2cf32c54905d895bc7b09"
-HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT = 517
+HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256 = "53bc4d1b4c1506562469aa018d30dde8c9b7b39f1ed4ac61d6bb93e06028d183"
+HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT = 540
 HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT_ALGORITHM = "raw_worktree_inventory_sha256_v1"
 HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY = {
-    "branch": "research/hex8-sri-equilibrium",
+    "branch": "research/hex8sri-equilibrium-8x4x4-20261030",
     "head": HEX8SRI_CONVERGENCE24_SOURCE_HEAD,
     "tree": HEX8SRI_CONVERGENCE24_SOURCE_TREE,
     "fingerprint_sha256": HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
@@ -155,6 +156,12 @@ HEX8SRI_FIRST6_NODEIDS = (
     "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]",
     "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]",
 )
+HEX8SRI_REFINED3_NODEIDS = (
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]",
+)
+HEX8SRI_FREEZABLE_NODEIDS = HEX8SRI_FIRST6_NODEIDS + HEX8SRI_REFINED3_NODEIDS
 HEX8SRI_PROPOSED_CRITERIA = {
     "energy_identity_relative_max": 1e-8,
     "finest_level_independent_3d_energy_relative_error_max": 0.05,
@@ -1104,7 +1111,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         or hex8sri.get("campaign_scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
         or hex8sri.get("execution_authorized") is not False
         or hex8sri.get("require_clean_worktree") is not True
-        or hex8sri.get("branch") != "research/hex8-sri-equilibrium"
+        or hex8sri.get("branch") != HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"]
         or hex8sri.get("root") != r"E:\QFSolverAgents\hex8-sri-research"
         or hex8sri.get("git_root") != hex8sri.get("root")
         or hex8sri.get("baseline_commit") != "b547cf0e1c8057ef7f58ba780967d1b19c891ac4"
@@ -3131,19 +3138,26 @@ def _validate_hex8sri_registered_source_identity(
         recorded = _read_strict_json(inventory_path)
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         raise PolicyError(f"HEX8-SRI raw-byte source inventory is invalid: {exc}") from exc
-    if (
-        not isinstance(recorded, Mapping)
-        or recorded.get("schema") != "qfsolver-hex8sri-source-byte-inventory-v1"
-        or recorded.get("branch") != identity.get("branch")
-        or recorded.get("head") != identity.get("head")
-        or recorded.get("tree") != identity.get("tree")
-        or recorded.get("fingerprint_sha256") != fingerprint
-        or recorded.get("fingerprint_algorithm") != "sha256(sorted(relative_path_utf8 + NUL + raw_file_sha256_bytes))"
-        or recorded.get("raw_byte_policy") != "Raw checkout bytes; no LF/CRLF normalization or conversion."
-        or recorded.get("inventory_file_count") != len(inventory)
-        or recorded.get("files_sha256") != dict(inventory)
-    ):
-        raise PolicyError("HEX8-SRI source bytes differ from the registered raw-byte inventory")
+    inventory_checks = {
+        "schema": isinstance(recorded, Mapping)
+        and recorded.get("schema") == "qfsolver-hex8sri-source-byte-inventory-v1",
+        "branch": recorded.get("branch") == identity.get("branch"),
+        "head": recorded.get("head") == identity.get("head"),
+        "tree": recorded.get("tree") == identity.get("tree"),
+        "fingerprint": recorded.get("fingerprint_sha256") == fingerprint,
+        "fingerprint_algorithm": recorded.get("fingerprint_algorithm")
+        == "sha256(sorted(relative_path_utf8 + NUL + raw_file_sha256_bytes))",
+        "raw_byte_policy": recorded.get("raw_byte_policy")
+        == "Raw checkout bytes; no LF/CRLF normalization or conversion.",
+        "file_count": recorded.get("inventory_file_count") == len(inventory),
+        "files_sha256": recorded.get("files_sha256") == dict(inventory),
+    }
+    failed_checks = [name for name, passed in inventory_checks.items() if not passed]
+    if failed_checks:
+        raise PolicyError(
+            "HEX8-SRI source bytes differ from the registered raw-byte inventory: "
+            + ", ".join(failed_checks)
+        )
 
 
 def _reserve_node_attempt(
@@ -4070,18 +4084,42 @@ def _verify_hex8sri_convergence24_controller_identity(
         raise PolicyError("HEX8-SRI convergence manifest is not bound to the final controller identity")
 
 
-def _hex8sri_first6_registration_sha256_by_nodeid(entry: Mapping[str, Any]) -> dict[str, str]:
+def _hex8sri_criteria_scope_for_nodeids(nodeids: Any) -> tuple[str, tuple[str, ...]] | None:
+    if nodeids == list(HEX8SRI_FIRST6_NODEIDS):
+        return HEX8SRI_CRITERIA_CONTRACT_REVISION, HEX8SRI_FIRST6_NODEIDS
+    if nodeids == list(HEX8SRI_REFINED3_NODEIDS):
+        return HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION, HEX8SRI_REFINED3_NODEIDS
+    return None
+
+
+def _hex8sri_criteria_scope_for_target(target: str) -> tuple[str, tuple[str, ...]] | None:
+    if target in HEX8SRI_FIRST6_NODEIDS:
+        return HEX8SRI_CRITERIA_CONTRACT_REVISION, HEX8SRI_FIRST6_NODEIDS
+    if target in HEX8SRI_REFINED3_NODEIDS:
+        return HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION, HEX8SRI_REFINED3_NODEIDS
+    return None
+
+
+def _hex8sri_registration_sha256_by_nodeid(
+    entry: Mapping[str, Any], nodeids: Sequence[str]
+) -> dict[str, str]:
     registrations = entry.get("case_manifests")
     if not isinstance(registrations, Mapping):
         raise PolicyError("HEX8-SRI registered case-manifest map is missing")
     result: dict[str, str] = {}
-    for nodeid in HEX8SRI_FIRST6_NODEIDS:
+    for nodeid in nodeids:
+        if nodeid not in entry.get("allowed_nodeids", ()):
+            raise PolicyError("HEX8-SRI criteria scope contains an unregistered nodeid")
         binding = registrations.get(nodeid)
         sha256 = binding.get("sha256") if isinstance(binding, Mapping) else None
         if not isinstance(sha256, str) or not re.fullmatch(r"[0-9a-f]{64}", sha256):
-            raise PolicyError("HEX8-SRI first-six registration digest is absent or malformed")
+            raise PolicyError("HEX8-SRI registered case-manifest digest is absent or malformed")
         result[nodeid] = sha256
     return result
+
+
+def _hex8sri_first6_registration_sha256_by_nodeid(entry: Mapping[str, Any]) -> dict[str, str]:
+    return _hex8sri_registration_sha256_by_nodeid(entry, HEX8SRI_FIRST6_NODEIDS)
 
 
 def _hex8sri_expected_criteria_freeze(
@@ -4089,16 +4127,23 @@ def _hex8sri_expected_criteria_freeze(
     entry: Mapping[str, Any],
     source_fingerprint: str,
     controller_provenance: Mapping[str, Any],
+    frozen_nodeids: Sequence[str] = HEX8SRI_FIRST6_NODEIDS,
 ) -> dict[str, Any]:
+    scope = _hex8sri_criteria_scope_for_nodeids(list(frozen_nodeids))
+    if scope is None:
+        raise PolicyError("HEX8-SRI criteria freeze must select exactly one reviewed nodeid scope")
+    revision, scope_nodeids = scope
     controller_identity = controller_provenance.get("identity", {})
     return {
         "schema": HEX8SRI_CRITERIA_FREEZE_SCHEMA,
-        "revision": HEX8SRI_CRITERIA_CONTRACT_REVISION,
+        "revision": revision,
         "dispositions": HEX8SRI_CRITERIA_DISPOSITIONS,
         "criteria_definitions": HEX8SRI_CRITERIA_DEFINITIONS,
         "frozen_case_gate_criteria": HEX8SRI_FROZEN_CASE_GATE_CRITERIA,
-        "frozen_nodeids": list(HEX8SRI_FIRST6_NODEIDS),
-        "case_manifest_registration_sha256_by_nodeid": _hex8sri_first6_registration_sha256_by_nodeid(entry),
+        "frozen_nodeids": list(scope_nodeids),
+        "case_manifest_registration_sha256_by_nodeid": _hex8sri_registration_sha256_by_nodeid(
+            entry, scope_nodeids
+        ),
         "scope_id": HEX8SRI_CONVERGENCE24_WORKTREE_ID,
         "mandate_id": entry.get("development_mandate_id"),
         "campaign_id": entry.get("campaign_id"),
@@ -4163,6 +4208,8 @@ def _validate_hex8sri_criteria_freeze_decision(
     identity = controller_provenance.get("identity", {})
     reason = decision.get("reason") if isinstance(decision, Mapping) else None
     decision_id = decision.get("decision_id") if isinstance(decision, Mapping) else None
+    frozen_nodeids = decision.get("frozen_nodeids") if isinstance(decision, Mapping) else None
+    criteria_scope = _hex8sri_criteria_scope_for_nodeids(frozen_nodeids)
     if (
         not isinstance(decision, Mapping)
         or set(decision) != required
@@ -4181,7 +4228,7 @@ def _validate_hex8sri_criteria_freeze_decision(
         or decision.get("scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
         or decision.get("mandate_id") != entry.get("development_mandate_id")
         or decision.get("campaign_id") != entry.get("campaign_id")
-        or decision.get("frozen_nodeids") != list(HEX8SRI_FIRST6_NODEIDS)
+        or criteria_scope is None
         or decision.get("source_fingerprint") != source_fingerprint
         or decision.get("controller_fingerprint") != _stable_fingerprint(controller_provenance)
         or decision.get("controller_head") != identity.get("head")
@@ -4191,6 +4238,7 @@ def _validate_hex8sri_criteria_freeze_decision(
                 entry=entry,
                 source_fingerprint=source_fingerprint,
                 controller_provenance=controller_provenance,
+                frozen_nodeids=frozen_nodeids,
             ),
         )
     ):
@@ -4279,9 +4327,9 @@ def _validate_hex8sri_execution_approval(
         or not nodeids
         or any(not isinstance(nodeid, str) for nodeid in nodeids)
         or len(nodeids) != len(set(nodeids))
-        or not set(nodeids).issubset(set(HEX8SRI_FIRST6_NODEIDS))
+        or not set(nodeids).issubset(set(HEX8SRI_FREEZABLE_NODEIDS))
     ):
-        raise PolicyError("HEX8-SRI execution decision must select a non-empty unique subset of first-six nodeids")
+        raise PolicyError("HEX8-SRI execution decision must select unique nodeids in a reviewed criteria scope")
     if (
         not isinstance(decision, Mapping)
         or set(decision) != required
@@ -4315,7 +4363,7 @@ def _validate_hex8sri_execution_approval(
     for nodeid in nodeids:
         if not _strict_json_equal(limits.get(nodeid), _hex8sri_execution_limits(entry, nodeid)):
             raise PolicyError("HEX8-SRI execution decision exceeds or changes a registered case budget")
-    expected_registrations = _hex8sri_first6_registration_sha256_by_nodeid(entry)
+    expected_registrations = _hex8sri_registration_sha256_by_nodeid(entry, nodeids)
     for nodeid in nodeids:
         binding = manifest_bindings[nodeid]
         case = _hex8sri_convergence24_case(nodeid)
@@ -4343,6 +4391,8 @@ def _validate_hex8sri_execution_approval(
         source_fingerprint=source_fingerprint,
         controller_provenance=controller_provenance,
     )
+    if not set(nodeids).issubset(set(validated_freeze["frozen_nodeids"])):
+        raise PolicyError("HEX8-SRI execution decision selects a case outside its frozen criteria scope")
     if not _strict_json_equal(decision.get("criteria_freeze"), validated_freeze.get("criteria_freeze")):
         raise PolicyError("HEX8-SRI execution decision does not match its separately frozen criteria record")
     _validate_owner_decision_time(decision, execution=True)
@@ -4360,12 +4410,16 @@ def _validate_hex8sri_frozen_case_criteria(
     target: str,
     case_registration_sha256: str,
 ) -> dict[str, Any]:
-    """Require the first-six criteria contract and thresholds to be explicitly Owner-frozen."""
+    """Require the exact case's criteria scope and thresholds to be explicitly Owner-frozen."""
+    scope = _hex8sri_criteria_scope_for_target(target)
+    if scope is None:
+        raise PolicyError("HEX8-SRI case is outside the frozen first-six and refined-three criteria scopes")
+    revision, scope_nodeids = scope
     proposed = case_manifest.get("proposed_criteria")
     frozen = case_manifest.get("frozen_criteria")
     expected_contract = {
         "schema": HEX8SRI_CRITERIA_CONTRACT_SCHEMA,
-        "revision": HEX8SRI_CRITERIA_CONTRACT_REVISION,
+        "revision": revision,
         "dispositions": HEX8SRI_CRITERIA_PROPOSAL_DISPOSITIONS,
     }
     criteria_freeze = decision.get("criteria_freeze")
@@ -4375,25 +4429,24 @@ def _validate_hex8sri_frozen_case_criteria(
         else None
     )
     if (
-        target not in HEX8SRI_FIRST6_NODEIDS
-        or case_manifest.get("criteria_status") != "OWNER_FREEZE_REQUIRED"
+        case_manifest.get("criteria_status") != "OWNER_FREEZE_REQUIRED"
         or not _strict_json_equal(case_manifest.get("criteria_contract"), expected_contract)
         or not _strict_json_equal(proposed, HEX8SRI_PROPOSED_CRITERIA)
         or frozen is not None
         or not isinstance(registration_hashes, Mapping)
-        or set(registration_hashes) != set(HEX8SRI_FIRST6_NODEIDS)
+        or set(registration_hashes) != set(scope_nodeids)
         or registration_hashes.get(target) != case_registration_sha256
         or criteria_freeze.get("schema") != HEX8SRI_CRITERIA_FREEZE_SCHEMA
-        or criteria_freeze.get("revision") != HEX8SRI_CRITERIA_CONTRACT_REVISION
+        or criteria_freeze.get("revision") != revision
         or not _strict_json_equal(criteria_freeze.get("dispositions"), HEX8SRI_CRITERIA_DISPOSITIONS)
         or not _strict_json_equal(criteria_freeze.get("criteria_definitions"), HEX8SRI_CRITERIA_DEFINITIONS)
         or not _strict_json_equal(
             criteria_freeze.get("frozen_case_gate_criteria"), HEX8SRI_FROZEN_CASE_GATE_CRITERIA
         )
-        or criteria_freeze.get("frozen_nodeids") != list(HEX8SRI_FIRST6_NODEIDS)
+        or criteria_freeze.get("frozen_nodeids") != list(scope_nodeids)
     ):
         raise PolicyError(
-            "HEX8-SRI Owner decision does not freeze the registered first-six criteria contract; "
+            "HEX8-SRI Owner decision does not freeze the exact registered criteria scope; "
             "refresh the case identity and preflight after a criteria decision"
         )
     return dict(HEX8SRI_FROZEN_CASE_GATE_CRITERIA)
@@ -4532,11 +4585,16 @@ def _validate_hex8sri_execution_manifest(
     }
 
 
-def _hex8sri_first6_current_case_manifest_bindings(
-    entry: Mapping[str, Any], execution_root: Path, controller_provenance: Mapping[str, Any]
+def _hex8sri_current_case_manifest_bindings(
+    entry: Mapping[str, Any],
+    execution_root: Path,
+    controller_provenance: Mapping[str, Any],
+    nodeids: Sequence[str],
 ) -> dict[str, dict[str, str]]:
+    if not nodeids or len(nodeids) != len(set(nodeids)) or not set(nodeids).issubset(HEX8SRI_FREEZABLE_NODEIDS):
+        raise PolicyError("HEX8-SRI current manifest bindings require exact reviewed nodeids")
     result: dict[str, dict[str, str]] = {}
-    for nodeid in HEX8SRI_FIRST6_NODEIDS:
+    for nodeid in nodeids:
         manifest_path, case_manifest, raw_sha256 = _hex8sri_convergence24_manifest(entry, execution_root, nodeid)
         _verify_hex8sri_convergence24_controller_identity(case_manifest, controller_provenance)
         result[nodeid] = {
@@ -4559,9 +4617,9 @@ def _hex8sri_selected_current_case_manifest_bindings(
         or not nodeids
         or any(not isinstance(nodeid, str) for nodeid in nodeids)
         or len(nodeids) != len(set(nodeids))
-        or not set(nodeids).issubset(set(HEX8SRI_FIRST6_NODEIDS))
+        or not set(nodeids).issubset(set(HEX8SRI_FREEZABLE_NODEIDS))
     ):
-        raise PolicyError("HEX8-SRI execution decision must select a non-empty unique subset of first-six nodeids")
+        raise PolicyError("HEX8-SRI execution decision must select unique nodeids in a reviewed criteria scope")
     selected = {nodeid: current_bindings[nodeid] for nodeid in nodeids}
     if decision.get("case_manifests_by_nodeid") != selected:
         raise PolicyError("HEX8-SRI execution decision does not match every current selected case manifest")
@@ -4594,12 +4652,17 @@ def archive_hex8sri_owner_decision(decision_file: Path) -> dict[str, Any]:
             source_fingerprint=source_fingerprint,
             controller_provenance=controller_provenance,
         )
-        # Require all six regenerated current registrations, but no preflight or ledger.
-        _hex8sri_first6_current_case_manifest_bindings(entry, execution_root, controller_provenance)
+        # Bind the exact frozen scope, without a preflight or ledger mutation.
+        _hex8sri_current_case_manifest_bindings(
+            entry, execution_root, controller_provenance, validated["frozen_nodeids"]
+        )
         directory = _run_root(policy) / "authorizations" / scope_id / "owner-decisions" / "criteria-freeze"
     elif decision_type == "EXECUTION_APPROVED":
-        current_bindings = _hex8sri_first6_current_case_manifest_bindings(
-            entry, execution_root, controller_provenance
+        requested_nodeids = decision.get("authorized_nodeids")
+        if not isinstance(requested_nodeids, list):
+            raise PolicyError("HEX8-SRI execution decision must list its exact authorized nodeids")
+        current_bindings = _hex8sri_current_case_manifest_bindings(
+            entry, execution_root, controller_provenance, requested_nodeids
         )
         selected_bindings = _hex8sri_selected_current_case_manifest_bindings(decision, current_bindings)
         authorized_nodeids = decision["authorized_nodeids"]
