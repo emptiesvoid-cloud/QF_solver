@@ -11,7 +11,9 @@ import json
 from pathlib import Path
 from typing import Any, Mapping
 
-SCOPE = "wp12_vv3d_tet4_l3_diagnostic"
+SCOPE = "wp12_vv3d_tet4_l3_optimized_diagnostic"
+PREVIOUS_SCOPE = "wp12_vv3d_tet4_l3_diagnostic"
+PREVIOUS_EVIDENCE_ROOT = Path(r"E:\QFSolverAgents\evidence\wp12-vv3d-tet4-l3-diagnostic")
 CAMPAIGN = "WP12-VV3D-RECOVERY-20261030-R2"
 CASE = "VV3D-TET4-L3"
 TARGET = "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L3]"
@@ -20,18 +22,23 @@ R2_ROOT = Path(r"E:\QFSolverAgents\evidence\wp12-vv3d-recovery-r2")
 R2_PATH = R2_ROOT / "node-attempt-ledger-wp12-vv3d-recovery-r2.jsonl"
 R2_CONTRACT_PATH = R2_ROOT / "authorizations/wp12_vv3d_recovery_r2/campaign-contract.json"
 R2_CONTRACT_SHA256 = "62fcb9a63ef0f5d4b557f4e4a7ec6d076ca34bb4b4fcd4f139aa6a0f1c499e16"
+PREVIOUS_DIAGNOSTIC_PATH = Path(
+    r"E:\QFSolverAgents\evidence\wp12-vv3d-tet4-l3-diagnostic\node-attempt-ledger-vv3d-tet4-l3-diagnostic.jsonl"
+)
 REGISTRATION = {
-    "root": r"E:\QFSolverAgents\worktrees\vv3d-tet4-l3-performance\qf_solver",
-    "branch": "diagnostic/vv3d-tet4-l3-performance",
-    "head": "59fdf0be1dd4896eb2c09b49127d02cedd2324ae",
-    "tree": "80587b0c38d72dab4695af6f159e7700c41145f9",
-    "source_fingerprint_sha256": "7500b3121983a05634c0cb5ddf5b58bca1bb3a85825066d589dda2d07a9e9a41",
+    "root": r"E:\QFSolverAgents\worktrees\vv3d-tet4-l3-optimized\qf_solver",
+    "branch": "codex/vv3d-tet4-l3-optimized",
+    "head": "096857b890353c8cf1c8e02007fe97c5455cb50a",
+    "tree": "ca84f375e4aaf91bee3fd42bfa87406c796681bd",
+    "source_fingerprint_sha256": "d2ccee34ab5aba092bcacfa98e2d3332edc7fe02c9e1c7b39de092a59635d39b",
+    "field_error_draft_sha256": "77a7ce40524769c79ca30ad2bea3ce1fdcefb2e1fe1f79a34ea756cf1b93ee7d",
     "target": TARGET,
-    "evidence_root": r"E:\QFSolverAgents\evidence\wp12-vv3d-tet4-l3-diagnostic",
-    "ledger": "node-attempt-ledger-vv3d-tet4-l3-diagnostic.jsonl",
+    "evidence_root": r"E:\QFSolverAgents\evidence\wp12-vv3d-tet4-l3-optimized-diagnostic",
+    "ledger": "node-attempt-ledger-vv3d-tet4-l3-optimized-diagnostic.jsonl",
     "r1_sha256": "2788619d097d148c74a3e71cef456ee52bc03642d680f9090360418b61d20bf8",
     "r2_sha256": "5e090e1351578803669af37f04d161a6c4608436763f87d71e03315978446bb5",
-    "timeout_seconds": 2400,
+    "predecessor_diagnostic_sha256": "3dfab79fabd3ae5986b265ecdebf6a4ed1030f3806ab25ae12f0a9d4a1f5e6c4",
+    "timeout_seconds": 1200,
     "preflight_timeout_seconds": 300,
     "rss_soft_limit_mib": 4096,
     "selected_dofs": 2187,
@@ -56,16 +63,92 @@ def digest(data: bytes) -> str:
 
 def registration(policy: Mapping[str, Any]) -> dict[str, Any]:
     scopes = policy.get("diagnostic_scopes")
-    if not isinstance(scopes, Mapping) or set(scopes) != {SCOPE} or scopes[SCOPE] != REGISTRATION:
-        raise ValueError("TET4-L3 diagnostic registration does not match its exact prospective envelope")
+    if (not isinstance(scopes, Mapping) or set(scopes) != {PREVIOUS_SCOPE, SCOPE}
+            or scopes[SCOPE] != REGISTRATION):
+        raise ValueError("optimized TET4-L3 registration does not match its exact prospective envelope")
     return dict(REGISTRATION)
 
 
 def controller_provenance(controller: Any) -> dict[str, Any]:
     provenance = controller._vv3d_scope_controller_provenance(controller.VV3D_R2_WORKTREE_ID)
-    provenance["sha256"] = {**provenance["sha256"], "tet4_l3_diagnostic": controller._sha256(Path(__file__).resolve())}
-    provenance["vv3d_tet4_l3_diagnostic_revision"] = "separate-ledger-v1"
+    provenance["sha256"] = {**provenance["sha256"], "tet4_l3_optimized_diagnostic": controller._sha256(Path(__file__).resolve())}
+    provenance["vv3d_tet4_l3_optimized_diagnostic_revision"] = "separate-ledger-linked-history-v1"
     return provenance
+
+
+def validate_previous_diagnostic_ledger(raw: bytes, expected_sha256: str) -> dict[str, Any]:
+    """Validate the immutable prior STOP ledger from bytes without writing it."""
+    import math
+
+    if digest(raw) != expected_sha256 or not raw.endswith(b"\n"):
+        raise ValueError("previous diagnostic ledger digest or final newline mismatch")
+    lines = raw.splitlines()
+    if len(lines) != 2:
+        raise ValueError("previous diagnostic ledger must contain exactly one start and one terminal record")
+    records = []
+    for line in lines:
+        record = json.loads(line)
+        if canonical(record) != line:
+            raise ValueError("previous diagnostic ledger records are not canonical JSON")
+        claimed = record.pop("record_sha256", None)
+        if not isinstance(claimed, str) or digest(canonical(record)) != claimed:
+            raise ValueError("previous diagnostic ledger record hash mismatch")
+        record["record_sha256"] = claimed
+        records.append(record)
+    start, finish = records
+    prior_elapsed = start.get("prior_elapsed_seconds")
+    elapsed = finish.get("elapsed_seconds")
+    combined_elapsed = finish.get("combined_elapsed_seconds")
+    numeric = (prior_elapsed, elapsed, combined_elapsed)
+    if any(isinstance(value, bool) or not isinstance(value, (int, float))
+           or not math.isfinite(value) for value in numeric):
+        raise ValueError("previous diagnostic ledger has invalid elapsed-time values")
+    if (start.get("schema") != "qf-vv3d-tet4-l3-diagnostic-ledger-v1"
+            or finish.get("schema") != start.get("schema")
+            or start.get("event") != "ATTEMPT_STARTED" or finish.get("event") != "ATTEMPT_FINISHED"
+            or start.get("scope_id") != PREVIOUS_SCOPE or finish.get("scope_id") != PREVIOUS_SCOPE
+            or start.get("case_id") != CASE or finish.get("case_id") != CASE
+            or start.get("sequence") != 1 or finish.get("sequence") != 2
+            or start.get("previous_record_sha256") != "0" * 64
+            or finish.get("previous_record_sha256") != start["record_sha256"]
+            or start.get("run_id") != finish.get("run_id")
+            or start.get("attempt_id") != finish.get("attempt_id")
+            or start.get("prior_attempts") != 5 or start.get("reserved_seconds") != 2400
+            or start.get("r1_sha256") != REGISTRATION["r1_sha256"]
+            or start.get("r2_sha256") != REGISTRATION["r2_sha256"]
+            or finish.get("r1_sha256") != REGISTRATION["r1_sha256"]
+            or finish.get("r2_sha256") != REGISTRATION["r2_sha256"]
+            or finish.get("status") != "DIAGNOSTIC_STOP"
+            or finish.get("combined_elapsed_seconds") != prior_elapsed + elapsed
+            or elapsed <= 0):
+        raise ValueError("previous diagnostic ledger history is inconsistent or not terminal STOP")
+    return {"attempts": 1, "elapsed_seconds": elapsed, "prior_attempts": start["prior_attempts"],
+            "prior_elapsed_seconds": prior_elapsed, "combined_elapsed_seconds": combined_elapsed,
+            "status": finish["status"], "scope_id": PREVIOUS_SCOPE, "case_id": CASE,
+            "ledger_sha256": expected_sha256}
+
+
+def combined_budget(predecessor: Mapping[str, Any], config: Mapping[str, Any]) -> dict[str, Any]:
+    """Account R1, R2 and the closed diagnostic before the proposed reservation."""
+    import math
+
+    attempts_before = (predecessor["r1_attempts"] + predecessor["r2_attempts"]
+                       + predecessor["previous_diagnostic_attempts"])
+    elapsed_before = predecessor["elapsed_seconds"]
+    if (isinstance(attempts_before, bool) or not isinstance(attempts_before, int)
+            or isinstance(elapsed_before, bool) or not isinstance(elapsed_before, (int, float))
+            or not math.isfinite(elapsed_before) or elapsed_before < 0):
+        raise ValueError("combined diagnostic budget inputs are invalid")
+    attempts_after = attempts_before + config["attempts_max"]
+    elapsed_after = elapsed_before + config["timeout_seconds"]
+    if attempts_after > config["combined_attempts_max"]:
+        raise ValueError("optimized diagnostic would exceed the historical combined attempt budget")
+    if elapsed_after > config["cumulative_seconds_max"]:
+        raise ValueError("optimized diagnostic reservation would exceed the historical combined time budget")
+    return {"attempts_before": attempts_before, "attempts_after_reservation": attempts_after,
+            "elapsed_seconds_before": elapsed_before, "elapsed_seconds_after_reservation": elapsed_after,
+            "attempt_limit": config["combined_attempts_max"],
+            "elapsed_limit_seconds": config["cumulative_seconds_max"]}
 
 
 def predecessor_history(controller: Any) -> dict[str, Any]:
@@ -88,21 +171,36 @@ def predecessor_history(controller: Any) -> dict[str, Any]:
     elapsed_r2 = sum(float(record["elapsed_seconds"]) for record in finishes)
     if attempts_r1 != 2 or digest(R2_PATH.read_bytes()) != REGISTRATION["r2_sha256"]:
         raise ValueError("predecessor ledger changed during validation")
-    return {"r1_attempts": attempts_r1, "r2_attempts": len(starts),
-            "elapsed_seconds": elapsed_r1 + elapsed_r2,
+    previous_diagnostic = validate_previous_diagnostic_ledger(
+        PREVIOUS_DIAGNOSTIC_PATH.read_bytes(), REGISTRATION["predecessor_diagnostic_sha256"]
+    )
+    if (previous_diagnostic["prior_attempts"] != attempts_r1 + len(starts)
+            or previous_diagnostic["prior_elapsed_seconds"] != elapsed_r1 + elapsed_r2):
+        raise ValueError("previous diagnostic ledger does not account for the exact R1/R2 history")
+    result = {"r1_attempts": attempts_r1, "r2_attempts": len(starts),
+            "previous_diagnostic_attempts": previous_diagnostic["attempts"],
+            "elapsed_seconds": elapsed_r1 + elapsed_r2 + previous_diagnostic["elapsed_seconds"],
             "r1_sha256": REGISTRATION["r1_sha256"], "r2_sha256": REGISTRATION["r2_sha256"]}
+    result["previous_diagnostic_sha256"] = previous_diagnostic["ledger_sha256"]
+    return result
 
 
 def inspect(controller: Any) -> dict[str, Any]:
     """Verify source, controller and frozen predecessors without launching pytest."""
     config = registration(controller.load_policy())
+    if (config["branch"] is None or config["head"] is None or config["tree"] is None
+            or config["source_fingerprint_sha256"] is None
+            or config["field_error_draft_sha256"] is None):
+        raise ValueError("optimized diagnostic is disabled until the exact scientific source identity is frozen")
     source = Path(config["root"]).resolve(strict=True)
     identity = controller._git_identity(source, expected_branch=config["branch"],
                                         baseline_commit="f882da561e868bf9b7cdbb25d6ba20634bbdffb3")
     fingerprint = controller._worktree_source_fingerprint(source, TARGET)
     if (identity["head"] != config["head"] or identity["tree"] != config["tree"]
             or identity["status_short"] or fingerprint != config["source_fingerprint_sha256"]):
-        raise ValueError("diagnostic scientific source is not the exact clean instrumented identity")
+        raise ValueError("optimized diagnostic source is not the exact clean frozen identity")
+    if digest((source / "experiments/wp12_vv3d_adaptive/field_error_draft.py").read_bytes()) != config["field_error_draft_sha256"]:
+        raise ValueError("optimized diagnostic field-error source bytes do not match their frozen digest")
     provenance = controller_provenance(controller)
     if provenance["identity"]["status_short"] or provenance["identity"]["branch"]:
         raise ValueError("diagnostic controller must be a clean detached checkout")
@@ -110,15 +208,14 @@ def inspect(controller: Any) -> dict[str, Any]:
     evidence = Path(config["evidence_root"])
     if (evidence / config["ledger"]).exists():
         raise ValueError("diagnostic ledger already exists; no implicit retry is permitted")
-    if predecessor["r1_attempts"] + predecessor["r2_attempts"] + 1 > config["combined_attempts_max"]:
-        raise ValueError("diagnostic would exceed the combined attempt budget")
-    if predecessor["elapsed_seconds"] + config["timeout_seconds"] > config["cumulative_seconds_max"]:
-        raise ValueError("diagnostic reservation would exceed the combined time budget")
+    budget = combined_budget(predecessor, config)
+    if Path(config["evidence_root"]).resolve() == PREVIOUS_EVIDENCE_ROOT.resolve():
+        raise ValueError("optimized diagnostic must use its distinct new evidence root")
     return {"state": "DIAGNOSTIC_PREPARED_NOT_AUTHORIZED", "scope_id": SCOPE, "target": TARGET,
             "source_identity": identity, "source_fingerprint": fingerprint,
             "controller_provenance": provenance,
             "controller_fingerprint": controller._stable_fingerprint(provenance),
-            "predecessor": predecessor, "limits": {key: config[key] for key in (
+            "predecessor": predecessor, "combined_budget": budget, "limits": {key: config[key] for key in (
                 "timeout_seconds", "preflight_timeout_seconds", "rss_soft_limit_mib", "selected_dofs", "max_dofs",
                 "archive_size_limit_mib", "attempts_max", "combined_attempts_max", "cumulative_seconds_max",
                 "concurrency", "implicit_retry")},
@@ -149,10 +246,12 @@ def build_contract(report: Mapping[str, Any]) -> dict[str, Any]:
                            (oracle, case["oracle_sha256"])):
         if digest(path.read_bytes()) != expected:
             raise ValueError(f"frozen diagnostic artifact digest mismatch: {path.name}")
-    return {"schema": "qf-vv3d-tet4-l3-diagnostic-contract-v1", "status": "PREPARED_NOT_AUTHORIZED",
+    return {"schema": "qf-vv3d-tet4-l3-optimized-diagnostic-contract-v1", "status": "PREPARED_NOT_AUTHORIZED",
                 "scope_id": SCOPE, "campaign_id": CAMPAIGN, "case_id": CASE, "nodeid": TARGET,
                 "source_identity": report["source_identity"], "source_fingerprint": report["source_fingerprint"],
+                "field_error_draft_sha256": REGISTRATION["field_error_draft_sha256"],
                 "controller_fingerprint": report["controller_fingerprint"], "predecessor": report["predecessor"],
+                "combined_budget": report["combined_budget"],
                 "r2_contract_sha256": R2_CONTRACT_SHA256,
                 "limits": report["limits"], "mesh_sha256": case["mesh_sha256"],
                 "criteria_path": case["criteria_path"], "criteria_sha256": case["criteria_file_sha256"],
@@ -188,7 +287,7 @@ def validate_authorization(contract: Mapping[str, Any], decision: Mapping[str, A
     fields = {"schema", "decision_id", "status", "approved_by", "scope_id", "case_id",
               "contract_sha256", "source_fingerprint", "controller_fingerprint", "limits", "created_at_utc"}
     decision_id = decision.get("decision_id")
-    if (set(decision) != fields or decision.get("schema") != "qf-vv3d-tet4-l3-diagnostic-owner-v1"
+    if (set(decision) != fields or decision.get("schema") != "qf-vv3d-tet4-l3-optimized-diagnostic-owner-v1"
             or decision.get("status") != "APPROVED" or decision.get("approved_by") != "Owner"
             or decision.get("scope_id") != SCOPE or decision.get("case_id") != CASE
             or decision.get("contract_sha256") != contract_sha256 or digest(canonical(contract)) != contract_sha256
@@ -245,12 +344,15 @@ def preflight(controller: Any, target: str, preflight_id: str | None) -> dict[st
     command = controller.build_pytest_command(
         "fem_exploratory", [TARGET], temporary, repository_root=source,
         source_root=source / "src", controller_root=controller.ROOT, collect_only=True,
-        vv3d_tet4_l3_diagnostic_attestation=True,
+        vv3d_tet4_l3_optimized_diagnostic_attestation=True,
     )
     environment = controller.build_child_environment(temporary, source_root=source / "src")
-    environment.update({"QF_DEV_WORKTREE_ID": SCOPE, "QF_DEV_SELECTED_DOFS": "2187",
-                        "QF_DEV_MAX_DOFS": "30000", "QF_DEV_PREFLIGHT_COLLECTION_REPORT": str(collection_path)})
-    limits = {"timeout_seconds": 300, "rss_soft_limit_mib": 4096, "process_tree_limit": 32,
+    environment.update({"QF_DEV_WORKTREE_ID": SCOPE,
+                        "QF_DEV_SELECTED_DOFS": str(REGISTRATION["selected_dofs"]),
+                        "QF_DEV_MAX_DOFS": str(REGISTRATION["max_dofs"]),
+                        "QF_DEV_PREFLIGHT_COLLECTION_REPORT": str(collection_path)})
+    limits = {"timeout_seconds": REGISTRATION["preflight_timeout_seconds"],
+              "rss_soft_limit_mib": REGISTRATION["rss_soft_limit_mib"], "process_tree_limit": 32,
               "output_total_limit_mib": 64, "output_stream_limit_mib": 32,
               "temporary_limit_mib": 1024, "archive_size_limit_mib": 256, "minimum_free_disk_mib": 1024}
     started = datetime.now(timezone.utc).isoformat()
@@ -274,7 +376,7 @@ def preflight(controller: Any, target: str, preflight_id: str | None) -> dict[st
             or after["controller_fingerprint"] != report["controller_fingerprint"]
             or after["predecessor"] != report["predecessor"] or build_contract(after) != contract):
         raise ValueError("diagnostic identity or predecessor changed during preflight")
-    receipt = {"schema": "qf-vv3d-tet4-l3-diagnostic-preflight-v1", "status": "PREFLIGHT_PASS",
+    receipt = {"schema": "qf-vv3d-tet4-l3-optimized-diagnostic-preflight-v1", "status": "PREFLIGHT_PASS",
                "scope_id": SCOPE, "case_id": CASE, "nodeid": TARGET, "preflight_id": preflight_id,
                "contract_sha256": contract_sha, "decision_sha256": decision_sha,
                "source_fingerprint": report["source_fingerprint"],
@@ -305,7 +407,7 @@ def manifest_payload(controller: Any, preflight_id: str) -> tuple[Path, dict[str
     path = (directory / "preflight.json").resolve(strict=True)
     raw = path.read_bytes()
     receipt = json.loads(raw)
-    expected = {"schema": "qf-vv3d-tet4-l3-diagnostic-preflight-v1", "status": "PREFLIGHT_PASS",
+    expected = {"schema": "qf-vv3d-tet4-l3-optimized-diagnostic-preflight-v1", "status": "PREFLIGHT_PASS",
                 "scope_id": SCOPE, "case_id": CASE, "nodeid": TARGET, "preflight_id": preflight_id,
                 "contract_sha256": contract_sha, "decision_sha256": decision_sha,
                 "source_fingerprint": report["source_fingerprint"],
@@ -330,12 +432,13 @@ def manifest_payload(controller: Any, preflight_id: str) -> tuple[Path, dict[str
     if digest(criteria_raw) != contract["criteria_sha256"]:
         raise ValueError("diagnostic frozen criteria bytes changed")
     criteria = json.loads(criteria_raw)["criteria"]
-    authorization_id = "vv3d-tet4-l3-diagnostic-" + contract_sha[:12]
+    authorization_id = "vv3d-tet4-l3-optimized-diagnostic-" + contract_sha[:12]
     manifest = {"schema": "qf-wp12-vv3d-case-manifest-v1", "campaign_id": CAMPAIGN,
                 "scope_id": SCOPE, "case_id": CASE, "nodeid": TARGET,
                 "state": "OWNER_AUTHORIZED", "execution_authorized": True, "do_not_execute": False,
-                "mesh_sha256": contract["mesh_sha256"], "selected_dofs": 2187,
-                "timeout_seconds": 2400, "rss_soft_limit_mib": 4096, "archive_size_limit_mib": 256,
+                "mesh_sha256": contract["mesh_sha256"], "selected_dofs": REGISTRATION["selected_dofs"],
+                "timeout_seconds": REGISTRATION["timeout_seconds"], "rss_soft_limit_mib": 4096,
+                "archive_size_limit_mib": 256,
                 "max_attempts": 1, "authorization_id": authorization_id,
                 "scientific_fingerprint": report["source_fingerprint"],
                 "controller_fingerprint": report["controller_fingerprint"],
@@ -360,7 +463,7 @@ def _append_record(path: Path, fields: dict[str, Any], *, first: bool) -> dict[s
     import os
 
     reserved = {"schema", "sequence", "previous_record_sha256", "scope_id", "case_id",
-                "r1_sha256", "r2_sha256", "record_sha256"}
+                "r1_sha256", "r2_sha256", "previous_diagnostic_sha256", "record_sha256"}
     if (set(fields) & reserved or fields.get("event") != ("ATTEMPT_STARTED" if first else "ATTEMPT_FINISHED")
             or not isinstance(fields.get("run_id"), str) or not fields["run_id"]):
         raise ValueError("diagnostic ledger event has invalid identity or reserved fields")
@@ -375,12 +478,14 @@ def _append_record(path: Path, fields: dict[str, Any], *, first: bool) -> dict[s
         if (prior.get("event") != "ATTEMPT_STARTED" or claimed != digest(canonical(prior))
                 or prior.get("scope_id") != SCOPE or prior.get("case_id") != CASE
                 or prior.get("run_id") != fields["run_id"] or prior.get("r1_sha256") != REGISTRATION["r1_sha256"]
-                or prior.get("r2_sha256") != REGISTRATION["r2_sha256"]):
+                or prior.get("r2_sha256") != REGISTRATION["r2_sha256"]
+                or prior.get("previous_diagnostic_sha256") != REGISTRATION["predecessor_diagnostic_sha256"]):
             raise ValueError("diagnostic reservation record is invalid")
         previous = claimed
-    body = {"schema": "qf-vv3d-tet4-l3-diagnostic-ledger-v1", "sequence": 1 if first else 2,
+    body = {"schema": "qf-vv3d-tet4-l3-optimized-diagnostic-ledger-v1", "sequence": 1 if first else 2,
             "previous_record_sha256": previous, "scope_id": SCOPE, "case_id": CASE,
-            "r1_sha256": REGISTRATION["r1_sha256"], "r2_sha256": REGISTRATION["r2_sha256"], **fields}
+            "r1_sha256": REGISTRATION["r1_sha256"], "r2_sha256": REGISTRATION["r2_sha256"],
+            "previous_diagnostic_sha256": REGISTRATION["predecessor_diagnostic_sha256"], **fields}
     body["record_sha256"] = digest(canonical(body))
     with path.open("xb" if first else "ab") as stream:
         stream.write(canonical(body) + b"\n")
@@ -446,9 +551,10 @@ def run(controller: Any, target: str, reason: str, preflight_id: str, manifest_p
 
     if target != TARGET or not reason or not reason.strip():
         raise ValueError("diagnostic requires its exact nodeid and a reason")
+    # Refuse on the pending source identity before touching any lock path.
+    inspect(controller)
     root = Path(REGISTRATION["evidence_root"])
     source = Path(REGISTRATION["root"])
-    root.mkdir(parents=True, exist_ok=True)
     with controller._exclusive_file_lock(R2_ROOT / "locks/vv3d-campaign-exclusive.lock"), \
             controller._exclusive_file_lock(root / "diagnostic-exclusive.lock"):
         report, contract, decision, contract_sha, decision_sha = authorized_context(controller)
@@ -483,8 +589,9 @@ def run(controller: Any, target: str, reason: str, preflight_id: str, manifest_p
             "reservation_id": reservation_id, "contract_sha256": contract_sha,
             "decision_sha256": decision_sha, "manifest_sha256": manifest_sha,
             "preflight_sha256": preflight_sha, "source_fingerprint": report["source_fingerprint"],
-            "controller_fingerprint": report["controller_fingerprint"], "reserved_seconds": 2400,
-            "prior_attempts": report["predecessor"]["r1_attempts"] + report["predecessor"]["r2_attempts"],
+            "controller_fingerprint": report["controller_fingerprint"],
+            "reserved_seconds": REGISTRATION["timeout_seconds"],
+            "prior_attempts": report["combined_budget"]["attempts_before"],
             "prior_elapsed_seconds": report["predecessor"]["elapsed_seconds"],
             "started_at_utc": datetime.now(timezone.utc).isoformat(),
         }, first=True)
@@ -496,12 +603,13 @@ def run(controller: Any, target: str, reason: str, preflight_id: str, manifest_p
                    "scientific_fingerprint": report["source_fingerprint"],
                    "controller_fingerprint": report["controller_fingerprint"],
                    "authorization_id": manifest["authorization_id"], "ledger_scope_id": SCOPE,
-                   "selected_dofs": 2187, "timeout_seconds": 2400, "rss_soft_limit_mib": 4096,
+                   "selected_dofs": REGISTRATION["selected_dofs"],
+                   "timeout_seconds": REGISTRATION["timeout_seconds"], "rss_soft_limit_mib": 4096,
                    "archive_size_limit_mib": 256, "attempt_number": 1, "max_attempts": 1,
                    "attempt_reserved": True, "ledger_path": str(ledger.resolve()),
                    "ledger_sha256_after_reservation": ledger_sha,
                    "campaign_attempts_used_after": start["prior_attempts"] + 1,
-                   "campaign_seconds_reserved_after": start["prior_elapsed_seconds"] + 2400,
+                   "campaign_seconds_reserved_after": start["prior_elapsed_seconds"] + REGISTRATION["timeout_seconds"],
                    "evidence_root": str(root.resolve()), "reservation_id": reservation_id,
                    "attempt_id": attempt_id}
         receipt_path = attempt / "diagnostic-reservation.json"
@@ -522,7 +630,8 @@ def run(controller: Any, target: str, reason: str, preflight_id: str, manifest_p
                             "QF_DEV_VV3D_RUNNER_RECEIPT_PATH": str(receipt_path.resolve()),
                             "QF_DEV_VV3D_RUNNER_RECEIPT_SHA256": receipt_sha,
                             "QF_VV3D_PERFORMANCE_TRACE": "1"})
-        limits = {"timeout_seconds": 2400, "rss_soft_limit_mib": 4096, "process_tree_limit": 32,
+        limits = {"timeout_seconds": REGISTRATION["timeout_seconds"], "rss_soft_limit_mib": 4096,
+                  "process_tree_limit": 32,
                   "output_total_limit_mib": 64, "output_stream_limit_mib": 32,
                   "temporary_limit_mib": 1024, "archive_size_limit_mib": 256, "minimum_free_disk_mib": 1024}
         import time

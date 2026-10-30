@@ -102,6 +102,7 @@ HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION = "refined3-8x4x4-nu04999-owner-crit
 VV3D_WORKTREE_ID = "wp12_vv3d_adaptive"
 VV3D_CAMPAIGN_ID = "WP12-VV3D-ADAPTIVE-20261029-R1"
 VV3D_R2_WORKTREE_ID = "wp12_vv3d_recovery_r2"
+VV3D_TET4_L3_OPTIMIZED_DIAGNOSTIC_WORKTREE_ID = "wp12_vv3d_tet4_l3_optimized_diagnostic"
 VV3D_R2_CAMPAIGN_ID = "WP12-VV3D-RECOVERY-20261030-R2"
 VV3D_R2_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-WP12-VV3D-RECOVERY-2026-10-30-R2"
 VV3D_R2_LEDGER_FILENAME = "node-attempt-ledger-wp12-vv3d-recovery-r2.jsonl"
@@ -1667,7 +1668,7 @@ def build_pytest_command(
     hex8sri_convergence24_collect_only_attestation: bool = False,
     vv3d_collect_only_attestation: bool = False,
     vv3d_r2_collect_only_attestation: bool = False,
-    vv3d_tet4_l3_diagnostic_attestation: bool = False,
+    vv3d_tet4_l3_optimized_diagnostic_attestation: bool = False,
     wp12_dynamics_collect_only_attestation: bool = False,
     wp12b_hex20_diagnostic_collect_only_attestation: bool = False,
     junit_xml_path: Path | None = None,
@@ -1677,7 +1678,7 @@ def build_pytest_command(
         hex8sri_convergence24_collect_only_attestation,
         vv3d_collect_only_attestation,
         vv3d_r2_collect_only_attestation,
-        vv3d_tet4_l3_diagnostic_attestation,
+        vv3d_tet4_l3_optimized_diagnostic_attestation,
         wp12_dynamics_collect_only_attestation,
         wp12b_hex20_diagnostic_collect_only_attestation,
     )
@@ -1702,7 +1703,7 @@ def build_pytest_command(
             not collect_only or allow_native_skip_override or targets[0] not in VV3D_R2_NODEIDS
         ):
             raise PolicyError("VV3D R2 attestation is restricted to its exact twelve skip-free collect-only nodes")
-        if vv3d_tet4_l3_diagnostic_attestation and (
+        if vv3d_tet4_l3_optimized_diagnostic_attestation and (
             not collect_only or allow_native_skip_override or targets[0] != VV3D_R2_NODEIDS[2]
         ):
             raise PolicyError("TET4-L3 diagnostic attestation requires its one exact skip-free collect-only node")
@@ -1761,9 +1762,9 @@ def build_pytest_command(
                 "if mode == 'vv3d-r2-preflight':",
                 "    from development_autonomous_pytest_plugin import VV3DCollectOnlyAttestor",
                 "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_recovery_r2'))",
-                "if mode == 'vv3d-tet4-l3-diagnostic-preflight':",
+                "if mode == 'vv3d-tet4-l3-optimized-diagnostic-preflight':",
                 "    from development_autonomous_pytest_plugin import VV3DCollectOnlyAttestor",
-                "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_tet4_l3_diagnostic'))",
+                "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_tet4_l3_optimized_diagnostic'))",
                 "if mode == 'wp12-dynamics-preflight':",
                 "    from development_autonomous_pytest_plugin import ExactCollectOnlyAttestor",
                 "    attestor = ExactCollectOnlyAttestor(",
@@ -1793,8 +1794,8 @@ def build_pytest_command(
             bootstrap_mode = "vv3d-preflight"
         elif vv3d_r2_collect_only_attestation:
             bootstrap_mode = "vv3d-r2-preflight"
-        elif vv3d_tet4_l3_diagnostic_attestation:
-            bootstrap_mode = "vv3d-tet4-l3-diagnostic-preflight"
+        elif vv3d_tet4_l3_optimized_diagnostic_attestation:
+            bootstrap_mode = "vv3d-tet4-l3-optimized-diagnostic-preflight"
         elif wp12_dynamics_collect_only_attestation:
             bootstrap_mode = "wp12-dynamics-preflight"
         elif wp12b_hex20_diagnostic_collect_only_attestation:
@@ -7267,8 +7268,10 @@ def preflight_pytest(
     preflight_id: str | None = None,
 ) -> dict[str, Any]:
     """Collect one exact registered node without reserving a FEM attempt."""
-    if worktree_id == "wp12_vv3d_tet4_l3_diagnostic":
+    if worktree_id == VV3D_TET4_L3_OPTIMIZED_DIAGNOSTIC_WORKTREE_ID:
         return _call_vv3d_tet4_l3_diagnostic("preflight", target, preflight_id)
+    if worktree_id == "wp12_vv3d_tet4_l3_diagnostic":
+        raise PolicyError("the historical TET4-L3 diagnostic scope is closed; use its immutable ledger only as predecessor")
     policy = load_policy()
     if worktree_id in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID}:
         if target not in policy["worktrees"][worktree_id]["allowed_nodeids"]:
@@ -8462,11 +8465,13 @@ def run_pytest(
     hypothesis_id: str | None = None,
     batch_context: Mapping[str, Any] | None = None,
 ) -> tuple[dict[str, Any], int]:
-    if worktree_id == "wp12_vv3d_tet4_l3_diagnostic":
+    if worktree_id == VV3D_TET4_L3_OPTIMIZED_DIAGNOSTIC_WORKTREE_ID:
         if (scope_name != "fem_exploratory" or series_id is not None or not target or not reason
                 or not preflight_id or execution_manifest is None or attempt_basis or hypothesis_id or batch_context):
             raise PolicyError("diagnostic requires one exact node, reason, preflight and manifest; retries are forbidden")
         return _call_vv3d_tet4_l3_diagnostic("run", target, reason, preflight_id, Path(execution_manifest))
+    if worktree_id == "wp12_vv3d_tet4_l3_diagnostic":
+        raise PolicyError("the historical TET4-L3 diagnostic scope is closed; retries and R2 reopening are forbidden")
     policy = load_policy()
     if worktree_id == VV3D_R2_WORKTREE_ID:
         vv3d_r2_entry = policy["worktrees"][VV3D_R2_WORKTREE_ID]
@@ -9099,10 +9104,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         "verify-vv3d-r2-ledger-import",
         help="verify the R2 ledger sibling import and source path without reading or writing a ledger",
     )
-    subparsers.add_parser("inspect-vv3d-tet4-l3-diagnostic", help="inspect the exact diagnostic scope without execution")
-    subparsers.add_parser("prepare-vv3d-tet4-l3-diagnostic", help="freeze the diagnostic contract without authorization")
+    subparsers.add_parser("inspect-vv3d-tet4-l3-optimized-diagnostic", help="inspect the exact diagnostic scope without execution")
+    subparsers.add_parser("prepare-vv3d-tet4-l3-optimized-diagnostic", help="freeze the diagnostic contract without authorization")
     diagnostic_manifest_parser = subparsers.add_parser(
-        "prepare-vv3d-tet4-l3-manifest", help="bind the approved diagnostic to its exact successful preflight"
+        "prepare-vv3d-tet4-l3-optimized-manifest", help="bind the approved diagnostic to its exact successful preflight"
     )
     diagnostic_manifest_parser.add_argument("--preflight-id", required=True)
     p0_batch_prepare_parser = subparsers.add_parser(
@@ -9141,7 +9146,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             HEX8SRI_CONVERGENCE24_WORKTREE_ID,
             VV3D_WORKTREE_ID,
             VV3D_R2_WORKTREE_ID,
-            "wp12_vv3d_tet4_l3_diagnostic",
+            VV3D_TET4_L3_OPTIMIZED_DIAGNOSTIC_WORKTREE_ID,
         ),
         required=True,
     )
@@ -9221,13 +9226,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     test_parser.add_argument("--hypothesis-id", help="unique ID required for a same-input new diagnostic hypothesis")
     args = parser.parse_args(argv)
     try:
-        if args.command == "inspect-vv3d-tet4-l3-diagnostic":
+        if args.command == "inspect-vv3d-tet4-l3-optimized-diagnostic":
             result = _call_vv3d_tet4_l3_diagnostic("inspect")
             exit_code = 0
-        elif args.command == "prepare-vv3d-tet4-l3-diagnostic":
+        elif args.command == "prepare-vv3d-tet4-l3-optimized-diagnostic":
             result = _call_vv3d_tet4_l3_diagnostic("prepare_contract")
             exit_code = 0
-        elif args.command == "prepare-vv3d-tet4-l3-manifest":
+        elif args.command == "prepare-vv3d-tet4-l3-optimized-manifest":
             result = _call_vv3d_tet4_l3_diagnostic("prepare_manifest", args.preflight_id)
             exit_code = 0
         elif args.command == "verify-vv3d-r2-ledger-import":
