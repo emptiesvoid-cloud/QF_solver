@@ -239,7 +239,7 @@ def test_hex8sri_source_identity_inventory_freezes_exact_raw_worktree_bytes() ->
         )
     without_criteria = dict(files)
     del without_criteria["experiments/hex8_sri_equilibrium/criteria_contract.py"]
-    assert len(without_criteria) == 516
+    assert len(without_criteria) == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT - 1
     with pytest.raises(MODULE.PolicyError, match="source bytes differ from the registered raw-byte inventory"):
         MODULE._validate_hex8sri_registered_source_identity(
             Path("synthetic-source-root"), entry, identity, MODULE.HEX8SRI_FIRST6_NODEIDS[0],
@@ -3233,8 +3233,22 @@ def test_archive_writer_is_atomic_json(tmp_path: Path) -> None:
     assert list(tmp_path.glob("*.tmp")) == []
 
 
+HEX8SRI_PRE_REFRESH_POLICY_BASELINE = "326b357fe752b33bb034c46ed546973abb1d2cb0"
+
+
+def _hex8sri_pre_refresh_baseline() -> dict:
+    payload = subprocess.run(
+        ["git", "show", f"{HEX8SRI_PRE_REFRESH_POLICY_BASELINE}:development_autonomous_policy.json"],
+        cwd=MODULE.ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    return json.loads(payload)["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+
+
 def _assert_hex8sri_source_refresh_only(current: dict, baseline: dict) -> None:
-    mutable = {"source_identity", "source_fingerprint_sha256", "case_manifests"}
+    mutable = {"branch", "source_identity", "source_fingerprint_sha256", "case_manifests"}
     assert set(current) == set(baseline)
     assert {key: current[key] for key in current if key not in mutable} == {
         key: baseline[key] for key in baseline if key not in mutable
@@ -3245,7 +3259,10 @@ def _assert_hex8sri_source_refresh_only(current: dict, baseline: dict) -> None:
     assert set(current_cases) == set(baseline_cases) == set(MODULE._hex8sri_convergence24_nodeids())
     for nodeid in current_cases:
         assert current_cases[nodeid]["path"] == baseline_cases[nodeid]["path"]
-        assert current_cases[nodeid]["sha256"] != baseline_cases[nodeid]["sha256"]
+        if nodeid in MODULE.HEX8SRI_REFINED3_NODEIDS:
+            assert current_cases[nodeid]["sha256"] != baseline_cases[nodeid]["sha256"]
+        else:
+            assert current_cases[nodeid]["sha256"] == baseline_cases[nodeid]["sha256"]
         assert len(current_cases[nodeid]["sha256"]) == 64
 
 
@@ -3271,7 +3288,7 @@ def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_s
         if worktree_id == "wp12_dynamics":
             continue
         if worktree_id == scope_id:
-            _assert_hex8sri_source_refresh_only(existing[worktree_id], baseline_entry)
+            _assert_hex8sri_source_refresh_only(existing[worktree_id], _hex8sri_pre_refresh_baseline())
             continue
         assert existing[worktree_id] == baseline_entry
     dynamics_baseline = baseline["worktrees"]["wp12_dynamics"]
@@ -3516,7 +3533,7 @@ def test_hex8sri_convergence24_receipt_validator_accepts_synthetic_receipt(tmp_p
     target = MODULE._hex8sri_convergence24_nodeids()[0]
     identity = {
         "root": str(tmp_path / "research"),
-        "branch": "research/hex8-sri-equilibrium",
+        "branch": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"],
         "head": "a" * 40,
     }
     source_fingerprint = "b" * 64
@@ -3560,7 +3577,7 @@ def test_hex8sri_convergence24_receipt_validator_rejects_identity_drift(tmp_path
     target = MODULE._hex8sri_convergence24_nodeids()[0]
     identity = {
         "root": str(tmp_path / "research"),
-        "branch": "research/hex8-sri-equilibrium",
+        "branch": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"],
         "head": "a" * 40,
     }
     controller = {"identity": {"branch": "codex/hex8sri-convergence24-minimal", "head": "c" * 40}, "sha256": {}}
@@ -3662,7 +3679,7 @@ def test_hex8sri_convergence24_preflight_writer_emits_validator_accepted_synthet
             "policy_sha256": hashes["policy"],
         },
         "exact_nodeid": target,
-        "science_branch": "research/hex8-sri-equilibrium",
+        "science_branch": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"],
         "source_fingerprint_sha256": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
         "execution_authorized": False,
         "do_not_execute": True,
@@ -3794,12 +3811,18 @@ def test_hex8sri_convergence24_execution_refuses_before_ledger_or_launcher(
 
 
 def _synthetic_hex8sri_execution_authorization(
-    tmp_path: Path, *, authorized_nodeids: list[str] | None = None
+    tmp_path: Path,
+    *,
+    authorized_nodeids: list[str] | None = None,
+    frozen_nodeids: list[str] | None = None,
 ) -> dict[str, Any]:
     scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
     entry = json.loads(json.dumps(_policy()["worktrees"][scope_id]))
     selected_nodeids = list(MODULE.HEX8SRI_FIRST6_NODEIDS) if authorized_nodeids is None else authorized_nodeids
     target = selected_nodeids[0] if selected_nodeids else MODULE.HEX8SRI_FIRST6_NODEIDS[0]
+    scope = MODULE._hex8sri_criteria_scope_for_target(target)
+    default_frozen_nodeids = list(scope[1]) if scope is not None else list(MODULE.HEX8SRI_FIRST6_NODEIDS)
+    frozen_scope = default_frozen_nodeids if frozen_nodeids is None else frozen_nodeids
     identity = {
         "root": str(tmp_path / "synthetic-science-root"),
         "branch": entry["branch"],
@@ -3816,7 +3839,7 @@ def _synthetic_hex8sri_execution_authorization(
         "criteria_status": "OWNER_FREEZE_REQUIRED",
         "criteria_contract": {
             "schema": MODULE.HEX8SRI_CRITERIA_CONTRACT_SCHEMA,
-            "revision": MODULE.HEX8SRI_CRITERIA_CONTRACT_REVISION,
+            "revision": scope[0] if scope is not None else MODULE.HEX8SRI_CRITERIA_CONTRACT_REVISION,
             "dispositions": MODULE.HEX8SRI_CRITERIA_PROPOSAL_DISPOSITIONS,
         },
         "proposed_criteria": MODULE.HEX8SRI_PROPOSED_CRITERIA,
@@ -3855,6 +3878,7 @@ def _synthetic_hex8sri_execution_authorization(
         entry=entry,
         source_fingerprint=source_fingerprint,
         controller_provenance=controller,
+        frozen_nodeids=frozen_scope,
     )
     freeze_decision = {
         "schema": MODULE.HEX8SRI_CRITERIA_FREEZE_DECISION_SCHEMA,
@@ -3869,7 +3893,7 @@ def _synthetic_hex8sri_execution_authorization(
         "scope_id": scope_id,
         "mandate_id": entry["development_mandate_id"],
         "campaign_id": entry["campaign_id"],
-        "frozen_nodeids": list(MODULE.HEX8SRI_FIRST6_NODEIDS),
+        "frozen_nodeids": list(frozen_scope),
         "source_fingerprint": source_fingerprint,
         "controller_fingerprint": MODULE._stable_fingerprint(controller),
         "controller_head": controller["identity"]["head"],
@@ -3884,7 +3908,7 @@ def _synthetic_hex8sri_execution_authorization(
         "sha256": MODULE._sha256(freeze_path),
     }
     manifest_bindings = {}
-    for index, nodeid in enumerate(MODULE.HEX8SRI_FIRST6_NODEIDS):
+    for index, nodeid in enumerate(frozen_scope):
         if nodeid == target:
             manifest_bindings[nodeid] = binding
             continue
@@ -4028,9 +4052,9 @@ def test_hex8sri_execution_approval_accepts_explicit_registered_subset(
 @pytest.mark.parametrize(
     ("selection", "mutation", "message"),
     [
-        ([], None, "non-empty unique subset"),
-        (["tests/verification/test_hex8_sri_convergence.py::test_not_registered"], None, "non-empty unique subset"),
-        ([MODULE.HEX8SRI_FIRST6_NODEIDS[0], MODULE.HEX8SRI_FIRST6_NODEIDS[0]], None, "non-empty unique subset"),
+        ([], None, "reviewed criteria scope"),
+        (["tests/verification/test_hex8_sri_convergence.py::test_not_registered"], None, "reviewed criteria scope"),
+        ([MODULE.HEX8SRI_FIRST6_NODEIDS[0], MODULE.HEX8SRI_FIRST6_NODEIDS[0]], None, "reviewed criteria scope"),
         ([MODULE.HEX8SRI_FIRST6_NODEIDS[0]], "missing_manifest", "does not authorize this exact scope"),
         ([MODULE.HEX8SRI_FIRST6_NODEIDS[0]], "mismatched_manifest", "does not authorize this exact scope"),
         ([MODULE.HEX8SRI_FIRST6_NODEIDS[0]], "budget", "registered case budget"),
@@ -4355,7 +4379,7 @@ def test_hex8sri_criteria_freeze_only_does_not_authorize_execution(tmp_path: Pat
         "sha256": MODULE._sha256(fixture["freeze_path"]),
     }
     fixture["path"].write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
-    with pytest.raises(MODULE.PolicyError, match="non-empty unique subset"):
+    with pytest.raises(MODULE.PolicyError, match="reviewed criteria scope"):
         _validate_synthetic_hex8sri_execution(fixture)
 
 
@@ -4427,13 +4451,48 @@ def test_hex8sri_criteria_freeze_refuses_unfrozen_or_incoherent_contracts(
         decision["criteria_freeze"]["dispositions"] = dispositions
     else:
         decision["criteria_freeze"]["case_manifest_registration_sha256_by_nodeid"][fixture["target"]] = "f" * 64
-    with pytest.raises(MODULE.PolicyError, match="does not freeze the registered first-six criteria contract"):
+    with pytest.raises(MODULE.PolicyError, match="does not freeze the exact registered criteria scope"):
         MODULE._validate_hex8sri_frozen_case_criteria(
             case_manifest,
             decision=decision,
             target=fixture["target"],
             case_registration_sha256=binding_sha,
         )
+
+
+def test_hex8sri_refined_three_criteria_freeze_is_exact_and_execution_remains_per_case(
+    tmp_path: Path,
+) -> None:
+    refined_nodeids = list(MODULE.HEX8SRI_REFINED3_NODEIDS)
+    fixture = _synthetic_hex8sri_execution_authorization(
+        tmp_path,
+        authorized_nodeids=refined_nodeids,
+        frozen_nodeids=refined_nodeids,
+    )
+    frozen = MODULE._validate_hex8sri_criteria_freeze_decision(
+        fixture["freeze_decision"],
+        entry=fixture["entry"],
+        source_fingerprint=fixture["source_fingerprint"],
+        controller_provenance=fixture["controller"],
+    )
+    assert frozen["criteria_freeze"]["revision"] == MODULE.HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION
+    assert frozen["frozen_nodeids"] == refined_nodeids
+    assert frozen["execution_authorized"] is False
+    approved = _validate_synthetic_hex8sri_approval(fixture)
+    assert approved["authorized_nodeids"] == refined_nodeids
+    assert set(approved["limits_by_nodeid"]) == set(refined_nodeids)
+    assert all(limit["attempts_per_nodeid"] == 1 for limit in approved["limits_by_nodeid"].values())
+
+
+def test_hex8sri_criteria_freeze_rejects_cross_scope_or_extra_nodeids() -> None:
+    assert MODULE._hex8sri_criteria_scope_for_nodeids(list(MODULE.HEX8SRI_REFINED3_NODEIDS)) == (
+        MODULE.HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION,
+        MODULE.HEX8SRI_REFINED3_NODEIDS,
+    )
+    assert MODULE._hex8sri_criteria_scope_for_nodeids(
+        [*MODULE.HEX8SRI_REFINED3_NODEIDS, MODULE.HEX8SRI_FIRST6_NODEIDS[0]]
+    ) is None
+    assert MODULE._hex8sri_criteria_scope_for_nodeids(list(MODULE.HEX8SRI_REFINED3_NODEIDS)[:-1]) is None
 
 
 def test_hex8sri_execution_approval_requires_the_archived_matching_freeze(tmp_path: Path) -> None:
@@ -4511,7 +4570,7 @@ def test_hex8sri_freeze_archive_is_no_replace_and_preserves_evidence_and_ledger(
     monkeypatch.setattr(MODULE, "_run_root", lambda *_args: store)
     monkeypatch.setattr(
         MODULE,
-        "_hex8sri_first6_current_case_manifest_bindings",
+        "_hex8sri_current_case_manifest_bindings",
         lambda *_args: fixture["manifest_bindings"],
     )
     result = MODULE.archive_hex8sri_owner_decision(decision_path)
@@ -4544,7 +4603,9 @@ def test_hex8sri_scope_refresh_leaves_historical_scope_registrations_unchanged()
     }
     for worktree_id, baseline_entry in baseline["worktrees"].items():
         if worktree_id == MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID:
-            _assert_hex8sri_source_refresh_only(current["worktrees"][worktree_id], baseline_entry)
+            _assert_hex8sri_source_refresh_only(
+                current["worktrees"][worktree_id], _hex8sri_pre_refresh_baseline()
+            )
         elif worktree_id != "wp12_dynamics":
             assert current["worktrees"][worktree_id] == baseline_entry
     current_dynamics = current["worktrees"]["wp12_dynamics"]
