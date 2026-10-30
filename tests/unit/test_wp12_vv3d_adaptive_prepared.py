@@ -193,6 +193,119 @@ def test_synthetic_runner_receipt_budget_or_decision_mismatch_is_refused(
         case_harness.require_authorized_execution("VV3D-TET4-L1")
 
 
+@pytest.mark.parametrize("seconds", [1200.0, 1200.5, 1215.812954, 28_800.0])
+def test_synthetic_runner_receipt_accepts_finite_fractional_campaign_seconds(
+    tmp_path, monkeypatch, seconds: float,
+) -> None:
+    _manifest, env = _synthetic_runner_manifest(tmp_path)
+    receipt_path = Path(env["QF_DEV_VV3D_RUNNER_RECEIPT_PATH"])
+    receipt = json.loads(receipt_path.read_bytes())
+    receipt["campaign_seconds_reserved_after"] = seconds
+    receipt_raw = (json.dumps(receipt, sort_keys=True, separators=(",", ":")) + "\n").encode()
+    receipt_path.write_bytes(receipt_raw)
+    env["QF_DEV_VV3D_RUNNER_RECEIPT_SHA256"] = hashlib.sha256(receipt_raw).hexdigest()
+    for name, value in env.items():
+        monkeypatch.setenv(name, value)
+
+    context = case_harness.require_authorized_execution("VV3D-TET4-L1")
+
+    assert context["case_id"] == "VV3D-TET4-L1"
+
+
+@pytest.mark.parametrize(
+    ("seconds", "raw_number"),
+    [
+        (True, None), (False, None), ("1200", None),
+        (float("nan"), None), (float("inf"), None), (float("-inf"), None),
+        (float("inf"), b"1e999"), (-0.5, None), (1199.999, None),
+        (28_800.01, None), (28_801, None),
+    ],
+)
+def test_synthetic_runner_receipt_rejects_invalid_campaign_seconds(
+    tmp_path, monkeypatch, seconds, raw_number: bytes | None,
+) -> None:
+    _manifest, env = _synthetic_runner_manifest(tmp_path)
+    receipt_path = Path(env["QF_DEV_VV3D_RUNNER_RECEIPT_PATH"])
+    receipt = json.loads(receipt_path.read_bytes())
+    if raw_number is None:
+        receipt["campaign_seconds_reserved_after"] = seconds
+        receipt_raw = (json.dumps(receipt, sort_keys=True, separators=(",", ":")) + "\n").encode()
+    else:
+        receipt_raw = receipt_path.read_bytes()
+        receipt_raw = receipt_raw.replace(
+            b'"campaign_seconds_reserved_after":1200',
+            b'"campaign_seconds_reserved_after":' + raw_number,
+        )
+    receipt_path.write_bytes(receipt_raw)
+    env["QF_DEV_VV3D_RUNNER_RECEIPT_SHA256"] = hashlib.sha256(receipt_raw).hexdigest()
+    for name, value in env.items():
+        monkeypatch.setenv(name, value)
+
+    with pytest.raises(PermissionError):
+        case_harness.require_authorized_execution("VV3D-TET4-L1")
+
+
+def test_synthetic_controller_receipts_pass_guard_after_fractional_elapsed_time(
+    tmp_path, monkeypatch,
+) -> None:
+    """Exercise two real ledger receipts and the child guard without invoking FEM."""
+    from scripts.wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
+
+    ledger = BudgetLedger(tmp_path / case_harness.VV3D_LEDGER_FILENAME, allowed_root=tmp_path)
+    observed_reserved_seconds: list[int | float] = []
+
+    for sequence, case_id in enumerate(("VV3D-TET4-L1", "VV3D-TET4-L2"), start=1):
+        case_root = tmp_path / f"case-{sequence}"
+        case_root.mkdir()
+        manifest, env = _synthetic_runner_manifest(case_root, case_id)
+        manifest_path = Path(env["QF_DEV_MANIFEST_PATH"])
+        manifest_sha = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+        preflight_sha = manifest["preflight"]["receipt_sha256"]
+        receipt_path = Path(env["QF_DEV_VV3D_RUNNER_RECEIPT_PATH"])
+        receipt_path.unlink()
+
+        case = next(item for item in case_harness.load_prepared_cases() if item["case_id"] == case_id)
+        reservation = ledger.start_runner_attempt(
+            binding=RunBinding(
+                contract_sha256="c" * 64,
+                decision_id=manifest["owner_decision"]["decision_id"],
+                decision_sha256=manifest["owner_decision"]["decision_sha256"],
+                manifest_sha256=manifest_sha,
+                preflight_sha256=preflight_sha,
+            ),
+            case=RunnerCaseBinding(
+                case_id=case_id,
+                nodeid=manifest["nodeid"],
+                attempt_id=f"SYNTHETIC-ATTEMPT-{sequence:02d}",
+                authorization_id=manifest["authorization_id"],
+                source_fingerprint=env["QF_DEV_VV3D_SCIENCE_FINGERPRINT"],
+                controller_fingerprint=env["QF_DEV_CONTROLLER_FINGERPRINT"],
+                selected_dofs=case["dofs"],
+                timeout_seconds=case["timeout_max_seconds"],
+                rss_soft_limit_mib=case["rss_soft_limit_mib"],
+                archive_limit_mib=256,
+                evidence_root=env["QF_DEV_EVIDENCE_ROOT"],
+            ),
+            receipt_path=receipt_path,
+        )
+        receipt_raw = receipt_path.read_bytes()
+        env["QF_DEV_VV3D_RUNNER_RECEIPT_SHA256"] = hashlib.sha256(receipt_raw).hexdigest()
+        observed_reserved_seconds.append(reservation["campaign_seconds_reserved_after"])
+        for name, value in env.items():
+            monkeypatch.setenv(name, value)
+
+        context = case_harness.require_authorized_execution(case_id)
+        assert context["case_id"] == case_id
+
+        if sequence == 1:
+            ledger.finish_runner_attempt(
+                run_id=reservation["reservation_id"], status="PASS", elapsed_seconds=15.812954,
+            )
+
+    assert observed_reserved_seconds[0] == 1200
+    assert observed_reserved_seconds[1] == pytest.approx(1215.812954)
+
+
 def test_synthetic_sidecar_is_written_before_observable_assertions(tmp_path) -> None:
     case_id = "VV3D-TET4-L1"
     receipt = case_harness.write_synthetic_sidecar(tmp_path / "evidence", case_id, "SYNTHETIC-001")
