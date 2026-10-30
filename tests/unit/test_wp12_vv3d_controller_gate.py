@@ -1,4 +1,4 @@
-"""Controller VV3D registration remains closed until its runner chain is complete."""
+"""Controller VV3D R1/R2 registration and execution gates remain closed by default."""
 
 from __future__ import annotations
 
@@ -79,8 +79,8 @@ def test_vv3d_preflight_routes_to_official_collect_only_helper_without_reserving
     target = controller.VV3D_INITIAL_NODEIDS[0]
     calls = []
 
-    def synthetic_collect_only(target_arg, preflight_id, *, policy):
-        calls.append((target_arg, preflight_id, policy["worktrees"][controller.VV3D_WORKTREE_ID]["campaign_id"]))
+    def synthetic_collect_only(target_arg, preflight_id, *, policy, worktree_id=controller.VV3D_WORKTREE_ID):
+        calls.append((target_arg, preflight_id, policy["worktrees"][worktree_id]["campaign_id"]))
         return {"state": "PREFLIGHT_PASS", "bodies_executed": False, "attempt_reserved": False}
 
     monkeypatch.setattr(controller, "preflight_wp12_vv3d_pytest", synthetic_collect_only)
@@ -88,6 +88,83 @@ def test_vv3d_preflight_routes_to_official_collect_only_helper_without_reserving
     assert calls == [(target, "pf-000000000001", "WP12-VV3D-ADAPTIVE-20261029-R1")]
     assert result == {"state": "PREFLIGHT_PASS", "bodies_executed": False, "attempt_reserved": False}
     assert not run_store.exists()
+
+
+def test_vv3d_r2_preflight_routes_only_to_its_collect_only_scope_without_reserving(monkeypatch) -> None:
+    policy = controller.load_policy()
+    target = controller.VV3D_R2_NODEIDS[0]
+    calls = []
+
+    def synthetic_collect_only(target_arg, preflight_id, *, policy, worktree_id):
+        calls.append((target_arg, preflight_id, worktree_id,
+                      policy["worktrees"][worktree_id]["campaign_id"]))
+        return {"state": "PREFLIGHT_PASS", "bodies_executed": False, "attempt_reserved": False}
+
+    monkeypatch.setattr(controller, "load_policy", lambda: policy)
+    monkeypatch.setattr(controller, "preflight_wp12_vv3d_pytest", synthetic_collect_only)
+    result = controller.preflight_pytest(controller.VV3D_R2_WORKTREE_ID, target, "pf-r2-synthetic")
+
+    assert calls == [(target, "pf-r2-synthetic", controller.VV3D_R2_WORKTREE_ID,
+                      controller.VV3D_R2_CAMPAIGN_ID)]
+    assert result == {"state": "PREFLIGHT_PASS", "bodies_executed": False, "attempt_reserved": False}
+
+
+@pytest.mark.parametrize("field", ["source_fingerprint_sha256", "execution_authorized", "ledger_path"])
+def test_vv3d_r2_policy_rejects_identity_authorization_or_ledger_mutation(
+    monkeypatch, tmp_path: Path, field: str,
+) -> None:
+    policy = controller.load_policy()
+    entry = policy["worktrees"][controller.VV3D_R2_WORKTREE_ID]
+    if field == "source_fingerprint_sha256":
+        entry[field] = "0" * 64
+    elif field == "execution_authorized":
+        entry[field] = True
+    else:
+        entry["node_attempt_ledger"]["path"] = "../shared-r1.jsonl"
+    candidate = tmp_path / "mutated-r2-policy.json"
+    candidate.write_text(json.dumps(policy), encoding="utf-8")
+    monkeypatch.setattr(controller, "ROOT", tmp_path)
+
+    with pytest.raises(controller.PolicyError, match="VV3D R2 scope identity"):
+        controller.load_policy(candidate)
+
+
+def test_vv3d_r2_controller_provenance_binds_only_the_r2_ledger(monkeypatch) -> None:
+    r1 = controller._vv3d_controller_provenance()
+    r2 = controller._vv3d_scope_controller_provenance(controller.VV3D_R2_WORKTREE_ID)
+    ledger_path = Path(controller.__file__).with_name("wp12_vv3d_r2_ledger.py")
+
+    assert "wp12_vv3d_r2_ledger" not in r1["sha256"]
+    assert r2["sha256"]["wp12_vv3d_r2_ledger"] == hashlib.sha256(ledger_path.read_bytes()).hexdigest()
+    assert r2["vv3d_r2_provenance_revision"] == "vv3d-r2-independent-ledger-v1"
+    assert r2["sha256"]["wp12_vv3d_ledger"] == r1["sha256"]["wp12_vv3d_ledger"]
+
+
+def test_vv3d_r2_missing_owner_contract_refuses_before_r2_ledger_creation(
+    tmp_path: Path,
+) -> None:
+    policy = controller.load_policy()
+    entry = policy["worktrees"][controller.VV3D_R2_WORKTREE_ID]
+    store = tmp_path / "store"
+    auth_root = store / "authorizations" / controller.VV3D_R2_WORKTREE_ID
+    manifests = auth_root / "manifests"
+    manifests.mkdir(parents=True)
+    manifest_path = manifests / "case-prepared.json"
+    manifest_path.write_text("{}", encoding="utf-8")
+    source = Path(entry["root"])
+    identity = dict(entry["source_identity"])
+    identity["root"] = str(source)
+    provenance = controller._vv3d_scope_controller_provenance(controller.VV3D_R2_WORKTREE_ID)
+
+    with pytest.raises(controller.PolicyError, match="Owner contract, decision or case manifest is unavailable"):
+        controller._vv3d_r2_execution_bindings(
+            target=controller.VV3D_R2_NODEIDS[0], preflight_id="pf-r2-no-decision",
+            manifest_path=manifest_path, entry=entry, execution_root=source,
+            identity=identity, source_fingerprint=entry["source_fingerprint_sha256"],
+            controller_provenance=provenance, store=store,
+        )
+
+    assert not (store / entry["node_attempt_ledger"]["path"]).exists()
 
 
 @pytest.mark.parametrize(
@@ -349,6 +426,7 @@ def test_vv3d_qpost_route_charges_wall_time_without_fem_attempt(
     from scripts.wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
 
     policy = controller.load_policy()
+    monkeypatch.setattr(controller.shutil, "disk_usage", lambda _path: SimpleNamespace(free=10**12))
     entry = policy["worktrees"][controller.VV3D_WORKTREE_ID]
     store = tmp_path / "store"
     store.mkdir()
@@ -689,6 +767,7 @@ def _mock_vv3d_run(
     expected_state: str | None = None,
 ) -> Path:
     policy = controller.load_policy()
+    monkeypatch.setattr(controller.shutil, "disk_usage", lambda _path: SimpleNamespace(free=10**12))
     entry = policy["worktrees"][controller.VV3D_WORKTREE_ID]
     store = tmp_path / "evidence-store"
     source = tmp_path / "science"
@@ -886,6 +965,8 @@ def test_vv3d_initial_pass_without_state_archive_is_provenance_failure(monkeypat
 def test_vv3d_adaptive_fem_monitored_dispatch_emits_science_receipt(monkeypatch, tmp_path: Path) -> None:
     from scripts.wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
 
+    # The case is synthetic: no filesystem capacity is consumed by a solver.
+    monkeypatch.setattr(controller.shutil, "disk_usage", lambda _path: SimpleNamespace(free=10**12))
     policy = controller.load_policy()
     entry = policy["worktrees"][controller.VV3D_WORKTREE_ID]
     store, evidence, science = tmp_path / "store", tmp_path / "evidence", tmp_path / "science"
@@ -1002,3 +1083,39 @@ def test_vv3d_adaptive_fem_monitored_dispatch_emits_science_receipt(monkeypatch,
     assert receipt["allowed_evidence_roots"] == [str(evidence), str(auth_root)]
     assert ledger.summary()["attempts_used"] == 2
     assert ledger.summary()["elapsed_seconds_actual"] == pytest.approx(6.0)
+
+
+@pytest.mark.parametrize("target", [controller.VV3D_ADAPTIVE_FEM_NODEIDS[0], controller.VV3D_QPOST_NODEIDS[0]])
+def test_vv3d_r2_dispatch_refuses_routes_outside_initial_fem_catalogue(
+    monkeypatch, target: str,
+) -> None:
+    monkeypatch.setattr(controller, "load_policy", lambda: {"worktrees": {
+        controller.VV3D_R2_WORKTREE_ID: {"allowed_nodeids": list(controller.VV3D_R2_NODEIDS)},
+    }})
+    monkeypatch.setattr(
+        controller, "run_wp12_vv3d_pytest",
+        lambda *_args, **_kwargs: pytest.fail("excluded R2 route reached runner"),
+    )
+    with pytest.raises(controller.PolicyError, match="outside its exact twelve-case"):
+        controller.run_pytest(
+            "fem_exploratory", target, None, worktree_id=controller.VV3D_R2_WORKTREE_ID,
+            reason="synthetic route refusal", preflight_id=None, execution_manifest=None,
+        )
+
+
+def test_vv3d_r2_dispatch_requires_exact_preflight_and_owner_manifest_before_runner(
+    monkeypatch,
+) -> None:
+    target = controller.VV3D_R2_NODEIDS[0]
+    monkeypatch.setattr(controller, "load_policy", lambda: {"worktrees": {
+        controller.VV3D_R2_WORKTREE_ID: {"allowed_nodeids": list(controller.VV3D_R2_NODEIDS)},
+    }})
+    monkeypatch.setattr(
+        controller, "run_wp12_vv3d_pytest",
+        lambda *_args, **_kwargs: pytest.fail("missing authorization bindings reached runner"),
+    )
+    with pytest.raises(controller.PolicyError, match="exact collect-only preflight"):
+        controller.run_pytest(
+            "fem_exploratory", target, None, worktree_id=controller.VV3D_R2_WORKTREE_ID,
+            reason="synthetic missing authorization refusal", preflight_id=None, execution_manifest=None,
+        )

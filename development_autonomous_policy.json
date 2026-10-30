@@ -1945,6 +1945,94 @@
       "node_attempt_ledger": {
         "path": "node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl"
       }
+    },
+    "wp12_vv3d_recovery_r2": {
+      "purpose": "Independent VV3D recovery campaign R2; exact Owner decision and R2 manifest required before any execution",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\test-worktrees\\vv3d-science-source-candidate",
+      "git_root": "E:\\QFSolverAgents\\test-worktrees\\vv3d-science-source-candidate",
+      "branch": "research/wp12-vv3d-recovery-r2",
+      "baseline_commit": "34812fc7525859686f88ac7e56e1833ee558cb66",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-vv3d-recovery-r2",
+      "allow_native_vv_skip_override": false,
+      "execution_authorized": false,
+      "execution_capability": "INITIAL_FEM_ONLY_WITH_EXACT_R2_OWNER_DECISION",
+      "runner_capabilities": {
+        "initial_fem": true,
+        "adaptive_fem": false,
+        "qpost": false
+      },
+      "campaign_id": "WP12-VV3D-RECOVERY-20261030-R2",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-VV3D-RECOVERY-2026-10-30-R2",
+      "require_clean_worktree": true,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 24,
+      "max_total_seconds": 28800,
+      "max_timeout_seconds": 1200,
+      "target_max_dofs": 30000,
+      "rss_soft_limit_mib": 4096,
+      "concurrency_class": "vv3d_serial",
+      "nodeid_registration": {
+        "enabled": false,
+        "max_nodeids": 12
+      },
+      "budgets": {
+        "timeout_seconds": 1200,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 32,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 1024,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L3]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L3]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L3]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L3]"
+      ],
+      "adaptive_fem_nodeids": [],
+      "qpost_nodeids": [],
+      "per_node_selected_dofs": {
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L1]": 81,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L2]": 375,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L3]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L1]": 375,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L2]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L3]": 14739,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L1]": 81,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L2]": 375,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L3]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L1]": 243,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L2]": 1275,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L3]": 8019
+      },
+      "node_attempt_ledger": {
+        "path": "node-attempt-ledger-wp12-vv3d-recovery-r2.jsonl",
+        "predecessor": {
+          "path": "E:\\QFSolverAgents\\evidence\\wp12-vv3d-adaptive\\node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl",
+          "sha256": "2788619d097d148c74a3e71cef456ee52bc03642d680f9090360418b61d20bf8",
+          "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-VV3D-ADAPTIVE-2026-10-29-R1"
+        }
+      },
+      "max_r2_attempts": 12,
+      "source_identity": {
+        "branch": "research/wp12-vv3d-recovery-r2",
+        "head": "ba36860a156468dd7c54ee435a809222e227205a",
+        "tree": "2f8c0d3cef5a6b07eac9ad48d0dcb1a311af72e2",
+        "fingerprint_sha256": "651bbacaf133106a6a8c8b2177e8741cf3fed9a9fdfc7f907d350484dfebd3ce"
+      },
+      "source_fingerprint_sha256": "651bbacaf133106a6a8c8b2177e8741cf3fed9a9fdfc7f907d350484dfebd3ce"
     }
   },
   "resource_coordination_root": "E:\\QFSolverAgents\\evidence\\.wp12-coordination"

@@ -160,8 +160,11 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
         MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
         MODULE.WP12B_HEX20_R2_WORKTREE_ID,
         MODULE.VV3D_WORKTREE_ID,
+        MODULE.VV3D_R2_WORKTREE_ID,
     }
     assert policy["worktrees"][MODULE.VV3D_WORKTREE_ID]["execution_authorized"] is False
+    assert policy["worktrees"][MODULE.VV3D_R2_WORKTREE_ID]["execution_authorized"] is False
+    assert policy["worktrees"][MODULE.VV3D_R2_WORKTREE_ID]["allowed_nodeids"] == list(MODULE.VV3D_INITIAL_NODEIDS)
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
 
 
@@ -3297,6 +3300,7 @@ def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_s
     hex20_scope_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
     assert set(worktrees) == set(baseline["worktrees"]) | {
         hex20_scope_id, MODULE.WP12B_HEX20_R2_WORKTREE_ID, MODULE.VV3D_WORKTREE_ID,
+        MODULE.VV3D_R2_WORKTREE_ID,
     }
     existing = {key: value for key, value in worktrees.items() if key != hex20_scope_id}
     for worktree_id, baseline_entry in baseline["worktrees"].items():
@@ -4615,6 +4619,7 @@ def test_hex8sri_scope_refresh_leaves_historical_scope_registrations_unchanged()
     hex20_scope_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
     assert set(current["worktrees"]) == set(baseline["worktrees"]) | {
         hex20_scope_id, MODULE.WP12B_HEX20_R2_WORKTREE_ID, MODULE.VV3D_WORKTREE_ID,
+        MODULE.VV3D_R2_WORKTREE_ID,
     }
     for worktree_id, baseline_entry in baseline["worktrees"].items():
         if worktree_id == MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID:
@@ -6037,6 +6042,9 @@ def test_wp12_dynamics_preflight_detects_identity_changes_and_never_reserves(
     change_controller_during_collection: bool,
     mutate_predecessor_during_collection: bool,
 ) -> None:
+    # This synthetic preflight tests provenance transitions, not host free-disk
+    # availability. Keep the environment guard deterministic and side-effect free.
+    monkeypatch.setattr(MODULE.shutil, "disk_usage", lambda _path: SimpleNamespace(free=2 * 1024**3))
     target = WP12_DYNAMICS_PREFLIGHT_NODEID
     source_root = tmp_path / "source" / "src"
     source_root.mkdir(parents=True)
