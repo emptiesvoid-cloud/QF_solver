@@ -138,6 +138,7 @@ def contract(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
             "revision": criteria.CRITERIA_CONTRACT_REVISION,
             "dispositions": criteria.FROZEN_DISPOSITIONS,
             "frozen_case_gate_criteria": criteria.FROZEN_CASE_GATE_CRITERIA,
+            "frozen_nodeids": list(criteria.FIRST6_NODEIDS),
             "case_manifest_registration_sha256_by_nodeid": regs,
         }
         freeze_id = "freeze-synthetic-001"

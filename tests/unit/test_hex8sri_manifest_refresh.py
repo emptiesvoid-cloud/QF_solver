@@ -154,7 +154,7 @@ def _mock_science_identity(monkeypatch: pytest.MonkeyPatch, science_root: Path) 
     monkeypatch.setattr(refresh.controller, "_validate_hex8sri_registered_source_identity", lambda *_args: None)
 
 
-def test_refresh_plan_rebinds_all_24_without_changing_case_physics_or_gates(
+def test_refresh_plan_rebinds_exact_refined_three_without_changing_case_physics_or_gates(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     science_root, source_dir, _ = _synthetic_case_files(tmp_path)
@@ -165,15 +165,16 @@ def test_refresh_plan_rebinds_all_24_without_changing_case_physics_or_gates(
         science_root / "refreshed",
         expected_science_head=SOURCE_HEAD,
         expected_source_fingerprint=SOURCE_FINGERPRINT,
+        nodeids=refresh.REFINED3_NODEIDS,
     )
-    assert plan["manifest_count"] == 24
-    assert len(plan["bindings"]) == 24
+    assert plan["manifest_count"] == 3
+    assert len(plan["bindings"]) == 3
     assert plan["controller_identity_status"] == "PENDING"
     assert plan["source_fingerprint_sha256"] == SOURCE_FINGERPRINT
 
-    target = controller._hex8sri_convergence24_nodeids()[0]
-    old = json.loads((source_dir / "manifest_hex8_standard_nu_0p3_16x8x8.json").read_text(encoding="utf-8"))
-    new = json.loads(plan["payloads"]["manifest_hex8_standard_nu_0p3_16x8x8.json"])
+    target = refresh.REFINED3_NODEIDS[0]
+    old = json.loads((source_dir / "manifest_hex8_standard_nu_0p4999_8x4x4.json").read_text(encoding="utf-8"))
+    new = json.loads(plan["payloads"]["manifest_hex8_standard_nu_0p4999_8x4x4.json"])
     for key in (
         "formulation",
         "material",
@@ -185,7 +186,7 @@ def test_refresh_plan_rebinds_all_24_without_changing_case_physics_or_gates(
         "budgets",
     ):
         assert new[key] == old[key]
-    assert new["criteria_contract"] == refresh.EXPECTED_CRITERIA_CONTRACT_PROPOSAL
+    assert new["criteria_contract"] == refresh.EXPECTED_REFINED3_CRITERIA_CONTRACT_PROPOSAL
     assert new["criteria_status"] == "OWNER_FREEZE_REQUIRED"
     assert new["exact_nodeid"] == target
     assert new["execution_authorized"] is False
@@ -196,8 +197,33 @@ def test_refresh_plan_rebinds_all_24_without_changing_case_physics_or_gates(
     assert new["source_files_sha256"] == {SOURCE_FILE: NEW_HASH}
 
 
+def test_manifest_refresh_refuses_unreviewed_scope_and_wide_meshes(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    science_root, source_dir, _ = _synthetic_case_files(tmp_path)
+    _mock_science_identity(monkeypatch, science_root)
+    with pytest.raises(ValueError, match="exact subset with a reviewed criteria scope"):
+        refresh.build_refresh_plan(
+            science_root,
+            source_dir,
+            science_root / "unreviewed",
+            expected_science_head=SOURCE_HEAD,
+            expected_source_fingerprint=SOURCE_FINGERPRINT,
+            nodeids=(controller._hex8sri_convergence24_nodeids()[0],),
+        )
+    with pytest.raises(ValueError, match="exact subset with a reviewed criteria scope"):
+        refresh.build_refresh_plan(
+            science_root,
+            source_dir,
+            science_root / "wide-mesh",
+            expected_science_head=SOURCE_HEAD,
+            expected_source_fingerprint=SOURCE_FINGERPRINT,
+            nodeids=("tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]",),
+        )
+
+
 def test_criteria_contract_keeps_campaign_gates_not_assessed_until_multimesh_oracle_exists() -> None:
-    dispositions = refresh.EXPECTED_CRITERIA_CONTRACT_PROPOSAL["dispositions"]
+    dispositions = refresh.EXPECTED_REFINED3_CRITERIA_CONTRACT_PROPOSAL["dispositions"]
     assert dispositions["free_residual_relative_max"] == {
         "classification": "CASE_GATE",
         "status": "OWNER_FREEZE_REQUIRED",
@@ -295,9 +321,10 @@ def test_refresh_refuses_fingerprint_or_authorization_drift(tmp_path: Path, monk
             science_root / "wrong-fingerprint",
             expected_science_head=SOURCE_HEAD,
             expected_source_fingerprint="f" * 64,
+            nodeids=refresh.REFINED3_NODEIDS,
         )
 
-    path = source_dir / "manifest_hex8_standard_nu_0p3_16x8x8.json"
+    path = source_dir / "manifest_hex8_standard_nu_0p4999_8x4x4.json"
     manifest = json.loads(path.read_text(encoding="utf-8"))
     manifest["execution_authorized"] = True
     path.write_bytes(_json_bytes(manifest))
@@ -310,6 +337,7 @@ def test_refresh_refuses_fingerprint_or_authorization_drift(tmp_path: Path, monk
             science_root / "authorized-input",
             expected_science_head=SOURCE_HEAD,
             expected_source_fingerprint=SOURCE_FINGERPRINT,
+            nodeids=refresh.REFINED3_NODEIDS,
         )
 
 
@@ -329,7 +357,7 @@ def test_refresh_refuses_physical_drift_in_case_source(
 ) -> None:
     science_root, source_dir, _ = _synthetic_case_files(tmp_path)
     _mock_science_identity(monkeypatch, science_root)
-    path = source_dir / "manifest_hex8_standard_nu_0p3_16x8x8.json"
+    path = source_dir / "manifest_hex8_standard_nu_0p4999_8x4x4.json"
     manifest = json.loads(path.read_text(encoding="utf-8"))
     manifest[field] = replacement
     path.write_bytes(_json_bytes(manifest))
@@ -343,6 +371,7 @@ def test_refresh_refuses_physical_drift_in_case_source(
             science_root / "physical-drift",
             expected_science_head=SOURCE_HEAD,
             expected_source_fingerprint=SOURCE_FINGERPRINT,
+            nodeids=refresh.REFINED3_NODEIDS,
         )
 
 
@@ -371,4 +400,5 @@ def test_refresh_refuses_common_problem_physics_drift(tmp_path: Path, monkeypatc
             science_root / "common-physics-drift",
             expected_science_head=SOURCE_HEAD,
             expected_source_fingerprint=SOURCE_FINGERPRINT,
+            nodeids=refresh.REFINED3_NODEIDS,
         )

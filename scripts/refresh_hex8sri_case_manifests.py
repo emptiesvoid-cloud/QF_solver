@@ -16,12 +16,16 @@ import json
 import os
 from pathlib import Path
 import subprocess
-from typing import Any
+from typing import Any, Sequence
 
 try:
     import development_autonomous as controller
 except ModuleNotFoundError:
     from scripts import development_autonomous as controller
+
+from experiments.hex8_sri_equilibrium import criteria_contract as science_criteria
+
+REFINED3_NODEIDS = science_criteria.REFINED3_NODEIDS
 
 
 CAMPAIGN_RELATIVE = Path("investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24")
@@ -123,7 +127,11 @@ EXPECTED_CASE_ORACLE = {
 }
 
 
-def _criteria_contract_proposal() -> dict[str, Any]:
+def _criteria_contract_proposal(target: str) -> dict[str, Any]:
+    scope = science_criteria._criteria_scope(target)
+    if scope is None:
+        raise ValueError("case nodeid is outside the exact Owner criteria scopes")
+    revision, _scope_nodeids = scope
     dispositions = {}
     for criterion, disposition in controller.HEX8SRI_CRITERIA_DISPOSITIONS.items():
         status = (
@@ -134,12 +142,13 @@ def _criteria_contract_proposal() -> dict[str, Any]:
         dispositions[criterion] = {"classification": disposition["classification"], "status": status}
     return {
         "schema": controller.HEX8SRI_CRITERIA_CONTRACT_SCHEMA,
-        "revision": controller.HEX8SRI_CRITERIA_CONTRACT_REVISION,
+        "revision": revision,
         "dispositions": dispositions,
     }
 
 
-EXPECTED_CRITERIA_CONTRACT_PROPOSAL = _criteria_contract_proposal()
+EXPECTED_FIRST6_CRITERIA_CONTRACT_PROPOSAL = _criteria_contract_proposal(controller.HEX8SRI_FIRST6_NODEIDS[0])
+EXPECTED_REFINED3_CRITERIA_CONTRACT_PROPOSAL = _criteria_contract_proposal(REFINED3_NODEIDS[0])
 
 
 def _sha256(data: bytes) -> str:
@@ -279,17 +288,24 @@ def _read_case_inventory(directory: Path, targets: tuple[str, ...]) -> dict[str,
     except (OSError, ValueError) as exc:
         raise ValueError(f"case inventory or SHA-256 sidecar is unavailable: {exc}") from exc
     bindings = index.get("bindings") if isinstance(index, dict) else None
-    if not isinstance(index, dict) or index.get("schema") != "qfsolver-hex8sri-convergence24-manifest-bindings-v1" or not isinstance(bindings, dict) or set(bindings) != set(targets):
+    registered_targets = tuple(controller._hex8sri_convergence24_nodeids())
+    if (
+        not isinstance(index, dict)
+        or index.get("schema") != "qfsolver-hex8sri-convergence24-manifest-bindings-v1"
+        or not isinstance(bindings, dict)
+        or set(bindings) != set(registered_targets)
+        or not set(targets).issubset(set(registered_targets))
+    ):
         raise ValueError("typed manifest index must enumerate exactly the 24 registered nodeids")
-    expected = {}
-    for nodeid in targets:
+    expected_all = {}
+    for nodeid in registered_targets:
         case = controller._hex8sri_convergence24_case(nodeid)
         if case is None:
             raise ValueError("unregistered case in manifest index")
         case_id = f"{case[0]}_nu_{case[1]}_{case[2]}"
-        expected[nodeid] = f"manifest_{case_id}.json"
+        expected_all[nodeid] = f"manifest_{case_id}.json"
     actual = {p.name for p in directory.glob("manifest_*.json")} - {"manifest_bindings.json"}
-    if actual != set(expected.values()):
+    if actual != set(expected_all.values()):
         raise ValueError("case manifest filenames are missing, extra, or ambiguous")
     checksums = {}
     for line in lines:
@@ -297,13 +313,14 @@ def _read_case_inventory(directory: Path, targets: tuple[str, ...]) -> dict[str,
         if len(parts) != 2 or len(parts[0]) != 64 or any(c not in "0123456789abcdef" for c in parts[0]) or parts[1] in checksums or Path(parts[1]).name != parts[1]:
             raise ValueError("SHA-256 sidecar contains an invalid or duplicate entry")
         checksums[parts[1]] = parts[0]
-    if set(checksums) != set(expected.values()) | {"manifest_bindings.json", "common_problem.json"}:
+    if set(checksums) != set(expected_all.values()) | {"manifest_bindings.json", "common_problem.json"}:
         raise ValueError("SHA-256 sidecar does not enumerate the exact input pieces")
     for name, sha in checksums.items():
         if not (directory / name).is_file() or _sha256((directory / name).read_bytes()) != sha:
             raise ValueError(f"SHA-256 mismatch for input piece: {name}")
     result = {}
-    for nodeid, name in expected.items():
+    for nodeid in targets:
+        name = expected_all[nodeid]
         binding = bindings[nodeid]
         manifest = controller._read_strict_json(directory / name)
         if not isinstance(binding, dict) or not isinstance(manifest, dict) or manifest.get("schema") != "qfsolver-hex8-sri-structural-case-v2" or manifest.get("exact_nodeid") != nodeid or Path(str(binding.get("path", ""))).name != name or binding.get("raw_sha256") != checksums[name] or binding.get("sha256") != _registration_sha256(manifest) or binding.get("case_id") != manifest.get("case_id"):
@@ -319,6 +336,7 @@ def build_refresh_plan(
     *,
     expected_science_head: str,
     expected_source_fingerprint: str,
+    nodeids: Sequence[str],
     provenance: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     science_root = science_root.resolve(strict=True)
@@ -339,7 +357,15 @@ def build_refresh_plan(
     if output_dir.exists():
         raise FileExistsError(f"refusing to overwrite a prior manifest refresh: {output_dir}")
 
-    targets = controller._hex8sri_convergence24_nodeids()
+    registered_targets = controller._hex8sri_convergence24_nodeids()
+    targets = tuple(nodeids)
+    if (
+        not targets
+        or len(targets) != len(set(targets))
+        or not set(targets).issubset(set(registered_targets))
+        or any(science_criteria._criteria_scope(target) is None for target in targets)
+    ):
+        raise ValueError("manifest refresh requires a non-empty exact subset with a reviewed criteria scope")
     old_by_target = _read_case_inventory(source_manifest_dir, targets)
 
     source_hashes_by_target: dict[str, dict[str, str]] = {}
@@ -458,7 +484,7 @@ def build_refresh_plan(
             preflight_status=PREPARATION_STATUS,
             common_problem={"path": "common_problem.json", "sha256": common_sha256},
             criteria_status="OWNER_FREEZE_REQUIRED",
-            criteria_contract=EXPECTED_CRITERIA_CONTRACT_PROPOSAL,
+            criteria_contract=_criteria_contract_proposal(target),
             frozen_criteria=None,
             **provenance_fields,
         )
@@ -526,6 +552,12 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, default=CAMPAIGN_RELATIVE / REFRESH_DIRNAME)
     parser.add_argument("--science-head", required=True)
     parser.add_argument("--source-fingerprint", required=True)
+    parser.add_argument(
+        "--nodeid",
+        action="append",
+        required=True,
+        help="one exact registered nodeid in an Owner-reviewed criteria scope; repeat only for the closed set",
+    )
     parser.add_argument("--plan-only", action="store_true")
     args = parser.parse_args()
     science_root = args.science_root.resolve(strict=True)
@@ -546,6 +578,7 @@ def main() -> int:
         output_dir,
         expected_science_head=args.science_head,
         expected_source_fingerprint=args.source_fingerprint,
+        nodeids=args.nodeid,
         provenance=provenance,
     )
     if not args.plan_only:
