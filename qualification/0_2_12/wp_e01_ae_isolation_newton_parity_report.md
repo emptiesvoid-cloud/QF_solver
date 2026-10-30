@@ -103,7 +103,7 @@ Ces contrôles sont statiques/simulés. Ils ne prouvent pas les ACL, les montage
 
 ## Revue indépendante
 
-Revue read-only distincte par `/root/wp_e01x_review`, sans fichier modifié ni calcul lancé. **P0: aucun. P1: blocages d’isolation et de câblage.** Les chemins guest du `.wsb` ne correspondent pas aux racines codées en dur du worker/superviseur AD; aucun runtime ni bootstrap ne permet de lancer le worker exact. L’isolation effective, les ACL, le Job readback et le nettoyage ne sont pas runtime-vérifiés; la sortie hôte est persistante. **P2 fermé par correction statique :** le worker utilise 14 réductions maximum, correspondant au défaut du contrôleur robuste AB; Newton est à 30. La revue confirme que ces contrôles restent statiques et ne prouvent pas un calcul physique.
+Revue read-only distincte par `<reviewer-workspace>`, sans fichier modifié ni calcul lancé. **P0: aucun. P1: blocages d’isolation et de câblage.** Les chemins guest du `.wsb` ne correspondent pas aux racines codées en dur du worker/superviseur AD; aucun runtime ni bootstrap ne permet de lancer le worker exact. L’isolation effective, les ACL, le Job readback et le nettoyage ne sont pas runtime-vérifiés; la sortie hôte est persistante. **P2 fermé par correction statique :** le worker utilise 14 réductions maximum, correspondant au défaut du contrôleur robuste AB; Newton est à 30. La revue confirme que ces contrôles restent statiques et ne prouvent pas un calcul physique.
 
 ## Empreintes
 

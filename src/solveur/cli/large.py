@@ -43,7 +43,7 @@ def command_convert_model(args: argparse.Namespace) -> int:
 def command_inspect_large(args: argparse.Namespace) -> int:
     model = load_large_model(args.input)
     audit = inspect_large_model(model)
-    save_result(audit, args.output)
+    save_result(audit, args.output, overwrite=getattr(args, "overwrite", False))
     print(f"INSPECT LARGE STATUS: {audit.status}")
     print(f"output: {args.output}")
     return int(ExitCode.INPUT_OR_MESH if audit.status == "FAIL" else ExitCode.ACCEPTED)

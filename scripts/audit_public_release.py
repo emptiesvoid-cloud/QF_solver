@@ -90,6 +90,7 @@ def _patterns() -> dict[str, re.Pattern[str]]:
     internal_worker = "a" + "gent"
     private_environment = "." + assistant_product
     legacy_brand = "saf" + "ran"
+    legacy_aerospace_brand = "snec" + "ma"
     return {
         "workstation_path": re.compile(r"(?i)(?:[a-z]:[\\/]+users[\\/]+|\\\\users\\\\|/(?:home|users)/)"),
         "private_environment": re.compile(rf"(?i)(?:appdata|{re.escape(private_environment)})"),
@@ -97,7 +98,7 @@ def _patterns() -> dict[str, re.Pattern[str]]:
             rf"(?i)\b(?:{assistant_product}|{conversational_product}|{ai_provider}|"
             rf"{internal_worker}ique|mode {internal_worker}|coding {internal_worker})\b"
         ),
-        "legacy_brand": re.compile(rf"(?i)\b{legacy_brand}\b"),
+        "legacy_brand": re.compile(rf"(?i)\b(?:{legacy_brand}|{legacy_aerospace_brand})\b"),
         "private_email": re.compile(
             r"(?i)\b(?![^@\s]*@users\.noreply\.github\.com\b)"
             r"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b"

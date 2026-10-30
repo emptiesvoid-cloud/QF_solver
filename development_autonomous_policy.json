@@ -117,8 +117,8 @@
     "e01": {
       "purpose": "WP-E01 constitutive mathematics only; element assembly and FEM runs excluded",
       "mode": "math_non_fem",
-      "root": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\tmp\\qf-v0.2.12-integration",
-      "git_root": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\tmp\\qf-v0.2.12-integration",
+      "root": ".",
+      "git_root": ".",
       "branch": "codex/v0.2.12-integration",
       "baseline_commit": "ae429934edc8a18d3febaf85d9b14b21d548eefe",
       "source_root": "src",
@@ -151,6 +151,1801 @@
         "tests/unit/test_wp_e01q_hencky_tangent.py::test_material_response_still_does_not_claim_a_verified_tangent",
         "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_action_is_read_only_and_does_not_change_response"
       ]
+    },
+    "wp12_wp07": {
+      "purpose": "WP12 WP07 reduced-harmonic serialization reproduction and regression",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\wp07",
+      "git_root": "E:\\QFSolverAgents\\wp07",
+      "branch": "fix/wp12-wp07-serialization",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp07",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 10,
+      "max_total_attempts": 10,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": null,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-WP07-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 10
+      },
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [],
+      "nodeid_registration_records": []
+    },
+    "wp12_tet4": {
+      "purpose": "WP12 TET4 mesh quality, convergence and TET10/HEX8 comparison",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\tet4",
+      "git_root": "E:\\QFSolverAgents\\tet4",
+      "branch": "experiment/wp12-tet4-convergence",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\tet4",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 12,
+      "max_total_attempts": 12,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 50000,
+      "max_timeout_seconds": 900,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-TET4-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 12
+      },
+      "budgets": {
+        "timeout_seconds": 900,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_1",
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_2",
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_4",
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_8",
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet10_family_comparison_factor_4",
+        "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_hex8_family_comparison_factor_4"
+      ],
+      "nodeid_registration_records": [
+        {
+          "reason": "Factor 1 begins the nested TET4 convergence sequence with one direct static case.",
+          "registered_at_utc": "2026-10-26T18:23:20.090579+00:00",
+          "selected_dofs": 72,
+          "selection_basis": "24 nodes x 3 solid translations = 72 total DDL; 5x1x1 cells and 30 TET4; root x=0 fixed.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_1",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        },
+        {
+          "reason": "Factor 2 measures the next nested, quality-controlled TET4 refinement level.",
+          "registered_at_utc": "2026-10-26T18:23:21.393474+00:00",
+          "selected_dofs": 297,
+          "selection_basis": "99 nodes x 3 solid translations = 297 total DDL; 10x2x2 cells and 240 TET4; root x=0 fixed.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_2",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        },
+        {
+          "reason": "Factor 4 continues nested TET4 convergence and is reused as the family-comparison baseline.",
+          "registered_at_utc": "2026-10-26T18:23:22.693566+00:00",
+          "selected_dofs": 1575,
+          "selection_basis": "525 nodes x 3 solid translations = 1575 total DDL; 20x4x4 cells and 1920 TET4; root x=0 fixed.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_4",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        },
+        {
+          "reason": "Factor 8 is the finest nested TET4 level within the 50000 DDL envelope.",
+          "registered_at_utc": "2026-10-26T18:23:24.084539+00:00",
+          "selected_dofs": 9963,
+          "selection_basis": "3321 nodes x 3 solid translations = 9963 total DDL; 40x8x8 cells and 15360 TET4; direct sparse route.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_8",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        },
+        {
+          "reason": "Compare quadratic TET10 to the same-geometry factor-4 TET4 baseline under identical mechanics.",
+          "registered_at_utc": "2026-10-26T18:23:25.535565+00:00",
+          "selected_dofs": 9963,
+          "selection_basis": "3321 nodes x 3 solid translations = 9963 total DDL; 20x4x4 cells and 1920 TET10; direct sparse route.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet10_family_comparison_factor_4",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        },
+        {
+          "reason": "Compare regular HEX8 to the same-geometry factor-4 TET4 baseline under identical mechanics.",
+          "registered_at_utc": "2026-10-26T18:23:26.890257+00:00",
+          "selected_dofs": 1575,
+          "selection_basis": "525 nodes x 3 solid translations = 1575 total DDL; 20x4x4 cells and 320 HEX8; root x=0 fixed.",
+          "source_fingerprint": "eb29d0c88cd5be1fb238b8472b1bf3b970f5aa2a743ecc8fca7a6a44e54b87df",
+          "target": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_hex8_family_comparison_factor_4",
+          "timeout_reason": null,
+          "timeout_seconds": 900,
+          "worktree_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e"
+        }
+      ]
+    },
+    "wp12_elements": {
+      "purpose": "WP12 HEX8-SRI, element FEM and cross-element regressions",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\vv-elements",
+      "git_root": "E:\\QFSolverAgents\\vv-elements",
+      "branch": "test/wp12-fem-regressions",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\vv-elements",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 20,
+      "max_total_attempts": 20,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 30000,
+      "max_timeout_seconds": 900,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ELEMENTS-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 20
+      },
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
+        "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4"
+      ],
+      "nodeid_registration_records": [
+        {
+          "reason": "Reproduce the frozen near-incompressible HEX8-SRI force and moment residuals with raw system evidence.",
+          "registered_at_utc": "2026-10-26T18:46:55.625885+00:00",
+          "selected_dofs": 459,
+          "selection_basis": "Regular HEX8-SRI cantilever nx=16, ny=nz=2: 27*(nx+1)=459 total DDL before x=0 supports; 432 free DDL.",
+          "source_fingerprint": "12a935bd4e926eb53d31372e93f1c9d5f991a3900c8b2bac2d74103ee7401104",
+          "target": "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_incompressible_nu04999_nx16",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "fa889f480766506787941617fa0db4124381c63b"
+        },
+        {
+          "reason": "Reproduce the frozen near-degenerate HEX8-SRI energy, force and moment residuals with raw system evidence.",
+          "registered_at_utc": "2026-10-26T18:47:00.568598+00:00",
+          "selected_dofs": 135,
+          "selection_basis": "Near-degenerate-valid HEX8-SRI cantilever nx=4, ny=nz=2: 27*(nx+1)=135 total DDL before x=0 supports; 108 free DDL.",
+          "source_fingerprint": "12a935bd4e926eb53d31372e93f1c9d5f991a3900c8b2bac2d74103ee7401104",
+          "target": "tests/verification/test_wp12_hex8_sri_diagnostics.py::test_wp12_hex8_sri_near_degenerate_nu0495_nx4",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "fa889f480766506787941617fa0db4124381c63b"
+        }
+      ]
+    },
+    "wp12_elements_loads": {
+      "purpose": "WP12-B BEAM2 rotated line load, curved TET10 pressure and HEX20 affine traction cases",
+      "mode": "fem_exploratory",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "branch": "verify/wp12-elements-loads",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-elements-loads",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 3,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 30000,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 3
+      },
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "output_stream_limit_mib": 32,
+        "output_total_limit_mib": 64,
+        "process_tree_limit": 16,
+        "rss_soft_limit_mib": 4096,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 300
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+        "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+        "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch"
+      ],
+      "nodeid_registration_records": [
+        {
+          "reason": "Register the reviewed rotated BEAM2 line-load continuity case on its exact scientific branch.",
+          "registered_at_utc": "2026-10-26T21:34:57.660424+00:00",
+          "selected_dofs": 12,
+          "selection_basis": "One BEAM2 has two six-DOF nodes; the clamped root fixes six DDL and the tip retains six free DDL.",
+          "source_fingerprint": "d7eeaa57fac7b124eeeb34d6886420fa4dc0a2f6dd588e3c4df440d00c673896",
+          "target": "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "8818b1b4095bd7f5c1303d640375c2c577bdc4d8"
+        },
+        {
+          "reason": "Register the reviewed curved TET10 pressure solve with independent face resultant and moment quadrature.",
+          "registered_at_utc": "2026-10-26T21:35:02.942755+00:00",
+          "selected_dofs": 30,
+          "selection_basis": "One TET10 has 10 nodes times 3 translational DDL; six support-face nodes fix 18 DDL, leaving 12 free.",
+          "source_fingerprint": "53b10b6ffb8bead69f5c31e4529c542eefd3a97d23dbbf763d0851846903e953",
+          "target": "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "8818b1b4095bd7f5c1303d640375c2c577bdc4d8"
+        },
+        {
+          "reason": "Register the reviewed HEX20 affine traction patch with exact Hooke field and work-energy checks.",
+          "registered_at_utc": "2026-10-26T21:35:04.227992+00:00",
+          "selected_dofs": 60,
+          "selection_basis": "One HEX20 has 20 nodes times 3 translational DDL; the eight-node x=0 face fixes 24, leaving 36 free.",
+          "source_fingerprint": "eb43367d0c044afb20df5693715a056c8ced622ead545b799dcb6d9e19ce3d77",
+          "target": "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "8818b1b4095bd7f5c1303d640375c2c577bdc4d8"
+        }
+      ]
+    },
+    "wp12_elements_loads_corrective": {
+      "purpose": "WP12-B corrective campaign after preserved scope-identity guard refusals; execution identity remains wp12_elements_loads",
+      "mode": "fem_exploratory",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "branch": "emptiesvoids-cloud/fix-wp12b-scope-identity-guard",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-elements-loads-corrective-r1",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 3,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 30000,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-CORRECTIVE-2026-10-26-R1",
+      "require_clean_worktree": true,
+      "execution_scope_id": "wp12_elements_loads",
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 3
+      },
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+        "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+        "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch"
+      ],
+      "nodeid_registration_records": [
+        {
+          "target": "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+          "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26",
+          "reason": "Corrective source revision after the archived scope identity guard refusal; no test execution is authorized.",
+          "registered_at_utc": "2026-10-26T22:21:35.969657+00:00",
+          "worktree_head": "2db9c9b54283a6c78953fbcede427527101ec8cf",
+          "source_fingerprint": "f55021a05cca3cde5014584d7236823a0936df2e6eca97887c910d99468be107",
+          "selected_dofs": 12,
+          "selection_basis": "One BEAM2 has 12 total DDL across two six-DOF nodes; six root constraints leave six tip DDL.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+          "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26",
+          "reason": "Corrective source revision after the archived scope identity guard refusal; no test execution is authorized.",
+          "registered_at_utc": "2026-10-26T22:21:37.194069+00:00",
+          "worktree_head": "2db9c9b54283a6c78953fbcede427527101ec8cf",
+          "source_fingerprint": "cb601689e3e34227f4403ddb4108962d312fd0300a49c597775ee6c3eaf322bb",
+          "selected_dofs": 30,
+          "selection_basis": "One TET10 has 30 translational DDL; six support-face nodes constrain 18, leaving 12 free DDL.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch",
+          "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26",
+          "reason": "Corrective source revision after the archived scope identity guard refusal; no test execution is authorized.",
+          "registered_at_utc": "2026-10-26T22:21:38.379125+00:00",
+          "worktree_head": "2db9c9b54283a6c78953fbcede427527101ec8cf",
+          "source_fingerprint": "34709c5f7485a55cf9debc3952927a02639cf9c57ea4a945d19829945448962e",
+          "selected_dofs": 60,
+          "selection_basis": "One HEX20 has 60 translational DDL; eight supported face nodes constrain 24, leaving 36 free DDL.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        }
+      ],
+      "campaign_id": "WP12B-CORRECTIVE-R1-2026-10-26"
+    },
+    "wp12_dynamics": {
+      "purpose": "WP12 WP04-WP07 modal projection, reduced harmonic, Newmark and base-acceleration checks",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\wp12-dynamics",
+      "git_root": "E:\\QFSolverAgents\\wp12-dynamics",
+      "branch": "codex/wp12-dynamic-harmonic-verification",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\dynamics",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 10,
+      "max_total_attempts": 130,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": null,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
+      "node_attempt_ledger": {
+        "path": "node-attempt-ledger-wp12-dynamics-v2.json",
+        "predecessor": {
+          "path": "node-attempt-ledger.json",
+          "sha256": "20670ceedfe1cc969ce614df13b8bd94b108f43e2e2892cf1601a8607a3dad37",
+          "mandate_id": "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v1"
+        }
+      },
+      "require_clean_worktree": true,
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 18
+      },
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "output_stream_limit_mib": 32,
+        "output_total_limit_mib": 64,
+        "process_tree_limit": 16,
+        "rss_soft_limit_mib": 4096,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 300
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+        "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+        "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+        "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+        "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase",
+        "tests/unit/test_reduced_harmonic.py::test_coupled_two_dof_complex_response_uses_full_projected_operators",
+        "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_detects_exact_and_near_resonance_before_solving",
+        "tests/unit/test_reduced_harmonic.py::test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz",
+        "tests/unit/test_modal_newmark.py::test_sdof_free_undamped_matches_analytic_solution_and_initial_projection",
+        "tests/unit/test_modal_newmark.py::test_sdof_free_damped_matches_under_damped_analytic_solution",
+        "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+        "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
+        "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata",
+        "tests/unit/test_modal_basis_damping.py::test_degenerate_subspace_rotation_and_sign_are_equivalent_and_residual_safe",
+        "tests/unit/test_modal_basis_damping.py::test_rayleigh_projection_and_modal_damping_provenance_and_cluster_guard",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+        "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase",
+        "tests/unit/test_prepared_dynamic_system.py::test_prepared_system_assembles_once_and_excitation_does_not_invalidate_operators"
+      ],
+      "nodeid_registration_records": [
+        {
+          "reason": "Approved dynamics experimental node; exact 300-second development envelope.",
+          "registered_at_utc": "2026-10-26T17:48:39.436939+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the BEAM2 SDOF Newmark fixture",
+          "source_fingerprint": "63e2972018db9bd4f8fc50947504da886e2de29ee4494c3c78422f5ec5c1536d",
+          "target": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:48:59.287210+00:00",
+          "selected_dofs": 3,
+          "selection_basis": "Three free translational DDL in the bounded single-TET4 harmonic fixture",
+          "source_fingerprint": "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
+          "target": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:00.651959+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the axial BEAM2 base-acceleration fixture",
+          "source_fingerprint": "6db5b4597252082012fa38b1ed5cba02190562746556d5eabd1f74a256e0f8da",
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:02.005214+00:00",
+          "selected_dofs": 2,
+          "selection_basis": "Two DDL in the analytical coupled generalized eigenproblem",
+          "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+          "target": "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:03.341614+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One scalar generalized coordinate in the analytical impedance oracle",
+          "source_fingerprint": "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
+          "target": "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:04.730565+00:00",
+          "selected_dofs": 2,
+          "selection_basis": "Two projected coordinates in the complex impedance check",
+          "source_fingerprint": "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
+          "target": "tests/unit/test_reduced_harmonic.py::test_coupled_two_dof_complex_response_uses_full_projected_operators",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:16.729347+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One scalar generalized coordinate in the resonance conditioning check",
+          "source_fingerprint": "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
+          "target": "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_detects_exact_and_near_resonance_before_solving",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:18.144665+00:00",
+          "selected_dofs": 3,
+          "selection_basis": "Three free translational DDL in the bounded single-TET4 route comparison",
+          "source_fingerprint": "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
+          "target": "tests/unit/test_reduced_harmonic.py::test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:19.581389+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the BEAM2 SDOF Newmark fixture",
+          "source_fingerprint": "63e2972018db9bd4f8fc50947504da886e2de29ee4494c3c78422f5ec5c1536d",
+          "target": "tests/unit/test_modal_newmark.py::test_sdof_free_undamped_matches_analytic_solution_and_initial_projection",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:21.074382+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the damped BEAM2 SDOF fixture",
+          "source_fingerprint": "63e2972018db9bd4f8fc50947504da886e2de29ee4494c3c78422f5ec5c1536d",
+          "target": "tests/unit/test_modal_newmark.py::test_sdof_free_damped_matches_under_damped_analytic_solution",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:22.635981+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the harmonic BEAM2 base-acceleration fixture",
+          "source_fingerprint": "6db5b4597252082012fa38b1ed5cba02190562746556d5eabd1f74a256e0f8da",
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:24.119471+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the transient BEAM2 base-acceleration fixture",
+          "source_fingerprint": "6db5b4597252082012fa38b1ed5cba02190562746556d5eabd1f74a256e0f8da",
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:25.628459+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "Serialization-only node; 1 is schema minimum, no solver assembly or FEM DDL selected",
+          "source_fingerprint": "202d9cefb4fd3f997ff2f47962c686397f4883930c69d242f79a9c0be54afe58",
+          "target": "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Record the source-bound Newmark revision at dynamics HEAD ed24d6 while preserving the prior registration history.",
+          "registered_at_utc": "2026-10-26T19:11:39.971548+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the BEAM2 SDOF Newmark fixture",
+          "source_fingerprint": "0174c88cd3aa03529c0e6fd6d6ab2e7ef728586ecd2e71f27330c42ffda5811d",
+          "target": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "ed24d6b00d95e339b288a8ec8fa0edf16149be5a"
+        },
+        {
+          "reason": "Refresh source-bound node registration at science HEAD 1f609e5; preserve earlier Newmark revisions.",
+          "registered_at_utc": "2026-10-26T19:38:39.867710+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "source_fingerprint": "6d50810fee371a96f4ea240bd767000924cc80e9d1173a04e0db5f9dd3392438",
+          "target": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "1f609e52fe7838a8e2c61684a2658429fac00a5e"
+        },
+        {
+          "reason": "Register the source-bound harmonic sweep revision at science HEAD 1f609e5; keep prior record.",
+          "registered_at_utc": "2026-10-26T19:38:44.424957+00:00",
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 has 12 translational DDL; nodes 0, 2, and 3 are fixed in UX/UY/UZ, leaving node 1 UX/UY/UZ free.",
+          "source_fingerprint": "b203b2fd8cf786e86c1a33b65a1160268a763b7ec0d895d07e6826ef915d7c94",
+          "target": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "1f609e52fe7838a8e2c61684a2658429fac00a5e"
+        },
+        {
+          "reason": "Register the source-bound base acceleration sweep revision at science HEAD 1f609e5; preserve prior record.",
+          "registered_at_utc": "2026-10-26T19:38:48.702670+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "source_fingerprint": "04461145a495ff3f3aebfe573ad3d8859befb7ec9a99bd7d54dd6cf486ae4d56",
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "1f609e52fe7838a8e2c61684a2658429fac00a5e"
+        },
+        {
+          "reason": "Register the corrected archival revision at science HEAD d9deddb; preserve Newmark history.",
+          "registered_at_utc": "2026-10-26T20:27:59.359683+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "source_fingerprint": "65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8",
+          "target": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "d9deddbd6b42467c5fdc9e278bd54e97605f5738"
+        },
+        {
+          "reason": "Register the corrected archival revision at science HEAD d9deddb; preserve harmonic history.",
+          "registered_at_utc": "2026-10-26T20:28:03.748434+00:00",
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 has 12 translational DDL; nodes 0, 2, and 3 are fixed in UX/UY/UZ, leaving node 1 UX/UY/UZ free.",
+          "source_fingerprint": "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+          "target": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "d9deddbd6b42467c5fdc9e278bd54e97605f5738"
+        },
+        {
+          "reason": "Register the corrected archival revision at science HEAD d9deddb; preserve base-motion history.",
+          "registered_at_utc": "2026-10-26T20:28:07.952669+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "source_fingerprint": "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "d9deddbd6b42467c5fdc9e278bd54e97605f5738"
+        },
+        {
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+          "reason": "Owner-approved prospective registration after archive-helper changes; preserve historical WP07 registration and FAIL.",
+          "registered_at_utc": "2026-10-27T19:47:41.512928+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the harmonic BEAM2 base-acceleration fixture.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:27:54.856801+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:27:56.909214+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 has 12 translational DDL; nodes 0, 2, and 3 are fixed in UX/UY/UZ, leaving node 1 UX/UY/UZ free.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:27:58.970956+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:00.896555+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 2,
+          "selection_basis": "Two DDL in the analytical coupled generalized eigenproblem",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:02.975104+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One scalar generalized coordinate in the analytical impedance oracle",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_coupled_two_dof_complex_response_uses_full_projected_operators",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:05.067767+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 2,
+          "selection_basis": "Two projected coordinates in the complex impedance check",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_detects_exact_and_near_resonance_before_solving",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:07.160709+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One scalar generalized coordinate in the resonance conditioning check",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:09.286875+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Three free translational DDL in the bounded single-TET4 route comparison",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_newmark.py::test_sdof_free_undamped_matches_analytic_solution_and_initial_projection",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:11.336381+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the BEAM2 SDOF Newmark fixture",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_newmark.py::test_sdof_free_damped_matches_under_damped_analytic_solution",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:13.378978+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the damped BEAM2 SDOF fixture",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:15.466515+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the harmonic BEAM2 base-acceleration fixture.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:17.588998+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the transient BEAM2 base-acceleration fixture",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata",
+          "reason": "Refresh append-only test-source dependency inventory for PR #49/#50 provenance enforcement; preserve existing DDL and 300 s budget.",
+          "registered_at_utc": "2026-10-28T07:28:19.243732+00:00",
+          "worktree_head": "630d22b7667a0d84dd7b136b9f8c7d89ae00fc66",
+          "source_fingerprint": "202d9cefb4fd3f997ff2f47962c686397f4883930c69d242f79a9c0be54afe58",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "Serialization-only node; 1 is schema minimum, no solver assembly or FEM DDL selected",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+          "reason": "Refresh source identity after the owner-authorized sidecar path fix; scientific criteria and selected DDL are unchanged.",
+          "registered_at_utc": "2026-10-28T12:49:11.233838+00:00",
+          "worktree_head": "5f96dd604fe40279ead0186f49be77e7a0bbeac1",
+          "source_fingerprint": "d4743785db99a79181281429827d0de688e5eae94e9ad285491040aaa75c7a8e",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+          "reason": "Refresh source identity after the owner-authorized sidecar path fix; scientific criteria and selected DDL are unchanged.",
+          "registered_at_utc": "2026-10-28T12:49:13.640389+00:00",
+          "worktree_head": "5f96dd604fe40279ead0186f49be77e7a0bbeac1",
+          "source_fingerprint": "3a8c1324d0563214911e8f9abca87c09ddf98907d5d8ab01c822640c82baa4fe",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 has 12 translational DDL; nodes 0, 2, and 3 are fixed in UX/UY/UZ, leaving node 1 UX/UY/UZ free.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+          "reason": "Refresh source identity after the owner-authorized sidecar path fix; scientific criteria and selected DDL are unchanged.",
+          "registered_at_utc": "2026-10-28T12:49:16.114760+00:00",
+          "worktree_head": "5f96dd604fe40279ead0186f49be77e7a0bbeac1",
+          "source_fingerprint": "f16bbeea012b8c86924215156b1ffbac23d2248d0b0194067bcd9af36a3c3909",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+          "reason": "Prospective registration of inspected complex harmonic observability instrumentation; preserve scientific assertions and existing budgets.",
+          "registered_at_utc": "2026-10-28T14:39:35.458377+00:00",
+          "worktree_head": "bf88803a8464a805e953013a2593fb06e6ea4659",
+          "source_fingerprint": "dea993f995b07804b5ca9baf9cccb84615bc14313ccac7934694ca24d3f5e995",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 has 12 translational DDL; nodes 0, 2, and 3 are fixed in UX/UY/UZ, leaving node 1 UX/UY/UZ free.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+          "reason": "Prospective registration of inspected base-motion reference observability; preserve existing scientific criteria and resource budget.",
+          "registered_at_utc": "2026-10-28T15:48:33.422938+00:00",
+          "worktree_head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "source_fingerprint": "a7dcb27d51a4b4a99bbf288258581c21f4cffc3e5f899de91de9b3e68d53c6fc",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_basis_damping.py::test_degenerate_subspace_rotation_and_sign_are_equivalent_and_residual_safe",
+          "reason": "Inspect degenerate modal subspace rotations and sign invariance with residual checks.",
+          "registered_at_utc": "2026-10-29T06:07:58.177179+00:00",
+          "worktree_head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Three modal coordinates in a fixed 3x3 synthetic eigensystem; no mesh assembly beyond the existing unit fixture.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_basis_damping.py::test_rayleigh_projection_and_modal_damping_provenance_and_cluster_guard",
+          "reason": "Check Rayleigh damping projection provenance and modal cluster guard.",
+          "registered_at_utc": "2026-10-29T06:07:59.778177+00:00",
+          "worktree_head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 fixture: 12 total translational DDL, 3 free DDL selected by the existing test.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+          "reason": "Check direct transient SDOF against the closed form and energy assertions.",
+          "registered_at_utc": "2026-10-29T06:08:01.238396+00:00",
+          "worktree_head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "source_fingerprint": "f314c4d8011f9b9b815ee92ddc04d4386798a5a104bed528122649b2067efec1",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6",
+            "tests/unit/test_mesh_validation.py": "0c6cd80e6625102ac036d0c822ff1fad6c6be6b90487abe6de9a3ee465a34e65"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "Single TET4 fixture: 12 total translational DDL, one free dynamic coordinate.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase",
+          "reason": "Check direct harmonic SDOF amplitude, phase, DC and damped response.",
+          "registered_at_utc": "2026-10-29T06:08:02.830800+00:00",
+          "worktree_head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "source_fingerprint": "f314c4d8011f9b9b815ee92ddc04d4386798a5a104bed528122649b2067efec1",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6",
+            "tests/unit/test_mesh_validation.py": "0c6cd80e6625102ac036d0c822ff1fad6c6be6b90487abe6de9a3ee465a34e65"
+          },
+          "selected_dofs": 1,
+          "selection_basis": "Single TET4 fixture: 12 total translational DDL, one free dynamic coordinate.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_prepared_dynamic_system.py::test_prepared_system_assembles_once_and_excitation_does_not_invalidate_operators",
+          "reason": "Check prepared operators are assembled once and excitation preserves them.",
+          "registered_at_utc": "2026-10-29T06:08:04.295624+00:00",
+          "worktree_head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "source_fingerprint": "2604e9d0d837a9860f70210be2fc96da1d124cb063d896884dc9033b96a30f23",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6"
+          },
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 fixture: 12 total translational DDL, 3 free coordinates in the existing test.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        }
+      ]
+    },
+    "rotor": {
+      "purpose": "WP12 inherited rotordynamics sentinels; registration and manifest preparation only until separate Owner decisions",
+      "mode": "fem_exploratory",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\wp12-rotor-performance\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\wp12-rotor-performance\\qf_solver",
+      "branch": "verify/wp12-rotor-performance",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\rotor",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 8,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 12,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ROTOR-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 8
+      },
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_rotating_modal_cases.py::test_gyro01_zero_speed_matches_modal_frequencies_multiplicity_and_subspaces",
+        "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_unit_speed_gyro_blocks_match_contract",
+        "tests/unit/test_rotating_disk_gyro.py::test_assembled_gyro_uses_same_global_dof_map_and_has_zero_quadratic_work",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-100.0]",
+        "tests/unit/test_modal_tracking.py::test_competing_source_modes_make_the_global_assignment_ambiguous",
+        "tests/unit/test_campbell.py::test_campbell_sweep_reuses_one_model_and_serializes_complex_source_results",
+        "tests/unit/test_campbell.py::test_campbell_is_exposed_through_model_schema_and_analysis_router"
+      ],
+      "nodeid_registration_records": [
+        {
+          "target": "tests/unit/test_rotating_modal_cases.py::test_gyro01_zero_speed_matches_modal_frequencies_multiplicity_and_subspaces",
+          "reason": "Zero-speed rotating modal recovery against the classical modal route on the exact six-free-DOF BEAM2 sentinel.",
+          "registered_at_utc": "2026-10-26T21:43:56.577381+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "0106cc0d24fc11e053dacadb7beaca301c914a19ef0e350713501e1f5e20ef38",
+          "selected_dofs": 6,
+          "selection_basis": "BEAM2 two-node cantilever; node 0 fixed in all six DOF; node 1 supplies six free DOF to modal and rotating QEP routes.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_unit_speed_gyro_blocks_match_contract",
+          "reason": "Check the exact rigid-disk mass and unit-speed gyroscopic blocks against their frozen matrix contract.",
+          "registered_at_utc": "2026-10-26T21:43:57.889250+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "c60a2f4e8aea833c97a5dddf9615579b9e0acb4854645fa4614b6a33c2656faa",
+          "selected_dofs": 6,
+          "selection_basis": "One six-DOF rigid disk block; local translational and rotational matrix entries only.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_disk_gyro.py::test_assembled_gyro_uses_same_global_dof_map_and_has_zero_quadratic_work",
+          "reason": "Check discrete gyro placement in the two-node global DOF map and skew-work invariant without an eigensolve.",
+          "registered_at_utc": "2026-10-26T21:43:59.173395+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "c60a2f4e8aea833c97a5dddf9615579b9e0acb4854645fa4614b6a33c2656faa",
+          "selected_dofs": 12,
+          "selection_basis": "Two-node six-DOF DofManager gives twelve global DOF; only the discrete gyroscopic block is assembled.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]",
+          "reason": "Positive-spin GYRO-03 analytic disk oracle and dense two-DOF QEP residual sentinel.",
+          "registered_at_utc": "2026-10-26T21:44:00.462411+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "06db584735b94e945921ff771bf984a3e8e2994806bd262fbed38aa5f66cb74b",
+          "selected_dofs": 2,
+          "selection_basis": "Two rotational DOF RY/RZ in the analytic disk QEP; dense companion pencil dimension is four.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-100.0]",
+          "reason": "Negative-spin GYRO-03 analytic disk oracle and dense two-DOF QEP residual sentinel.",
+          "registered_at_utc": "2026-10-26T21:44:01.792082+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "06db584735b94e945921ff771bf984a3e8e2994806bd262fbed38aa5f66cb74b",
+          "selected_dofs": 2,
+          "selection_basis": "Two rotational DOF RY/RZ in the analytic disk QEP; dense companion pencil dimension is four.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_modal_tracking.py::test_competing_source_modes_make_the_global_assignment_ambiguous",
+          "reason": "Check explicit ambiguous global modal assignment from two supplied source modes, without computing eigenpairs.",
+          "registered_at_utc": "2026-10-26T21:44:03.136100+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "4e8545167a87acd12237f84e43c5510e55b70721f079e363ef4a69a633df7cde",
+          "selected_dofs": 2,
+          "selection_basis": "Two supplied synthetic modal vectors; tracking operates on a two-dimensional mass metric.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_campbell.py::test_campbell_sweep_reuses_one_model_and_serializes_complex_source_results",
+          "reason": "Check the exact three-speed BEAM2 Campbell sweep, invariant operators, and complex result serialization.",
+          "registered_at_utc": "2026-10-26T21:44:04.483873+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "bcbc090a428fc5bdd21ebb269264880fd8d882e197947be1ab76b4832af99488",
+          "selected_dofs": 6,
+          "selection_basis": "BEAM2 cantilever with six free DOF at node 1; explicit Campbell speeds 0, 10, and 25 rad/s.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_campbell.py::test_campbell_is_exposed_through_model_schema_and_analysis_router",
+          "reason": "Check Campbell schema and AnalysisRouter exposure on the exact two-speed BEAM2 sentinel.",
+          "registered_at_utc": "2026-10-26T21:44:05.921707+00:00",
+          "worktree_head": "4adc0c220369b7b8f257f604ca2bb9e89d12c1c3",
+          "source_fingerprint": "bcbc090a428fc5bdd21ebb269264880fd8d882e197947be1ab76b4832af99488",
+          "selected_dofs": 6,
+          "selection_basis": "BEAM2 cantilever with six free DOF at node 1; explicit Campbell speeds 0 and 5 rad/s.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        }
+      ]
+    },
+    "wp12_hex20_affine_diagnostic": {
+      "purpose": "WP12-B prospective HEX20 affine residual diagnostic; collect-only preflight and separate Owner decision required before execution",
+      "mode": "fem_exploratory",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\wp12b-hex20-r4-restore\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\wp12b-hex20-r4-restore\\qf_solver",
+      "branch": "emptiesvoids-cloud/wp12b-hex20-r4-assertions",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12b-hex20-affine-diagnostic-consolidated",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 1,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 60,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTIC-2026-10-27-R1",
+      "require_clean_worktree": true,
+      "execution_scope_id": "wp12_hex20_affine_diagnostic",
+      "campaign_id": "WP12B-HEX20-AFFINE-DIAGNOSTIC-R1-2026-10-27",
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 1
+      },
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual"
+      ],
+      "nodeid_registration_records": [
+        {
+          "target": "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual",
+          "campaign_id": "WP12B-HEX20-AFFINE-DIAGNOSTIC-R1-2026-10-27",
+          "reason": "Prospective single-solve HEX20 affine diagnostic after R4 remained ROOT_CAUSE_INCONCLUSIVE; capture K, F, per-face loads, independent geometric QUAD8 oracle, affine residuals and solve observables before assertions without reusing R4.",
+          "registered_at_utc": "2026-10-27T21:24:18.798896+00:00",
+          "worktree_head": "31ef7593eeefa339aa1a5768df0b9c5751d66206",
+          "source_fingerprint": "0d4838a1db01ba0690fb6fcce61244f5031c4ab86fccc3ecacd9a47687209cef",
+          "selected_dofs": 60,
+          "selection_basis": "One 20-node HEX20 element with 3 translational DDL per node = 60 total; 8 x=0 face nodes fixed in UX/UY/UZ = 24 constrained DDL and 36 free; one 1 m cube.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        },
+        {
+          "target": "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual",
+          "campaign_id": "WP12B-HEX20-AFFINE-DIAGNOSTIC-R1-2026-10-27",
+          "reason": "Prospective instrumented HEX20 affine diagnostic on the R4 geometry; refreshes the source-bound inventory after PR #49 integrated the imported support module.",
+          "registered_at_utc": "2026-10-28T07:08:34.234380+00:00",
+          "worktree_head": "8f2b02b053af70cbaa23378adbd783dd99669b1b",
+          "source_fingerprint": "efe44ae1505eb130e15e8ce8c4ae5311b639353b674c94b393d75387655227fb",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6",
+            "tests/unit/wp12b_hex20_diagnostic_support.py": "865d38430e5044d72916cc7d1be42bad4cdf2f8628e0a232748168161cd52925"
+          },
+          "selected_dofs": 60,
+          "selection_basis": "20 quadratic solid nodes \u00d7 3 translational DOFs; the fixture constrains 24 DOFs and solves the remaining 36.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        }
+      ]
+    },
+    "hex8sri-convergence24": {
+      "purpose": "HEX8-SRI paired spatial-convergence campaign; separate criteria freeze and case execution decisions required",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\hex8-sri-research",
+      "git_root": "E:\\QFSolverAgents\\hex8-sri-research",
+      "branch": "research/hex8-sri-equilibrium",
+      "baseline_commit": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1",
+      "campaign_id": "HEX8-SRI-CONVERGENCE-24-2026-10-27",
+      "campaign_scope_id": "hex8sri-convergence24",
+      "source_fingerprint_sha256": "bb6238db9954ff2992347b980c0dfc681f73b74433f76e01dd94e40811c85ea3",
+      "source_identity": {
+        "branch": "research/hex8-sri-equilibrium",
+        "head": "5304e3f00e73a916d1af4c1d75375a9b051f0524",
+        "tree": "5d995ab972e8627d266e1cd2b86d2b858b93f84a",
+        "fingerprint_sha256": "bb6238db9954ff2992347b980c0dfc681f73b74433f76e01dd94e40811c85ea3",
+        "fingerprint_algorithm": "raw_worktree_inventory_sha256_v1",
+        "inventory_path": "docs/development/hex8sri-source-byte-inventory-5304e3f0.json",
+        "inventory_sha256": "13eaa22b2f9ea9bb4c88a9605c96e65451fefef500b2cf32c54905d895bc7b09",
+        "inventory_file_count": 517,
+        "raw_byte_policy": "preserve checkout bytes; no LF/CRLF normalization"
+      },
+      "source_test_worktree_id": "hex8sri-convergence24",
+      "manifest_registration_id": "hex8sri-convergence24",
+      "manifest_binding_mode": "canonical_case_content_v1",
+      "require_clean_worktree": true,
+      "source_root": "src",
+      "pytest_root": "tests/verification",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 24,
+      "execution_authorized": false,
+      "node_attempt_ledger": {
+        "path": "node-attempt-ledger-hex8sri-convergence24.json"
+      },
+      "blas_thread_environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "budgets": {
+        "process_tree_limit": 8,
+        "output_total_limit_mib": 16,
+        "output_stream_limit_mib": 8,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256,
+        "minimum_free_disk_mib": 2048,
+        "timeout_seconds": 3600,
+        "rss_soft_limit_mib": 16384
+      },
+      "per_node_budgets": {
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 900,
+          "rss_soft_limit_mib": 4096
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 3600,
+          "rss_soft_limit_mib": 16384
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 180,
+          "rss_soft_limit_mib": 512
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
+          "process_tree_limit": 8,
+          "output_total_limit_mib": 16,
+          "output_stream_limit_mib": 8,
+          "temporary_limit_mib": 512,
+          "archive_size_limit_mib": 256,
+          "minimum_free_disk_mib": 2048,
+          "timeout_seconds": 300,
+          "rss_soft_limit_mib": 1024
+        }
+      },
+      "allowed_nodeids": [
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]",
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]"
+      ],
+      "case_manifests": {
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_16x8x8.json",
+          "sha256": "80c14fe85b238034ec18b84208422a8a64f6d2a3469ebe03da9347290f6acc2c"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_32x16x16.json",
+          "sha256": "368c10dd4634e6886aa61176125b5c28aa678fd973cb8435abed390925df2e23"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_4x2x2.json",
+          "sha256": "651ddf6d10ef2d469d0a30cde94ce09ce4176810f10e97fca13d502075d12894"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p3-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p3_8x4x4.json",
+          "sha256": "a8339ee96b72b25431d507828ad8e3d731d85083e0ef631f219031a2e4403304"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_16x8x8.json",
+          "sha256": "979de8f0ae967e001ea5a112c80171649790bd0ac5e55dbb62d0f97435ec7d9e"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_32x16x16.json",
+          "sha256": "3d4f18ce37df2491c6f2ff4d907b7ec402a1d9ec50e97c529f9a026f53538e5d"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_4x2x2.json",
+          "sha256": "b4ba265bc6906f43cdecef73234abebe83db2f4b2e0ec46a7eb7f87d433054c5"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_8x4x4.json",
+          "sha256": "b2ac45f0547c63e9257968774ab7911e46e1cebbcff89a7978a648f42d328348"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_16x8x8.json",
+          "sha256": "3c3af1cfa00aebd67d3c8e1d7a0695697e6619a9b469660892eca5c6b2d5eddd"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_32x16x16.json",
+          "sha256": "24518c2a68b4a96a601129464b3f6e6c7f469ba8c6a5e0e1943434c18cbefdbb"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_4x2x2.json",
+          "sha256": "eea4aaa6a1b1434f91def21753d6a73c8a52d4165944ea7fb3defcfcfd9f934b"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_8x4x4.json",
+          "sha256": "243e590a2af5b8306e76ab6d5ac1e5e45af5156aa2f4ba6755c0321fa58e8f68"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_16x8x8.json",
+          "sha256": "b160a909fe9715d84d4cb6220ec310e477762d50e0fed34c7ec564927ea0492c"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_32x16x16.json",
+          "sha256": "63617cfc354e6926f81a41a5c1947229de2bfba27c9287e05a4b695455221dee"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_4x2x2.json",
+          "sha256": "9a845bf412412b1074b9ec6a57147544ff9abe8d5b7e836ed8c2c02b211ee452"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_8x4x4.json",
+          "sha256": "3242d28111f5b642ab67caf038f7a87b0d13be969caa111f4469b53fd52f2c52"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_16x8x8.json",
+          "sha256": "3c8f664867a047f6c0f847f8af4acbe158dba9d7e633408504f0a4ce9ee1a6e8"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_32x16x16.json",
+          "sha256": "012eb056e905d1c57eed68b5484725b0251ca5256de49718776e485b04022318"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_4x2x2.json",
+          "sha256": "c72891b03bb7a9345964956b49e42b83556ad3baaccc0e203b8f4dcb2bc4468d"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_8x4x4.json",
+          "sha256": "44274c377b39136bbef5e7791ec389a24f5604f835a6449200cf9531b2cee407"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-16x8x8]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_16x8x8.json",
+          "sha256": "95ef4426c5415d80133a3140f8b01d98c48d630c8b03e8344da9727329123687"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-32x16x16]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_32x16x16.json",
+          "sha256": "96deb51f7e2f2a6a9175e64935785839e85ebd2fec044f98c82bb237fbe3a97c"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_4x2x2.json",
+          "sha256": "b5da85af268e1af623c9548904377d28b96696d16c8b9cf673363a1a59a3ea87"
+        },
+        "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_8x4x4.json",
+          "sha256": "01b493f2af7867330723a5dc3ce6a723fb481269035ba92a5f8d4749a6ce741b"
+        }
+      }
+    },
+    "wp12_hex20_affine_diagnostic_r2": {
+      "purpose": "WP12-B prospective HEX20 R2-CORE affine diagnostic; separate Owner decision required",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\wp12b-hex20-r2-prospective",
+      "git_root": "E:\\QFSolverAgents\\wp12b-hex20-r2-prospective",
+      "branch": "research/wp12b-hex20-r2-prospective",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12b-hex20-affine-diagnostic-r2",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 1,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 60,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTIC-2026-10-29-R2",
+      "require_clean_worktree": true,
+      "execution_scope_id": "wp12_hex20_affine_diagnostic_r2",
+      "campaign_id": "WP12B-HEX20-AFFINE-DIAGNOSTIC-R2-2026-10-29",
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 1
+      },
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual"
+      ],
+      "nodeid_registration_records": [
+        {
+          "target": "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual",
+          "campaign_id": "WP12B-HEX20-AFFINE-DIAGNOSTIC-R2-2026-10-29",
+          "reason": "Prospective R2 after corrected QUAD8 quadrature; independently compare face nodal loads and affine state while retaining R1 evidence.",
+          "registered_at_utc": "2026-10-29T10:04:21.061884+00:00",
+          "worktree_head": "9b998f42c1543f9d40b2f7a7ef88fd59153a65ee",
+          "source_fingerprint": "8e6ac46ba6bc7ff3429c87077d795121a1d305f99b0006f80ab958b6ce90ca84",
+          "test_source_dependencies": {
+            "tests/conftest.py": "8bbc1d99632bf3ba9563769100e88eaf8a8c645fc240d4e56e2e339b276669a0",
+            "tests/unit/conftest.py": "71ed98e5a7c11c64529a1098518c6e16467dc6f84d45336d4103ebf74e6fc2f6",
+            "tests/unit/wp12b_hex20_diagnostic_support.py": "7ed3f44f074be56d89aaac69ffda544506b4235b11d55078f188b24674c6b93b"
+          },
+          "selected_dofs": 60,
+          "selection_basis": "20 quadratic solid nodes \u00d7 3 translational DOFs; the fixture constrains 24 DOFs and solves the remaining 36.",
+          "timeout_seconds": 300,
+          "timeout_reason": null
+        }
+      ],
+      "node_attempt_ledger": {
+        "path": "node-attempt-ledger-r2.json",
+        "predecessor": {
+          "path": "E:\\QFSolverAgents\\evidence\\wp12b-hex20-affine-diagnostic-consolidated\\node-attempt-ledger.json",
+          "sha256": "ab5a8e4967ca204898f2eeec52b50f0c6b8e603d0328c3dff06926ff10669f53",
+          "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12B-HEX20-AFFINE-DIAGNOSTIC-2026-10-27-R1"
+        }
+      }
+    },
+    "wp12_vv3d_adaptive": {
+      "purpose": "WP12 VV3D campaign runner capability; every execution still requires an exact Owner decision and case manifest",
+      "mode": "fem_exploratory",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\wp12-vv3d-adaptive\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\wp12-vv3d-adaptive\\qf_solver",
+      "branch": "emptiesvoids-cloud/research-wp12-vv3d-adaptive",
+      "baseline_commit": "b4ac817cdb565c45f8f8d92a9c10bbb609f6df37",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-vv3d-adaptive",
+      "allow_native_vv_skip_override": false,
+      "execution_authorized": false,
+      "execution_capability": "INITIAL_AND_CLOSED_CATALOG_ADAPTIVE_FEM_AND_QPOST_RUNNER_PATHS",
+      "runner_capabilities": {
+        "initial_fem": true,
+        "adaptive_fem": true,
+        "qpost": true
+      },
+      "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-VV3D-ADAPTIVE-2026-10-29-R1",
+      "require_clean_worktree": true,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 24,
+      "max_total_seconds": 28800,
+      "max_timeout_seconds": 1200,
+      "target_max_dofs": 30000,
+      "rss_soft_limit_mib": 4096,
+      "concurrency_class": "vv3d_serial",
+      "nodeid_registration": {
+        "enabled": false,
+        "max_nodeids": 24
+      },
+      "budgets": {
+        "timeout_seconds": 1200,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 32,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 1024,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L3]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L3]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L3]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L3]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET4-H1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET4-QLOAD]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET10-H1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET10-QLOAD]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX8-H1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX8-QLOAD]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX20-H1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX20-QLOAD]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[TET4]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[TET10]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[HEX8]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[HEX20]"
+      ],
+      "adaptive_fem_nodeids": [
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET4-H1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET4-QLOAD]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET10-H1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET10-QLOAD]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX8-H1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX8-QLOAD]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX20-H1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX20-QLOAD]"
+      ],
+      "qpost_nodeids": [
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[TET4]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[TET10]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[HEX8]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[HEX20]"
+      ],
+      "per_node_selected_dofs": {
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L1]": 81,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L2]": 375,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L3]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L1]": 375,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L2]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L3]": 14739,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L1]": 81,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L2]": 375,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L3]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L1]": 243,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L2]": 1275,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L3]": 8019,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET4-H1]": 14739,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET4-QLOAD]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET10-H1]": 27783,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-TET10-QLOAD]": 14739,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX8-H1]": 14739,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX8-QLOAD]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX20-H1]": 24843,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-HEX20-QLOAD]": 8019,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[TET4]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[TET10]": 14739,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[HEX8]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_archived_postprocess_case[HEX20]": 8019
+      },
+      "node_attempt_ledger": {
+        "path": "node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl"
+      }
     }
-  }
+  },
+  "resource_coordination_root": "E:\\QFSolverAgents\\evidence\\.wp12-coordination"
 }

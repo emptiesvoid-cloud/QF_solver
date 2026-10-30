@@ -169,7 +169,7 @@ Ce diff ne contient aucun changement de code du solveur ni de dépendance.
 ## Preuves N10/N11 et dépendances
 
 Les résultats N10 restent dans le worktree source externe :
-`C:\Users\fari\Documents\projet\SAFRAN\.codex-worktrees\wp-c02-n09-remediation\qualification\0_2_12\wpc02_ar_native_campaign_n10_20261023_01`.
+`<legacy-worktree>\.codex-worktrees\wp-c02-n09-remediation\qualification\0_2_12\wpc02_ar_native_campaign_n10_20261023_01`.
 Ils ne sont pas inclus dans le commit d’intégration; ce chemin local n’est pas
 portable vers un autre hôte.
 
@@ -197,9 +197,9 @@ externe exact, et non au contenu administratif/intégratif courant.
 
 Commande exécutée dans le worktree d’intégration avec ces chemins externes :
 
-- `WPC02_AR_NATIVE_MANIFEST_PATH=C:\Users\fari\Documents\projet\SAFRAN\.codex-worktrees\wp-c02-n09-remediation\qualification\0_2_12\wp_c02_ar_native_n09_execution_manifest.json`
-- `WPC02_AR_NATIVE_SOURCE_ROOT=C:\Users\fari\Documents\projet\SAFRAN\.codex-worktrees\wp-c02-n09-remediation\qualification\0_2_12\wpc02_ar_native_campaign_n10_20261023_01\snapshot`
-- `WPC02_AR_N04_ARCHIVE_PATH=C:\Users\fari\Documents\projet\SAFRAN\.codex-worktrees\wp-c02-n01-remediation\qualification\0_2_12\wpc02_ar_native_campaign_n03_20261023_01`
+- `WPC02_AR_NATIVE_MANIFEST_PATH=<legacy-worktree>\.codex-worktrees\wp-c02-n09-remediation\qualification\0_2_12\wp_c02_ar_native_n09_execution_manifest.json`
+- `WPC02_AR_NATIVE_SOURCE_ROOT=<legacy-worktree>\.codex-worktrees\wp-c02-n09-remediation\qualification\0_2_12\wpc02_ar_native_campaign_n10_20261023_01\snapshot`
+- `WPC02_AR_N04_ARCHIVE_PATH=<legacy-worktree>\.codex-worktrees\wp-c02-n01-remediation\qualification\0_2_12\wpc02_ar_native_campaign_n03_20261023_01`
 
 ```text
 python -m pytest tests/unit/test_wpc02_ar_native_manifest_contract.py tests/unit/test_wpc02_ar_native_collection_reporting.py -q

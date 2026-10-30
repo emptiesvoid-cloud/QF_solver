@@ -60,7 +60,7 @@ Final telemetry-test commit: `25c3ab2fbbc0cded420b91d3a4428c1cc23e25ac`.
 One authorized M1 regression was run after the correction, using the existing
 WP08-D M1 authorization and a separate temporary output directory:
 
-`C:\Users\fari\AppData\Local\Temp\wp08d_m1_active_set_fix_regression_final\M1\`
+`<local-temp>\wp08d_m1_active_set_fix_regression_final\M1\`
 
 The existing repository M1 evidence was not overwritten. The regression
 completed with `PASS`, seven accepted load increments, zero active contacts,

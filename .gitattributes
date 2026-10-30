@@ -8,6 +8,9 @@ investigations/hex8_sri_equilibrium_20261026/campaign_preparation/*.json -text
 investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/**/*.json -text
 # Qualification files are hash-bound evidence; preserve their Git blob bytes on Windows.
 qualification/** -text
+# WP-E01 reviewed numerical test modules are SHA-256-bound by tests/unit/conftest.py.
+tests/unit/test_wp_e01m_hencky_material_point.py text eol=lf
+tests/unit/test_wp_e01q_hencky_tangent.py text eol=lf
 # The WP06F migration audit verifies this document's exact historical byte delta.
 docs/verification/0_2_9/wp06f-closure-contract.md text eol=lf
 qualification/0_2_9/wp08d_phase1/M2/** -text
@@ -46,6 +49,10 @@ VNV-*/** export-ignore
 qualification/0_2_9/wp05_cd_stress_window_remediation_candidate.json text eol=lf
 docs/verification/0_2_9/wp05d-owner-validation-review.md text eol=lf
 qualification/vnv/** export-ignore
+# Preserve the byte-inventory sidecar digest used to pin the HEX8-SRI source worktree.
+docs/development/hex8sri-source-byte-inventory-f6402ed.json -text
+docs/development/hex8sri-source-byte-inventory-31ee6eda.json -text
+docs/development/hex8sri-source-byte-inventory-5304e3f0.json -text
 # Keep this campaign's captured Windows process logs byte-exact for hash verification.
 qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/_process_logs/*.log binary
 qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_slip_forensic_r2_20260926/_process_logs/*.log binary

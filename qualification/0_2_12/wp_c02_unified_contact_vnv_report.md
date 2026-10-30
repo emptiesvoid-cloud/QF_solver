@@ -24,7 +24,7 @@ Recommendation: retain the current narrow experimental single-point, frozen-face
 
 The original WP-C02 checkout remained unchanged at:
 
-- Worktree: `C:\Users\fari\Documents\projet\SAFRAN\.codex-worktrees\wp-c02`
+- Worktree: `<legacy-worktree>\.codex-worktrees\wp-c02`
 - Origin: `https://github.com/emptiesvoid-cloud/QF_solver.git`
 - Branch: `emptiesvoids-cloud/wp-c02`
 - Frozen HEAD: `2bd0fb769edb05d090ef17023173380c8fc853d0`
@@ -33,7 +33,7 @@ The original WP-C02 checkout remained unchanged at:
 
 The 516-file scientific source aggregate reproduced as SHA-256 `816554de0ff4ef30c115c9e01038bf7ed56565f9bc60886ed78cd818eea4c745`. It is a content aggregate, not a Git tree object ID.
 
-The isolated continuation is `C:\Users\fari\Documents\projet\SAFRAN\.codex-worktrees\wp-c02-z`, branch `codex/wp-c02-z-unified-contact-vnv-20261021`. The run used frozen HEAD `1344321f61d09fc010389019d059b54346a88a28`. Two preparation commits precede execution: `e5f6a7b1` (prepare bounded verification) and `1344321f61d09fc010389019d059b54346a88a28` (pin the supervisor to the fixed Z worker). This report/evidence commit follows the executed HEAD; no scientific executable source or test is changed after execution.
+The isolated continuation is `<legacy-worktree>\.codex-worktrees\wp-c02-z`, branch `codex/wp-c02-z-unified-contact-vnv-20261021`. The run used frozen HEAD `1344321f61d09fc010389019d059b54346a88a28`. Two preparation commits precede execution: `e5f6a7b1` (prepare bounded verification) and `1344321f61d09fc010389019d059b54346a88a28` (pin the supervisor to the fixed Z worker). This report/evidence commit follows the executed HEAD; no scientific executable source or test is changed after execution.
 
 ### Executables and policy
 

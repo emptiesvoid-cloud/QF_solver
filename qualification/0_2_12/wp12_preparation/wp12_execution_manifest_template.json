@@ -1,0 +1,128 @@
+{
+  "schema": "qf-solver-wp12-prepared-manifest-v1",
+  "campaign_id": "REPLACE_WITH_UNIQUE_WP12_CAMPAIGN_ID",
+  "title": "REPLACE_WITH_SCOPE",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "mode": "PREPARATION_ONLY",
+  "numerical_execution_performed": false,
+  "wp12_status": "OPEN",
+  "authorization": {
+    "execution_authorized": false,
+    "owner_decision_id": null,
+    "approved_manifest_sha256": null,
+    "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+  },
+  "repository": "emptiesvoid-cloud/QF_solver",
+  "target": {
+    "branch": "emptiesvoids-cloud/0.2.12",
+    "commit": null,
+    "git_tree": null,
+    "worktree_must_be_clean": true,
+    "detached_checkout_allowed_only_at_exact_commit": true,
+    "source_change_policy": "Any source/test/fixture/dependency identity change invalidates this manifest and requires review before launch."
+  },
+  "scope": {
+    "capability_matrix_ids": [],
+    "scientific_boundary": "State the exact contract, cases and exclusions; do not infer general qualification.",
+    "preserved_statuses": [],
+    "required_contracts": []
+  },
+  "source_and_test_identity": {
+    "repository_tree_roots": {
+      "src": null,
+      "tests": null,
+      "fixtures_or_examples": null
+    },
+    "tracked_source_files": [],
+    "tracked_test_files": [],
+    "git_blob_oids": {},
+    "sha256_inventory_file": null,
+    "inventory_completeness": "Resolve every source/test/contract/fixture at freeze; missing or mismatched identity is STOP."
+  },
+  "fixtures": {
+    "entries": [],
+    "inline_fixture_policy": "Bind the test module by Git blob/tree; capture and hash any materialized fixture before invocation.",
+    "external_fixture_policy": "Any external input must be listed with exact path, byte SHA-256 and provenance before approval; otherwise STOP."
+  },
+  "tests": {
+    "exact_nodeids": [],
+    "parameterized_node_resolution": "Derive parameter values/IDs from source and freeze every exact item before Owner approval; no wildcard or post-approval collection expansion.",
+    "commands": [],
+    "status": "NOT_RUN"
+  },
+  "oracles_and_acceptance": {
+    "contract_references": [],
+    "oracle_class_by_case": {},
+    "frozen_tolerances": {},
+    "no_new_thresholds": true,
+    "success_conditions": [],
+    "fail_or_stop_conditions": []
+  },
+  "environment": {
+    "os": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "python": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "numpy_scipy_pytest": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "optional_solvers": "Explicitly list versions or state NOT_USED; do not infer availability.",
+    "blas_openmp_mkl_threads": null,
+    "environment_lock_sha256": null
+  },
+  "resource_limits": {
+    "cpu_cores": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "ram_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "numerical_threads": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_per_node": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_campaign": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "temporary_storage_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "limit_enforcement": "Classify each limit as hard or monitored-soft; a sampled RSS/process count is not a hard OS limit."
+  },
+  "attempt_policy": {
+    "maximum_attempts_per_node": {
+      "value": 1,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "automatic_retry": false,
+    "retry_requires": "New diagnostic hypothesis and separately approved manifest; preserve all previous receipts and failures."
+  },
+  "evidence": {
+    "exclusive_destination_template": "qualification/0_2_12/wp12_evidence/<campaign_id>/<run_id>/",
+    "refuse_if_destination_exists": true,
+    "historical_paths_writable": false,
+    "capture": [
+      "manifest plus SHA-256",
+      "source/fixture inventory",
+      "exact command",
+      "environment",
+      "stdout/stderr",
+      "exit status",
+      "timing",
+      "resource observations",
+      "skip/stop reasons",
+      "artifact SHA-256 inventory"
+    ],
+    "partial_run_policy": "Seal partial evidence, retain FAIL/NOT_RUN/INCONCLUSIVE; no overwrite and no automatic retry."
+  },
+  "prepared_at": "2026-10-25",
+  "prepared_by_role": "GPT-6 Luna",
+  "notes": "A prepared manifest is not an execution authorization, scientific PASS, maturity promotion, WP12 closure, or release decision.",
+  "execution_status_label": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "preparation_status_label": "PREPARATION_ONLY",
+  "wp12_status_label": "WP12_STATUS=OPEN"
+}

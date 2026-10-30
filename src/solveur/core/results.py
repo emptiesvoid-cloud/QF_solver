@@ -384,6 +384,8 @@ class HarmonicResult(QualificationAwareResult):
         return float(max(np.max(np.abs(response)) for response in self.responses))
 
     def to_dict(self) -> dict[str, Any]:
+        if len(self.frequencies_hz) != len(self.responses):
+            raise ValueError("Harmonic result frequency and response counts must match.")
         rows = [
             _frequency_response_row(index, frequency, response, self.dofs)
             for index, (frequency, response) in enumerate(zip(self.frequencies_hz, self.responses))
@@ -573,7 +575,7 @@ class ModalNewmarkResult(QualificationAwareResult):
             dofs = DofManager.from_node_requirements(requirements)
             state = payload["final_state"]
             reactions = state.get("reactions")
-            return cls(
+            result = cls(
                 numerical_status=str(payload["numerical_status"]),
                 times=np.asarray(payload["times_s"], dtype=np.float64),
                 displacements=np.asarray(state["displacement"], dtype=np.float64),
@@ -603,6 +605,22 @@ class ModalNewmarkResult(QualificationAwareResult):
             )
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError("Serialized modal Newmark result is incomplete or malformed.") from exc
+        _validate_serialized_result_metadata(
+            payload,
+            result.to_dict(),
+            (
+                "status",
+                "numerical_status",
+                "run_verdict",
+                "maturity",
+                "qualification_decision",
+                "ndof",
+                "dof_map",
+                "final_state",
+            ),
+            "modal Newmark",
+        )
+        return result
 
 
 @dataclass(frozen=True)
@@ -750,7 +768,11 @@ class ReducedHarmonicResult:
         imag = np.asarray(payload["imag"], dtype=np.float64)
         if real.shape != imag.shape or not np.all(np.isfinite(real)) or not np.all(np.isfinite(imag)):
             raise ValueError("Complex reduced harmonic real/imag values must have matching finite shapes.")
-        return np.asarray(real + 1j * imag, dtype=np.complex128)
+        # Assign components directly so arithmetic does not canonicalize signed zero.
+        values = np.empty(real.shape, dtype=np.complex128)
+        values.real = real
+        values.imag = imag
+        return values
 
     def to_dict(self) -> dict[str, Any]:
         rows = []
@@ -893,7 +915,7 @@ class ReducedHarmonicResult:
             )
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError("Reduced harmonic result is incomplete or malformed.") from exc
-        return cls(
+        result = cls(
             numerical_status=str(payload["numerical_status"]),
             frequencies_hz=frequencies,
             responses=responses,
@@ -915,6 +937,35 @@ class ReducedHarmonicResult:
             relative_acceleration_responses=relative_acceleration_responses,
             absolute_acceleration_responses=absolute_acceleration_responses,
         )
+        _validate_serialized_result_metadata(
+            payload,
+            result.to_dict(),
+            (
+                "status",
+                "numerical_status",
+                "run_verdict",
+                "maturity",
+                "qualification_decision",
+                "response_dof_count",
+                "dof_map",
+                "frequency_response",
+            ),
+            "reduced harmonic",
+        )
+        return result
+
+
+def _validate_serialized_result_metadata(
+    payload: dict[str, Any],
+    canonical: dict[str, Any],
+    fields: tuple[str, ...],
+    label: str,
+) -> None:
+    """Reject serialized aliases or derived metadata that contradict the DTO."""
+
+    for name in fields:
+        if name not in payload or type(payload[name]) is not type(canonical[name]) or payload[name] != canonical[name]:
+            raise ValueError(f"Serialized {label} result has inconsistent {name!r} metadata.")
 
 
 def _readonly_complex_vector(values: np.ndarray, label: str) -> np.ndarray:

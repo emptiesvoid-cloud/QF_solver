@@ -1,0 +1,872 @@
+{
+  "campaign_id": "WP12-Q-LOCAL-001",
+  "cases": [
+    {
+      "acceptance_ref": "Existing assertions unchanged: exact projected symmetry; allclose rtol=2e-16, atol=2e-16.",
+      "case_id": "ALG-PROJ-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "19723e8a8f27567ee2249fae85924962bff35b38",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "f28504e6aee40244246919a13edc84283b561c8e13e6ef97605b79381307c748"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "717c87cf8812743a0225b504b00b5914b2cc7fed",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "9a0d775b6aae6585fbefe84025d8c7085707632c52fde4fd75a3bd66805a7814"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9b38ed43f77d05052de25b9141edb442c71a3ac9",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "f5c95e741732400f7e6ae0d6165250fdaf6f3c9f3c94e22abe0409b23f92462e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "59b2e64c7139530b328788c9ca2ca106ab56d283",
+          "path": "qualification/0_2_12/wp04_modal_basis_damping_contract.json",
+          "sha256": "67c9b7fce44f50f4be1537e31684561854fbc328350c4bc18831c97a1c928cc6"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "e363e0b35e8a628dcd63fa8d18fb97fd8b1534db",
+          "path": "src/solveur/core/analyses/modal_basis.py",
+          "sha256": "6e26cec719a7b713eb14a560deca0c0043f10bce37c8737ec8de7d8108b5d07a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "3f333730620246110e5e51ceb91ddc3cd2cec642",
+          "path": "src/solveur/core/analyses/modal_basis_numerics.py",
+          "sha256": "fd2a5fe7fd6955732f8222204b8b6cc5093a82a9b0962086cfbda7c3f3f6c8e6"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "20889499b60cdd4fa79b2a2d2f76626279ed3e8e",
+          "path": "tests/unit/test_modal_symmetric_projection.py",
+          "sha256": "9be78449948ebcdc9d577a8968b2dbacbc9b25015b4c9484ece8f91218e20d28"
+        }
+      ],
+      "inputs": {
+        "fixture_identity_scope": "Reviewed expansion of the inline values used by this exact test; the test file SHA-256 and Git blob OID are also frozen. Not a generated solver input file.",
+        "fixture_source": "tests/unit/test_modal_symmetric_projection.py",
+        "inline_fixture": {
+          "canonical_byte_length": 192,
+          "canonical_sha256": "e7f680fbdb5732334728722a9124f0a50e92a66629ce2288fb65a18dc1c752c2",
+          "data": {
+            "dtype": "float64",
+            "modes": [
+              [
+                0.5,
+                0.25
+              ],
+              [
+                -0.25,
+                0.5
+              ],
+              [
+                0.75,
+                -0.5
+              ],
+              [
+                0.125,
+                0.375
+              ]
+            ],
+            "sparse_format": "CSR",
+            "stiffness": [
+              [
+                8.0,
+                -1.0,
+                0.0,
+                0.5
+              ],
+              [
+                -1.0,
+                6.0,
+                2.0,
+                0.0
+              ],
+              [
+                0.0,
+                2.0,
+                5.0,
+                -0.25
+              ],
+              [
+                0.5,
+                0.0,
+                -0.25,
+                4.0
+              ]
+            ]
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        }
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_modal_symmetric_projection.py::test_structured_symmetric_projection_matches_dense_bilinear_form",
+      "notes": "WP04: not yet authorized. Inventory records test/configuration, direct scientific modules and contract; clean Git tree identity pins the complete checkout.",
+      "observables": [
+        "projected matrix exact symmetry",
+        "projected matrix equals dense bilinear form",
+        "input stiffness exact symmetry"
+      ],
+      "oracle_id": "ALG-PROJ-DENSE-BILINEAR-v1",
+      "oracle_summary": "Compare structured projection against Phi.T @ K @ Phi for the inline sparse symmetric K and Phi. Algebraic identity only; not FEM validation.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 120,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "WP04 structured symmetric modal projection identity",
+      "wp_origin": "WP04 v0.2.12"
+    },
+    {
+      "acceptance_ref": "Existing assertions unchanged: frequency approx(sqrt(1000/10)/(2*pi)), rel=1e-12; maximum relative residual <1e-12.",
+      "case_id": "MODAL-DISCRETE-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "19723e8a8f27567ee2249fae85924962bff35b38",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "f28504e6aee40244246919a13edc84283b561c8e13e6ef97605b79381307c748"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "717c87cf8812743a0225b504b00b5914b2cc7fed",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "9a0d775b6aae6585fbefe84025d8c7085707632c52fde4fd75a3bd66805a7814"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9b38ed43f77d05052de25b9141edb442c71a3ac9",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "f5c95e741732400f7e6ae0d6165250fdaf6f3c9f3c94e22abe0409b23f92462e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "b755adecb0003e93fe11ef925ac64c1abda309b3",
+          "path": "qualification/0_2_12/wp01_shared_contracts.json",
+          "sha256": "c94b110850c2f5a93b3f5dd40462b5bcf029c78ef8620bd0dd690a3acb57d1b6"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "8f71e62b42036452873676a90fd01226b5787040",
+          "path": "src/solveur/core/assembler.py",
+          "sha256": "da8ca29c495d108ca5d8151c1c0b655697b47d879bb3fc27649a24d0bd6602ea"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "b6cf9bd1d619886f6f29915f132a2305ec4b4f83",
+          "path": "src/solveur/core/dofs.py",
+          "sha256": "62b1a414b2fe9e816c8373b8a0193a5f5abff1bff54bfabe3289fda52faba114"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "6f96b5fb618e97e3086674fd0ba6227156dd990b",
+          "path": "src/solveur/core/modal.py",
+          "sha256": "30de089aac91f4f31b70c92d3f2d90766106281a14e246c6c03df4e6586af4b7"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "7ff8d9d0e75845d2347342c2b5cd3564679d05c3",
+          "path": "src/solveur/core/model.py",
+          "sha256": "36766c46a8842ba6a4074a26d120079253ac8cb663d6fec83838889faed6534f"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "419950a2348d3011de63260e5cda37040844f057",
+          "path": "src/solveur/core/router.py",
+          "sha256": "60a02032049d84b0da2016d422e730336b5a06524e4716913fb37b62cd34319e"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "9657f7e138f9abd11cc299fa19ad33153014b6ce",
+          "path": "src/solveur/elements/discrete.py",
+          "sha256": "9842f48b188e3fe4fdaf73f227635bdd3a65cccc9440d4ee344c71c5014c3795"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "8eed7139c6c03722babbb664340b4d483f8cd66f",
+          "path": "tests/unit/test_discrete_entities.py",
+          "sha256": "927e90bc9e4cc554b165c915bc022aedcb6fdf427707e6ca0de99a49958dde8f"
+        }
+      ],
+      "inputs": {
+        "fixture_identity_scope": "Reviewed expansion of the inline values used by this exact test; the test file SHA-256 and Git blob OID are also frozen. Not a generated solver input file.",
+        "fixture_source": "tests/unit/test_discrete_entities.py",
+        "inline_fixture": {
+          "canonical_byte_length": 299,
+          "canonical_sha256": "e4ab35c76a9ff79aee2c383a6150c868ae1d64b96763379a9786bedea4267a74",
+          "data": {
+            "analysis": {
+              "method": "eigh",
+              "parameters": {
+                "modes": 1
+              },
+              "type": "modal"
+            },
+            "concentrated_masses": [
+              {
+                "mass": 10.0,
+                "node": 0
+              }
+            ],
+            "elements": [],
+            "loads": [
+              {
+                "dof": "UX",
+                "node": 0,
+                "value": 25.0
+              }
+            ],
+            "materials": {},
+            "nodes": [
+              [
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "springs": [
+              {
+                "dofs": [
+                  "UX",
+                  "UY",
+                  "UZ"
+                ],
+                "node_a": 0,
+                "stiffness": [
+                  1000.0,
+                  4000.0,
+                  9000.0
+                ]
+              }
+            ]
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        }
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_discrete_entities.py::test_spring_mass_frequency_matches_closed_form",
+      "notes": "WP01: not yet authorized. Inventory records test/configuration, direct scientific modules and contract; clean Git tree identity pins the complete checkout.",
+      "observables": [
+        "first natural frequency in Hz",
+        "maximum relative modal residual"
+      ],
+      "oracle_id": "DISCRETE-SDOF-FREQUENCY-v1",
+      "oracle_summary": "Closed-form omega=sqrt(k/m), reported frequency in Hz as omega/(2*pi). Test inputs do not declare a named unit system; units are internally consistent only.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 120,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "Closed-form single-DOF grounded spring and lumped mass frequency",
+      "wp_origin": "WP01 shared contracts; WP12 regression"
+    },
+    {
+      "acceptance_ref": "Existing assertions unchanged: eigenvalues rtol/atol 1e-12; projected M atol 1e-12; projected K/reconstruction rtol/atol 1e-11; orthogonality atol 1e-12. Contract also preregisters eigenvalue relative tolerance 1e-10, modal residual <=1e-8, mass-orthogonality Frobenius <=1e-8.",
+      "case_id": "MODAL-2DOF-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "19723e8a8f27567ee2249fae85924962bff35b38",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "f28504e6aee40244246919a13edc84283b561c8e13e6ef97605b79381307c748"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "717c87cf8812743a0225b504b00b5914b2cc7fed",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "9a0d775b6aae6585fbefe84025d8c7085707632c52fde4fd75a3bd66805a7814"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9b38ed43f77d05052de25b9141edb442c71a3ac9",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "f5c95e741732400f7e6ae0d6165250fdaf6f3c9f3c94e22abe0409b23f92462e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "59b2e64c7139530b328788c9ca2ca106ab56d283",
+          "path": "qualification/0_2_12/wp04_modal_basis_damping_contract.json",
+          "sha256": "67c9b7fce44f50f4be1537e31684561854fbc328350c4bc18831c97a1c928cc6"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "e363e0b35e8a628dcd63fa8d18fb97fd8b1534db",
+          "path": "src/solveur/core/analyses/modal_basis.py",
+          "sha256": "6e26cec719a7b713eb14a560deca0c0043f10bce37c8737ec8de7d8108b5d07a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "3f333730620246110e5e51ceb91ddc3cd2cec642",
+          "path": "src/solveur/core/analyses/modal_basis_numerics.py",
+          "sha256": "fd2a5fe7fd6955732f8222204b8b6cc5093a82a9b0962086cfbda7c3f3f6c8e6"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "9710c3faa55c0859047cd748f39acc0979a5efb0",
+          "path": "tests/unit/test_modal_basis_damping.py",
+          "sha256": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca"
+        }
+      ],
+      "inputs": {
+        "fixture_identity_scope": "Reviewed expansion of the inline values used by this exact test; the test file SHA-256 and Git blob OID are also frozen. Not a generated solver input file.",
+        "fixture_source": "tests/unit/test_modal_basis_damping.py",
+        "inline_fixture": {
+          "canonical_byte_length": 188,
+          "canonical_sha256": "7189b32c576daecf8e198486a3698d575afb96bd340510f6c3c88b1eaca4f1b9",
+          "data": {
+            "dense_limit": 256,
+            "dof_signature": [],
+            "mass": [
+              [
+                2.0,
+                0.25
+              ],
+              [
+                0.25,
+                1.5
+              ]
+            ],
+            "method": "dense",
+            "operator_identity": "analytical-operator-v1",
+            "requested_modes": 2,
+            "stiffness": [
+              [
+                20.0,
+                -2.0
+              ],
+              [
+                -2.0,
+                8.0
+              ]
+            ]
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        }
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+      "notes": "WP04: not yet authorized. Inventory records test/configuration, direct scientific modules and contract; clean Git tree identity pins the complete checkout.",
+      "observables": [
+        "two generalized eigenvalues",
+        "projected M",
+        "projected K",
+        "mass orthogonality",
+        "full-basis stiffness reconstruction",
+        "maturity remains EXPERIMENTAL"
+      ],
+      "oracle_id": "WP04-SCIPY-COMMON-BACKEND-2DOF-v1",
+      "oracle_summary": "Existing reference and production both use scipy.linalg.eigh; shared-backend consistency, not an independent eigenvalue oracle. Independent characteristic-polynomial test remains supplemental.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 120,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "Coupled two-DOF generalized eigenproblem and projected operators",
+      "wp_origin": "WP04 v0.2.12"
+    },
+    {
+      "acceptance_ref": "Existing assertions unchanged: displacement rel=2e-4, abs=1e-9; initial projection relative mass error <1e-12; reduced-equilibrium relative error <1e-7; initial modal acceleration relation; EXPERIMENTAL maturity.",
+      "case_id": "DYN-SDOF-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "19723e8a8f27567ee2249fae85924962bff35b38",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "f28504e6aee40244246919a13edc84283b561c8e13e6ef97605b79381307c748"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "717c87cf8812743a0225b504b00b5914b2cc7fed",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "9a0d775b6aae6585fbefe84025d8c7085707632c52fde4fd75a3bd66805a7814"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9b38ed43f77d05052de25b9141edb442c71a3ac9",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "f5c95e741732400f7e6ae0d6165250fdaf6f3c9f3c94e22abe0409b23f92462e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "1e0535d6e37b9b4253d7de5954cac047c267bd52",
+          "path": "qualification/0_2_12/wp06_modal_newmark_contract.json",
+          "sha256": "f58a579a549661e5a19f6b7593ce645cd2e15c63c03a65e72e5a6e7cd0508d7f"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "e363e0b35e8a628dcd63fa8d18fb97fd8b1534db",
+          "path": "src/solveur/core/analyses/modal_basis.py",
+          "sha256": "6e26cec719a7b713eb14a560deca0c0043f10bce37c8737ec8de7d8108b5d07a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "3f333730620246110e5e51ceb91ddc3cd2cec642",
+          "path": "src/solveur/core/analyses/modal_basis_numerics.py",
+          "sha256": "fd2a5fe7fd6955732f8222204b8b6cc5093a82a9b0962086cfbda7c3f3f6c8e6"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "b0448d202c0d16c854b77981aefb8e653bd162f1",
+          "path": "src/solveur/core/analyses/modal_newmark.py",
+          "sha256": "e936e9baca1f81c19f78de7627a1f6a3732b45a03614f087eb196c389c178dac"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "a55ba5b5b117574294db95ceccc8c68352172100",
+          "path": "src/solveur/core/analyses/prepared_dynamic_system.py",
+          "sha256": "bb2853f8729ee07441620e9495776860bdc5fed7a37970c63e8c10ca6e1ca116"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "d6195e2b709853853fc24380c6c7c0029ecff290",
+          "path": "tests/unit/test_modal_newmark.py",
+          "sha256": "b460f37e49db522496050373655bda4188e834a0413f4373f9322260e94f8436"
+        }
+      ],
+      "inputs": {
+        "fixture_identity_scope": "Reviewed expansion of the inline values used by this exact test; the test file SHA-256 and Git blob OID are also frozen. Not a generated solver input file.",
+        "fixture_source": "tests/unit/test_modal_newmark.py",
+        "inline_fixture": {
+          "canonical_byte_length": 886,
+          "canonical_sha256": "59e88229712bc2e92207966c1b6eae267d047e32282816a490ceed183c19b5bb",
+          "data": {
+            "analysis": {
+              "initial_displacements": [
+                {
+                  "dof": "UX",
+                  "node": 1,
+                  "value": 0.002
+                }
+              ],
+              "initial_velocities": [
+                {
+                  "dof": "UX",
+                  "node": 1,
+                  "value": 0.0
+                }
+              ],
+              "loads": [],
+              "method": "modal_newmark",
+              "modal_dense_limit": 256,
+              "modal_extraction_method": "dense",
+              "modal_mode_count": 1,
+              "newmark_beta": 0.25,
+              "newmark_gamma": 0.5,
+              "rayleigh_alpha": 0.0,
+              "rayleigh_beta": 0.0,
+              "record_time_history": false,
+              "steps": 80,
+              "store_modal_history": true,
+              "time_step": 5e-05,
+              "type": "transient_dynamic"
+            },
+            "connectivity": [
+              0,
+              1
+            ],
+            "element": "BEAM2",
+            "fixed_dofs": [
+              {
+                "dofs": [
+                  "UX",
+                  "UY",
+                  "UZ",
+                  "RX",
+                  "RY",
+                  "RZ"
+                ],
+                "node": 0
+              },
+              {
+                "dofs": [
+                  "UY",
+                  "UZ",
+                  "RX",
+                  "RY",
+                  "RZ"
+                ],
+                "node": 1
+              }
+            ],
+            "material": {
+              "A": 1.0,
+              "E": 1000.0,
+              "Iy": 0.1,
+              "Iz": 0.1,
+              "J": 0.2,
+              "density": 1.0,
+              "nu": 0.25,
+              "type": "beam_isotropic"
+            },
+            "nodes": [
+              [
+                0.0,
+                0.0,
+                0.0
+              ],
+              [
+                1.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "source_sha_argument": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "source_sha_note": "Synthetic test helper metadata; not the frozen Git commit identity."
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        }
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_modal_newmark.py::test_sdof_free_undamped_matches_analytic_solution_and_initial_projection",
+      "notes": "WP06: not yet authorized. Inventory records test/configuration, direct scientific modules and contract; clean Git tree identity pins the complete checkout.",
+      "observables": [
+        "final physical UX displacement",
+        "initial projection error",
+        "maximum reduced equilibrium relative error",
+        "initial modal acceleration consistency",
+        "maturity"
+      ],
+      "oracle_id": "WP06-SDOF-FREE-UNDAMPED-ANALYTIC-v1",
+      "oracle_summary": "Final displacement is compared to an analytic free-vibration response using omega derived from prepared FE K/M. This checks time integration conditional on those operators, not independent spatial FE accuracy or time convergence.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 180,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "Undamped single-mode free vibration with modal Newmark",
+      "wp_origin": "WP06 v0.2.12"
+    }
+  ],
+  "environment": {
+    "isolation": "Current-user local process only; no sandbox, no hard CPU/RAM/disk quota and no guaranteed process-tree termination. Output cap is a soft polling control.",
+    "packages": {
+      "numpy": "2.2.6",
+      "pytest": "8.4.1",
+      "scipy": "1.15.2",
+      "threadpoolctl": "3.6.0"
+    },
+    "platform_capture": "Observed on 2026-10-26: Windows-10-10.0.19045-SP0, AMD64; threadpoolctl reports OpenBLAS 0.3.29, architecture Haswell, pthreads, one thread, library numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll SHA-256 6547e9fb966e9773caee2755e91a8bf4d6f3a2f0eebf9646b0158f8675ea4ab5. Must be rechecked by VALIDATE before any future case-specific decision.",
+    "python": {
+      "distribution_version": null,
+      "executable": "E:\\QFSolverWP12B\\venv-3.13.17\\Scripts\\python.exe",
+      "solveur_version": "0.2.11",
+      "venv": "E:\\QFSolverWP12B\\venv-3.13.17",
+      "version": "3.13.17"
+    },
+    "thread_environment": {
+      "BLIS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    }
+  },
+  "evidence_root": "E:\\QFSolverWP12B\\wp12-local-vv-evidence",
+  "execution_authorized": false,
+  "identities": {
+    "runner": {
+      "commit": "9b1465d79cb19985c823c1329af2540de665a556",
+      "path": "E:\\QFSolverWP12B\\runner-local-vv",
+      "purpose": "Local non-attested V&V runner checkout; does not replace or modify WP12-A/B/C.",
+      "tree": "8b85486840de30f7e8ccd5cec1b5bc744c7fbcb0"
+    },
+    "science": {
+      "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+      "path": "E:\\QFSolverWP12B\\science",
+      "purpose": "Frozen scientific source checkout; WP12-0 candidate identity, distinct from tests, runner and documentation.",
+      "tree": "df4ec667bf746b042c900fad1f86bf542e1a437b"
+    },
+    "tests": {
+      "commit": "69a8642a15879666f59ad545dc83ac5852290b65",
+      "path": "E:\\QFSolverWP12B\\tests-local-vv",
+      "purpose": "Tests checkout containing exact tests plus the separate supplemental Q3 oracle test.",
+      "tree": "99c08ec34d2f5a78bb244d27724ac189519accb8"
+    }
+  },
+  "mode": "PREPARATION_ONLY",
+  "notes": "All four cases remain PREPARED_NOT_AUTHORIZED and NOT_RUN. No Owner execution decision exists. Each case requires a separate explicit Owner decision outside the runner, bound to this exact manifest SHA-256 and case. The decision record is non-cryptographic; runner does not authenticate its author. Q3 characteristic-polynomial test is not executable from this manifest. STAT-BEAM-001 and FEM-TET4-H-001 are preparation documents only and excluded.",
+  "numerical_execution_performed": false,
+  "numerical_execution_status": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "policy": "QUALIFICATION_LOCAL_VV",
+  "prepared_at": "2026-10-26",
+  "resource_policy": {
+    "cpu": "No hard CPU quota; one exact node per invocation is proposed. OWNER_APPROVAL_REQUIRED.",
+    "filesystem": "Current-user file permissions; not a sandbox. Historic archives must remain outside output. OWNER_ACCEPTANCE_REQUIRED.",
+    "log_limit_note": "Per-stream 16 MiB is proposed soft polling only; not a hard quota. OWNER_APPROVAL_REQUIRED.",
+    "memory": "No hard memory quota; observed usage is not a limit. OWNER_APPROVAL_REQUIRED.",
+    "process_tree": "Direct-child timeout handling only; descendant termination is not guaranteed. OWNER_ACCEPTANCE_REQUIRED."
+  },
+  "schema": "qf-local-vv-campaign-v1",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "supplemental_case_reviews": [
+    {
+      "acceptance_ref": "Separate exact scalar characteristic-polynomial test and WP04 contract tolerances; no change to existing test.",
+      "case_id": "Q3-CHARPOLY-001",
+      "execution_selection": "Excluded from executable cases; its own later Owner case decision and manifest revision required.",
+      "file_inventory": [
+        {
+          "checkout": "tests",
+          "git_blob_oid": "13ff4c59d7ff5c3544a6fc2c96a57644ca5a5ac1",
+          "path": "tests/unit/test_modal_two_dof_independent_oracle.py",
+          "sha256": "e4676573acabd8cf33818436c269b1f5f39a9ac47a5f421df65f487178270114"
+        }
+      ],
+      "nodeid": "tests/unit/test_modal_two_dof_independent_oracle.py::test_two_dof_eigenvalues_match_independent_characteristic_polynomial",
+      "oracle_id": "Q3-2DOF-INDEPENDENT-CHARACTERISTIC-POLYNOMIAL-v1",
+      "oracle_summary": "For M=[[2,1/4],[1/4,3/2]] and K=[[20,-2],[-2,8]], det(K-lambda*M)=(47/16)lambda^2-47lambda+156; roots (376 +/- 16*sqrt(94))/47. Independent eigenvalue oracle only; not independent eigenvectors/full reduction route.",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_SUPPLEMENTAL_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "wp_origin": "WP04 v0.2.12"
+    }
+  ],
+  "title": "First local V&V preparation: Q1-Q4 exact cases",
+  "wp12_status": "OPEN"
+}

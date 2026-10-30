@@ -10,7 +10,7 @@ Le test dédié, le runner one-shot, le rapporteur, le manifeste d'exécution et
 
 | Identité | Valeur |
 |---|---|
-| Worktree / branche | `C:\Users\fari\Documents\projet\SAFRAN\.codex-worktrees\wp-c02-ar` / `codex/wp-c02-ar-spatial-convergence-20261023` |
+| Worktree / branche | `<legacy-worktree>\.codex-worktrees\wp-c02-ar` / `codex/wp-c02-ar-spatial-convergence-20261023` |
 | HEAD de base | `cd02eef59d3345643d617035be96190811d370bb` |
 | Arbre Git de base | `4d24fbebcc4c08f63d17f41c693394a01d040bd5` |
 | Empreinte du jeu source (525 fichiers) | `c0a29b1244d9d4d308769528a8a03e3b703ab123fce595ece069cc15199bd3c5` |

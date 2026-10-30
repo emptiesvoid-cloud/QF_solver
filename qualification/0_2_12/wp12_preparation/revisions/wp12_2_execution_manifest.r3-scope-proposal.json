@@ -1,0 +1,360 @@
+{
+  "schema": "qf-solver-wp12-prepared-manifest-v1",
+  "campaign_id": "WP12-2-DYNAMICS-D02",
+  "title": "Dynamique et système préparé — proposition R3 avec transferts WP12-1",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "mode": "PREPARATION_ONLY",
+  "numerical_execution_performed": false,
+  "wp12_status": "OPEN",
+  "authorization": {
+    "execution_authorized": false,
+    "owner_decision": "PENDING_OWNER_DECISION"
+  },
+  "repository": "emptiesvoid-cloud/QF_solver",
+  "target": {
+    "branch": "emptiesvoids-cloud/0.2.12",
+    "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+    "git_tree": "df4ec667bf746b042c900fad1f86bf542e1a437b",
+    "worktree_must_be_clean": true,
+    "detached_checkout_allowed_only_at_exact_commit": true,
+    "source_change_policy": "Exact target is mandatory; source/test/fixture/dependency changes invalidate this proposal."
+  },
+  "scope": {
+    "capability_matrix_ids": [
+      "DYN-02-01",
+      "DYN-03-01",
+      "DYN-04-01",
+      "DYN-04-03",
+      "DYN-05-01",
+      "DYN-05-02",
+      "DYN-06-01",
+      "DYN-06-02",
+      "DYN-07-01",
+      "D02-01",
+      "D02-02"
+    ],
+    "scientific_boundary": "Bounded contracted linear structural dynamics and D02 recovery; no general spatial convergence or universal modal truncation bound. R3 additionally proposes the prepared-identity/assembly check and legacy Newmark checkpoint refusal transferred from WP12-1 R2.",
+    "preserved_statuses": [
+      "WP-D01=INCONCLUSIVE",
+      "WP-D02=CLOSED_BOUNDED",
+      "WP12=OPEN"
+    ],
+    "required_contracts": [
+      "wp02_prepared_dynamic_system_contract.json",
+      "wp03_excitation_channels_contract.json",
+      "wp04_modal_basis_damping_contract.json",
+      "wp05_reduced_harmonic_contract.json",
+      "wp06_modal_newmark_contract.json",
+      "wp07_uniform_base_acceleration_contract.json",
+      "wp_d02_bounded_closure_report.md"
+    ],
+    "scope_change_proposal": {
+      "decision_status": "PENDING_OWNER_DECISION",
+      "r2_manifest_sha256": "d1411f7bcb605dab4ebf3ec373fe10f80c76fdead412c7b297c1c9081c8e4805",
+      "historical_original_manifest_sha256": "1034c6fab83c43602a837d5c212f2a8af02afc5360ffa456f2594c52ac269070",
+      "proposed_nodeids_transferred_in": [
+        "tests/unit/test_prepared_dynamic_system.py::test_prepared_identity_is_deterministic_and_dof_maps_are_defensive",
+        "tests/unit/test_prepared_dynamic_system.py::test_newmark_old_checkpoint_is_readable_but_not_safe_to_resume"
+      ]
+    }
+  },
+  "source_and_test_identity": {
+    "repository_tree_roots": {
+      "src": "3fd84f22c35aaecd989f2fe614e0b3fd9d7fbc6e",
+      "tests": "25ac8dad53b310407385353373db7886b8823ceb",
+      "fixtures_or_examples": "199741620aeec02ad4342d55dd361210a766d885"
+    },
+    "tracked_source_files": [
+      "src/solveur/api/__init__.py",
+      "src/solveur/api/public.py",
+      "src/solveur/core/analyses/dynamic_checkpoint.py",
+      "src/solveur/core/analyses/modal_basis.py",
+      "src/solveur/core/analyses/modal_basis_numerics.py",
+      "src/solveur/core/analyses/modal_newmark.py",
+      "src/solveur/core/analyses/prepared_dynamic_system.py",
+      "src/solveur/core/analyses/reduced_harmonic.py",
+      "src/solveur/core/analyses/uniform_base_acceleration.py",
+      "src/solveur/core/assembly/assembler.py",
+      "src/solveur/core/errors.py",
+      "src/solveur/core/model.py",
+      "src/solveur/elements/discrete.py",
+      "src/solveur/io/dynamic_checkpoint.py",
+      "src/solveur/post/dynamic_stress.py"
+    ],
+    "tracked_test_files": [
+      "tests/unit/test_modal_basis_damping.py",
+      "tests/unit/test_modal_newmark.py",
+      "tests/unit/test_prepared_dynamic_system.py",
+      "tests/unit/test_reduced_harmonic.py",
+      "tests/unit/test_wp07_uniform_base_acceleration.py",
+      "tests/unit/test_wp_d02_dynamic_stress.py"
+    ],
+    "git_blob_oids": {
+      "src/solveur/api/__init__.py": "ea3d2fcfb0eb0acd095ae1dcd3e533f27a979682",
+      "src/solveur/api/public.py": "f2161f6dcc3f88dc23413dfae2d7f55b219652e0",
+      "src/solveur/core/analyses/dynamic_checkpoint.py": "86e7ee4b5378d5360711049a6548e65d2b9a775b",
+      "src/solveur/core/analyses/modal_basis.py": "e363e0b35e8a628dcd63fa8d18fb97fd8b1534db",
+      "src/solveur/core/analyses/modal_basis_numerics.py": "3f333730620246110e5e51ceb91ddc3cd2cec642",
+      "src/solveur/core/analyses/modal_newmark.py": "b0448d202c0d16c854b77981aefb8e653bd162f1",
+      "src/solveur/core/analyses/prepared_dynamic_system.py": "a55ba5b5b117574294db95ceccc8c68352172100",
+      "src/solveur/core/analyses/reduced_harmonic.py": "ec793b099f46710f0e61fea1b3d98c8cc7235460",
+      "src/solveur/core/analyses/uniform_base_acceleration.py": "160f871e41063854a01941f7f115c6f783aad395",
+      "src/solveur/core/assembly/assembler.py": "9f737e5a8d283981cbb7bb5dd0db63c29e51ff97",
+      "src/solveur/core/errors.py": "295dd5a59ffc6d4491aa7efa297c4795669e5257",
+      "src/solveur/core/model.py": "7ff8d9d0e75845d2347342c2b5cd3564679d05c3",
+      "src/solveur/elements/discrete.py": "9657f7e138f9abd11cc299fa19ad33153014b6ce",
+      "src/solveur/io/dynamic_checkpoint.py": "eed72d9423020e8319e6e41a6c3140978cb2f98c",
+      "src/solveur/post/dynamic_stress.py": "bdfd0966afe171585954e0ff212c50af0686335a",
+      "tests/unit/test_modal_basis_damping.py": "9710c3faa55c0859047cd748f39acc0979a5efb0",
+      "tests/unit/test_modal_newmark.py": "d6195e2b709853853fc24380c6c7c0029ecff290",
+      "tests/unit/test_prepared_dynamic_system.py": "44f758e8429a3e93e981804b3bd22ade57fba386",
+      "tests/unit/test_reduced_harmonic.py": "6bd6270d9a97d8f43e241941ea8f56e7d4a5185d",
+      "tests/unit/test_wp07_uniform_base_acceleration.py": "d8858fa5465e67ca4a6686abcba0876fbd95cf1f",
+      "tests/unit/test_wp_d02_dynamic_stress.py": "d28f63946721df59f289a8db32643ac4778c8133"
+    },
+    "sha256_inventory_file": "Required at freeze; no numerical artifacts created in WP12-0.",
+    "inventory_completeness": "Complete for resolved source/test paths at the WP12-0 scientific commit; unresolved and replacement paths remain Owner scope decisions.",
+    "sha256_by_file": {
+      "src/solveur/api/__init__.py": "7e5fe28f257a434c883b181d28391090c22fb4aa2abb37036480252b811727db",
+      "src/solveur/api/public.py": "6eafb1a97648246319cbc0ac6bb80478d1739f422d6867a6be1d1b0962f453a7",
+      "src/solveur/core/analyses/dynamic_checkpoint.py": "7a67a21c9fd393e8ac8f744f3e34894041f63cf82199605bceacc6c91020a700",
+      "src/solveur/core/analyses/modal_basis.py": "da677b109e96a23ec6b72ac5087d7a6f67d0f2991d74ddd39a2a1acbd84ed485",
+      "src/solveur/core/analyses/modal_basis_numerics.py": "c61689651a6a5204aa74725b83e75f3979bb280337d961403df1cf71644e6512",
+      "src/solveur/core/analyses/modal_newmark.py": "9a15bd1837503f8bb84ac5e4d3f9d0b814d3e8ca298179c89180a2475c69691a",
+      "src/solveur/core/analyses/prepared_dynamic_system.py": "b0589dbf124d4702535907d3db9342eaee07771d82292afa9bdac191c0bea9a4",
+      "src/solveur/core/analyses/reduced_harmonic.py": "4cabb29a1653c7e5f3fbd1b88da4c142f0ae44e48f17cc0df768ba8f85c29994",
+      "src/solveur/core/analyses/uniform_base_acceleration.py": "7a8974ab3c975983b7fe905ac29a895d474bcc48149c08d90e03664ecbf1e9ac",
+      "src/solveur/core/assembly/assembler.py": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
+      "src/solveur/core/errors.py": "9281dc8f2e320e37dd26da0f4504c343aaa54376d5f80fd03ec9294f9c01a943",
+      "src/solveur/core/model.py": "36766c46a8842ba6a4074a26d120079253ac8cb663d6fec83838889faed6534f",
+      "src/solveur/elements/discrete.py": "9842f48b188e3fe4fdaf73f227635bdd3a65cccc9440d4ee344c71c5014c3795",
+      "src/solveur/io/dynamic_checkpoint.py": "06bccd8cfdd1caca934e82773d9664447d4e4581da79c4281cba48653187a64a",
+      "src/solveur/post/dynamic_stress.py": "aef4c4244a5c2490478cecefde6864a42c50ac2a71dfb42da77bce801163b0d1",
+      "tests/unit/test_modal_basis_damping.py": "24bba2ab2fbcd046265577e2c7ad53f51a2edde7e55039e376d2b21c4e844f8a",
+      "tests/unit/test_modal_newmark.py": "7adef74af76bf032f8d40baa0e6f8a52b32de6f0429d84d461d3015b5d585ed6",
+      "tests/unit/test_prepared_dynamic_system.py": "aaadae37953e8e7601a49cee46b377c85c9180a07cb9ee5e59aa3ab4679ad16b",
+      "tests/unit/test_reduced_harmonic.py": "718cdfe8711e26db9be2de4f38ab680b2c5e3da891e1e679eca9781dd45c1c3a",
+      "tests/unit/test_wp07_uniform_base_acceleration.py": "0cc6851a61a358e60ee176f47c7f9574b36214a3454fe93c3fcafedc4be982e3",
+      "tests/unit/test_wp_d02_dynamic_stress.py": "c3b45ce5b7dbc3ead709f28638ef6f4d4101db23a36e46b4a231e4e7601e3e67"
+    }
+  },
+  "fixtures": {
+    "entries": [
+      {
+        "id": "SDOF-and-coupled-dynamic-fixtures",
+        "identity": "Source-defined analytic data in test modules; exact test module Git blob OIDs above",
+        "byte_sha256": "Compute fixture-materialization SHA-256 at freeze"
+      },
+      {
+        "id": "D02-affine-element-fixtures",
+        "identity": "Source-defined TET4/HEX20 geometries and loads; exact test module Git blob OIDs above",
+        "byte_sha256": "Compute fixture-materialization SHA-256 at freeze"
+      },
+      {
+        "id": "transferred-prepared-identity-and-legacy-newmark-checkpoint",
+        "identity": "Inline model and checkpoint constructed by the transferred exact nodeids; the selected test source file is pinned by candidate Git blob OID and SHA-256.",
+        "path": null,
+        "state": "SOURCE_BOUND; materialized fixture hash requires an authorized run and is not inferred in WP12-A."
+      }
+    ],
+    "external_fixture_policy": "Inventory any runtime file inputs before approval; hash exact bytes, otherwise STOP."
+  },
+  "tests": {
+    "exact_nodeids": [
+      "tests/unit/test_prepared_dynamic_system.py::test_prepared_operators_match_legacy_assembly_and_remain_sparse",
+      "tests/unit/test_modal_basis_damping.py::test_degenerate_subspace_rotation_and_sign_are_equivalent_and_residual_safe",
+      "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase",
+      "tests/unit/test_reduced_harmonic.py::test_truncated_basis_records_observable_differences_without_claiming_error_bound",
+      "tests/unit/test_modal_newmark.py::test_sdof_free_undamped_matches_analytic_solution_and_initial_projection",
+      "tests/unit/test_modal_newmark.py::test_coupled_tet4_full_basis_matches_independent_eigen_expansion",
+      "tests/unit/test_modal_newmark.py::test_second_order_time_refinement_for_smooth_free_vibration",
+      "tests/unit/test_modal_newmark.py::test_restart_matches_continuous_run_and_refuses_corrupt_or_incompatible_checkpoint",
+      "tests/unit/test_wp07_uniform_base_acceleration.py::test_full_mass_base_load_keeps_free_constrained_coupling_and_beam_rotations",
+      "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+      "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
+      "tests/unit/test_wp_d02_dynamic_stress.py::test_tet4_complex_harmonic_stress_matches_independent_affine_reference",
+      "tests/unit/test_wp_d02_dynamic_stress.py::test_transient_tet4_free_vibration_matches_modal_oracle_and_independent_stress",
+      "tests/unit/test_wp_d02_dynamic_stress.py::test_dynamic_recovery_fails_closed_for_invalid_sources_and_incomplete_fields",
+      "tests/unit/test_prepared_dynamic_system.py::test_prepared_identity_is_deterministic_and_dof_maps_are_defensive",
+      "tests/unit/test_prepared_dynamic_system.py::test_newmark_old_checkpoint_is_readable_but_not_safe_to_resume"
+    ],
+    "parameterized_node_resolution": "Before freeze, inspect pytest decorators and bind exact parameter-expanded item IDs for any listed parameterized test; no post-approval wildcard expansion.",
+    "commands": [
+      {
+        "runner": "FUTURE_WP12_RUNNER_NOT_IMPLEMENTED",
+        "argv_template": [
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "<one exact nodeid>"
+        ],
+        "dispatch_policy": "one exact node per child process; future audited runner only",
+        "execution_status": "NOT_EXECUTED"
+      }
+    ],
+    "status": "NOT_RUN"
+  },
+  "oracles_and_acceptance": {
+    "contract_references": [
+      "wp02_prepared_dynamic_system_contract.json",
+      "wp03_excitation_channels_contract.json",
+      "wp04_modal_basis_damping_contract.json",
+      "wp05_reduced_harmonic_contract.json",
+      "wp06_modal_newmark_contract.json",
+      "wp07_uniform_base_acceleration_contract.json",
+      "wp_d02_bounded_closure_report.md"
+    ],
+    "oracle_class_by_case": {
+      "operators": "legacy-assembly/sparse invariant",
+      "harmonic": "independent SDOF complex amplitude/phase oracle; direct full-basis comparison separately labeled",
+      "transient": "analytic SDOF and modal expansion; time-refinement order",
+      "base_motion": "independent full-free SDOF equation and constant-acceleration solution",
+      "stress": "independent affine stress reference and fail-closed mismatch"
+    },
+    "frozen_tolerances": {
+      "WP05_analytical_fixture": 1e-10,
+      "WP05_full_basis_physical_residual": 1e-08,
+      "WP05_direct_equivalence": 1e-08,
+      "WP06_equilibrium_and_physical_residual": 1e-07,
+      "WP06_direct_full_basis_state_difference": 1e-08,
+      "WP06_minimum_smooth_time_order": 1.8,
+      "WP06_restart_rtol": 1e-12,
+      "WP07_harmonic_rtol": 1e-11,
+      "WP07_harmonic_atol": 1e-13
+    },
+    "no_new_thresholds": true,
+    "success_conditions": [
+      "Every invoked case meets its cited contract tolerance.",
+      "Independent oracles, shared-code comparisons, invariants and temporal refinement are reported as distinct proof types.",
+      "Truncation remains diagnostic-only unless full-basis contract applies."
+    ],
+    "fail_or_stop_conditions": [
+      "Any exceeded frozen threshold, phase/frame mismatch, identity mismatch, missing oracle input or output collision is recorded as failure/stop; no threshold adjustment."
+    ]
+  },
+  "environment": {
+    "os": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "python": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "numpy_scipy_pytest": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "optional_solvers": "NOT_USED by proposed bounded cases",
+    "blas_openmp_mkl_threads": null,
+    "environment_lock_sha256": null
+  },
+  "resource_limits": {
+    "cpu_cores": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "ram_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "numerical_threads": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_per_node": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_campaign": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "temporary_storage_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "limit_enforcement": "No hard-resource claim until future runner demonstrates enforcement."
+  },
+  "attempt_policy": {
+    "maximum_attempts_per_node": {
+      "value": 1,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "automatic_retry": false,
+    "retry_requires": "New approved hypothesis/manifest; keep prior receipt."
+  },
+  "evidence": {
+    "exclusive_destination_template": "qualification/0_2_12/wp12_evidence/WP12-2-DYNAMICS-D02/<run_id>/",
+    "refuse_if_destination_exists": true,
+    "historical_paths_writable": false,
+    "capture": [
+      "manifest/hash",
+      "source/test/fixture inventory",
+      "exact argv",
+      "environment",
+      "stdout/stderr",
+      "exit status",
+      "per-case oracle/error/tolerance",
+      "time and resource observations",
+      "artifact hashes"
+    ],
+    "partial_run_policy": "Seal partial evidence, retain failures/skips; no retry/overwrite."
+  },
+  "prepared_at": "2026-10-25",
+  "notes": "PREPARATION_ONLY; no numerical execution. WP-D02 remains bounded; no general mesh convergence implied.",
+  "execution_status_label": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "preparation_status_label": "PREPARATION_ONLY",
+  "wp12_status_label": "WP12_STATUS=OPEN",
+  "preparation_revision": {
+    "schema": "qf-wp12-prepared-manifest-revision-v1",
+    "revision_id": "WP12-2-R3-SCOPE-PROPOSAL",
+    "created_utc_date": "2026-10-25",
+    "supersedes": "qualification/0_2_12/wp12_preparation/revisions/wp12_2_execution_manifest.r2-prepared.json",
+    "superseded_manifest_sha256": "d1411f7bcb605dab4ebf3ec373fe10f80c76fdead412c7b297c1c9081c8e4805",
+    "source_identity": {
+      "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+      "git_tree": "df4ec667bf746b042c900fad1f86bf542e1a437b"
+    },
+    "changes": [
+      "completed SHA-256 and Git blob inventory for statically resolved source/test files",
+      "preserved source commit identity",
+      "retained PREPARED_NOT_AUTHORIZED; this revision is not an authorization",
+      "WP12-S scope proposal recorded in a new R3 preparation; R1, R2, and the R2 index remain unchanged.",
+      "Historical nodeids retain exact identifiers and references to original and R2 manifest hashes.",
+      "Scientific execution remains unconditionally disabled in WP12-A; this R3 is PREPARED_NOT_AUTHORIZED.",
+      "Added both transferred exact nodeids and their direct API/assembly/checkpoint dependencies to the WP12-2 R3 proposal."
+    ],
+    "path_resolution": {
+      "path_replacements": [
+        {
+          "group": "tracked_source_files",
+          "declared_path": "src/solveur/core/analyses/dynamic_stress.py",
+          "candidate_paths": [
+            "src/solveur/post/dynamic_stress.py"
+          ],
+          "basis": "static Git tree inspection; Owner scope approval still required"
+        }
+      ],
+      "unresolved_declared_paths": [],
+      "stale_oid_references": [
+        {
+          "path": "tests/unit/test_modal_symmetric_projection.py",
+          "previous_oid": "20889499b60cdd4fa79b2a2d2f76626279ed3e8e",
+          "source_commit_oid": null
+        }
+      ],
+      "nodeids_not_found_by_static_ast": []
+    },
+    "fixture_inventory": [
+      {
+        "id": "SDOF-and-coupled-dynamic-fixtures",
+        "path": null,
+        "declared_source_commit": null,
+        "state": "INLINE_OR_NONFILE_FIXTURE_NOT_MATERIALIZED"
+      },
+      {
+        "id": "D02-affine-element-fixtures",
+        "path": null,
+        "declared_source_commit": null,
+        "state": "INLINE_OR_NONFILE_FIXTURE_NOT_MATERIALIZED"
+      }
+    ],
+    "status": "PREPARED_NOT_AUTHORIZED",
+    "historical_original_path": "qualification/0_2_12/wp12_preparation/wp12_2_execution_manifest.json",
+    "historical_original_sha256": "1034c6fab83c43602a837d5c212f2a8af02afc5360ffa456f2594c52ac269070",
+    "scope_decision_status": "PENDING_OWNER_DECISION"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "authorization_issued_at_utc": "2026-10-26T09:52:51Z",
+  "available_reproduction_renderer": {
+    "note": "Current renderer for reconstructing indexed data from verified receipts; not asserted to be the exact source revision that originally produced these artifacts.",
+    "path": "../../render_results.py",
+    "sha256": "ccae5962901d5a538adba26eff5f8a66e98a6215845e08ed9190d034fc318e3e"
+  },
+  "campaign_id": "WP12-S-QUANT-001",
+  "files": [
+    {
+      "path": "DYN-SDOF-QUANT-001-history.csv",
+      "sha256": "88ff9fecb5624f1b038386a9f43156d120bff67e98e33a3c5fc89d011bba42ce"
+    },
+    {
+      "path": "FEM-TET4-H-001-levels.csv",
+      "sha256": "dae652d32cd03c7febb1fef8a0a7382eec1605a6ccd19f6f85959738a80fadb8"
+    },
+    {
+      "path": "figures/beam2-timoshenko-two-planes.svg",
+      "sha256": "b043e4dc5507d003788ec5f4d40679c34c37ec63600332b3ee5adb49054396ab"
+    },
+    {
+      "path": "figures/modal-2dof-independent-roots.svg",
+      "sha256": "b9210e5e46bddeeacef5cbf713f0d9ead174b145908da231ca917f5de6b76543"
+    },
+    {
+      "path": "figures/modal-discrete-frequency.svg",
+      "sha256": "d4bf8fe1878dda6f34b15a6712119e5e4cd599d4f02a91a52518d797aab51bc9"
+    },
+    {
+      "path": "figures/newmark-sdof-history.svg",
+      "sha256": "274636d274e4fa6a38aaacbfac10110c447b8f9e0a1b978c4c10b9cd01c1fd88"
+    },
+    {
+      "path": "figures/tet4-refinement-characterization.svg",
+      "sha256": "0336ac50a17771df16ba08a13ee0e368bde9ac1098b9975295735c7333ed3efa"
+    },
+    {
+      "path": "Q1_Q4_EXECUTED_RESULTS.csv",
+      "sha256": "738b528009e0b651858a434f521e5c55044f3ec56234be5bed906a401be03a94"
+    },
+    {
+      "path": "WP12_S_ALL_CASE_RESULTS.csv",
+      "sha256": "ac5f7ccf30e1875bb138fd40139dd9753ba4635c1025fae3d64def9baf4b5590"
+    }
+  ],
+  "index_excluded_from_its_own_inventory": true,
+  "integrity_index_updated_at_utc": "2026-10-26T10:11:04Z",
+  "manifest_sha256": "df8c1401a122d18be270ba25bbd0f77c92ede5ff667d9fe4b87da62c10745d9c",
+  "qualification_status": "NOT_ASSIGNED; PYTEST_PASS_ONLY IS NOT AN ORACLE OR WP12 VERDICT",
+  "raw_evidence_root": "E:\\QFSolverWP12B\\wp12-local-vv-evidence\\WP12-S-QUANT-001",
+  "schema": "qf-wp12-s-derived-results-index-v1",
+  "scientific_execution": "COMPLETED_FOR_EIGHT_AUTHORIZED_CASES; one pytest FAIL preserved",
+  "source_receipts": {
+    "ALG-PROJ-QUANT-001": {
+      "run_id": "20261026T095314Z-055befad2e0f",
+      "sha256": "e3619afc337032d81ba94d05251885106bf100c86c0cc499f0eb9ff083f33fa6"
+    },
+    "DYN-SDOF-QUANT-001": {
+      "run_id": "20261026T095436Z-f319a5e2c49f",
+      "sha256": "7aebadda2077f004aa13b6d50e7047035ebc09714d0c64b3611c44befbbe87e0"
+    },
+    "FEM-TET4-H-001": {
+      "run_id": "20261026T095627Z-aedceeb89280",
+      "sha256": "e8d93fae9cc07021e89444727551e39313a59c292305f7d0643dd27e2b23f8be"
+    },
+    "MODAL-2DOF-POLY-001": {
+      "run_id": "20261026T095500Z-0494258ea65e",
+      "sha256": "a46d0d62740f79128552982ffd9c1835d458307bf6f9b261ba40320b02d3fd31"
+    },
+    "MODAL-2DOF-QUANT-001": {
+      "run_id": "20261026T095413Z-3eb40e52bb70",
+      "sha256": "1997759f09a4b4d2a19d65f8a641bc3d82e4b775c751810745f5e5fcddf30507"
+    },
+    "MODAL-DISCRETE-QUANT-001": {
+      "run_id": "20261026T095339Z-b7d9aa4d4af6",
+      "sha256": "d990d00fd509b21ee85aef000c0c2b4db7df73ee6496a1fd208db336b8a8efe5"
+    },
+    "STAT-BEAM-UY-001": {
+      "run_id": "20261026T095548Z-9826f4c65bbb",
+      "sha256": "8bb8d1959ef87eb5ab061c0a17afeec812dc729e1e3015c357da948d51e48d30"
+    },
+    "STAT-BEAM-UZ-001": {
+      "run_id": "20261026T095608Z-1f7fc4b8fe3b",
+      "sha256": "2471a20b895bd4449ddb6603d8445c6a181a57346db606ce0b3fd4d292b0e257"
+    }
+  }
+}

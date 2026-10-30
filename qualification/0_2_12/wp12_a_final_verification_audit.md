@@ -1,0 +1,143 @@
+# WP12-A — Audit final de vérification, traçabilité et préparation de clôture
+
+Date : 2026-10-27
+Branche examinée : `emptiesvoids-cloud/wp12-dynamics-selective-integration`
+HEAD documentaire : `f843d9286894d938df8503028d9d553baa27e1ed`
+Base candidate : `emptiesvoids-cloud/0.2.12` à `98456355f0a85dff9edf7f37d53c7c6fff59bf37`
+
+## 1. Résumé exécutif
+
+**État de l’audit :** `WP12A_VERIFICATION_AUDIT_COMPLETE_READY_FOR_OWNER_REVIEW`
+**Statut recommandé pour WP12-A :** `PARTIALLY_CLOSED`
+**Recommandation :** `CONDITIONAL_GO` pour revue Owner et clôture bornée du sous-ensemble étayé. Ce n’est pas un GO pour la vérification intégrale de WP12-A ni une qualification de release.
+
+Les implémentations WP04–WP07 existent et disposent de campagnes unitaires, d’oracles analytiques et de vérifications bornées. Trois sentinelles dynamiques WP12 exactes sont présentes, enregistrées et ont réussi sur le HEAD scientifique indépendant `d9deddbd…`; leurs empreintes source correspondent aux inscriptions et le code sous `src/solveur` est identique entre ce HEAD et la base candidate. Elles n’ont toutefois pas été exécutées sur le HEAD courant de la branche d’intégration : leur statut candidat reste `NOT_RUN`.
+
+Les preuves RBE2, RBE3 et MPC couvrent des cas linéaires statiques bornés. Elles n’établissent pas leur couplage aux routes dynamiques WP04–WP07. La validation de scope mixte refuse MPC/RBE; le test spécifique de refus est absent. Le défaut historique de round-trip harmonique WP07 reste conservé. Un correctif de zéro signé est intégré et des rapports ultérieurs donnent des PASS bornés, mais l’exécution exacte du nœud historique sur le HEAD candidat n’est pas établie.
+
+Les contrôles effectués pour cet audit n’ont lancé aucun solveur, calcul FEM, projection modale, réponse harmonique ni intégration temporelle. Les 18 tests synthétiques d’archivage et quatre tests synthétiques de DTO/sérialisation ont réussi sur le HEAD `f843d928`; les trois sentinelles dynamiques ont été collectées seulement. Aucune validation physique générale ni qualification formelle n’est revendiquée.
+
+## 2. Identités et méthode
+
+- La branche d’audit est issue du HEAD candidat distant `98456355…`. Les commits `8b90eb70` et `f843d928` n’ajoutent que les trois modules de sentinelles dynamiques, le test synthétique d’archivage et de la documentation. Aucun changement à `src/solveur`, au runner ou à la politique n’a été introduit.
+- Le diff `src/solveur` entre le candidat `98456355…` et le HEAD scientifique dynamique `d9deddbd…` est vide. C’est une identité de code source, pas une exécution sur le candidat.
+- Les trois sources test WP12 réintégrées sont identiques au contenu scientifique du commit dynamique après normalisation des fins de ligne. Les empreintes source calculées avec l’algorithme du contrôleur correspondent aux dernières inscriptions de `development_autonomous_policy.json`.
+- Les rapports d’implémentation WP04–WP07 et WP13 décrivent plusieurs branches, instantanés et environnements. Leurs résultats sont nommés `PASS_REPORTED`; ils ne sont pas agrégés comme une suite exécutée sur `f843d928`.
+- Les résultats bruts, manifestes, reçus et preuves historiques n’ont pas été modifiés. Les anciens échecs demeurent visibles.
+
+### Statuts utilisés
+
+| Statut | Sens dans cet audit |
+|---|---|
+| `VERIFIED_BOUNDED` | Preuve analytique, algébrique ou numérique sur le domaine explicitement indiqué; ne signifie pas validation physique générale. |
+| `PARTIALLY_VERIFIED` | Une partie de la portée a des preuves, mais une régression, un contrat ou une route reste sans preuve suffisante. |
+| `INCONCLUSIVE` | Les données ne permettent pas de trancher l’hypothèse ou la portée scientifique. |
+| `FAILED` | Échec observé et conservé pour l’identité précisée; il n’est pas transféré à une autre identité sans preuve. |
+| `NOT_TESTED` / `NOT_RUN` | Aucune preuve d’exécution correspondant à la portée ou au HEAD courant n’a été trouvée. |
+
+## 3. Matrice de vérification WP04–WP07, résultats et contraintes
+
+| Capacité | Implémentation et tests exacts | Résultats disponibles et type d’oracle | Classement et limite | Action restante |
+|---|---|---|---|---|
+| **WP04 — base modale, projection et amortissement** | `src/solveur/core/analyses/modal_basis.py`, `modal_basis_numerics.py`, `modal_basis_damping.py`. Tests représentatifs : `tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators`; `::test_degenerate_subspace_rotation_and_sign_are_equivalent_and_residual_safe`; `::test_rayleigh_projection_and_modal_damping_provenance_and_cluster_guard`; `::test_prepared_modal_basis_supports_each_wp00_family` (paramétré). | Rapport WP04 : 15 tests du module, 92 ciblés, campagne complète rapportée 3 213 PASS / 93 SKIPPED / 0 FAIL. La campagne accélérée sur source `00428adf…` rapporte 6/6 projections. Oracles : problème généralisé à deux DDL, résidus, normalisation `ΦᵀMΦ`, invariants de projection, classes d’éléments et refus numériques. | `VERIFIED_BOUNDED` pour extraction/projection/amortissement documentés. Maturité `EXPERIMENTAL`; absence de résolution forcée dans WP04. Le contrôle SPD creux est un écran numérique, pas une preuve formelle. `G03=FAIL_PRESERVED` est un autre résultat historique et n’est pas effacé. Pas de validation physique générale. | Conserver les échecs historiques et la limite de troncature. La campagne WP04 ciblée n’est pas rejouée sur `f843d928`; ne pas promouvoir son PASS au candidat sans exécution liée à cette identité. |
+| **WP05 — réponse harmonique réduite** | `src/solveur/core/analyses/reduced_harmonic.py`, routeur et DTO dans `src/solveur/core/results.py`. Tests : `tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase`; `::test_coupled_two_dof_complex_response_uses_full_projected_operators`; `::test_reduced_impedance_detects_exact_and_near_resonance_before_solving`; `::test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz`; `::test_truncated_basis_records_observable_differences_without_claiming_error_bound`. | Rapport WP05 : 19 tests du module, 135 ciblés, 3 232 PASS / 93 SKIPPED / 0 FAIL dans la campagne unitaire rapportée. SDOF complexe et système couplé à deux DDL fournissent des oracles analytiques/algébriques. Sur TET4 borné, base complète/directe concordent près de la précision machine; la troncature à deux modes montre des écarts d’observable de 16,1 % à 54,4 % selon la fréquence. La sentinelle WP12 à six fréquences rapporte une concordance complète/directe de `2,28e-16` et une réponse tronquée nulle à sa sonde. | `VERIFIED_BOUNDED` pour les fixtures et contrats testés. La comparaison direct/complet partage les opérateurs; ce n’est pas un oracle physique indépendant. La réponse nulle de la sonde tronquée est une anomalie locale de représentation, sans borne d’erreur ROM générale. Pas de contrainte MPC/RBE, réaction physique avec amortissement modal prescrit ni flexibilité résiduelle dans cette portée. | Ne pas convertir les résidus réduits en estimation de l’erreur de troncature. Garder la maturité `EXPERIMENTAL` et la route directe par défaut. |
+| **WP06 — Newmark modal** | `src/solveur/core/analyses/modal_newmark.py`, `modal_newmark_checkpoint.py`, DTO dans `results.py`. Tests : `tests/unit/test_modal_newmark.py::test_sdof_free_undamped_matches_analytic_solution_and_initial_projection`; `::test_second_order_time_refinement_for_smooth_free_vibration`; `::test_full_basis_matches_direct_newmark_when_damping_and_excitation_match`; `::test_restart_matches_continuous_run_and_refuses_corrupt_or_incompatible_checkpoint`; et la sentinelle WP12 ci-dessous. | Rapport WP06 : 32 tests du module et 3 264 PASS / 93 SKIPPED / 0 FAIL dans la suite rapportée. Oracles SDOF fermés, raffinement temporel, comparaison d’expansion modale et états/checkpoints. Sentinelle WP12 sur `d9deddbd…`: erreur max `u=2,59e-7 m` au pas fin, ordre observé de `u` proche de 2; résidu réduit max `6,72e-13`, dérive énergétique relative max `3,18e-13`. | `VERIFIED_BOUNDED` pour fixtures libres, amorties et règles de restart indiquées. Le rapport n’acquiert pas de solution physique indépendante générale. La sentinelle WP12 est un BEAM2 axial à un DDL libre; critères vitesse/accélération descriptifs seulement. | Aucun recalcul demandé dans cet audit. Un PASS sur `d9deddbd…` ne devient pas PASS d’exécution de `f843d928`. |
+| **WP07 — excitation uniforme de base** | `src/solveur/core/analyses/uniform_base_acceleration.py`, composition WP05/WP06 et `results.py`. Tests : `tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames`; `::test_transient_base_sdof_matches_independent_constant_acceleration_solution`; `::test_full_mass_base_load_keeps_free_constrained_coupling_and_beam_rotations`; sentinelle complexe WP12 ci-dessous. | Rapport WP07 sur branche dédiée : 70 tests ciblés et 3 283 PASS / 93 SKIPPED / 0 FAIL rapportés; oracles SDOF d’accélération constante et équation harmonique libre, cinématique de repères, phases, masses et refus. La campagne accélérée sur test snapshot `77e83b53…` garde 2 PASS / 1 FAIL: `test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames` échoue lors du round-trip de `frequency_response` après les assertions mécaniques. Une correction `bf8732c4` préserve le signe de zéro complexe; un test synthétique dédié passe. Les rapports WP07/dynamique ultérieurs donnent des PASS bornés sur leurs branches. | `PARTIALLY_VERIFIED`; l’échec historique `frequency_response` est conservé et son rejeu exact sur le candidat courant est `NOT_RUN`. La sentinelle WP12 ultérieure valide une coordonnée libre et un axe, pas un système multi-support. À DC, certains déplacements/vitesses absolus sont explicitement indisponibles. Aucune validation physique générale. | Priorité : sous manifeste et identité actuels, rejouer le nodeid historique post-correctif sur le candidat, si l’Owner autorise la vérification dynamique. Ne pas écraser ni reclasser l’ancien FAIL. |
+
+## 4. Sentinelles dynamiques inscrites et état candidat
+
+Les trois tests ci-dessous sont autorisés uniquement dans le scope `wp12_dynamics`; les empreintes récentes concordent avec la politique. Le registre donne 300 s par tentative, un DDL pour Newmark, trois pour l’harmonique et un pour l’accélération de base. Le maximum inscrit est 10 tentatives par nodeid et 130 au total. Les autorisations et manifestes du run historique étaient liés à `d9deddbd…` et au contrôleur de l’époque; ils ne sont pas des manifestes réutilisables pour un nouveau HEAD.
+
+| Nodeid exact | Fingerprint source | Résultat historique lié à `d9deddbd…` | Sur la branche d’audit `f843d928` |
+|---|---|---|---|
+| `tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables` | `65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8` | `DEVELOPMENT_PASS_BOUNDED`, un run instrumenté; identité de manifeste et sidecar dans `DYNAMIC_HARMONIC_RESULTS_REPORT.md`. Une ancienne panne d’instrumentation reste `INFRA_FAIL`, pas un échec mécanique. | Présent et collecté; **`NOT_RUN`** sur ce HEAD. |
+| `tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation` | `bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c` | `DEVELOPMENT_PASS_BOUNDED`, un run; full/direct équivalent sur six fréquences, troncature à deux modes nulle sur la sonde. | Présent et collecté; **`NOT_RUN`** sur ce HEAD. |
+| `tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization` | `969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6` | `DEVELOPMENT_PASS_BOUNDED`, un run; signes, phases, repères, cinématique et round-trip cohérents sur un axe/une coordonnée libre. | Présent et collecté; **`NOT_RUN`** sur ce HEAD. |
+
+La collecte statique de ces trois nodeids sur `f843d928` a trouvé exactement trois tests. Les tests de calcul n’ont pas été invoqués. La politique comprend aussi des enregistrements historiques antérieurs; leur présence n’étend pas le budget ni l’identité des manifestes existants.
+
+## 5. Contrats, RBE2/RBE3/MPC et sérialisation
+
+| Domaine | Implémentation, tests et preuves | Statut et limites |
+|---|---|---|
+| **RBE2 statique** | `src/solveur/core/rbe.py`, `constraints.py`. Tests comme `tests/unit/test_rbe_links.py::test_rbe2_multiple_arms_transfer_combined_wrench_and_match_condensed_reference` et `tests/unit/test_mpc_reduction.py::test_rbe2_support_reaction_includes_transported_moment_in_global_audit`. WP13 rapporte 100 PASS sur sept modules ciblés, avec référence condensée et fermeture du torseur. | `PASS_REPORTED` / portée Owner `QUALIFIED_BOUNDED` approuvée, en attente d’intégration autoritative. La corrélation Code_Aster est historique, `HISTORICAL_NOT_RERUN`; aucune portée dynamique ni Nastran générale. Ces 100 tests ne sont pas une exécution sur `f843d928`. |
+| **RBE3** | Tests `tests/unit/test_rbe_links.py::test_rbe3_projection_matches_independent_weighted_least_squares_and_wrench`, `::test_rbe3_rigid_body_projection_solves_and_closes_global_equilibrium`, et refus des géométries dégénérées. L’oracle LS indépendant vérifie projection, six modes et torseur. | Projection de corps rigide `VERIFIED_BOUNDED` pour le scope statique à poids strictement positifs et géométrie de rang suffisant. RBE3 pondéré autorise une extrapolation signée; la conservation générale du moment n’est pas garantie. Pas de corrélation externe RBE3. |
+| **MPC** | `src/solveur/core/constraints.py`; `tests/unit/test_mpc_reduction.py::test_elimination_matches_lagrange_multiplier_solution`, `::test_affine_constraint_reconstructs_prescribed_relative_displacement`, `::test_static_solver_enforces_json_mpc_and_reports_reduction`, tests de cycle/conflit/refus. | Réduction affine et réactions vérifiées pour petits systèmes linéaires statiques acycliques. L’oracle multiplicateur partage les équations de contraintes; le rang est un diagnostic dense limité à 180 DDL actifs. Multiplicateurs potentiellement non uniques sous contraintes redondantes. |
+| **MPC/RBE en routes dynamiques** | `src/solveur/mesh/mixed_validation.py` refuse MPC/RBE pour la portée mixte modale, transitoire et harmonique; seules certaines contraintes mixtes `linear_static` sont prises en charge. `tests/unit/test_wp13_02_mixed_dynamic_validation.py::test_declared_dynamic_scope_rejects_undeclared_family` et `::test_harmonic_validation_applies_declared_mixed_scope` vérifient les familles mixtes, pas le refus MPC/RBE. Il n’y a pas de test exact couvrant ce refus sur les trois routes. | **`NOT_TESTED` pour le comportement dynamique général**; les chemins mixtes concernés échouent fermés, mais cela ne prouve ni compatibilité ni refus universel de tous les modèles mono-famille. Aucun défaut dynamique n’est démontré. |
+| **Résultats/sérialisation** | DTO expérimentaux Newmark et harmonique avec schémas versionnés propres; fonctions ordinaires distinctes et aucun décodeur générique commun. Sur `f843d928`, PASS de `test_versioned_experimental_result_dtos_round_trip_without_solver_execution`, `test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata`, `test_complex_serialization_exposes_real_imag_amplitude_and_phase` et `test_harmonic_result_rejects_mismatched_frequency_and_response_counts`. | `VERIFIED_BOUNDED` pour ces contrats synthétiques. Les DTO confirment `EXPERIMENTAL` / `NOT_ASSESSED` et refusent métadonnées incohérentes; cela ne vérifie pas toutes les sorties produites par un calcul dynamique réel ni ne crée un schéma universel. |
+
+## 6. Vérifications effectuées dans cet audit
+
+| Vérification | Résultat | Interprétation |
+|---|---|---|
+| Six fonctions synthétiques d’archivage, trois variantes chacune | **18 PASS / 0 FAIL** | Identité série/tentative, écriture avant assertion, refus d’écrasement, manifestes/path non autorisés et intégrité des sidecars temporaires. Aucun solveur appelé. |
+| Quatre fonctions DTO/sérialisation sans exécution solveur | **4 PASS / 0 FAIL** | Round-trip synthétique, signe de zéro complexe, convention amplitude/phase et refus de comptages incohérents. |
+| Collecte des trois sentinelles dynamiques WP12 | **3 collectées** | Confirme leur présence exacte; ne constitue pas leur exécution. |
+| `src/solveur`, runner et politique contre la base `98456355…` | **Aucun diff** | Aucun code, runner ni policy modifié par cet audit. |
+| Suites WP04–WP07, WP13 complètes sur `f843d928` | **NOT_RUN** | Les nombres PASS historiques restent liés à leurs propres rapports, commits, JUnit et environnements. |
+| Calcul FEM/modal/harmonique/Newmark ou benchmark | **NOT_RUN** | Conformément au mandat. |
+
+## 7. Anomalies, historique et limites scientifiques
+
+1. **WP07 round-trip historique :** `tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames` a échoué sur l’instantané de test `77e83b53…` quand `ReducedHarmonicResult.from_dict(result.to_dict())` rejetait `frequency_response`. Les assertions physiques qui précédaient le round-trip avaient passé. L’échec reste `FAIL` pour cette identité et ne doit pas être supprimé. La correction `bf8732c4` conserve le signe du zéro complexe; le test synthétique de zéro signé passe. Un rapport WP07 ultérieur indique 70 PASS sur sa branche, mais aucun résultat ne réattribue rétroactivement l’ancien run ni ne constitue un rejeu sur `f843d928`.
+2. **G03 historique :** `FAIL_PRESERVED` dans les rapports WP04/WP05; non modifié par les PASS ciblés des nouvelles routes.
+3. **Maturité :** WP04–WP07 restent `EXPERIMENTAL` lorsque le rapport le déclare; les décisions de qualification associées restent `NOT_ASSESSED`. Les tests analytiques ou les comparaisons direct/réduit n’impliquent pas validation physique.
+4. **Troncature harmonique :** le résidu réduit peut être faible alors qu’une sonde physique est absente. L’erreur dépend de l’observable, de la fréquence et des modes retenus; aucune borne générale n’est acquise.
+5. **MPC/RBE dynamiques :** interactions largement hors contrat. Le refus de portée mixte existant n’est pas une validation dynamique et le refus n’est pas testé spécifiquement pour MPC/RBE.
+6. **Preuves d’exécution distinctes :** les campagnes WP04/WP05/WP06/WP07/WP13 ont des HEAD, snapshots, reçus et environnements différents. Aucun total agrégé ne peut être présenté comme un run complet sur le candidat actuel.
+
+## 8. Couverture manquante et tests futurs
+
+Priorité et raison, sans autorisation d’exécuter donnée ici :
+
+| Priorité | Nodeid / vérification | Oracle et apport | DDL / ressources | Autorisation et statut |
+|---|---|---|---|---|
+| P1 | `tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames` | Rejouer le cas post-correctif qui contient l’échec historique; le garder lié à une nouvelle identité et conserver l’ancien résultat. | Fixture BEAM2 12 DDL physiques, un DDL libre; coût historique de quelques secondes. | Exécution dynamique; nouveau manifeste/identité et décision Owner nécessaires. `NOT_RUN` sur ce candidat. |
+| P1 | Les trois nodeids exacts du tableau §4 | Établir un résultat du candidat après intégration des tests. Les sorties incluent données numériques et archivage avant assertion. | 1 / 3 / 1 DDL sélectionnés; limite inscrite 300 s, mais manif. historiques liés à `d9deddbd…`. | Présents et enregistrés; manifeste courant et décision Owner exacts non préparés ici. `NOT_RUN` sur `f843d928`. |
+| P1 conditionnel à la portée | Tests synthétiques précis de refus MPC, RBE2 et RBE3 pour préflight modal, harmonique et transitoire en scope mixte. | Verrouiller le contrat fail-closed réellement implémenté; pas besoin de solveur si les tests restent de préflight. | Aucun DDL de résolution; ressources unitaires. | Nodeids absents; aucune inscription/autorisation faite. À ne créer que si ces refus font partie du contrat WP12-A accepté. |
+| P2 | `tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators` et checks projection structurée | Réexécuter sur identité candidate les invariants projection/orthogonalité et garder des valeurs numériques explicites. | Deux DDL analytiques ou matrices littérales selon le nodeid; aucun maillage physique pour le check algébrique. | Les preuves sont `PASS_REPORTED`; l’ancien pilote WP12-A distinct reste `WP12_A_BLOCKED_SECURITY` dans ses documents de préparation. Vérifier le scope Owner exact avant exécution. |
+| P2 / hors V&V générale | Référence indépendante d’une structure représentative et modèle dynamique multi-DOF | Mesurer l’écart physique, pas uniquement l’identité algébrique ou l’équivalence de routes. | À spécifier à partir du cas et de la référence; aucun budget proposé dans cet audit. | `NOT_RUN`; étude future avec protocole et décision Owner distincts. Pas nécessaire pour revendiquer uniquement les contrats expérimentaux bornés. |
+
+Le chemin historique `wp12_a_*` décrit un pilote de sécurité cryptographique `WP12-1-PILOT-001` qui refuse toute exécution réelle et reste `WP12_A_BLOCKED_SECURITY`. Il est distinct de la politique `DEVELOPMENT_AUTONOMOUS`, qui gouverne les sentinelles WP12 de développement. Un PASS de développement n’enlève pas le blocage du pilote formel et ne le remplace pas.
+
+## 9. Correction, clôture et décision
+
+Aucun défaut de solveur nouveau n’est démontré dans cet audit. Aucun correctif ou assouplissement de seuil n’est proposé. Le défaut de round-trip WP07 possède un correctif dans l’historique et des tests synthétiques dédiés; le résultat ancien demeure préservé.
+
+**Décision recommandée :** `PARTIALLY_CLOSED` pour WP12-A, sous réserve de l’acceptation Owner du périmètre bounded; `CONDITIONAL_GO` pour revue Owner de cet audit. Garder `WP12=OPEN`. Refuser pour l’instant les formulations `CLOSED_VERIFIED` ou `CLOSED_BOUNDED` appliquées à tout WP12-A : le candidat actuel n’a pas de run des trois sentinelles WP12, le défaut WP07 n’a pas de rejeu post-correctif lié à ce HEAD, et les interactions dynamiques MPC/RBE ne sont pas vérifiées.
+
+Les critères de clôture bornée proposés à l’Owner sont : (a) conserver les limites expérimentales et les échecs historiques; (b) décider si les contrôles de refus MPC/RBE font partie du contrat WP12-A; (c) si un résultat dynamique actuel est exigé, préparer des manifestes liés au candidat et obtenir les décisions Owner exactes avant tout lancement; (d) ne pas réclamer de validation physique générale. Le registre et la roadmap de portefeuille restent inchangés dans cette livraison : les preuves ne justifient ni `WP12=CLOSED` ni une promotion de maturité.
+
+## 10. Sources et preuves
+
+- [Roadmap v0.2.12](ROADMAP.md) et [registre d’intégration](v0_2_12_integration_progress_ledger.md).
+- Rapports/contracts : [WP04](wp04_modal_basis_damping_report.md), [WP05](wp05_reduced_harmonic_report.md), [WP06](wp06_modal_newmark_report.md), [WP07](wp07_uniform_base_acceleration_report.md).
+- [Rapport d’exécution accélérée et reçus historiques](vv_local/wp12_accelerated/WP12_ACCELERATED_VV_REPORT.md).
+- [Rapport WP12 dynamique](vv_local/wp12_dynamics/DYNAMIC_HARMONIC_RESULTS_REPORT.md) et [audit WP12-A transversal](vv_local/wp12_legacy_cross_route/LEGACY_CROSS_ROUTE_REPORT.md).
+- [Qualification RBE/MPC WP13](wp13_rbe_vnv_qualification_report.md), [rapport d’intégration RBE/MPC](wp13_rbe_integration_report.md) et [audit serialization WP11](wp11_final/api_results_serialization_audit.md).
+- Préparation du pilote signé, non substitutive au développement autonome : `wp12_preparation/wp12_a_owner_decision_package.md`, `wp12_a_runner_execution_review.md`, `wp12_a_activation_plan.md`.
+
+Les rapports d’origine font autorité pour les mesures et artefacts historiques. Le présent audit ne les remplace pas, ne modifie pas leurs archives, et ne constitue pas une revue indépendante de ses propres conclusions.
+
+## 11. Addendum phase 2 — intégration candidate et couverture MPC/RBE
+
+### Acquis
+
+- La branche d’intégration candidate a incorporé `emptiesvoids-cloud/0.2.12` au commit `d64e6036a845e0b720dc9f2bd5a89076dbbc7d4c`; le commit de réconciliation est `d73e21927c58938e9394f6b3b682a450b2ab9096`. Le checkout principal n’a pas été utilisé. Le candidat contient les trois fonctions dynamiques exactes qui manquent à l’arbre distant `d64e6036` : Newmark fixe, balayage harmonique réduit et accélération de base complexe. Les fichiers scientifiques sous `src/solveur` et les trois modules de sentinelles sont identiques au snapshot scientifique `d9deddbd6b42467c5fdc9e278bd54e97605f5738`.
+- Les trois fingerprints actifs de la politique correspondent aux fonctions présentes dans le candidat : Newmark `65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8`, harmonique `bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c`, accélération de base `969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6`.
+- Les refus MPC/RBE de la validation modale mixte et de `PreparedDynamicSystem` sont maintenant couverts par 12 cas synthétiques. Les tests appellent des fonctions de prévalidation uniquement; aucun assemblage ni solveur n’est appelé. Le contrat statique n’a pas été modifié.
+- Vérifications de cette phase sur le checkout candidat : 12 tests synthétiques MPC/RBE PASS; 18 tests synthétiques d’archivage PASS; 4 tests DTO/sérialisation PASS; 3 tests de politique/manifest synthétiques PASS. Total de cette phase : **37 PASS, 0 FAIL**. La collecte des quatre nodeids proposés retourne **4 collectés**; elle ne les exécute pas. Le JSON de politique se parse, `py_compile` passe et Ruff passe sur le nouveau test.
+
+### À exécuter après les décisions requises
+
+- Le nodeid WP07 historique et les trois sentinelles restent `NOT_RUN` sur le candidat d’intégration. Leurs résultats bornés du HEAD scientifique `d9deddb…` restent des résultats de développement historiques, jamais des PASS du candidat. Le FAIL historique WP07 reste conservé.
+- Le contrôleur recalcule `969dd027…` pour le module WP07 courant; l’enregistrement ciblé du nodeid historique conserve `6db5b459…`. Le contrôleur a refusé ce manifeste pour source fingerprint obsolète, sans écrire de fichier. Les trois autres sentinelles correspondent aux fingerprints actifs de la politique.
+- Trois manifestes nouveaux `PREPARED_NOT_AUTHORIZED` ont été créés avec des IDs inédits dans le worktree scientifique enregistré `wp12_dynamics` à `630d22b7667a0d84dd7b136b9f8c7d89ae00fc66`. Ils reçoivent chacun une décision Owner distincte avant toute exécution. Ces manifestes n’utilisent aucun ancien Owner grant et ne réservent aucun ledger. Ils sont liés au worktree scientifique enregistré, pas au HEAD Git d’intégration `d73e2192…`.
+- La préparation a utilisé un checkout détaché propre du contrôleur au commit canonique `d64e6036…`. Le worktree existant `wp12-policy-final` (`4bf52792…`, en retard et modifié localement) n’a pas été touché.
+
+### Différé et limites
+
+- Le contrôleur officiel exige un worktree enregistré. Les trois manifestes préparés ciblent `wp12_dynamics`, racine `E:\QFSolverAgents\wp12-dynamics`, branche `codex/wp12-dynamic-harmonic-verification`, HEAD `630d22b…`; leur source/test est identique au candidat d’intégration `d73e2192…`. Aucun manifeste lié directement à l’identité Git `d73e2192…` n’a été créé. Le manifeste du nodeid WP07 historique a été refusé pour fingerprint périmé. Aucun ledger n’a été réservé. Le worktree préexistant `E:\QFSolverAgents\wp12-policy-final` est en retard sur `d64e6036` et comporte des modifications locales de politique; il n’a pas été utilisé ou modifié.
+- Les statuts historiques WP04/WP05, les PASS bornés du snapshot `d9deddb…`, les NOT_RUN du candidat, les échecs G03/MITC4, l’état inconclusif WP-D01 et `qualification_decision=NOT_ASSESSED` restent distincts. Rien dans cette phase ne démontre une validité physique générale ni ne promeut la maturité.
+
+**Proposition de clôture :** acquis synthétiques bornés seulement; WP12-A reste `OPEN`. Recommandation `CONDITIONAL_GO` pour la revue Owner des tests documentaires et des garde-fous; aucun GO d’exécution tant que les trois manifestes ne reçoivent pas leurs décisions distinctes et que le stale fingerprint du rejeu WP07 n’est pas résolu. Statut de livraison proposé : `WP12A_REGRESSION_GAPS_ADDRESSED_EXECUTION_AUTHORIZATION_PENDING`.

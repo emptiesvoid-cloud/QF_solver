@@ -55,7 +55,7 @@ No supervisor command was invoked to test this failure. The incompatibility is e
 
 ## Independent review
 
-A distinct reviewer, `/root/wp_e01x_review`, performed a read-only check. The reviewer confirmed that commit `c3c16278...` changed no scientific or safety source, but includes the COLLECT runtime manifest as well as the report and evidence. The reviewer independently confirmed the two exact-HEAD/snapshot checks above and classified them as a hard precheck block. No P0/P1 issue was reported; the review did not run tests or invoke the supervisor.
+A distinct reviewer, `<reviewer-workspace>`, performed a read-only check. The reviewer confirmed that commit `c3c16278...` changed no scientific or safety source, but includes the COLLECT runtime manifest as well as the report and evidence. The reviewer independently confirmed the two exact-HEAD/snapshot checks above and classified them as a hard precheck block. No P0/P1 issue was reported; the review did not run tests or invoke the supervisor.
 
 A contract-preserving future route is possible, but requires a new Owner GO: run from a clean worktree exactly matching the collection source commit with a newly frozen RUN manifest matching the accepted Y collection snapshot. An alternative is a fresh collection and conditional RUN under a single new authorization at the then-current frozen HEAD, with no commit between collection and RUN. This report does not authorize either route.
 

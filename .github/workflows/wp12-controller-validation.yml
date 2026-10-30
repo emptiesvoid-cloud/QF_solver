@@ -1,0 +1,94 @@
+name: WP12 controller validation
+
+on:
+  pull_request:
+    branches: [emptiesvoids-cloud/0.2.12]
+    paths:
+      - "AGENTS.md"
+      - ".github/workflows/wp12-controller-validation.yml"
+      - "development_autonomous_policy.json"
+      - "scripts/development_autonomous.py"
+      - "scripts/run_wp12_controller_synthetic.py"
+      - "scripts/wp12a_p0_batch.py"
+      - "tests/unit/test_development_autonomous_policy.py"
+      - "tests/unit/test_wp12a_p0_batch.py"
+      - "tests/unit/test_modal_newmark.py"
+      - "tests/unit/test_reduced_harmonic.py"
+      - "tests/unit/test_wp07_uniform_base_acceleration.py"
+      - "tests/unit/test_wp12_observable_archive_synthetic.py"
+      - "tests/unit/test_wp12b_diagnostic_provenance.py"
+      - "tests/unit/test_wp12b_hex20_r2_predecessor_synthetic.py"
+      - "tests/unit/test_wp12b_hex20_r2_chain_synthetic.py"
+      - "tests/unit/test_wp12b_hex20_diagnostic_support.py"
+      - "tests/unit/test_wp12b_owner_decision_contract.py"
+  push:
+    branches: [stabilize/wp12-shared-controller-20261028]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-contracts:
+    name: WP12 controller / synthetic contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install test and lint dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements/baseline-standard.txt
+          python -m pip install -e . --no-deps
+      - name: Ruff
+        run: >-
+          python -m ruff check
+          scripts/development_autonomous.py
+          scripts/run_wp12_controller_synthetic.py
+          scripts/wp12a_p0_batch.py
+          tests/unit/test_development_autonomous_policy.py
+          tests/unit/test_wp12a_p0_batch.py
+          tests/unit/test_modal_newmark.py
+          tests/unit/test_reduced_harmonic.py
+          tests/unit/test_wp07_uniform_base_acceleration.py
+          tests/unit/test_wp12_observable_archive_synthetic.py
+          tests/unit/test_wp12b_diagnostic_provenance.py
+          tests/unit/test_wp12b_hex20_r2_predecessor_synthetic.py
+          tests/unit/test_wp12b_hex20_r2_chain_synthetic.py
+          tests/unit/test_wp12b_hex20_diagnostic_support.py
+          tests/unit/test_wp12b_owner_decision_contract.py
+      - name: Compile controller sources and tests
+        run: >-
+          python -m py_compile
+          scripts/development_autonomous.py
+          scripts/run_wp12_controller_synthetic.py
+          scripts/wp12a_p0_batch.py
+          tests/unit/test_development_autonomous_policy.py
+          tests/unit/test_wp12a_p0_batch.py
+          tests/unit/test_modal_newmark.py
+          tests/unit/test_reduced_harmonic.py
+          tests/unit/test_wp07_uniform_base_acceleration.py
+          tests/unit/test_wp12_observable_archive_synthetic.py
+          tests/unit/test_wp12b_diagnostic_provenance.py
+          tests/unit/test_wp12b_hex20_r2_predecessor_synthetic.py
+          tests/unit/test_wp12b_hex20_r2_chain_synthetic.py
+          tests/unit/test_wp12b_hex20_diagnostic_support.py
+          tests/unit/test_wp12b_owner_decision_contract.py
+      - name: Validate policy JSON
+        run: python -m json.tool development_autonomous_policy.json > /dev/null
+      - name: Git diff whitespace check
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+        run: |
+          if ! git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            BASE_SHA="$(git merge-base HEAD origin/emptiesvoids-cloud/0.2.12)"
+          fi
+          git diff --check "$BASE_SHA" "$GITHUB_SHA"
+      - name: Synthetic controller and provenance contracts
+        run: python scripts/run_wp12_controller_synthetic.py

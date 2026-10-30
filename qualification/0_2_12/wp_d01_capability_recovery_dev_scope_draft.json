@@ -8,7 +8,7 @@
   "work_package": "WP-D01",
   "purpose": "Exploratory native validation of the integrated residual-flexibility harmonic path; not qualification",
   "source_snapshot": {
-    "canonical_root": "C:\\Users\\fari\\.codex\\worktrees\\wp-d01-fem-revalidation-20261024",
+    "canonical_root": "<local-config>\\worktrees\\wp-d01-fem-revalidation-20261024",
     "branch": "codex/wp-d01-residual-flexibility-20261024",
     "head": "0c01316b54b80171b8b0a5a0c79c7769d1031577",
     "tree": "bd69abf60c13477b7c075b5a633321cc794715e4",

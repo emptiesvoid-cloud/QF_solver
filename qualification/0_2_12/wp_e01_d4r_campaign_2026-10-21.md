@@ -58,7 +58,7 @@ The collection-only and Stage 1 commands were each repeated once after the test-
 
 The initial Stage 1 failures were assertion-message mismatches only. Every exception was the intended `InputValidationError` raised by `validate_j2_state_vector`; the actual message begins `J2 state at integration-point slot`. After the documented test-only repair, both the unwrapped material and spy path passed. No test assertion or scientific tolerance was relaxed.
 
-The D4R baseline module was `B2B7B4DED7D0C33391041B0036D5C1C1EA527C60823E0F16B1A9362F3221128F`; after the in-scope test-only repair its SHA-256 is `FFA43CB053934C6DFF319955CB0857634C761662869D4B49B6BE4973F5FD6B6D`. The registry was updated without changing the tier; its final SHA-256 is `1E605BE8AA656B1B0FCD81D3AAA87FDAEF75AF5E3BAA4EBDF8FD5272A3BF47A3`. The full-run log is `C:\Users\fari\AppData\Local\Temp\qf_wp_e01_d4r_full_20261021.log`, SHA-256 `C20F86E76AA32F6E581ADEE0722538B6DF84B6092FB7C452EC626A8A67807C9A`.
+The D4R baseline module was `B2B7B4DED7D0C33391041B0036D5C1C1EA527C60823E0F16B1A9362F3221128F`; after the in-scope test-only repair its SHA-256 is `FFA43CB053934C6DFF319955CB0857634C761662869D4B49B6BE4973F5FD6B6D`. The registry was updated without changing the tier; its final SHA-256 is `1E605BE8AA656B1B0FCD81D3AAA87FDAEF75AF5E3BAA4EBDF8FD5272A3BF47A3`. The full-run log is `<local-temp>\qf_wp_e01_d4r_full_20261021.log`, SHA-256 `C20F86E76AA32F6E581ADEE0722538B6DF84B6092FB7C452EC626A8A67807C9A`.
 
 ## Numerical evidence
 

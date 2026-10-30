@@ -1,4 +1,4 @@
-"""Pure validation for the Owner-frozen HEX8-SRI first-six criteria contract."""
+"""Pure validation for the two explicitly scoped HEX8-SRI criteria contracts."""
 
 from __future__ import annotations
 
@@ -16,6 +16,12 @@ FIRST6_NODEIDS = (
     "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]",
     "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]",
 )
+REFINED3_NODEIDS = (
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]",
+)
+REFINED3_CRITERIA_CONTRACT_REVISION = "refined3-8x4x4-nu04999-owner-criteria-2026-10-30-r1"
 PROPOSED_CRITERIA = {
     "energy_identity_relative_max": 1e-8,
     "finest_level_independent_3d_energy_relative_error_max": 0.05,
@@ -83,6 +89,15 @@ PROPOSED_DISPOSITIONS = {
 }
 
 
+def _criteria_scope(target: str) -> tuple[str, tuple[str, ...]] | None:
+    """Return a criteria revision only for the exact historical or refined nodeid set."""
+    if target in FIRST6_NODEIDS:
+        return CRITERIA_CONTRACT_REVISION, FIRST6_NODEIDS
+    if target in REFINED3_NODEIDS:
+        return REFINED3_CRITERIA_CONTRACT_REVISION, REFINED3_NODEIDS
+    return None
+
+
 def validate_frozen_case_criteria(
     case_manifest: Mapping[str, Any],
     owner_decision: Mapping[str, Any],
@@ -90,10 +105,14 @@ def validate_frozen_case_criteria(
     target: str,
     case_registration_sha256: str,
 ) -> dict[str, float]:
-    """Return only case-level numeric gates after the decision binds every first-six manifest."""
+    """Return case gates only after the Owner freeze binds the exact registered scope."""
+    scope = _criteria_scope(target)
+    if scope is None:
+        raise ValueError("nodeid is outside the frozen first-six and refined-three criteria scopes")
+    revision, scope_nodeids = scope
     criteria_contract = {
         "schema": CRITERIA_CONTRACT_SCHEMA,
-        "revision": CRITERIA_CONTRACT_REVISION,
+        "revision": revision,
         "dispositions": PROPOSED_DISPOSITIONS,
     }
     criteria_freeze = owner_decision.get("criteria_freeze")
@@ -103,19 +122,19 @@ def validate_frozen_case_criteria(
         else None
     )
     if (
-        target not in FIRST6_NODEIDS
-        or case_manifest.get("criteria_status") != "OWNER_FREEZE_REQUIRED"
+        case_manifest.get("criteria_status") != "OWNER_FREEZE_REQUIRED"
         or case_manifest.get("criteria_contract") != criteria_contract
         or case_manifest.get("proposed_criteria") != PROPOSED_CRITERIA
         or case_manifest.get("frozen_criteria") is not None
         or not isinstance(criteria_freeze, Mapping)
         or criteria_freeze.get("schema") != CRITERIA_FREEZE_SCHEMA
-        or criteria_freeze.get("revision") != CRITERIA_CONTRACT_REVISION
+        or criteria_freeze.get("revision") != revision
         or criteria_freeze.get("dispositions") != FROZEN_DISPOSITIONS
         or criteria_freeze.get("frozen_case_gate_criteria") != FROZEN_CASE_GATE_CRITERIA
         or not isinstance(registrations, Mapping)
-        or set(registrations) != set(FIRST6_NODEIDS)
+        or set(registrations) != set(scope_nodeids)
         or registrations.get(target) != case_registration_sha256
+        or criteria_freeze.get("frozen_nodeids") != list(scope_nodeids)
     ):
         raise ValueError("Owner criteria decision is absent, stale, or inconsistent with the registered proposal")
     return dict(FROZEN_CASE_GATE_CRITERIA)

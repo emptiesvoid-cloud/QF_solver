@@ -1,0 +1,10 @@
+# WP12 Windows qualification environment, separate from any global Python.
+# This layers the repository's controlled standard baseline with the runner's
+# Ed25519 dependency and its exact Windows transitive dependencies.
+-r baseline-standard.txt
+cryptography==48.0.0
+cffi==2.1.1
+pycparser==3.12
+# Python 3.13.17 ships this pip security refresh; same version is installed in
+# the isolated venv from a locally SHA-256-verified wheel.
+pip==26.2.2

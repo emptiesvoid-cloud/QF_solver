@@ -10,14 +10,17 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 import shutil
 from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_SOURCE = Path(
-    r"C:\Users\fari\AppData\Local\Temp\qf_solver_wp08_surface_diagnostic_20260926_r3"
+DEFAULT_SOURCE = (
+    Path(os.environ["QF_WP08_SURFACE_SOURCE"])
+    if os.environ.get("QF_WP08_SURFACE_SOURCE")
+    else None
 )
 DEFAULT_MANIFEST = ROOT / (
     "qualification/0_2_9/wp08_surface_stiffness_remediation/"
@@ -109,10 +112,17 @@ def archive(source: Path, destination: Path, manifest_path: Path) -> dict[str, A
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
+    parser.add_argument(
+        "--source",
+        type=Path,
+        default=DEFAULT_SOURCE,
+        help="historical source directory (or set QF_WP08_SURFACE_SOURCE)",
+    )
     parser.add_argument("--destination", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     args = parser.parse_args()
+    if args.source is None:
+        parser.error("provide --source or set QF_WP08_SURFACE_SOURCE; no historical capture default is configured")
     record = archive(args.source, args.destination, args.manifest)
     print(
         json.dumps(

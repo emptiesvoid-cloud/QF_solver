@@ -1,0 +1,383 @@
+{
+  "schema": "qf-solver-wp12-prepared-manifest-v1",
+  "campaign_id": "WP12-4-INHERITED-TRANSVERSAL",
+  "title": "Routes héritées, rotor, Campbell, contraintes et interfaces transversales",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "mode": "PREPARATION_ONLY",
+  "numerical_execution_performed": false,
+  "wp12_status": "OPEN",
+  "authorization": {
+    "execution_authorized": false,
+    "owner_decision_id": null,
+    "approved_manifest_sha256": null,
+    "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+  },
+  "repository": "emptiesvoid-cloud/QF_solver",
+  "target": {
+    "branch": "emptiesvoids-cloud/0.2.12",
+    "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+    "git_tree": "df4ec667bf746b042c900fad1f86bf542e1a437b",
+    "worktree_must_be_clean": true,
+    "detached_checkout_allowed_only_at_exact_commit": true,
+    "source_change_policy": "Use exact current source including Campbell provenance path commit 5231d83. Any identity mismatch stops."
+  },
+  "scope": {
+    "capability_matrix_ids": [
+      "ROT-01",
+      "ROT-02",
+      "ROT-03",
+      "X-01",
+      "X-02",
+      "X-03",
+      "X-04",
+      "X-05"
+    ],
+    "scientific_boundary": "Bounded legacy-route sentinels; rotating modal/Campbell stay EXPERIMENTAL. No forced response, general rotor validation, full GYRO-05/06 by default, nor general RBE/MPC qualification.",
+    "preserved_statuses": [
+      "rotating_modal=EXPERIMENTAL",
+      "campbell=EXPERIMENTAL",
+      "WP11=CLOSED on accepted API scope",
+      "WP12=OPEN"
+    ],
+    "required_contracts": [
+      "../wp12_rotating_inherited_regression_plan.md",
+      "../../0_2_11/wp05_gyroscopic_contract.json",
+      "../../0_2_11/wp06_campbell_contract.json",
+      "wp11_final/closure_gate_assessment.md"
+    ]
+  },
+  "source_and_test_identity": {
+    "repository_tree_roots": {
+      "src": "3fd84f22c35aaecd989f2fe614e0b3fd9d7fbc6e",
+      "tests": "25ac8dad53b310407385353373db7886b8823ceb",
+      "fixtures_or_examples": "199741620aeec02ad4342d55dd361210a766d885"
+    },
+    "tracked_source_files": [
+      "src/solveur/api/public.py",
+      "src/solveur/cli/standard.py",
+      "src/solveur/core/analyses/buckling.py",
+      "src/solveur/core/analyses/campbell.py",
+      "src/solveur/core/analyses/modal_tracking.py",
+      "src/solveur/core/analyses/qep.py",
+      "src/solveur/core/analyses/rotating_input_validator.py",
+      "src/solveur/core/analyses/rotating_modal.py",
+      "src/solveur/core/analyses/rotation_config.py",
+      "src/solveur/core/constraints.py",
+      "src/solveur/core/router.py",
+      "src/solveur/io/schema_analysis.py"
+    ],
+    "tracked_test_files": [
+      "tests/integration/test_api_and_cli.py",
+      "tests/integration/test_rotating_modal_public_api.py",
+      "tests/unit/test_campbell.py",
+      "tests/unit/test_linear_buckling.py",
+      "tests/unit/test_modal_tracking.py",
+      "tests/unit/test_mpc_reduction.py",
+      "tests/unit/test_rbe_links.py",
+      "tests/unit/test_rotating_disk_gyro.py",
+      "tests/unit/test_rotating_modal_cases.py",
+      "tests/unit/test_rotating_modal_preflight.py",
+      "tests/unit/test_rotating_qep.py",
+      "tests/unit/test_solver_backend.py"
+    ],
+    "git_blob_oids": {
+      "src/solveur/api/public.py": "f2161f6dcc3f88dc23413dfae2d7f55b219652e0",
+      "src/solveur/cli/standard.py": "d55cf90c9ee7d07e24b9d6158efd6b3d5a93c3ab",
+      "src/solveur/core/analyses/buckling.py": "aebda42a84cd796a28dc2f3204410487acac2aef",
+      "src/solveur/core/analyses/campbell.py": "1572c60d0c4f250bdd5c49baa7d16a3b6fb0326d",
+      "src/solveur/core/analyses/modal_tracking.py": "0dc1f6dda4e0e691ef4a551d243954f2b8baee46",
+      "src/solveur/core/analyses/qep.py": "7e376db947cd6fba6fe79b883e887031acc5640e",
+      "src/solveur/core/analyses/rotating_input_validator.py": "10df5ee6ad529a62cf5c26e3a599a675024f6a8c",
+      "src/solveur/core/analyses/rotating_modal.py": "cbca8259cc7d516defa62169f0502f391dd78a5e",
+      "src/solveur/core/analyses/rotation_config.py": "2710a7f896e424d3d732065bcae76d62ea068b5f",
+      "src/solveur/core/constraints.py": "fa985d368fc6430ff11c6aa0e1707a898f12c0ce",
+      "src/solveur/core/router.py": "419950a2348d3011de63260e5cda37040844f057",
+      "src/solveur/io/schema_analysis.py": "d9e638a8f06a5f27cef581fd2acda8ab29ff4a75",
+      "tests/integration/test_api_and_cli.py": "1a5a5e6ba282bfdcb61414680bbdcaf661402843",
+      "tests/integration/test_rotating_modal_public_api.py": "1a9e9aa0229fa31772b6ab9391b0a2c0ea81afb1",
+      "tests/unit/test_campbell.py": "337be54c4c905bf5e7b15b922d177aed92bd3da3",
+      "tests/unit/test_linear_buckling.py": "b263d594c504c1f768cc3c8220bd8b025d6745cd",
+      "tests/unit/test_modal_tracking.py": "9df1c504faaf679d3dcc43856bb91c5c2b9b6757",
+      "tests/unit/test_mpc_reduction.py": "9752c655f3b14b01050eaa0a53a6b10e02f20e4f",
+      "tests/unit/test_rbe_links.py": "f8cc88fdc82e645098093ccaf28a6171ba7e24e1",
+      "tests/unit/test_rotating_disk_gyro.py": "137338ffac800817870525abbb057bd4aaa42494",
+      "tests/unit/test_rotating_modal_cases.py": "e90d860d9ff22755ed8481140dc116cc4e404ca3",
+      "tests/unit/test_rotating_modal_preflight.py": "24de84b13f382d74bf0594e46bc600b53e09cf2e",
+      "tests/unit/test_rotating_qep.py": "f8bd5016f7cd6019f3511df6b0273184e445a4fb",
+      "tests/unit/test_solver_backend.py": "230a96c9b5830f02b4dcd225af8566ce2f185919"
+    },
+    "sha256_inventory_file": "Required at freeze; include any public example JSON or geometry file opened by selected API/CLI node.",
+    "inventory_completeness": "Complete for resolved source/test paths at the WP12-0 scientific commit; unresolved and replacement paths remain Owner scope decisions.",
+    "sha256_by_file": {
+      "src/solveur/api/public.py": "d7587c723a3c037551aae2d3d2dbc1dacefa128b9ead38d383a9d25c1837dc2c",
+      "src/solveur/cli/standard.py": "694bfcdcccaee5930fcb67e2db65452005bcb36dd685bf60164cc4f451abe2ff",
+      "src/solveur/core/analyses/buckling.py": "c6f783967a1e4e26de03a0dc2d928395e3b51a0528bf1b0d3ecd7f9e54b235d5",
+      "src/solveur/core/analyses/campbell.py": "a82cc884141a477a173efb9ad205eae41776b0e157189026b736ab99f21e6137",
+      "src/solveur/core/analyses/modal_tracking.py": "95a53071c8103074501a322374dd8c027760c954a00b7428c09e81eef1886952",
+      "src/solveur/core/analyses/qep.py": "c6b080cfaa6df18b486dbf985208881de14f06639b467f908baa5812a1d00b32",
+      "src/solveur/core/analyses/rotating_input_validator.py": "d0c96425935c25c2d51aeed12688d849167f35f35d8b2a3516821b7039ab52b5",
+      "src/solveur/core/analyses/rotating_modal.py": "9f6558288307aa6331af5955e11ea365ef122e9b8e5dc38aa77e039dbf74719d",
+      "src/solveur/core/analyses/rotation_config.py": "c9c92a28fac5666c36d23d4f5904ca3700212a6ded5d3f5346df84b99daf131b",
+      "src/solveur/core/constraints.py": "86c2c061fc6c378bc321c8b752725bc44163010ded07c6aa9f8a1800fbe6fcd1",
+      "src/solveur/core/router.py": "acd8273e44215f08a25a2fde49b94a5995f6aff81317dab709540c079114558f",
+      "src/solveur/io/schema_analysis.py": "03313485c58203c7896cb65fd8a95740e04106632e8fec85b41fc9ebc222f013",
+      "tests/integration/test_api_and_cli.py": "0baa7259c7a8ca60b0d2a689a3fafbe2e47d48205377833e610365acc2ffb4f9",
+      "tests/integration/test_rotating_modal_public_api.py": "f398c504fb64c279ec5c10d83d8723c53d64f50deb7acd5da86aebb8596efd26",
+      "tests/unit/test_campbell.py": "2604b05a41648fb70cf23e39180ea2c441e01bbe4c00415b099c71c8aba5e651",
+      "tests/unit/test_linear_buckling.py": "66eb78e25e1ac26d08ef9b60dcb3570561dfd632590a18216560f12470b32dba",
+      "tests/unit/test_modal_tracking.py": "f0b7175b6045eeab4961115abc6faacc41a2d010131270bc1c7080f3854925ef",
+      "tests/unit/test_mpc_reduction.py": "2c3b0646451f78133b9f5cab974e978fa7ca3902f44428537254df08e193b3f9",
+      "tests/unit/test_rbe_links.py": "40dfbb1c5e2dce95f08c67a46e37227ff8adbb1362cf4e09216f4e65826d5fe5",
+      "tests/unit/test_rotating_disk_gyro.py": "cea2804c9c52a886816738b26277aaf769301861fc8094bc48e7a76eaceef79b",
+      "tests/unit/test_rotating_modal_cases.py": "ae65cd814914d9d5cc0840bb4417526b6318715a0fd05cd193793370b12138fa",
+      "tests/unit/test_rotating_modal_preflight.py": "60ad3134d3a1146dc9413e24e9a98f561abb8b262001dd1bdd823b8814e2c1b6",
+      "tests/unit/test_rotating_qep.py": "f104afffa852e6a675301f0fa781229ef382af11f269752e63a1e481d1fb6243",
+      "tests/unit/test_solver_backend.py": "6e6ddcf0a0f6a1ab2f4ab922b6e2b6cd4ff22af5bbff4834500ee6860999734c"
+    }
+  },
+  "fixtures": {
+    "entries": [
+      {
+        "id": "gyro-qep-disk-beam",
+        "identity": "Inline test model bound to listed rotor test blobs; expand all nine signed-spin parameters exactly as enumerated",
+        "test_blob_oids": [
+          "137338ffac800817870525abbb057bd4aaa42494",
+          "f8bd5016f7cd6019f3511df6b0273184e445a4fb",
+          "e90d860d9ff22755ed8481140dc116cc4e404ca3"
+        ],
+        "byte_sha256": "Capture materialized input SHA-256 at freeze"
+      },
+      {
+        "id": "campbell-small-explicit-grid",
+        "identity": "Source-defined Campbell fixture; current unit route uses explicit 0/10/25 rad/s",
+        "test_blob_oid": "337be54c4c905bf5e7b15b922d177aed92bd3da3",
+        "byte_sha256": "Capture materialized input SHA-256 at freeze"
+      },
+      {
+        "id": "rbe-mpc-and-api-models",
+        "identity": "Test-defined cases plus any explicitly opened example files",
+        "byte_sha256": "Compute for each concrete model/input file at freeze"
+      }
+    ],
+    "external_fixture_policy": "Before approval list/hash every example file read and every generated frozen input; do not use unbound working-tree data."
+  },
+  "tests": {
+    "exact_nodeids": [
+      "tests/unit/test_rotating_modal_cases.py::test_gyro01_zero_speed_matches_modal_frequencies_multiplicity_and_subspaces",
+      "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_unit_speed_gyro_blocks_match_contract",
+      "tests/unit/test_rotating_disk_gyro.py::test_assembled_gyro_uses_same_global_dof_map_and_has_zero_quadratic_work",
+      "tests/unit/test_rotating_disk_gyro.py::test_disk_mass_and_gyro_are_covariant_under_global_frame_rotation",
+      "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[0.0]",
+      "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[5.0]",
+      "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-5.0]",
+      "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[25.0]",
+      "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-25.0]",
+      "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[50.0]",
+      "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-50.0]",
+      "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]",
+      "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-100.0]",
+      "tests/unit/test_rotating_qep.py::test_gyro04_signed_spin_reverses_pencil_term_but_preserves_unordered_frequencies",
+      "tests/unit/test_rotating_qep.py::test_qep_rejects_non_skew_gyro_and_non_positive_mass",
+      "tests/unit/test_rotating_qep.py::test_rotating_modal_complex_serialization_round_trip_preserves_all_roots",
+      "tests/unit/test_rotating_modal_preflight.py::test_valid_bounded_model_is_explicitly_experimental",
+      "tests/unit/test_rotating_modal_preflight.py::test_rotation_config_normalizes_axis_and_requires_explicit_rpm_conversion",
+      "tests/unit/test_rotating_modal_preflight.py::test_duplicate_generic_mass_and_unsupported_discrete_are_rejected",
+      "tests/unit/test_rotating_modal_preflight.py::test_rotating_disk_is_rejected_by_classic_modal_route",
+      "tests/unit/test_rotating_modal_preflight.py::test_rotating_disk_json_model_round_trip_is_explicit",
+      "tests/unit/test_rotating_modal_preflight.py::test_router_returns_separate_experimental_rotating_modal_result",
+      "tests/unit/test_modal_tracking.py::test_complex_mac_is_invariant_to_complex_phase_and_nonzero_scaling",
+      "tests/unit/test_modal_tracking.py::test_tracking_is_invariant_to_eigenpair_order_phase_and_scaling",
+      "tests/unit/test_modal_tracking.py::test_degenerate_basis_rotation_is_reported_as_cluster_ambiguity",
+      "tests/unit/test_modal_tracking.py::test_competing_source_modes_make_the_global_assignment_ambiguous",
+      "tests/unit/test_campbell.py::test_implementation_hash_paths_support_installed_wheel_layout",
+      "tests/unit/test_campbell.py::test_campbell_requires_frozen_qep_and_tracking_contracts",
+      "tests/unit/test_campbell.py::test_campbell_fails_closed_if_requested_mode_count_is_unavailable",
+      "tests/unit/test_campbell.py::test_campbell_sweep_reuses_one_model_and_serializes_complex_source_results",
+      "tests/unit/test_campbell.py::test_campbell_is_exposed_through_model_schema_and_analysis_router",
+      "tests/integration/test_rotating_modal_public_api.py::test_public_json_load_solve_and_save_support_experimental_rotating_modal",
+      "tests/integration/test_api_and_cli.py::test_cli_methods_and_modal_solve",
+      "tests/unit/test_mpc_reduction.py::test_elimination_matches_lagrange_multiplier_solution",
+      "tests/unit/test_rbe_links.py::test_rbe2_multiple_arms_transfer_combined_wrench_and_match_condensed_reference",
+      "tests/unit/test_rbe_links.py::test_rbe3_projection_matches_independent_weighted_least_squares_and_wrench",
+      "tests/unit/test_linear_buckling.py::test_linear_buckling_is_routed_through_sparse_eigensolver",
+      "tests/unit/test_solver_backend.py::test_explicit_scipy_never_falls_back"
+    ],
+    "parameterized_node_resolution": "The nine GYRO-03 item IDs above are explicitly source-declared. Any optional preflight/speed-grid parametrization is excluded unless every exact parameter ID is added and approved. The selected Campbell route test uses 0/10/25 rad/s and does not replay 100 rad/s ambiguity.",
+    "commands": [
+      {
+        "runner": "FUTURE_WP12_RUNNER_NOT_IMPLEMENTED",
+        "argv_template": [
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "<one exact nodeid>"
+        ],
+        "dispatch_policy": "one node per child process; do not launch the historical verification script",
+        "execution_status": "NOT_EXECUTED"
+      }
+    ],
+    "status": "NOT_RUN"
+  },
+  "oracles_and_acceptance": {
+    "contract_references": [
+      "../wp12_rotating_inherited_regression_plan.md",
+      "../../0_2_11/wp05_gyroscopic_contract.json",
+      "../../0_2_11/wp06_campbell_contract.json",
+      "wp11_final/closure_gate_assessment.md",
+      "wp00_baseline_scope_contract.json"
+    ],
+    "oracle_class_by_case": {
+      "gyro": "independent disk oracle/QEP residual; exact signed-speed invariants; frame/skew invariants",
+      "campbell": "complex MAC/lineage and explicit ambiguity handling",
+      "rbe_mpc": "independent Lagrange multiplier and weighted least-squares/wrench oracles",
+      "api_cli": "route/schema compatibility; integration node performs an actual solve"
+    },
+    "frozen_tolerances": {
+      "gyro": "Use exact GYRO-01–GYRO-04 contract tolerances; no new value added",
+      "campbell": "Use frozen WP06 criteria; preserve AMBIGUOUS at 100 rad/s",
+      "rbe_mpc": "Use bounded Owner-decision tolerances; no general promotion"
+    },
+    "no_new_thresholds": true,
+    "success_conditions": [
+      "Expected route, complex result and refusal behavior match contracts on current source.",
+      "Maturity remains EXPERIMENTAL and the 100 rad/s ambiguity is never suppressed.",
+      "API/CLI claims are bounded to tested routes; absence of rotor CLI node remains explicit."
+    ],
+    "fail_or_stop_conditions": [
+      "Any hash mismatch, changed maturity, forced branch, missing ambiguity, output mismatch or optional backend fallback contrary to contract stops; preserve result."
+    ]
+  },
+  "environment": {
+    "os": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "python": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "numpy_scipy_pytest": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "optional_solvers": "SciPy required for dense QEP; PETSc/SLEPc/MPI are not used by this proposed rotor suite.",
+    "blas_openmp_mkl_threads": null,
+    "environment_lock_sha256": null
+  },
+  "resource_limits": {
+    "cpu_cores": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "ram_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "numerical_threads": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_per_node": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_campaign": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "temporary_storage_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "limit_enforcement": "Selected small QEP cases and API solve still require finite limits; full GYRO-05/06 excluded unless separately approved."
+  },
+  "attempt_policy": {
+    "maximum_attempts_per_node": {
+      "value": 1,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "automatic_retry": false,
+    "retry_requires": "Separate authorization/new manifest; never run scripts that overwrite v0.2.11 evidence paths."
+  },
+  "evidence": {
+    "exclusive_destination_template": "qualification/0_2_12/wp12_evidence/WP12-4-INHERITED-TRANSVERSAL/<run_id>/",
+    "refuse_if_destination_exists": true,
+    "historical_paths_writable": false,
+    "capture": [
+      "exact source/tree/hash",
+      "test and fixture hashes",
+      "node/argv",
+      "environment",
+      "QEP roots/residuals",
+      "Campbell samples/ambiguity",
+      "API/CLI outputs",
+      "stdout/stderr",
+      "resource observations",
+      "artifact hashes"
+    ],
+    "partial_run_policy": "Seal partial evidence; preserve ambiguous/fail/skip data; no overwrite/retry."
+  },
+  "prepared_at": "2026-10-25",
+  "notes": "PREPARATION_ONLY; no current-HEAD rotor test has been run. Full GYRO-05/06 are not automatic requirements.",
+  "execution_status_label": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "preparation_status_label": "PREPARATION_ONLY",
+  "wp12_status_label": "WP12_STATUS=OPEN",
+  "preparation_revision": {
+    "schema": "qf-wp12-prepared-manifest-revision-v1",
+    "revision_id": "WP12-4-R2-PREPARED-01",
+    "created_utc_date": "2026-10-25",
+    "supersedes": "qualification/0_2_12/wp12_preparation/wp12_4_execution_manifest.json",
+    "superseded_manifest_sha256": "521f0fa940e14374c08662c8f6d6400e4c8b5e18561abc55fe1d5c8dc5ae3028",
+    "source_identity": {
+      "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+      "git_tree": "df4ec667bf746b042c900fad1f86bf542e1a437b"
+    },
+    "changes": [
+      "completed SHA-256 and Git blob inventory for statically resolved source/test files",
+      "preserved source commit identity",
+      "retained PREPARED_NOT_AUTHORIZED; this revision is not an authorization"
+    ],
+    "path_resolution": {
+      "path_replacements": [
+        {
+          "group": "tracked_source_files",
+          "declared_path": "src/solveur/core/analyses/rotating_qep.py",
+          "candidate_paths": [
+            "src/solveur/core/analyses/qep.py"
+          ],
+          "basis": "static Git tree inspection; Owner scope approval still required"
+        },
+        {
+          "group": "tracked_source_files",
+          "declared_path": "src/solveur/core/constraints",
+          "candidate_paths": [
+            "src/solveur/core/constraints.py"
+          ],
+          "basis": "static Git tree inspection; Owner scope approval still required"
+        }
+      ],
+      "unresolved_declared_paths": [],
+      "stale_oid_references": [
+        {
+          "path": "tests/unit/test_api_and_cli.py",
+          "previous_oid": "1a5a5e6ba282bfdcb61414680bbdcaf661402843",
+          "source_commit_oid": null
+        }
+      ],
+      "nodeids_not_found_by_static_ast": []
+    },
+    "fixture_inventory": [
+      {
+        "id": "gyro-qep-disk-beam",
+        "path": null,
+        "declared_source_commit": null,
+        "state": "INLINE_OR_NONFILE_FIXTURE_NOT_MATERIALIZED"
+      },
+      {
+        "id": "campbell-small-explicit-grid",
+        "path": null,
+        "declared_source_commit": null,
+        "state": "INLINE_OR_NONFILE_FIXTURE_NOT_MATERIALIZED"
+      },
+      {
+        "id": "rbe-mpc-and-api-models",
+        "path": null,
+        "declared_source_commit": null,
+        "state": "INLINE_OR_NONFILE_FIXTURE_NOT_MATERIALIZED"
+      }
+    ],
+    "status": "PREPARED_NOT_AUTHORIZED"
+  }
+}

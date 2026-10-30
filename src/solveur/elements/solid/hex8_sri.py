@@ -49,7 +49,17 @@ class Hex8SRIElement:
 
     @classmethod
     def validate_geometry(cls, coords: np.ndarray) -> None:
-        Hex8Element.validate_geometry(coords)
+        coords = Hex8Element._validated_coords(coords)
+        if not np.all(np.isfinite(coords)):
+            raise ValueError("Invalid HEX8-SRI geometry: coordinates must be finite.")
+        tolerance = Hex8Element._jacobian_determinant_tolerance(coords)
+        integration_points = (*cls.integration_points, *cls.volumetric_integration_points)
+        determinants = np.asarray(
+            [cls.jacobian_determinant(coords, point) for point in integration_points]
+        )
+        if np.any(~np.isfinite(determinants)) or np.any(determinants <= tolerance):
+            minimum = float(np.min(determinants))
+            raise ValueError(f"Invalid HEX8-SRI Jacobian determinant {minimum:.6e}.")
 
     @classmethod
     def b_matrix(cls, coords: np.ndarray, point: tuple[float, float, float] | np.ndarray) -> tuple[np.ndarray, float]:
@@ -57,10 +67,16 @@ class Hex8SRIElement:
 
     @staticmethod
     def _constitutive_split(material: SolidMaterial) -> tuple[np.ndarray, np.ndarray]:
+        shear_modulus = material.E / (2.0 * (1.0 + material.nu))
+        deviatoric = np.zeros((6, 6), dtype=float)
+        deviatoric[:3, :3] = 2.0 * shear_modulus * (
+            np.eye(3) - np.ones((3, 3)) / 3.0
+        )
+        deviatoric[3:, 3:] = shear_modulus * np.eye(3)
         volumetric = material.E / (3.0 * (1.0 - 2.0 * material.nu)) * np.outer(
             _VOLUMETRIC_VECTOR, _VOLUMETRIC_VECTOR
         )
-        return material.elasticity_matrix - volumetric, volumetric
+        return deviatoric, volumetric
 
     def deviatoric_stiffness(self, coords: np.ndarray) -> np.ndarray:
         self.validate_geometry(coords)

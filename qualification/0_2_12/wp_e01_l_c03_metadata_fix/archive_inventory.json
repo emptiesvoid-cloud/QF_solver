@@ -9,7 +9,7 @@
       "point_count": 12,
       "production_rounding_budget_valid": true,
       "proof_input_path": "tet4-perfect-historical-weak-projected.proof_input.json",
-      "sha256": "1a17f6ee10a9914188209a53d037d8e1637dfc23f5c039ada5278f80bcef7b0f"
+      "sha256": "553e3d68a4702358fe24bce35b35cf6d1a8d7cc9e704c01eee52de050ab2a756"
     },
     {
       "accepted_history_digest": "0110460624862f97b00b3ab7e4b8c525984cba434f20995a7f4b9fd6b465057e",
@@ -19,7 +19,7 @@
       "point_count": 12,
       "production_rounding_budget_valid": true,
       "proof_input_path": "tet4-perfect-mixed-projected.proof_input.json",
-      "sha256": "05c9b984b850042efe1081b819f4a6673c771c33be9059ebfac78747a51ef0a5"
+      "sha256": "b8afb378f36f63c513546524dda35ee8edf54a6fd13bdac09420dab963720d8b"
     },
     {
       "accepted_history_digest": "92eb982d83fc684fc87291ab7afbe6d40ab138accb6e72b4351218c0c0f91e13",
@@ -29,7 +29,7 @@
       "point_count": 12,
       "production_rounding_budget_valid": true,
       "proof_input_path": "tet4-hardening-historical-weak-projected.proof_input.json",
-      "sha256": "8bdda31b62dc0ef881462e93891320c56dec5be42f0b561b5949d22cc809bb97"
+      "sha256": "67ba3b89d7b2a1da3fd38c1013b560a1973ed60f392a5c214056e645611d8f2d"
     },
     {
       "accepted_history_digest": "92eb982d83fc684fc87291ab7afbe6d40ab138accb6e72b4351218c0c0f91e13",
@@ -39,7 +39,7 @@
       "point_count": 12,
       "production_rounding_budget_valid": true,
       "proof_input_path": "tet4-hardening-mixed-projected.proof_input.json",
-      "sha256": "a370e6f78c2f6a21542c917e1bbeb5fdb52a5dfce1be68a729de9bba1c40d5ea"
+      "sha256": "d7bdadf808ce44addd2fc1d19dc2f2bbf73c25ee0969b7de7dde0e6f3c0cdc6d"
     },
     {
       "accepted_history_digest": "379409f35f7f301a6a3253fa23c8accc3ace9690004b29e18781910b659c2598",
@@ -49,7 +49,7 @@
       "point_count": 64,
       "production_rounding_budget_valid": true,
       "proof_input_path": "hex8-perfect-historical-weak-projected.proof_input.json",
-      "sha256": "e4330e52ead0141c30b84020edf929bbb578c823971897cb32553bc62e405745"
+      "sha256": "54cebf1b602277fe491d5df1d08178dcee4b48503ca1ac09eb3f846c76642919"
     },
     {
       "accepted_history_digest": "379409f35f7f301a6a3253fa23c8accc3ace9690004b29e18781910b659c2598",
@@ -59,7 +59,7 @@
       "point_count": 64,
       "production_rounding_budget_valid": true,
       "proof_input_path": "hex8-perfect-mixed-projected.proof_input.json",
-      "sha256": "965b518d668bf8b1244737c2b7af7be8d70647c34e594c2dbc2175ef7498fcd2"
+      "sha256": "0916e3854f85dfbf7b52a9ac051c7bf14a96f98d4b965b4681bde5e5a742cc5e"
     },
     {
       "accepted_history_digest": "de8120863f267cb83d9d7b92d63c59e5db96baa4b27d1da2aaa1c2f077d71b3f",
@@ -69,7 +69,7 @@
       "point_count": 64,
       "production_rounding_budget_valid": true,
       "proof_input_path": "hex8-hardening-historical-weak-projected.proof_input.json",
-      "sha256": "aea4cafc27266730f9f2e125e705b5e21acc9d5e8be24a490b64069c12f8a938"
+      "sha256": "1f572dbb791dcc57e33691dc278f550a28ec0657146758fff67166cf6f01473d"
     },
     {
       "accepted_history_digest": "de8120863f267cb83d9d7b92d63c59e5db96baa4b27d1da2aaa1c2f077d71b3f",
@@ -79,7 +79,7 @@
       "point_count": 64,
       "production_rounding_budget_valid": true,
       "proof_input_path": "hex8-hardening-mixed-projected.proof_input.json",
-      "sha256": "0d82806f43d508abf1690c05fc402a2c0cfc2227b2239b4dd23dca46ab3c2c51"
+      "sha256": "69f50b7f30af2ac7c9e0e950cf5dcaeed1e5420cd75f2fb92f872ca8dd6ed045"
     }
   ],
   "all_eight_raw_input_archives_complete": true,
@@ -88,21 +88,21 @@
       "campaign_status": "INCOMPLETE",
       "manifest": "archive_integrity.json",
       "manifest_sha256": "4024e9b706ac8d784a4223161853133224dc625463e7f40cb7c2acc53dd8edb8",
-      "path": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023",
+      "path": "probe_archive",
       "verified_files": 28
     },
     {
       "campaign_status": "COMPLETED_EXPLORATORY",
       "manifest": "artifact_inventory.json",
       "manifest_sha256": "ee8a992038d546a99afeb335339b00212d178ee56b167008b9f45f24790b015b",
-      "path": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_hex8_run_6787cb37-d498-4f96-8604-1598e6aa5d64",
+      "path": "hex8_archive",
       "verified_files": 35
     }
   ],
   "candidate_point_count": 304,
   "capture_source_commits": [
     {
-      "archive": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023",
+      "archive": "probe_archive",
       "commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
       "file_sha256": {
         "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
@@ -114,7 +114,7 @@
       "tree": "41c621d04c0805726721c3957208bbef18492e1b"
     },
     {
-      "archive": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_hex8_run_6787cb37-d498-4f96-8604-1598e6aa5d64",
+      "archive": "hex8_archive",
       "commit": "b5bda19f7c6c4dab97c0105b4374f247bcce81a8",
       "file_sha256": {
         "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
@@ -175,6 +175,13 @@
   },
   "owner_status": "READY_FOR_OWNER_REVIEW",
   "point_count": 304,
+  "privacy_sanitization": {
+    "original_tracked_files_preserved_locally": true,
+    "preservation_scope": "verified byte-for-byte against the source commit; local-only copy",
+    "scientific_values_and_verdicts_changed": false,
+    "source_commit": "2aa994f34900f39bef8df9db5fb025157fb694bb",
+    "type": "provenance_path_redaction"
+  },
   "proof_results": [
     {
       "action_id": "tet4-perfect-historical-weak-projected",

@@ -14,8 +14,8 @@ Le portage D01 est conservé dans un candidat propre, linéaire depuis le HEAD o
 - Candidat initial D01 : `9fa2a260bac6fcc31f92ddd8b60cc6c9bd64f331`, tree `d6c93865ea3870c7caa7a2043aa2173d2a94132d`.
 - Candidat avec rapport de statut précédent : `dbf6bb8753c3d828fed1662d0fd2f9ea6272c8e8`, tree `6bd9e9b04bc571e508a53af5effe956679754559`.
 - Base officielle vérifiée ancêtre du candidat. Aucun commit de merge dans cette chaîne.
-- Worktree candidat : `C:\Users\fari\.codex\worktrees\wp-d01-safe-merge-20261024`, branche `codex/wp-d01-safe-merge-20261024`, propre avant ce rapport.
-- Worktree officiel : `C:\Users\fari\Documents\projet\SAFRAN\solveur\tmp\qf-v0.2.12-integration`.
+- Worktree candidat : `<local-config>\worktrees\wp-d01-safe-merge-20261024`, branche `codex/wp-d01-safe-merge-20261024`, propre avant ce rapport.
+- Worktree officiel : `<legacy-worktree>\solveur\tmp\qf-v0.2.12-integration`.
 
 Le rapport `wp_d01_safe_merge_report.md` est le compte rendu de la première tentative et reste inchangé. Le présent document le complète et décrit l’inventaire, la sauvegarde vérifiée et la répétition du fast-forward.
 
@@ -33,7 +33,7 @@ M  tests/unit/test_development_autonomous_policy.py
 ?? tests/unit/test_wp_e01_j2_global_phase2.py
 ```
 
-Les copies exactes sont conservées sous `C:\Users\fari\.codex\backups\wp-d01-git-reconciliation-20261024`, avec les chemins relatifs préservés. SHA-256 de chaque contenu, identique entre cible et sauvegarde :
+Les copies exactes sont conservées sous `<local-config>\backups\wp-d01-git-reconciliation-20261024`, avec les chemins relatifs préservés. SHA-256 de chaque contenu, identique entre cible et sauvegarde :
 
 | Fichier | SHA-256 |
 |---|---|
@@ -78,7 +78,7 @@ Les deux chemins communs ont été examinés par blocs :
 
 Les plages des hunks locaux et D01 dans ces deux fichiers ne se chevauchent pas. Cependant, l’opération de fast-forward Git refuse un fichier suivi modifié localement dès lors que le commit entrant le met aussi à jour, même si les hunks sont distincts.
 
-La répétition dans le worktree isolé `C:\Users\fari\.codex\worktrees\wp-d01-safe-ff-rehearsal-20261024` a copié les sept fichiers depuis la sauvegarde puis exécuté `git merge --ff-only dbf6bb8753c3d828fed1662d0fd2f9ea6272c8e8`. Git a refusé avec le message « Your local changes to the following files would be overwritten by merge » pour les deux fichiers partagés et a abandonné. HEAD du rehearsal est resté `b86ba5c1...`; les sept SHA-256 y concordent encore avec la sauvegarde. La même opération n’a pas été tentée sur le worktree officiel.
+La répétition dans le worktree isolé `<local-config>\worktrees\wp-d01-safe-ff-rehearsal-20261024` a copié les sept fichiers depuis la sauvegarde puis exécuté `git merge --ff-only dbf6bb8753c3d828fed1662d0fd2f9ea6272c8e8`. Git a refusé avec le message « Your local changes to the following files would be overwritten by merge » pour les deux fichiers partagés et a abandonné. HEAD du rehearsal est resté `b86ba5c1...`; les sept SHA-256 y concordent encore avec la sauvegarde. La même opération n’a pas été tentée sur le worktree officiel.
 
 ## Vérifications sur le candidat
 

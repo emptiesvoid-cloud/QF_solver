@@ -254,7 +254,7 @@ The canonical result reproduced three accepted steps and a step-4
 `1.0411047989090212e-10`. The run emitted 67 iteration events, had wall/CPU
 times `1678.3279889000114 s` / `1741.671875 s`, and no linear-solver contract
 failure. The one captured reduced system is retained outside Git at
-`C:\Users\fari\AppData\Local\Temp\qf_solver_029_c2r5_forensics\c2_m2_canonical_step4_failure.npz`:
+`<local-temp>\qf_solver_029_c2r5_forensics\c2_m2_canonical_step4_failure.npz`:
 shape `90000 x 90000`, `3835710` nonzeros, `27394683` bytes, SHA-256
 `f94e13d6a92c7ed6203a85f9be23d7fb7d23bf7552b8081393574472cb6b1b01`.
 

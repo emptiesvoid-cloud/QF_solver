@@ -8,6 +8,8 @@ spread and global equilibrium metrics in the C2R5 evidence JSON.
 from __future__ import annotations
 
 import json
+import argparse
+import os
 from pathlib import Path
 import sys
 from typing import Any
@@ -16,18 +18,34 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CAPTURE = Path(r"C:\Users\fari\AppData\Local\Temp\qf_solver_029_c2r5_forensics\c2_m2_canonical_step4_failure.npz")
+DEFAULT_CAPTURE = (
+    Path(os.environ["QF_WP04_C2R5_CAPTURE"])
+    if os.environ.get("QF_WP04_C2R5_CAPTURE")
+    else None
+)
 RESULT = ROOT / "qualification" / "0_2_9" / "c2r5" / "residual_precision_audit.json"
 REASSEMBLY_COUNT = 5
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--capture",
+        type=Path,
+        default=DEFAULT_CAPTURE,
+        help="exact historical capture file (or set QF_WP04_C2R5_CAPTURE)",
+    )
+    args = parser.parse_args()
+    if args.capture is None:
+        parser.error("provide --capture or set QF_WP04_C2R5_CAPTURE; no substitute capture will be selected")
+    if not args.capture.is_file():
+        parser.error(f"required historical capture is unavailable: {args.capture}")
     sys.path.insert(0, str(ROOT / "src"))
     sys.path.insert(0, str(ROOT))
     from scripts.run_wp04_c2r5_residual_precision_audit import _accumulate_methods
     from tests.verification.test_wp04_c2_tet4_requalification import _case, _equilibrium
 
-    with np.load(CAPTURE, allow_pickle=False) as data:
+    with np.load(args.capture, allow_pickle=False) as data:
         trial = np.asarray(data["trial_displacement"], dtype=float)
         accepted = np.asarray(data["accepted_displacement"], dtype=float)
         external = np.asarray(data["external"], dtype=float)
@@ -69,7 +87,7 @@ def main() -> int:
         "stagnated_trial_status": "NOT_EQUILIBRIUM_ACCEPTED_PATH_STATE",
     }
     result: dict[str, Any] = {
-        "capture_path": str(CAPTURE),
+        "capture_path": args.capture.name,
         "reassembly_count": REASSEMBLY_COUNT,
         "residual_norm": {
             "min": min(residuals),

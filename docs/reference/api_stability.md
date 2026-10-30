@@ -1,15 +1,23 @@
 ---
 doc_id: DOC-REF-API-002
-revision: 1.1
+revision: 1.2
 status: controlled_candidate
 applicable_version: 0.2.12
-reviewer: ""
-approver: ""
+reviewer: "GPT-6 Luna — WP11 contract review (2026-10-25)"
+approver: "Owner — WP11 policy decision (2026-10-25; not release approval)"
 ---
 
 # API stability
 
 This page describes the public API surface of QF Solver 0.2.12.
+
+## Review and approval record
+
+Reviewed by GPT-6 Luna on 2026-10-25 against the WP11 acceptance scope. The
+Owner decision dated 2026-10-25 approves the documented result contract and
+work-package boundaries; it does not approve release publication or scientific
+qualification. This reference remains `controlled_candidate` pending separate
+release-document control.
 
 ## Public namespace
 
@@ -70,3 +78,9 @@ one versioned result schema or a generic result deserializer. The experimental
 modal-Newmark and reduced-harmonic DTOs have separate versioned contracts and
 `from_dict()` methods. Do not infer cross-version round-trip compatibility
 where the individual result contract does not declare it.
+
+`save_result(result, path)` refuses to replace an existing path by default.
+Call `save_result(result, path, overwrite=True)` when replacement is intended.
+The CLI exposes `--overwrite` on commands that write a JSON result or report
+through this API. This explicit option preserves the replacement capability;
+callers that depended on implicit replacement must opt in during migration.

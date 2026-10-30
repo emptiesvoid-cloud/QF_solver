@@ -1,0 +1,403 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:qf-solver:wp12:owner-decision:v4",
+  "title": "Owner-signed decision bound to one frozen WP12 execution unit, run and attempt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "decision_id",
+    "status",
+    "campaign_id",
+    "manifest_sha256",
+    "target",
+    "operations",
+    "nodeids",
+    "scientific_identity",
+    "runner_identity",
+    "environment",
+    "budgets",
+    "maximum_attempts",
+    "destination",
+    "owner",
+    "owner_key_id",
+    "decided_utc",
+    "not_before_utc",
+    "expires_utc",
+    "signature",
+    "canonicalization",
+    "unit_id",
+    "run_id",
+    "attempt_number",
+    "launch_confirmation",
+    "isolation_assessment_sha256",
+    "remote_identity"
+  ],
+  "properties": {
+    "schema": {
+      "const": "qf-solver-wp12-owner-decision-v4"
+    },
+    "decision_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+    },
+    "status": {
+      "const": "APPROVED"
+    },
+    "campaign_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+    },
+    "manifest_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "scientific_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commit",
+        "git_tree"
+      ],
+      "properties": {
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "git_tree": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        }
+      }
+    },
+    "runner_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commit",
+        "git_tree"
+      ],
+      "properties": {
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "git_tree": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "branch",
+        "commit",
+        "git_tree"
+      ],
+      "properties": {
+        "branch": {
+          "const": "emptiesvoids-cloud/0.2.12"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "git_tree": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        }
+      }
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "const": "EXECUTE_ONE_TEST_NODE"
+      }
+    },
+    "nodeids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/nodeid"
+      },
+      "maxItems": 1
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "platform",
+        "python_implementation",
+        "architecture",
+        "python_version",
+        "venv_executable_sha256",
+        "packages",
+        "native_libraries",
+        "thread_environment",
+        "python_executable_path",
+        "python_executable_sha256",
+        "virtual_environment",
+        "solver_import_origin",
+        "temporary_directory",
+        "junit_relative_path_from_science_checkout"
+      ],
+      "properties": {
+        "platform": {
+          "type": "string",
+          "minLength": 1
+        },
+        "python_implementation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "architecture": {
+          "type": "string",
+          "minLength": 1
+        },
+        "python_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "venv_executable_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "packages": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "native_libraries": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "thread_environment": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "python_executable_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "python_executable_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "virtual_environment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "path"],
+          "properties": {
+            "kind": {"enum": ["venv", "system-python"]},
+            "path": {"type": "string", "minLength": 1}
+          }
+        },
+        "solver_import_origin": {
+          "type": "string",
+          "minLength": 1
+        },
+        "temporary_directory": {
+          "type": "string",
+          "minLength": 1
+        },
+        "junit_relative_path_from_science_checkout": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "wall_seconds",
+        "cpu_seconds",
+        "memory_bytes",
+        "process_count",
+        "thread_count",
+        "temporary_storage_bytes",
+        "stdout_bytes",
+        "stderr_bytes",
+        "enforcement"
+      ],
+      "properties": {
+        "wall_seconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "cpu_seconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "memory_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "process_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "thread_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "temporary_storage_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "stdout_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "stderr_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "enforcement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "wall",
+            "cpu",
+            "memory",
+            "process_tree",
+            "storage",
+            "logs",
+            "threads"
+          ],
+          "properties": {
+            "wall": {"enum": ["hard", "soft"]},
+            "cpu": {"enum": ["hard", "soft"]},
+            "memory": {"enum": ["hard", "soft"]},
+            "process_tree": {"enum": ["hard", "soft"]},
+            "storage": {"enum": ["hard", "soft"]},
+            "logs": {"enum": ["hard", "soft"]},
+            "threads": {"enum": ["hard", "soft"]}
+          }
+        }
+      }
+    },
+    "maximum_attempts": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "destination": {
+      "type": "string",
+      "pattern": "^qualification/0_2_12/wp12_evidence/[A-Za-z0-9][A-Za-z0-9._-]{0,63}/[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+    },
+    "owner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "principal",
+        "display_name"
+      ],
+      "properties": {
+        "principal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "owner_key_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decided_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "not_before_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "key_id",
+        "public_key_sha256",
+        "payload_sha256",
+        "signature_base64"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "ed25519"
+        },
+        "key_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "public_key_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "payload_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "signature_base64": {
+          "type": "string",
+          "minLength": 80
+        }
+      }
+    },
+    "canonicalization": {
+      "const": "qf-owner-json-v1"
+    },
+    "unit_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+    },
+    "attempt_number": {
+      "const": 1
+    },
+    "launch_confirmation": {
+      "const": "RUN_EXACT_APPROVED_UNIT"
+    },
+    "isolation_assessment_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "remote_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["remote_name", "remote_url", "remote_ref", "commit", "git_tree"],
+      "properties": {
+        "remote_name": {"const": "origin"},
+        "remote_url": {"const": "https://github.com/emptiesvoid-cloud/QF_solver.git"},
+        "remote_ref": {"const": "refs/heads/emptiesvoids-cloud/0.2.12"},
+        "commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "git_tree": {"type": "string", "pattern": "^[a-f0-9]{40}$"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "nodeid": {
+      "type": "string",
+      "pattern": "^tests/(unit|integration|verification)/[A-Za-z0-9_./-]+\\.py::[A-Za-z_][A-Za-z0-9_]*(::[A-Za-z_][A-Za-z0-9_]*)?(\\[[^\\]\\r\\n]+\\])?$"
+    }
+  }
+}

@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import math
+import os
+import re
 from dataclasses import replace
 from pathlib import Path
+import uuid
 
 import numpy as np
 import pytest
@@ -128,6 +132,197 @@ def _prepare(model: FiniteElementModel) -> tuple[PreparedDynamicSystem, ModalBas
         dense_limit=64,
     )
     return prepared, basis
+
+
+def _write_wp12_attempt_observables(
+    *,
+    case_name: str,
+    nodeid: str,
+    payload: dict[str, object],
+) -> dict[str, str]:
+    """Atomically publish one JSON sidecar inside this launcher's inventoried output directory."""
+    if Path(case_name).name != case_name or not case_name:
+        raise ValueError("The observables artifact name must be a plain filename stem.")
+    if os.environ.get("QF_DEVELOPMENT_AUTONOMOUS") != "1":
+        raise RuntimeError("WP12 numerical observables require the authorized development launcher.")
+    if os.environ.get("QF_DEV_WORKTREE_ID") != "wp12_dynamics":
+        raise RuntimeError("WP12 numerical observables require the registered wp12_dynamics worktree.")
+    raw_temp_dir = os.environ.get("TMP")
+    raw_temp_alias = os.environ.get("TEMP")
+    if not raw_temp_dir or not raw_temp_alias:
+        raise RuntimeError("The development launcher did not provide its attempt-specific temporary directory.")
+
+    temp_dir = Path(raw_temp_dir).resolve(strict=True)
+    if Path(raw_temp_alias).resolve(strict=True) != temp_dir or temp_dir.name.casefold() != "tmp":
+        raise RuntimeError("The launcher temporary-directory aliases do not identify one attempt.")
+    attempt_dir = temp_dir.parent.resolve(strict=True)
+    run_path = (attempt_dir / "run.json").resolve(strict=True)
+    output_dir = (attempt_dir / "output").resolve(strict=True)
+    if output_dir.parent != attempt_dir or run_path.parent != attempt_dir or not run_path.is_file():
+        raise RuntimeError("The launcher attempt record/output directory is unavailable or escaped its attempt.")
+
+    run_record = json.loads(run_path.read_text(encoding="utf-8"))
+    if (
+        run_record.get("state") != "RUNNING"
+        or run_record.get("worktree_id") != "wp12_dynamics"
+        or run_record.get("target") != [nodeid]
+    ):
+        raise RuntimeError("The launcher run record does not identify this exact in-progress nodeid.")
+    series_id = run_record.get("series_id")
+    attempt = run_record.get("attempt")
+    local_attempt_match = re.fullmatch(r"attempt-(\d{4})", attempt_dir.name)
+    if (
+        not isinstance(series_id, str)
+        or series_id != attempt_dir.parent.name
+        or not isinstance(attempt, int)
+        or isinstance(attempt, bool)
+        or attempt < 1
+        or local_attempt_match is None
+        or int(local_attempt_match.group(1)) < 1
+    ):
+        raise RuntimeError("The launcher attempt directory does not match its unique series/attempt identity.")
+    series_attempt = int(local_attempt_match.group(1))
+    manifest_ref = run_record.get("execution_manifest")
+    if not isinstance(manifest_ref, dict) or not isinstance(manifest_ref.get("path"), str):
+        raise RuntimeError("The launcher run record has no exact execution-manifest identity.")
+    manifest_path = Path(manifest_ref["path"]).resolve(strict=True)
+    identity = run_record.get("identity")
+    controller = run_record.get("controller_provenance")
+    source_fingerprint = run_record.get("source_fingerprint")
+    if not isinstance(identity, dict) or not isinstance(controller, dict) or not isinstance(source_fingerprint, str):
+        raise RuntimeError("The exact WP12 attempt manifest is not explicitly Owner-authorized.")
+    controller_identity = controller.get("identity")
+    controller_hashes = controller.get("sha256")
+    if not isinstance(controller_identity, dict) or not isinstance(controller_hashes, dict):
+        raise RuntimeError("The launcher run record lacks controller root/hash provenance.")
+    controller_root = Path(str(controller_identity.get("root", ""))).resolve(strict=True)
+    policy_path = (controller_root / "development_autonomous_policy.json").resolve(strict=True)
+    policy_bytes = policy_path.read_bytes()
+    policy_sha256 = hashlib.sha256(policy_bytes).hexdigest()
+    if policy_sha256 != controller_hashes.get("policy"):
+        raise RuntimeError("The WP12 controller policy differs from the run's captured policy identity.")
+    controller_policy = json.loads(policy_bytes)
+    policy_worktree = controller_policy.get("worktrees", {}).get("wp12_dynamics", {})
+    evidence_root = Path(str(policy_worktree.get("evidence_root", ""))).resolve(strict=True)
+    expected_authorization_dir = (evidence_root / "authorizations" / "wp12_dynamics").resolve(strict=True)
+    try:
+        expected_authorization_dir.relative_to(evidence_root)
+    except ValueError as exc:
+        raise RuntimeError("The policy-configured WP12 authorization directory is outside its evidence root.") from exc
+    owner_authorized_dir = expected_authorization_dir / "owner-authorized"
+    if owner_authorized_dir.is_symlink():
+        raise RuntimeError("The WP12 owner-authorized manifest directory must not be a symlink.")
+    allowed_manifest_dirs = {expected_authorization_dir}
+    if owner_authorized_dir.exists():
+        if not owner_authorized_dir.is_dir():
+            raise RuntimeError("The WP12 owner-authorized manifest path is not a directory.")
+        resolved_owner_authorized_dir = owner_authorized_dir.resolve(strict=True)
+        if resolved_owner_authorized_dir.parent != expected_authorization_dir:
+            raise RuntimeError("The WP12 owner-authorized manifest directory escaped its authorization root.")
+        allowed_manifest_dirs.add(resolved_owner_authorized_dir)
+    if manifest_path.parent not in allowed_manifest_dirs:
+        raise RuntimeError("The execution manifest is outside the policy-configured WP12 evidence root.")
+    manifest_bytes = manifest_path.read_bytes()
+    manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+    if manifest_ref.get("sha256") != manifest_sha256:
+        raise RuntimeError("The execution-manifest hash changed after the launcher recorded it.")
+    manifest = json.loads(manifest_bytes)
+    try:
+        attempt_dir.relative_to(evidence_root)
+    except ValueError as exc:
+        raise RuntimeError("The launcher attempt output is outside the evidence root bound by its manifest.") from exc
+    if attempt_dir.parents[2].name != "worktrees" or attempt_dir.parents[1].name != "wp12_dynamics":
+        raise RuntimeError("The launcher output path does not match the registered worktree evidence layout.")
+    if attempt_dir.parents[3] != evidence_root:
+        raise RuntimeError("The launcher attempt and its manifest do not share the same authorized evidence root.")
+
+    case_file = f"{case_name}.json"
+    artifact_path = output_dir / case_file
+    if artifact_path.exists():
+        raise FileExistsError(f"Refusing to overwrite per-attempt observables: {artifact_path}")
+    decision = manifest.get("owner_decision")
+    if (
+        not isinstance(decision, dict)
+        or manifest.get("schema") != "qfsolver-wp12-development-execution-v1"
+        or manifest.get("state") != "OWNER_AUTHORIZED"
+        or manifest.get("worktree_id") != "wp12_dynamics"
+        or manifest.get("target") != nodeid
+        or manifest.get("authorization_id") != manifest_ref.get("authorization_id")
+        or manifest.get("identity") != identity
+        or manifest.get("source_fingerprint") != source_fingerprint
+        or decision.get("status") != "APPROVED"
+        or decision.get("approved_by") != "Owner"
+    ):
+        raise RuntimeError("The launcher run record lacks source/controller identity fields.")
+    complete_payload = {
+        **payload,
+        "attempt_identity": {
+            "worktree_id": run_record["worktree_id"],
+            "nodeid": nodeid,
+            "series_id": series_id,
+            "attempt": attempt,
+            "series_attempt": series_attempt,
+            "authorization_id": manifest_ref["authorization_id"],
+            "manifest_sha256": manifest_sha256,
+            "evidence_relative_attempt_path": attempt_dir.relative_to(evidence_root).as_posix(),
+            "source_fingerprint": source_fingerprint,
+            "source_identity": identity,
+            "controller_provenance": controller,
+        },
+        "artifact_path_relative_to_evidence_root": (output_dir / case_file).relative_to(evidence_root).as_posix(),
+    }
+    non_finite_values: dict[str, str] = {}
+    json_payload = _json_safe_observables(complete_payload, "$", non_finite_values)
+    if not isinstance(json_payload, dict):
+        raise TypeError("The WP12 observables payload must remain a JSON object.")
+    if non_finite_values:
+        json_payload["non_finite_values"] = non_finite_values
+    encoded = json.dumps(json_payload, sort_keys=True, indent=2, allow_nan=False) + "\n"
+    temporary_path = output_dir / f".{case_name}.{series_id}.{attempt}.{uuid.uuid4().hex}.tmp"
+    try:
+        with temporary_path.open("x", encoding="utf-8", newline="\n") as stream:
+            stream.write(encoded)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.link(temporary_path, artifact_path)
+    finally:
+        temporary_path.unlink(missing_ok=True)
+
+    if json.loads(artifact_path.read_text(encoding="utf-8")) != json_payload:
+        raise RuntimeError("The published WP12 observables JSON did not round-trip exactly.")
+    return {"path": str(artifact_path), "sha256": hashlib.sha256(artifact_path.read_bytes()).hexdigest()}
+
+
+def _json_safe_observables(value: object, path: str, non_finite_values: dict[str, str]) -> object:
+    if isinstance(value, np.generic):
+        return _json_safe_observables(value.item(), path, non_finite_values)
+    if isinstance(value, float) and not math.isfinite(value):
+        non_finite_values[path] = repr(value)
+        return None
+    if isinstance(value, dict):
+        return {
+            str(key): _json_safe_observables(item, f"{path}.{key}", non_finite_values) for key, item in value.items()
+        }
+    if isinstance(value, (list, tuple)):
+        return [_json_safe_observables(item, f"{path}[{index}]", non_finite_values) for index, item in enumerate(value)]
+    return value
+
+
+def _publish_wp12_observables_before_assertions(
+    *,
+    case_name: str,
+    nodeid: str,
+    payload: dict[str, object],
+    checks: list[tuple[str, bool]],
+) -> dict[str, str]:
+    """Persist computed observations first, then raise for any failed test oracle."""
+    artifact = _write_wp12_attempt_observables(case_name=case_name, nodeid=nodeid, payload=payload)
+    failed_checks = [label for label, passed in checks if not passed]
+    if failed_checks:
+        raise AssertionError(
+            "WP12 numerical checks failed after observables were archived: " + "; ".join(failed_checks)
+        )
+    return artifact
 
 
 def _tet4_harmonic_model() -> FiniteElementModel:
@@ -262,6 +457,341 @@ def test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_
     assert restored.absolute_acceleration_responses is not None
     np.testing.assert_array_equal(
         restored.absolute_acceleration_responses[0], result.absolute_acceleration_responses[0]
+    )
+
+
+def _wp12_base_phasor_comparison(actual: complex | None, reference: complex | None, unit: str) -> dict[str, object]:
+    """Encode measured and reference scalar phasors without defining zero phases or tiny-reference ratios."""
+    def encode(value: complex | None) -> dict[str, object] | None:
+        if value is None:
+            return None
+        value = complex(value)
+        amplitude = abs(value)
+        return {
+            "shape": [], "real": value.real, "imag": value.imag,
+            "amplitude": amplitude,
+            "phase_rad": float(np.angle(value)) if math.isfinite(amplitude) and amplitude > 0.0 else None,
+        }
+
+    difference = None if actual is None or reference is None else complex(actual) - complex(reference)
+    magnitude = None if difference is None else abs(difference)
+    denominator = None if reference is None else abs(reference)
+    ratio_defined = bool(
+        magnitude is not None and denominator is not None
+        and math.isfinite(magnitude) and math.isfinite(denominator) and denominator >= np.finfo(float).tiny
+    )
+    ratio = magnitude / denominator if ratio_defined else None
+    if ratio is not None and not math.isfinite(ratio):
+        ratio = None
+        ratio_defined = False
+    return {
+        "unit": unit, "actual": encode(actual), "reference": encode(reference), "difference": encode(difference),
+        "absolute_error": magnitude, "relative_error": ratio,
+        "relative_error_defined": ratio_defined,
+    }
+
+
+def test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization() -> None:
+    """Compare harmonic base response to the free equation over a resonance-adjacent sweep."""
+    model = _beam_model("harmonic", frequency_hz=1.0, acceleration=0.7 - 0.4j)
+    prepared, basis = _prepare(model)
+    dofs = model.dof_manager()
+    response_index = dofs.index(1, "UX")
+    free = int(prepared.free_dof_indices[0])
+    mass_full = prepared.mass_full.toarray()
+    stiffness_full = prepared.stiffness_full.toarray()
+    omega_n = math.sqrt(float(stiffness_full[free, free] / mass_full[free, free]))
+    natural_frequency_hz = omega_n / (2.0 * math.pi)
+    frequencies_hz = [0.0, 0.5 * natural_frequency_hz, 0.98 * natural_frequency_hz, 1.02 * natural_frequency_hz]
+    acceleration = 0.7 - 0.4j
+
+    model.analysis.parameters["frequencies_hz"] = frequencies_hz
+    base_input = model.analysis.parameters["uniform_base_acceleration"]
+    base_input["harmonic_phasors"] = [
+        {
+            "frequency_hz": frequency,
+            "real": 0.0 if frequency == 0.0 else acceleration.real,
+            "imag": 0.0 if frequency == 0.0 else acceleration.imag,
+        }
+        for frequency in frequencies_hz
+    ]
+    result = ReducedHarmonicResponseSolver().solve(
+        model,
+        source_sha=_SOURCE_SHA,
+        prepared=prepared,
+        basis=basis,
+    )
+    checks: list[tuple[str, bool]] = [("full modal basis is complete", bool(basis.is_full_basis))]
+    checks.extend(
+        [
+            ("relative velocity responses are available", result.relative_velocity_responses is not None),
+            ("relative acceleration responses are available", result.relative_acceleration_responses is not None),
+            ("absolute displacement responses are available", result.absolute_responses is not None),
+            ("absolute velocity responses are available", result.absolute_velocity_responses is not None),
+            ("absolute acceleration responses are available", result.absolute_acceleration_responses is not None),
+        ]
+    )
+
+    influence = np.zeros(dofs.ndof)
+    for node, names in dofs.node_dofs.items():
+        if "UX" in names:
+            influence[dofs.index(node, "UX")] = 1.0
+    inertial_coupling = float((mass_full @ influence)[free])
+
+    def phasor_metrics(prefix: str, value: complex | None) -> dict[str, float | None]:
+        if value is None:
+            return {
+                f"{prefix}_real": None,
+                f"{prefix}_imag": None,
+                f"{prefix}_amplitude": None,
+                f"{prefix}_phase_rad": None,
+            }
+        amplitude = abs(value)
+        return {
+            f"{prefix}_real": value.real,
+            f"{prefix}_imag": value.imag,
+            f"{prefix}_amplitude": amplitude,
+            f"{prefix}_phase_rad": None if amplitude == 0.0 else float(np.angle(value)),
+        }
+
+    observations: list[dict[str, object]] = []
+    records = result.solver["frequency_records"]
+
+    def response_value(values: object, index: int) -> complex | None:
+        if values is None:
+            return None
+        try:
+            vector = values[index]  # type: ignore[index]
+            if vector is None:
+                return None
+            return complex(vector[response_index])
+        except (IndexError, TypeError):
+            return None
+
+    for index, frequency_hz in enumerate(frequencies_hz):
+        omega = 2.0 * math.pi * frequency_hz
+        base_phasor = 0.0j if frequency_hz == 0.0 else acceleration
+        impedance = complex(stiffness_full[free, free] - omega**2 * mass_full[free, free])
+        expected_rhs = -inertial_coupling * base_phasor
+        expected_relative = expected_rhs / impedance
+        actual_relative = response_value(result.responses, index)
+        actual_relative_velocity = response_value(result.relative_velocity_responses, index)
+        actual_relative_acceleration = response_value(result.relative_acceleration_responses, index)
+        checks.extend(
+            [
+                (
+                    f"{frequency_hz:g} Hz relative displacement matches full free equation",
+                    actual_relative is not None
+                    and bool(actual_relative == pytest.approx(expected_relative, rel=1.0e-11, abs=1.0e-13)),
+                ),
+                (
+                    f"{frequency_hz:g} Hz relative velocity follows i omega U",
+                    actual_relative_velocity is not None
+                    and bool(
+                        actual_relative_velocity
+                        == pytest.approx(1j * omega * expected_relative, rel=1.0e-11, abs=1.0e-13)
+                    ),
+                ),
+                (
+                    f"{frequency_hz:g} Hz relative acceleration follows -omega squared U",
+                    actual_relative_acceleration is not None
+                    and bool(
+                        actual_relative_acceleration
+                        == pytest.approx(-(omega**2) * expected_relative, rel=1.0e-11, abs=1.0e-13)
+                    ),
+                ),
+            ]
+        )
+
+        expected_absolute: complex | None = None
+        expected_absolute_velocity: complex | None = None
+        if frequency_hz > 0.0:
+            expected_ground_displacement = -base_phasor / omega**2
+            expected_absolute = expected_relative + expected_ground_displacement
+            expected_absolute_velocity = 1j * omega * expected_absolute
+            actual_absolute = response_value(result.absolute_responses, index)
+            actual_absolute_velocity = response_value(result.absolute_velocity_responses, index)
+            checks.extend(
+                [
+                    (f"{frequency_hz:g} Hz absolute displacement is available", actual_absolute is not None),
+                    (f"{frequency_hz:g} Hz absolute velocity is available", actual_absolute_velocity is not None),
+                    (
+                        f"{frequency_hz:g} Hz absolute displacement includes ground motion",
+                        actual_absolute is not None
+                        and bool(actual_absolute == pytest.approx(expected_absolute, rel=1.0e-11, abs=1.0e-13)),
+                    ),
+                    (
+                        f"{frequency_hz:g} Hz absolute velocity follows i omega U",
+                        actual_absolute_velocity is not None
+                        and bool(
+                            actual_absolute_velocity
+                            == pytest.approx(expected_absolute_velocity, rel=1.0e-11, abs=1.0e-13)
+                        ),
+                    ),
+                ]
+            )
+        else:
+            checks.extend(
+                [
+                    (
+                        "DC absolute displacement remains unavailable",
+                        response_value(result.absolute_responses, index) is None,
+                    ),
+                    (
+                        "DC absolute velocity remains unavailable",
+                        response_value(result.absolute_velocity_responses, index) is None,
+                    ),
+                ]
+            )
+
+        expected_absolute_acceleration = -(omega**2) * expected_relative + base_phasor
+        actual_absolute_acceleration = response_value(result.absolute_acceleration_responses, index)
+        checks.extend(
+            [
+                (f"{frequency_hz:g} Hz absolute acceleration is available", actual_absolute_acceleration is not None),
+                (
+                    f"{frequency_hz:g} Hz absolute acceleration includes base acceleration",
+                    actual_absolute_acceleration is not None
+                    and bool(
+                        actual_absolute_acceleration
+                        == pytest.approx(expected_absolute_acceleration, rel=1.0e-11, abs=1.0e-13)
+                    ),
+                ),
+            ]
+        )
+        record = records[index] if index < len(records) else {}
+        actual_absolute_displacement = response_value(result.absolute_responses, index)
+        actual_absolute_velocity = response_value(result.absolute_velocity_responses, index)
+        observations.append(
+            {
+                "frequency_hz": frequency_hz,
+                "base_acceleration_real_m_s2": base_phasor.real,
+                "base_acceleration_imag_m_s2": base_phasor.imag,
+                **phasor_metrics("relative_displacement_m", actual_relative),
+                **phasor_metrics("relative_velocity_m_s", actual_relative_velocity),
+                **phasor_metrics("relative_acceleration_m_s2", actual_relative_acceleration),
+                **phasor_metrics("absolute_displacement_m", actual_absolute_displacement),
+                **phasor_metrics("absolute_velocity_m_s", actual_absolute_velocity),
+                **phasor_metrics("absolute_acceleration_m_s2", actual_absolute_acceleration),
+                "reduced_backward_error": (
+                    None if record.get("reduced_backward_error") is None else float(record["reduced_backward_error"])
+                ),
+                "physical_free_backward_error": (
+                    None
+                    if record.get("physical_free_backward_error") is None
+                    else float(record["physical_free_backward_error"])
+                ),
+            }
+        )
+        comparisons = {
+            "relative_displacement": (actual_relative, expected_relative, "m"),
+            "relative_velocity": (actual_relative_velocity, 1j * omega * expected_relative, "m/s"),
+            "relative_acceleration": (actual_relative_acceleration, -(omega**2) * expected_relative, "m/s^2"),
+            "absolute_displacement": (actual_absolute_displacement, expected_absolute, "m"),
+            "absolute_velocity": (actual_absolute_velocity, expected_absolute_velocity, "m/s"),
+            "absolute_acceleration": (actual_absolute_acceleration, expected_absolute_acceleration, "m/s^2"),
+        }
+        free_residual = None if actual_relative is None else impedance * actual_relative - expected_rhs
+        observations[-1]["diagnostics"] = {
+            "omega_rad_s": omega,
+            "base_acceleration": {"shape": [], "real": base_phasor.real, "imag": base_phasor.imag, "unit": "m/s^2"},
+            "free_impedance_N_m": {"real": impedance.real, "imag": impedance.imag},
+            "free_rhs_N": {"real": expected_rhs.real, "imag": expected_rhs.imag},
+            "free_residual_N": None if free_residual is None else {"real": free_residual.real, "imag": free_residual.imag},
+            "comparisons": {name: _wp12_base_phasor_comparison(*values) for name, values in comparisons.items()},
+        }
+
+    serialization_fields = (
+        "responses",
+        "relative_velocity_responses",
+        "relative_acceleration_responses",
+        "absolute_responses",
+        "absolute_velocity_responses",
+        "absolute_acceleration_responses",
+    )
+    serialization_results: dict[str, bool] = {field: False for field in serialization_fields}
+    serialization_error: str | None = None
+    execution_key_preserved = False
+    try:
+        restored = ReducedHarmonicResult.from_dict(result.to_dict())
+        for field in serialization_fields:
+            actual_values = getattr(restored, field)
+            expected_values = getattr(result, field)
+            field_matches = actual_values is not None and expected_values is not None
+            if field_matches:
+                field_matches = len(actual_values) == len(expected_values)
+                if field_matches:
+                    for actual, expected in zip(actual_values, expected_values):
+                        if actual is None:
+                            field_matches = expected is None
+                        elif expected is None or not np.array_equal(actual, expected, equal_nan=True):
+                            field_matches = False
+                        if not field_matches:
+                            break
+            serialization_results[field] = bool(field_matches)
+        execution_key_preserved = restored.execution_key == result.execution_key
+    except Exception as exc:
+        serialization_error = f"{type(exc).__name__}: {exc}"
+    checks.extend(
+        [
+            (f"serialized {field} responses round-trip exactly", matched)
+            for field, matched in serialization_results.items()
+        ]
+    )
+    checks.append(("serialized execution key is preserved", execution_key_preserved))
+    checks.append(("frequency records cover the full sweep", len(records) == len(frequencies_hz)))
+    payload: dict[str, object] = {
+        "case": "WP12-WP07-COMPLEX-BASE-SWEEP",
+        "nodeid": "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+        "units": {
+            "frequency": "Hz",
+            "base_acceleration": "m/s^2",
+            "displacement": "m",
+            "velocity": "m/s",
+            "acceleration": "m/s^2",
+            "phase": "rad",
+            "backward_error": "dimensionless",
+        },
+        "natural_frequency_hz": natural_frequency_hz,
+        "reference_contract": {
+            "equation": "(K_ff - omega^2 M_ff) U_relative = -(M r)_f A_g",
+            "relative_error": "absolute complex error divided by reference magnitude; null below float64 normal minimum or for non-finite values",
+            "independence": "scalar free-equation oracle shares the assembled M and K and imposed support influence",
+            "free_mass_kg": float(mass_full[free, free]),
+            "free_stiffness_N_m": float(stiffness_full[free, free]),
+            "inertial_coupling_kg": inertial_coupling,
+            "free_dof_indices": [free],
+        },
+        "input_base_acceleration_m_s2": {"real": acceleration.real, "imag": acceleration.imag},
+        "assertion_results": {label: passed for label, passed in checks},
+        "serialization": {
+            "field_round_trip_exact": serialization_results,
+            "execution_key_preserved": execution_key_preserved,
+            "error": serialization_error,
+        },
+        "observations": observations,
+        "frame_contract": {
+            "base_direction_frame": "global_model_axes",
+            "base_direction_vector": [1.0, 0.0, 0.0],
+            "probe_dof": "node 1 UX in the global model frame",
+            "relative_acceleration": "-omega^2 * U_relative",
+            "absolute_acceleration": "relative_acceleration + A_g",
+            "dc_absolute_displacement_velocity": "UNAVAILABLE",
+            "phasor_time_convention": "exp(+i*omega*t)",
+        },
+    }
+    artifact = _publish_wp12_observables_before_assertions(
+        case_name="wp12-base-acceleration-complex-sweep-observables",
+        nodeid=str(payload["nodeid"]),
+        payload=payload,
+        checks=checks,
+    )
+    print(
+        json.dumps(
+            {"artifact": artifact},
+            sort_keys=True,
+            allow_nan=False,
+        )
     )
 
 

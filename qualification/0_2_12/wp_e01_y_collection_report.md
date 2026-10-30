@@ -106,7 +106,7 @@ The historical U/V/W report hash is `dc254d1228796023a04e98c690b45434c29c18bff35
 
 ## Independent review
 
-A distinct read-only reviewer, `/root/wp_e01x_review`, independently checked the receipt v2, exact node inventory, evidence-index digest and recomputed map, phase result, process/limit/cleanup accounting, and explicit `test_execution=NOT_RUN` / `run_launched=false` state. The reviewer found no P0/P1/P2 issue. The review did not execute tests or modify files.
+A distinct read-only reviewer, `<reviewer-workspace>`, independently checked the receipt v2, exact node inventory, evidence-index digest and recomputed map, phase result, process/limit/cleanup accounting, and explicit `test_execution=NOT_RUN` / `run_launched=false` state. The reviewer found no P0/P1/P2 issue. The review did not execute tests or modify files.
 
 ## Final status and next decision
 

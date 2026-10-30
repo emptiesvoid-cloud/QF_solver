@@ -33,7 +33,7 @@ The failing CSR system was captured without changing the solve. The compressed
 NPZ remains outside Git and is intentionally not committed:
 
 ```text
-path   = C:/Users/fari/AppData/Local/Temp/qf_solver_029_r2b_forensics/wp04_m1_failing_system_step4_iter12.npz
+path   = <local-temp>/AppData/Local/Temp/qf_solver_029_r2b_forensics/wp04_m1_failing_system_step4_iter12.npz
 sha256 = 97883531107a289ee43dd6dead45666090f4555e883bb49f6e621e97ab15e33a
 size   = 7,966,755 bytes
 shape  = 27,744 x 27,744

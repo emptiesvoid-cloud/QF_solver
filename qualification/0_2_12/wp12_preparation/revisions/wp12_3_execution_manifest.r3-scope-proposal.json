@@ -1,0 +1,521 @@
+{
+  "schema": "qf-solver-wp12-prepared-manifest-v1",
+  "campaign_id": "WP12-3-NONLINEAR-CONTACT-BOUNDED",
+  "title": "Non-linéaire et contact borné — proposition R3 avec checkpoint WP10",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "mode": "PREPARATION_ONLY",
+  "numerical_execution_performed": false,
+  "wp12_status": "OPEN",
+  "authorization": {
+    "execution_authorized": false,
+    "owner_decision": "PENDING_OWNER_DECISION"
+  },
+  "repository": "emptiesvoid-cloud/QF_solver",
+  "target": {
+    "branch": "emptiesvoids-cloud/0.2.12",
+    "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+    "git_tree": "df4ec667bf746b042c900fad1f86bf542e1a437b",
+    "worktree_must_be_clean": true,
+    "detached_checkout_allowed_only_at_exact_commit": true,
+    "source_change_policy": "Exact source, test and fixture identity required; M4/M5 are a new v0.2.12 regression only if separately approved."
+  },
+  "scope": {
+    "capability_matrix_ids": [
+      "NL-08-01",
+      "NL-08-02",
+      "NL-09-01",
+      "NL-09-02",
+      "NL-10-01",
+      "E01-01",
+      "C01-01",
+      "C02-01",
+      "E01-02"
+    ],
+    "scientific_boundary": "Bounded corrected corotational J2/state routes and frictionless planar C02 AR/N03 only. Does not qualify general J2, contact, Docker equivalence, finite sliding or E01 globally. R3 additionally proposes the WP10 nonlinear checkpoint metadata-integrity nodeid transferred from WP12-1 R2.",
+    "preserved_statuses": [
+      "WP-C01=CLOSED_NEGATIVE; remediation OPEN",
+      "WP-C02=CLOSED_BOUNDED AR/N03 only",
+      "WP-E01=OPEN_WITH_BOUNDED_CERTIFICATES",
+      "WP12=OPEN"
+    ],
+    "required_contracts": [
+      "wp08_r1_constitutive_state_contract.json",
+      "wp09_perturbation_policy.json",
+      "wp10_state_transaction_contract.json",
+      "wp10_checkpoint_identity_migration_contract.json",
+      "wp_c02_n12_closure_requirements_matrix.md",
+      "wp_c02_n13_owner_bounded_closure_decision.md"
+    ],
+    "scope_change_proposal": {
+      "decision_status": "PENDING_OWNER_DECISION",
+      "r2_manifest_sha256": "7fd489614c07a6b6cca5ee333d6709e1ba0194af304e3e5771376b0bec774ce2",
+      "historical_original_manifest_sha256": "064e2587a7f2789495a459d5c75d5d605140e17e6fba6bcff06ec8573f28d9b3",
+      "proposed_nodeids_transferred_in": [
+        "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_v2_checkpoint_metadata_identity_tampering_fails_integrity"
+      ]
+    }
+  },
+  "source_and_test_identity": {
+    "repository_tree_roots": {
+      "src": "3fd84f22c35aaecd989f2fe614e0b3fd9d7fbc6e",
+      "tests": "25ac8dad53b310407385353373db7886b8823ceb",
+      "fixtures_or_examples": "199741620aeec02ad4342d55dd361210a766d885"
+    },
+    "tracked_source_files": [
+      "src/solveur/api/__init__.py",
+      "src/solveur/api/public.py",
+      "src/solveur/contact/__init__.py",
+      "src/solveur/contact/entities.py",
+      "src/solveur/contact/evaluation.py",
+      "src/solveur/contact/measures.py",
+      "src/solveur/contact/restart.py",
+      "src/solveur/contact/slip_root.py",
+      "src/solveur/contact/solver.py",
+      "src/solveur/contact/support.py",
+      "src/solveur/core/analyses/residual_flexibility.py",
+      "src/solveur/core/assembly/nonlinear.py",
+      "src/solveur/core/errors.py",
+      "src/solveur/core/model.py",
+      "src/solveur/core/nonlinear/__init__.py",
+      "src/solveur/core/nonlinear/arc_length.py",
+      "src/solveur/core/nonlinear/checkpoint.py",
+      "src/solveur/core/nonlinear/contracts.py",
+      "src/solveur/core/nonlinear/controls.py",
+      "src/solveur/core/nonlinear/corotational_guard_diagnostics.py",
+      "src/solveur/core/nonlinear/driver.py",
+      "src/solveur/core/nonlinear/iteration.py",
+      "src/solveur/core/nonlinear/linear_solver.py",
+      "src/solveur/core/nonlinear/load_control.py",
+      "src/solveur/core/nonlinear/material_state.py",
+      "src/solveur/core/nonlinear/robustness.py",
+      "src/solveur/core/nonlinear/solver.py",
+      "src/solveur/core/nonlinear/state.py",
+      "src/solveur/core/nonlinear/support.py",
+      "src/solveur/core/nonlinear/telemetry.py",
+      "src/solveur/core/solvers/static.py",
+      "src/solveur/elements/solid/corotational_j2.py",
+      "src/solveur/elements/solid/tet4.py",
+      "src/solveur/materials/solid.py"
+    ],
+    "tracked_test_files": [
+      "tests/unit/test_analysis_features.py",
+      "tests/unit/test_corotational_j2_corrected.py",
+      "tests/unit/test_nonlinear_checkpoint.py",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py",
+      "tests/unit/test_wp_c01_r16_smoke_contract.py",
+      "tests/unit/test_wp_c01_r19_example_contract.py",
+      "tests/unit/test_wp_d01_residual_flexibility.py",
+      "tests/unit/test_wp_e01_j2_coro_phase8.py",
+      "tests/unit/test_wp_e01_j2_global_phase2.py",
+      "tests/unit/test_wp_e01m_hencky_material_point.py",
+      "tests/unit/test_wp_e01q_hencky_tangent.py",
+      "tests/unit/test_wpc01_r13_small_rotation_transfer.py",
+      "tests/verification/test_wpc02_ar_native_contact_convergence.py"
+    ],
+    "git_blob_oids": {
+      "src/solveur/api/__init__.py": "ea3d2fcfb0eb0acd095ae1dcd3e533f27a979682",
+      "src/solveur/api/public.py": "f2161f6dcc3f88dc23413dfae2d7f55b219652e0",
+      "src/solveur/contact/__init__.py": "e9977714082107f7175ec077c1599748f3a17aff",
+      "src/solveur/contact/entities.py": "b69019cdbda5c092b8e9ca202126a959472136aa",
+      "src/solveur/contact/evaluation.py": "521d04838f3f95b5dd7fa584e300c430ca601ac4",
+      "src/solveur/contact/measures.py": "fff41f6c626c11d5e52b88831b609926279d29e3",
+      "src/solveur/contact/restart.py": "65f47d22f54bfdba8bfe35af4810700f63e8038f",
+      "src/solveur/contact/slip_root.py": "afa492586124d913319e9872200a2310813411d7",
+      "src/solveur/contact/solver.py": "0341ee2a6d736d75e4b6521be46cdde0fe0989df",
+      "src/solveur/contact/support.py": "c03cb68446ba6d1c3ca1282c72ad307d98c5a388",
+      "src/solveur/core/analyses/residual_flexibility.py": "f7d4f5ee1bea08ac95d495939c7018d18dda32e5",
+      "src/solveur/core/assembly/nonlinear.py": "f1cd877bde00b6f51becc9233b8017fbc692d84f",
+      "src/solveur/core/errors.py": "295dd5a59ffc6d4491aa7efa297c4795669e5257",
+      "src/solveur/core/model.py": "7ff8d9d0e75845d2347342c2b5cd3564679d05c3",
+      "src/solveur/core/nonlinear/__init__.py": "96e0b4ccdba7894d37d0e497076cf146816ef6cf",
+      "src/solveur/core/nonlinear/arc_length.py": "d3f5f1efed17d64b5b595da119cda7cd8cb811c6",
+      "src/solveur/core/nonlinear/checkpoint.py": "4024ca0bd41d17214557600500764cf1cfccfb5b",
+      "src/solveur/core/nonlinear/contracts.py": "d4c3cd5bb779cab6af590b2ad861f591e344041b",
+      "src/solveur/core/nonlinear/controls.py": "c6ad80a34e27b5478eec28ceab3fa94c2495aa84",
+      "src/solveur/core/nonlinear/corotational_guard_diagnostics.py": "3b38acac6af5cf761e7ccda632d8c685384d34aa",
+      "src/solveur/core/nonlinear/driver.py": "1b3a760b8e30156c00d80023ef229bbab408e34a",
+      "src/solveur/core/nonlinear/iteration.py": "78aba68a4f3436d19abea6b248bc712e4ec9df27",
+      "src/solveur/core/nonlinear/linear_solver.py": "ced3d395f4eca523a0f62f5afbaa9b22d929dd89",
+      "src/solveur/core/nonlinear/load_control.py": "2addb5db7af2cbbf556795f6e7af3d20c5050acc",
+      "src/solveur/core/nonlinear/material_state.py": "9e6fe40ba9a5ce0068fb38bb777ee345a109e359",
+      "src/solveur/core/nonlinear/robustness.py": "1f5e199d9559eea1094dbf9b780060f03e6e416d",
+      "src/solveur/core/nonlinear/solver.py": "ca94cd93c3cd1840208f8dd259e6e93d02326657",
+      "src/solveur/core/nonlinear/state.py": "bed9fe8a1fa25257715c8992c36521d6930cd62e",
+      "src/solveur/core/nonlinear/support.py": "9377a1112c5cde7bd299266a03302fb986899b3f",
+      "src/solveur/core/nonlinear/telemetry.py": "fab1d13e17d965ca682f895746ca32d0739da043",
+      "src/solveur/core/solvers/static.py": "cc20f2c8928d19cd054befb8c7604f485253bdf2",
+      "src/solveur/elements/solid/corotational_j2.py": "c478d261ec66305fd66ccea8e23556b1116169b8",
+      "src/solveur/elements/solid/tet4.py": "46d309e23ae294476fbd0d84221c46f045287414",
+      "src/solveur/materials/solid.py": "d1e939608a3c29a258986ff5bdbc3b47a3c011b3",
+      "tests/unit/test_analysis_features.py": "8602d647acb5497c8e6c154f83ec147e35f76b73",
+      "tests/unit/test_corotational_j2_corrected.py": "6b1707486a31933036691dfd6ea7ad50edb91a3d",
+      "tests/unit/test_nonlinear_checkpoint.py": "bb9e26296edb8eaba2167712564251a879c10990",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py": "778301bf10a61da078cfb1da842a3814545e9877",
+      "tests/unit/test_wp_c01_r16_smoke_contract.py": "ef779950d8bf5fb8d0d0d559312eb853255587fc",
+      "tests/unit/test_wp_c01_r19_example_contract.py": "e340da506db226c48783b03435b2f1a87cf7ebbb",
+      "tests/unit/test_wp_d01_residual_flexibility.py": "0bd2fbb5d4af9c77c089aafbab10793fb450b620",
+      "tests/unit/test_wp_e01_j2_coro_phase8.py": "3af86f5d2a420436f80809b44343b98a9e69b308",
+      "tests/unit/test_wp_e01_j2_global_phase2.py": "88b73047d8b4b10ac645312cc57eda3cd88d1ffd",
+      "tests/unit/test_wp_e01m_hencky_material_point.py": "259fb07b6dda81cfcd160b0a3dd161ea6b842541",
+      "tests/unit/test_wp_e01q_hencky_tangent.py": "3d82f09f381661548748ed8d17278f33c551c6d0",
+      "tests/unit/test_wpc01_r13_small_rotation_transfer.py": "ffc442862a6c5ac8751fad4cc0a5f3e0913d2185",
+      "tests/verification/test_wpc02_ar_native_contact_convergence.py": "9e75adcff94f68bffe876dbf9f8dac07fa0346d6"
+    },
+    "sha256_inventory_file": "Required at freeze; historical N10 external archive hash does not bind these current sources.",
+    "inventory_completeness": "Complete for resolved source/test paths at the WP12-0 scientific commit; unresolved and replacement paths remain Owner scope decisions.",
+    "sha256_by_file": {
+      "src/solveur/api/__init__.py": "7e5fe28f257a434c883b181d28391090c22fb4aa2abb37036480252b811727db",
+      "src/solveur/api/public.py": "6eafb1a97648246319cbc0ac6bb80478d1739f422d6867a6be1d1b0962f453a7",
+      "src/solveur/contact/__init__.py": "dc7d64e5e19ac420092d39bdd76185c24c83a483cfd1df3bace7294286e9b570",
+      "src/solveur/contact/entities.py": "31374b1bdf038a57837fb327f52c9345d02691c2bbad4910009acb31ca3c1613",
+      "src/solveur/contact/evaluation.py": "7d0eec3d77a67787b668d80294047a34511be1ca6362986e5bf166f509bf82d5",
+      "src/solveur/contact/measures.py": "4c91560bdccd57a982d2c7eebe894b47de9c5692e85461d3c0697fb95dd32278",
+      "src/solveur/contact/restart.py": "51e90136df0a8668e548bed8c3fbb916ca542269c090cc901fdac685a9971075",
+      "src/solveur/contact/slip_root.py": "143cf911b8c310da8a440ddddf3b964477e764162afc4daa52088e3e02dffdc1",
+      "src/solveur/contact/solver.py": "7474cb39e530d564e9fe6b576b85f06576ca9556184f69301d5ee5d8a27a1327",
+      "src/solveur/contact/support.py": "71d7ea6091c5a6f071d588cb9003eee662eb99d546daaae79359b43955258b46",
+      "src/solveur/core/analyses/residual_flexibility.py": "ef92c28a503e85d9c017b8f5b9b1c2e8bb7bb280e58d1cc69171268217f85256",
+      "src/solveur/core/assembly/nonlinear.py": "6698a2620e734d8be8e642ef9cf1c3bc3c9bf338dede680a9c1f09477de2ca33",
+      "src/solveur/core/errors.py": "9281dc8f2e320e37dd26da0f4504c343aaa54376d5f80fd03ec9294f9c01a943",
+      "src/solveur/core/model.py": "36766c46a8842ba6a4074a26d120079253ac8cb663d6fec83838889faed6534f",
+      "src/solveur/core/nonlinear/__init__.py": "56d7f0b194845a5671c87b6c8db1c8823f5f10dcb56e7113746503d30aec94c8",
+      "src/solveur/core/nonlinear/arc_length.py": "06a620bbedca95c8b1b128f68b408573d1c3e5d24e7aa62b987ccc8ecd39c25d",
+      "src/solveur/core/nonlinear/checkpoint.py": "7a595be27e2791eb5621b36e79c7092234d2303801cdd03c5d5447f5ba022b5d",
+      "src/solveur/core/nonlinear/contracts.py": "2682035ddab1a9adbb0e29785ec10f22fd19e896344c55b005ddadf1ea9afe3d",
+      "src/solveur/core/nonlinear/controls.py": "6ae5fb055674a44957dd0e0bfc130f7a0ecf6c4d56351ba53112faf59196596e",
+      "src/solveur/core/nonlinear/corotational_guard_diagnostics.py": "e00f9cd23f3669d6707a025547c9c55dded79673a7d0f06c7060fcc1f761b782",
+      "src/solveur/core/nonlinear/driver.py": "2d3df9edeaf6ffcd06d79eb42649e134363b932408cff600eaa982dc08d206d5",
+      "src/solveur/core/nonlinear/iteration.py": "f18f1ebbd16e48d8386df55e37907bdfe1a579fba7a3db16b4785f75d82ad37f",
+      "src/solveur/core/nonlinear/linear_solver.py": "a10b83bcccfe1e213da113cbbc62c13d3e104e58fcb79b887b86849831b3f531",
+      "src/solveur/core/nonlinear/load_control.py": "8151ce7c1224cf9f1d66a897aaa0e84b98b2d359e8f101bac0fbc8cd93982f20",
+      "src/solveur/core/nonlinear/material_state.py": "108fc918eec0300b740e5f19cb6a4d9772a7d79d017318c276561f59aba16e61",
+      "src/solveur/core/nonlinear/robustness.py": "30fdd22a1fe21fe52902d21235f4bb609b8f6a10edb5e2bd6058833300fa2786",
+      "src/solveur/core/nonlinear/solver.py": "8ef33a6375c5717d8a72da9b07d01cd2181825be6c6561c115407f4c19523549",
+      "src/solveur/core/nonlinear/state.py": "f370a40929bef846bdda517e80ed9da4f7c12aa3d83b734357c0faa57c4fa43a",
+      "src/solveur/core/nonlinear/support.py": "7ef65ab436d7a718584cb86d1e7e743bebb40cb0a38a09514fefe35ae3c0ce2a",
+      "src/solveur/core/nonlinear/telemetry.py": "734d32d2f38ed5cff339623ffeb4d4a8daf8a2d4b2e9b3fc149426ecfbefe391",
+      "src/solveur/core/solvers/static.py": "330523f7694cfcc5587e604ebfb33b126f6cd5db841ffa9c92b6df5e2fe80e52",
+      "src/solveur/elements/solid/corotational_j2.py": "565a0f555e658695094b92e7c4c218fde74d4afd78d0b414115295c7ac727fe3",
+      "src/solveur/elements/solid/tet4.py": "0517683946a0292e2224d77ba197229ebdbc91dcf935b57d9b75e728d9be3d0b",
+      "src/solveur/materials/solid.py": "663caa9019d22a6fb74578e18ed1a994aae8e29bf0e0c9173ebaa2501bdfbd79",
+      "tests/unit/test_analysis_features.py": "4a1245f0d8da9cbdcbf97b982d7a3cbab979c55042ed8fc9d2f5b0eaaa59a930",
+      "tests/unit/test_corotational_j2_corrected.py": "fc4d45eaab6597c66eb90f429f7e62fc15bec3c521132ff122e57c4a787d6cfb",
+      "tests/unit/test_nonlinear_checkpoint.py": "c9117fae14e38b1073d748df77dd891772f6fecabfec49f2838a68ebf18901a5",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py": "f4ba738a6c804f6b7305a1c0154c066d7ba6fcb808597b8dda80d333c73f62f5",
+      "tests/unit/test_wp_c01_r16_smoke_contract.py": "23ee0e046c9760d8230ed3091ab6f9056009363b4c873648d269ee071d93ff78",
+      "tests/unit/test_wp_c01_r19_example_contract.py": "71d05367d4f3fc88456e73e5aa33652b1f7c9c429dcaa4dfe7a3fc46693f6d30",
+      "tests/unit/test_wp_d01_residual_flexibility.py": "8e4568d8464614bd82382c939e10ea71e1de736cf8aff6e1f59c96f77b774b26",
+      "tests/unit/test_wp_e01_j2_coro_phase8.py": "35308d423c45a8cc71b5e63c74a3ce5cf1305898e63559061b77f9583ea5100a",
+      "tests/unit/test_wp_e01_j2_global_phase2.py": "d6ad36bedb8541638ad4de8bde572091f473ab78c45162d286e1a74a26283a2d",
+      "tests/unit/test_wp_e01m_hencky_material_point.py": "cdd2651e9427c0e64284a75671d83d4f14cdd916a979759be0422f44dde84bfc",
+      "tests/unit/test_wp_e01q_hencky_tangent.py": "a99bcc6ea32bff3e2a669d2923380033f23e587aab95f612ab4047f98b7d7b50",
+      "tests/unit/test_wpc01_r13_small_rotation_transfer.py": "7c6ec66a9b9b37f9c86e8837b782357cc991751b3738168c1df4c6eb35d4d630",
+      "tests/verification/test_wpc02_ar_native_contact_convergence.py": "141bec2d8c2e25b9087d1ade41c75bf57e0be2f0a6fc1ee417c22c47d8d39a27"
+    },
+    "shared_test_helpers": [
+      {
+        "path": "tests/unit/test_analysis_features.py",
+        "git_blob_oid": "8602d647acb5497c8e6c154f83ec147e35f76b73",
+        "sha256": "4a1245f0d8da9cbdcbf97b982d7a3cbab979c55042ed8fc9d2f5b0eaaa59a930",
+        "purpose": "elastoplastic_tet4_model used by the transferred checkpoint integrity nodeid"
+      }
+    ]
+  },
+  "fixtures": {
+    "entries": [
+      {
+        "id": "corrected-J2-material-and-element-cases",
+        "identity": "Embedded test inputs bound by test_corotational_j2_corrected.py Git blob 6b1707486a31933036691dfd6ea7ad50edb91a3d",
+        "byte_sha256": "Compute materialized input snapshot at freeze"
+      },
+      {
+        "id": "C02-AR-N03-M4",
+        "identity": "Procedurally generated by current test node; do not reuse N10 external archive as current fixture",
+        "test_blob_oid": "9e75adcff94f68bffe876dbf9f8dac07fa0346d6",
+        "byte_sha256": "Capture/hash every generated model input at freeze"
+      },
+      {
+        "id": "C02-AR-N03-M5",
+        "identity": "Procedurally generated by current test node; do not reuse N10 external archive as current fixture",
+        "test_blob_oid": "9e75adcff94f68bffe876dbf9f8dac07fa0346d6",
+        "byte_sha256": "Capture/hash every generated model input at freeze"
+      },
+      {
+        "identity": "Current tracked plan used for M4/M5; exact plan SHA-256",
+        "byte_sha256": "fa3806c842acefbe707499ffdec9f703bcedb5031962594df4c5293d0fbe6cfc",
+        "git_blob_oid": "fc8ceade8f7b5bcb22eefda88bac92110840338c",
+        "id": "N12 AR mesh plan",
+        "path": "qualification/0_2_12/wp_c02_ar_mesh_plan.json"
+      },
+      {
+        "availability": "MISSING; recover only from identified original artifact",
+        "byte_sha256": "7b14816b6ed6f6bed8aaa8e3bbde568251cf94332aa6c7b12765f389d6ae226e",
+        "git_blob_oid": "c05a72879440081f0f4f725f72c0adaa09f66c99",
+        "id": "Frozen AJ mesh/load helper",
+        "identity": "Exact blob is recoverable from existing local Git history commit 9e1cf9805b49c90a74006a39cb0ded640265f64f; absent from target tree and requires an Owner-approved temporary isolated overlay",
+        "source_commit": "9e1cf9805b49c90a74006a39cb0ded640265f64f",
+        "path": "tests/unit/test_wpc02_aj_partial_active_contact.py"
+      },
+      {
+        "status": "CONFLICT_REQUIRES_OWNER_RESOLUTION",
+        "byte_sha256": "a732254d59268aace44e44e2a21f5619d4c267531c388eed1aab0bb09fb2def0",
+        "git_blob_oid": "0a95b55a7c1e35ce8097741fa357aeaa938d69b0",
+        "id": "C01 R19 model fixture",
+        "identity": "Current file bytes differ from digest embedded in C01 contract test; not selected for fixture-integrity node",
+        "expected_sha256_in_test": "b74c57cae86d94b4cbfdae0c298ea98aa660f70159c72eb4b72f0ee4b5eee3e5",
+        "path": "examples/contact/frictional_bstar_small_rotation/model_r14_bstar_slip.json"
+      },
+      {
+        "id": "transferred-WP10-checkpoint-tampering-model",
+        "identity": "Model helper elastoplastic_tet4_model in tests/unit/test_analysis_features.py; selected test and helper source identities are pinned above.",
+        "path": "tests/unit/test_analysis_features.py",
+        "git_blob_oid": "8602d647acb5497c8e6c154f83ec147e35f76b73",
+        "byte_sha256": "4a1245f0d8da9cbdcbf97b982d7a3cbab979c55042ed8fc9d2f5b0eaaa59a930",
+        "state": "SOURCE_BOUND; no checkpoint file or numerical result has been created."
+      }
+    ],
+    "external_fixture_policy": "Any untracked/external file input requires source/provenance and SHA-256 before approval; otherwise STOP."
+  },
+  "tests": {
+    "exact_nodeids": [
+      "tests/unit/test_corotational_j2_corrected.py::test_corrected_state_matches_independent_tensor_j2_history",
+      "tests/unit/test_corotational_j2_corrected.py::test_corrected_tangent_matches_independent_directional_force_differences",
+      "tests/unit/test_corotational_j2_corrected.py::test_corrected_newton_plasticity_line_search_results_and_serialization",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_trial_state_cannot_be_checkpointed_and_commit_attests_atomically",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_rollback_keeps_accepted_composite_and_retry_is_a_new_trial",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_max_iterations_is_reported_as_nonconvergence_not_acceptance",
+      "tests/unit/test_nonlinear_checkpoint.py::test_nonlinear_restart_matches_continuous_cyclic_solution",
+      "tests/unit/test_wp_e01_j2_global_phase2.py::test_j2_return_map_and_tangent_match_independent_tensor_oracle",
+      "tests/unit/test_wp_e01_j2_coro_phase8.py::test_phase8_inadmissible_guard_state_is_refused_without_retry",
+      "tests/verification/test_wpc02_ar_native_contact_convergence.py::test_wpc02_ar_native_m4",
+      "tests/verification/test_wpc02_ar_native_contact_convergence.py::test_wpc02_ar_native_m5",
+      "tests/unit/test_wpc01_r13_small_rotation_transfer.py::test_default_and_explicit_legacy_are_identical",
+      "tests/unit/test_wpc01_r13_small_rotation_transfer.py::test_mode_validation_is_opt_in_and_excludes_updated_or_finite_sliding_routes",
+      "tests/unit/test_wp_c01_r19_example_contract.py::test_example_default_invocation_does_not_launch_a_calculation",
+      "tests/unit/test_wp_c01_r16_smoke_contract.py::test_smoke_payload_requires_active_contact_on_every_accepted_step",
+      "tests/unit/test_corotational_j2_corrected.py::test_polar_directional_derivative_matches_independent_sylvester_and_fd",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_material_response_still_does_not_claim_a_verified_tangent",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_matches_multistep_centered_pk1_difference",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_v2_checkpoint_metadata_identity_tampering_fails_integrity"
+    ],
+    "parameterized_node_resolution": "Inspect decorators and bind expanded IDs if any; resolve current source-set behavior before Owner freeze.",
+    "commands": [
+      {
+        "runner": "FUTURE_WP12_RUNNER_NOT_IMPLEMENTED",
+        "argv_template": [
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "<one exact nodeid>"
+        ],
+        "dispatch_policy": "one exact node per child process; C02 M4/M5 separated, no retry",
+        "execution_status": "NOT_EXECUTED"
+      }
+    ],
+    "status": "NOT_RUN",
+    "preparation_revision_duplicate_nodeids_removed": {
+      "tests/unit/test_wp_e01_j2_global_phase2.py::test_j2_return_map_and_tangent_match_independent_tensor_oracle": 2,
+      "tests/unit/test_wp_e01_j2_coro_phase8.py::test_phase8_inadmissible_guard_state_is_refused_without_retry": 2
+    }
+  },
+  "oracles_and_acceptance": {
+    "contract_references": [
+      "wp08_r1_vnv_acceptance_matrix.json",
+      "wp09_perturbation_policy.json",
+      "wp10_state_transaction_contract.json",
+      "wp10_checkpoint_identity_migration_contract.json",
+      "wp_c02_n12_closure_requirements_matrix.md",
+      "wp_c02_n13_owner_bounded_closure_decision.md"
+    ],
+    "oracle_class_by_case": {
+      "J2": "independent tensor/material-point and directional force reference; global assembly status is separate",
+      "transactions": "accepted/trial state invariant, rollback, counters and tamper refusal",
+      "C02": "manufactured AR/N03 displacement/pressure, equilibrium/work/energy/front criteria"
+    },
+    "frozen_tolerances": {
+      "C02_gap_m": 1e-10,
+      "C02_stationarity_N": 1e-06,
+      "C02_open_multiplier_N": 1e-07,
+      "C02_force_moment_normalized": 1e-09,
+      "C02_production_QP_displacement_m": 1e-09,
+      "C02_production_QP_multiplier_N": 1e-06,
+      "C02_work_J": 1e-09,
+      "C02_energy_matrix_quadrature_J": 1e-10,
+      "C02_endpoint_displacement_and_pressure_error_ratio_strictly_less_than": 0.9,
+      "C02_front_distance_over_hx_max": 1.0
+    },
+    "no_new_thresholds": true,
+    "success_conditions": [
+      "J2/transaction cases meet their source-bound contracts and never relabel nonconvergence as acceptance.",
+      "Only if authorized: current M4 and M5 independently satisfy frozen N12/N13 criteria on the exact v0.2.12 source/fixture.",
+      "Preserve C02 AR/N03 only and historical N06/N08/Docker results."
+    ],
+    "fail_or_stop_conditions": [
+      "Any production/QP mismatch, frozen metric failure, identity mismatch or undocumented fixture stops; no modification of N10/N13 evidence; resource/timeout stop is NOT_RUN or INCONCLUSIVE, not PASS."
+    ]
+  },
+  "environment": {
+    "os": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "python": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "numpy_scipy_pytest": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "optional_solvers": "Contact route uses native SciPy path in historical campaign; exact candidate dependencies must be pinned at freeze.",
+    "blas_openmp_mkl_threads": null,
+    "environment_lock_sha256": null
+  },
+  "resource_limits": {
+    "cpu_cores": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "ram_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "numerical_threads": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_per_node": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_campaign": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "temporary_storage_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "limit_enforcement": "M4/M5 require explicit resource approval; sampled RSS is not a hard cap."
+  },
+  "attempt_policy": {
+    "maximum_attempts_per_node": {
+      "value": 1,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "automatic_retry": false,
+    "retry_requires": "Separate Owner approval and new identified hypothesis; N10 cannot be replayed into its old evidence path."
+  },
+  "evidence": {
+    "exclusive_destination_template": "qualification/0_2_12/wp12_evidence/WP12-3-NONLINEAR-CONTACT-BOUNDED/<run_id>/",
+    "refuse_if_destination_exists": true,
+    "historical_paths_writable": false,
+    "capture": [
+      "current source/test/fixture hashes",
+      "manifest and Owner decision",
+      "exact node/argv",
+      "stdout/stderr",
+      "resource observations",
+      "oracle fields/errors",
+      "final artifact SHA-256 inventory"
+    ],
+    "partial_run_policy": "Keep partial receipt and FAIL/NOT_RUN/INCONCLUSIVE; no overwrite or retry."
+  },
+  "prepared_at": "2026-10-25",
+  "notes": "PREPARATION_ONLY; no tests/FEM run. New M4/M5 results, if ever authorized, are WP12 regression evidence and do not rewrite N10 or extend C02 status.",
+  "preflight_status": "BLOCKED_PENDING_OWNER_APPROVED_FIXTURE_OVERLAY",
+  "preflight_blocker": "The exact helper blob is recovered from commit 9e1cf9805b49c90a74006a39cb0ded640265f64f (Git blob c05a72879440081f0f4f725f72c0adaa09f66c99; SHA-256 7b14816b6ed6f6bed8aaa8e3bbde568251cf94332aa6c7b12765f389d6ae226e), but is absent from the target tree. Do not add it to the candidate checkout. An Owner decision and runner support for a temporary isolated, hash-verified overlay are required before M4/M5 can be authorized.",
+  "execution_status_label": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "preparation_status_label": "PREPARATION_ONLY",
+  "wp12_status_label": "WP12_STATUS=OPEN",
+  "preparation_revision": {
+    "schema": "qf-wp12-prepared-manifest-revision-v1",
+    "revision_id": "WP12-3-R3-SCOPE-PROPOSAL",
+    "created_utc_date": "2026-10-25",
+    "supersedes": "qualification/0_2_12/wp12_preparation/revisions/wp12_3_execution_manifest.r2-prepared.json",
+    "superseded_manifest_sha256": "7fd489614c07a6b6cca5ee333d6709e1ba0194af304e3e5771376b0bec774ce2",
+    "source_identity": {
+      "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+      "git_tree": "df4ec667bf746b042c900fad1f86bf542e1a437b"
+    },
+    "changes": [
+      "completed SHA-256 and Git blob inventory for statically resolved source/test files",
+      "preserved source commit identity",
+      "retained PREPARED_NOT_AUTHORIZED; this revision is not an authorization",
+      "WP12-S scope proposal recorded in a new R3 preparation; R1, R2, and the R2 index remain unchanged.",
+      "Historical nodeids retain exact identifiers and references to original and R2 manifest hashes.",
+      "Scientific execution remains unconditionally disabled in WP12-A; this R3 is PREPARED_NOT_AUTHORIZED.",
+      "Added the transferred checkpoint nodeid, its shared test helper, and the directly identified model/checkpoint files to the WP12-3 R3 proposal."
+    ],
+    "path_resolution": {
+      "path_replacements": [
+        {
+          "group": "tracked_source_files",
+          "declared_path": "src/solveur/core/analyses/contact",
+          "candidate_paths": [
+            "src/solveur/contact/__init__.py",
+            "src/solveur/contact/entities.py",
+            "src/solveur/contact/evaluation.py",
+            "src/solveur/contact/measures.py",
+            "src/solveur/contact/restart.py",
+            "src/solveur/contact/slip_root.py",
+            "src/solveur/contact/solver.py",
+            "src/solveur/contact/support.py"
+          ],
+          "basis": "static Git tree inspection; Owner scope approval still required"
+        },
+        {
+          "group": "tracked_source_files",
+          "declared_path": "src/solveur/core/analysis/static.py",
+          "candidate_paths": [
+            "src/solveur/core/solvers/static.py"
+          ],
+          "basis": "static Git tree inspection; Owner scope approval still required"
+        }
+      ],
+      "unresolved_declared_paths": [],
+      "stale_oid_references": [],
+      "nodeids_not_found_by_static_ast": []
+    },
+    "fixture_inventory": [
+      {
+        "id": "corrected-J2-material-and-element-cases",
+        "path": null,
+        "declared_source_commit": null,
+        "state": "INLINE_OR_NONFILE_FIXTURE_NOT_MATERIALIZED"
+      },
+      {
+        "id": "C02-AR-N03-M4",
+        "path": null,
+        "declared_source_commit": null,
+        "state": "INLINE_OR_NONFILE_FIXTURE_NOT_MATERIALIZED"
+      },
+      {
+        "id": "C02-AR-N03-M5",
+        "path": null,
+        "declared_source_commit": null,
+        "state": "INLINE_OR_NONFILE_FIXTURE_NOT_MATERIALIZED"
+      },
+      {
+        "id": "N12 AR mesh plan",
+        "path": "qualification/0_2_12/wp_c02_ar_mesh_plan.json",
+        "declared_source_commit": null,
+        "state": "IDENTIFIED_IN_GIT_OBJECT_DATABASE_NOT_EXTRACTED",
+        "git_blob_oid": "fc8ceade8f7b5bcb22eefda88bac92110840338c",
+        "sha256": "fa3806c842acefbe707499ffdec9f703bcedb5031962594df4c5293d0fbe6cfc"
+      },
+      {
+        "id": "Frozen AJ mesh/load helper",
+        "path": "tests/unit/test_wpc02_aj_partial_active_contact.py",
+        "declared_source_commit": "9e1cf9805b49c90a74006a39cb0ded640265f64f",
+        "state": "IDENTIFIED_IN_GIT_OBJECT_DATABASE_NOT_EXTRACTED",
+        "git_blob_oid": "c05a72879440081f0f4f725f72c0adaa09f66c99",
+        "sha256": "7b14816b6ed6f6bed8aaa8e3bbde568251cf94332aa6c7b12765f389d6ae226e"
+      },
+      {
+        "id": "C01 R19 model fixture",
+        "path": "examples/contact/frictional_bstar_small_rotation/model_r14_bstar_slip.json",
+        "declared_source_commit": null,
+        "state": "IDENTIFIED_IN_GIT_OBJECT_DATABASE_NOT_EXTRACTED",
+        "git_blob_oid": "0a95b55a7c1e35ce8097741fa357aeaa938d69b0",
+        "sha256": "b74c57cae86d94b4cbfdae0c298ea98aa660f70159c72eb4b72f0ee4b5eee3e5"
+      }
+    ],
+    "status": "PREPARED_NOT_AUTHORIZED",
+    "historical_original_path": "qualification/0_2_12/wp12_preparation/wp12_3_execution_manifest.json",
+    "historical_original_sha256": "064e2587a7f2789495a459d5c75d5d605140e17e6fba6bcff06ec8573f28d9b3",
+    "scope_decision_status": "PENDING_OWNER_DECISION"
+  }
+}

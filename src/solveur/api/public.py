@@ -258,9 +258,9 @@ def verify_evidence(path: str | Path) -> EvidenceVerificationReport:
     return EvidenceBundleVerifier().verify(path)
 
 
-def save_result(result: object, path: str | Path) -> None:
-    """Save a solve result as JSON."""
-    JsonResultWriter().write(result, path)
+def save_result(result: object, path: str | Path, *, overwrite: bool = False) -> None:
+    """Save a solve result as JSON, refusing an existing path unless opted in."""
+    JsonResultWriter().write(result, path, overwrite=overwrite)
 
 
 def save_model(model: FiniteElementModel, path: str | Path) -> None:

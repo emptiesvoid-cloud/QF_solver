@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:qf-solver:wp12:owner-trust-store:v1",
+  "title": "Public WP12 Owner signing-key trust store",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "keys"],
+  "properties": {
+    "schema": {"const": "qf-wp12-owner-trust-store-v1"},
+    "keys": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key_id", "principal", "public_key_base64", "revoked"],
+        "properties": {
+          "key_id": {"type": "string", "minLength": 1},
+          "principal": {"type": "string", "minLength": 1},
+          "public_key_base64": {"type": "string", "minLength": 44, "maxLength": 44},
+          "revoked": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import subprocess
 from fractions import Fraction
 from pathlib import Path
@@ -20,10 +21,10 @@ from typing import Any
 
 SNAPSHOT_COMMIT = "87e54913077c7d9fce6f259fb4a4a11f5295e6a5"
 SNAPSHOT_TREE = "c42e3c2241af1862d66cab51a38fda74a1167361"
-PROBE_DEFAULT = Path(r"C:\Users\fari\Documents\projet\SAFRAN\solveur\qualification\0_2_12\wp_e01_l_probe_run_20261023")
-HEX8_DEFAULT = Path(r"C:\Users\fari\Documents\projet\SAFRAN\solveur\qualification\0_2_12\wp_e01_l_hex8_run_6787cb37-d498-4f96-8604-1598e6aa5d64")
-SNAPSHOT_DEFAULT = Path(r"C:\wpc01-frictionless-public-integration-wt\wp-e01")
-ADAPTER_REPO_DEFAULT = Path(r"C:\Users\fari\.codex\worktrees\wp-e01l-probe-ready-20261023")
+PROBE_DEFAULT = Path(os.environ["QF_WP_E01_PROBE_ARCHIVE"]) if os.environ.get("QF_WP_E01_PROBE_ARCHIVE") else None
+HEX8_DEFAULT = Path(os.environ["QF_WP_E01_HEX8_ARCHIVE"]) if os.environ.get("QF_WP_E01_HEX8_ARCHIVE") else None
+SNAPSHOT_DEFAULT = Path(os.environ["QF_WP_E01_HISTORICAL_ROOT"]) if os.environ.get("QF_WP_E01_HISTORICAL_ROOT") else None
+ADAPTER_REPO_DEFAULT = Path(os.environ["QF_WP_E01_ADAPTER_REPO"]) if os.environ.get("QF_WP_E01_ADAPTER_REPO") else None
 OUT_DEFAULT = Path(__file__).parent
 SEGMENT = (Fraction(-1, 10000), Fraction(1, 10000))
 HEX_SIGNS = ((-1,-1,-1),(1,-1,-1),(1,1,-1),(-1,1,-1),(-1,-1,1),(1,-1,1),(1,1,1),(-1,1,1))
@@ -362,7 +363,7 @@ def extract_action(record, case_path: Path, source: dict[str, Any], capture: dic
                 "production_branch_linkage_valid":False,"production_rounding_budget_valid":False,
                 "provenance_valid":True,
                 "provenance_refs":{
-                    "case_json":str(case_path),"case_json_sha256":obs_sha,
+                    "case_json":case_path.relative_to(case_path.parents[2]).as_posix(),"case_json_sha256":obs_sha,
                     "history_field":f"observed_data.accepted_history.{elidx}[{pi}]",
                     "direction_field":"centered_difference_observations[*].full_projected_direction",
                     "geometry_fields":["observed_data.nodes","observed_data.elements"],
@@ -398,12 +399,19 @@ def extract_action(record, case_path: Path, source: dict[str, Any], capture: dic
 
 def main() -> int:
     ap=argparse.ArgumentParser()
-    ap.add_argument("--probe-archive",type=Path,default=PROBE_DEFAULT)
-    ap.add_argument("--hex8-archive",type=Path,default=HEX8_DEFAULT)
-    ap.add_argument("--historical-root",type=Path,default=SNAPSHOT_DEFAULT)
-    ap.add_argument("--adapter-repo",type=Path,default=ADAPTER_REPO_DEFAULT)
+    ap.add_argument("--probe-archive",type=Path,default=PROBE_DEFAULT,help="exact probe archive (or QF_WP_E01_PROBE_ARCHIVE)")
+    ap.add_argument("--hex8-archive",type=Path,default=HEX8_DEFAULT,help="exact HEX8 archive (or QF_WP_E01_HEX8_ARCHIVE)")
+    ap.add_argument("--historical-root",type=Path,default=SNAPSHOT_DEFAULT,help="exact frozen source checkout (or QF_WP_E01_HISTORICAL_ROOT)")
+    ap.add_argument("--adapter-repo",type=Path,default=ADAPTER_REPO_DEFAULT,help="exact adapter source repository (or QF_WP_E01_ADAPTER_REPO)")
     ap.add_argument("--output-dir",type=Path,default=OUT_DEFAULT)
     args=ap.parse_args()
+    missing=[name for name,value in (("--probe-archive",args.probe_archive),("--hex8-archive",args.hex8_archive),("--historical-root",args.historical_root),("--adapter-repo",args.adapter_repo)) if value is None]
+    if missing:
+        ap.error(
+            "provide "
+            + ", ".join(missing)
+            + " or their QF_WP_E01_* environment variables; no historical path will be substituted"
+        )
     # Verify archived manifests first; preserve the archives read-only.
     probe_files=safe_inventory(args.probe_archive,"archive_integrity.json")
     hex_files=safe_inventory(args.hex8_archive,"artifact_inventory.json","artifacts")
@@ -422,7 +430,7 @@ def main() -> int:
             observed=hashlib.sha256(content).hexdigest()
             if observed != expected: raise ValueError(f"adapter source hash mismatch: {commit}:{rel}")
             hashes[rel]=observed
-        adapter_commits.append({"archive":str(archive),"commit":commit,"tree":tree,"file_sha256":hashes})
+        adapter_commits.append({"archive":archive.name,"commit":commit,"tree":tree,"file_sha256":hashes})
     for result in (probe_result,hex_result):
         hist=result["historical_snapshot"]
         if hist["commit"]!=SNAPSHOT_COMMIT or hist["tree"]!=SNAPSHOT_TREE: raise ValueError("campaign source identity mismatch")
@@ -439,7 +447,7 @@ def main() -> int:
     action_inventory=[]
     for cid in case_ids:
         archive=args.probe_archive if cid.startswith("tet4-") else args.hex8_archive
-        capture=next(item for item in adapter_commits if item["archive"]==str(archive))
+        capture=next(item for item in adapter_commits if item["archive"]==archive.name)
         rec,path=load_case(archive,cid)
         hval=1.5e9 if "hardening" in cid else 0.0
         action=extract_action(rec,path,src,capture,"TET4" if cid.startswith("tet4-") else "HEX8",hval)
@@ -448,8 +456,8 @@ def main() -> int:
         action_inventory.append({"action_id":cid,"proof_input_path":dest.name,"sha256":sha256(dest),"point_count":action["number_of_points"],"accepted_history_digest":action["accepted_history_digest"],"branch_linkage_valid":False,"production_rounding_budget_valid":False})
     dump(out/"archive_inventory.json",{
         "schema_version":1,"snapshot_commit":src["commit"],"snapshot_tree":src["tree"],
-        "archives":[{"path":str(args.probe_archive),"manifest":"archive_integrity.json","manifest_sha256":sha256(args.probe_archive/"archive_integrity.json"),"verified_files":len(probe_files),"campaign_status":probe_result.get("status")},
-                     {"path":str(args.hex8_archive),"manifest":"artifact_inventory.json","manifest_sha256":sha256(args.hex8_archive/"artifact_inventory.json"),"verified_files":len(hex_files),"campaign_status":hex_result.get("status")}],
+        "archives":[{"path":args.probe_archive.name,"manifest":"archive_integrity.json","manifest_sha256":sha256(args.probe_archive/"archive_integrity.json"),"verified_files":len(probe_files),"campaign_status":probe_result.get("status")},
+                     {"path":args.hex8_archive.name,"manifest":"artifact_inventory.json","manifest_sha256":sha256(args.hex8_archive/"artifact_inventory.json"),"verified_files":len(hex_files),"campaign_status":hex_result.get("status")}],
         "historical_source_files":src["source_files"],"capture_source_commits":adapter_commits,"actions":action_inventory,
         "all_eight_raw_input_archives_complete":True,
         **extraction_stage_metadata()

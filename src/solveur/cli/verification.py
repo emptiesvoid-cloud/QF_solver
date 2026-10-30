@@ -223,7 +223,7 @@ def _write_verify_all_report(args: argparse.Namespace, result: dict[str, Any]) -
 def command_qualification_readiness(args: argparse.Namespace) -> int:
     report = qualification_readiness(args.scope, args.registry)
     if args.json_report is not None:
-        save_result(report, args.json_report)
+        save_result(report, args.json_report, overwrite=getattr(args, "overwrite", False))
     print(f"QUALIFICATION READINESS: {report.status}")
     print(f"scope: {report.scope}")
     print(f"scope status: {report.scope_status}")
@@ -318,7 +318,7 @@ def command_release_vv(args: argparse.Namespace) -> int:
 def command_verify_evidence(args: argparse.Namespace) -> int:
     report = verify_evidence(args.input)
     if args.json_report is not None:
-        save_result(report, args.json_report)
+        save_result(report, args.json_report, overwrite=getattr(args, "overwrite", False))
     print(f"EVIDENCE VERIFY STATUS: {report.status}")
     print(f"manifest: {report.manifest_path}")
     print(f"checked files: {report.checked_file_count}")

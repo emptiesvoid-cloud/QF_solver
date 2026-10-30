@@ -1,0 +1,1575 @@
+{
+  "campaign_id": "WP12-S-QUANT-001",
+  "cases": [
+    {
+      "acceptance_ref": "Existing source assertion: exact symmetry and np.allclose(structured,dense,rtol=2e-16,atol=2e-16); no new numerical threshold.",
+      "case_id": "ALG-PROJ-QUANT-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "232bbd959de54012e2da3435d304a8bfccc72e9e",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "2907b429743a32f226219c5896ddaec1e6b242d6778eb4fa7eb93f5c272049ff"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "e08eff2959f9280027c6f95a65c4c9b07c76fdae",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "565803541574ecd05efbf5f551dd6e0396013434c9d7271643845162dcfdff07"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "5664dbcb9d40a49ad17eb2ff64993ee7151c3807",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "026a4cf8fbc9c91e766feb7d4e6cc49bb5b7409794b44417582281abbccba91c"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "59b2e64c7139530b328788c9ca2ca106ab56d283",
+          "path": "qualification/0_2_12/wp04_modal_basis_damping_contract.json",
+          "sha256": "67c9b7fce44f50f4be1537e31684561854fbc328350c4bc18831c97a1c928cc6"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "e363e0b35e8a628dcd63fa8d18fb97fd8b1534db",
+          "path": "src/solveur/core/analyses/modal_basis.py",
+          "sha256": "6e26cec719a7b713eb14a560deca0c0043f10bce37c8737ec8de7d8108b5d07a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "3f333730620246110e5e51ceb91ddc3cd2cec642",
+          "path": "src/solveur/core/analyses/modal_basis_numerics.py",
+          "sha256": "fd2a5fe7fd6955732f8222204b8b6cc5093a82a9b0962086cfbda7c3f3f6c8e6"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "20889499b60cdd4fa79b2a2d2f76626279ed3e8e",
+          "path": "tests/unit/test_modal_symmetric_projection.py",
+          "sha256": "9be78449948ebcdc9d577a8968b2dbacbc9b25015b4c9484ece8f91218e20d28"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "ee4aa98de2a6f517245e99e4a13cd46227dad147",
+          "path": "tests/unit/test_wp12_s_quantitative_extraction.py",
+          "sha256": "1b62eb167387de20b44b4705dc23c1a9671c690efc480da8b8423aec7d1957eb"
+        }
+      ],
+      "inputs": {
+        "fixture_source": "tests/unit/test_wp12_s_quantitative_extraction.py plus pinned helper source where listed",
+        "inline_fixture": {
+          "canonical_byte_length": 192,
+          "canonical_sha256": "e7f680fbdb5732334728722a9124f0a50e92a66629ce2288fb65a18dc1c752c2",
+          "data": {
+            "dtype": "float64",
+            "modes": [
+              [
+                0.5,
+                0.25
+              ],
+              [
+                -0.25,
+                0.5
+              ],
+              [
+                0.75,
+                -0.5
+              ],
+              [
+                0.125,
+                0.375
+              ]
+            ],
+            "sparse_format": "CSR",
+            "stiffness": [
+              [
+                8.0,
+                -1.0,
+                0.0,
+                0.5
+              ],
+              [
+                -1.0,
+                6.0,
+                2.0,
+                0.0
+              ],
+              [
+                0.0,
+                2.0,
+                5.0,
+                -0.25
+              ],
+              [
+                0.5,
+                0.0,
+                -0.25,
+                4.0
+              ]
+            ]
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        },
+        "units": "NOT_APPLICABLE_ALGEBRAIC_SYNTHETIC_OPERATORS"
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_wp12_s_quantitative_extraction.py::test_wp12_s_alg_proj_001",
+      "notes": "PREPARED_NOT_AUTHORIZED. Wrapper emits structured values before assertions. Local execution is non-attested with no hard CPU/RAM/disk quota or filesystem sandbox.",
+      "observables": [
+        "structured and dense projected matrices",
+        "maximum absolute difference",
+        "Frobenius relative error and normalization",
+        "projected symmetry defect"
+      ],
+      "oracle_id": "ALG-PROJ-DENSE-BILINEAR-v1",
+      "oracle_summary": "Compare project_exact_symmetric_bilinear(K,Phi) against Phi.T @ (K @ Phi); record matrix values, max absolute difference, Frobenius relative error normalized by ||dense||_F, and symmetry defect. Algebraic identity only; no FEM validation.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 120,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "Q1 instrumented symmetric projection identity",
+      "wp_origin": "WP04 v0.2.12; instrumented quantitative replay of WP12-R Q1",
+      "numeric_payload_schema": "qf-wp12-s-observables-v1"
+    },
+    {
+      "acceptance_ref": "Existing test: frequency relative tolerance 1e-12; solver max_relative_residual < 1e-12. Unit system remains undeclared.",
+      "case_id": "MODAL-DISCRETE-QUANT-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "232bbd959de54012e2da3435d304a8bfccc72e9e",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "2907b429743a32f226219c5896ddaec1e6b242d6778eb4fa7eb93f5c272049ff"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "e08eff2959f9280027c6f95a65c4c9b07c76fdae",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "565803541574ecd05efbf5f551dd6e0396013434c9d7271643845162dcfdff07"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "5664dbcb9d40a49ad17eb2ff64993ee7151c3807",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "026a4cf8fbc9c91e766feb7d4e6cc49bb5b7409794b44417582281abbccba91c"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "b755adecb0003e93fe11ef925ac64c1abda309b3",
+          "path": "qualification/0_2_12/wp01_shared_contracts.json",
+          "sha256": "c94b110850c2f5a93b3f5dd40462b5bcf029c78ef8620bd0dd690a3acb57d1b6"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "8f71e62b42036452873676a90fd01226b5787040",
+          "path": "src/solveur/core/assembler.py",
+          "sha256": "da8ca29c495d108ca5d8151c1c0b655697b47d879bb3fc27649a24d0bd6602ea"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "6f96b5fb618e97e3086674fd0ba6227156dd990b",
+          "path": "src/solveur/core/modal.py",
+          "sha256": "30de089aac91f4f31b70c92d3f2d90766106281a14e246c6c03df4e6586af4b7"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "419950a2348d3011de63260e5cda37040844f057",
+          "path": "src/solveur/core/router.py",
+          "sha256": "60a02032049d84b0da2016d422e730336b5a06524e4716913fb37b62cd34319e"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "9657f7e138f9abd11cc299fa19ad33153014b6ce",
+          "path": "src/solveur/elements/discrete.py",
+          "sha256": "9842f48b188e3fe4fdaf73f227635bdd3a65cccc9440d4ee344c71c5014c3795"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "8eed7139c6c03722babbb664340b4d483f8cd66f",
+          "path": "tests/unit/test_discrete_entities.py",
+          "sha256": "927e90bc9e4cc554b165c915bc022aedcb6fdf427707e6ca0de99a49958dde8f"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "ee4aa98de2a6f517245e99e4a13cd46227dad147",
+          "path": "tests/unit/test_wp12_s_quantitative_extraction.py",
+          "sha256": "1b62eb167387de20b44b4705dc23c1a9671c690efc480da8b8423aec7d1957eb"
+        }
+      ],
+      "inputs": {
+        "fixture_source": "tests/unit/test_wp12_s_quantitative_extraction.py plus pinned helper source where listed",
+        "inline_fixture": {
+          "canonical_byte_length": 299,
+          "canonical_sha256": "e4ab35c76a9ff79aee2c383a6150c868ae1d64b96763379a9786bedea4267a74",
+          "data": {
+            "analysis": {
+              "method": "eigh",
+              "parameters": {
+                "modes": 1
+              },
+              "type": "modal"
+            },
+            "concentrated_masses": [
+              {
+                "mass": 10.0,
+                "node": 0
+              }
+            ],
+            "elements": [],
+            "loads": [
+              {
+                "dof": "UX",
+                "node": 0,
+                "value": 25.0
+              }
+            ],
+            "materials": {},
+            "nodes": [
+              [
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "springs": [
+              {
+                "dofs": [
+                  "UX",
+                  "UY",
+                  "UZ"
+                ],
+                "node_a": 0,
+                "stiffness": [
+                  1000.0,
+                  4000.0,
+                  9000.0
+                ]
+              }
+            ]
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        },
+        "units": "UNDECLARED_IN_SOURCE; INPUTS_ONLY_INTERNALLY_CONSISTENT"
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_wp12_s_quantitative_extraction.py::test_wp12_s_modal_discrete_001",
+      "notes": "PREPARED_NOT_AUTHORIZED. Wrapper emits structured values before assertions. Local execution is non-attested with no hard CPU/RAM/disk quota or filesystem sandbox.",
+      "observables": [
+        "effective UX stiffness and mass",
+        "reference and computed frequency",
+        "relative frequency error",
+        "maximum relative modal residual"
+      ],
+      "oracle_id": "DISCRETE-SPRING-MASS-FREQUENCY-v1",
+      "oracle_summary": "Compare the exact helper model's first frequency with sqrt(1000/10)/(2*pi); expose assembled UX stiffness and mass and the solver relative residual. No SI unit labels are inferred.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 120,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "Q2 ground spring and concentrated mass frequency",
+      "wp_origin": "WP01 v0.2.12; instrumented quantitative replay of WP12-R Q2",
+      "numeric_payload_schema": "qf-wp12-s-observables-v1"
+    },
+    {
+      "acceptance_ref": "Existing assertions: eigenvalues rtol=atol=1e-12; projected M atol=1e-12; projected K/reconstruction rtol=atol=1e-11; mass orthogonality atol=1e-12.",
+      "case_id": "MODAL-2DOF-QUANT-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "232bbd959de54012e2da3435d304a8bfccc72e9e",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "2907b429743a32f226219c5896ddaec1e6b242d6778eb4fa7eb93f5c272049ff"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "e08eff2959f9280027c6f95a65c4c9b07c76fdae",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "565803541574ecd05efbf5f551dd6e0396013434c9d7271643845162dcfdff07"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "5664dbcb9d40a49ad17eb2ff64993ee7151c3807",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "026a4cf8fbc9c91e766feb7d4e6cc49bb5b7409794b44417582281abbccba91c"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "59b2e64c7139530b328788c9ca2ca106ab56d283",
+          "path": "qualification/0_2_12/wp04_modal_basis_damping_contract.json",
+          "sha256": "67c9b7fce44f50f4be1537e31684561854fbc328350c4bc18831c97a1c928cc6"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "22d828e7e14c5d25c03fa9fcee2b8fd664283a94",
+          "path": "src/solveur/core/analyses/modal.py",
+          "sha256": "2d07425c2d3a9b3a96b69b5e3021379de59fc3a080e9259913a442a5bd681fea"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "e363e0b35e8a628dcd63fa8d18fb97fd8b1534db",
+          "path": "src/solveur/core/analyses/modal_basis.py",
+          "sha256": "6e26cec719a7b713eb14a560deca0c0043f10bce37c8737ec8de7d8108b5d07a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "3f333730620246110e5e51ceb91ddc3cd2cec642",
+          "path": "src/solveur/core/analyses/modal_basis_numerics.py",
+          "sha256": "fd2a5fe7fd6955732f8222204b8b6cc5093a82a9b0962086cfbda7c3f3f6c8e6"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "f8b87a2df78fb578aeac63b5776d13895fa64e33",
+          "path": "src/solveur/core/analyses/modal_dense.py",
+          "sha256": "5343be9927273aaafca6275494364a0b99f857f61d02b4670cfc20bab517aa32"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "9710c3faa55c0859047cd748f39acc0979a5efb0",
+          "path": "tests/unit/test_modal_basis_damping.py",
+          "sha256": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "ee4aa98de2a6f517245e99e4a13cd46227dad147",
+          "path": "tests/unit/test_wp12_s_quantitative_extraction.py",
+          "sha256": "1b62eb167387de20b44b4705dc23c1a9671c690efc480da8b8423aec7d1957eb"
+        }
+      ],
+      "inputs": {
+        "fixture_source": "tests/unit/test_wp12_s_quantitative_extraction.py plus pinned helper source where listed",
+        "inline_fixture": {
+          "canonical_byte_length": 69,
+          "canonical_sha256": "53c45dae29b7540752ff7a726b113a6277f7ee290946611718ae3e0ccd58be14",
+          "data": {
+            "mass": [
+              [
+                2.0,
+                0.25
+              ],
+              [
+                0.25,
+                1.5
+              ]
+            ],
+            "stiffness": [
+              [
+                20.0,
+                -2.0
+              ],
+              [
+                -2.0,
+                8.0
+              ]
+            ]
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        },
+        "units": "SYNTHETIC_OPERATOR_UNITS_UNDECLARED"
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_wp12_s_quantitative_extraction.py::test_wp12_s_modal_2dof_001",
+      "notes": "PREPARED_NOT_AUTHORIZED. Wrapper emits structured values before assertions. Local execution is non-attested with no hard CPU/RAM/disk quota or filesystem sandbox.",
+      "observables": [
+        "K and M",
+        "computed and SciPy expected eigenvalues",
+        "frequencies",
+        "projected K/M",
+        "modal residuals",
+        "mass orthogonality",
+        "full reconstruction error"
+      ],
+      "oracle_id": "MODAL-2DOF-SAME-SCIPY-CONSISTENCY-v1",
+      "oracle_summary": "The expected eigenvalues use scipy.linalg.eigh, as does the production dense generalized eigenvalue path. Treat as same-backend consistency/invariant evidence, not an independent eigenvalue oracle.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 120,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "Q3 coupled two-DOF modal basis and projected operators",
+      "wp_origin": "WP04 v0.2.12; instrumented quantitative replay of WP12-R Q3",
+      "numeric_payload_schema": "qf-wp12-s-observables-v1"
+    },
+    {
+      "acceptance_ref": "Existing test limits: final displacement rel=2e-4/abs=1e-9; initial projection mass error <1e-12; reduced equilibrium error <1e-7. Output-only history flags and tip probe are added by this separately identified variant.",
+      "case_id": "DYN-SDOF-QUANT-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "232bbd959de54012e2da3435d304a8bfccc72e9e",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "2907b429743a32f226219c5896ddaec1e6b242d6778eb4fa7eb93f5c272049ff"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "e08eff2959f9280027c6f95a65c4c9b07c76fdae",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "565803541574ecd05efbf5f551dd6e0396013434c9d7271643845162dcfdff07"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "5664dbcb9d40a49ad17eb2ff64993ee7151c3807",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "026a4cf8fbc9c91e766feb7d4e6cc49bb5b7409794b44417582281abbccba91c"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "1e0535d6e37b9b4253d7de5954cac047c267bd52",
+          "path": "qualification/0_2_12/wp06_modal_newmark_contract.json",
+          "sha256": "f58a579a549661e5a19f6b7593ce645cd2e15c63c03a65e72e5a6e7cd0508d7f"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "a1c4d7d01562e8cca04b67ab8edc967a822dae5c",
+          "path": "src/solveur/core/analyses/dynamic.py",
+          "sha256": "350fb42f531d86e80b7d0286aa7b57a386bfa2f00b2e26135d0827a513cf7c4a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "e363e0b35e8a628dcd63fa8d18fb97fd8b1534db",
+          "path": "src/solveur/core/analyses/modal_basis.py",
+          "sha256": "6e26cec719a7b713eb14a560deca0c0043f10bce37c8737ec8de7d8108b5d07a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "b0448d202c0d16c854b77981aefb8e653bd162f1",
+          "path": "src/solveur/core/analyses/modal_newmark.py",
+          "sha256": "e936e9baca1f81c19f78de7627a1f6a3732b45a03614f087eb196c389c178dac"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "a55ba5b5b117574294db95ceccc8c68352172100",
+          "path": "src/solveur/core/analyses/prepared_dynamic_system.py",
+          "sha256": "bb2853f8729ee07441620e9495776860bdc5fed7a37970c63e8c10ca6e1ca116"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "07a7d967ffe142d155257d21e8287c7b591dd0d9",
+          "path": "src/solveur/elements/beam/beam2.py",
+          "sha256": "1d109cb8a76022781fd372353d071eae547f84dc77bb7cb955d346db57cd1909"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "d6195e2b709853853fc24380c6c7c0029ecff290",
+          "path": "tests/unit/test_modal_newmark.py",
+          "sha256": "b460f37e49db522496050373655bda4188e834a0413f4373f9322260e94f8436"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "ee4aa98de2a6f517245e99e4a13cd46227dad147",
+          "path": "tests/unit/test_wp12_s_quantitative_extraction.py",
+          "sha256": "1b62eb167387de20b44b4705dc23c1a9671c690efc480da8b8423aec7d1957eb"
+        }
+      ],
+      "inputs": {
+        "fixture_source": "tests/unit/test_wp12_s_quantitative_extraction.py plus pinned helper source where listed",
+        "inline_fixture": {
+          "canonical_byte_length": 548,
+          "canonical_sha256": "00d16dcf2f315dcf768e38c373df6a24af45ff27f597525f7862052c208b7b59",
+          "data": {
+            "beta": 0.25,
+            "dt": 5e-05,
+            "family": "BEAM2",
+            "fixed_dofs": [
+              {
+                "dofs": [
+                  "UX",
+                  "UY",
+                  "UZ",
+                  "RX",
+                  "RY",
+                  "RZ"
+                ],
+                "node": 0
+              },
+              {
+                "dofs": [
+                  "UY",
+                  "UZ",
+                  "RX",
+                  "RY",
+                  "RZ"
+                ],
+                "node": 1
+              }
+            ],
+            "gamma": 0.5,
+            "initial_displacement": {
+              "dof": "UX",
+              "node": 1,
+              "value": 0.002
+            },
+            "initial_velocity": 0.0,
+            "material": {
+              "A": 1.0,
+              "E": 1000.0,
+              "Iy": 0.1,
+              "Iz": 0.1,
+              "J": 0.2,
+              "density": 1.0,
+              "nu": 0.25
+            },
+            "mode_count": 1,
+            "nodes": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                0
+              ]
+            ],
+            "output_only": {
+              "history_probes": [
+                {
+                  "dof": "UX",
+                  "label": "tip_ux",
+                  "node": 1
+                }
+              ],
+              "record_time_history": true,
+              "store_modal_history": true
+            },
+            "rayleigh_alpha": 0.0,
+            "rayleigh_beta": 0.0,
+            "steps": 80
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        },
+        "units": "TEST_MODEL_VALUES; SOURCE TEST DOES NOT DECLARE A FORMAL GLOBAL UNIT SYSTEM"
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_wp12_s_quantitative_extraction.py::test_wp12_s_dyn_sdof_001",
+      "notes": "PREPARED_NOT_AUTHORIZED. Wrapper emits structured values before assertions. Local execution is non-attested with no hard CPU/RAM/disk quota or filesystem sandbox.",
+      "observables": [
+        "prepared K/M and omega",
+        "81 sample times",
+        "computed and analytical tip displacements",
+        "maximum and RMS errors",
+        "maximum relative energy drift",
+        "projection and reduced equilibrium diagnostics"
+      ],
+      "oracle_id": "MODAL-NEWMARK-FREE-UNDAMPED-SDOF-v1",
+      "oracle_summary": "Compare the recorded tip displacement history with u0*cos(omega*t), omega from prepared FE K/M. Report max absolute, normalized maximum, RMS and energy drift from recorded total energy. This conditions time integration on prepared FE operators and does not establish time or spatial convergence.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 180,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "Q4 modal Newmark undamped SDOF history and errors",
+      "wp_origin": "WP06 v0.2.12; instrumented output-history variant of WP12-R Q4",
+      "numeric_payload_schema": "qf-wp12-s-observables-v1"
+    },
+    {
+      "acceptance_ref": "Existing independent-oracle assertions: exact Fraction coefficients; eigenvalue relative tolerance 1e-10; modal residual <=1e-8; projected mass/orthogonality <=1e-8; projected stiffness rtol=1e-10, atol=0.",
+      "case_id": "MODAL-2DOF-POLY-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "232bbd959de54012e2da3435d304a8bfccc72e9e",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "2907b429743a32f226219c5896ddaec1e6b242d6778eb4fa7eb93f5c272049ff"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "e08eff2959f9280027c6f95a65c4c9b07c76fdae",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "565803541574ecd05efbf5f551dd6e0396013434c9d7271643845162dcfdff07"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "5664dbcb9d40a49ad17eb2ff64993ee7151c3807",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "026a4cf8fbc9c91e766feb7d4e6cc49bb5b7409794b44417582281abbccba91c"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "59b2e64c7139530b328788c9ca2ca106ab56d283",
+          "path": "qualification/0_2_12/wp04_modal_basis_damping_contract.json",
+          "sha256": "67c9b7fce44f50f4be1537e31684561854fbc328350c4bc18831c97a1c928cc6"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "e363e0b35e8a628dcd63fa8d18fb97fd8b1534db",
+          "path": "src/solveur/core/analyses/modal_basis.py",
+          "sha256": "6e26cec719a7b713eb14a560deca0c0043f10bce37c8737ec8de7d8108b5d07a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "3f333730620246110e5e51ceb91ddc3cd2cec642",
+          "path": "src/solveur/core/analyses/modal_basis_numerics.py",
+          "sha256": "fd2a5fe7fd6955732f8222204b8b6cc5093a82a9b0962086cfbda7c3f3f6c8e6"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "13ff4c59d7ff5c3544a6fc2c96a57644ca5a5ac1",
+          "path": "tests/unit/test_modal_two_dof_independent_oracle.py",
+          "sha256": "e4676573acabd8cf33818436c269b1f5f39a9ac47a5f421df65f487178270114"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "ee4aa98de2a6f517245e99e4a13cd46227dad147",
+          "path": "tests/unit/test_wp12_s_quantitative_extraction.py",
+          "sha256": "1b62eb167387de20b44b4705dc23c1a9671c690efc480da8b8423aec7d1957eb"
+        }
+      ],
+      "inputs": {
+        "fixture_source": "tests/unit/test_wp12_s_quantitative_extraction.py plus pinned helper source where listed",
+        "inline_fixture": {
+          "canonical_byte_length": 232,
+          "canonical_sha256": "7cb9721fe577f0d5ed528258553b5355e39c9dc93875e28d9750581cec1a42f8",
+          "data": {
+            "coefficient_a": "47/16",
+            "coefficient_b": "-47",
+            "coefficient_c": "156",
+            "exact_roots": "(376 +/- 16*sqrt(94))/47",
+            "mass": [
+              [
+                2.0,
+                0.25
+              ],
+              [
+                0.25,
+                1.5
+              ]
+            ],
+            "scaled_polynomial": "47*lambda^2 - 752*lambda + 2496",
+            "stiffness": [
+              [
+                20.0,
+                -2.0
+              ],
+              [
+                -2.0,
+                8.0
+              ]
+            ]
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        },
+        "units": "SYNTHETIC_OPERATOR_UNITS_UNDECLARED"
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_wp12_s_quantitative_extraction.py::test_wp12_s_modal_2dof_poly_001",
+      "notes": "PREPARED_NOT_AUTHORIZED. Wrapper emits structured values before assertions. Local execution is non-attested with no hard CPU/RAM/disk quota or filesystem sandbox.",
+      "observables": [
+        "exact rational coefficients and discriminant",
+        "reference and computed eigenvalues",
+        "frequencies",
+        "relative eigenvalue errors",
+        "modal residuals",
+        "projected mass/stiffness and mass orthogonality"
+      ],
+      "oracle_id": "Q3-2DOF-INDEPENDENT-CHARACTERISTIC-POLYNOMIAL-v1",
+      "oracle_summary": "Compute scalar characteristic coefficients from exact rational K/M, form the discriminant and roots independently of scipy.linalg.eigh, and compare with production ModalBasis._from_operators. Independence applies only to eigenvalues.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 120,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "Independent scalar characteristic-polynomial eigenvalue oracle",
+      "wp_origin": "WP04 v0.2.12; separate test checkout oracle case",
+      "numeric_payload_schema": "qf-wp12-s-observables-v1"
+    },
+    {
+      "acceptance_ref": "Existing beam test formula and displacement/rotation rel=1e-12 assertions; source parameter dof=UY, inertia=Iz, rotation=RZ, sign=+1.",
+      "case_id": "STAT-BEAM-UY-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "232bbd959de54012e2da3435d304a8bfccc72e9e",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "2907b429743a32f226219c5896ddaec1e6b242d6778eb4fa7eb93f5c272049ff"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "e08eff2959f9280027c6f95a65c4c9b07c76fdae",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "565803541574ecd05efbf5f551dd6e0396013434c9d7271643845162dcfdff07"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "5664dbcb9d40a49ad17eb2ff64993ee7151c3807",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "026a4cf8fbc9c91e766feb7d4e6cc49bb5b7409794b44417582281abbccba91c"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "da249cb49ca435a244765a1d749e0627cdba2c24",
+          "path": "src/solveur/core/solver.py",
+          "sha256": "1dcf93ddfbff96ee6492a5b1828760ce8a25fb54402bef1f9f1e04046090059f"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "07a7d967ffe142d155257d21e8287c7b591dd0d9",
+          "path": "src/solveur/elements/beam/beam2.py",
+          "sha256": "1d109cb8a76022781fd372353d071eae547f84dc77bb7cb955d346db57cd1909"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "347e4c72c2002feca0f06b7ab9d59c438eb11948",
+          "path": "src/solveur/materials/beam.py",
+          "sha256": "686f1888228302bdb5bf58cc149f19b61c8600db9be74dadd098c90db0aff72f"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "1cf4be5676eaf160ea46521581e3b923e7b78336",
+          "path": "tests/unit/test_beam2_element.py",
+          "sha256": "a6ecad34e20aa33da2c20d56d0887b7949c2c48dcedbf375a5e56c247e7609bc"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "ee4aa98de2a6f517245e99e4a13cd46227dad147",
+          "path": "tests/unit/test_wp12_s_quantitative_extraction.py",
+          "sha256": "1b62eb167387de20b44b4705dc23c1a9671c690efc480da8b8423aec7d1957eb"
+        }
+      ],
+      "inputs": {
+        "fixture_source": "tests/unit/test_wp12_s_quantitative_extraction.py plus pinned helper source where listed",
+        "inline_fixture": {
+          "canonical_byte_length": 235,
+          "canonical_sha256": "4a6bd18cd756299124e19447aab0a6facf89a3306356882a522af742a0c9a056",
+          "data": {
+            "A": 0.01,
+            "E": 210000000000.0,
+            "G_formula": "E/(2*(1+nu))",
+            "Iy": 2e-06,
+            "Iz": 3e-06,
+            "J": 5e-06,
+            "dof": "UY",
+            "inertia": "Iz",
+            "kappa": 0.8333333333333334,
+            "length": 2.0,
+            "nu": 0.3,
+            "rho": 7800.0,
+            "rotation_dof": "RZ",
+            "rotation_sign": 1.0,
+            "tip_force": 1000.0
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        },
+        "units": "SOURCE MODEL VALUES ARE SI-VALUED; NO UNIVERSAL UNIT SYSTEM IS INFERRED"
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_wp12_s_quantitative_extraction.py::test_wp12_s_stat_beam_uy_001",
+      "notes": "PREPARED_NOT_AUTHORIZED. Wrapper emits structured values before assertions. Local execution is non-attested with no hard CPU/RAM/disk quota or filesystem sandbox.",
+      "observables": [
+        "theoretical and computed tip UY",
+        "theoretical and computed tip RZ",
+        "absolute and relative differences",
+        "mesh report status"
+      ],
+      "oracle_id": "BEAM2-TIMOSHENKO-CANTILEVER-v1-UY",
+      "oracle_summary": "One straight uniform 2m BEAM2 cantilever; Timoshenko tip displacement and rotation reference in the UY/Iz/RZ plane. Single-element check only.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 180,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "BEAM2 cantilever bending in UY/RZ plane",
+      "wp_origin": "BEAM2 inherited capability; WP12-S quantitative case",
+      "numeric_payload_schema": "qf-wp12-s-observables-v1"
+    },
+    {
+      "acceptance_ref": "Existing beam test formula and displacement/rotation rel=1e-12 assertions; source parameter dof=UZ, inertia=Iy, rotation=RY, sign=-1.",
+      "case_id": "STAT-BEAM-UZ-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "232bbd959de54012e2da3435d304a8bfccc72e9e",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "2907b429743a32f226219c5896ddaec1e6b242d6778eb4fa7eb93f5c272049ff"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "e08eff2959f9280027c6f95a65c4c9b07c76fdae",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "565803541574ecd05efbf5f551dd6e0396013434c9d7271643845162dcfdff07"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "5664dbcb9d40a49ad17eb2ff64993ee7151c3807",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "026a4cf8fbc9c91e766feb7d4e6cc49bb5b7409794b44417582281abbccba91c"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "da249cb49ca435a244765a1d749e0627cdba2c24",
+          "path": "src/solveur/core/solver.py",
+          "sha256": "1dcf93ddfbff96ee6492a5b1828760ce8a25fb54402bef1f9f1e04046090059f"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "07a7d967ffe142d155257d21e8287c7b591dd0d9",
+          "path": "src/solveur/elements/beam/beam2.py",
+          "sha256": "1d109cb8a76022781fd372353d071eae547f84dc77bb7cb955d346db57cd1909"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "347e4c72c2002feca0f06b7ab9d59c438eb11948",
+          "path": "src/solveur/materials/beam.py",
+          "sha256": "686f1888228302bdb5bf58cc149f19b61c8600db9be74dadd098c90db0aff72f"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "1cf4be5676eaf160ea46521581e3b923e7b78336",
+          "path": "tests/unit/test_beam2_element.py",
+          "sha256": "a6ecad34e20aa33da2c20d56d0887b7949c2c48dcedbf375a5e56c247e7609bc"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "ee4aa98de2a6f517245e99e4a13cd46227dad147",
+          "path": "tests/unit/test_wp12_s_quantitative_extraction.py",
+          "sha256": "1b62eb167387de20b44b4705dc23c1a9671c690efc480da8b8423aec7d1957eb"
+        }
+      ],
+      "inputs": {
+        "fixture_source": "tests/unit/test_wp12_s_quantitative_extraction.py plus pinned helper source where listed",
+        "inline_fixture": {
+          "canonical_byte_length": 236,
+          "canonical_sha256": "e6784bb10a22f7f2842011476d3e3dcd84a1b21d0d03d44daa64dd34fabcf434",
+          "data": {
+            "A": 0.01,
+            "E": 210000000000.0,
+            "G_formula": "E/(2*(1+nu))",
+            "Iy": 2e-06,
+            "Iz": 3e-06,
+            "J": 5e-06,
+            "dof": "UZ",
+            "inertia": "Iy",
+            "kappa": 0.8333333333333334,
+            "length": 2.0,
+            "nu": 0.3,
+            "rho": 7800.0,
+            "rotation_dof": "RY",
+            "rotation_sign": -1.0,
+            "tip_force": 1000.0
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        },
+        "units": "SOURCE MODEL VALUES ARE SI-VALUED; NO UNIVERSAL UNIT SYSTEM IS INFERRED"
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_wp12_s_quantitative_extraction.py::test_wp12_s_stat_beam_uz_001",
+      "notes": "PREPARED_NOT_AUTHORIZED. Wrapper emits structured values before assertions. Local execution is non-attested with no hard CPU/RAM/disk quota or filesystem sandbox.",
+      "observables": [
+        "theoretical and computed tip UZ",
+        "theoretical and computed tip RY",
+        "absolute and relative differences",
+        "mesh report status"
+      ],
+      "oracle_id": "BEAM2-TIMOSHENKO-CANTILEVER-v1-UZ",
+      "oracle_summary": "One straight uniform 2m BEAM2 cantilever; Timoshenko tip displacement and rotation reference in the UZ/Iy/RY plane. Single-element check only.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 180,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "BEAM2 cantilever bending in UZ/RY plane",
+      "wp_origin": "BEAM2 inherited capability; WP12-S quantitative case",
+      "numeric_payload_schema": "qf-wp12-s-observables-v1"
+    },
+    {
+      "acceptance_ref": "Characterization-only completeness checks: three expected mesh inventories and finite UZ/residual outputs. No monotonicity/order/reference-error acceptance threshold and no 3-D validation PASS.",
+      "case_id": "FEM-TET4-H-001",
+      "command_profile": "local-vv-pytest-exact-node-v1",
+      "command_template": [
+        "{python_executable}",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "--noconftest",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "local_vv_pytest_plugin",
+        "-c",
+        "{tests_checkout}/pyproject.toml",
+        "-o",
+        "pythonpath=",
+        "-o",
+        "addopts=",
+        "--junitxml={new_run_directory}/junit.xml",
+        "{exact_nodeid}"
+      ],
+      "external_dependencies": [],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "398686f6145aade496b879ec6fb9c8d621a8ea55",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "8df18cbadcd2061f8d35f0a6f15d0885c030dcfdb9a654191517c9f584a26900"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "232bbd959de54012e2da3435d304a8bfccc72e9e",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "2907b429743a32f226219c5896ddaec1e6b242d6778eb4fa7eb93f5c272049ff"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "e08eff2959f9280027c6f95a65c4c9b07c76fdae",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "565803541574ecd05efbf5f551dd6e0396013434c9d7271643845162dcfdff07"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "5664dbcb9d40a49ad17eb2ff64993ee7151c3807",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "026a4cf8fbc9c91e766feb7d4e6cc49bb5b7409794b44417582281abbccba91c"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e"
+        },
+        {
+          "checkout": "runner",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "0fb6ff038ae319d6a8161c5909881cdec18bf0bd",
+          "path": "src/solveur/large/generator.py",
+          "sha256": "0c5b4d8e04e3ba8680df6518eab2e17574e53af2e6b42d630070646cfda7e98c"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "0273f5fa78652a0897f7ee3aaf8987c11b7596de",
+          "path": "src/solveur/large/io.py",
+          "sha256": "d344b04876839f4c0e729c06470d5131ae6519ac80a32969034616f95d32fd07"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "09c67ad587fd855e79d9e73101db1f15547830fe",
+          "path": "src/solveur/large/matrix_free.py",
+          "sha256": "de9cf63466ff95bdc70806950c6942c85a50f02266524e605140cde7ea03b191"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "8fa39f00be688b76ffd6a6e559d039e4c11524ea",
+          "path": "src/solveur/large/solver.py",
+          "sha256": "46d38aec4124f418bc780832b3efa5d7d33bfbf9ca51e846e51340666ab48d81"
+        },
+        {
+          "checkout": "science",
+          "git_blob_oid": "453402698feb51a9aa99e526a4ee1553ff2617af",
+          "path": "src/solveur/verification/tet4_structured_convergence.py",
+          "sha256": "738606510ff11c54bddbb77f9e9f8c4ddbca85d6d133fe5fbc098e4240be6650"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "e83dae5727e2a53b469eb7e0dc84ced462a9ed41",
+          "path": "docs/verification/tet4_structured_convergence_campaign.md",
+          "sha256": "4ad0dbe7abeaaa6d330bbb6feeeb2503a4a57d40d6d6061ac521ce3c6d85f29e"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "f54464704abb1f4f9a403ab480f298a4a0887ff6",
+          "path": "tests/unit/test_tet4_structured_convergence.py",
+          "sha256": "04abaa5ead1bdba1cab6643b6515abd5e0f8bef3919c4565bf1b1ff3a1f39f78"
+        },
+        {
+          "checkout": "tests",
+          "git_blob_oid": "ee4aa98de2a6f517245e99e4a13cd46227dad147",
+          "path": "tests/unit/test_wp12_s_quantitative_extraction.py",
+          "sha256": "1b62eb167387de20b44b4705dc23c1a9671c690efc480da8b8423aec7d1957eb"
+        }
+      ],
+      "inputs": {
+        "fixture_source": "tests/unit/test_wp12_s_quantitative_extraction.py plus pinned helper source where listed",
+        "inline_fixture": {
+          "canonical_byte_length": 467,
+          "canonical_sha256": "413dee3ede2d9bfe16873cfa768bbb475d7b68694f165708a06eda661821ce47",
+          "data": {
+            "base_cells": [
+              2,
+              1,
+              1
+            ],
+            "chunk_size": 8192,
+            "decomposition": "six",
+            "dof_counts": [
+              36,
+              135,
+              675
+            ],
+            "element_counts": [
+              12,
+              96,
+              768
+            ],
+            "fixed_face": "x=0; UX,UY,UZ",
+            "height": 0.4,
+            "length": 4.0,
+            "loaded_face": "x=L; global UZ; tributary distribution",
+            "maxiter": 10000,
+            "node_counts": [
+              12,
+              45,
+              225
+            ],
+            "poisson": 0.3,
+            "refinement_factors": [
+              1,
+              2,
+              4
+            ],
+            "relative_limit_diagnostic": 0.01,
+            "residual_limit_solver": 1e-08,
+            "solver_backend": "matrix_free",
+            "total_load_global_z": -1.0,
+            "width": 0.4,
+            "young": 70000000000.0
+          },
+          "encoding": "UTF-8",
+          "non_finite_numbers": "reject",
+          "object_keys": "sorted lexicographically",
+          "profile": "qf-inline-fixture-json-v1",
+          "separators": [
+            ",",
+            ":"
+          ]
+        },
+        "units": "SI-VALUED INPUTS AS USED BY EXISTING VERIFICATION UTILITY; REFERENCE IS 1-D DIAGNOSTIC"
+      },
+      "max_attempts": 1,
+      "nodeid": "tests/unit/test_wp12_s_quantitative_extraction.py::test_wp12_s_fem_tet4_h_001",
+      "notes": "PREPARED_NOT_AUTHORIZED. Wrapper emits structured values before assertions. Local execution is non-attested with no hard CPU/RAM/disk quota or filesystem sandbox.",
+      "observables": [
+        "per-level elements/nodes/DOFs",
+        "mean tip UZ",
+        "Euler-Bernoulli/Timoshenko diagnostic reference and difference",
+        "relative residual",
+        "iterations",
+        "solve time",
+        "estimated operator memory",
+        "between-level displacement change"
+      ],
+      "oracle_id": "TET4-BOUNDED-REFINEMENT-CHARACTERIZATION-v1",
+      "oracle_summary": "Run only factors 1,2,4 with base cells (2,1,1), six TET4 per cell, matrix_free backend. Preserve mean tip UZ, one-dimensional beam diagnostic, per-level relative residual, iterations, time and operator-memory estimate. Utility defaults 0.01 and 1e-8 are diagnostic inputs only.",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "result_status": "NOT_RUN",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "test_checkout": "tests",
+      "timeout_seconds": 1800,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "title": "Bounded three-level matrix-free TET4 refinement characterization",
+      "wp_origin": "WP12-S bounded V&V characterization using existing verification utility",
+      "numeric_payload_schema": "qf-wp12-s-observables-v1"
+    }
+  ],
+  "environment": {
+    "isolation": "Current-user local process only; no sandbox, hard CPU/RAM/disk quota, or guaranteed process-tree termination. Owner acceptance required for each case.",
+    "packages": {
+      "h5py": "3.14.0",
+      "numpy": "2.2.6",
+      "pytest": "8.4.1",
+      "scipy": "1.15.2",
+      "threadpoolctl": "3.6.0"
+    },
+    "platform_capture": "Observed on 2026-10-26: Windows-10-10.0.19045-SP0, AMD64; threadpoolctl reports OpenBLAS 0.3.29, architecture Haswell, pthreads, one thread, library numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll SHA-256 6547e9fb966e9773caee2755e91a8bf4d6f3a2f0eebf9646b0158f8675ea4ab5. Must be rechecked by VALIDATE before any future case-specific decision.",
+    "python": {
+      "distribution_version": null,
+      "executable": "E:\\QFSolverWP12B\\venv-3.13.17\\Scripts\\python.exe",
+      "solveur_version": "0.2.11",
+      "venv": "E:\\QFSolverWP12B\\venv-3.13.17",
+      "version": "3.13.17"
+    },
+    "thread_environment": {
+      "BLIS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    }
+  },
+  "evidence_root": "E:\\QFSolverWP12B\\wp12-local-vv-evidence",
+  "execution_authorized": false,
+  "identities": {
+    "runner": {
+      "commit": "0bd8ebb5a886ac89a8216e65ff37d59fb510fb61",
+      "path": "E:\\QFSolverWP12B\\runner-wp12-s",
+      "purpose": "Pinned non-attested local V&V runner with exact-node selection and structured-output validation.",
+      "tree": "e31931fefb7012171e7e1a9f03511cd1c9987eda"
+    },
+    "science": {
+      "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+      "path": "E:\\QFSolverWP12B\\science",
+      "purpose": "Frozen WP12-0 scientific source; do not replace with current documentation/runner HEAD.",
+      "tree": "df4ec667bf746b042c900fad1f86bf542e1a437b"
+    },
+    "tests": {
+      "commit": "cb445462e3e59fa487c28a0914d8d23ad47205e6",
+      "path": "E:\\QFSolverWP12B\\tests-wp12-s",
+      "purpose": "Separate tests checkout with WP12-S instrumented cases and source-pinned helpers.",
+      "tree": "92feabc4dc86f142e5c042a232c9c529ec6210bf"
+    }
+  },
+  "mode": "PREPARATION_ONLY",
+  "notes": "Eight separately approvable cases. The old WP12-R decision applies only to its old manifest SHA and does not authorize any case here. Q4 adds output-only history flags. TET4 is characterization-only; helper status is not scientific acceptance.",
+  "numerical_execution_performed": false,
+  "numerical_execution_status": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "policy": "QUALIFICATION_LOCAL_VV",
+  "prepared_at": "2026-10-26",
+  "resource_policy": {
+    "cpu": "No hard CPU quota; one exact node per process. PROPOSED — OWNER_APPROVAL_REQUIRED.",
+    "filesystem": "Same-user filesystem access; not a sandbox. Preserve all prior WP12-R evidence; require a new case/run directory.",
+    "log_limit_note": "Per-stream 16 MiB is soft polling, not a hard quota. PROPOSED — OWNER_APPROVAL_REQUIRED.",
+    "memory": "No hard memory quota; RSS is not enforced. PROPOSED — OWNER_APPROVAL_REQUIRED.",
+    "process_tree": "Direct child supervision only; descendant termination is not guaranteed. OWNER_ACCEPTANCE_REQUIRED."
+  },
+  "schema": "qf-local-vv-campaign-v1",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "supplemental_case_reviews": [],
+  "title": "WP12-S quantitative local verification and bounded TET4 characterization",
+  "wp12_status": "OPEN"
+}

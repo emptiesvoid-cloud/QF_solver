@@ -14,7 +14,7 @@ Statut de campagne : `PROTOCOL_PREPARED_NOT_RUN`. La classification AQ du benchm
 
 | Élément | Identité vérifiée / rapportée |
 |---|---|
-| Worktree AR | `C:\Users\fari\Documents\projet\SAFRAN\.codex-worktrees\wp-c02-ar` |
+| Worktree AR | `<legacy-worktree>\.codex-worktrees\wp-c02-ar` |
 | Branche AR | `codex/wp-c02-ar-spatial-convergence-20261023` |
 | HEAD AR initial | `fe1586f59a83156f090a6976672f7c1645583df1` |
 | Git tree AR initial | `808b498a96daaf4ffbcc0d5aa1a79d4cf3af38d2` |
@@ -211,7 +211,7 @@ AG conserve son résultat historique de convergence sur un benchmark entièremen
 
 ## 9. Revue indépendante
 
-Revue en lecture seule par `/root/ar_protocol_review`; aucune collecte, test, assemblage ni résolution n’a été effectuée par le reviewer. La revue a identifié :
+Revue en lecture seule par `<reviewer-workspace>`; aucune collecte, test, assemblage ni résolution n’a été effectuée par le reviewer. La revue a identifié :
 
 * **P1 — métadonnée du manifeste AJ incohérente sur les DDL libres M1** : 24 inscrit contre 18 dans le test et AQ. `wp_c02_ar_mesh_plan.json` utilise 18 pour les futures préparations. Le manifeste historique reste immuable; tout nouveau manifeste doit porter 18 et les dimensions correspondantes.
 * **P1 — les niveaux M4/M5 dépassent les caps source** 384 DDL / 32 lignes de contact. Il faut une autorisation explicite et un nouveau gel/contrat de ressources avant leur RUN.

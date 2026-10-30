@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="650" viewBox="0 0 920 650">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:22px;font-weight:bold}.label{font-size:13px}.small{font-size:11px}.axis{stroke:#3d4d5c;stroke-width:1}.grid{stroke:#d8dee5;stroke-width:1}.blue{stroke:#1677b8;fill:#1677b8}.orange{stroke:#e28a18;fill:#e28a18}.red{stroke:#bb3333;fill:#bb3333}.green{stroke:#17834a;fill:#17834a}</style>
+<title>FEM-TET4-H-001 — bounded refinement characterization</title>
+<desc>Three mesh levels show tip-face UZ and relative error against a 1-D beam diagnostic. The utility returned WARNING; this is not asymptotic convergence or physical validation.</desc>
+<text class="title" x="24" y="34">FEM-TET4-H-001 — bounded refinement characterization</text>
+<line class="grid" x1="105.0" y1="345.00" x2="870.0" y2="345.00"/>
+<text class="small" x="95.00" y="349.00" text-anchor="end">-1.55e-07</text>
+<line class="grid" x1="105.0" y1="285.00" x2="870.0" y2="285.00"/>
+<text class="small" x="95.00" y="289.00" text-anchor="end">-1.17e-07</text>
+<line class="grid" x1="105.0" y1="225.00" x2="870.0" y2="225.00"/>
+<text class="small" x="95.00" y="229.00" text-anchor="end">-7.77e-08</text>
+<line class="grid" x1="105.0" y1="165.00" x2="870.0" y2="165.00"/>
+<text class="small" x="95.00" y="169.00" text-anchor="end">-3.89e-08</text>
+<line class="grid" x1="105.0" y1="105.00" x2="870.0" y2="105.00"/>
+<text class="small" x="95.00" y="109.00" text-anchor="end">0.00e+00</text>
+<polyline class="blue" fill="none" stroke-width="2.20" points="105.00,112.95 449.96,130.90 870.00,179.02"/>
+<line class="orange" x1="105.0" y1="327.22" x2="870.0" y2="327.22" stroke-width="2" stroke-dasharray="6,4"/>
+<circle class="blue" cx="105.00" cy="112.95" r="5.00"/>
+<circle class="blue" cx="449.96" cy="130.90" r="5.00"/>
+<circle class="blue" cx="870.00" cy="179.02" r="5.00"/>
+<line class="axis" x1="105.0" y1="345.0" x2="870.0" y2="345.0"/>
+<line class="axis" x1="105.0" y1="105.0" x2="105.0" y2="345.0"/>
+<text class="label" x="105.00" y="82.00" text-anchor="start">Tip-face UZ (m); dashed line = 1-D Euler–Bernoulli/Timoshenko diagnostic</text>
+<text class="small" x="480.00" y="385.00" text-anchor="middle">Degrees of freedom (log scale)</text>
+<text class="small" x="105.00" y="363.00" text-anchor="middle">36</text>
+<text class="small" x="449.96" y="363.00" text-anchor="middle">135</text>
+<text class="small" x="870.00" y="363.00" text-anchor="middle">675</text>
+<line class="grid" x1="105.0" y1="430.00" x2="870.0" y2="430.00"/>
+<line class="grid" x1="105.0" y1="473.33" x2="870.0" y2="473.33"/>
+<line class="grid" x1="105.0" y1="516.67" x2="870.0" y2="516.67"/>
+<line class="grid" x1="105.0" y1="560.00" x2="870.0" y2="560.00"/>
+<polyline class="red" fill="none" stroke-width="2.00" points="105.00,441.82 449.96,451.72 870.00,478.26"/>
+<polyline class="green" fill="none" stroke-width="2.00" points="105.00,451.67 449.96,487.89 870.00,502.16"/>
+<circle class="red" cx="105.00" cy="441.82" r="4.00"/>
+<circle class="red" cx="449.96" cy="451.72" r="4.00"/>
+<circle class="red" cx="870.00" cy="478.26" r="4.00"/>
+<circle class="green" cx="105.00" cy="451.67" r="4.00"/>
+<circle class="green" cx="449.96" cy="487.89" r="4.00"/>
+<circle class="green" cx="870.00" cy="502.16" r="4.00"/>
+<line class="axis" x1="105.0" y1="560.0" x2="870.0" y2="560.0"/>
+<text class="label" x="105.00" y="415.00" text-anchor="start">Relative error to beam diagnostic and solver residual</text>
+<text class="small" x="220.00" y="600.00" text-anchor="start">Red: relative reference error</text>
+<text class="small" x="475.00" y="600.00" text-anchor="start">Green: relative residual</text>
+<text class="small" x="710.00" y="600.00" text-anchor="start">Helper status: WARNING</text>
+<text class="small" x="480.00" y="630.00" text-anchor="middle">Three levels characterize refinement only; no asymptotic order or 3-D validation claimed.</text>
+</svg>

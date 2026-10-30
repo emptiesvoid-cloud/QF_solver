@@ -1,0 +1,407 @@
+{
+  "activation_status": "NOT_EXECUTABLE",
+  "active_controller": {
+    "fingerprint": "4fdbd810091de83ff5f729edfb4b9a20b660156e60dfa136c50eab97350e6afb",
+    "head": "0d91fc5a9bc09875526af6f17cf42c3ac666c5b7",
+    "path": "C:\\Users\\fari\\.codex\\worktrees\\wp12-controller-hex20-0d91fc5\\qf_solver\\scripts\\development_autonomous.py",
+    "supports_all_six_p0_preflights_and_batch_contract": false,
+    "tree": "3d57c36c948c9cc3fbc8a5d399fc465245c54a11"
+  },
+  "campaign_id_proposal": "wp12a-p0-release-0.2.12-r1",
+  "do_not_execute": true,
+  "execution_authorized": false,
+  "owner_decision": null,
+  "owner_decision_template_fields": [
+    "campaign_id",
+    "contract_sha256",
+    "decision_id",
+    "approved_by=Owner",
+    "approved_at_utc",
+    "reason",
+    "approved_cases exact ordered list",
+    "no_retry=true"
+  ],
+  "purpose": "One Owner review of a closed ordered six-case P0 campaign; no per-attempt Owner prompt if every approved transition remains valid.",
+  "registration_capacity_proposal": {
+    "active_capacity": 13,
+    "approval_required_before_policy_or_controller_activation": true,
+    "max_attempts_per_nodeid_unchanged": 10,
+    "max_total_attempts_unchanged": 130,
+    "net_new_exact_registrations": 5,
+    "old_registrations_preserved_in_order": true,
+    "proposed_capacity": 18
+  },
+  "required_before_executability": [
+    "Owner approval of the 13-to-18 registration cap proposal",
+    "reviewed integration of the controller and policy extension",
+    "new clean officially designated controller pinned by HEAD/tree/fingerprint",
+    "five append-only source registrations with DDL and fingerprints",
+    "six exact official collect-only preflight PASS receipts",
+    "fresh immutable runtime batch contract and decision hashes",
+    "one explicit Owner approval bound to that final runtime contract"
+  ],
+  "schema": "qfsolver-wp12a-p0-batch-owner-contract-proposal-v1",
+  "science": {
+    "branch": "codex/wp12-dynamic-harmonic-verification",
+    "clean": true,
+    "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+    "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0",
+    "worktree": "E:\\QFSolverAgents\\wp12-dynamics"
+  },
+  "scope": {
+    "batch_attempt_limit": 1,
+    "case_count": 6,
+    "continuation": {
+      "continue_after_classifications": [
+        "PASS",
+        "SCIENTIFIC_ASSERTION_FAILED"
+      ],
+      "scientific_assertion_failed_definition": "One exact testcase, exactly one JUnit <failure type=\"AssertionError\">, no error, no skip, exact approved nodeid.",
+      "stop_on": [
+        "source/controller/criteria/budget/nodeid/provenance mismatch",
+        "ledger transition not attributable to this campaign",
+        "collect-only failure, skip, extra nodeid, body execution or ledger mutation",
+        "infrastructure/setup/JUnit classification uncertainty",
+        "incomplete RESERVED attempt",
+        "duplicate or over-budget attempt"
+      ]
+    },
+    "execution": {
+      "campaign_and_ledger_lock_held_across_each_case_transition": true,
+      "fresh_preflight_after_each_previous_ledger_transition": true,
+      "just_in_time_collect_only_before_each_reservation": true,
+      "order": [
+        "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+        "tests/unit/test_modal_basis_damping.py::test_degenerate_subspace_rotation_and_sign_are_equivalent_and_residual_safe",
+        "tests/unit/test_modal_basis_damping.py::test_rayleigh_projection_and_modal_damping_provenance_and_cluster_guard",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+        "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase",
+        "tests/unit/test_prepared_dynamic_system.py::test_prepared_system_assembles_once_and_excitation_does_not_invalidate_operators"
+      ],
+      "per_case_independent_archive_and_receipt": true,
+      "reserved_or_failed_attempt_is_never_retried": true,
+      "resume_requires_explicit_flag_and_verified_receipt_ledger_chain": true,
+      "sequential": true
+    },
+    "implicit_retry": false,
+    "ledger_snapshot_observed_for_review_only": {
+      "combined_cap": 130,
+      "combined_observed_attempts": 10,
+      "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
+      "not_a_frozen_runtime_baseline": true,
+      "path": "E:\\QFSolverAgents\\evidence\\dynamics\\node-attempt-ledger-wp12-dynamics-v2.json",
+      "predecessor_attempts": 5,
+      "predecessor_path": "E:\\QFSolverAgents\\evidence\\dynamics\\node-attempt-ledger.json",
+      "predecessor_sha256": "20670ceedfe1cc969ce614df13b8bd94b108f43e2e2892cf1601a8607a3dad37",
+      "schema": "qfsolver-development-node-ledger-v2",
+      "sha256": "01aec735ca1f7bfc06f4873df533089bda3f9253555911885ef5dc5b9ba9dd88",
+      "v2_scope_attempts": 5,
+      "will_be_recalculated_under_lock_when_real_contract_is_prepared": true
+    },
+    "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
+    "ordered_cases": [
+      {
+        "budget": {
+          "archive_size_limit_mib": 256,
+          "attempts": 1,
+          "output_stream_limit_mib": 32,
+          "output_total_limit_mib": 64,
+          "process_tree_limit": 16,
+          "retries": 0,
+          "rss_soft_limit_mib": 4096,
+          "temporary_limit_mib": 512,
+          "timeout_seconds": 300
+        },
+        "case_id": "wp12a-p0-an-modal-coupled-two-dof",
+        "case_manifest": {
+          "path": "qualification/0_2_12/wp12a_p0/case_manifests/wp12a-p0-an-modal-coupled-two-dof.json",
+          "sha256": "8bce34df8962a2d8f1be2fa456bee04e1525d7cf427c443c470ebf546199e45a"
+        },
+        "conditions_of_stop": [
+          "source/controller/criteria/budget/nodeid/provenance mismatch",
+          "ledger transition not attributable to this approved campaign",
+          "infrastructure failure",
+          "incomplete RESERVED attempt",
+          "pytest failure is not one exact assertion failure or its JUnit report is unavailable"
+        ],
+        "continue_after": [
+          "PASS",
+          "SCIENTIFIC_ASSERTION_FAILED"
+        ],
+        "criteria": {
+          "acceptance": "Existing assertion tolerances: 1e-12 to 1e-11, as encoded by the unchanged test.",
+          "acceptance_source_sha256": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca",
+          "oracle": "SciPy eigh on the fixed analytical coupled two-DOF system, with mass orthogonality, projected operators and reconstruction assertions.",
+          "oracle_independence": "Eigenvalues/eigenvectors are compared to a closed-form/SciPy small-system oracle; shares library linear algebra primitives, so this is numerical verification, not physical validation."
+        },
+        "criteria_sha256": "5e33f7177a52711b85ac7e7bfc51ef9b4a8936f876067988ef0ba229bbacfbbc",
+        "identity": {
+          "branch": "codex/wp12-dynamic-harmonic-verification",
+          "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "root": "E:\\QFSolverAgents\\wp12-dynamics",
+          "status_short": "",
+          "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+        },
+        "nodeid": "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+        "ordinal": 1,
+        "selected_dofs": 2,
+        "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+        "test_module_sha256": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca",
+        "timeout_reason": null,
+        "timeout_seconds": 300
+      },
+      {
+        "budget": {
+          "archive_size_limit_mib": 256,
+          "attempts": 1,
+          "output_stream_limit_mib": 32,
+          "output_total_limit_mib": 64,
+          "process_tree_limit": 16,
+          "retries": 0,
+          "rss_soft_limit_mib": 4096,
+          "temporary_limit_mib": 512,
+          "timeout_seconds": 300
+        },
+        "case_id": "wp12a-p0-an-modal-degenerate-subspace",
+        "case_manifest": {
+          "path": "qualification/0_2_12/wp12a_p0/case_manifests/wp12a-p0-an-modal-degenerate-subspace.json",
+          "sha256": "deba11dc927c0e042833b3c5d816041c49d01b7f34cfec97020bbd2a3739919e"
+        },
+        "conditions_of_stop": [
+          "source/controller/criteria/budget/nodeid/provenance mismatch",
+          "ledger transition not attributable to this approved campaign",
+          "infrastructure failure",
+          "incomplete RESERVED attempt",
+          "pytest failure is not one exact assertion failure or its JUnit report is unavailable"
+        ],
+        "continue_after": [
+          "PASS",
+          "SCIENTIFIC_ASSERTION_FAILED"
+        ],
+        "criteria": {
+          "acceptance": "Existing subspace and residual tolerances: 1e-12, as encoded by the unchanged test.",
+          "acceptance_source_sha256": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca",
+          "oracle": "Rotated/sign-flipped basis equivalence within a degenerate modal subspace and residual safety.",
+          "oracle_independence": "Small fixed-matrix algebraic oracle; no independent physical model."
+        },
+        "criteria_sha256": "60bd8872f1581ee2dfd4c6dc1b4039570949e38301b989bc5bab98ab75616095",
+        "identity": {
+          "branch": "codex/wp12-dynamic-harmonic-verification",
+          "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "root": "E:\\QFSolverAgents\\wp12-dynamics",
+          "status_short": "",
+          "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+        },
+        "nodeid": "tests/unit/test_modal_basis_damping.py::test_degenerate_subspace_rotation_and_sign_are_equivalent_and_residual_safe",
+        "ordinal": 2,
+        "selected_dofs": 3,
+        "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+        "test_module_sha256": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca",
+        "timeout_reason": null,
+        "timeout_seconds": 300
+      },
+      {
+        "budget": {
+          "archive_size_limit_mib": 256,
+          "attempts": 1,
+          "output_stream_limit_mib": 32,
+          "output_total_limit_mib": 64,
+          "process_tree_limit": 16,
+          "retries": 0,
+          "rss_soft_limit_mib": 4096,
+          "temporary_limit_mib": 512,
+          "timeout_seconds": 300
+        },
+        "case_id": "wp12a-p0-an-modal-rayleigh-projection",
+        "case_manifest": {
+          "path": "qualification/0_2_12/wp12a_p0/case_manifests/wp12a-p0-an-modal-rayleigh-projection.json",
+          "sha256": "97a2174179407acbe1bc8e0131af60e321cc54562a6d746f7d2a1c941321c53e"
+        },
+        "conditions_of_stop": [
+          "source/controller/criteria/budget/nodeid/provenance mismatch",
+          "ledger transition not attributable to this approved campaign",
+          "infrastructure failure",
+          "incomplete RESERVED attempt",
+          "pytest failure is not one exact assertion failure or its JUnit report is unavailable"
+        ],
+        "continue_after": [
+          "PASS",
+          "SCIENTIFIC_ASSERTION_FAILED"
+        ],
+        "criteria": {
+          "acceptance": "Existing Rayleigh assertions: rtol=1e-10 and atol=1e-10; all other guards remain as encoded by the unchanged test.",
+          "acceptance_source_sha256": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca",
+          "oracle": "Rayleigh damping projection, modal damping provenance and eigenvalue-cluster guard.",
+          "oracle_independence": "Formula-level Rayleigh reference and projected matrices share the test fixture matrices and production projection route; cross-check is bounded and partly internal."
+        },
+        "criteria_sha256": "47482ac2216c20d16e8ae7d6af286928685375539ec78b57bf07d09c5b4ea119",
+        "identity": {
+          "branch": "codex/wp12-dynamic-harmonic-verification",
+          "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "root": "E:\\QFSolverAgents\\wp12-dynamics",
+          "status_short": "",
+          "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+        },
+        "nodeid": "tests/unit/test_modal_basis_damping.py::test_rayleigh_projection_and_modal_damping_provenance_and_cluster_guard",
+        "ordinal": 3,
+        "selected_dofs": 3,
+        "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+        "test_module_sha256": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca",
+        "timeout_reason": null,
+        "timeout_seconds": 300
+      },
+      {
+        "budget": {
+          "archive_size_limit_mib": 256,
+          "attempts": 1,
+          "output_stream_limit_mib": 32,
+          "output_total_limit_mib": 64,
+          "process_tree_limit": 16,
+          "retries": 0,
+          "rss_soft_limit_mib": 4096,
+          "temporary_limit_mib": 512,
+          "timeout_seconds": 300
+        },
+        "case_id": "wp12a-p0-an-direct-transient-sdof",
+        "case_manifest": {
+          "path": "qualification/0_2_12/wp12a_p0/case_manifests/wp12a-p0-an-direct-transient-sdof.json",
+          "sha256": "9c5d202089f9927b2d1e76057b57ee70208cfde8175c4b201a69e6f9ed462fb4"
+        },
+        "conditions_of_stop": [
+          "source/controller/criteria/budget/nodeid/provenance mismatch",
+          "ledger transition not attributable to this approved campaign",
+          "infrastructure failure",
+          "incomplete RESERVED attempt",
+          "pytest failure is not one exact assertion failure or its JUnit report is unavailable"
+        ],
+        "continue_after": [
+          "PASS",
+          "SCIENTIFIC_ASSERTION_FAILED"
+        ],
+        "criteria": {
+          "acceptance": "Existing initial-energy rtol=1e-12, final-energy rtol=1e-10, energy drift <1e-10, residual <1e-10; no general convergence claim.",
+          "acceptance_source_sha256": "4a1245f0d8da9cbdcbf97b982d7a3cbab979c55042ed8fc9d2f5b0eaaa59a930",
+          "oracle": "Full-order transient SDOF compared with closed-form motion and initial/final energy; residual assertion.",
+          "oracle_independence": "Closed-form scalar SDOF reference; test uses assembled TET4 fixture, therefore assembly is not independently validated."
+        },
+        "criteria_sha256": "162e54be4f7cff547578a276130392171b806b8f4719f17310282200af3f6ccd",
+        "identity": {
+          "branch": "codex/wp12-dynamic-harmonic-verification",
+          "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "root": "E:\\QFSolverAgents\\wp12-dynamics",
+          "status_short": "",
+          "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+        },
+        "nodeid": "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+        "ordinal": 4,
+        "selected_dofs": 1,
+        "source_fingerprint": "f314c4d8011f9b9b815ee92ddc04d4386798a5a104bed528122649b2067efec1",
+        "test_module_sha256": "4a1245f0d8da9cbdcbf97b982d7a3cbab979c55042ed8fc9d2f5b0eaaa59a930",
+        "timeout_reason": null,
+        "timeout_seconds": 300
+      },
+      {
+        "budget": {
+          "archive_size_limit_mib": 256,
+          "attempts": 1,
+          "output_stream_limit_mib": 32,
+          "output_total_limit_mib": 64,
+          "process_tree_limit": 16,
+          "retries": 0,
+          "rss_soft_limit_mib": 4096,
+          "temporary_limit_mib": 512,
+          "timeout_seconds": 300
+        },
+        "case_id": "wp12a-p0-an-direct-harmonic-sdof",
+        "case_manifest": {
+          "path": "qualification/0_2_12/wp12a_p0/case_manifests/wp12a-p0-an-direct-harmonic-sdof.json",
+          "sha256": "2bfb446bf26575cb076334056c56bd217a149e018427b0f0619d95fdf366dc88"
+        },
+        "conditions_of_stop": [
+          "source/controller/criteria/budget/nodeid/provenance mismatch",
+          "ledger transition not attributable to this approved campaign",
+          "infrastructure failure",
+          "incomplete RESERVED attempt",
+          "pytest failure is not one exact assertion failure or its JUnit report is unavailable"
+        ],
+        "continue_after": [
+          "PASS",
+          "SCIENTIFIC_ASSERTION_FAILED"
+        ],
+        "criteria": {
+          "acceptance": "Existing response rtol=1e-12, atol=1e-14; phase absolute tolerance 1e-10 degrees; residual <1e-10; frequencies unchanged.",
+          "acceptance_source_sha256": "4a1245f0d8da9cbdcbf97b982d7a3cbab979c55042ed8fc9d2f5b0eaaa59a930",
+          "oracle": "Direct harmonic SDOF at the existing DC and nonzero frequencies; complex response, amplitude, phase and residual.",
+          "oracle_independence": "Closed-form scalar SDOF formula compared against assembled-system route; input/assembly not externally validated."
+        },
+        "criteria_sha256": "8e161ab0f96f4cd26e7ba9365915c1207dd30a86631d9ab38a80b4ab97809f1e",
+        "identity": {
+          "branch": "codex/wp12-dynamic-harmonic-verification",
+          "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "root": "E:\\QFSolverAgents\\wp12-dynamics",
+          "status_short": "",
+          "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+        },
+        "nodeid": "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase",
+        "ordinal": 5,
+        "selected_dofs": 1,
+        "source_fingerprint": "f314c4d8011f9b9b815ee92ddc04d4386798a5a104bed528122649b2067efec1",
+        "test_module_sha256": "4a1245f0d8da9cbdcbf97b982d7a3cbab979c55042ed8fc9d2f5b0eaaa59a930",
+        "timeout_reason": null,
+        "timeout_seconds": 300
+      },
+      {
+        "budget": {
+          "archive_size_limit_mib": 256,
+          "attempts": 1,
+          "output_stream_limit_mib": 32,
+          "output_total_limit_mib": 64,
+          "process_tree_limit": 16,
+          "retries": 0,
+          "rss_soft_limit_mib": 4096,
+          "temporary_limit_mib": 512,
+          "timeout_seconds": 300
+        },
+        "case_id": "wp12a-p0-an-prepared-operators",
+        "case_manifest": {
+          "path": "qualification/0_2_12/wp12a_p0/case_manifests/wp12a-p0-an-prepared-operators.json",
+          "sha256": "859936d38402223d31428193e2c50d44af4feffa28a9ff0f5af4d72511a306ba"
+        },
+        "conditions_of_stop": [
+          "source/controller/criteria/budget/nodeid/provenance mismatch",
+          "ledger transition not attributable to this approved campaign",
+          "infrastructure failure",
+          "incomplete RESERVED attempt",
+          "pytest failure is not one exact assertion failure or its JUnit report is unavailable"
+        ],
+        "continue_after": [
+          "PASS",
+          "SCIENTIFIC_ASSERTION_FAILED"
+        ],
+        "criteria": {
+          "acceptance": "Existing count and identity assertions remain exactly as encoded by the unchanged test.",
+          "acceptance_source_sha256": "8320c5422b699e74984255c190885d0ec4b88d1bb03a221284d883ecb3ea6975",
+          "oracle": "Prepared dynamic system assembly count and operator identity across excitation changes.",
+          "oracle_independence": "API/identity invariant checked against the same in-process operator objects; not a numerical external oracle."
+        },
+        "criteria_sha256": "bbba866d39d74952dd6a82a74cbef71f0bac12d72b582ed6a35cfd2dc6cd95a0",
+        "identity": {
+          "branch": "codex/wp12-dynamic-harmonic-verification",
+          "head": "7406e34efc28ed8f18c15440115595dfa3dd9ca5",
+          "root": "E:\\QFSolverAgents\\wp12-dynamics",
+          "status_short": "",
+          "tree": "a618d0d1790ab8642f408a78b2d2856debcc60c0"
+        },
+        "nodeid": "tests/unit/test_prepared_dynamic_system.py::test_prepared_system_assembles_once_and_excitation_does_not_invalidate_operators",
+        "ordinal": 6,
+        "selected_dofs": 3,
+        "source_fingerprint": "2604e9d0d837a9860f70210be2fc96da1d124cb063d896884dc9033b96a30f23",
+        "test_module_sha256": "8320c5422b699e74984255c190885d0ec4b88d1bb03a221284d883ecb3ea6975",
+        "timeout_reason": null,
+        "timeout_seconds": 300
+      }
+    ],
+    "worktree_id": "wp12_dynamics"
+  },
+  "state": "PROPOSAL_ONLY"
+}

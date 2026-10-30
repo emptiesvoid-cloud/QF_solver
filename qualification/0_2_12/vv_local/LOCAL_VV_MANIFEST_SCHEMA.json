@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qfsolver.org/schemas/qf-local-vv-campaign-v1.json",
+  "title": "QF Solver local V&V prepared campaign manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "policy", "campaign_id", "title", "status", "mode",
+    "execution_authorized", "wp12_status", "identities", "environment",
+    "evidence_root", "resource_policy", "cases", "supplemental_case_reviews",
+    "prepared_at", "numerical_execution_performed"
+  ],
+  "properties": {
+    "schema": {"const": "qf-local-vv-campaign-v1"},
+    "policy": {"const": "QUALIFICATION_LOCAL_VV"},
+    "campaign_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,79}$"},
+    "title": {"type": "string", "minLength": 1},
+    "status": {"const": "PREPARED_NOT_AUTHORIZED"},
+    "mode": {"const": "PREPARATION_ONLY"},
+    "execution_authorized": {"const": false},
+    "wp12_status": {"const": "OPEN"},
+    "numerical_execution_performed": {"const": false},
+    "identities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["science", "runner", "tests"],
+      "properties": {
+        "science": {"$ref": "#/$defs/gitIdentity"},
+        "runner": {"$ref": "#/$defs/gitIdentity"},
+        "tests": {"$ref": "#/$defs/gitIdentity"}
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["python", "packages", "thread_environment", "isolation", "platform_capture"],
+      "properties": {
+        "python": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["executable", "version", "venv", "solveur_version", "distribution_version"],
+          "properties": {
+            "executable": {"type": "string", "minLength": 1},
+            "version": {"type": "string", "minLength": 1},
+            "venv": {"type": "string", "minLength": 1},
+            "solveur_version": {"type": "string", "minLength": 1},
+            "distribution_version": {"type": ["string", "null"]}
+          }
+        },
+        "packages": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string"}},
+        "thread_environment": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string"}},
+        "isolation": {"type": "string", "minLength": 1},
+        "platform_capture": {"type": "string", "minLength": 1}
+      }
+    },
+    "evidence_root": {"type": "string", "minLength": 3},
+    "resource_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cpu", "memory", "process_tree", "filesystem", "log_limit_note"],
+      "properties": {
+        "cpu": {"type": "string"},
+        "memory": {"type": "string"},
+        "process_tree": {"type": "string"},
+        "filesystem": {"type": "string"},
+        "log_limit_note": {"type": "string"}
+      }
+    },
+    "cases": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/case"}},
+    "supplemental_case_reviews": {"type": "array", "items": {"type": "object"}},
+    "prepared_at": {"type": "string", "format": "date"},
+    "numerical_execution_status": {"const": "NUMERICAL_EXECUTION_NOT_PERFORMED"},
+    "notes": {"type": "string"}
+  },
+  "$defs": {
+    "gitIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "commit", "tree", "purpose"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "purpose": {"type": "string", "minLength": 1}
+      }
+    },
+    "inventoryEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkout", "path", "sha256", "git_blob_oid"],
+      "properties": {
+        "checkout": {"enum": ["science", "runner", "tests"]},
+        "path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "git_blob_oid": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id", "title", "status", "test_checkout", "nodeid", "wp_origin",
+        "oracle_id", "acceptance_ref", "command_profile", "oracle_summary", "inputs", "observables",
+        "timeout_seconds", "timeout_status", "output_limit_bytes", "output_limit_status",
+        "max_attempts", "file_inventory", "command_template", "result_status"
+      ],
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,79}$"},
+        "title": {"type": "string"},
+        "status": {"const": "PREPARED_NOT_AUTHORIZED"},
+        "test_checkout": {"enum": ["science", "runner", "tests"]},
+        "nodeid": {"type": "string", "pattern": "^tests/unit/[A-Za-z0-9_./-]+\\.py::test_[A-Za-z0-9_]+$"},
+        "wp_origin": {"type": "string"},
+        "oracle_id": {"type": "string"},
+        "acceptance_ref": {"type": "string"},
+        "command_profile": {"const": "local-vv-pytest-exact-node-v1"},
+        "oracle_summary": {"type": "string"},
+        "inputs": {"type": "object"},
+        "observables": {"type": "array", "items": {"type": "string"}},
+        "timeout_seconds": {"type": "integer", "minimum": 1},
+        "timeout_status": {"type": "string"},
+        "output_limit_bytes": {"type": "integer", "minimum": 1},
+        "output_limit_status": {"type": "string"},
+        "max_attempts": {"const": 1},
+        "file_inventory": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/inventoryEntry"}},
+        "command_template": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "result_status": {"const": "NOT_RUN"},
+        "external_dependencies": {"type": "array", "items": {"type": "string"}},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

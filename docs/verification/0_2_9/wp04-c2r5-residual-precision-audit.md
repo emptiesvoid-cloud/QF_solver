@@ -82,7 +82,7 @@ reported as different measurements and neither is a durability guarantee.
 The one failing step-4 reduced system was captured outside Git:
 
 ```text
-path: C:\Users\fari\AppData\Local\Temp\qf_solver_029_c2r5_forensics\c2_m2_canonical_step4_failure.npz
+path: <local-temp>\qf_solver_029_c2r5_forensics\c2_m2_canonical_step4_failure.npz
 shape: 90000 x 90000
 nnz: 3835710
 size: 27394683 bytes

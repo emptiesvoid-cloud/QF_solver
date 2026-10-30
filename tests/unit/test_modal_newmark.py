@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import math
+import os
+import re
 from dataclasses import replace
 from pathlib import Path
+import uuid
 
 import numpy as np
 import pytest
@@ -170,6 +174,198 @@ def _channel(
 
 def _run(model: FiniteElementModel, **kwargs: object) -> ModalNewmarkResult:
     return ModalNewmarkTransientSolver().solve(model, source_sha=_SOURCE_SHA, **kwargs)
+
+
+def _write_wp12_attempt_observables(
+    *,
+    case_name: str,
+    nodeid: str,
+    payload: dict[str, object],
+) -> dict[str, str]:
+    """Atomically publish one JSON sidecar inside this launcher's inventoried output directory."""
+    if Path(case_name).name != case_name or not case_name:
+        raise ValueError("The observables artifact name must be a plain filename stem.")
+    if os.environ.get("QF_DEVELOPMENT_AUTONOMOUS") != "1":
+        raise RuntimeError("WP12 numerical observables require the authorized development launcher.")
+    if os.environ.get("QF_DEV_WORKTREE_ID") != "wp12_dynamics":
+        raise RuntimeError("WP12 numerical observables require the registered wp12_dynamics worktree.")
+    raw_temp_dir = os.environ.get("TMP")
+    raw_temp_alias = os.environ.get("TEMP")
+    if not raw_temp_dir or not raw_temp_alias:
+        raise RuntimeError("The development launcher did not provide its attempt-specific temporary directory.")
+
+    temp_dir = Path(raw_temp_dir).resolve(strict=True)
+    if Path(raw_temp_alias).resolve(strict=True) != temp_dir or temp_dir.name.casefold() != "tmp":
+        raise RuntimeError("The launcher temporary-directory aliases do not identify one attempt.")
+    attempt_dir = temp_dir.parent.resolve(strict=True)
+    run_path = (attempt_dir / "run.json").resolve(strict=True)
+    output_dir = (attempt_dir / "output").resolve(strict=True)
+    if output_dir.parent != attempt_dir or run_path.parent != attempt_dir or not run_path.is_file():
+        raise RuntimeError("The launcher attempt record/output directory is unavailable or escaped its attempt.")
+
+    run_record = json.loads(run_path.read_text(encoding="utf-8"))
+    if (
+        run_record.get("state") != "RUNNING"
+        or run_record.get("worktree_id") != "wp12_dynamics"
+        or run_record.get("target") != [nodeid]
+    ):
+        raise RuntimeError("The launcher run record does not identify this exact in-progress nodeid.")
+    series_id = run_record.get("series_id")
+    attempt = run_record.get("attempt")
+    local_attempt_match = re.fullmatch(r"attempt-(\d{4})", attempt_dir.name)
+    if (
+        not isinstance(series_id, str)
+        or series_id != attempt_dir.parent.name
+        or not isinstance(attempt, int)
+        or isinstance(attempt, bool)
+        or attempt < 1
+        or local_attempt_match is None
+        or int(local_attempt_match.group(1)) < 1
+    ):
+        raise RuntimeError("The launcher attempt directory does not match its unique series/attempt identity.")
+    series_attempt = int(local_attempt_match.group(1))
+    manifest_ref = run_record.get("execution_manifest")
+    if not isinstance(manifest_ref, dict) or not isinstance(manifest_ref.get("path"), str):
+        raise RuntimeError("The launcher run record has no exact execution-manifest identity.")
+    manifest_path = Path(manifest_ref["path"]).resolve(strict=True)
+    identity = run_record.get("identity")
+    controller = run_record.get("controller_provenance")
+    source_fingerprint = run_record.get("source_fingerprint")
+    if not isinstance(identity, dict) or not isinstance(controller, dict) or not isinstance(source_fingerprint, str):
+        raise RuntimeError("The exact Newmark attempt manifest is not explicitly Owner-authorized.")
+    controller_identity = controller.get("identity")
+    controller_hashes = controller.get("sha256")
+    if not isinstance(controller_identity, dict) or not isinstance(controller_hashes, dict):
+        raise RuntimeError("The launcher run record lacks controller root/hash provenance.")
+    controller_root = Path(str(controller_identity.get("root", ""))).resolve(strict=True)
+    policy_path = (controller_root / "development_autonomous_policy.json").resolve(strict=True)
+    policy_bytes = policy_path.read_bytes()
+    policy_sha256 = hashlib.sha256(policy_bytes).hexdigest()
+    if policy_sha256 != controller_hashes.get("policy"):
+        raise RuntimeError("The WP12 controller policy differs from the run's captured policy identity.")
+    controller_policy = json.loads(policy_bytes)
+    policy_worktree = controller_policy.get("worktrees", {}).get("wp12_dynamics", {})
+    evidence_root = Path(str(policy_worktree.get("evidence_root", ""))).resolve(strict=True)
+    expected_authorization_dir = (evidence_root / "authorizations" / "wp12_dynamics").resolve(strict=True)
+    try:
+        expected_authorization_dir.relative_to(evidence_root)
+    except ValueError as exc:
+        raise RuntimeError("The policy-configured WP12 authorization directory is outside its evidence root.") from exc
+    owner_authorized_dir = expected_authorization_dir / "owner-authorized"
+    if owner_authorized_dir.is_symlink():
+        raise RuntimeError("The WP12 owner-authorized manifest directory must not be a symlink.")
+    allowed_manifest_dirs = {expected_authorization_dir}
+    if owner_authorized_dir.exists():
+        if not owner_authorized_dir.is_dir():
+            raise RuntimeError("The WP12 owner-authorized manifest path is not a directory.")
+        resolved_owner_authorized_dir = owner_authorized_dir.resolve(strict=True)
+        if resolved_owner_authorized_dir.parent != expected_authorization_dir:
+            raise RuntimeError("The WP12 owner-authorized manifest directory escaped its authorization root.")
+        allowed_manifest_dirs.add(resolved_owner_authorized_dir)
+    if manifest_path.parent not in allowed_manifest_dirs:
+        raise RuntimeError("The execution manifest is outside the policy-configured WP12 evidence root.")
+    manifest_bytes = manifest_path.read_bytes()
+    manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+    if manifest_ref.get("sha256") != manifest_sha256:
+        raise RuntimeError("The execution-manifest hash changed after the launcher recorded it.")
+    manifest = json.loads(manifest_bytes)
+    try:
+        attempt_dir.relative_to(evidence_root)
+    except ValueError as exc:
+        raise RuntimeError("The launcher attempt output is outside the evidence root bound by its manifest.") from exc
+    if attempt_dir.parents[2].name != "worktrees" or attempt_dir.parents[1].name != "wp12_dynamics":
+        raise RuntimeError("The launcher output path does not match the registered worktree evidence layout.")
+    if attempt_dir.parents[3] != evidence_root:
+        raise RuntimeError("The launcher attempt and its manifest do not share the same authorized evidence root.")
+
+    case_file = f"{case_name}.json"
+    artifact_path = output_dir / case_file
+    if artifact_path.exists():
+        raise FileExistsError(f"Refusing to overwrite per-attempt observables: {artifact_path}")
+    decision = manifest.get("owner_decision")
+    if (
+        not isinstance(decision, dict)
+        or manifest.get("schema") != "qfsolver-wp12-development-execution-v1"
+        or manifest.get("state") != "OWNER_AUTHORIZED"
+        or manifest.get("worktree_id") != "wp12_dynamics"
+        or manifest.get("target") != nodeid
+        or manifest.get("authorization_id") != manifest_ref.get("authorization_id")
+        or manifest.get("identity") != identity
+        or manifest.get("source_fingerprint") != source_fingerprint
+        or decision.get("status") != "APPROVED"
+        or decision.get("approved_by") != "Owner"
+    ):
+        raise RuntimeError("The launcher run record lacks source/controller identity fields.")
+    complete_payload = {
+        **payload,
+        "attempt_identity": {
+            "worktree_id": run_record["worktree_id"],
+            "nodeid": nodeid,
+            "series_id": series_id,
+            "attempt": attempt,
+            "series_attempt": series_attempt,
+            "authorization_id": manifest_ref["authorization_id"],
+            "manifest_sha256": manifest_sha256,
+            "evidence_relative_attempt_path": attempt_dir.relative_to(evidence_root).as_posix(),
+            "source_fingerprint": source_fingerprint,
+            "source_identity": identity,
+            "controller_provenance": controller,
+        },
+        "artifact_path_relative_to_evidence_root": (output_dir / case_file).relative_to(evidence_root).as_posix(),
+    }
+    non_finite_values: dict[str, str] = {}
+    json_payload = _json_safe_observables(complete_payload, "$", non_finite_values)
+    if not isinstance(json_payload, dict):
+        raise TypeError("The WP12 observables payload must remain a JSON object.")
+    if non_finite_values:
+        json_payload["non_finite_values"] = non_finite_values
+    encoded = json.dumps(json_payload, sort_keys=True, indent=2, allow_nan=False) + "\n"
+    temporary_path = output_dir / f".{case_name}.{series_id}.{attempt}.{uuid.uuid4().hex}.tmp"
+    try:
+        with temporary_path.open("x", encoding="utf-8", newline="\n") as stream:
+            stream.write(encoded)
+            stream.flush()
+            os.fsync(stream.fileno())
+        # A same-directory hard link atomically publishes the complete file and fails if it exists.
+        os.link(temporary_path, artifact_path)
+    finally:
+        temporary_path.unlink(missing_ok=True)
+
+    if json.loads(artifact_path.read_text(encoding="utf-8")) != json_payload:
+        raise RuntimeError("The published WP12 observables JSON did not round-trip exactly.")
+    return {"path": str(artifact_path), "sha256": hashlib.sha256(artifact_path.read_bytes()).hexdigest()}
+
+
+def _json_safe_observables(value: object, path: str, non_finite_values: dict[str, str]) -> object:
+    if isinstance(value, np.generic):
+        return _json_safe_observables(value.item(), path, non_finite_values)
+    if isinstance(value, float) and not math.isfinite(value):
+        non_finite_values[path] = repr(value)
+        return None
+    if isinstance(value, dict):
+        return {
+            str(key): _json_safe_observables(item, f"{path}.{key}", non_finite_values) for key, item in value.items()
+        }
+    if isinstance(value, (list, tuple)):
+        return [_json_safe_observables(item, f"{path}[{index}]", non_finite_values) for index, item in enumerate(value)]
+    return value
+
+
+def _publish_wp12_observables_before_assertions(
+    *,
+    case_name: str,
+    nodeid: str,
+    payload: dict[str, object],
+    checks: list[tuple[str, bool]],
+) -> dict[str, str]:
+    """Persist computed observations first, then raise for any failed test oracle."""
+    artifact = _write_wp12_attempt_observables(case_name=case_name, nodeid=nodeid, payload=payload)
+    failed_checks = [label for label, passed in checks if not passed]
+    if failed_checks:
+        raise AssertionError(
+            "WP12 numerical checks failed after observables were archived: " + "; ".join(failed_checks)
+        )
+    return artifact
 
 
 def test_sdof_free_undamped_matches_analytic_solution_and_initial_projection() -> None:
@@ -631,6 +827,219 @@ def test_second_order_time_refinement_for_smooth_free_vibration() -> None:
     observed_order = math.log(errors[0] / errors[1], 2.0)
     assert observed_order >= 1.8
     assert errors[2] < errors[1] < errors[0]
+
+
+def test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables() -> None:
+    """Record u/v/a convergence and equilibrium/energy diagnostics at fixed final time."""
+    q0 = 1.0e-3
+    final_time = 0.08
+    observations: list[dict[str, object]] = []
+    resolution_identities: list[dict[str, object]] = []
+    assertion_checks: list[tuple[str, bool]] = []
+
+    for dt in (0.002, 0.001, 0.0005):
+        steps = round(final_time / dt)
+        model = _model(
+            dt=dt,
+            steps=steps,
+            extra_parameters={
+                "initial_displacements": [{"node": 1, "dof": "UX", "value": q0}],
+                "initial_velocities": [{"node": 1, "dof": "UX", "value": 0.0}],
+                "record_time_history": True,
+                "history_probes": [{"label": "tip", "node": 1, "dof": "UX"}],
+                "newmark_beta": 0.25,
+                "newmark_gamma": 0.5,
+            },
+        )
+        prepared, basis = _prepared_basis(model)
+        result = _run(model, prepared=prepared, basis=basis)
+
+        omega = math.sqrt(float(prepared.stiffness[0, 0] / prepared.mass[0, 0]))
+        times = np.asarray(result.times, dtype=float)
+        assertion_checks.extend(
+            [
+                (f"dt={dt:g}s starts at t=0", bool(times[0] == pytest.approx(0.0))),
+                (f"dt={dt:g}s ends at fixed final time", bool(times[-1] == pytest.approx(final_time))),
+                (f"dt={dt:g}s has steps+1 samples", bool(times.size == steps + 1)),
+            ]
+        )
+        exact = {
+            "displacement": q0 * np.cos(omega * times),
+            "velocity": -q0 * omega * np.sin(omega * times),
+            "acceleration": -q0 * omega**2 * np.cos(omega * times),
+        }
+        actual = {
+            field: np.asarray([row["probes"]["tip"][field] for row in result.time_history], dtype=float)
+            for field in exact
+        }
+        errors = {field: float(np.max(np.abs(actual[field] - exact[field]))) for field in exact}
+        relative_errors = {field: errors[field] / float(np.max(np.abs(exact[field]))) for field in exact}
+        integration = result.execution_identity["integration"]
+        assertion_checks.extend(
+            [
+                (f"dt={dt:g}s beta remains 0.25", bool(integration["beta"] == 0.25)),
+                (f"dt={dt:g}s gamma remains 0.5", bool(integration["gamma"] == 0.5)),
+                (f"dt={dt:g}s execution step matches input", bool(integration["time_step_s"] == dt)),
+                (
+                    f"dt={dt:g}s execution duration matches fixed final time",
+                    bool(integration["duration_s"] == pytest.approx(final_time)),
+                ),
+            ]
+        )
+
+        residual_max = max(row["reduced_equilibrium_relative_error"] for row in result.time_history)
+        energy_drift_max = max(abs(row["relative_energy_drift"]) for row in result.time_history)
+        initial_energy = float(result.time_history[0]["total_energy"])
+        sample_observables: list[dict[str, object]] = []
+        for index, (time_s, row) in enumerate(zip(times, result.time_history)):
+            state_errors: dict[str, dict[str, float]] = {}
+            for field in exact:
+                error = float(abs(actual[field][index] - exact[field][index]))
+                state_errors[field] = {
+                    "numerical": float(actual[field][index]),
+                    "analytic": float(exact[field][index]),
+                    "absolute_error": error,
+                    "relative_error": error / float(np.max(np.abs(exact[field]))),
+                }
+            total_energy = float(row["total_energy"])
+            sample_observables.append(
+                {
+                    "time_s": float(time_s),
+                    "state": state_errors,
+                    "residuals": {
+                        "reduced_equilibrium_residual_norm": float(row["reduced_equilibrium_residual_norm"]),
+                        "reduced_equilibrium_relative_error": float(row["reduced_equilibrium_relative_error"]),
+                    },
+                    "energy_balance": {
+                        "strain_energy_J": float(row["strain_energy"]),
+                        "kinetic_energy_J": float(row["kinetic_energy"]),
+                        "total_energy_J": total_energy,
+                        "initial_total_energy_J": initial_energy,
+                        "change_from_initial_J": total_energy - initial_energy,
+                        "relative_total_energy_drift": float(row["relative_energy_drift"]),
+                        "reduced_damping_power_W": float(row["damping_power_reduced"]),
+                    },
+                }
+            )
+        resolution_identity = {
+            "dt_s": dt,
+            "source_sha": prepared.source_sha,
+            "physical_identity": prepared.physical_identity,
+            "operator_identity": prepared.operator_identity,
+            "basis_identity": basis.basis_identity,
+            "solver_execution_identity": result.execution_identity,
+        }
+        resolution_identities.append(resolution_identity)
+        observations.append(
+            {
+                "dt_s": dt,
+                "steps": steps,
+                "final_time_s": final_time,
+                "beta": float(integration["beta"]),
+                "gamma": float(integration["gamma"]),
+                "displacement_max_abs_error": errors["displacement"],
+                "velocity_max_abs_error": errors["velocity"],
+                "acceleration_max_abs_error": errors["acceleration"],
+                "displacement_max_relative_error": relative_errors["displacement"],
+                "velocity_max_relative_error": relative_errors["velocity"],
+                "acceleration_max_relative_error": relative_errors["acceleration"],
+                "max_reduced_equilibrium_relative_error": float(residual_max),
+                "max_relative_energy_drift": float(energy_drift_max),
+                "sample_observables": sample_observables,
+            }
+        )
+        assertion_checks.extend(
+            [
+                (f"dt={dt:g}s reduced residual is finite", math.isfinite(residual_max)),
+                (f"dt={dt:g}s reduced residual <= 1e-7", residual_max <= 1.0e-7),
+                (f"dt={dt:g}s energy drift is finite", math.isfinite(energy_drift_max)),
+                (f"dt={dt:g}s energy drift <= 1e-10", energy_drift_max <= 1.0e-10),
+            ]
+        )
+
+    observed_orders = {
+        field: [math.log(errors[index] / errors[index + 1], 2.0) for index in range(2)]
+        for field, errors in {
+            "displacement": [item["displacement_max_relative_error"] for item in observations],
+            "velocity": [item["velocity_max_relative_error"] for item in observations],
+            "acceleration": [item["acceleration_max_relative_error"] for item in observations],
+        }.items()
+    }
+    assertion_checks.append(
+        ("minimum displacement convergence order >= 1.8", min(observed_orders["displacement"]) >= 1.8)
+    )
+    payload: dict[str, object] = {
+        "schema": "qfsolver-wp12-newmark-observables-v1",
+        "case": "WP12-NEWMARK-SDOF-FIXED-TIME",
+        "case_identity": {
+            "nodeid": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+            "fixture": "single-free-axial-translation BEAM2, straight 1 m span",
+            "response_dof": "node 1 UX in global model axes; positive sign is +global X",
+            "unit_system": "SI",
+            "resolution_identities": resolution_identities,
+        },
+        "units": {
+            "time_step": "s",
+            "time": "s",
+            "displacement": "m",
+            "velocity": "m/s",
+            "acceleration": "m/s^2",
+            "relative_error": "dimensionless",
+            "reduced_equilibrium_residual_norm": "basis-dependent modal generalized force",
+            "reduced_equilibrium_relative_error": "dimensionless",
+            "strain_energy": "J",
+            "kinetic_energy": "J",
+            "total_energy": "J",
+            "energy_change": "J",
+            "reduced_damping_power": "W",
+            "relative_total_energy_drift": "dimensionless",
+            "observed_order": "dimensionless",
+        },
+        "parameters": {
+            "initial_displacement_m": q0,
+            "initial_velocity_m_s": 0.0,
+            "final_time_s": final_time,
+            "time_steps_s": [float(item["dt_s"]) for item in observations],
+            "newmark_scheme": "Newmark-implicit-constant-step",
+            "beta": 0.25,
+            "gamma": 0.5,
+        },
+        "error_definition": {
+            "absolute": "max_i(abs(computed(t_i) - exact(t_i))) over all recorded samples",
+            "relative": "absolute_error / max_i(abs(exact(t_i))) on the same fixed-time sample grid",
+            "sample_relative_error": "abs(computed(t_i) - exact(t_i)) / max_j(abs(exact(t_j))) on the same fixed-time sample grid",
+            "observed_order": "log2(relative_error(dt) / relative_error(dt/2))",
+        },
+        "residual_unit_note": "The reduced residual norm is expressed in modal generalized coordinates and depends on basis normalization; the normalized equilibrium residual is dimensionless.",
+        "energy_balance_definition": (
+            "Per sample, total energy is strain plus kinetic energy; change_from_initial_J is "
+            "total_energy(t)-total_energy(0). The fixture has zero applied load and zero Rayleigh "
+            "damping, so this is a conservative free-vibration balance diagnostic."
+        ),
+        "observations": observations,
+        "observed_orders": observed_orders,
+        "assertion_results": {label: passed for label, passed in assertion_checks},
+        "acceptance_criteria": {
+            "minimum_displacement_order": 1.8,
+            "maximum_reduced_equilibrium_relative_error": 1.0e-7,
+            "maximum_relative_energy_drift": 1.0e-10,
+            "velocity_and_acceleration_error_thresholds": "none; measured and reported only",
+        },
+        "oracle_scope": "closed-form SDOF integration conditional on the prepared scalar K/M operators",
+    }
+    artifact = _publish_wp12_observables_before_assertions(
+        case_name="wp12-newmark-fixed-time-observables",
+        nodeid=str(payload["case_identity"]["nodeid"]),
+        payload=payload,
+        checks=assertion_checks,
+    )
+    print(
+        json.dumps(
+            {"artifact": artifact},
+            sort_keys=True,
+            allow_nan=False,
+        )
+    )
 
 
 def test_mode_count_refinement_converges_to_full_basis_direct_reference() -> None:
