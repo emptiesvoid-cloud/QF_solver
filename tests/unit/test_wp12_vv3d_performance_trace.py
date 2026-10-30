@@ -155,6 +155,8 @@ def test_instrumented_worker_emits_stages_with_fake_fem_hooks(tmp_path, monkeypa
             "finite_element_model", "solve_model", "stress_recovery", "extract_displacements",
             "independent_errors_order_8", "independent_errors_order_12", "postprocess_metrics",
             "criteria_evaluation", "serialize_and_archive"}.issubset(ended)
+    origin = next(event["path"] for event in _events(trace_path) if event["state"] == "SOLVER_ORIGIN")
+    assert Path(origin).resolve() == (Path(__file__).resolve().parents[2] / "src/solveur/__init__.py").resolve()
 
 
 def test_diagnostic_child_gate_requires_exact_scope_receipt_and_trace(tmp_path, monkeypatch) -> None:

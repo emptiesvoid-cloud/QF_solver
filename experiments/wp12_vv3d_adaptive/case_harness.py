@@ -1356,6 +1356,9 @@ def _run_prospective_case_with_context(
         with performance_trace.stage("imports"):
             from solveur.api.public import FiniteElementModel, recover_solid_stress_field, solve_model
             from experiments.wp12_vv3d_adaptive import field_error_draft, load_assembly_draft, metrics, oracle
+            import_trace = performance_trace.current()
+            if import_trace is not None:
+                import_trace.event("imports", "SOLVER_ORIGIN", path=str(Path(__import__("solveur").__file__).resolve()))
 
         with performance_trace.stage("model_preparation"):
             if prepared_mesh is None:
