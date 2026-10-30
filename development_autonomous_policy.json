@@ -2035,5 +2035,31 @@
       "source_fingerprint_sha256": "651bbacaf133106a6a8c8b2177e8741cf3fed9a9fdfc7f907d350484dfebd3ce"
     }
   },
+  "diagnostic_scopes": {
+    "wp12_vv3d_tet4_l3_diagnostic": {
+      "root": "E:\\QFSolverAgents\\worktrees\\vv3d-tet4-l3-performance\\qf_solver",
+      "branch": "diagnostic/vv3d-tet4-l3-performance",
+      "head": "59fdf0be1dd4896eb2c09b49127d02cedd2324ae",
+      "tree": "80587b0c38d72dab4695af6f159e7700c41145f9",
+      "source_fingerprint_sha256": "7500b3121983a05634c0cb5ddf5b58bca1bb3a85825066d589dda2d07a9e9a41",
+      "target": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L3]",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-vv3d-tet4-l3-diagnostic",
+      "ledger": "node-attempt-ledger-vv3d-tet4-l3-diagnostic.jsonl",
+      "r1_sha256": "2788619d097d148c74a3e71cef456ee52bc03642d680f9090360418b61d20bf8",
+      "r2_sha256": "5e090e1351578803669af37f04d161a6c4608436763f87d71e03315978446bb5",
+      "timeout_seconds": 2400,
+      "preflight_timeout_seconds": 300,
+      "rss_soft_limit_mib": 4096,
+      "selected_dofs": 2187,
+      "max_dofs": 30000,
+      "archive_size_limit_mib": 256,
+      "attempts_max": 1,
+      "combined_attempts_max": 24,
+      "cumulative_seconds_max": 28800,
+      "concurrency": 1,
+      "implicit_retry": false,
+      "execution_authorized": false
+    }
+  },
   "resource_coordination_root": "E:\\QFSolverAgents\\evidence\\.wp12-coordination"
 }
