@@ -107,14 +107,15 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
 
     assert len(declarations) == 1
     expected_controller_path = (
-        r"C:\Users\fari\.codex\worktrees\wp12-vv3d-controller-canonical-8129335\qf_solver"
+        r"E:\QFSolverAgents\controllers\wp12b-hex8sri-controller-b668292\qf_solver"
         r"\scripts\development_autonomous.py"
     )
     expected_identity = (
         "This clean, detached controller checkout is pinned to HEAD "
-        "`8129335ed9e279544afd46f9e043fb54656e8216`, tree "
-        "`d9fb59294dd795dad4e1c4284142d12184d2d3a0`, and official provenance fingerprint "
-        "`d41a41020d5e969c074e6b4a2005047ef70f7712fe2ca46b6a8ba2edc8193f45`."
+        "`b6682920b1b6e5201f99a6c61975fb9882a39e0e`, tree "
+        "`eede464bd38433a8c3a7669c91b975e4dc953d41`, VV3D-scope provenance fingerprint "
+        "`6b34560162b7c6b2735c3705b1ee87e9c5832b7b4b97b56a926d0784c3e70995`, and generic controller fingerprint "
+        "`af40be03576d288d269c6fb8628ebde73fd9826cd1b8a5fe4c00f5acff48f13b`."
     )
     assert f"{declaration_marker}{expected_controller_path}`" in declarations[0]
     assert expected_identity in declarations[0]
@@ -2276,6 +2277,11 @@ def test_rotor_preflight_uses_rotor_evidence_and_never_reserves_an_attempt(
     }
     monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: policy)
     monkeypatch.setattr(MODULE, "WP12_COORDINATION_ROOT", coordination_root)
+    monkeypatch.setattr(
+        MODULE.shutil,
+        "disk_usage",
+        lambda *_args: SimpleNamespace(free=2 * 1024 * 1024 * 1024),
+    )
     monkeypatch.setattr(
         MODULE, "_registered_worktree", lambda *_args, **_kwargs: (entry, fake_root, source_root, identity, "c" * 64)
     )
