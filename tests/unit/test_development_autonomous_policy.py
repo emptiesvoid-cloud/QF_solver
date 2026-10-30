@@ -218,6 +218,7 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
         MODULE.WP12B_HEX20_R2_WORKTREE_ID,
         MODULE.VV3D_WORKTREE_ID,
         MODULE.VV3D_R2_WORKTREE_ID,
+        MODULE.VV3D_FAMILY_REMAINDER_WORKTREE_ID,
     }
     assert policy["worktrees"][MODULE.VV3D_WORKTREE_ID]["execution_authorized"] is False
     assert policy["worktrees"][MODULE.VV3D_R2_WORKTREE_ID]["execution_authorized"] is False
@@ -3357,7 +3358,7 @@ def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_s
     hex20_scope_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
     assert set(worktrees) == set(baseline["worktrees"]) | {
         hex20_scope_id, MODULE.WP12B_HEX20_R2_WORKTREE_ID, MODULE.VV3D_WORKTREE_ID,
-        MODULE.VV3D_R2_WORKTREE_ID,
+        MODULE.VV3D_R2_WORKTREE_ID, MODULE.VV3D_FAMILY_REMAINDER_WORKTREE_ID,
     }
     existing = {key: value for key, value in worktrees.items() if key != hex20_scope_id}
     for worktree_id, baseline_entry in baseline["worktrees"].items():
