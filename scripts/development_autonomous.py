@@ -6041,13 +6041,14 @@ def _vv3d_execution_bindings(
             controller_fingerprint=controller_fingerprint, scientific_fingerprint=source_fingerprint,
         )
         vv3d_contract.validate_decision(contract, decision, contract_bytes=contract_raw)
+        case_id = target.rsplit("[", maxsplit=1)[-1][:-1]
+        vv3d_contract.validate_decision_scope(decision, case_id)
         vv3d_contract.verify_artifact_bindings(
             contract, roots={kind: execution_root / "experiments" / "wp12_vv3d_adaptive"
                              for kind in ("mesh", "manifest", "oracle", "criteria")},
         )
     except (ValueError, KeyError, TypeError) as exc:
         raise PolicyError(f"VV3D campaign decision or bound contract is invalid: {exc}") from exc
-    case_id = target.rsplit("[", maxsplit=1)[-1][:-1]
     contract_case = next((case for case in contract["cases"] if case.get("case_id") == case_id), None)
     matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "prepared_20261029" / "MATRIX_NOT_AUTHORIZED.json"
     matrix = _read_strict_json(matrix_path)
@@ -6210,6 +6211,7 @@ def _vv3d_adaptive_fem_launch_bindings(
             controller_fingerprint=controller_fingerprint, scientific_fingerprint=source_fingerprint,
         )
         vv3d_contract.validate_decision(contract, decision, contract_bytes=contract_raw)
+        vv3d_contract.validate_decision_scope(decision, candidate_id)
         vv3d_contract.verify_artifact_bindings(
             contract, roots={kind: execution_root / "experiments" / "wp12_vv3d_adaptive"
                              for kind in ("mesh", "manifest", "oracle", "criteria")},
@@ -6679,6 +6681,7 @@ def _vv3d_qpost_launch_bindings(
             scientific_fingerprint=source_fingerprint,
         )
         vv3d_contract.validate_decision(contract, decision, contract_bytes=contract_raw)
+        vv3d_contract.validate_decision_scope(decision, candidate_id)
         vv3d_contract.verify_artifact_bindings(
             contract, roots={kind: execution_root / "experiments" / "wp12_vv3d_adaptive"
                              for kind in ("mesh", "manifest", "oracle", "criteria")},

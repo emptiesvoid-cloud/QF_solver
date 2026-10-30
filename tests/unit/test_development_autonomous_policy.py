@@ -107,15 +107,15 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
 
     assert len(declarations) == 1
     expected_controller_path = (
-        r"E:\QFSolverAgents\controllers\wp12b-hex8sri-controller-503b6996\qf_solver"
+        r"E:\QFSolverAgents\controllers\wp12-vv3d-initial-controller-cda19da9\qf_solver"
         r"\scripts\development_autonomous.py"
     )
     expected_identity = (
         "This clean, detached controller checkout is pinned to HEAD "
-        "`503b6996258c89aeded13b894ed008358e8a5aa4`, tree "
-        "`a0928f032ee2e81ff416a59df6a64b862699116f`, VV3D-scope provenance fingerprint "
-        "`62a8bd737a3a6ccf5d3baa1bacd8a33875d3d462da238d10d99cb9e182870346`, and generic controller fingerprint "
-        "`8ae8ebb68a20a5313f0a1d93a326c41602ceba3655b03871ea484f8d22c284f5`."
+        "`cda19da911217e2f302c295b380332d0fe34b95b`, tree "
+        "`de18d79a17a4ec1722e2d83c89f4a692a00beb4a`, VV3D-scope provenance fingerprint "
+        "`00f89f5dcf8540a1d257afe9f1e668b9b7bafc4a25d46436447f43a9c2cbef04`, and generic controller fingerprint "
+        "`d2709a82882a546613e291f56e8c561604ee6c002999518dca753ca8db37585e`."
     )
     assert f"{declaration_marker}{expected_controller_path}`" in declarations[0]
     assert expected_identity in declarations[0]
