@@ -11,10 +11,11 @@ import json
 import math
 import os
 import re
+from contextlib import nullcontext
 from pathlib import Path
 from typing import Any
 
-from experiments.wp12_vv3d_adaptive import criteria_evaluator, evidence
+from experiments.wp12_vv3d_adaptive import criteria_evaluator, evidence, performance_trace
 
 CAMPAIGN_DIR = Path(__file__).parent / "prepared_20261030_r2"
 MATRIX_PATH = CAMPAIGN_DIR / "MATRIX_NOT_AUTHORIZED.json"
@@ -1283,10 +1284,11 @@ def run_prospective_case(
     The official runner must validate and reserve before writing the bound
     receipt. Sidecar persistence is in ``finally`` and precedes caller assertions.
     """
-    execution_context = require_authorized_execution(case_id)
-    cases = {case["case_id"]: case for case in load_prepared_cases()}
-    if case_id not in cases:
-        raise ValueError(f"unknown prepared VV3D case: {case_id}")
+    with performance_trace.stage("authorized_context_and_catalog"):
+        execution_context = require_authorized_execution(case_id)
+        cases = {case["case_id"]: case for case in load_prepared_cases()}
+        if case_id not in cases:
+            raise ValueError(f"unknown prepared VV3D case: {case_id}")
     return _run_prospective_case_with_context(
         case_id, cases[case_id], attempt_id, evidence_root,
         scientific_fingerprint=scientific_fingerprint,
@@ -1340,16 +1342,22 @@ def _run_prospective_case_with_context(
     started = time.perf_counter()
     failure: BaseException | None = None
     try:
-        from solveur.api.public import FiniteElementModel, recover_solid_stress_field, solve_model
-        from experiments.wp12_vv3d_adaptive import field_error_draft, load_assembly_draft, metrics, oracle
+        with performance_trace.stage("imports"):
+            from solveur.api.public import FiniteElementModel, recover_solid_stress_field, solve_model
+            from experiments.wp12_vv3d_adaptive import field_error_draft, load_assembly_draft, metrics, oracle
 
-        if prepared_mesh is None:
-            prepared = json.loads((CAMPAIGN_DIR / case["mesh_file"]).read_bytes())
-        else:
-            prepared = prepared_mesh
-        family = case["formulation"]
-        denominator = prepared["integer_coordinate_denominator"]
-        coordinates = [tuple(value / denominator for value in point) for point in prepared["nodes_integer"]]
+        with performance_trace.stage("model_preparation"):
+            if prepared_mesh is None:
+                prepared = json.loads((CAMPAIGN_DIR / case["mesh_file"]).read_bytes())
+            else:
+                prepared = prepared_mesh
+            family = case["formulation"]
+            denominator = prepared["integer_coordinate_denominator"]
+            coordinates = [tuple(value / denominator for value in point) for point in prepared["nodes_integer"]]
+            trace = performance_trace.current()
+            if trace is not None:
+                trace.event("model_preparation", "MESH", nodes=len(coordinates),
+                            elements=len(prepared["connectivity_zero_based"]), dofs=3 * len(coordinates))
 
         # This public adapter is itself fail-closed until its review/integration.
         # It must return the coherent nodal vector int(N^T f dV), in N.
@@ -1362,64 +1370,69 @@ def _run_prospective_case_with_context(
                     and hashlib.sha256(Path(execution_context["manifest_path"]).read_bytes()).hexdigest()
                     == execution_context["manifest_sha256"])
 
-        load8 = load_assembly_draft.assemble_body_load(
-            prepared, order=8,
-            execution_context={key: execution_context[key] for key in _PERMIT_CONTEXT_KEYS},
-            permit_validator=permit_validator,
-        )
-        nodal_load = load_assembly_draft.assemble_body_load(
-            prepared, order=12,
-            execution_context={key: execution_context[key] for key in _PERMIT_CONTEXT_KEYS},
-            permit_validator=permit_validator,
-        )
-        if len(nodal_load) != 3 * len(coordinates) or not all(math.isfinite(value) for value in nodal_load):
-            raise ValueError("body-load adapter returned an invalid global nodal vector")
-        if len(load8) != len(nodal_load) or not all(math.isfinite(value) for value in load8):
-            raise ValueError("comparison load quadrature returned an invalid global nodal vector")
-        def nodal_triples(vector):
-            return [tuple(vector[3*node+axis] for axis in range(3)) for node in range(len(coordinates))]
-        zeros=[(0.0,0.0,0.0)]*len(coordinates)
-        balance8=metrics.force_moment_balance(coordinates,nodal_triples(load8),zeros)
-        balance12=metrics.force_moment_balance(coordinates,nodal_triples(nodal_load),zeros)
-        exact_balance=oracle.exact_global_balance()
-        load_quadrature = _load_quadrature_relative_diagnostics(
-            tuple(load8), tuple(nodal_load), balance8, balance12, exact_balance,
-        )
-        payload["observables"]["load_quadrature_8_12"]={
-            "status":"DIAGNOSTIC_UNQUALIFIED", "order_8":balance8, "order_12":balance12,
-            "exact_body_force_n":exact_balance["body_force_n"],
-            "exact_body_moment_origin_nm":exact_balance["body_moment_origin_nm"],
-            **load_quadrature,
-            "comparison_basis": "global consistent nodal load vector, order 8 versus order 12",
-            "note":"includes quadrature agreement and independent analytic resultant/moment checks; thresholds remain proposed",
-        }
-        raw_loads = [
-            {"node": node, "dof": dof, "value": float(nodal_load[3 * node + axis])}
-            for node in range(len(coordinates))
-            for axis, dof in enumerate(("UX", "UY", "UZ"))
-            if nodal_load[3 * node + axis] != 0.0
-        ]
-        raw_elements = [
-            {"type": family, "nodes": cell, "material": "mms"}
-            for cell in prepared["connectivity_zero_based"]
-        ]
-        raw_fixed = [
-            {"node": node, "dofs": ["UX", "UY", "UZ"]}
-            for node in prepared["fixed_node_ids_all_components"]
-        ]
-        model = FiniteElementModel.from_raw(
-            nodes=coordinates,
-            elements=raw_elements,
-            materials={"mms": {"type": "isotropic_3d", "E": oracle.E_PA, "nu": oracle.NU}},
-            fixed_dofs=raw_fixed,
-            loads=raw_loads,
-            analysis="linear_static",
-            units={"system": "SI", "length": "m", "force": "N", "stress": "Pa"},
-        )
+        with performance_trace.stage("body_load_order_8"):
+            load8 = load_assembly_draft.assemble_body_load(
+                prepared, order=8,
+                execution_context={key: execution_context[key] for key in _PERMIT_CONTEXT_KEYS},
+                permit_validator=permit_validator,
+            )
+        with performance_trace.stage("body_load_order_12"):
+            nodal_load = load_assembly_draft.assemble_body_load(
+                prepared, order=12,
+                execution_context={key: execution_context[key] for key in _PERMIT_CONTEXT_KEYS},
+                permit_validator=permit_validator,
+            )
+        with performance_trace.stage("load_checks_and_model_inputs"):
+            if len(nodal_load) != 3 * len(coordinates) or not all(math.isfinite(value) for value in nodal_load):
+                raise ValueError("body-load adapter returned an invalid global nodal vector")
+            if len(load8) != len(nodal_load) or not all(math.isfinite(value) for value in load8):
+                raise ValueError("comparison load quadrature returned an invalid global nodal vector")
+            def nodal_triples(vector):
+                return [tuple(vector[3*node+axis] for axis in range(3)) for node in range(len(coordinates))]
+            zeros=[(0.0,0.0,0.0)]*len(coordinates)
+            balance8=metrics.force_moment_balance(coordinates,nodal_triples(load8),zeros)
+            balance12=metrics.force_moment_balance(coordinates,nodal_triples(nodal_load),zeros)
+            exact_balance=oracle.exact_global_balance()
+            load_quadrature = _load_quadrature_relative_diagnostics(
+                tuple(load8), tuple(nodal_load), balance8, balance12, exact_balance,
+            )
+            payload["observables"]["load_quadrature_8_12"]={
+                "status":"DIAGNOSTIC_UNQUALIFIED", "order_8":balance8, "order_12":balance12,
+                "exact_body_force_n":exact_balance["body_force_n"],
+                "exact_body_moment_origin_nm":exact_balance["body_moment_origin_nm"],
+                **load_quadrature,
+                "comparison_basis": "global consistent nodal load vector, order 8 versus order 12",
+                "note":"includes quadrature agreement and independent analytic resultant/moment checks; thresholds remain proposed",
+            }
+            raw_loads = [
+                {"node": node, "dof": dof, "value": float(nodal_load[3 * node + axis])}
+                for node in range(len(coordinates))
+                for axis, dof in enumerate(("UX", "UY", "UZ"))
+                if nodal_load[3 * node + axis] != 0.0
+            ]
+            raw_elements = [
+                {"type": family, "nodes": cell, "material": "mms"}
+                for cell in prepared["connectivity_zero_based"]
+            ]
+            raw_fixed = [
+                {"node": node, "dofs": ["UX", "UY", "UZ"]}
+                for node in prepared["fixed_node_ids_all_components"]
+            ]
+        with performance_trace.stage("finite_element_model"):
+            model = FiniteElementModel.from_raw(
+                nodes=coordinates,
+                elements=raw_elements,
+                materials={"mms": {"type": "isotropic_3d", "E": oracle.E_PA, "nu": oracle.NU}},
+                fixed_dofs=raw_fixed,
+                loads=raw_loads,
+                analysis="linear_static",
+                units={"system": "SI", "length": "m", "force": "N", "stress": "Pa"},
+            )
         payload["execution"]["fem_started"] = True
         # Keep the public verification-policy check enabled; a campaign runner
         # must not disable it to make a scientific case appear to pass.
-        result = solve_model(model)
+        with performance_trace.stage("solve_model"), performance_trace.instrument_static_solver(performance_trace.current()):
+            result = solve_model(model)
         payload["observables"]["solver_status"] = {"status": "AVAILABLE", "value": result.status}
         payload["observables"]["minimum_affine_jacobian_m3"] = {
             "status": "AVAILABLE", "value": case["affine_jacobian_min_m3"],
@@ -1436,7 +1449,8 @@ def _run_prospective_case_with_context(
         payload["observables"]["solver_origin"] = {
             "status": "AVAILABLE", "value": str(Path(__import__("solveur").__file__).resolve()),
         }
-        recovered = recover_solid_stress_field(model, result.displacements)
+        with performance_trace.stage("stress_recovery"):
+            recovered = recover_solid_stress_field(model, result.displacements)
         payload["observables"]["strain_samples"] = {
             "status": "AVAILABLE",
             "value": [{"element_index": element["element_index"], "integration_points": [
@@ -1458,10 +1472,17 @@ def _run_prospective_case_with_context(
 
         # Evaluate with an independent postprocessor and 8/12-point rules.
         # Agreement is an observation until the Owner freezes the gate.
-        nodal_u = [tuple(float(result.displacements[result.dofs.index(node, dof)])
-                         for dof in ("UX", "UY", "UZ")) for node in range(len(coordinates))]
-        error8 = field_error_draft.integrated_errors(prepared, nodal_u, order=8)
-        error12 = field_error_draft.integrated_errors(prepared, nodal_u, order=12)
+        with performance_trace.stage("extract_displacements"):
+            nodal_u = [tuple(float(result.displacements[result.dofs.index(node, dof)])
+                             for dof in ("UX", "UY", "UZ")) for node in range(len(coordinates))]
+        with performance_trace.stage("independent_errors_order_8"):
+            error8 = field_error_draft.integrated_errors(prepared, nodal_u, order=8)
+        with performance_trace.stage("independent_errors_order_12"):
+            error12 = field_error_draft.integrated_errors(prepared, nodal_u, order=12)
+        postprocess_trace = performance_trace.current()
+        postprocess_started = time.monotonic()
+        if postprocess_trace is not None:
+            postprocess_trace.event("postprocess_metrics", "START")
         exact_scalar_energy = oracle.exact_energy_j()
         for order, error_record in ((8, error8), (12, error12)):
             scalar_energy = error_record["scalar_energy_j"]
@@ -1550,12 +1571,16 @@ def _run_prospective_case_with_context(
                 "status": "AVAILABLE", "value": equilibrium["reactions"], "unit": "N or N m by component",
             }
 
+        if postprocess_trace is not None:
+            postprocess_trace.event("postprocess_metrics", "END", duration_seconds=time.monotonic() - postprocess_started)
+
         # Acceptance-quality samples still need approved independent quadrature;
         # keep criteria explicitly unassessed.
         payload["execution"] = {"status": "COMPLETED_UNASSESSED", "attempt_reserved": True, "fem_started": True}
         payload["observables"]["elapsed_seconds"] = {"status": "AVAILABLE", "value": time.perf_counter() - started, "unit": "s"}
         payload["execution"]["status"] = "COMPLETED_UNASSESSED"
-        payload["criteria"] = evaluate_case_criteria(payload, execution_context["frozen_criteria"])
+        with performance_trace.stage("criteria_evaluation"):
+            payload["criteria"] = evaluate_case_criteria(payload, execution_context["frozen_criteria"])
         return {"result": result, "payload": payload}
     except BaseException as exc:
         failure = exc
@@ -1569,7 +1594,8 @@ def _run_prospective_case_with_context(
         if failure is not None:
             for name in OBSERVABLES:
                 payload["observables"].setdefault(name, {"status": "NOT_EXPOSED"})
-        evidence.write_observables(evidence_root, case_id, attempt_id, sanitize_for_evidence(payload))
+        with performance_trace.stage("serialize_and_archive"):
+            evidence.write_observables(evidence_root, case_id, attempt_id, sanitize_for_evidence(payload))
 
 
 def _relative_observable_difference(low: dict[str, Any], high: dict[str, Any]) -> dict[str, float]:
@@ -1873,13 +1899,25 @@ def write_synthetic_sidecar(root: Path, case_id: str, attempt_id: str) -> dict[s
 def run_registered_case(case_id: str) -> dict[str, Any]:
     """Entry point used by one exact runner-selected initial nodeid."""
     context = require_authorized_execution(case_id)
-    outcome = run_prospective_case(
-        case_id,
-        context["attempt_id"],
-        Path(context["evidence_root"]),
-        scientific_fingerprint=context["scientific_fingerprint"],
-        controller_fingerprint=context["controller_fingerprint"],
-        manifest_sha256=context["manifest_sha256"],
-    )
-    assert_prospective_acceptance(outcome["payload"])
-    return outcome
+    trace = None
+    if os.environ.get("QF_VV3D_PERFORMANCE_TRACE") == "1":
+        if case_id != "VV3D-TET4-L3":
+            raise PermissionError("performance tracing is restricted to the exact TET4-L3 diagnostic")
+        evidence_root = Path(context["evidence_root"]).resolve(strict=True)
+        path = (evidence_root / "diagnostic-timings" / case_id / context["attempt_id"] / "stages.jsonl").resolve()
+        if not path.is_relative_to(evidence_root):
+            raise PermissionError("performance trace escapes the authorized evidence root")
+        trace = performance_trace.PerformanceTrace(path, case_id=case_id, attempt_id=context["attempt_id"])
+    with trace if trace is not None else nullcontext():
+        with performance_trace.stage("registered_case"):
+            outcome = run_prospective_case(
+                case_id,
+                context["attempt_id"],
+                Path(context["evidence_root"]),
+                scientific_fingerprint=context["scientific_fingerprint"],
+                controller_fingerprint=context["controller_fingerprint"],
+                manifest_sha256=context["manifest_sha256"],
+            )
+        with performance_trace.stage("acceptance"):
+            assert_prospective_acceptance(outcome["payload"])
+        return outcome
