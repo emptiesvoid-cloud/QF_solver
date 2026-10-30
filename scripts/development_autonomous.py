@@ -11,6 +11,7 @@ import ast
 import base64
 import binascii
 import hashlib
+import importlib
 import importlib.metadata
 import json
 import math
@@ -38,6 +39,20 @@ except ImportError:  # pragma: no cover - exercised only in an incomplete dev in
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _load_vv3d_r2_ledger_module() -> Any:
+    """Load the R2 ledger as a sibling module in CLI and package contexts."""
+    module_name = ".wp12_vv3d_r2_ledger" if __package__ else "wp12_vv3d_r2_ledger"
+    module = importlib.import_module(module_name, package=__package__ or None)
+    expected_path = Path(__file__).resolve().with_name("wp12_vv3d_r2_ledger.py")
+    try:
+        actual_path = Path(module.__file__).resolve(strict=True)
+    except (AttributeError, OSError) as exc:
+        raise PolicyError("VV3D R2 ledger module has no verifiable source path") from exc
+    if actual_path != expected_path:
+        raise PolicyError("VV3D R2 ledger module resolved outside the active controller checkout")
+    return module
 
 
 def _registered_root(value: str, *, strict: bool = False) -> Path:
@@ -7919,12 +7934,11 @@ def run_wp12_vv3d_pytest(
     adaptive = not is_r2 and target in VV3D_ADAPTIVE_FEM_NODEIDS
     attempt_id = str(manifest["attempt_id"]) if adaptive else f"{series_id}-attempt-1"
     if is_r2:
-        try:
-            from wp12_vv3d_r2_ledger import RecoveryR2Ledger
+        RecoveryR2Ledger = _load_vv3d_r2_ledger_module().RecoveryR2Ledger
+        if __package__:
+            from .wp12_vv3d_ledger import RunBinding, RunnerCaseBinding
+        else:
             from wp12_vv3d_ledger import RunBinding, RunnerCaseBinding
-        except ModuleNotFoundError:  # imported as scripts.development_autonomous by tests
-            from scripts.wp12_vv3d_r2_ledger import RecoveryR2Ledger
-            from scripts.wp12_vv3d_ledger import RunBinding, RunnerCaseBinding
     else:
         try:
             from wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
@@ -9046,6 +9060,10 @@ def run_pytest(
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers.add_parser(
+        "verify-vv3d-r2-ledger-import",
+        help="verify the R2 ledger sibling import and source path without reading or writing a ledger",
+    )
     p0_batch_prepare_parser = subparsers.add_parser(
         "prepare-wp12a-p0-batch",
         help="freeze an ordered WP12-A P0 case contract and ledger baseline; does not authorize or run FEM",
@@ -9161,7 +9179,18 @@ def main(argv: Sequence[str] | None = None) -> int:
     test_parser.add_argument("--hypothesis-id", help="unique ID required for a same-input new diagnostic hypothesis")
     args = parser.parse_args(argv)
     try:
-        if args.command == "prepare-wp12a-p0-batch":
+        if args.command == "verify-vv3d-r2-ledger-import":
+            ledger_module = _load_vv3d_r2_ledger_module()
+            result = {
+                "state": "IMPORT_OK",
+                "module": ledger_module.__name__,
+                "path": str(Path(ledger_module.__file__).resolve()),
+                "ledger_class": f"{ledger_module.RecoveryR2Ledger.__module__}.RecoveryR2Ledger",
+                "ledger_created": False,
+                "attempt_reserved": False,
+            }
+            exit_code = 0
+        elif args.command == "prepare-wp12a-p0-batch":
             from wp12a_p0_batch import prepare_contract
 
             result = prepare_contract(sys.modules[__name__], args.campaign_id, args.case_manifest)

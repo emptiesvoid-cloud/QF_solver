@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import hashlib
+import os
 from pathlib import Path
+import subprocess
+import sys
 from types import SimpleNamespace
 
 import pytest
@@ -11,6 +14,63 @@ import json
 
 from scripts import development_autonomous as controller
 from scripts import wp12_vv3d_contract
+
+
+def test_vv3d_r2_ledger_imports_from_direct_cli_outside_repository_without_pythonpath(tmp_path: Path) -> None:
+    runner_path = Path(controller.__file__).resolve()
+    outside_cwd = tmp_path / "outside-repository"
+    outside_cwd.mkdir()
+    environment = os.environ.copy()
+    environment.pop("PYTHONPATH", None)
+
+    process = subprocess.run(
+        [sys.executable, str(runner_path), "verify-vv3d-r2-ledger-import"],
+        cwd=outside_cwd,
+        env=environment,
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=30,
+    )
+
+    assert process.returncode == 0, process.stderr
+    receipt = json.loads(process.stdout)
+    expected_path = runner_path.with_name("wp12_vv3d_r2_ledger.py").resolve()
+    assert receipt["state"] == "IMPORT_OK"
+    assert Path(receipt["path"]) == expected_path
+    assert receipt["module"] == "wp12_vv3d_r2_ledger"
+    assert receipt["ledger_class"] == "wp12_vv3d_r2_ledger.RecoveryR2Ledger"
+    assert receipt["ledger_created"] is False
+    assert receipt["attempt_reserved"] is False
+
+
+def test_vv3d_r2_ledger_imports_as_package_from_repository_root() -> None:
+    repository_root = Path(controller.__file__).resolve().parents[1]
+    environment = os.environ.copy()
+    environment.pop("PYTHONPATH", None)
+    code = (
+        "import json; from pathlib import Path; "
+        "from scripts import development_autonomous as controller; "
+        "module = controller._load_vv3d_r2_ledger_module(); "
+        "print(json.dumps({'module': module.__name__, 'path': str(Path(module.__file__).resolve()), "
+        "'ledger_class': f'{module.RecoveryR2Ledger.__module__}.RecoveryR2Ledger'}))"
+    )
+    process = subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=repository_root,
+        env=environment,
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=30,
+    )
+
+    assert process.returncode == 0, process.stderr
+    receipt = json.loads(process.stdout)
+    expected_path = Path(controller.__file__).resolve().with_name("wp12_vv3d_r2_ledger.py").resolve()
+    assert receipt["module"] == "scripts.wp12_vv3d_r2_ledger"
+    assert Path(receipt["path"]) == expected_path
+    assert receipt["ledger_class"] == "scripts.wp12_vv3d_r2_ledger.RecoveryR2Ledger"
 
 
 def test_policy_registers_closed_24_node_catalog_and_adaptive_runner_capability() -> None:
