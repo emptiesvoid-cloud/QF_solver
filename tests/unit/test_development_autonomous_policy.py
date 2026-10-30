@@ -100,24 +100,82 @@ def _assert_wp12a_p0_registration_extension(current: dict[str, Any], baseline: d
 
 
 def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
+    import re
+
     repository_root = Path(__file__).resolve().parents[2]
     agents_text = (repository_root / "AGENTS.md").read_text(encoding="utf-8")
-    declaration_marker = "For monitored FEM exploration, invoke only the shared controller at `"
-    declarations = [line for line in agents_text.splitlines() if declaration_marker in line]
-
-    assert len(declarations) == 1
-    expected_controller_path = (
-        r"C:\Users\fari\.codex\worktrees\wp12-controller-hex20-r2-716049f\qf_solver"
+    r1_path = (
+        r"E:\QFSolverAgents\controllers\wp12-vv3d-initial-controller-cda19da9\qf_solver"
         r"\scripts\development_autonomous.py"
     )
-    expected_identity = (
-        "This clean, detached controller checkout is pinned to HEAD "
-        "`716049f22d344215b1dfe87f9a7f74ea73892be8`, tree "
-        "`b3606d577cbc03f927f14c24152b7579a56c9d6d`, and official provenance fingerprint "
-        "`c351497e9ecef72d7ad607bef9eaa948100f60ecd2ae232b44c092f75293ba35`."
+    r2_path = (
+        r"E:\QFSolverAgents\controllers\wp12-vv3d-r2-controller-5e2e722\qf_solver"
+        r"\scripts\development_autonomous.py"
     )
-    assert f"{declaration_marker}{expected_controller_path}`" in declarations[0]
-    assert expected_identity in declarations[0]
+    previous_diagnostic_path = (
+        r"E:\QFSolverAgents\controllers\wp12-vv3d-tet4-l3-diagnostic-controller-b6255ce7\qf_solver"
+        r"\scripts\development_autonomous.py"
+    )
+    optimized_diagnostic_path = (
+        r"E:\QFSolverAgents\controllers\wp12-vv3d-tet4-l3-optimized-98819a45\qf_solver"
+        r"\scripts\development_autonomous.py"
+    )
+    declarations = []
+    for line in agents_text.splitlines():
+        if line.startswith("- "):
+            paths = [
+                token
+                for token in re.findall(r"`([^`]+)`", line)
+                if re.fullmatch(r"[A-Za-z]:\\.*\\scripts\\development_autonomous\.py", token)
+            ]
+            declarations.extend((path, line) for path in paths)
+    assert [path for path, _ in declarations].count(r1_path) == 1
+    assert [path for path, _ in declarations].count(r2_path) == 1
+    assert [path for path, _ in declarations].count(previous_diagnostic_path) == 1
+    assert [path for path, _ in declarations].count(optimized_diagnostic_path) == 1
+    assert len(declarations) == 4
+    r1 = next(line for path, line in declarations if path == r1_path)
+    r2 = next(line for path, line in declarations if path == r2_path)
+    previous_diagnostic = next(line for path, line in declarations if path == previous_diagnostic_path)
+    optimized_diagnostic = next(line for path, line in declarations if path == optimized_diagnostic_path)
+    assert "outside VV3D R2" in r1
+    assert "VV3D R2 only" in r2
+    assert "`wp12_vv3d_recovery_r2`" in r2
+    assert "`wp12_vv3d_recovery_r2`" not in r1
+    assert "TET4-L3 diagnostic only" in previous_diagnostic
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" in previous_diagnostic
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" not in r1
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" not in r2
+    assert "VV3D TET4-L3 optimized diagnostic only" in optimized_diagnostic
+    assert "`wp12_vv3d_tet4_l3_optimized_diagnostic`" in optimized_diagnostic
+    assert "`wp12_vv3d_recovery_r2`" not in optimized_diagnostic
+    assert "`wp12_vv3d_tet4_l3_optimized_diagnostic`" not in r1
+    assert "`wp12_vv3d_tet4_l3_optimized_diagnostic`" not in r2
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" not in optimized_diagnostic
+    assert "`wp12_vv3d_tet4_l3_optimized_diagnostic`" not in previous_diagnostic
+
+    def assert_pin(declaration: str, label: str, value: str) -> None:
+        assert re.search(rf"\b{re.escape(label)}\s+`{value}`", declaration)
+
+    assert_pin(r1, "HEAD", "cda19da911217e2f302c295b380332d0fe34b95b")
+    assert_pin(r1, "tree", "de18d79a17a4ec1722e2d83c89f4a692a00beb4a")
+    assert_pin(r1, "VV3D-scope provenance fingerprint", "00f89f5dcf8540a1d257afe9f1e668b9b7bafc4a25d46436447f43a9c2cbef04")
+    assert_pin(r1, "generic controller fingerprint", "d2709a82882a546613e291f56e8c561604ee6c002999518dca753ca8db37585e")
+    assert_pin(r2, "HEAD", "5e2e7224661afea975cc902dae1f19bd6cdfdeb9")
+    assert_pin(r2, "tree", "33970cead41711b24c3d52889de2ec8bd991189c")
+    assert_pin(r2, "generic fingerprint", "5094c1f7024105b967b7718582639c77bc78f72741b0a0e7189d5ac81cc72fb5")
+    assert_pin(r2, "VV3D R2-scope fingerprint", "851194718819999d483710435d0e119c799787e5962148b3e50672a99f6f387e")
+    assert_pin(previous_diagnostic, "HEAD", "b6255ce70953552ca1874842d7099cde796a8a66")
+    assert_pin(previous_diagnostic, "tree", "5d8435c3ae170969434315b1dab1c3ef36f6c02c")
+    assert_pin(previous_diagnostic, "diagnostic-scope fingerprint", "c3d2d0946b9bf2063d4cb3bf4143877eaec0f93d2c4751178baad427d2e0c987")
+    assert_pin(
+        r2,
+        "VV3D R1-scope fingerprint (recorded for comparison only)",
+        "f4c6056d22801f7d5e3ed55013eae1e1a24d8cf73df32efe271f49b23731396e",
+    )
+    assert_pin(optimized_diagnostic, "HEAD", "98819a45ae5d525a670ad345a01c670721a2e67d")
+    assert_pin(optimized_diagnostic, "tree", "03df7312767502014215a70e8877d9d2fa8079e3")
+    assert_pin(optimized_diagnostic, "diagnostic fingerprint", "306903e538a0eb98c1805f6c443bd0c408ea836dd8b7e0cd508f09cddadcbbe8")
     assert "Controller selection is resolved only by this canonical release-branch `AGENTS.md` entry." in agents_text
     assert "do not recursively follow its snapshot `AGENTS.md`" in agents_text
     assert "wp12-shared-controller-081d788" not in agents_text
@@ -159,8 +217,11 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
         MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID,
         MODULE.WP12B_HEX20_R2_WORKTREE_ID,
         MODULE.VV3D_WORKTREE_ID,
+        MODULE.VV3D_R2_WORKTREE_ID,
     }
     assert policy["worktrees"][MODULE.VV3D_WORKTREE_ID]["execution_authorized"] is False
+    assert policy["worktrees"][MODULE.VV3D_R2_WORKTREE_ID]["execution_authorized"] is False
+    assert policy["worktrees"][MODULE.VV3D_R2_WORKTREE_ID]["allowed_nodeids"] == list(MODULE.VV3D_INITIAL_NODEIDS)
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
 
 
@@ -198,6 +259,15 @@ def test_hex8sri_source_identity_inventory_freezes_exact_raw_worktree_bytes() ->
     inventory_path = MODULE.ROOT / MODULE.HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_PATH
     inventory = MODULE._read_strict_json(inventory_path)
     assert MODULE._sha256(inventory_path) == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256
+    inventory_relative = inventory_path.relative_to(MODULE.ROOT).as_posix()
+    attributes = subprocess.run(
+        ["git", "check-attr", "text", "--", inventory_relative],
+        cwd=MODULE.ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout
+    assert attributes.strip().endswith(": text: unset")
     assert entry["source_identity"] == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY
     files = inventory["files_sha256"]
     assert len(files) == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT
@@ -239,7 +309,7 @@ def test_hex8sri_source_identity_inventory_freezes_exact_raw_worktree_bytes() ->
         )
     without_criteria = dict(files)
     del without_criteria["experiments/hex8_sri_equilibrium/criteria_contract.py"]
-    assert len(without_criteria) == 516
+    assert len(without_criteria) == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT - 1
     with pytest.raises(MODULE.PolicyError, match="source bytes differ from the registered raw-byte inventory"):
         MODULE._validate_hex8sri_registered_source_identity(
             Path("synthetic-source-root"), entry, identity, MODULE.HEX8SRI_FIRST6_NODEIDS[0],
@@ -2277,6 +2347,11 @@ def test_rotor_preflight_uses_rotor_evidence_and_never_reserves_an_attempt(
     monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: policy)
     monkeypatch.setattr(MODULE, "WP12_COORDINATION_ROOT", coordination_root)
     monkeypatch.setattr(
+        MODULE.shutil,
+        "disk_usage",
+        lambda *_args: SimpleNamespace(free=2 * 1024 * 1024 * 1024),
+    )
+    monkeypatch.setattr(
         MODULE, "_registered_worktree", lambda *_args, **_kwargs: (entry, fake_root, source_root, identity, "c" * 64)
     )
     monkeypatch.setattr(MODULE, "_wp12_active_registration", lambda *_args, **_kwargs: selection)
@@ -3233,8 +3308,22 @@ def test_archive_writer_is_atomic_json(tmp_path: Path) -> None:
     assert list(tmp_path.glob("*.tmp")) == []
 
 
+HEX8SRI_PRE_REFRESH_POLICY_BASELINE = "326b357fe752b33bb034c46ed546973abb1d2cb0"
+
+
+def _hex8sri_pre_refresh_baseline() -> dict:
+    payload = subprocess.run(
+        ["git", "show", f"{HEX8SRI_PRE_REFRESH_POLICY_BASELINE}:development_autonomous_policy.json"],
+        cwd=MODULE.ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    return json.loads(payload)["worktrees"][MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+
+
 def _assert_hex8sri_source_refresh_only(current: dict, baseline: dict) -> None:
-    mutable = {"source_identity", "source_fingerprint_sha256", "case_manifests"}
+    mutable = {"branch", "source_identity", "source_fingerprint_sha256", "case_manifests"}
     assert set(current) == set(baseline)
     assert {key: current[key] for key in current if key not in mutable} == {
         key: baseline[key] for key in baseline if key not in mutable
@@ -3245,7 +3334,10 @@ def _assert_hex8sri_source_refresh_only(current: dict, baseline: dict) -> None:
     assert set(current_cases) == set(baseline_cases) == set(MODULE._hex8sri_convergence24_nodeids())
     for nodeid in current_cases:
         assert current_cases[nodeid]["path"] == baseline_cases[nodeid]["path"]
-        assert current_cases[nodeid]["sha256"] != baseline_cases[nodeid]["sha256"]
+        if nodeid in MODULE.HEX8SRI_REFINED3_NODEIDS:
+            assert current_cases[nodeid]["sha256"] != baseline_cases[nodeid]["sha256"]
+        else:
+            assert current_cases[nodeid]["sha256"] == baseline_cases[nodeid]["sha256"]
         assert len(current_cases[nodeid]["sha256"]) == 64
 
 
@@ -3265,13 +3357,14 @@ def test_hex8sri_convergence24_registration_preserves_all_existing_scope_bytes_s
     hex20_scope_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
     assert set(worktrees) == set(baseline["worktrees"]) | {
         hex20_scope_id, MODULE.WP12B_HEX20_R2_WORKTREE_ID, MODULE.VV3D_WORKTREE_ID,
+        MODULE.VV3D_R2_WORKTREE_ID,
     }
     existing = {key: value for key, value in worktrees.items() if key != hex20_scope_id}
     for worktree_id, baseline_entry in baseline["worktrees"].items():
         if worktree_id == "wp12_dynamics":
             continue
         if worktree_id == scope_id:
-            _assert_hex8sri_source_refresh_only(existing[worktree_id], baseline_entry)
+            _assert_hex8sri_source_refresh_only(existing[worktree_id], _hex8sri_pre_refresh_baseline())
             continue
         assert existing[worktree_id] == baseline_entry
     dynamics_baseline = baseline["worktrees"]["wp12_dynamics"]
@@ -3516,7 +3609,7 @@ def test_hex8sri_convergence24_receipt_validator_accepts_synthetic_receipt(tmp_p
     target = MODULE._hex8sri_convergence24_nodeids()[0]
     identity = {
         "root": str(tmp_path / "research"),
-        "branch": "research/hex8-sri-equilibrium",
+        "branch": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"],
         "head": "a" * 40,
     }
     source_fingerprint = "b" * 64
@@ -3560,7 +3653,7 @@ def test_hex8sri_convergence24_receipt_validator_rejects_identity_drift(tmp_path
     target = MODULE._hex8sri_convergence24_nodeids()[0]
     identity = {
         "root": str(tmp_path / "research"),
-        "branch": "research/hex8-sri-equilibrium",
+        "branch": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"],
         "head": "a" * 40,
     }
     controller = {"identity": {"branch": "codex/hex8sri-convergence24-minimal", "head": "c" * 40}, "sha256": {}}
@@ -3662,7 +3755,7 @@ def test_hex8sri_convergence24_preflight_writer_emits_validator_accepted_synthet
             "policy_sha256": hashes["policy"],
         },
         "exact_nodeid": target,
-        "science_branch": "research/hex8-sri-equilibrium",
+        "science_branch": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"],
         "source_fingerprint_sha256": MODULE.HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
         "execution_authorized": False,
         "do_not_execute": True,
@@ -3794,12 +3887,18 @@ def test_hex8sri_convergence24_execution_refuses_before_ledger_or_launcher(
 
 
 def _synthetic_hex8sri_execution_authorization(
-    tmp_path: Path, *, authorized_nodeids: list[str] | None = None
+    tmp_path: Path,
+    *,
+    authorized_nodeids: list[str] | None = None,
+    frozen_nodeids: list[str] | None = None,
 ) -> dict[str, Any]:
     scope_id = MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID
     entry = json.loads(json.dumps(_policy()["worktrees"][scope_id]))
     selected_nodeids = list(MODULE.HEX8SRI_FIRST6_NODEIDS) if authorized_nodeids is None else authorized_nodeids
     target = selected_nodeids[0] if selected_nodeids else MODULE.HEX8SRI_FIRST6_NODEIDS[0]
+    scope = MODULE._hex8sri_criteria_scope_for_target(target)
+    default_frozen_nodeids = list(scope[1]) if scope is not None else list(MODULE.HEX8SRI_FIRST6_NODEIDS)
+    frozen_scope = default_frozen_nodeids if frozen_nodeids is None else frozen_nodeids
     identity = {
         "root": str(tmp_path / "synthetic-science-root"),
         "branch": entry["branch"],
@@ -3816,7 +3915,7 @@ def _synthetic_hex8sri_execution_authorization(
         "criteria_status": "OWNER_FREEZE_REQUIRED",
         "criteria_contract": {
             "schema": MODULE.HEX8SRI_CRITERIA_CONTRACT_SCHEMA,
-            "revision": MODULE.HEX8SRI_CRITERIA_CONTRACT_REVISION,
+            "revision": scope[0] if scope is not None else MODULE.HEX8SRI_CRITERIA_CONTRACT_REVISION,
             "dispositions": MODULE.HEX8SRI_CRITERIA_PROPOSAL_DISPOSITIONS,
         },
         "proposed_criteria": MODULE.HEX8SRI_PROPOSED_CRITERIA,
@@ -3855,6 +3954,7 @@ def _synthetic_hex8sri_execution_authorization(
         entry=entry,
         source_fingerprint=source_fingerprint,
         controller_provenance=controller,
+        frozen_nodeids=frozen_scope,
     )
     freeze_decision = {
         "schema": MODULE.HEX8SRI_CRITERIA_FREEZE_DECISION_SCHEMA,
@@ -3869,7 +3969,7 @@ def _synthetic_hex8sri_execution_authorization(
         "scope_id": scope_id,
         "mandate_id": entry["development_mandate_id"],
         "campaign_id": entry["campaign_id"],
-        "frozen_nodeids": list(MODULE.HEX8SRI_FIRST6_NODEIDS),
+        "frozen_nodeids": list(frozen_scope),
         "source_fingerprint": source_fingerprint,
         "controller_fingerprint": MODULE._stable_fingerprint(controller),
         "controller_head": controller["identity"]["head"],
@@ -3884,7 +3984,7 @@ def _synthetic_hex8sri_execution_authorization(
         "sha256": MODULE._sha256(freeze_path),
     }
     manifest_bindings = {}
-    for index, nodeid in enumerate(MODULE.HEX8SRI_FIRST6_NODEIDS):
+    for index, nodeid in enumerate(frozen_scope):
         if nodeid == target:
             manifest_bindings[nodeid] = binding
             continue
@@ -4028,9 +4128,9 @@ def test_hex8sri_execution_approval_accepts_explicit_registered_subset(
 @pytest.mark.parametrize(
     ("selection", "mutation", "message"),
     [
-        ([], None, "non-empty unique subset"),
-        (["tests/verification/test_hex8_sri_convergence.py::test_not_registered"], None, "non-empty unique subset"),
-        ([MODULE.HEX8SRI_FIRST6_NODEIDS[0], MODULE.HEX8SRI_FIRST6_NODEIDS[0]], None, "non-empty unique subset"),
+        ([], None, "reviewed criteria scope"),
+        (["tests/verification/test_hex8_sri_convergence.py::test_not_registered"], None, "reviewed criteria scope"),
+        ([MODULE.HEX8SRI_FIRST6_NODEIDS[0], MODULE.HEX8SRI_FIRST6_NODEIDS[0]], None, "reviewed criteria scope"),
         ([MODULE.HEX8SRI_FIRST6_NODEIDS[0]], "missing_manifest", "does not authorize this exact scope"),
         ([MODULE.HEX8SRI_FIRST6_NODEIDS[0]], "mismatched_manifest", "does not authorize this exact scope"),
         ([MODULE.HEX8SRI_FIRST6_NODEIDS[0]], "budget", "registered case budget"),
@@ -4355,7 +4455,7 @@ def test_hex8sri_criteria_freeze_only_does_not_authorize_execution(tmp_path: Pat
         "sha256": MODULE._sha256(fixture["freeze_path"]),
     }
     fixture["path"].write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
-    with pytest.raises(MODULE.PolicyError, match="non-empty unique subset"):
+    with pytest.raises(MODULE.PolicyError, match="reviewed criteria scope"):
         _validate_synthetic_hex8sri_execution(fixture)
 
 
@@ -4427,13 +4527,48 @@ def test_hex8sri_criteria_freeze_refuses_unfrozen_or_incoherent_contracts(
         decision["criteria_freeze"]["dispositions"] = dispositions
     else:
         decision["criteria_freeze"]["case_manifest_registration_sha256_by_nodeid"][fixture["target"]] = "f" * 64
-    with pytest.raises(MODULE.PolicyError, match="does not freeze the registered first-six criteria contract"):
+    with pytest.raises(MODULE.PolicyError, match="does not freeze the exact registered criteria scope"):
         MODULE._validate_hex8sri_frozen_case_criteria(
             case_manifest,
             decision=decision,
             target=fixture["target"],
             case_registration_sha256=binding_sha,
         )
+
+
+def test_hex8sri_refined_three_criteria_freeze_is_exact_and_execution_remains_per_case(
+    tmp_path: Path,
+) -> None:
+    refined_nodeids = list(MODULE.HEX8SRI_REFINED3_NODEIDS)
+    fixture = _synthetic_hex8sri_execution_authorization(
+        tmp_path,
+        authorized_nodeids=refined_nodeids,
+        frozen_nodeids=refined_nodeids,
+    )
+    frozen = MODULE._validate_hex8sri_criteria_freeze_decision(
+        fixture["freeze_decision"],
+        entry=fixture["entry"],
+        source_fingerprint=fixture["source_fingerprint"],
+        controller_provenance=fixture["controller"],
+    )
+    assert frozen["criteria_freeze"]["revision"] == MODULE.HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION
+    assert frozen["frozen_nodeids"] == refined_nodeids
+    assert frozen["execution_authorized"] is False
+    approved = _validate_synthetic_hex8sri_approval(fixture)
+    assert approved["authorized_nodeids"] == refined_nodeids
+    assert set(approved["limits_by_nodeid"]) == set(refined_nodeids)
+    assert all(limit["attempts_per_nodeid"] == 1 for limit in approved["limits_by_nodeid"].values())
+
+
+def test_hex8sri_criteria_freeze_rejects_cross_scope_or_extra_nodeids() -> None:
+    assert MODULE._hex8sri_criteria_scope_for_nodeids(list(MODULE.HEX8SRI_REFINED3_NODEIDS)) == (
+        MODULE.HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION,
+        MODULE.HEX8SRI_REFINED3_NODEIDS,
+    )
+    assert MODULE._hex8sri_criteria_scope_for_nodeids(
+        [*MODULE.HEX8SRI_REFINED3_NODEIDS, MODULE.HEX8SRI_FIRST6_NODEIDS[0]]
+    ) is None
+    assert MODULE._hex8sri_criteria_scope_for_nodeids(list(MODULE.HEX8SRI_REFINED3_NODEIDS)[:-1]) is None
 
 
 def test_hex8sri_execution_approval_requires_the_archived_matching_freeze(tmp_path: Path) -> None:
@@ -4511,7 +4646,7 @@ def test_hex8sri_freeze_archive_is_no_replace_and_preserves_evidence_and_ledger(
     monkeypatch.setattr(MODULE, "_run_root", lambda *_args: store)
     monkeypatch.setattr(
         MODULE,
-        "_hex8sri_first6_current_case_manifest_bindings",
+        "_hex8sri_current_case_manifest_bindings",
         lambda *_args: fixture["manifest_bindings"],
     )
     result = MODULE.archive_hex8sri_owner_decision(decision_path)
@@ -4541,10 +4676,13 @@ def test_hex8sri_scope_refresh_leaves_historical_scope_registrations_unchanged()
     hex20_scope_id = MODULE.WP12B_HEX20_DIAGNOSTIC_WORKTREE_ID
     assert set(current["worktrees"]) == set(baseline["worktrees"]) | {
         hex20_scope_id, MODULE.WP12B_HEX20_R2_WORKTREE_ID, MODULE.VV3D_WORKTREE_ID,
+        MODULE.VV3D_R2_WORKTREE_ID,
     }
     for worktree_id, baseline_entry in baseline["worktrees"].items():
         if worktree_id == MODULE.HEX8SRI_CONVERGENCE24_WORKTREE_ID:
-            _assert_hex8sri_source_refresh_only(current["worktrees"][worktree_id], baseline_entry)
+            _assert_hex8sri_source_refresh_only(
+                current["worktrees"][worktree_id], _hex8sri_pre_refresh_baseline()
+            )
         elif worktree_id != "wp12_dynamics":
             assert current["worktrees"][worktree_id] == baseline_entry
     current_dynamics = current["worktrees"]["wp12_dynamics"]
@@ -5961,6 +6099,9 @@ def test_wp12_dynamics_preflight_detects_identity_changes_and_never_reserves(
     change_controller_during_collection: bool,
     mutate_predecessor_during_collection: bool,
 ) -> None:
+    # This synthetic preflight tests provenance transitions, not host free-disk
+    # availability. Keep the environment guard deterministic and side-effect free.
+    monkeypatch.setattr(MODULE.shutil, "disk_usage", lambda _path: SimpleNamespace(free=2 * 1024**3))
     target = WP12_DYNAMICS_PREFLIGHT_NODEID
     source_root = tmp_path / "source" / "src"
     source_root.mkdir(parents=True)

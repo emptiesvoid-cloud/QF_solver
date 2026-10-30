@@ -12,6 +12,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SYNTHETIC_TEST_FILES = (
     Path("tests/unit/test_development_autonomous_policy.py"),
+    Path("tests/unit/test_wp12_vv3d_tet4_l3_diagnostic.py"),
+    Path("tests/unit/test_wp12_vv3d_tet4_l3_optimized_controller.py"),
     Path("tests/unit/test_wp12a_p0_batch.py"),
     Path("tests/unit/test_wp12_observable_archive_synthetic.py"),
     Path("tests/unit/test_wp12b_diagnostic_provenance.py"),

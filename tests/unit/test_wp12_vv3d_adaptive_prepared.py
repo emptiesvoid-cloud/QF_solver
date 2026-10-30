@@ -94,7 +94,7 @@ def _synthetic_runner_manifest(tmp_path: Path, case_id: str = "VV3D-TET4-L1") ->
         "controller_fingerprint": "b" * 64,
     }
     manifest = {
-        "schema": "qf-wp12-vv3d-case-manifest-v1", "campaign_id": "WP12-VV3D-RECOVERY-20261030-R2",
+        "schema": "qf-wp12-vv3d-case-manifest-v1", "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
         "case_id": case_id, "nodeid": nodeid, "state": "OWNER_AUTHORIZED",
         "execution_authorized": True, "do_not_execute": False, "mesh_sha256": case["mesh_sha256"],
         "selected_dofs": case["dofs"], "timeout_seconds": case["timeout_max_seconds"],
@@ -112,13 +112,13 @@ def _synthetic_runner_manifest(tmp_path: Path, case_id: str = "VV3D-TET4-L1") ->
     manifest_path.write_bytes(manifest_raw)
     runner_receipt = {
         "schema": "qf-wp12-vv3d-runner-reservation-v1", "status": "RESERVED",
-        "campaign_id": "WP12-VV3D-RECOVERY-20261030-R2", "case_id": case_id, "nodeid": nodeid,
+        "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1", "case_id": case_id, "nodeid": nodeid,
         "manifest_sha256": hashlib.sha256(manifest_raw).hexdigest(),
         "preflight_receipt_sha256": manifest["preflight"]["receipt_sha256"],
         "decision_id": manifest["owner_decision"]["decision_id"],
         "decision_sha256": manifest["owner_decision"]["decision_sha256"], **identities,
         "authorization_id": manifest["authorization_id"],
-        "ledger_scope_id": "wp12_vv3d_recovery_r2",
+        "ledger_scope_id": "wp12_vv3d_adaptive",
         "selected_dofs": case["dofs"], "timeout_seconds": case["timeout_max_seconds"],
         "rss_soft_limit_mib": case["rss_soft_limit_mib"], "archive_size_limit_mib": 256,
         "attempt_number": 1, "max_attempts": 1, "attempt_reserved": True,
@@ -248,32 +248,10 @@ def test_synthetic_runner_receipt_rejects_invalid_campaign_seconds(
 def test_synthetic_controller_receipts_pass_guard_after_fractional_elapsed_time(
     tmp_path, monkeypatch,
 ) -> None:
-    """Exercise synthetic R1/R2 ledger receipts and the child guard without FEM."""
+    """Exercise two real ledger receipts and the child guard without invoking FEM."""
     from scripts.wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
-    from scripts.wp12_vv3d_r2_ledger import RecoveryR2Ledger
 
-    r1_root = tmp_path / "r1"
-    r1_root.mkdir()
-    r1_path = r1_root / "node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl"
-    r1 = BudgetLedger(r1_path, allowed_root=r1_root)
-    for case_id, status in (("VV3D-TET4-L1", "PASS"), ("VV3D-TET4-L2", "INFRA_ERROR")):
-        prior_binding = RunBinding(
-            contract_sha256="a" * 64,
-            decision_id="synthetic-r1-decision",
-            decision_sha256="b" * 64,
-            manifest_sha256=hashlib.sha256(case_id.encode()).hexdigest(),
-            preflight_sha256=hashlib.sha256(("preflight:" + case_id).encode()).hexdigest(),
-        )
-        prior_run = r1.start_synthetic_attempt(case_id=case_id, binding=prior_binding)
-        r1.finish_synthetic_attempt(run_id=prior_run, status=status, elapsed_seconds=0.0)
-
-    ledger = RecoveryR2Ledger(
-        tmp_path / case_harness.VV3D_LEDGER_FILENAME,
-        allowed_root=tmp_path,
-        predecessor_path=r1_path,
-        predecessor_sha256=hashlib.sha256(r1_path.read_bytes()).hexdigest(),
-    )
-    r1_sha_before = hashlib.sha256(r1_path.read_bytes()).hexdigest()
+    ledger = BudgetLedger(tmp_path / case_harness.VV3D_LEDGER_FILENAME, allowed_root=tmp_path)
     observed_reserved_seconds: list[int | float] = []
 
     for sequence, case_id in enumerate(("VV3D-TET4-L1", "VV3D-TET4-L2"), start=1):
@@ -326,179 +304,6 @@ def test_synthetic_controller_receipts_pass_guard_after_fractional_elapsed_time(
 
     assert observed_reserved_seconds[0] == 1200
     assert observed_reserved_seconds[1] == pytest.approx(1215.812954)
-    summary = ledger.summary()
-    assert summary["attempts_used_r1"] == 2
-    assert summary["attempts_used_r2"] == 2
-    assert summary["attempts_used_combined"] == 4
-    assert summary["elapsed_seconds_combined"] == pytest.approx(15.812954)
-    assert hashlib.sha256(r1_path.read_bytes()).hexdigest() == r1_sha_before
-
-
-def test_synthetic_r2_ledger_refuses_r1_mutation_and_physical_alias(tmp_path) -> None:
-    from scripts.wp12_vv3d_ledger import BudgetLedger, LedgerError, RunBinding
-    from scripts.wp12_vv3d_r2_ledger import RecoveryR2Ledger
-
-    r1_root = tmp_path / "r1"
-    r1_root.mkdir()
-    r1_path = r1_root / "r1.jsonl"
-    r1 = BudgetLedger(r1_path, allowed_root=r1_root)
-    for case_id, status in (("VV3D-TET4-L1", "PASS"), ("VV3D-TET4-L2", "INFRA_ERROR")):
-        binding = RunBinding(
-            contract_sha256="a" * 64, decision_id="synthetic-r1-decision",
-            decision_sha256="b" * 64, manifest_sha256=hashlib.sha256(case_id.encode()).hexdigest(),
-            preflight_sha256=hashlib.sha256(("preflight:" + case_id).encode()).hexdigest(),
-        )
-        run_id = r1.start_synthetic_attempt(case_id=case_id, binding=binding)
-        r1.finish_synthetic_attempt(run_id=run_id, status=status, elapsed_seconds=1.0)
-    predecessor_sha = hashlib.sha256(r1_path.read_bytes()).hexdigest()
-
-    with pytest.raises(LedgerError, match="physically distinct"):
-        RecoveryR2Ledger(
-            r1_path, allowed_root=r1_root, predecessor_path=r1_path, predecessor_sha256=predecessor_sha,
-        )
-
-    r2 = RecoveryR2Ledger(
-        tmp_path / "r2" / "r2.jsonl", allowed_root=tmp_path,
-        predecessor_path=r1_path, predecessor_sha256=predecessor_sha,
-    )
-    r1_path.write_bytes(r1_path.read_bytes() + b" ")
-    with pytest.raises(LedgerError, match="predecessor SHA-256 changed"):
-        r2.summary()
-
-
-def _synthetic_r2_contract():
-    from experiments.wp12_vv3d_adaptive import r2_contract
-
-    cases = case_harness.load_prepared_cases()
-    return {
-        "schema": r2_contract.CONTRACT_SCHEMA,
-        "campaign_id": r2_contract.CAMPAIGN_ID,
-        "scope_id": r2_contract.SCOPE_ID,
-        "scientific_fingerprint": "a" * 64,
-        "controller_fingerprint": "b" * 64,
-        "r1_predecessor": {
-            "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
-            "ledger_scope_id": "wp12_vv3d_adaptive",
-            "ledger_sha256": r2_contract.R1_LEDGER_SHA256,
-            "case_results": [
-                {"case_id": "VV3D-TET4-L1", "status": "PASS", "attempts": 1},
-                {"case_id": "VV3D-TET4-L2", "status": "INFRA_ERROR", "attempts": 1},
-            ],
-        },
-        "budget": dict(r2_contract.BUDGET),
-        "case_ids": list(r2_contract.CASE_IDS),
-        "cases": [
-            {
-                "case_id": case["case_id"],
-                "nodeid": case["nodeid"],
-                "mesh_sha256": case["mesh_sha256"],
-                "selected_dofs": case["dofs"],
-                "timeout_seconds": case["timeout_max_seconds"],
-                "rss_soft_limit_mib": case["rss_soft_limit_mib"],
-                "archive_size_limit_mib": 256,
-                "max_attempts": case["attempts_max"],
-                "status": "PREPARED_NOT_AUTHORIZED",
-                "criteria_path": case["criteria_path"],
-                "criteria_file_sha256": case["criteria_file_sha256"],
-                "oracle_path": "oracle.py",
-                "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
-            }
-            for case in cases
-        ],
-        "excluded_routes": ["H1", "QLOAD", "QPOST"],
-        "stop_policy": {
-            "non_pass": "STOP",
-            "provenance_or_ledger_error": "STOP",
-            "budget_insufficient": "REFUSE_BEFORE_RESERVATION",
-            "retry": "FORBIDDEN",
-        },
-        "status": "PREPARED_NOT_AUTHORIZED",
-    }
-
-
-def test_synthetic_r2_contract_accepts_exact_ordered_initial_cases() -> None:
-    from experiments.wp12_vv3d_adaptive import r2_contract
-
-    contract = _synthetic_r2_contract()
-    digest = r2_contract.validate_contract(
-        contract,
-        scientific_fingerprint="a" * 64,
-        controller_fingerprint="b" * 64,
-        r1_ledger_sha256=r2_contract.R1_LEDGER_SHA256,
-    )
-    assert digest == r2_contract.canonical_sha256(contract)
-    assert len(contract["cases"]) == 12
-
-
-@pytest.mark.parametrize(
-    ("path", "replacement"),
-    [
-        (("cases", 0, "case_id"), "VV3D-TET4-L2"),
-        (("cases", 0, "nodeid"), "tests/unit/test_unknown.py::test_unknown"),
-        (("cases", 0, "timeout_seconds"), 1201),
-        (("cases", 0, "selected_dofs"), 30001),
-        (("cases", 0, "criteria_file_sha256"), "f" * 64),
-        (("cases", 0, "oracle_sha256"), "f" * 64),
-        (("r1_predecessor", "ledger_sha256"), "f" * 64),
-        (("excluded_routes",), ["H1", "QLOAD"]),
-        (("stop_policy", "non_pass"), "CONTINUE"),
-    ],
-)
-def test_synthetic_r2_contract_rejects_mutated_case_or_predecessor(path, replacement) -> None:
-    from experiments.wp12_vv3d_adaptive import r2_contract
-
-    contract = _synthetic_r2_contract()
-    target = contract
-    for key in path[:-1]:
-        target = target[key]
-    target[path[-1]] = replacement
-    with pytest.raises(r2_contract.R2ContractError):
-        r2_contract.validate_contract(
-            contract,
-            scientific_fingerprint="a" * 64,
-            controller_fingerprint="b" * 64,
-            r1_ledger_sha256=r2_contract.R1_LEDGER_SHA256,
-        )
-
-
-def test_synthetic_r2_owner_decision_binds_contract_and_exact_cases() -> None:
-    from experiments.wp12_vv3d_adaptive import r2_contract
-
-    contract = _synthetic_r2_contract()
-    contract_sha = r2_contract.validate_contract(
-        contract,
-        scientific_fingerprint="a" * 64,
-        controller_fingerprint="b" * 64,
-        r1_ledger_sha256=r2_contract.R1_LEDGER_SHA256,
-    )
-    decision = {
-        "schema": r2_contract.DECISION_SCHEMA,
-        "decision_id": "synthetic-r2-owner-decision",
-        "status": "APPROVED",
-        "approved_by": "Owner",
-        "campaign_id": r2_contract.CAMPAIGN_ID,
-        "scope_id": r2_contract.SCOPE_ID,
-        "contract_sha256": contract_sha,
-        "case_ids": list(r2_contract.CASE_IDS),
-        "scientific_fingerprint": "a" * 64,
-        "controller_fingerprint": "b" * 64,
-        "budget": dict(r2_contract.BUDGET),
-        "created_at_utc": "2026-10-30T12:00:00Z",
-    }
-    assert r2_contract.validate_owner_decision(
-        decision,
-        contract_sha256=contract_sha,
-        scientific_fingerprint="a" * 64,
-        controller_fingerprint="b" * 64,
-    ) == r2_contract.canonical_sha256(decision)
-    decision["case_ids"] = decision["case_ids"][:-1]
-    with pytest.raises(r2_contract.R2ContractError):
-        r2_contract.validate_owner_decision(
-            decision,
-            contract_sha256=contract_sha,
-            scientific_fingerprint="a" * 64,
-            controller_fingerprint="b" * 64,
-        )
 
 
 def test_synthetic_sidecar_is_written_before_observable_assertions(tmp_path) -> None:
@@ -740,6 +545,202 @@ def test_synthetic_campaign_invalid_seed_or_frozen_rules_are_explicitly_inconclu
     )
     assert criteria_failure["status"] == "INCONCLUSIVE"
     assert {result["status"] for result in criteria_failure["criteria"].values()} == {"INCONCLUSIVE"}
+
+
+def test_synthetic_campaign_verdict_controls_runner_stop_without_changing_qpost() -> None:
+    from scripts import development_autonomous
+
+    assert development_autonomous._vv3d_campaign_disposition({"status": "PASS"}) == {
+        "run_state": None, "ledger_status": None,
+    }
+    assert development_autonomous._vv3d_campaign_disposition({"status": "NOT_ASSESSED"}) == {
+        "run_state": None, "ledger_status": None,
+    }
+    assert development_autonomous._vv3d_campaign_disposition({"status": "FAIL"}) == {
+        "run_state": "SCIENTIFIC_DEVIATION", "ledger_status": "FAIL",
+    }
+    assert development_autonomous._vv3d_campaign_disposition({"status": "INCONCLUSIVE"}) == {
+        "run_state": "INCONCLUSIVE", "ledger_status": "INCONCLUSIVE",
+    }
+
+
+@pytest.mark.parametrize(("science", "provenance", "campaign", "run_state", "ledger"), [
+    ("PASS", "VERIFIED", "PASS", "PASS", "PASS"),
+    ("PASS", "VERIFIED", "NOT_ASSESSED", "PASS", "PASS"),
+    ("PASS", "VERIFIED", "FAIL", "SCIENTIFIC_DEVIATION", "FAIL"),
+    ("PASS", "VERIFIED", "INCONCLUSIVE", "INCONCLUSIVE", "INCONCLUSIVE"),
+    ("PYTEST_FAILED", "VERIFIED", "INCONCLUSIVE", "PYTEST_FAILED", "FAIL"),
+    ("WALL_TIMEOUT_EXCEEDED", "VERIFIED", "INCONCLUSIVE", "WALL_TIMEOUT_EXCEEDED", "TIMEOUT"),
+    ("PASS", "PROVENANCE_MISMATCH", "FAIL", "PROVENANCE_MISMATCH", "INFRA_ERROR"),
+])
+def test_synthetic_terminal_disposition_preserves_primary_failure_and_stop(
+    science: str, provenance: str, campaign: str, run_state: str, ledger: str,
+) -> None:
+    from scripts import development_autonomous
+
+    assert development_autonomous._vv3d_terminal_disposition(
+        science_state=science, provenance_state=provenance, campaign_gate_status=campaign,
+    ) == {"run_state": run_state, "ledger_status": ledger}
+
+
+@pytest.mark.parametrize(("run", "require_campaign_pass", "expected"), [
+    ({"state": "PASS", "scientific_state": "PASS", "provenance_state": "VERIFIED",
+      "campaign_gate_status": "PASS"}, True, True),
+    ({"state": "PASS", "scientific_state": "PASS", "provenance_state": "VERIFIED",
+      "campaign_gate_status": "NOT_ASSESSED"}, True, False),
+    ({"state": "SCIENTIFIC_DEVIATION", "scientific_state": "PASS", "provenance_state": "VERIFIED",
+      "campaign_gate_status": "FAIL"}, True, False),
+    ({"state": "INCONCLUSIVE", "scientific_state": "PASS", "provenance_state": "VERIFIED",
+      "campaign_gate_status": "INCONCLUSIVE"}, True, False),
+    ({"state": "PASS", "scientific_state": "PYTEST_FAILED", "provenance_state": "VERIFIED",
+      "campaign_gate_status": "PASS"}, True, False),
+])
+def test_synthetic_qload_qpost_and_h1_seeds_require_consistent_pass_bindings(
+    run: dict, require_campaign_pass: bool, expected: bool,
+) -> None:
+    from scripts import development_autonomous
+
+    assert development_autonomous._vv3d_seed_passes_required_gates(
+        run, require_campaign_pass=require_campaign_pass,
+    ) is expected
+
+
+def test_synthetic_campaign_runner_archives_bound_metrics_before_disposition(tmp_path) -> None:
+    from scripts import development_autonomous
+
+    source_root = tmp_path / "source"
+    matrix_path = source_root / "experiments/wp12_vv3d_adaptive/prepared_20261029/MATRIX_NOT_AUTHORIZED.json"
+    matrix_path.parent.mkdir(parents=True)
+    matrix_path.write_bytes(case_harness.MATRIX_PATH.read_bytes())
+    matrix = json.loads(matrix_path.read_bytes())
+    matrix_cases = {case["case_id"]: case for case in matrix["cases"]}
+    store = tmp_path / "store"
+    store.mkdir()
+    evidence_root = tmp_path / "evidence"
+    evidence_root.mkdir()
+    rules = _campaign_rules()
+    criteria_raw = json.dumps(rules, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+    criteria_sha = hashlib.sha256(criteria_raw).hexdigest()
+    science_sha, controller_sha = "a" * 64, "b" * 64
+    ledger_records = []
+
+    def make_case(case_id: str, level: int, *, current: bool = False):
+        attempt_id = f"SYNTH-{case_id}"
+        manifest = {"case_id": case_id, "mesh_sha256": matrix_cases[case_id]["mesh_sha256"],
+                    "criteria_sha256": criteria_sha, "frozen_criteria": rules}
+        manifest_path = store / f"{case_id}-manifest.json"
+        manifest_raw = json.dumps(manifest, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+        manifest_path.write_bytes(manifest_raw)
+        manifest_sha = hashlib.sha256(manifest_raw).hexdigest()
+        observations = {
+            "displacement_l2_m_5_2": {"status": "DIAGNOSTIC_UNQUALIFIED",
+                                       "relative_error": (0.08, 0.034, 0.014)[level - 1]},
+            "energy_error_norm_sqrt_j": {"status": "DIAGNOSTIC_UNQUALIFIED",
+                                          "relative_error": (0.16, 0.09, 0.05)[level - 1]},
+            "stress_l2_pa": {"status": "DIAGNOSTIC_UNQUALIFIED", "relative_error": 0.2},
+            "scalar_energy_relative_error": {"status": "AVAILABLE", "value": 0.04},
+        }
+        sidecar = {
+            "schema": "qf-wp12-vv3d-observables-v1", "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+            "case_id": case_id, "attempt_id": attempt_id,
+            "mesh_sha256": matrix_cases[case_id]["mesh_sha256"], "manifest_sha256": manifest_sha,
+            "scientific_fingerprint": science_sha, "controller_fingerprint": controller_sha,
+            "observables": observations,
+            "criteria": {name: {"status": "PASS", "classification": "CASE_GATE"} for name in (
+                "finite", "det_j_positive", "free_residual", "energy_identity", "force_closure",
+                "moment_closure", "load_quadrature", "post_quadrature",
+            )},
+        }
+        sidecar_dir = evidence_root / case_id / attempt_id
+        sidecar_dir.mkdir(parents=True)
+        sidecar_path = sidecar_dir / "observables.json"
+        sidecar_raw = json.dumps(sidecar, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+        sidecar_path.write_bytes(sidecar_raw)
+        sidecar_sha = hashlib.sha256(sidecar_raw).hexdigest()
+        run = {
+            "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1", "case_id": case_id,
+            "attempt_id": attempt_id, "state": "PASS", "scientific_state": "PASS",
+            "target": matrix_cases[case_id]["nodeid"],
+            "provenance_state": "VERIFIED", "source_fingerprint": science_sha,
+            "controller_fingerprint": controller_sha,
+            "mesh_sha256": matrix_cases[case_id]["mesh_sha256"],
+            "manifest": {"path": str(manifest_path), "sha256": manifest_sha},
+            "observables_sidecar": {"path": str(sidecar_path), "sha256": sidecar_sha},
+        }
+        ledger_run_id = f"SYNTH-RUN-{case_id}"
+        ledger_records.append({"event": "ATTEMPT_STARTED", "case_id": case_id, "attempt_id": attempt_id,
+                              "nodeid": matrix_cases[case_id]["nodeid"],
+                              "source_fingerprint": science_sha, "controller_fingerprint": controller_sha,
+                              "selected_dofs": matrix_cases[case_id]["dofs"],
+                              "manifest_sha256": manifest_sha, "run_id": ledger_run_id})
+        if not current:
+            ledger_records.append({"event": "ATTEMPT_FINISHED", "run_id": ledger_run_id, "status": "PASS"})
+            run_path = store / case_id / "run.json"
+            run_path.parent.mkdir()
+            run_path.write_text(json.dumps(run), encoding="utf-8")
+        return manifest, manifest_sha, manifest_path, sidecar, {"path": str(sidecar_path), "sha256": sidecar_sha}, run
+
+    make_case("VV3D-TET4-L1", 1)
+    make_case("VV3D-TET4-L2", 2)
+    current_manifest, current_sha, current_path, current_sidecar, current_ref, current_run = make_case(
+        "VV3D-TET4-L3", 3, current=True,
+    )
+
+    class SyntheticLedger:
+        def verify(self):
+            return tuple(ledger_records)
+
+    assessment, ref = development_autonomous._vv3d_assess_campaign_family_after_run(
+        case_id="VV3D-TET4-L3", attempt_id=current_run["attempt_id"], science_state="PASS",
+        provenance_state="VERIFIED", sidecar_doc=current_sidecar, sidecar_ref=current_ref,
+        current_manifest=current_manifest, current_manifest_sha256=current_sha,
+        current_manifest_path=current_path, evidence_root=evidence_root, store=store,
+        execution_root=source_root, source_fingerprint=science_sha,
+        controller_fingerprint=controller_sha, campaign_ledger=SyntheticLedger(),
+    )
+
+    archived_path = Path(ref["path"])
+    assert archived_path.is_file()
+    assert hashlib.sha256(archived_path.read_bytes()).hexdigest() == ref["sha256"]
+    archived = json.loads(archived_path.read_bytes())
+    assert set(archived["assessment"]["level_metrics"]) == {
+        "VV3D-TET4-L1", "VV3D-TET4-L2", "VV3D-TET4-L3",
+    }
+    assert assessment["status"] == "PASS"
+    assert development_autonomous._vv3d_campaign_disposition(assessment)["run_state"] is None
+
+    def assess_synthetic_family(family: str, *, bad_start: bool = False, bad_finish: bool = False):
+        make_case(f"VV3D-{family}-L1", 1)
+        make_case(f"VV3D-{family}-L2", 2)
+        manifest, manifest_sha, manifest_path, sidecar, sidecar_ref, current = make_case(
+            f"VV3D-{family}-L3", 3, current=True,
+        )
+        if bad_start:
+            next(record for record in ledger_records
+                 if record.get("case_id") == f"VV3D-{family}-L1"
+                 and record.get("event") == "ATTEMPT_STARTED")["attempt_id"] = "SYNTH-WRONG-ATTEMPT"
+        if bad_finish:
+            start = next(record for record in ledger_records
+                         if record.get("case_id") == f"VV3D-{family}-L1"
+                         and record.get("event") == "ATTEMPT_STARTED")
+            next(record for record in ledger_records
+                 if record.get("run_id") == start["run_id"]
+                 and record.get("event") == "ATTEMPT_FINISHED")["status"] = "FAIL"
+        return development_autonomous._vv3d_assess_campaign_family_after_run(
+            case_id=f"VV3D-{family}-L3", attempt_id=current["attempt_id"], science_state="PASS",
+            provenance_state="VERIFIED", sidecar_doc=sidecar, sidecar_ref=sidecar_ref,
+            current_manifest=manifest, current_manifest_sha256=manifest_sha,
+            current_manifest_path=manifest_path, evidence_root=evidence_root, store=store,
+            execution_root=source_root, source_fingerprint=science_sha,
+            controller_fingerprint=controller_sha, campaign_ledger=SyntheticLedger(),
+        )[0]
+
+    mismatched_attempt = assess_synthetic_family("TET10", bad_start=True)
+    assert mismatched_attempt["status"] == "INCONCLUSIVE"
+    assert mismatched_attempt["criteria"]["displacement_order"]["status"] == "INCONCLUSIVE"
+    mismatched_finish = assess_synthetic_family("HEX8", bad_finish=True)
+    assert mismatched_finish["status"] == "INCONCLUSIVE"
+    assert mismatched_finish["criteria"]["energy_order"]["status"] == "INCONCLUSIVE"
 
 
 def _synthetic_adaptive_receipt(
@@ -1236,6 +1237,8 @@ def test_synthetic_adaptive_eligibility_uses_closed_transition_conditions() -> N
     assert qload["status"] == "ELIGIBLE"
     missing = case_harness.evaluate_adaptive_eligibility("VV3D-ADAPT-TET4-QPOST", {})
     assert missing["status"] == "NOT_ASSESSABLE"
+
+
 def test_synthetic_qpost_launch_eligibility_is_seed_archive_and_slot_only(tmp_path) -> None:
     candidate_id = "VV3D-ADAPT-TET4-QPOST"
     receipt = _synthetic_adaptive_receipt(tmp_path, candidate_id)

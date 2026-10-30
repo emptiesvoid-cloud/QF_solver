@@ -11,6 +11,7 @@ import ast
 import base64
 import binascii
 import hashlib
+import importlib
 import importlib.metadata
 import json
 import math
@@ -40,6 +41,37 @@ except ImportError:  # pragma: no cover - exercised only in an incomplete dev in
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _load_vv3d_tet4_l3_diagnostic_module() -> Any:
+    """Load the diagnostic sibling from this controller, including direct CLI use."""
+    module_name = ".wp12_vv3d_tet4_l3_diagnostic" if __package__ else "wp12_vv3d_tet4_l3_diagnostic"
+    module = importlib.import_module(module_name, package=__package__ or None)
+    expected = Path(__file__).resolve().with_name("wp12_vv3d_tet4_l3_diagnostic.py")
+    if Path(module.__file__).resolve(strict=True) != expected:
+        raise PolicyError("diagnostic module resolved outside the active controller checkout")
+    return module
+
+
+def _call_vv3d_tet4_l3_diagnostic(function: str, *args: Any) -> Any:
+    try:
+        return getattr(_load_vv3d_tet4_l3_diagnostic_module(), function)(sys.modules[__name__], *args)
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        raise PolicyError(f"TET4-L3 diagnostic refused: {exc}") from exc
+
+
+def _load_vv3d_r2_ledger_module() -> Any:
+    """Load the R2 ledger as a sibling module in CLI and package contexts."""
+    module_name = ".wp12_vv3d_r2_ledger" if __package__ else "wp12_vv3d_r2_ledger"
+    module = importlib.import_module(module_name, package=__package__ or None)
+    expected_path = Path(__file__).resolve().with_name("wp12_vv3d_r2_ledger.py")
+    try:
+        actual_path = Path(module.__file__).resolve(strict=True)
+    except (AttributeError, OSError) as exc:
+        raise PolicyError("VV3D R2 ledger module has no verifiable source path") from exc
+    if actual_path != expected_path:
+        raise PolicyError("VV3D R2 ledger module resolved outside the active controller checkout")
+    return module
+
+
 def _registered_root(value: str, *, strict: bool = False) -> Path:
     """Resolve an absolute worktree root or a repository-relative root."""
     path = Path(value)
@@ -66,8 +98,26 @@ HEX8SRI_CRITERIA_FREEZE_DECISION_SCHEMA = "qfsolver-hex8sri-criteria-freeze-deci
 HEX8SRI_EXECUTION_APPROVAL_SCHEMA = "qfsolver-hex8sri-execution-approval-v1"
 HEX8SRI_CRITERIA_CONTRACT_SCHEMA = "qfsolver-hex8sri-criteria-contract-v1"
 HEX8SRI_CRITERIA_CONTRACT_REVISION = "first6-4x2x2-owner-criteria-2026-10-27-r1"
+HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION = "refined3-8x4x4-nu04999-owner-criteria-2026-10-30-r1"
 VV3D_WORKTREE_ID = "wp12_vv3d_adaptive"
 VV3D_CAMPAIGN_ID = "WP12-VV3D-ADAPTIVE-20261029-R1"
+VV3D_R2_WORKTREE_ID = "wp12_vv3d_recovery_r2"
+VV3D_TET4_L3_OPTIMIZED_DIAGNOSTIC_WORKTREE_ID = "wp12_vv3d_tet4_l3_optimized_diagnostic"
+VV3D_R2_CAMPAIGN_ID = "WP12-VV3D-RECOVERY-20261030-R2"
+VV3D_R2_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-WP12-VV3D-RECOVERY-2026-10-30-R2"
+VV3D_R2_LEDGER_FILENAME = "node-attempt-ledger-wp12-vv3d-recovery-r2.jsonl"
+VV3D_R1_LEDGER_SHA256 = "2788619d097d148c74a3e71cef456ee52bc03642d680f9090360418b61d20bf8"
+VV3D_R1_LEDGER_PATH = Path(
+    r"E:\QFSolverAgents\evidence\wp12-vv3d-adaptive\node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl"
+)
+VV3D_R2_SOURCE_IDENTITY = {
+    "branch": "research/wp12-vv3d-recovery-r2",
+    "head": "ba36860a156468dd7c54ee435a809222e227205a",
+    "tree": "2f8c0d3cef5a6b07eac9ad48d0dcb1a311af72e2",
+    "fingerprint_sha256": "651bbacaf133106a6a8c8b2177e8741cf3fed9a9fdfc7f907d350484dfebd3ce",
+}
+VV3D_R2_SOURCE_ROOT = Path(r"E:\QFSolverAgents\test-worktrees\vv3d-science-source-candidate")
+VV3D_R2_EVIDENCE_ROOT = Path(r"E:\QFSolverAgents\evidence\wp12-vv3d-recovery-r2")
 VV3D_INITIAL_CASE_IDS = tuple(
     f"VV3D-{family}-L{level}"
     for family in ("TET4", "TET10", "HEX8", "HEX20")
@@ -77,6 +127,7 @@ VV3D_INITIAL_NODEIDS = tuple(
     "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[" + case_id + "]"
     for case_id in VV3D_INITIAL_CASE_IDS
 )
+VV3D_R2_NODEIDS = VV3D_INITIAL_NODEIDS
 VV3D_ADAPTIVE_FEM_NODEIDS = tuple(
     "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-"
     f"{family}-{kind}]"
@@ -124,17 +175,17 @@ VV3D_ADAPTIVE_SOURCE_FILES = (
     "tests/unit/test_wp12_vv3d_adaptive_prepared.py",
 )
 HEX8SRI_CONVERGENCE24_MANIFEST_BINDING = "canonical_case_content_v1"
-HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT = "bb6238db9954ff2992347b980c0dfc681f73b74433f76e01dd94e40811c85ea3"
-HEX8SRI_CONVERGENCE24_SOURCE_HEAD = "5304e3f00e73a916d1af4c1d75375a9b051f0524"
-HEX8SRI_CONVERGENCE24_SOURCE_TREE = "5d995ab972e8627d266e1cd2b86d2b858b93f84a"
+HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT = "64d5760e1c904d110a1c1ce9bc490f3f64fdc5168b264de244a7cd878e6c4f2d"
+HEX8SRI_CONVERGENCE24_SOURCE_HEAD = "e251883a0dd13e20628eb2ee229b630603af1efb"
+HEX8SRI_CONVERGENCE24_SOURCE_TREE = "fdf9e76cff3293be3705cf29a3226fb480a928ad"
 HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_PATH = (
-    "docs/development/hex8sri-source-byte-inventory-5304e3f0.json"
+    "docs/development/hex8sri-source-byte-inventory-e251883a.json"
 )
-HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256 = "13eaa22b2f9ea9bb4c88a9605c96e65451fefef500b2cf32c54905d895bc7b09"
-HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT = 517
+HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256 = "53bc4d1b4c1506562469aa018d30dde8c9b7b39f1ed4ac61d6bb93e06028d183"
+HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT = 540
 HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT_ALGORITHM = "raw_worktree_inventory_sha256_v1"
 HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY = {
-    "branch": "research/hex8-sri-equilibrium",
+    "branch": "research/hex8sri-equilibrium-8x4x4-20261030",
     "head": HEX8SRI_CONVERGENCE24_SOURCE_HEAD,
     "tree": HEX8SRI_CONVERGENCE24_SOURCE_TREE,
     "fingerprint_sha256": HEX8SRI_CONVERGENCE24_SOURCE_FINGERPRINT,
@@ -155,6 +206,12 @@ HEX8SRI_FIRST6_NODEIDS = (
     "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-4x2x2]",
     "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-4x2x2]",
 )
+HEX8SRI_REFINED3_NODEIDS = (
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]",
+    "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]",
+)
+HEX8SRI_FREEZABLE_NODEIDS = HEX8SRI_FIRST6_NODEIDS + HEX8SRI_REFINED3_NODEIDS
 HEX8SRI_PROPOSED_CRITERIA = {
     "energy_identity_relative_max": 1e-8,
     "finest_level_independent_3d_energy_relative_error_max": 0.05,
@@ -955,6 +1012,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
     expected_worktree_ids = legacy_worktree_ids | set(WP12_OWNER_ENVELOPES) | {
         HEX8SRI_CONVERGENCE24_WORKTREE_ID,
         VV3D_WORKTREE_ID,
+        VV3D_R2_WORKTREE_ID,
     }
     if not isinstance(worktrees, dict) or set(worktrees) != expected_worktree_ids:
         raise PolicyError(
@@ -993,7 +1051,8 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         )
         is_hex8sri_convergence24 = worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID
         is_vv3d = worktree_id == VV3D_WORKTREE_ID
-        if not is_wp12 and not is_hex8sri_convergence24 and not is_vv3d and attempt_limit != 3:
+        is_vv3d_r2 = worktree_id == VV3D_R2_WORKTREE_ID
+        if not is_wp12 and not is_hex8sri_convergence24 and not is_vv3d and not is_vv3d_r2 and attempt_limit != 3:
             raise PolicyError("this Owner mandate permits at most three attempts per nodeid")
         if is_hex8sri_convergence24 and attempt_limit != 1:
             raise PolicyError("HEX8-SRI convergence preparation is limited to one future attempt per nodeid")
@@ -1007,7 +1066,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         if budgets["output_total_limit_mib"] > 2 * budgets["output_stream_limit_mib"]:
             raise PolicyError(f"worktree {worktree_id} aggregate output exceeds its two stream caps")
         expected_test_root = (
-            "tests/unit" if worktree_id in {"c01", "e01", VV3D_WORKTREE_ID, *WP12_OWNER_ENVELOPES} else "tests/verification"
+            "tests/unit" if worktree_id in {"c01", "e01", VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID, *WP12_OWNER_ENVELOPES} else "tests/verification"
         )
         if entry["pytest_root"] != expected_test_root:
             raise PolicyError(f"worktree {worktree_id} is bound to the wrong test class")
@@ -1026,6 +1085,8 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
                 _validate_wp12_nodeid_syntax(nodeid, worktree_id=worktree_id)
             if is_vv3d and nodeid not in VV3D_ALL_NODEIDS:
                 raise PolicyError("VV3D catalogue accepts only its exact 12 initial, 8 adaptive, and 4 QPOST nodeids")
+            if is_vv3d_r2 and nodeid not in VV3D_R2_NODEIDS:
+                raise PolicyError("VV3D R2 accepts only its exact twelve initial FEM nodeids")
             if worktree_id == "e01" and re.search(r"(?i)(tet|hex|beam|assembly|fem)", nodeid):
                 raise PolicyError("E01 allowlist may contain only non-FEM constitutive-math tests")
         if is_wp12:
@@ -1104,7 +1165,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         or hex8sri.get("campaign_scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
         or hex8sri.get("execution_authorized") is not False
         or hex8sri.get("require_clean_worktree") is not True
-        or hex8sri.get("branch") != "research/hex8-sri-equilibrium"
+        or hex8sri.get("branch") != HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY["branch"]
         or hex8sri.get("root") != r"E:\QFSolverAgents\hex8-sri-research"
         or hex8sri.get("git_root") != hex8sri.get("root")
         or hex8sri.get("baseline_commit") != "b547cf0e1c8057ef7f58ba780967d1b19c891ac4"
@@ -1191,6 +1252,61 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         or vv3d.get("node_attempt_ledger") != {"path": "node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl"}
     ):
         raise PolicyError("VV3D must retain its exact catalogue, pending Owner gate, supported runner capability map, and budgets")
+    vv3d_r2 = worktrees[VV3D_R2_WORKTREE_ID]
+    r2_expected_budgets = {
+        "timeout_seconds": 1200,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 32,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 1024,
+        "archive_size_limit_mib": 256,
+    }
+    r2_predecessor = {
+        "path": str(VV3D_R1_LEDGER_PATH),
+        "sha256": VV3D_R1_LEDGER_SHA256,
+        "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-VV3D-ADAPTIVE-2026-10-29-R1",
+    }
+    if (
+        vv3d_r2.get("campaign_id") != VV3D_R2_CAMPAIGN_ID
+        or vv3d_r2.get("development_mandate_id") != VV3D_R2_MANDATE_ID
+        or vv3d_r2.get("execution_authorized") is not False
+        or vv3d_r2.get("execution_capability") != "INITIAL_FEM_ONLY_WITH_EXACT_R2_OWNER_DECISION"
+        or vv3d_r2.get("runner_capabilities") != {"initial_fem": True, "adaptive_fem": False, "qpost": False}
+        or vv3d_r2.get("root") != str(VV3D_R2_SOURCE_ROOT)
+        or vv3d_r2.get("git_root") != str(VV3D_R2_SOURCE_ROOT)
+        or vv3d_r2.get("branch") != VV3D_R2_SOURCE_IDENTITY["branch"]
+        or vv3d_r2.get("baseline_commit") != "34812fc7525859686f88ac7e56e1833ee558cb66"
+        or vv3d_r2.get("source_root") != "src"
+        or vv3d_r2.get("pytest_root") != "tests/unit"
+        or vv3d_r2.get("evidence_root") != str(VV3D_R2_EVIDENCE_ROOT)
+        or vv3d_r2.get("allow_native_vv_skip_override") is not False
+        or vv3d_r2.get("require_clean_worktree") is not True
+        or vv3d_r2.get("attempt_limit_per_nodeid") != 1
+        or vv3d_r2.get("max_r2_attempts") != 12
+        or vv3d_r2.get("max_total_attempts") != 24
+        or vv3d_r2.get("max_total_seconds") != 28800
+        or vv3d_r2.get("max_timeout_seconds") != 1200
+        or vv3d_r2.get("target_max_dofs") != 30000
+        or vv3d_r2.get("rss_soft_limit_mib") != 4096
+        or vv3d_r2.get("concurrency_class") != "vv3d_serial"
+        or vv3d_r2.get("nodeid_registration") != {"enabled": False, "max_nodeids": 12}
+        or vv3d_r2.get("budgets") != r2_expected_budgets
+        or vv3d_r2.get("allowed_nodeids") != list(VV3D_R2_NODEIDS)
+        or vv3d_r2.get("adaptive_fem_nodeids") != []
+        or vv3d_r2.get("qpost_nodeids") != []
+        or vv3d_r2.get("per_node_selected_dofs") != {
+            nodeid: VV3D_INITIAL_DOFS[nodeid.rsplit("[", maxsplit=1)[-1][:-1]]
+            for nodeid in VV3D_R2_NODEIDS
+        }
+        or vv3d_r2.get("source_identity") != VV3D_R2_SOURCE_IDENTITY
+        or vv3d_r2.get("source_fingerprint_sha256") != VV3D_R2_SOURCE_IDENTITY["fingerprint_sha256"]
+        or vv3d_r2.get("node_attempt_ledger") != {
+            "path": VV3D_R2_LEDGER_FILENAME,
+            "predecessor": r2_predecessor,
+        }
+    ):
+        raise PolicyError("VV3D R2 scope identity, closed node set, independent ledger or limits are invalid")
     if policy.get("resource_coordination_root") != str(WP12_COORDINATION_ROOT):
         raise PolicyError("WP12 runs must use the one registered shared resource coordination root")
     d01 = worktrees["d01"]
@@ -1551,6 +1667,8 @@ def build_pytest_command(
     rotor_collect_only_attestation: bool = False,
     hex8sri_convergence24_collect_only_attestation: bool = False,
     vv3d_collect_only_attestation: bool = False,
+    vv3d_r2_collect_only_attestation: bool = False,
+    vv3d_tet4_l3_optimized_diagnostic_attestation: bool = False,
     wp12_dynamics_collect_only_attestation: bool = False,
     wp12b_hex20_diagnostic_collect_only_attestation: bool = False,
     junit_xml_path: Path | None = None,
@@ -1559,6 +1677,8 @@ def build_pytest_command(
         rotor_collect_only_attestation,
         hex8sri_convergence24_collect_only_attestation,
         vv3d_collect_only_attestation,
+        vv3d_r2_collect_only_attestation,
+        vv3d_tet4_l3_optimized_diagnostic_attestation,
         wp12_dynamics_collect_only_attestation,
         wp12b_hex20_diagnostic_collect_only_attestation,
     )
@@ -1579,6 +1699,14 @@ def build_pytest_command(
             not collect_only or allow_native_skip_override or targets[0] not in VV3D_ALL_NODEIDS
         ):
             raise PolicyError("VV3D attestation is restricted to exact skip-free collect-only catalog nodes")
+        if vv3d_r2_collect_only_attestation and (
+            not collect_only or allow_native_skip_override or targets[0] not in VV3D_R2_NODEIDS
+        ):
+            raise PolicyError("VV3D R2 attestation is restricted to its exact twelve skip-free collect-only nodes")
+        if vv3d_tet4_l3_optimized_diagnostic_attestation and (
+            not collect_only or allow_native_skip_override or targets[0] != VV3D_R2_NODEIDS[2]
+        ):
+            raise PolicyError("TET4-L3 diagnostic attestation requires its one exact skip-free collect-only node")
         if wp12_dynamics_collect_only_attestation and (not collect_only or allow_native_skip_override):
             raise PolicyError("WP12 dynamics attestation requires collect-only without any skip override")
         if wp12_dynamics_collect_only_attestation and targets[0] not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
@@ -1631,6 +1759,12 @@ def build_pytest_command(
                 "if mode == 'vv3d-preflight':",
                 "    from development_autonomous_pytest_plugin import VV3DCollectOnlyAttestor",
                 "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_adaptive'))",
+                "if mode == 'vv3d-r2-preflight':",
+                "    from development_autonomous_pytest_plugin import VV3DCollectOnlyAttestor",
+                "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_recovery_r2'))",
+                "if mode == 'vv3d-tet4-l3-optimized-diagnostic-preflight':",
+                "    from development_autonomous_pytest_plugin import VV3DCollectOnlyAttestor",
+                "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_tet4_l3_optimized_diagnostic'))",
                 "if mode == 'wp12-dynamics-preflight':",
                 "    from development_autonomous_pytest_plugin import ExactCollectOnlyAttestor",
                 "    attestor = ExactCollectOnlyAttestor(",
@@ -1658,6 +1792,10 @@ def build_pytest_command(
             bootstrap_mode = "hex8sri-convergence24-preflight"
         elif vv3d_collect_only_attestation:
             bootstrap_mode = "vv3d-preflight"
+        elif vv3d_r2_collect_only_attestation:
+            bootstrap_mode = "vv3d-r2-preflight"
+        elif vv3d_tet4_l3_optimized_diagnostic_attestation:
+            bootstrap_mode = "vv3d-tet4-l3-optimized-diagnostic-preflight"
         elif wp12_dynamics_collect_only_attestation:
             bootstrap_mode = "wp12-dynamics-preflight"
         elif wp12b_hex20_diagnostic_collect_only_attestation:
@@ -3131,19 +3269,26 @@ def _validate_hex8sri_registered_source_identity(
         recorded = _read_strict_json(inventory_path)
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         raise PolicyError(f"HEX8-SRI raw-byte source inventory is invalid: {exc}") from exc
-    if (
-        not isinstance(recorded, Mapping)
-        or recorded.get("schema") != "qfsolver-hex8sri-source-byte-inventory-v1"
-        or recorded.get("branch") != identity.get("branch")
-        or recorded.get("head") != identity.get("head")
-        or recorded.get("tree") != identity.get("tree")
-        or recorded.get("fingerprint_sha256") != fingerprint
-        or recorded.get("fingerprint_algorithm") != "sha256(sorted(relative_path_utf8 + NUL + raw_file_sha256_bytes))"
-        or recorded.get("raw_byte_policy") != "Raw checkout bytes; no LF/CRLF normalization or conversion."
-        or recorded.get("inventory_file_count") != len(inventory)
-        or recorded.get("files_sha256") != dict(inventory)
-    ):
-        raise PolicyError("HEX8-SRI source bytes differ from the registered raw-byte inventory")
+    inventory_checks = {
+        "schema": isinstance(recorded, Mapping)
+        and recorded.get("schema") == "qfsolver-hex8sri-source-byte-inventory-v1",
+        "branch": recorded.get("branch") == identity.get("branch"),
+        "head": recorded.get("head") == identity.get("head"),
+        "tree": recorded.get("tree") == identity.get("tree"),
+        "fingerprint": recorded.get("fingerprint_sha256") == fingerprint,
+        "fingerprint_algorithm": recorded.get("fingerprint_algorithm")
+        == "sha256(sorted(relative_path_utf8 + NUL + raw_file_sha256_bytes))",
+        "raw_byte_policy": recorded.get("raw_byte_policy")
+        == "Raw checkout bytes; no LF/CRLF normalization or conversion.",
+        "file_count": recorded.get("inventory_file_count") == len(inventory),
+        "files_sha256": recorded.get("files_sha256") == dict(inventory),
+    }
+    failed_checks = [name for name, passed in inventory_checks.items() if not passed]
+    if failed_checks:
+        raise PolicyError(
+            "HEX8-SRI source bytes differ from the registered raw-byte inventory: "
+            + ", ".join(failed_checks)
+        )
 
 
 def _reserve_node_attempt(
@@ -3480,6 +3625,15 @@ def _registered_worktree(
         _validate_hex8sri_registered_source_identity(root, entry, identity, target, inventory, fingerprint)
     else:
         fingerprint = _worktree_source_fingerprint(root, target)
+    if worktree_id == VV3D_R2_WORKTREE_ID and (
+        identity.get("branch") != VV3D_R2_SOURCE_IDENTITY["branch"]
+        or identity.get("head") != VV3D_R2_SOURCE_IDENTITY["head"]
+        or identity.get("tree") != VV3D_R2_SOURCE_IDENTITY["tree"]
+        or fingerprint != VV3D_R2_SOURCE_IDENTITY["fingerprint_sha256"]
+        or entry.get("source_identity") != VV3D_R2_SOURCE_IDENTITY
+        or entry.get("source_fingerprint_sha256") != fingerprint
+    ):
+        raise PolicyError("VV3D R2 science source identity or raw source fingerprint is stale")
     return entry, root, source_root, identity, fingerprint
 
 
@@ -3491,7 +3645,7 @@ def _run_root(policy: Mapping[str, Any], worktree_id: str | None = None) -> Path
         if _is_within(root, checkout) or _is_within(root, coordination_root) or _is_within(coordination_root, root):
             raise PolicyError("WP12 evidence must be separate from source and shared coordination roots")
         return root
-    if worktree_id == VV3D_WORKTREE_ID:
+    if worktree_id in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID}:
         root = Path(policy["worktrees"][worktree_id]["evidence_root"]).resolve()
         checkout = Path(policy["worktrees"][worktree_id]["git_root"]).resolve()
         coordination_root = WP12_COORDINATION_ROOT.resolve()
@@ -3775,7 +3929,7 @@ def _node_ledger_context(
 
 def _series_root(store: Path, scope_name: str, worktree_id: str | None) -> Path:
     if worktree_id is not None:
-        if worktree_id not in {"d01", "c01", "e01", VV3D_WORKTREE_ID, *WP12_OWNER_ENVELOPES}:
+        if worktree_id not in {"d01", "c01", "e01", VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID, *WP12_OWNER_ENVELOPES}:
             raise PolicyError("unknown worktree output namespace")
         return store / "worktrees" / worktree_id
     if scope_name not in STANDARD_SCOPES:
@@ -3954,6 +4108,20 @@ def _vv3d_controller_provenance() -> dict[str, Any]:
     return provenance
 
 
+def _vv3d_scope_controller_provenance(worktree_id: str) -> dict[str, Any]:
+    """Keep the closed R1 identity stable while binding R2's independent ledger."""
+    provenance = _vv3d_controller_provenance()
+    if worktree_id == VV3D_R2_WORKTREE_ID:
+        hashes = dict(provenance.get("sha256", {}))
+        path = Path(__file__).with_name("wp12_vv3d_r2_ledger.py").resolve(strict=True)
+        hashes["wp12_vv3d_r2_ledger"] = _sha256(path)
+        provenance["sha256"] = hashes
+        provenance["vv3d_r2_provenance_revision"] = "vv3d-r2-independent-ledger-v1"
+    elif worktree_id != VV3D_WORKTREE_ID:
+        raise PolicyError("VV3D controller identity is available only for registered R1 and R2 scopes")
+    return provenance
+
+
 def _hex8sri_convergence24_manifest(
     entry: Mapping[str, Any], execution_root: Path, target: str
 ) -> tuple[Path, dict[str, Any], str]:
@@ -4070,18 +4238,42 @@ def _verify_hex8sri_convergence24_controller_identity(
         raise PolicyError("HEX8-SRI convergence manifest is not bound to the final controller identity")
 
 
-def _hex8sri_first6_registration_sha256_by_nodeid(entry: Mapping[str, Any]) -> dict[str, str]:
+def _hex8sri_criteria_scope_for_nodeids(nodeids: Any) -> tuple[str, tuple[str, ...]] | None:
+    if nodeids == list(HEX8SRI_FIRST6_NODEIDS):
+        return HEX8SRI_CRITERIA_CONTRACT_REVISION, HEX8SRI_FIRST6_NODEIDS
+    if nodeids == list(HEX8SRI_REFINED3_NODEIDS):
+        return HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION, HEX8SRI_REFINED3_NODEIDS
+    return None
+
+
+def _hex8sri_criteria_scope_for_target(target: str) -> tuple[str, tuple[str, ...]] | None:
+    if target in HEX8SRI_FIRST6_NODEIDS:
+        return HEX8SRI_CRITERIA_CONTRACT_REVISION, HEX8SRI_FIRST6_NODEIDS
+    if target in HEX8SRI_REFINED3_NODEIDS:
+        return HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION, HEX8SRI_REFINED3_NODEIDS
+    return None
+
+
+def _hex8sri_registration_sha256_by_nodeid(
+    entry: Mapping[str, Any], nodeids: Sequence[str]
+) -> dict[str, str]:
     registrations = entry.get("case_manifests")
     if not isinstance(registrations, Mapping):
         raise PolicyError("HEX8-SRI registered case-manifest map is missing")
     result: dict[str, str] = {}
-    for nodeid in HEX8SRI_FIRST6_NODEIDS:
+    for nodeid in nodeids:
+        if nodeid not in entry.get("allowed_nodeids", ()):
+            raise PolicyError("HEX8-SRI criteria scope contains an unregistered nodeid")
         binding = registrations.get(nodeid)
         sha256 = binding.get("sha256") if isinstance(binding, Mapping) else None
         if not isinstance(sha256, str) or not re.fullmatch(r"[0-9a-f]{64}", sha256):
-            raise PolicyError("HEX8-SRI first-six registration digest is absent or malformed")
+            raise PolicyError("HEX8-SRI registered case-manifest digest is absent or malformed")
         result[nodeid] = sha256
     return result
+
+
+def _hex8sri_first6_registration_sha256_by_nodeid(entry: Mapping[str, Any]) -> dict[str, str]:
+    return _hex8sri_registration_sha256_by_nodeid(entry, HEX8SRI_FIRST6_NODEIDS)
 
 
 def _hex8sri_expected_criteria_freeze(
@@ -4089,16 +4281,23 @@ def _hex8sri_expected_criteria_freeze(
     entry: Mapping[str, Any],
     source_fingerprint: str,
     controller_provenance: Mapping[str, Any],
+    frozen_nodeids: Sequence[str] = HEX8SRI_FIRST6_NODEIDS,
 ) -> dict[str, Any]:
+    scope = _hex8sri_criteria_scope_for_nodeids(list(frozen_nodeids))
+    if scope is None:
+        raise PolicyError("HEX8-SRI criteria freeze must select exactly one reviewed nodeid scope")
+    revision, scope_nodeids = scope
     controller_identity = controller_provenance.get("identity", {})
     return {
         "schema": HEX8SRI_CRITERIA_FREEZE_SCHEMA,
-        "revision": HEX8SRI_CRITERIA_CONTRACT_REVISION,
+        "revision": revision,
         "dispositions": HEX8SRI_CRITERIA_DISPOSITIONS,
         "criteria_definitions": HEX8SRI_CRITERIA_DEFINITIONS,
         "frozen_case_gate_criteria": HEX8SRI_FROZEN_CASE_GATE_CRITERIA,
-        "frozen_nodeids": list(HEX8SRI_FIRST6_NODEIDS),
-        "case_manifest_registration_sha256_by_nodeid": _hex8sri_first6_registration_sha256_by_nodeid(entry),
+        "frozen_nodeids": list(scope_nodeids),
+        "case_manifest_registration_sha256_by_nodeid": _hex8sri_registration_sha256_by_nodeid(
+            entry, scope_nodeids
+        ),
         "scope_id": HEX8SRI_CONVERGENCE24_WORKTREE_ID,
         "mandate_id": entry.get("development_mandate_id"),
         "campaign_id": entry.get("campaign_id"),
@@ -4163,6 +4362,8 @@ def _validate_hex8sri_criteria_freeze_decision(
     identity = controller_provenance.get("identity", {})
     reason = decision.get("reason") if isinstance(decision, Mapping) else None
     decision_id = decision.get("decision_id") if isinstance(decision, Mapping) else None
+    frozen_nodeids = decision.get("frozen_nodeids") if isinstance(decision, Mapping) else None
+    criteria_scope = _hex8sri_criteria_scope_for_nodeids(frozen_nodeids)
     if (
         not isinstance(decision, Mapping)
         or set(decision) != required
@@ -4181,7 +4382,7 @@ def _validate_hex8sri_criteria_freeze_decision(
         or decision.get("scope_id") != HEX8SRI_CONVERGENCE24_WORKTREE_ID
         or decision.get("mandate_id") != entry.get("development_mandate_id")
         or decision.get("campaign_id") != entry.get("campaign_id")
-        or decision.get("frozen_nodeids") != list(HEX8SRI_FIRST6_NODEIDS)
+        or criteria_scope is None
         or decision.get("source_fingerprint") != source_fingerprint
         or decision.get("controller_fingerprint") != _stable_fingerprint(controller_provenance)
         or decision.get("controller_head") != identity.get("head")
@@ -4191,6 +4392,7 @@ def _validate_hex8sri_criteria_freeze_decision(
                 entry=entry,
                 source_fingerprint=source_fingerprint,
                 controller_provenance=controller_provenance,
+                frozen_nodeids=frozen_nodeids,
             ),
         )
     ):
@@ -4279,9 +4481,9 @@ def _validate_hex8sri_execution_approval(
         or not nodeids
         or any(not isinstance(nodeid, str) for nodeid in nodeids)
         or len(nodeids) != len(set(nodeids))
-        or not set(nodeids).issubset(set(HEX8SRI_FIRST6_NODEIDS))
+        or not set(nodeids).issubset(set(HEX8SRI_FREEZABLE_NODEIDS))
     ):
-        raise PolicyError("HEX8-SRI execution decision must select a non-empty unique subset of first-six nodeids")
+        raise PolicyError("HEX8-SRI execution decision must select unique nodeids in a reviewed criteria scope")
     if (
         not isinstance(decision, Mapping)
         or set(decision) != required
@@ -4315,7 +4517,7 @@ def _validate_hex8sri_execution_approval(
     for nodeid in nodeids:
         if not _strict_json_equal(limits.get(nodeid), _hex8sri_execution_limits(entry, nodeid)):
             raise PolicyError("HEX8-SRI execution decision exceeds or changes a registered case budget")
-    expected_registrations = _hex8sri_first6_registration_sha256_by_nodeid(entry)
+    expected_registrations = _hex8sri_registration_sha256_by_nodeid(entry, nodeids)
     for nodeid in nodeids:
         binding = manifest_bindings[nodeid]
         case = _hex8sri_convergence24_case(nodeid)
@@ -4343,6 +4545,8 @@ def _validate_hex8sri_execution_approval(
         source_fingerprint=source_fingerprint,
         controller_provenance=controller_provenance,
     )
+    if not set(nodeids).issubset(set(validated_freeze["frozen_nodeids"])):
+        raise PolicyError("HEX8-SRI execution decision selects a case outside its frozen criteria scope")
     if not _strict_json_equal(decision.get("criteria_freeze"), validated_freeze.get("criteria_freeze")):
         raise PolicyError("HEX8-SRI execution decision does not match its separately frozen criteria record")
     _validate_owner_decision_time(decision, execution=True)
@@ -4360,12 +4564,16 @@ def _validate_hex8sri_frozen_case_criteria(
     target: str,
     case_registration_sha256: str,
 ) -> dict[str, Any]:
-    """Require the first-six criteria contract and thresholds to be explicitly Owner-frozen."""
+    """Require the exact case's criteria scope and thresholds to be explicitly Owner-frozen."""
+    scope = _hex8sri_criteria_scope_for_target(target)
+    if scope is None:
+        raise PolicyError("HEX8-SRI case is outside the frozen first-six and refined-three criteria scopes")
+    revision, scope_nodeids = scope
     proposed = case_manifest.get("proposed_criteria")
     frozen = case_manifest.get("frozen_criteria")
     expected_contract = {
         "schema": HEX8SRI_CRITERIA_CONTRACT_SCHEMA,
-        "revision": HEX8SRI_CRITERIA_CONTRACT_REVISION,
+        "revision": revision,
         "dispositions": HEX8SRI_CRITERIA_PROPOSAL_DISPOSITIONS,
     }
     criteria_freeze = decision.get("criteria_freeze")
@@ -4375,25 +4583,24 @@ def _validate_hex8sri_frozen_case_criteria(
         else None
     )
     if (
-        target not in HEX8SRI_FIRST6_NODEIDS
-        or case_manifest.get("criteria_status") != "OWNER_FREEZE_REQUIRED"
+        case_manifest.get("criteria_status") != "OWNER_FREEZE_REQUIRED"
         or not _strict_json_equal(case_manifest.get("criteria_contract"), expected_contract)
         or not _strict_json_equal(proposed, HEX8SRI_PROPOSED_CRITERIA)
         or frozen is not None
         or not isinstance(registration_hashes, Mapping)
-        or set(registration_hashes) != set(HEX8SRI_FIRST6_NODEIDS)
+        or set(registration_hashes) != set(scope_nodeids)
         or registration_hashes.get(target) != case_registration_sha256
         or criteria_freeze.get("schema") != HEX8SRI_CRITERIA_FREEZE_SCHEMA
-        or criteria_freeze.get("revision") != HEX8SRI_CRITERIA_CONTRACT_REVISION
+        or criteria_freeze.get("revision") != revision
         or not _strict_json_equal(criteria_freeze.get("dispositions"), HEX8SRI_CRITERIA_DISPOSITIONS)
         or not _strict_json_equal(criteria_freeze.get("criteria_definitions"), HEX8SRI_CRITERIA_DEFINITIONS)
         or not _strict_json_equal(
             criteria_freeze.get("frozen_case_gate_criteria"), HEX8SRI_FROZEN_CASE_GATE_CRITERIA
         )
-        or criteria_freeze.get("frozen_nodeids") != list(HEX8SRI_FIRST6_NODEIDS)
+        or criteria_freeze.get("frozen_nodeids") != list(scope_nodeids)
     ):
         raise PolicyError(
-            "HEX8-SRI Owner decision does not freeze the registered first-six criteria contract; "
+            "HEX8-SRI Owner decision does not freeze the exact registered criteria scope; "
             "refresh the case identity and preflight after a criteria decision"
         )
     return dict(HEX8SRI_FROZEN_CASE_GATE_CRITERIA)
@@ -4532,11 +4739,16 @@ def _validate_hex8sri_execution_manifest(
     }
 
 
-def _hex8sri_first6_current_case_manifest_bindings(
-    entry: Mapping[str, Any], execution_root: Path, controller_provenance: Mapping[str, Any]
+def _hex8sri_current_case_manifest_bindings(
+    entry: Mapping[str, Any],
+    execution_root: Path,
+    controller_provenance: Mapping[str, Any],
+    nodeids: Sequence[str],
 ) -> dict[str, dict[str, str]]:
+    if not nodeids or len(nodeids) != len(set(nodeids)) or not set(nodeids).issubset(HEX8SRI_FREEZABLE_NODEIDS):
+        raise PolicyError("HEX8-SRI current manifest bindings require exact reviewed nodeids")
     result: dict[str, dict[str, str]] = {}
-    for nodeid in HEX8SRI_FIRST6_NODEIDS:
+    for nodeid in nodeids:
         manifest_path, case_manifest, raw_sha256 = _hex8sri_convergence24_manifest(entry, execution_root, nodeid)
         _verify_hex8sri_convergence24_controller_identity(case_manifest, controller_provenance)
         result[nodeid] = {
@@ -4559,9 +4771,9 @@ def _hex8sri_selected_current_case_manifest_bindings(
         or not nodeids
         or any(not isinstance(nodeid, str) for nodeid in nodeids)
         or len(nodeids) != len(set(nodeids))
-        or not set(nodeids).issubset(set(HEX8SRI_FIRST6_NODEIDS))
+        or not set(nodeids).issubset(set(HEX8SRI_FREEZABLE_NODEIDS))
     ):
-        raise PolicyError("HEX8-SRI execution decision must select a non-empty unique subset of first-six nodeids")
+        raise PolicyError("HEX8-SRI execution decision must select unique nodeids in a reviewed criteria scope")
     selected = {nodeid: current_bindings[nodeid] for nodeid in nodeids}
     if decision.get("case_manifests_by_nodeid") != selected:
         raise PolicyError("HEX8-SRI execution decision does not match every current selected case manifest")
@@ -4594,12 +4806,17 @@ def archive_hex8sri_owner_decision(decision_file: Path) -> dict[str, Any]:
             source_fingerprint=source_fingerprint,
             controller_provenance=controller_provenance,
         )
-        # Require all six regenerated current registrations, but no preflight or ledger.
-        _hex8sri_first6_current_case_manifest_bindings(entry, execution_root, controller_provenance)
+        # Bind the exact frozen scope, without a preflight or ledger mutation.
+        _hex8sri_current_case_manifest_bindings(
+            entry, execution_root, controller_provenance, validated["frozen_nodeids"]
+        )
         directory = _run_root(policy) / "authorizations" / scope_id / "owner-decisions" / "criteria-freeze"
     elif decision_type == "EXECUTION_APPROVED":
-        current_bindings = _hex8sri_first6_current_case_manifest_bindings(
-            entry, execution_root, controller_provenance
+        requested_nodeids = decision.get("authorized_nodeids")
+        if not isinstance(requested_nodeids, list):
+            raise PolicyError("HEX8-SRI execution decision must list its exact authorized nodeids")
+        current_bindings = _hex8sri_current_case_manifest_bindings(
+            entry, execution_root, controller_provenance, requested_nodeids
         )
         selected_bindings = _hex8sri_selected_current_case_manifest_bindings(decision, current_bindings)
         authorized_nodeids = decision["authorized_nodeids"]
@@ -5796,15 +6013,20 @@ def preflight_hex8sri_convergence24_pytest(
 
 def preflight_wp12_vv3d_pytest(
     target: str, preflight_id: str | None = None, *, policy: Mapping[str, Any] | None = None,
+    worktree_id: str = VV3D_WORKTREE_ID,
 ) -> dict[str, Any]:
     """Collect exactly one registered VV3D node; this never reserves campaign budget."""
     current_policy = load_policy() if policy is None else dict(policy)
-    worktree_id = VV3D_WORKTREE_ID
+    if worktree_id not in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID}:
+        raise PolicyError("VV3D collect-only supports only the registered R1 or R2 scope")
+    is_r2 = worktree_id == VV3D_R2_WORKTREE_ID
+    campaign_id = VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID
+    matrix_subdirectory = "prepared_20261030_r2" if is_r2 else "prepared_20261029"
     targets = resolve_targets("fem_exploratory", target, current_policy, worktree_id=worktree_id)
     entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
         worktree_id, target, current_policy
     )
-    matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "prepared_20261029" / "MATRIX_NOT_AUTHORIZED.json"
+    matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / matrix_subdirectory / "MATRIX_NOT_AUTHORIZED.json"
     try:
         matrix = _read_strict_json(matrix_path)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
@@ -5812,8 +6034,9 @@ def preflight_wp12_vv3d_pytest(
     cases = matrix.get("cases") if isinstance(matrix, Mapping) else None
     case_id = target.rsplit("[", maxsplit=1)[-1][:-1]
     expected_dofs = entry["per_node_selected_dofs"].get(target)
-    if target in VV3D_INITIAL_NODEIDS:
-        expected_ids = {nodeid.rsplit("[", maxsplit=1)[-1][:-1] for nodeid in VV3D_INITIAL_NODEIDS}
+    initial_nodes = VV3D_R2_NODEIDS if is_r2 else VV3D_INITIAL_NODEIDS
+    if target in initial_nodes:
+        expected_ids = {nodeid.rsplit("[", maxsplit=1)[-1][:-1] for nodeid in initial_nodes}
         if (not isinstance(cases, list) or len(cases) != len(expected_ids)
                 or {item.get("case_id") for item in cases if isinstance(item, Mapping)} != expected_ids):
             raise PolicyError("VV3D prepared matrix differs from the exact twelve-case controller catalogue")
@@ -5822,9 +6045,11 @@ def preflight_wp12_vv3d_pytest(
                 or case.get("execution_authorized") is not False or case.get("do_not_execute") is not True
                 or case.get("nodeid_status") != "PREPARED_NOT_AUTHORIZED"):
             raise PolicyError("VV3D case identity or preparation-only state does not match controller registration")
-        mesh_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "prepared_20261029" / str(case.get("mesh_file", ""))
+        mesh_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / matrix_subdirectory / str(case.get("mesh_file", ""))
         expected_mesh_sha = case.get("mesh_sha256")
     else:
+        if is_r2:
+            raise PolicyError("VV3D R2 scope excludes adaptive FEM and QPOST targets")
         candidate, adaptive_bindings = _vv3d_adaptive_candidate_metadata(execution_root, target)
         case = candidate
         case_id = candidate["candidate_id"]
@@ -5861,7 +6086,8 @@ def preflight_wp12_vv3d_pytest(
     command = build_pytest_command(
         "fem_exploratory", targets, temporary_dir, repository_root=execution_root,
         source_root=source_root, controller_root=ROOT, collect_only=True,
-        vv3d_collect_only_attestation=True,
+        vv3d_collect_only_attestation=not is_r2,
+        vv3d_r2_collect_only_attestation=is_r2,
     )
     environment = build_child_environment(temporary_dir, source_root=source_root)
     environment.update({
@@ -5871,11 +6097,20 @@ def preflight_wp12_vv3d_pytest(
         "QF_DEV_PREFLIGHT_COLLECTION_REPORT": str(collection_report_path),
     })
     ledger = store / str(entry["node_attempt_ledger"]["path"])
+    r1_predecessor_sha = None
+    if is_r2:
+        predecessor_path = Path(str(entry["node_attempt_ledger"]["predecessor"]["path"]))
+        try:
+            r1_predecessor_sha = _sha256(predecessor_path)
+        except OSError as exc:
+            raise PolicyError("VV3D R2 immutable R1 predecessor ledger is unavailable") from exc
+        if r1_predecessor_sha != entry["node_attempt_ledger"]["predecessor"]["sha256"]:
+            raise PolicyError("VV3D R2 immutable R1 predecessor ledger SHA-256 mismatch")
     initial_ledger_sha = _sha256(ledger) if ledger.is_file() else None
     record_path = receipt_dir / "preflight.json"
     started_at = datetime.now(timezone.utc).isoformat()
     try:
-        with _exclusive_file_lock(store / "locks" / "vv3d-preflight.lock"):
+        with _exclusive_file_lock(store / "locks" / f"{worktree_id}-preflight.lock"):
             result = run_supervised_command(
                 command, cwd=execution_root, environment=environment, output_dir=output_dir,
                 temporary_dir=temporary_dir, limits=limits,
@@ -5884,7 +6119,7 @@ def preflight_wp12_vv3d_pytest(
     except OSError as exc:
         _atomic_json(record_path, {
             "schema": "qfsolver-development-vv3d-preflight-v1", "state": "PREFLIGHT_LAUNCH_FAILED",
-            "campaign_id": VV3D_CAMPAIGN_ID, "worktree_id": worktree_id, "target": target,
+        "campaign_id": campaign_id, "worktree_id": worktree_id, "target": target,
             "preflight_id": preflight_id, "attempt_reserved": False, "bodies_executed": False,
             "started_at_utc": started_at, "finished_at_utc": datetime.now(timezone.utc).isoformat(),
             "launch_error": f"{type(exc).__name__}: {exc}",
@@ -5909,11 +6144,16 @@ def preflight_wp12_vv3d_pytest(
         state = "PREFLIGHT_PASS"
     else:
         state = "PREFLIGHT_FAILED"
+    if is_r2:
+        observed_r1_sha = _sha256(Path(str(entry["node_attempt_ledger"]["predecessor"]["path"])))
+        if observed_r1_sha != r1_predecessor_sha or (_sha256(ledger) if ledger.is_file() else None) != initial_ledger_sha:
+            state = "PREFLIGHT_LEDGER_CHANGED"
     final = {
         "schema": "qfsolver-development-vv3d-preflight-v1", "state": state, "status": state,
-        "campaign_id": VV3D_CAMPAIGN_ID, "worktree_id": worktree_id, "target": target, "nodeid": target,
+        "campaign_id": campaign_id, "worktree_id": worktree_id, "target": target, "nodeid": target,
         "case_id": case_id, "preflight_id": preflight_id, "identity": identity,
-        "source_fingerprint": source_fingerprint, "controller_provenance": _vv3d_controller_provenance(),
+        "source_fingerprint": source_fingerprint,
+        "controller_provenance": _vv3d_scope_controller_provenance(worktree_id),
         "solver_origin_expected": expected_origin, "solver_origin_observed": observed_origin,
         "collection_report": report, "selected_nodeids": [target] if state == "PREFLIGHT_PASS" else [],
         "skipped": 0 if state == "PREFLIGHT_PASS" else None,
@@ -5923,8 +6163,12 @@ def preflight_wp12_vv3d_pytest(
         "command": command, "budgets": limits, "started_at_utc": started_at,
         "finished_at_utc": datetime.now(timezone.utc).isoformat(),
         "return_code": result.return_code, "elapsed_seconds": result.elapsed_seconds,
+        "stdout_sha256": _sha256(output_dir / "stdout.log"),
+        "stderr_sha256": _sha256(output_dir / "stderr.log"),
         "peak_rss_bytes": result.peak_rss_bytes, "stop_reason": result.stop_reason,
     }
+    if is_r2:
+        final["r1_predecessor_sha256"] = r1_predecessor_sha
     _atomic_json(record_path, final)
     receipt_sha = _sha256(record_path)
     _atomic_json(receipt_dir / "preflight.sha256.json", {"sha256": receipt_sha})
@@ -5978,13 +6222,14 @@ def _vv3d_execution_bindings(
             controller_fingerprint=controller_fingerprint, scientific_fingerprint=source_fingerprint,
         )
         vv3d_contract.validate_decision(contract, decision, contract_bytes=contract_raw)
+        case_id = target.rsplit("[", maxsplit=1)[-1][:-1]
+        vv3d_contract.validate_decision_scope(decision, case_id)
         vv3d_contract.verify_artifact_bindings(
             contract, roots={kind: execution_root / "experiments" / "wp12_vv3d_adaptive"
                              for kind in ("mesh", "manifest", "oracle", "criteria")},
         )
     except (ValueError, KeyError, TypeError) as exc:
         raise PolicyError(f"VV3D campaign decision or bound contract is invalid: {exc}") from exc
-    case_id = target.rsplit("[", maxsplit=1)[-1][:-1]
     contract_case = next((case for case in contract["cases"] if case.get("case_id") == case_id), None)
     matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "prepared_20261029" / "MATRIX_NOT_AUTHORIZED.json"
     matrix = _read_strict_json(matrix_path)
@@ -6020,6 +6265,8 @@ def _vv3d_execution_bindings(
         if len(source_records) != 1:
             raise PolicyError("adaptive transition requires exactly one completed source-case run record")
         source_path, source_record = source_records[0]
+        if not _vv3d_seed_passes_required_gates(source_record, require_campaign_pass=True):
+            raise PolicyError("adaptive transitions require a consistent verified source PASS and campaign-gate PASS")
         source_status = {"PASS": "PASS", "PYTEST_FAILED": "FAIL"}.get(
             source_record.get("state"), str(source_record.get("state")),
         )
@@ -6114,6 +6361,170 @@ def _vv3d_execution_bindings(
     return resolved_manifest, dict(preflight_receipt), manifest_sha, preflight_digest, decision["decision_id"], hashlib.sha256(decision_raw).hexdigest()
 
 
+def _load_vv3d_r2_contract_module(execution_root: Path) -> Any:
+    """Load the source-bound R2 contract helpers without importing solver code."""
+    import importlib.util
+
+    path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "r2_contract.py"
+    spec = importlib.util.spec_from_file_location("qf_wp12_vv3d_r2_contract", path)
+    if spec is None or spec.loader is None:
+        raise PolicyError("VV3D R2 contract helper is unavailable")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _vv3d_r2_execution_bindings(
+    *, target: str, preflight_id: str, manifest_path: Path, entry: Mapping[str, Any],
+    execution_root: Path, identity: Mapping[str, Any], source_fingerprint: str,
+    controller_provenance: Mapping[str, Any], store: Path,
+) -> tuple[dict[str, Any], dict[str, Any], str, str, str, str]:
+    """Validate the independent R2 contract, exact Owner decision and fresh collect-only receipt."""
+    if target not in VV3D_R2_NODEIDS:
+        raise PolicyError("VV3D R2 accepts only its exact twelve initial FEM nodeids")
+    helper = _load_vv3d_r2_contract_module(execution_root)
+    current_controller = _stable_fingerprint(controller_provenance)
+    predecessor = entry["node_attempt_ledger"]["predecessor"]
+    if _sha256(Path(predecessor["path"])) != predecessor["sha256"]:
+        raise PolicyError("VV3D R2 immutable R1 predecessor ledger SHA-256 mismatch")
+
+    auth_root = (store / "authorizations" / VV3D_R2_WORKTREE_ID).resolve()
+    try:
+        resolved_manifest = manifest_path.resolve(strict=True)
+        resolved_manifest.relative_to((auth_root / "manifests").resolve())
+        contract_path = auth_root / "campaign-contract.json"
+        decision_path = auth_root / "campaign-decision.json"
+        contract_raw, decision_raw = contract_path.read_bytes(), decision_path.read_bytes()
+        contract, decision = _read_strict_json(contract_path), _read_strict_json(decision_path)
+        manifest_raw = resolved_manifest.read_bytes()
+        manifest = _read_strict_json(resolved_manifest)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"VV3D R2 Owner contract, decision or case manifest is unavailable: {exc}") from exc
+    # R2 files are emitted in canonical JSON form. This prevents semantically
+    # equivalent rewrites from silently changing the contract/decision binding.
+    if (contract_raw != json.dumps(contract, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+            or decision_raw != json.dumps(decision, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")):
+        raise PolicyError("VV3D R2 contract and Owner decision must use canonical immutable JSON bytes")
+    contract_sha = hashlib.sha256(contract_raw).hexdigest()
+    decision_sha = hashlib.sha256(decision_raw).hexdigest()
+    try:
+        validated_contract_sha = helper.validate_contract(
+            contract, scientific_fingerprint=source_fingerprint,
+            controller_fingerprint=current_controller,
+            r1_ledger_sha256=predecessor["sha256"],
+        )
+        validated_decision_sha = helper.validate_owner_decision(
+            decision, contract_sha256=contract_sha,
+            scientific_fingerprint=source_fingerprint, controller_fingerprint=current_controller,
+        )
+    except (ValueError, KeyError, TypeError) as exc:
+        raise PolicyError(f"VV3D R2 contract or Owner decision is invalid: {exc}") from exc
+    if validated_contract_sha != contract_sha or validated_decision_sha != decision_sha:
+        raise PolicyError("VV3D R2 canonical contract or decision digest mismatch")
+
+    case_id = target.rsplit("[", maxsplit=1)[-1][:-1]
+    case = next((record for record in contract["cases"] if record["case_id"] == case_id), None)
+    matrix_path = (execution_root / "experiments" / "wp12_vv3d_adaptive" /
+                   "prepared_20261030_r2" / "MATRIX_NOT_AUTHORIZED.json")
+    matrix = _read_strict_json(matrix_path)
+    matrix_case = next((record for record in matrix.get("cases", [])
+                        if isinstance(record, Mapping) and record.get("case_id") == case_id), None)
+    if (case is None or matrix.get("campaign_id") != VV3D_R2_CAMPAIGN_ID
+            or matrix_case is None or case["nodeid"] != target
+            or case["mesh_sha256"] != matrix_case.get("mesh_sha256")
+            or case["selected_dofs"] != matrix_case.get("dofs")
+            or case["timeout_seconds"] != matrix_case.get("timeout_max_seconds")):
+        raise PolicyError("VV3D R2 contract case differs from the exact prepared matrix or nodeid")
+
+    criteria_path = (execution_root / "experiments" / "wp12_vv3d_adaptive" / case["criteria_path"]).resolve(strict=True)
+    oracle_path = (execution_root / "experiments" / "wp12_vv3d_adaptive" / case["oracle_path"]).resolve(strict=True)
+    experiment_root = (execution_root / "experiments" / "wp12_vv3d_adaptive").resolve(strict=True)
+    for artifact in (criteria_path, oracle_path):
+        try:
+            artifact.relative_to(experiment_root)
+        except ValueError as exc:
+            raise PolicyError("VV3D R2 criteria/oracle artifact escapes its scientific source root") from exc
+    if (_sha256(criteria_path) != case["criteria_file_sha256"]
+            or _sha256(oracle_path) != case["oracle_sha256"]):
+        raise PolicyError("VV3D R2 criteria or independent-oracle raw SHA-256 mismatch")
+    criteria_doc = _read_strict_json(criteria_path)
+    frozen_criteria = criteria_doc.get("criteria") if isinstance(criteria_doc, Mapping) else None
+    if not isinstance(frozen_criteria, list) or not frozen_criteria:
+        raise PolicyError("VV3D R2 criteria artifact has no frozen criteria list")
+    criteria_sha = hashlib.sha256(json.dumps(
+        frozen_criteria, sort_keys=True, separators=(",", ":"), allow_nan=False,
+    ).encode("utf-8")).hexdigest()
+
+    preflight_dir = _preflight_directory(store, VV3D_R2_WORKTREE_ID, preflight_id)
+    preflight_path = preflight_dir / "preflight.json"
+    try:
+        preflight_raw = preflight_path.read_bytes()
+        preflight = _read_strict_json(preflight_path)
+        checksum = _read_strict_json(preflight_dir / "preflight.sha256.json")
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"VV3D R2 collect-only receipt is unavailable: {exc}") from exc
+    preflight_sha = hashlib.sha256(preflight_raw).hexdigest()
+    expected_origin = str((execution_root / "src" / "solveur" / "__init__.py").resolve())
+    collection = preflight.get("collection_report")
+    stdout_path, stderr_path = preflight_dir / "output" / "stdout.log", preflight_dir / "output" / "stderr.log"
+    output_hashes_valid = (
+        stdout_path.is_file() and stderr_path.is_file()
+        and preflight.get("stdout_sha256") == _sha256(stdout_path)
+        and preflight.get("stderr_sha256") == _sha256(stderr_path)
+    )
+    if (checksum.get("sha256") != preflight_sha or preflight.get("status") != "PREFLIGHT_PASS"
+            or preflight.get("campaign_id") != VV3D_R2_CAMPAIGN_ID
+            or preflight.get("worktree_id") != VV3D_R2_WORKTREE_ID
+            or preflight.get("preflight_id") != preflight_id
+            or preflight.get("target") != target or preflight.get("nodeid") != target
+            or preflight.get("identity") != dict(identity)
+            or preflight.get("source_fingerprint") != source_fingerprint
+            or preflight.get("controller_provenance") != dict(controller_provenance)
+            or preflight.get("solver_origin_expected") != expected_origin
+            or preflight.get("solver_origin_observed") != expected_origin
+            or preflight.get("r1_predecessor_sha256") != predecessor["sha256"]
+            or not output_hashes_valid
+            or not isinstance(collection, Mapping)
+            or collection.get("schema") != "qfsolver-wp12-vv3d-collection-v1"
+            or collection.get("scope_id") != VV3D_R2_WORKTREE_ID
+            or collection.get("target") != target
+            or collection.get("collected_nodeids") != [target]
+            or collection.get("skip_markers") != []
+            or collection.get("bodies_executed") is not False
+            or collection.get("exitstatus") != 0
+            or preflight.get("selected_nodeids") != [target] or preflight.get("skipped") != 0
+            or preflight.get("bodies_executed") is not False
+            or preflight.get("attempt_reserved") is not False
+            or preflight.get("reservation_created") is not False
+            or preflight.get("ledger_sha256_before") != preflight.get("ledger_sha256_after")):
+        raise PolicyError("VV3D R2 preflight does not bind this exact source, controller and nodeid")
+
+    expected = {
+        "schema": "qf-wp12-vv3d-case-manifest-v1", "campaign_id": VV3D_R2_CAMPAIGN_ID,
+        "scope_id": VV3D_R2_WORKTREE_ID, "case_id": case_id, "nodeid": target,
+        "state": "OWNER_AUTHORIZED", "execution_authorized": True, "do_not_execute": False,
+        "mesh_sha256": case["mesh_sha256"], "selected_dofs": case["selected_dofs"],
+        "timeout_seconds": case["timeout_seconds"], "rss_soft_limit_mib": 4096,
+        "archive_size_limit_mib": 256, "max_attempts": 1,
+        "scientific_fingerprint": source_fingerprint, "controller_fingerprint": current_controller,
+        "campaign_contract_sha256": contract_sha, "criteria_sha256": criteria_sha,
+        "frozen_criteria": frozen_criteria,
+        "owner_decision": {
+            "status": "APPROVED", "approved_by": "Owner", "decision_id": decision["decision_id"],
+            "decision_sha256": decision_sha,
+        },
+        "preflight": {"preflight_id": preflight_id, "nodeid": target, "status": "PREFLIGHT_PASS",
+                       "receipt_sha256": preflight_sha, "receipt_path": str(preflight_path.resolve())},
+    }
+    if not isinstance(manifest, Mapping) or any(manifest.get(key) != value for key, value in expected.items()):
+        raise PolicyError("VV3D R2 case manifest does not bind the exact Owner decision, criteria, source and budget")
+    authorization_id = manifest.get("authorization_id")
+    if not isinstance(authorization_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", authorization_id):
+        raise PolicyError("VV3D R2 case manifest authorization_id is invalid")
+    return (dict(manifest), dict(preflight), hashlib.sha256(manifest_raw).hexdigest(), preflight_sha,
+            str(decision["decision_id"]), decision_sha)
+
+
 def _vv3d_adaptive_fem_launch_bindings(
     *, target: str, preflight_id: str, manifest_path: Path, entry: Mapping[str, Any],
     execution_root: Path, identity: Mapping[str, Any], source_fingerprint: str,
@@ -6145,6 +6556,7 @@ def _vv3d_adaptive_fem_launch_bindings(
             controller_fingerprint=controller_fingerprint, scientific_fingerprint=source_fingerprint,
         )
         vv3d_contract.validate_decision(contract, decision, contract_bytes=contract_raw)
+        vv3d_contract.validate_decision_scope(decision, candidate_id)
         vv3d_contract.verify_artifact_bindings(
             contract, roots={kind: execution_root / "experiments" / "wp12_vv3d_adaptive"
                              for kind in ("mesh", "manifest", "oracle", "criteria")},
@@ -6200,7 +6612,7 @@ def _vv3d_adaptive_fem_launch_bindings(
     # Reconstruct eligibility input only from immutable completed seed records
     # and their hashed sidecars; a manifest cannot supply synthetic observations.
     source = _vv3d_adaptive_source_from_completed_runs(
-        candidate=candidate, store=store, evidence_root=evidence_root,
+        candidate=candidate, store=store, evidence_root=evidence_root, execution_root=execution_root,
         ledger_path=store / str(entry["node_attempt_ledger"]["path"]),
         campaign_id=VV3D_CAMPAIGN_ID, source_fingerprint=source_fingerprint,
         controller_fingerprint=controller_fingerprint,
@@ -6302,7 +6714,8 @@ def _vv3d_adaptive_fem_launch_bindings(
 
 
 def _vv3d_adaptive_source_from_completed_runs(
-    *, candidate: Mapping[str, Any], store: Path, evidence_root: Path, ledger_path: Path,
+    *, candidate: Mapping[str, Any], store: Path, evidence_root: Path, execution_root: Path,
+    ledger_path: Path,
     campaign_id: str, source_fingerprint: str, controller_fingerprint: str,
 ) -> dict[str, Any]:
     """Read source observations from completed PASS run receipts and their immutable sidecars."""
@@ -6359,11 +6772,51 @@ def _vv3d_adaptive_source_from_completed_runs(
                 or sidecar.get("controller_fingerprint") != controller_fingerprint
                 or sidecar.get("execution", {}).get("status") != "COMPLETED_UNASSESSED"):
             raise PolicyError(f"adaptive source sidecar identity differs from PASS run {case_id}")
+        if not _vv3d_seed_passes_required_gates(
+                run, require_campaign_pass=(candidate["kind"] == "body_load_quadrature_escalation"
+                                             or case_id.endswith("-L3"))):
+            raise PolicyError(f"adaptive source is not a consistent verified PASS for {case_id}")
         source_records[case_id] = (run_path, run, sidecar)
     if candidate["kind"] == "uniform_h_refinement":
+        matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / "prepared_20261029" / "MATRIX_NOT_AUTHORIZED.json"
+        matrix = _read_strict_json(matrix_path)
+        matrix_cases = {item.get("case_id"): item for item in matrix.get("cases", []) if isinstance(item, Mapping)}
+        l3_run = source_records[f"VV3D-{candidate['family']}-L3"][1]
+        assessment_ref = l3_run.get("campaign_assessment")
+        if (l3_run.get("campaign_gate_status") != "PASS"
+                or not isinstance(assessment_ref, Mapping)
+                or not isinstance(assessment_ref.get("path"), str)
+                or not re.fullmatch(r"[0-9a-f]{64}", str(assessment_ref.get("sha256", "")))):
+            raise PolicyError("H1 requires a complete passing campaign-gate assessment archived by the runner")
+        assessment_path = Path(assessment_ref["path"]).resolve(strict=True)
+        try:
+            assessment_path.relative_to(evidence_root.resolve(strict=True))
+        except ValueError as exc:
+            raise PolicyError("H1 campaign assessment escapes the assigned evidence root") from exc
+        assessment_raw = assessment_path.read_bytes()
+        if hashlib.sha256(assessment_raw).hexdigest() != assessment_ref["sha256"]:
+            raise PolicyError("H1 campaign assessment SHA-256 mismatch")
+        assessment_record = _read_strict_json(assessment_path)
+        if (assessment_record.get("schema") != "qf-wp12-vv3d-campaign-assessment-record-v1"
+                or assessment_record.get("campaign_id") != campaign_id
+                or assessment_record.get("family") != candidate["family"]
+                or assessment_record.get("assessment", {}).get("status") != "PASS"
+                or assessment_record.get("scientific_fingerprint") != source_fingerprint
+                or assessment_record.get("controller_fingerprint") != controller_fingerprint):
+            raise PolicyError("H1 campaign assessment record does not bind the exact passing family and identities")
         return {"seed_cases": {
-            case_id: {"observables": sidecar.get("observables"), "criteria": sidecar.get("criteria")}
-            for case_id, (_path, _run, sidecar) in source_records.items()
+            case_id: {
+                "case_id": case_id, "state": run.get("state"),
+                "provenance_state": run.get("provenance_state"), "sidecar_valid": True,
+                "sidecar_sha256": run.get("observables_sidecar", {}).get("sha256"),
+                "manifest_sha256": run.get("manifest", {}).get("sha256"),
+                "mesh_sha256": run.get("mesh_sha256"),
+                "scientific_fingerprint": run.get("source_fingerprint"),
+                "controller_fingerprint": run.get("controller_fingerprint"),
+                "h_m": 1.0 / matrix_cases[case_id]["divisions"][0],
+                "observables": sidecar.get("observables"), "criteria": sidecar.get("criteria"),
+            }
+            for case_id, (_path, run, sidecar) in source_records.items()
         }}
     _path, _run, sidecar = source_records[str(candidate["seed_case"])]
     load = sidecar.get("observables", {}).get("load_quadrature_8_12")
@@ -6573,6 +7026,7 @@ def _vv3d_qpost_launch_bindings(
             scientific_fingerprint=source_fingerprint,
         )
         vv3d_contract.validate_decision(contract, decision, contract_bytes=contract_raw)
+        vv3d_contract.validate_decision_scope(decision, candidate_id)
         vv3d_contract.verify_artifact_bindings(
             contract, roots={kind: execution_root / "experiments" / "wp12_vv3d_adaptive"
                              for kind in ("mesh", "manifest", "oracle", "criteria")},
@@ -6622,7 +7076,7 @@ def _vv3d_qpost_launch_bindings(
     source_attempt = source_run.get("attempt_id")
     archive_ref = source_run.get("qpost_state_archive")
     if (source_run.get("campaign_id") != campaign_id
-            or source_run.get("scientific_state") != "PASS" or source_run.get("provenance_state") != "VERIFIED"
+            or not _vv3d_seed_passes_required_gates(source_run, require_campaign_pass=True)
             or source_run.get("source_fingerprint") != source_fingerprint
             or source_run.get("controller_fingerprint") != controller_fingerprint
             or not isinstance(source_manifest_sha, str) or not isinstance(source_attempt, str)
@@ -6814,11 +7268,17 @@ def preflight_pytest(
     preflight_id: str | None = None,
 ) -> dict[str, Any]:
     """Collect one exact registered node without reserving a FEM attempt."""
+    if worktree_id == VV3D_TET4_L3_OPTIMIZED_DIAGNOSTIC_WORKTREE_ID:
+        return _call_vv3d_tet4_l3_diagnostic("preflight", target, preflight_id)
+    if worktree_id == "wp12_vv3d_tet4_l3_diagnostic":
+        raise PolicyError("the historical TET4-L3 diagnostic scope is closed; use its immutable ledger only as predecessor")
     policy = load_policy()
-    if worktree_id == VV3D_WORKTREE_ID:
-        if target not in policy["worktrees"][VV3D_WORKTREE_ID]["allowed_nodeids"]:
+    if worktree_id in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID}:
+        if target not in policy["worktrees"][worktree_id]["allowed_nodeids"]:
             raise PolicyError("VV3D preflight target is outside the exact closed case catalogue")
-        return preflight_wp12_vv3d_pytest(target, preflight_id, policy=policy)
+        return preflight_wp12_vv3d_pytest(
+            target, preflight_id, policy=policy, worktree_id=worktree_id,
+        )
     if worktree_id == "rotor":
         return preflight_rotor_pytest(target, preflight_id, policy=policy)
     if worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID:
@@ -7179,26 +7639,305 @@ def _validate_wp12b_hex20_r2_preflight_receipt(
     return path, digest
 
 
+def _vv3d_campaign_disposition(assessment: Mapping[str, Any]) -> dict[str, str | None]:
+    """Map a persisted campaign-gate verdict to runner/ledger terminal states."""
+    status = assessment.get("status")
+    if status == "PASS":
+        return {"run_state": None, "ledger_status": None}
+    if status == "FAIL":
+        return {"run_state": "SCIENTIFIC_DEVIATION", "ledger_status": "FAIL"}
+    if status == "INCONCLUSIVE":
+        return {"run_state": "INCONCLUSIVE", "ledger_status": "INCONCLUSIVE"}
+    if status == "NOT_ASSESSED":
+        return {"run_state": None, "ledger_status": None}
+    raise PolicyError("VV3D campaign assessment has an unknown terminal status")
+
+
+def _vv3d_terminal_disposition(
+    *, science_state: str, provenance_state: str, campaign_gate_status: str | None,
+) -> dict[str, str]:
+    """Preserve the observed test/provenance state while applying campaign STOP gates."""
+    if provenance_state != "VERIFIED":
+        return {"run_state": "PROVENANCE_MISMATCH", "ledger_status": "INFRA_ERROR"}
+    if science_state == "PYTEST_FAILED":
+        return {"run_state": "PYTEST_FAILED", "ledger_status": "FAIL"}
+    if science_state != "PASS":
+        if "TIMEOUT" in science_state:
+            ledger_status = "TIMEOUT"
+        elif "INTERRUPTED" in science_state:
+            ledger_status = "INTERRUPTED"
+        elif science_state == "INFRA_ERROR":
+            ledger_status = "INFRA_ERROR"
+        else:
+            ledger_status = "RESOURCE_LIMIT"
+        return {"run_state": science_state, "ledger_status": ledger_status}
+    if campaign_gate_status == "FAIL":
+        return {"run_state": "SCIENTIFIC_DEVIATION", "ledger_status": "FAIL"}
+    if campaign_gate_status == "INCONCLUSIVE":
+        return {"run_state": "INCONCLUSIVE", "ledger_status": "INCONCLUSIVE"}
+    if campaign_gate_status not in {None, "PASS", "NOT_ASSESSED"}:
+        raise PolicyError("VV3D campaign assessment has an unknown terminal status")
+    return {"run_state": "PASS", "ledger_status": "PASS"}
+
+
+def _vv3d_seed_passes_required_gates(run: Mapping[str, Any], *, require_campaign_pass: bool) -> bool:
+    """Check that an adaptive seed is a consistent verified PASS with the required gates."""
+    if (run.get("state") != "PASS" or run.get("scientific_state") != "PASS"
+            or run.get("provenance_state") != "VERIFIED"):
+        return False
+    return not require_campaign_pass or run.get("campaign_gate_status") == "PASS"
+
+
+def _vv3d_assess_campaign_family_after_run(
+    *, case_id: str, attempt_id: str, science_state: str, provenance_state: str,
+    sidecar_doc: Mapping[str, Any] | None, sidecar_ref: Mapping[str, str] | None,
+    current_manifest: Mapping[str, Any], current_manifest_sha256: str,
+    current_manifest_path: Path,
+    evidence_root: Path, store: Path, execution_root: Path,
+    source_fingerprint: str, controller_fingerprint: str, campaign_ledger: Any,
+    campaign_id: str = VV3D_CAMPAIGN_ID,
+    matrix_subdirectory: str = "prepared_20261029",
+) -> tuple[dict[str, Any], dict[str, str]]:
+    """Assess and immutably archive one family's campaign criteria after an initial case.
+
+    Prior levels are admitted only through completed runner records, their bound
+    manifest and sidecar bytes, and the append-only VV3D ledger. The current
+    level uses the just-validated sidecar and its still-open reservation.
+    """
+    family, level_text = case_id.rsplit("-L", maxsplit=1)
+    family = family.removeprefix("VV3D-")
+    if family not in {"TET4", "TET10", "HEX8", "HEX20"} or level_text not in {"1", "2", "3"}:
+        raise PolicyError("campaign assessment requires an exact initial family case")
+    case_ids = [f"VV3D-{family}-L{level}" for level in (1, 2, 3)]
+    matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / matrix_subdirectory / "MATRIX_NOT_AUTHORIZED.json"
+    matrix = _read_strict_json(matrix_path)
+    matrix_cases = {item.get("case_id"): item for item in matrix.get("cases", []) if isinstance(item, Mapping)}
+    if matrix.get("campaign_id") != campaign_id or any(case not in matrix_cases for case in case_ids):
+        raise PolicyError("campaign assessment matrix does not bind the exact family L1/L2/L3 cases")
+    criteria = current_manifest.get("frozen_criteria")
+    criteria_raw = json.dumps(criteria, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+    criteria_sha256 = hashlib.sha256(criteria_raw).hexdigest()
+    if current_manifest.get("criteria_sha256") != criteria_sha256:
+        raise PolicyError("campaign assessment criteria differ from the exact current manifest")
+
+    ledger_records = list(campaign_ledger.verify())
+    seeds: dict[str, dict[str, Any]] = {}
+    input_refs: list[dict[str, Any]] = []
+    root = evidence_root.resolve(strict=False)
+    store_root = store.resolve(strict=True)
+
+    def seed_record(seed_case_id: str, run: Mapping[str, Any], *, current: bool = False) -> dict[str, Any]:
+        expected_matrix = matrix_cases[seed_case_id]
+        divisions = expected_matrix.get("divisions")
+        if (not isinstance(divisions, list) or len(divisions) != 3
+                or any(type(value) is not int or value <= 0 for value in divisions)
+                or len(set(divisions)) != 1):
+            raise PolicyError(f"campaign mesh size is not defined by the exact uniform mesh: {seed_case_id}")
+        h_m = 1.0 / divisions[0]  # Frozen unit-cube protocol: h=1/n.
+        result: dict[str, Any] = {
+            "case_id": seed_case_id, "h_m": h_m,
+            "mesh_sha256": expected_matrix.get("mesh_sha256"),
+            "state": run.get("state", run.get("scientific_state")),
+            "provenance_state": run.get("provenance_state"),
+            "sidecar_valid": False,
+        }
+        manifest_meta = run.get("manifest")
+        sidecar_meta = run.get("observables_sidecar")
+        if (run.get("campaign_id") != campaign_id or run.get("case_id") != seed_case_id
+                or run.get("source_fingerprint") != source_fingerprint
+                or run.get("controller_fingerprint") != controller_fingerprint
+                or run.get("provenance_state") != "VERIFIED"
+                or run.get("mesh_sha256") != expected_matrix.get("mesh_sha256")
+                or not isinstance(manifest_meta, Mapping)
+                or not isinstance(sidecar_meta, Mapping)):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        manifest_path = current_manifest_path if current else Path(str(manifest_meta.get("path", ""))).resolve(strict=True)
+        if not current:
+            try:
+                manifest_path.relative_to(store_root)
+            except ValueError:
+                result["state"] = "PROVENANCE_MISMATCH"
+                return result
+        manifest_raw = manifest_path.read_bytes()
+        manifest_sha = hashlib.sha256(manifest_raw).hexdigest()
+        if manifest_sha != (current_manifest_sha256 if current else manifest_meta.get("sha256")):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        prior_manifest = _read_strict_json(manifest_path)
+        if (prior_manifest.get("case_id") != seed_case_id
+                or prior_manifest.get("mesh_sha256") != expected_matrix.get("mesh_sha256")
+                or prior_manifest.get("frozen_criteria") != criteria
+                or prior_manifest.get("criteria_sha256") != criteria_sha256):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        sidecar_path = (Path(str(sidecar_meta.get("path", ""))).resolve(strict=True) if not current
+                        else Path(str(sidecar_meta.get("path", ""))).resolve(strict=True))
+        try:
+            sidecar_path.relative_to(root)
+        except ValueError:
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        sidecar_raw = sidecar_path.read_bytes()
+        sidecar_sha = hashlib.sha256(sidecar_raw).hexdigest()
+        if sidecar_sha != sidecar_meta.get("sha256"):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        sidecar = _read_strict_json(sidecar_path)
+        if (sidecar.get("schema") != "qf-wp12-vv3d-observables-v1"
+                or sidecar.get("campaign_id") != campaign_id
+                or sidecar.get("case_id") != seed_case_id
+                or sidecar.get("attempt_id") != run.get("attempt_id")
+                or sidecar.get("mesh_sha256") != expected_matrix.get("mesh_sha256")
+                or sidecar.get("manifest_sha256") != manifest_sha
+                or sidecar.get("scientific_fingerprint") != source_fingerprint
+                or sidecar.get("controller_fingerprint") != controller_fingerprint
+                or not isinstance(sidecar.get("observables"), Mapping)
+                or not isinstance(sidecar.get("criteria"), Mapping)):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+
+        expected_nodeid = expected_matrix.get("nodeid")
+        starts = [entry for entry in ledger_records
+                  if entry.get("event") == "ATTEMPT_STARTED" and entry.get("case_id") == seed_case_id]
+        if (len(starts) != 1 or starts[0].get("manifest_sha256") != manifest_sha
+                or starts[0].get("attempt_id") != run.get("attempt_id")
+                or starts[0].get("nodeid") != expected_nodeid
+                or run.get("target") != expected_nodeid
+                or starts[0].get("source_fingerprint") != source_fingerprint
+                or starts[0].get("controller_fingerprint") != controller_fingerprint
+                or starts[0].get("selected_dofs") != expected_matrix.get("dofs")):
+            result["state"] = "PROVENANCE_MISMATCH"
+            return result
+        finishes = [entry for entry in ledger_records
+                    if entry.get("event") == "ATTEMPT_FINISHED" and entry.get("run_id") == starts[0].get("run_id")]
+        if current:
+            if finishes:
+                result["state"] = "PROVENANCE_MISMATCH"
+                return result
+        else:
+            if len(finishes) != 1:
+                result["state"] = "PROVENANCE_MISMATCH"
+                return result
+            expected_disposition = _vv3d_terminal_disposition(
+                science_state=str(run.get("scientific_state", run.get("state", ""))),
+                provenance_state=str(run.get("provenance_state", "")),
+                campaign_gate_status=run.get("campaign_gate_status"),
+            )
+            if (finishes[0].get("status") != expected_disposition["ledger_status"]
+                    or run.get("state") != expected_disposition["run_state"]):
+                result["state"] = "PROVENANCE_MISMATCH"
+                return result
+        result.update({
+            "state": run.get("scientific_state", run.get("state")),
+            "provenance_state": "VERIFIED", "sidecar_valid": True,
+            "sidecar_sha256": sidecar_sha, "manifest_sha256": manifest_sha,
+            "scientific_fingerprint": source_fingerprint,
+            "controller_fingerprint": controller_fingerprint,
+            "observables": sidecar["observables"], "criteria": sidecar["criteria"],
+        })
+        input_refs.append({
+            "case_id": seed_case_id, "state": result["state"], "h_m": h_m,
+            "mesh_sha256": result["mesh_sha256"], "manifest_sha256": manifest_sha,
+            "sidecar_path": str(sidecar_path), "sidecar_sha256": sidecar_sha,
+        })
+        return result
+
+    for seed_case_id in case_ids:
+        if seed_case_id == case_id:
+            current_run = {
+                "campaign_id": campaign_id, "case_id": case_id, "attempt_id": attempt_id,
+                "target": matrix_cases[case_id].get("nodeid"),
+                "scientific_state": science_state, "provenance_state": provenance_state,
+                "source_fingerprint": source_fingerprint, "controller_fingerprint": controller_fingerprint,
+                "mesh_sha256": current_manifest.get("mesh_sha256"),
+                "manifest": {"path": str(current_manifest_path), "sha256": current_manifest_sha256},
+                "observables_sidecar": dict(sidecar_ref) if sidecar_ref else None,
+            }
+            seeds[seed_case_id] = seed_record(seed_case_id, current_run, current=True)
+            continue
+        matches: list[Mapping[str, Any]] = []
+        for record_path in store.rglob("run.json") if store.exists() else ():
+            try:
+                candidate_record = _read_strict_json(record_path)
+            except (OSError, ValueError, json.JSONDecodeError):
+                continue
+            if (candidate_record.get("campaign_id") == campaign_id
+                    and candidate_record.get("case_id") == seed_case_id
+                    and candidate_record.get("state") != "RUNNING"):
+                matches.append(candidate_record)
+        if len(matches) > 1:
+            seeds[seed_case_id] = {"case_id": seed_case_id, "state": "PROVENANCE_MISMATCH",
+                                   "provenance_state": "PROVENANCE_MISMATCH", "sidecar_valid": False}
+        elif matches:
+            seeds[seed_case_id] = seed_record(seed_case_id, matches[0])
+
+    import importlib
+    import sys
+    sys.path.insert(0, str(execution_root))
+    try:
+        science_harness = importlib.import_module("experiments.wp12_vv3d_adaptive.case_harness")
+        assessment = science_harness.evaluate_campaign_criteria(family, seeds, criteria)
+    except Exception as exc:
+        campaign_criteria = {
+            name: {"classification": "CAMPAIGN_GATE", "status": "INCONCLUSIVE",
+                   "reason": "CAMPAIGN_EVALUATOR_ERROR"}
+            for name in (
+                "displacement_error_L3", "energy_error_L3", "stress_error_L3",
+                "scalar_energy_error_L3", "displacement_order", "energy_order",
+            )
+        }
+        assessment = {
+            "schema": "qf-wp12-vv3d-campaign-assessment-v1", "status": "INCONCLUSIVE",
+            "decision": "STOP_INCONCLUSIVE", "criteria": campaign_criteria, "level_metrics": {},
+            "blocking_failures": [], "reason": f"CAMPAIGN_EVALUATOR_ERROR:{type(exc).__name__}:{exc}",
+        }
+    finally:
+        try:
+            sys.path.remove(str(execution_root))
+        except ValueError:
+            pass
+    record = {
+        "schema": "qf-wp12-vv3d-campaign-assessment-record-v1",
+        "campaign_id": campaign_id, "family": family,
+        "evaluated_after_case_id": case_id, "evaluated_after_attempt_id": attempt_id,
+        "scientific_fingerprint": source_fingerprint,
+        "controller_fingerprint": controller_fingerprint,
+        "criteria_sha256": criteria_sha256,
+        "input_evidence": sorted(input_refs, key=lambda item: item["case_id"]),
+        "assessment": assessment,
+    }
+    assessment_path = (evidence_root / "campaign-assessments" / campaign_id / family /
+                       f"{case_id}-{attempt_id}.json")
+    _atomic_json_new(assessment_path, record)
+    return assessment, {"path": str(assessment_path.resolve()), "sha256": _sha256(assessment_path)}
+
+
 def run_wp12_vv3d_pytest(
     target: str | None, series_id: str | None, *, worktree_id: str, reason: str,
     preflight_id: str | None, execution_manifest: Path | None,
 ) -> tuple[dict[str, Any], int]:
-    """Run one Owner-approved VV3D case through the campaign ledger and monitor."""
+    """Run one Owner-approved VV3D R1 or R2 case through its campaign ledger."""
     policy = load_policy()
-    if worktree_id != VV3D_WORKTREE_ID or target not in (*VV3D_INITIAL_NODEIDS, *VV3D_ADAPTIVE_FEM_NODEIDS):
-        raise PolicyError("VV3D runner accepts only one exact registered initial or H1/QLOAD FEM nodeid")
+    is_r2 = worktree_id == VV3D_R2_WORKTREE_ID
+    allowed_nodes = VV3D_R2_NODEIDS if is_r2 else (*VV3D_INITIAL_NODEIDS, *VV3D_ADAPTIVE_FEM_NODEIDS)
+    if worktree_id not in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID} or target not in allowed_nodes:
+        raise PolicyError("VV3D runner accepts only one exact nodeid registered in its R1 or R2 scope")
+    if is_r2 and target not in VV3D_R2_NODEIDS:
+        raise PolicyError("VV3D R2 excludes H1, QLOAD and QPOST routes")
     if not reason or not reason.strip() or not preflight_id or execution_manifest is None:
         raise PolicyError("VV3D requires a reason, exact collect-only preflight, and case execution manifest")
     entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
         worktree_id, target, policy
     )
-    controller_provenance = _vv3d_controller_provenance()
+    controller_provenance = (_vv3d_scope_controller_provenance(worktree_id) if is_r2
+                              else _vv3d_controller_provenance())
     store = _run_root(policy, worktree_id)
-    manifest, preflight, manifest_sha, preflight_sha, decision_id, decision_sha = _vv3d_execution_bindings(
+    bindings_validator = _vv3d_r2_execution_bindings if is_r2 else _vv3d_execution_bindings
+    manifest, preflight, manifest_sha, preflight_sha, decision_id, decision_sha = bindings_validator(
         target=target, preflight_id=preflight_id, manifest_path=execution_manifest,
-        entry=entry, execution_root=execution_root,
-        identity=identity, source_fingerprint=source_fingerprint,
-        controller_provenance=controller_provenance, store=store,
+        entry=entry, execution_root=execution_root, identity=identity,
+        source_fingerprint=source_fingerprint, controller_provenance=controller_provenance, store=store,
     )
     case_id = manifest["case_id"]
     selected_dofs = manifest["selected_dofs"]
@@ -7225,15 +7964,29 @@ def run_wp12_vv3d_pytest(
     series_dir = _series_root(store, "fem_exploratory", worktree_id) / series_id
     evidence_root = str(Path(entry["evidence_root"]).resolve())
     controller_fingerprint = _stable_fingerprint(controller_provenance)
-    adaptive = target in VV3D_ADAPTIVE_FEM_NODEIDS
+    adaptive = not is_r2 and target in VV3D_ADAPTIVE_FEM_NODEIDS
     attempt_id = str(manifest["attempt_id"]) if adaptive else f"{series_id}-attempt-1"
-    try:
-        from wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
-    except ModuleNotFoundError:  # imported as scripts.development_autonomous by tests
-        from scripts.wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
+    if is_r2:
+        RecoveryR2Ledger = _load_vv3d_r2_ledger_module().RecoveryR2Ledger
+        if __package__:
+            from .wp12_vv3d_ledger import RunBinding, RunnerCaseBinding
+        else:
+            from wp12_vv3d_ledger import RunBinding, RunnerCaseBinding
+    else:
+        try:
+            from wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
+        except ModuleNotFoundError:  # imported as scripts.development_autonomous by tests
+            from scripts.wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
 
     store.mkdir(parents=True, exist_ok=True)
-    campaign_ledger = BudgetLedger(campaign_ledger_path, allowed_root=store)
+    if is_r2:
+        predecessor = entry["node_attempt_ledger"]["predecessor"]
+        campaign_ledger = RecoveryR2Ledger(
+            campaign_ledger_path, allowed_root=store,
+            predecessor_path=Path(predecessor["path"]), predecessor_sha256=predecessor["sha256"],
+        )
+    else:
+        campaign_ledger = BudgetLedger(campaign_ledger_path, allowed_root=store)
     with _exclusive_file_lock(store / "locks" / "vv3d-campaign-exclusive.lock"):
         number, attempt_dir = _next_attempt(
             series_dir, series_id, "fem_exploratory", 1, worktree_id=worktree_id, target=target,
@@ -7259,10 +8012,15 @@ def run_wp12_vv3d_pytest(
             reservation_id=(str(manifest["reservation_id"]) if adaptive else None),
         )
         try:
-            runner_receipt = campaign_ledger.start_runner_attempt(
-                binding=run_binding, case=case_binding, receipt_path=runner_receipt_path,
-                receipt_fields=(manifest.get("_runner_receipt_fields") if adaptive else None),
-            )
+            if is_r2:
+                runner_receipt = campaign_ledger.start_runner_attempt(
+                    binding=run_binding, case=case_binding, receipt_path=runner_receipt_path,
+                )
+            else:
+                runner_receipt = campaign_ledger.start_runner_attempt(
+                    binding=run_binding, case=case_binding, receipt_path=runner_receipt_path,
+                    receipt_fields=(manifest.get("_runner_receipt_fields") if adaptive else None),
+                )
         except Exception:
             # No campaign reservation succeeded, so the empty local attempt directory
             # can be removed without altering the campaign ledger.
@@ -7307,7 +8065,8 @@ def run_wp12_vv3d_pytest(
         started_at = datetime.now(timezone.utc).isoformat()
         initial = {
             "schema": "qfsolver-development-vv3d-run-v1", "state": "RUNNING",
-            "campaign_id": VV3D_CAMPAIGN_ID, "case_id": case_id, "attempt_id": attempt_id,
+            "campaign_id": VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID,
+            "case_id": case_id, "attempt_id": attempt_id,
             "worktree_id": worktree_id,
             "target": target, "reason": reason.strip(), "identity": identity,
             "source_fingerprint": source_fingerprint, "controller_fingerprint": controller_fingerprint,
@@ -7340,7 +8099,8 @@ def run_wp12_vv3d_pytest(
                 expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
                 provenance_state = ("VERIFIED" if after_entry == entry and after_identity == identity
                                     and after_fingerprint == source_fingerprint
-                                    and _vv3d_controller_provenance() == controller_provenance
+                                    and (_vv3d_scope_controller_provenance(worktree_id) if is_r2
+                                         else _vv3d_controller_provenance()) == controller_provenance
                                     and origin == expected_origin else "PROVENANCE_MISMATCH")
             except (OSError, PolicyError):
                 origin = None
@@ -7358,7 +8118,7 @@ def run_wp12_vv3d_pytest(
                                          if isinstance(candidate_sidecar, Mapping) else None)
                     if (isinstance(candidate_sidecar, Mapping)
                             and candidate_sidecar.get("schema") == "qf-wp12-vv3d-observables-v1"
-                            and candidate_sidecar.get("campaign_id") == VV3D_CAMPAIGN_ID
+                            and candidate_sidecar.get("campaign_id") == (VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID)
                             and candidate_sidecar.get("case_id") == case_id
                             and candidate_sidecar.get("attempt_id") == attempt_id
                             and candidate_sidecar.get("case_state") == "OWNER_AUTHORIZED_EXECUTION"
@@ -7383,9 +8143,43 @@ def run_wp12_vv3d_pytest(
             if sidecar_ref is None:
                 provenance_state = "PROVENANCE_MISMATCH"
                 final_state = "PROVENANCE_MISMATCH"
+            campaign_assessment = None
+            campaign_assessment_ref = None
+            campaign_gate_status = None
+            if not adaptive:
+                try:
+                    campaign_assessment, campaign_assessment_ref = _vv3d_assess_campaign_family_after_run(
+                        case_id=case_id, attempt_id=attempt_id, science_state=science_state,
+                        provenance_state=provenance_state, sidecar_doc=sidecar_doc, sidecar_ref=sidecar_ref,
+                        current_manifest=manifest, current_manifest_sha256=manifest_sha,
+                        current_manifest_path=execution_manifest.resolve(strict=True),
+                        evidence_root=Path(evidence_root), store=store, execution_root=execution_root,
+                        source_fingerprint=source_fingerprint, controller_fingerprint=controller_fingerprint,
+                        campaign_ledger=campaign_ledger,
+                        campaign_id=VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID,
+                        matrix_subdirectory="prepared_20261030_r2" if is_r2 else "prepared_20261029",
+                    )
+                    campaign_gate_status = campaign_assessment.get("status")
+                except (OSError, PolicyError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
+                    # The scientific attempt remains consumed. A failure to produce
+                    # a provenance-bound assessment blocks continuation as infrastructure.
+                    provenance_state = "PROVENANCE_MISMATCH"
+                    final_state = "PROVENANCE_MISMATCH"
+                    campaign_assessment = {
+                        "schema": "qf-wp12-vv3d-campaign-assessment-v1",
+                        "status": "INCONCLUSIVE", "decision": "STOP_INCONCLUSIVE",
+                        "criteria": {}, "level_metrics": {}, "blocking_failures": [],
+                        "reason": f"ASSESSMENT_ARCHIVE_OR_PROVENANCE_ERROR:{type(exc).__name__}:{exc}",
+                    }
+                    campaign_gate_status = "INCONCLUSIVE"
+            terminal = _vv3d_terminal_disposition(
+                science_state=science_state, provenance_state=provenance_state,
+                campaign_gate_status=campaign_gate_status,
+            )
+            final_state = terminal["run_state"]
             state_archive = None
             state_archive_error = None
-            if final_state == "PASS" and not adaptive:
+            if final_state == "PASS" and not adaptive and not is_r2:
                 try:
                     state_archive = _write_vv3d_state_archive(
                         evidence_root=Path(evidence_root), case_id=case_id, attempt_id=attempt_id,
@@ -7397,19 +8191,12 @@ def run_wp12_vv3d_pytest(
                     state_archive_error = f"{type(exc).__name__}: {exc}"
                 if state_archive is None or state_archive_error is not None:
                     provenance_state = "PROVENANCE_MISMATCH"
-                    final_state = "PROVENANCE_MISMATCH"
-            if provenance_state != "VERIFIED":
-                ledger_status = "INFRA_ERROR"
-            elif science_state == "PASS":
-                ledger_status = "PASS"
-            elif science_state == "PYTEST_FAILED":
-                ledger_status = "FAIL"
-            elif "TIMEOUT" in science_state:
-                ledger_status = "TIMEOUT"
-            elif "INTERRUPTED" in science_state:
-                ledger_status = "INTERRUPTED"
-            else:
-                ledger_status = "RESOURCE_LIMIT"
+            terminal = _vv3d_terminal_disposition(
+                science_state=science_state, provenance_state=provenance_state,
+                campaign_gate_status=campaign_gate_status,
+            )
+            final_state = terminal["run_state"]
+            ledger_status = terminal["ledger_status"]
             campaign_ledger.finish_runner_attempt(
                 run_id=runner_receipt["reservation_id"], status=ledger_status,
                 elapsed_seconds=result.elapsed_seconds,
@@ -7430,6 +8217,9 @@ def run_wp12_vv3d_pytest(
                 "observables_sidecar": sidecar_ref,
                 "scientific_observables": scientific_observables,
                 "scientific_criteria": scientific_criteria,
+                "campaign_gate_status": campaign_gate_status,
+                "campaign_assessment": campaign_assessment_ref,
+                "campaign_assessment_result": campaign_assessment,
                 "campaign_ledger_sha256_after_completion": _sha256(campaign_ledger_path),
             }
             _atomic_json(record_path, final)
@@ -7675,7 +8465,26 @@ def run_pytest(
     hypothesis_id: str | None = None,
     batch_context: Mapping[str, Any] | None = None,
 ) -> tuple[dict[str, Any], int]:
+    if worktree_id == VV3D_TET4_L3_OPTIMIZED_DIAGNOSTIC_WORKTREE_ID:
+        if (scope_name != "fem_exploratory" or series_id is not None or not target or not reason
+                or not preflight_id or execution_manifest is None or attempt_basis or hypothesis_id or batch_context):
+            raise PolicyError("diagnostic requires one exact node, reason, preflight and manifest; retries are forbidden")
+        return _call_vv3d_tet4_l3_diagnostic("run", target, reason, preflight_id, Path(execution_manifest))
+    if worktree_id == "wp12_vv3d_tet4_l3_diagnostic":
+        raise PolicyError("the historical TET4-L3 diagnostic scope is closed; retries and R2 reopening are forbidden")
     policy = load_policy()
+    if worktree_id == VV3D_R2_WORKTREE_ID:
+        vv3d_r2_entry = policy["worktrees"][VV3D_R2_WORKTREE_ID]
+        if scope_name != "fem_exploratory":
+            raise PolicyError("VV3D R2 supports only its registered FEM exploratory scope")
+        if target not in vv3d_r2_entry["allowed_nodeids"] or target not in VV3D_R2_NODEIDS:
+            raise PolicyError("VV3D R2 target is outside its exact twelve-case initial FEM catalogue")
+        if not reason or not reason.strip() or not preflight_id or execution_manifest is None:
+            raise PolicyError("VV3D R2 requires a reason, exact collect-only preflight and Owner-authorized manifest")
+        return run_wp12_vv3d_pytest(
+            target, series_id, worktree_id=VV3D_R2_WORKTREE_ID, reason=reason.strip(),
+            preflight_id=preflight_id, execution_manifest=Path(execution_manifest),
+        )
     if worktree_id == VV3D_WORKTREE_ID:
         vv3d_entry = policy["worktrees"][VV3D_WORKTREE_ID]
         if target not in vv3d_entry["allowed_nodeids"]:
@@ -8291,6 +9100,16 @@ def run_pytest(
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers.add_parser(
+        "verify-vv3d-r2-ledger-import",
+        help="verify the R2 ledger sibling import and source path without reading or writing a ledger",
+    )
+    subparsers.add_parser("inspect-vv3d-tet4-l3-optimized-diagnostic", help="inspect the exact diagnostic scope without execution")
+    subparsers.add_parser("prepare-vv3d-tet4-l3-optimized-diagnostic", help="freeze the diagnostic contract without authorization")
+    diagnostic_manifest_parser = subparsers.add_parser(
+        "prepare-vv3d-tet4-l3-optimized-manifest", help="bind the approved diagnostic to its exact successful preflight"
+    )
+    diagnostic_manifest_parser.add_argument("--preflight-id", required=True)
     p0_batch_prepare_parser = subparsers.add_parser(
         "prepare-wp12a-p0-batch",
         help="freeze an ordered WP12-A P0 case contract and ledger baseline; does not authorize or run FEM",
@@ -8326,6 +9145,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             WP12B_HEX20_R2_WORKTREE_ID,
             HEX8SRI_CONVERGENCE24_WORKTREE_ID,
             VV3D_WORKTREE_ID,
+            VV3D_R2_WORKTREE_ID,
+            VV3D_TET4_L3_OPTIMIZED_DIAGNOSTIC_WORKTREE_ID,
         ),
         required=True,
     )
@@ -8405,7 +9226,27 @@ def main(argv: Sequence[str] | None = None) -> int:
     test_parser.add_argument("--hypothesis-id", help="unique ID required for a same-input new diagnostic hypothesis")
     args = parser.parse_args(argv)
     try:
-        if args.command == "prepare-wp12a-p0-batch":
+        if args.command == "inspect-vv3d-tet4-l3-optimized-diagnostic":
+            result = _call_vv3d_tet4_l3_diagnostic("inspect")
+            exit_code = 0
+        elif args.command == "prepare-vv3d-tet4-l3-optimized-diagnostic":
+            result = _call_vv3d_tet4_l3_diagnostic("prepare_contract")
+            exit_code = 0
+        elif args.command == "prepare-vv3d-tet4-l3-optimized-manifest":
+            result = _call_vv3d_tet4_l3_diagnostic("prepare_manifest", args.preflight_id)
+            exit_code = 0
+        elif args.command == "verify-vv3d-r2-ledger-import":
+            ledger_module = _load_vv3d_r2_ledger_module()
+            result = {
+                "state": "IMPORT_OK",
+                "module": ledger_module.__name__,
+                "path": str(Path(ledger_module.__file__).resolve()),
+                "ledger_class": f"{ledger_module.RecoveryR2Ledger.__module__}.RecoveryR2Ledger",
+                "ledger_created": False,
+                "attempt_reserved": False,
+            }
+            exit_code = 0
+        elif args.command == "prepare-wp12a-p0-batch":
             from wp12a_p0_batch import prepare_contract
 
             result = prepare_contract(sys.modules[__name__], args.campaign_id, args.case_manifest)

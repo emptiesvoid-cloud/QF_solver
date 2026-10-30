@@ -1356,21 +1356,21 @@
       "mode": "fem_exploratory",
       "root": "E:\\QFSolverAgents\\hex8-sri-research",
       "git_root": "E:\\QFSolverAgents\\hex8-sri-research",
-      "branch": "research/hex8-sri-equilibrium",
+      "branch": "research/hex8sri-equilibrium-8x4x4-20261030",
       "baseline_commit": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4",
       "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1",
       "campaign_id": "HEX8-SRI-CONVERGENCE-24-2026-10-27",
       "campaign_scope_id": "hex8sri-convergence24",
-      "source_fingerprint_sha256": "bb6238db9954ff2992347b980c0dfc681f73b74433f76e01dd94e40811c85ea3",
+      "source_fingerprint_sha256": "64d5760e1c904d110a1c1ce9bc490f3f64fdc5168b264de244a7cd878e6c4f2d",
       "source_identity": {
-        "branch": "research/hex8-sri-equilibrium",
-        "head": "5304e3f00e73a916d1af4c1d75375a9b051f0524",
-        "tree": "5d995ab972e8627d266e1cd2b86d2b858b93f84a",
-        "fingerprint_sha256": "bb6238db9954ff2992347b980c0dfc681f73b74433f76e01dd94e40811c85ea3",
+        "branch": "research/hex8sri-equilibrium-8x4x4-20261030",
+        "head": "e251883a0dd13e20628eb2ee229b630603af1efb",
+        "tree": "fdf9e76cff3293be3705cf29a3226fb480a928ad",
+        "fingerprint_sha256": "64d5760e1c904d110a1c1ce9bc490f3f64fdc5168b264de244a7cd878e6c4f2d",
         "fingerprint_algorithm": "raw_worktree_inventory_sha256_v1",
-        "inventory_path": "docs/development/hex8sri-source-byte-inventory-5304e3f0.json",
-        "inventory_sha256": "13eaa22b2f9ea9bb4c88a9605c96e65451fefef500b2cf32c54905d895bc7b09",
-        "inventory_file_count": 517,
+        "inventory_path": "docs/development/hex8sri-source-byte-inventory-e251883a.json",
+        "inventory_sha256": "53bc4d1b4c1506562469aa018d30dde8c9b7b39f1ed4ac61d6bb93e06028d183",
+        "inventory_file_count": 540,
         "raw_byte_policy": "preserve checkout bytes; no LF/CRLF normalization"
       },
       "source_test_worktree_id": "hex8sri-convergence24",
@@ -1700,7 +1700,7 @@
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_8x4x4.json",
-          "sha256": "b2ac45f0547c63e9257968774ab7911e46e1cebbcff89a7978a648f42d328348"
+          "sha256": "51b3828a67a4a0631b435c31d4a950ce5f150f6ba584bb968e247a80ce44a910"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_16x8x8.json",
@@ -1732,7 +1732,7 @@
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_8x4x4.json",
-          "sha256": "3242d28111f5b642ab67caf038f7a87b0d13be969caa111f4469b53fd52f2c52"
+          "sha256": "95982902fe9853b7266ebdf5dbf40d2afbf501344fdffbef45700776f8197fae"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_16x8x8.json",
@@ -1764,7 +1764,7 @@
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_8x4x4.json",
-          "sha256": "01b493f2af7867330723a5dc3ce6a723fb481269035ba92a5f8d4749a6ce741b"
+          "sha256": "a51e66bb508146696e3eef4e0802e9d0a61ce8692775c6fa9060e6589f6b85d7"
         }
       }
     },
@@ -1945,6 +1945,146 @@
       "node_attempt_ledger": {
         "path": "node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl"
       }
+    },
+    "wp12_vv3d_recovery_r2": {
+      "purpose": "Independent VV3D recovery campaign R2; exact Owner decision and R2 manifest required before any execution",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\test-worktrees\\vv3d-science-source-candidate",
+      "git_root": "E:\\QFSolverAgents\\test-worktrees\\vv3d-science-source-candidate",
+      "branch": "research/wp12-vv3d-recovery-r2",
+      "baseline_commit": "34812fc7525859686f88ac7e56e1833ee558cb66",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-vv3d-recovery-r2",
+      "allow_native_vv_skip_override": false,
+      "execution_authorized": false,
+      "execution_capability": "INITIAL_FEM_ONLY_WITH_EXACT_R2_OWNER_DECISION",
+      "runner_capabilities": {
+        "initial_fem": true,
+        "adaptive_fem": false,
+        "qpost": false
+      },
+      "campaign_id": "WP12-VV3D-RECOVERY-20261030-R2",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-VV3D-RECOVERY-2026-10-30-R2",
+      "require_clean_worktree": true,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 24,
+      "max_total_seconds": 28800,
+      "max_timeout_seconds": 1200,
+      "target_max_dofs": 30000,
+      "rss_soft_limit_mib": 4096,
+      "concurrency_class": "vv3d_serial",
+      "nodeid_registration": {
+        "enabled": false,
+        "max_nodeids": 12
+      },
+      "budgets": {
+        "timeout_seconds": 1200,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 32,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 1024,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L3]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L3]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L3]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L1]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L2]",
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L3]"
+      ],
+      "adaptive_fem_nodeids": [],
+      "qpost_nodeids": [],
+      "per_node_selected_dofs": {
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L1]": 81,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L2]": 375,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L3]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L1]": 375,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L2]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L3]": 14739,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L1]": 81,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L2]": 375,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L3]": 2187,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L1]": 243,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L2]": 1275,
+        "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L3]": 8019
+      },
+      "node_attempt_ledger": {
+        "path": "node-attempt-ledger-wp12-vv3d-recovery-r2.jsonl",
+        "predecessor": {
+          "path": "E:\\QFSolverAgents\\evidence\\wp12-vv3d-adaptive\\node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl",
+          "sha256": "2788619d097d148c74a3e71cef456ee52bc03642d680f9090360418b61d20bf8",
+          "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-VV3D-ADAPTIVE-2026-10-29-R1"
+        }
+      },
+      "max_r2_attempts": 12,
+      "source_identity": {
+        "branch": "research/wp12-vv3d-recovery-r2",
+        "head": "ba36860a156468dd7c54ee435a809222e227205a",
+        "tree": "2f8c0d3cef5a6b07eac9ad48d0dcb1a311af72e2",
+        "fingerprint_sha256": "651bbacaf133106a6a8c8b2177e8741cf3fed9a9fdfc7f907d350484dfebd3ce"
+      },
+      "source_fingerprint_sha256": "651bbacaf133106a6a8c8b2177e8741cf3fed9a9fdfc7f907d350484dfebd3ce"
+    }
+  },
+  "diagnostic_scopes": {
+    "wp12_vv3d_tet4_l3_diagnostic": {
+      "root": "E:\\QFSolverAgents\\worktrees\\vv3d-tet4-l3-performance\\qf_solver",
+      "branch": "diagnostic/vv3d-tet4-l3-performance",
+      "head": "59fdf0be1dd4896eb2c09b49127d02cedd2324ae",
+      "tree": "80587b0c38d72dab4695af6f159e7700c41145f9",
+      "source_fingerprint_sha256": "7500b3121983a05634c0cb5ddf5b58bca1bb3a85825066d589dda2d07a9e9a41",
+      "target": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L3]",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-vv3d-tet4-l3-diagnostic",
+      "ledger": "node-attempt-ledger-vv3d-tet4-l3-diagnostic.jsonl",
+      "r1_sha256": "2788619d097d148c74a3e71cef456ee52bc03642d680f9090360418b61d20bf8",
+      "r2_sha256": "5e090e1351578803669af37f04d161a6c4608436763f87d71e03315978446bb5",
+      "timeout_seconds": 2400,
+      "preflight_timeout_seconds": 300,
+      "rss_soft_limit_mib": 4096,
+      "selected_dofs": 2187,
+      "max_dofs": 30000,
+      "archive_size_limit_mib": 256,
+      "attempts_max": 1,
+      "combined_attempts_max": 24,
+      "cumulative_seconds_max": 28800,
+      "concurrency": 1,
+      "implicit_retry": false,
+      "execution_authorized": false
+    },
+    "wp12_vv3d_tet4_l3_optimized_diagnostic": {
+      "root": "E:\\QFSolverAgents\\worktrees\\vv3d-tet4-l3-optimized\\qf_solver",
+      "branch": "codex/vv3d-tet4-l3-optimized",
+      "head": "096857b890353c8cf1c8e02007fe97c5455cb50a",
+      "tree": "ca84f375e4aaf91bee3fd42bfa87406c796681bd",
+      "source_fingerprint_sha256": "d2ccee34ab5aba092bcacfa98e2d3332edc7fe02c9e1c7b39de092a59635d39b",
+      "field_error_draft_sha256": "77a7ce40524769c79ca30ad2bea3ce1fdcefb2e1fe1f79a34ea756cf1b93ee7d",
+      "target": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L3]",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-vv3d-tet4-l3-optimized-diagnostic",
+      "ledger": "node-attempt-ledger-vv3d-tet4-l3-optimized-diagnostic.jsonl",
+      "r1_sha256": "2788619d097d148c74a3e71cef456ee52bc03642d680f9090360418b61d20bf8",
+      "r2_sha256": "5e090e1351578803669af37f04d161a6c4608436763f87d71e03315978446bb5",
+      "predecessor_diagnostic_sha256": "3dfab79fabd3ae5986b265ecdebf6a4ed1030f3806ab25ae12f0a9d4a1f5e6c4",
+      "timeout_seconds": 1200,
+      "preflight_timeout_seconds": 300,
+      "rss_soft_limit_mib": 4096,
+      "selected_dofs": 2187,
+      "max_dofs": 30000,
+      "archive_size_limit_mib": 256,
+      "attempts_max": 1,
+      "combined_attempts_max": 24,
+      "cumulative_seconds_max": 28800,
+      "concurrency": 1,
+      "implicit_retry": false,
+      "execution_authorized": false
     }
   },
   "resource_coordination_root": "E:\\QFSolverAgents\\evidence\\.wp12-coordination"

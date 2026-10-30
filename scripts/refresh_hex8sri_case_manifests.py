@@ -25,10 +25,11 @@ except ModuleNotFoundError:
 
 
 CAMPAIGN_RELATIVE = Path("investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24")
-SOURCE_DIRNAME = "registered_manifests_execution_gate"
-REFRESH_DIRNAME = "registered_manifests_source_refresh_c93d539d"
+SOURCE_DIRNAME = "registered_manifests_source_refresh_c93d539d"
+REFRESH_DIR_PREFIX = "registered_manifests_source_refresh_"
 HISTORICAL_SOURCE_HEAD = "8b61f5d37b9557e6d04cbcf8d787b4208af49486"
 HISTORICAL_SOURCE_FINGERPRINT = "c93d539d6b67417f067a190066629d41f84c1a04f61a86b50034c3cfda917d04"
+HISTORICAL_SOURCE_BRANCH = "research/hex8-sri-equilibrium"
 HISTORICAL_SUMS_SHA256 = "aa16aa90850d48a8a3765e5b6611d5361db5db597302a6b43b2215263fbed632"
 PREPARATION_STATUS = "NOT_RUN_AT_MANIFEST_CREATION; RECEIPT_STORED_SEPARATELY"
 CONTROLLER_FIELDS = {
@@ -148,6 +149,12 @@ def _sha256(data: bytes) -> str:
 
 def _json_bytes(value: Any) -> bytes:
     return (json.dumps(value, ensure_ascii=False, allow_nan=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
+
+
+def _default_refresh_output_dir(science_head: str) -> Path:
+    if len(science_head) != 40 or any(character not in "0123456789abcdef" for character in science_head):
+        raise ValueError("science HEAD must be a full lowercase Git SHA-1")
+    return CAMPAIGN_RELATIVE / f"{REFRESH_DIR_PREFIX}{science_head[:8]}"
 
 
 def _registration_sha256(manifest: dict[str, Any]) -> str:
@@ -324,9 +331,10 @@ def build_refresh_plan(
     science_root = science_root.resolve(strict=True)
     source_manifest_dir = source_manifest_dir.resolve(strict=True)
     output_dir = output_dir.resolve()
+    entry = controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
     if Path(_git(science_root, "rev-parse", "--show-toplevel")).resolve() != science_root:
         raise ValueError("science root is not the exact Git worktree root")
-    if _git(science_root, "branch", "--show-current") != "research/hex8-sri-equilibrium":
+    if _git(science_root, "branch", "--show-current") != entry["branch"]:
         raise ValueError("science worktree is not on the registered HEX8-SRI branch")
     if _git(science_root, "rev-parse", "HEAD") != expected_science_head:
         raise ValueError("science HEAD differs from the Owner-supplied source identity")
@@ -366,7 +374,6 @@ def build_refresh_plan(
         raise ValueError("source file inventory differs between registered nodeids")
 
     first_hashes = source_hashes_by_target[targets[0]]
-    entry = controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
     identity = controller._git_identity(science_root, expected_branch=entry["branch"], baseline_commit=entry["baseline_commit"])
     controller._validate_hex8sri_registered_source_identity(
         science_root, entry, identity, targets[0], first_hashes, expected_source_fingerprint
@@ -382,7 +389,7 @@ def build_refresh_plan(
 
     refreshed_common = dict(common_problem)
     refreshed_common["source_identity"] = {
-        "branch": "research/hex8-sri-equilibrium",
+        "branch": entry["branch"],
         "source_commit": expected_science_head,
         "source_files_sha256": first_hashes,
         "source_fingerprint_sha256": expected_source_fingerprint,
@@ -405,7 +412,7 @@ def build_refresh_plan(
             raise ValueError(f"source case is not execution-locked: {target}")
         if old.get("execution_state") != "PREPARED_NOT_AUTHORIZED" or old.get("frozen_criteria") is not None:
             raise ValueError(f"source case is authorized or has frozen criteria: {target}")
-        if old.get("science_branch") != "research/hex8-sri-equilibrium":
+        if old.get("science_branch") != HISTORICAL_SOURCE_BRANCH:
             raise ValueError(f"source case names a different science branch: {target}")
         if old.get("source_files_sha256") != historical_hashes or old.get("science_source_commit") != HISTORICAL_SOURCE_HEAD or old.get("source_fingerprint_sha256") != HISTORICAL_SOURCE_FINGERPRINT:
             raise ValueError(f"case historical source identity differs from its verified inventory: {target}")
@@ -523,7 +530,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--science-root", type=Path, required=True)
     parser.add_argument("--source-manifest-dir", type=Path, required=True)
-    parser.add_argument("--output-dir", type=Path, default=CAMPAIGN_RELATIVE / REFRESH_DIRNAME)
+    parser.add_argument("--output-dir", type=Path, help="new, unused output directory; defaults to one named for the science HEAD")
     parser.add_argument("--science-head", required=True)
     parser.add_argument("--source-fingerprint", required=True)
     parser.add_argument("--plan-only", action="store_true")
@@ -533,6 +540,8 @@ def main() -> int:
     if not source_dir.is_absolute():
         source_dir = science_root / source_dir
     output_dir = args.output_dir
+    if output_dir is None:
+        output_dir = _default_refresh_output_dir(args.science_head)
     if not output_dir.is_absolute():
         output_dir = science_root / output_dir
     provenance = None if args.plan_only else controller._controller_provenance()
