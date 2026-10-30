@@ -75,6 +75,12 @@ def _synthetic_case_files(tmp_path: Path) -> tuple[Path, Path, Path]:
             "blas_thread_environment": thread_environment,
             "budget_semantics": refresh.BUDGET_SEMANTICS,
         }
+        formulation_record = refresh.EXPECTED_FORMULATIONS[formulation]
+        if formulation == "sri_historical":
+            formulation_record = {
+                **formulation_record,
+                "operator": "frozen parent-source central volumetric expression without weight 8",
+            }
         manifest = {
             "schema": "qfsolver-hex8-sri-structural-case-v2",
             "campaign_id": controller.HEX8SRI_CONVERGENCE24_CAMPAIGN_ID,
@@ -94,7 +100,7 @@ def _synthetic_case_files(tmp_path: Path) -> tuple[Path, Path, Path]:
             "do_not_execute": True,
             "frozen_criteria": None,
             "preflight_status": "NOT_RUN",
-            "formulation": refresh.EXPECTED_FORMULATIONS[formulation],
+            "formulation": formulation_record,
             "poisson_ratio": controller.HEX8SRI_CONVERGENCE24_NU_TOKENS[nu_token],
             "material": {
                 "young_modulus_pa": 1.0e6,
@@ -192,6 +198,7 @@ def test_refresh_plan_rebinds_exact_refined_three_without_changing_case_physics_
     ):
         assert new[key] == old[key]
     assert new["criteria_contract"] == refresh.EXPECTED_REFINED3_CRITERIA_CONTRACT_PROPOSAL
+    assert new["formulation"] == refresh.EXPECTED_FORMULATIONS["hex8_standard"]
     assert new["criteria_status"] == "OWNER_FREEZE_REQUIRED"
     assert new["exact_nodeid"] == target
     assert new["execution_authorized"] is False
@@ -242,6 +249,35 @@ def test_criteria_contract_keeps_campaign_gates_not_assessed_until_multimesh_ora
         "status": "NOT_ASSESSED",
     }
     assert refresh.EXPECTED_COMMON_PHYSICS["proposed_criteria"] == controller.HEX8SRI_PROPOSED_CRITERIA
+
+
+def test_sri_historical_manifest_is_a_controlled_weight_ablation_not_exact_reproduction(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    science_root, source_dir, _ = _synthetic_case_files(tmp_path)
+    nodeid = refresh.REFINED3_NODEIDS[1]
+    name = "manifest_sri_historical_nu_0p4999_8x4x4.json"
+    old_path = source_dir / name
+    old = json.loads(old_path.read_text(encoding="utf-8"))
+    old["formulation"] = {
+        **refresh.EXPECTED_FORMULATIONS["sri_historical"],
+        "operator": "frozen parent-source central volumetric expression without weight 8",
+    }
+    old_path.write_bytes(_json_bytes(old))
+    _write_inventory(source_dir)
+    _mock_science_identity(monkeypatch, science_root)
+    plan = refresh.build_refresh_plan(
+        science_root,
+        source_dir,
+        science_root / "historical-ablation",
+        expected_science_head=SOURCE_HEAD,
+        expected_source_fingerprint=SOURCE_FINGERPRINT,
+        nodeids=(nodeid,),
+    )
+    refreshed = json.loads(plan["payloads"][name])
+    assert refreshed["formulation"]["operator"] == refresh.EXPECTED_FORMULATIONS["sri_historical"]["operator"]
+    assert "controlled ablation" in refreshed["formulation"]["operator"]
+    assert "not exact historical arithmetic reproduction" in refreshed["formulation"]["operator"]
 
 
 @pytest.mark.parametrize("mutation", ["missing", "extra", "duplicate", "bad_schema", "tampered"])

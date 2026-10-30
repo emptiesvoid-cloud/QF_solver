@@ -41,6 +41,7 @@ CONTROLLER_FIELDS = {
     "controller_identity_status",
 }
 MUTABLE_CASE_FIELDS = CONTROLLER_FIELDS | {
+    "formulation",
     "source_fingerprint_sha256",
     "science_source_commit",
     "source_files_sha256",
@@ -66,7 +67,7 @@ EXPECTED_FORMULATIONS = {
         "element_type": "HistoricalHex8SRIElement",
         "historical_source_commit": "2aa994f34900f39bef8df9db5fb025157fb694bb",
         "id": "sri_historical",
-        "operator": "frozen parent-source central volumetric expression without weight 8",
+        "operator": "controlled ablation: central volumetric quadrature weight 1 instead of 8; not exact historical arithmetic reproduction",
     },
     "sri_corrected": {
         "element_type": "Hex8SRIElement",
@@ -441,9 +442,17 @@ def build_refresh_plan(
         formulation, nu_token, mesh_token = case
         expected_case_id = f"{formulation}_nu_{nu_token}_{mesh_token}"
         expected_nu = controller.HEX8SRI_CONVERGENCE24_NU_TOKENS[nu_token]
+        old_formulation = old.get("formulation")
+        if formulation == "sri_historical":
+            expected_old_formulation = {
+                **EXPECTED_FORMULATIONS[formulation],
+                "operator": "frozen parent-source central volumetric expression without weight 8",
+            }
+        else:
+            expected_old_formulation = EXPECTED_FORMULATIONS[formulation]
         if (
             old.get("case_id") != expected_case_id
-            or old.get("formulation") != EXPECTED_FORMULATIONS[formulation]
+            or old_formulation != expected_old_formulation
             or old.get("poisson_ratio") != expected_nu
             or old.get("material") != {"young_modulus_pa": 1_000_000.0, "poisson_ratio": expected_nu}
             or old.get("boundary_conditions") != EXPECTED_BOUNDARY_CONDITIONS
@@ -478,6 +487,7 @@ def build_refresh_plan(
 
         refreshed = dict(old)
         refreshed.update(
+            formulation=EXPECTED_FORMULATIONS[formulation],
             source_fingerprint_sha256=expected_source_fingerprint,
             science_source_commit=expected_science_head,
             source_files_sha256=source_hashes_by_target[target],

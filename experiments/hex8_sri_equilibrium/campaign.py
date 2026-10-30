@@ -34,7 +34,12 @@ LOCAL_CONNECTIVITY_OFFSETS = (
 
 
 class HistoricalHex8SRIElement(Hex8SRIElement):
-    """Frozen reproduction of the parent source's missing central weight."""
+    """Controlled ablation of the center-point volumetric quadrature weight.
+
+    The legacy-named case uses the parent-source central volumetric expression
+    with weight 1 instead of the corrected weight 8. It is not a bit-for-bit
+    reproduction of the historical arithmetic path.
+    """
 
     historical_parent_commit = SOURCE_PARENT
 
