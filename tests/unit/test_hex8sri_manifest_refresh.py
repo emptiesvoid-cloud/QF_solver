@@ -20,6 +20,23 @@ SOURCE_FILE = "tests/verification/test_hex8_sri_convergence.py"
 OLD_FINGERPRINT = controller._source_inventory_fingerprint({SOURCE_FILE: OLD_HASH})
 
 
+def test_registered_source_refresh_bundle_matches_pinned_raw_digest() -> None:
+    science_root = Path(__file__).resolve().parents[2]
+    directory = science_root / refresh.CAMPAIGN_RELATIVE / refresh.SOURCE_DIRNAME
+    sums_path = directory / "SHA256SUMS.txt"
+    assert hashlib.sha256(sums_path.read_bytes()).hexdigest() == refresh.HISTORICAL_SUMS_SHA256
+    manifests = refresh._read_case_inventory(directory, controller._hex8sri_convergence24_nodeids())
+    assert len(manifests) == 24
+
+
+def test_default_refresh_output_is_full_head_bound_and_cannot_target_source() -> None:
+    head = "a" * 40
+    assert refresh._default_refresh_output_dir(head) == refresh.CAMPAIGN_RELATIVE / f"{refresh.REFRESH_DIR_PREFIX}{head[:8]}"
+    assert refresh._default_refresh_output_dir(head) != refresh.CAMPAIGN_RELATIVE / refresh.SOURCE_DIRNAME
+    with pytest.raises(ValueError, match="full lowercase Git SHA-1"):
+        refresh._default_refresh_output_dir("a" * 8)
+
+
 def _json_bytes(payload: object) -> bytes:
     return (json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
 

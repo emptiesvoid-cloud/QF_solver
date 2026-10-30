@@ -29,8 +29,8 @@ REFINED3_NODEIDS = science_criteria.REFINED3_NODEIDS
 
 
 CAMPAIGN_RELATIVE = Path("investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24")
-SOURCE_DIRNAME = "registered_manifests_execution_gate"
-REFRESH_DIRNAME = "registered_manifests_source_refresh_c93d539d"
+SOURCE_DIRNAME = "registered_manifests_source_refresh_c93d539d"
+REFRESH_DIR_PREFIX = "registered_manifests_source_refresh_"
 HISTORICAL_SOURCE_HEAD = "8b61f5d37b9557e6d04cbcf8d787b4208af49486"
 HISTORICAL_SOURCE_FINGERPRINT = "c93d539d6b67417f067a190066629d41f84c1a04f61a86b50034c3cfda917d04"
 HISTORICAL_SUMS_SHA256 = "aa16aa90850d48a8a3765e5b6611d5361db5db597302a6b43b2215263fbed632"
@@ -158,6 +158,12 @@ def _sha256(data: bytes) -> str:
 
 def _json_bytes(value: Any) -> bytes:
     return (json.dumps(value, ensure_ascii=False, allow_nan=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
+
+
+def _default_refresh_output_dir(science_head: str) -> Path:
+    if len(science_head) != 40 or any(character not in "0123456789abcdef" for character in science_head):
+        raise ValueError("science HEAD must be a full lowercase Git SHA-1")
+    return CAMPAIGN_RELATIVE / f"{REFRESH_DIR_PREFIX}{science_head[:8]}"
 
 
 def _registration_sha256(manifest: dict[str, Any]) -> str:
@@ -559,7 +565,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--science-root", type=Path, required=True)
     parser.add_argument("--source-manifest-dir", type=Path, required=True)
-    parser.add_argument("--output-dir", type=Path, default=CAMPAIGN_RELATIVE / REFRESH_DIRNAME)
+    parser.add_argument("--output-dir", type=Path, help="new, unused output directory; defaults to one named for the science HEAD")
     parser.add_argument("--science-head", required=True)
     parser.add_argument("--source-fingerprint", required=True)
     parser.add_argument(
@@ -575,6 +581,8 @@ def main() -> int:
     if not source_dir.is_absolute():
         source_dir = science_root / source_dir
     output_dir = args.output_dir
+    if output_dir is None:
+        output_dir = _default_refresh_output_dir(args.science_head)
     if not output_dir.is_absolute():
         output_dir = science_root / output_dir
     provenance = None if args.plan_only else controller._controller_provenance()
