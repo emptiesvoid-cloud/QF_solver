@@ -153,3 +153,42 @@ def test_instrumented_worker_emits_stages_with_fake_fem_hooks(tmp_path, monkeypa
             "finite_element_model", "solve_model", "stress_recovery", "extract_displacements",
             "independent_errors_order_8", "independent_errors_order_12", "postprocess_metrics",
             "criteria_evaluation", "serialize_and_archive"}.issubset(ended)
+
+
+def test_diagnostic_child_gate_requires_exact_scope_receipt_and_trace(tmp_path, monkeypatch) -> None:
+    import hashlib
+    import importlib.util
+
+    source = Path(__file__).with_name("test_wp12_vv3d_adaptive_prepared.py")
+    spec = importlib.util.spec_from_file_location("vv3d_synthetic_guard_test", source)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    manifest, env = module._synthetic_runner_manifest(tmp_path, "VV3D-TET4-L3")
+    manifest["scope_id"] = case_harness.TET4_L3_DIAGNOSTIC_SCOPE
+    manifest["timeout_seconds"] = case_harness.TET4_L3_DIAGNOSTIC_TIMEOUT_SECONDS
+    manifest_path = Path(env["QF_DEV_MANIFEST_PATH"])
+    raw = json.dumps(manifest, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+    manifest_path.write_bytes(raw)
+    env["QF_DEV_MANIFEST_SHA256"] = hashlib.sha256(raw).hexdigest()
+    receipt_path = Path(env["QF_DEV_VV3D_RUNNER_RECEIPT_PATH"])
+    receipt = json.loads(receipt_path.read_bytes())
+    receipt.update({"manifest_sha256": env["QF_DEV_MANIFEST_SHA256"],
+                    "ledger_scope_id": case_harness.TET4_L3_DIAGNOSTIC_SCOPE,
+                    "ledger_path": str(tmp_path / case_harness.TET4_L3_DIAGNOSTIC_LEDGER),
+                    "timeout_seconds": case_harness.TET4_L3_DIAGNOSTIC_TIMEOUT_SECONDS,
+                    "campaign_seconds_reserved_after": 3755.0})
+    raw = json.dumps(receipt, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+    receipt_path.write_bytes(raw)
+    env["QF_DEV_VV3D_RUNNER_RECEIPT_SHA256"] = hashlib.sha256(raw).hexdigest()
+    env["QF_DEV_WORKTREE_ID"] = case_harness.TET4_L3_DIAGNOSTIC_SCOPE
+    env["QF_VV3D_PERFORMANCE_TRACE"] = "1"
+    for key, value in env.items():
+        monkeypatch.setenv(key, value)
+    assert case_harness.require_authorized_execution("VV3D-TET4-L3")["case_id"] == "VV3D-TET4-L3"
+    monkeypatch.delenv("QF_VV3D_PERFORMANCE_TRACE")
+    with pytest.raises(PermissionError, match="active tracing"):
+        case_harness.require_authorized_execution("VV3D-TET4-L3")
+    monkeypatch.setenv("QF_VV3D_PERFORMANCE_TRACE", "1")
+    with pytest.raises(PermissionError):
+        case_harness.require_authorized_execution("VV3D-TET4-L2")

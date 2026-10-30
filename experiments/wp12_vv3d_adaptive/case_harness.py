@@ -20,6 +20,9 @@ from experiments.wp12_vv3d_adaptive import criteria_evaluator, evidence, perform
 CAMPAIGN_DIR = Path(__file__).parent / "prepared_20261030_r2"
 MATRIX_PATH = CAMPAIGN_DIR / "MATRIX_NOT_AUTHORIZED.json"
 VV3D_LEDGER_FILENAME = "node-attempt-ledger-wp12-vv3d-recovery-r2.jsonl"
+TET4_L3_DIAGNOSTIC_SCOPE = "wp12_vv3d_tet4_l3_diagnostic"
+TET4_L3_DIAGNOSTIC_LEDGER = "node-attempt-ledger-vv3d-tet4-l3-diagnostic.jsonl"
+TET4_L3_DIAGNOSTIC_TIMEOUT_SECONDS = 2400
 NOT_AUTHORIZED_FINGERPRINT = "0" * 64
 ADAPTIVE_CATALOG_PATH = Path(__file__).parent / "ADAPTIVE_CATALOG_DRAFT.json"
 ADAPTIVE_RECEIPT_SCHEMA = "qf-wp12-vv3d-adaptive-runner-receipt-v1"
@@ -1087,6 +1090,12 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
     }
     context = {key: os.environ.get(name, "") for key, name in names.items()}
     context["campaign_id"] = "WP12-VV3D-RECOVERY-20261030-R2"
+    diagnostic = os.environ.get("QF_DEV_WORKTREE_ID") == TET4_L3_DIAGNOSTIC_SCOPE
+    if diagnostic and (case_id != "VV3D-TET4-L3" or os.environ.get("QF_VV3D_PERFORMANCE_TRACE") != "1"):
+        raise PermissionError("TET4-L3 diagnostic requires its exact case and active tracing")
+    expected_timeout = TET4_L3_DIAGNOSTIC_TIMEOUT_SECONDS if diagnostic else case["timeout_max_seconds"]
+    expected_ledger_scope = TET4_L3_DIAGNOSTIC_SCOPE if diagnostic else "wp12_vv3d_recovery_r2"
+    expected_ledger_name = TET4_L3_DIAGNOSTIC_LEDGER if diagnostic else VV3D_LEDGER_FILENAME
     if (context["case_id"] != case_id or context["nodeid"] != _expected_nodeid(case_id)
             or not all(context.values())
             or not re.fullmatch(r"[0-9a-f]{64}", context["manifest_sha256"])
@@ -1125,13 +1134,15 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
         "do_not_execute": False,
         "mesh_sha256": case["mesh_sha256"],
         "selected_dofs": case["dofs"],
-        "timeout_seconds": case["timeout_max_seconds"],
+        "timeout_seconds": expected_timeout,
         "rss_soft_limit_mib": case["rss_soft_limit_mib"],
         "max_attempts": case["attempts_max"],
         "authorization_id": context["authorization_id"],
         "scientific_fingerprint": context["scientific_fingerprint"],
         "controller_fingerprint": context["controller_fingerprint"],
     }
+    if diagnostic:
+        expected["scope_id"] = TET4_L3_DIAGNOSTIC_SCOPE
     if not isinstance(manifest, dict) or any(manifest.get(key) != value for key, value in expected.items()):
         raise PermissionError("VV3D manifest does not bind this case, identity and budget")
     decision = manifest.get("owner_decision")
@@ -1194,11 +1205,11 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
             or runner_receipt.get("authorization_id") != context["authorization_id"]
             or runner_receipt.get("scientific_fingerprint") != context["scientific_fingerprint"]
             or runner_receipt.get("controller_fingerprint") != context["controller_fingerprint"]
-            or runner_receipt.get("ledger_scope_id") != "wp12_vv3d_recovery_r2"
+            or runner_receipt.get("ledger_scope_id") != expected_ledger_scope
             or not isinstance(runner_receipt.get("ledger_path"), str)
-            or Path(runner_receipt.get("ledger_path", "")).name != VV3D_LEDGER_FILENAME
+            or Path(runner_receipt.get("ledger_path", "")).name != expected_ledger_name
             or runner_receipt.get("selected_dofs") != case["dofs"]
-            or runner_receipt.get("timeout_seconds") != case["timeout_max_seconds"]
+            or runner_receipt.get("timeout_seconds") != expected_timeout
             or runner_receipt.get("rss_soft_limit_mib") != case["rss_soft_limit_mib"]
             or runner_receipt.get("archive_size_limit_mib") != 256
             or runner_receipt.get("attempt_number") != 1
@@ -1210,7 +1221,7 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
             or not 1 <= runner_receipt["campaign_attempts_used_after"] <= 24
             or not _valid_campaign_reserved_seconds(
                 runner_receipt.get("campaign_seconds_reserved_after"),
-                minimum=case["timeout_max_seconds"],
+                minimum=expected_timeout,
             )
             or runner_receipt.get("evidence_root") != context["evidence_root"]
             or not isinstance(reservation_id, str)
