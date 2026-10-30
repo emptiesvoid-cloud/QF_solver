@@ -315,25 +315,18 @@ def integrated_errors(prepared_mesh: dict, nodal_displacements: Sequence[Sequenc
     )}
     validated_field = False
     for cell in connectivity:
-        if family == "TET4":
-            geometry = _cell_map(family, cell, nodes_integer, denominator)
-            # Preserve the old first-cell geometry-before-field error ordering.
-            # With empty connectivity the old implementation never inspected
-            # displacement vectors, so validation remains lazy here.
-            if not validated_field:
-                _validate_nodal_displacements(nodal_displacements, nodes_integer)
-                validated_field = True
-            inverse = _inverse(geometry[1], geometry[2])
-        else:
-            _cell_map(family, cell, nodes_integer, denominator)
+        geometry = _cell_map(family, cell, nodes_integer, denominator)
+        # Reuse the cell geometry and inverse at every quadrature point. Keep
+        # field validation lazy so empty connectivity and first-cell geometry
+        # errors retain their established behavior.
+        if not validated_field:
+            _validate_nodal_displacements(nodal_displacements, nodes_integer)
+            validated_field = True
+        inverse = _inverse(geometry[1], geometry[2])
         for r, s, t, reference_weight in rule:
-            if family == "TET4":
-                sample = _sample_cell_reference_validated(
-                    family, cell, nodal_displacements, (r, s, t), geometry, inverse
-                )
-            else:
-                sample = sample_cell_reference(family, cell, nodes_integer, denominator,
-                                               nodal_displacements, (r, s, t))
+            sample = _sample_cell_reference_validated(
+                family, cell, nodal_displacements, (r, s, t), geometry, inverse
+            )
             exact = oracle.field(sample["point_m"])
             strain = sample["strain"]
             trace = sum(strain[:3])
