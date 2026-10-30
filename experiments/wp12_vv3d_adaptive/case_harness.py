@@ -19,6 +19,14 @@ from experiments.wp12_vv3d_adaptive import criteria_evaluator, evidence
 CAMPAIGN_DIR = Path(__file__).parent / "prepared_20261030_r2"
 MATRIX_PATH = CAMPAIGN_DIR / "MATRIX_NOT_AUTHORIZED.json"
 VV3D_LEDGER_FILENAME = "node-attempt-ledger-wp12-vv3d-recovery-r2.jsonl"
+FAMILY_REMAINDER_SCOPE_ID = "wp12_vv3d_family_remainder"
+FAMILY_REMAINDER_CAMPAIGN_ID = "WP12-VV3D-FAMILY-REMAINDER-20261030"
+FAMILY_REMAINDER_LEDGER_FILENAME = "node-attempt-ledger-wp12-vv3d-family-remainder.jsonl"
+FAMILY_REMAINDER_CASE_IDS = tuple(
+    f"VV3D-{family}-L{level}"
+    for family in ("TET10", "HEX8", "HEX20")
+    for level in (1, 2, 3)
+)
 NOT_AUTHORIZED_FINGERPRINT = "0" * 64
 ADAPTIVE_CATALOG_PATH = Path(__file__).parent / "ADAPTIVE_CATALOG_DRAFT.json"
 ADAPTIVE_RECEIPT_SCHEMA = "qf-wp12-vv3d-adaptive-runner-receipt-v1"
@@ -178,6 +186,24 @@ def load_prepared_cases() -> list[dict[str, Any]]:
 def _expected_nodeid(case_id: str) -> str:
     return ("tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case"
             f"[{case_id}]")
+
+
+def _family_remainder_scope_binding(case_id: str, case: dict[str, Any]) -> dict[str, Any]:
+    """Return the exact child-side identity for one of the nine scoped cases."""
+    if (case_id not in FAMILY_REMAINDER_CASE_IDS or case.get("case_id") != case_id
+            or case.get("nodeid") != _expected_nodeid(case_id)
+            or case.get("attempts_max") != 1 or case.get("timeout_max_seconds") != 1200
+            or case.get("rss_soft_limit_mib") != 4096):
+        raise PermissionError("case is outside the exact nine-node family-remainder contract")
+    return {
+        "campaign_id": FAMILY_REMAINDER_CAMPAIGN_ID,
+        "scope_id": FAMILY_REMAINDER_SCOPE_ID,
+        "ledger_scope_id": FAMILY_REMAINDER_SCOPE_ID,
+        "ledger_filename": FAMILY_REMAINDER_LEDGER_FILENAME,
+        "timeout_seconds": 1200,
+        "rss_soft_limit_mib": 4096,
+        "max_attempts": 1,
+    }
 
 
 def _strict_json(raw: bytes, label: str) -> Any:
@@ -1085,7 +1111,19 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
         "runner_receipt_sha256": "QF_DEV_VV3D_RUNNER_RECEIPT_SHA256",
     }
     context = {key: os.environ.get(name, "") for key, name in names.items()}
-    context["campaign_id"] = "WP12-VV3D-RECOVERY-20261030-R2"
+    worktree_scope = os.environ.get("QF_DEV_WORKTREE_ID")
+    family_remainder = worktree_scope == FAMILY_REMAINDER_SCOPE_ID
+    family_binding = _family_remainder_scope_binding(case_id, case) if family_remainder else None
+    if family_remainder:
+        context["campaign_id"] = family_binding["campaign_id"]
+        expected_timeout = family_binding["timeout_seconds"]
+        expected_ledger_scope = family_binding["ledger_scope_id"]
+        expected_ledger_name = family_binding["ledger_filename"]
+    else:
+        context["campaign_id"] = "WP12-VV3D-RECOVERY-20261030-R2"
+        expected_timeout = case["timeout_max_seconds"]
+        expected_ledger_scope = "wp12_vv3d_recovery_r2"
+        expected_ledger_name = VV3D_LEDGER_FILENAME
     if (context["case_id"] != case_id or context["nodeid"] != _expected_nodeid(case_id)
             or not all(context.values())
             or not re.fullmatch(r"[0-9a-f]{64}", context["manifest_sha256"])
@@ -1116,7 +1154,7 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
         raise PermissionError("authorized VV3D manifest is not strict JSON") from exc
     expected = {
         "schema": "qf-wp12-vv3d-case-manifest-v1",
-        "campaign_id": "WP12-VV3D-RECOVERY-20261030-R2",
+        "campaign_id": context["campaign_id"],
         "case_id": case_id,
         "nodeid": context["nodeid"],
         "state": "OWNER_AUTHORIZED",
@@ -1124,13 +1162,15 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
         "do_not_execute": False,
         "mesh_sha256": case["mesh_sha256"],
         "selected_dofs": case["dofs"],
-        "timeout_seconds": case["timeout_max_seconds"],
+        "timeout_seconds": expected_timeout,
         "rss_soft_limit_mib": case["rss_soft_limit_mib"],
         "max_attempts": case["attempts_max"],
         "authorization_id": context["authorization_id"],
         "scientific_fingerprint": context["scientific_fingerprint"],
         "controller_fingerprint": context["controller_fingerprint"],
     }
+    if family_remainder:
+        expected["scope_id"] = worktree_scope
     if not isinstance(manifest, dict) or any(manifest.get(key) != value for key, value in expected.items()):
         raise PermissionError("VV3D manifest does not bind this case, identity and budget")
     decision = manifest.get("owner_decision")
@@ -1193,11 +1233,11 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
             or runner_receipt.get("authorization_id") != context["authorization_id"]
             or runner_receipt.get("scientific_fingerprint") != context["scientific_fingerprint"]
             or runner_receipt.get("controller_fingerprint") != context["controller_fingerprint"]
-            or runner_receipt.get("ledger_scope_id") != "wp12_vv3d_recovery_r2"
+            or runner_receipt.get("ledger_scope_id") != expected_ledger_scope
             or not isinstance(runner_receipt.get("ledger_path"), str)
-            or Path(runner_receipt.get("ledger_path", "")).name != VV3D_LEDGER_FILENAME
+            or Path(runner_receipt.get("ledger_path", "")).name != expected_ledger_name
             or runner_receipt.get("selected_dofs") != case["dofs"]
-            or runner_receipt.get("timeout_seconds") != case["timeout_max_seconds"]
+            or runner_receipt.get("timeout_seconds") != expected_timeout
             or runner_receipt.get("rss_soft_limit_mib") != case["rss_soft_limit_mib"]
             or runner_receipt.get("archive_size_limit_mib") != 256
             or runner_receipt.get("attempt_number") != 1
@@ -1209,7 +1249,7 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
             or not 1 <= runner_receipt["campaign_attempts_used_after"] <= 24
             or not _valid_campaign_reserved_seconds(
                 runner_receipt.get("campaign_seconds_reserved_after"),
-                minimum=case["timeout_max_seconds"],
+                minimum=expected_timeout,
             )
             or runner_receipt.get("evidence_root") != context["evidence_root"]
             or not isinstance(reservation_id, str)
@@ -1322,6 +1362,7 @@ def _run_prospective_case_with_context(
 
     payload = synthetic_not_exposed_payload(case_id, attempt_id)
     payload.update({
+        "campaign_id": execution_context["campaign_id"],
         "scientific_fingerprint": scientific_fingerprint,
         "controller_fingerprint": controller_fingerprint,
         "manifest_sha256": manifest_sha256,

@@ -230,6 +230,17 @@ def sample_cell_reference(
     reference_point: tuple[float, float, float],
 ) -> dict[str, object]:
     """Interpolate a supplied nodal field and its strain at one reference point."""
+    _validate_nodal_displacements(nodal_displacements, nodes_integer)
+    geometry = _cell_map(family, cell, nodes_integer, denominator)
+    return _sample_cell_reference_validated(
+        family, cell, nodal_displacements, reference_point, geometry
+    )
+
+
+def _validate_nodal_displacements(
+    nodal_displacements: Sequence[Sequence[float]], nodes_integer: Sequence[Sequence[int]],
+) -> None:
+    """Keep the public sampling field checks in one reusable implementation."""
     if len(nodal_displacements) != len(nodes_integer):
         raise ValueError("displacement/node count mismatch")
     if any(len(vector) != 3 or any(isinstance(value, bool)
@@ -237,11 +248,24 @@ def sample_cell_reference(
                                    or not math.isfinite(value) for value in vector)
            for vector in nodal_displacements):
         raise ValueError("nodal displacements must be finite triples")
-    origin, jacobian, determinant = _cell_map(family, cell, nodes_integer, denominator)
+
+
+def _sample_cell_reference_validated(
+    family: str,
+    cell: Sequence[int],
+    nodal_displacements: Sequence[Sequence[float]],
+    reference_point: tuple[float, float, float],
+    geometry: tuple[tuple[float, float, float],
+                    tuple[tuple[float, float, float], ...], float],
+    inverse: tuple[tuple[float, float, float], ...] | None = None,
+) -> dict[str, object]:
+    """Sample a field already checked by the caller, optionally reusing a cell inverse."""
+    origin, jacobian, determinant = geometry
     values, gradients_reference = _shape_data(family, reference_point)
     if len(values) != len(cell):
         raise ValueError("shape/connectivity node count mismatch")
-    inverse = _inverse(jacobian, determinant)
+    if inverse is None:
+        inverse = _inverse(jacobian, determinant)
     physical_point = tuple(origin[axis] + sum(jacobian[axis][ref_axis] * reference_point[ref_axis]
                                                for ref_axis in range(3))
                            for axis in range(3))
@@ -289,11 +313,20 @@ def integrated_errors(prepared_mesh: dict, nodal_displacements: Sequence[Sequenc
         "exact_displacement_sq", "exact_energy_sq", "exact_strain_sq", "exact_stress_sq",
         "scalar_energy_j",
     )}
+    validated_field = False
     for cell in connectivity:
-        _cell_map(family, cell, nodes_integer, denominator)
+        geometry = _cell_map(family, cell, nodes_integer, denominator)
+        # Reuse the cell geometry and inverse at every quadrature point. Keep
+        # field validation lazy so empty connectivity and first-cell geometry
+        # errors retain their established behavior.
+        if not validated_field:
+            _validate_nodal_displacements(nodal_displacements, nodes_integer)
+            validated_field = True
+        inverse = _inverse(geometry[1], geometry[2])
         for r, s, t, reference_weight in rule:
-            sample = sample_cell_reference(family, cell, nodes_integer, denominator,
-                                           nodal_displacements, (r, s, t))
+            sample = _sample_cell_reference_validated(
+                family, cell, nodal_displacements, (r, s, t), geometry, inverse
+            )
             exact = oracle.field(sample["point_m"])
             strain = sample["strain"]
             trace = sum(strain[:3])
