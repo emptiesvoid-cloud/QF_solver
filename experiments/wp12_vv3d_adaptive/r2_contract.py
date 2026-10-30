@@ -35,6 +35,17 @@ BUDGET = {
     "implicit_retry": False,
 }
 _SHA256 = re.compile(r"[0-9a-f]{64}\Z")
+_CRITERIA_BINDINGS = {
+    "TET4": ("criteria_proposals_20261029/criteria_tet4_draft.json",
+             "2950a590bd77aa823a97b37a852a7b5f341870756196266a95f1428dc91bc975"),
+    "TET10": ("criteria_proposals_20261029/criteria_tet10_draft.json",
+              "cb5f4e329c3c614ae7458ea42316ca2a95593109e419485b96deb84ed89aa64f"),
+    "HEX8": ("criteria_proposals_20261029/criteria_hex8_draft.json",
+             "b05ab349bf90c99aa487f8d546724dbe72f03cfecabc8974be559399fe83f20f"),
+    "HEX20": ("criteria_proposals_20261029/criteria_hex20_draft.json",
+              "4fc7a4c7c8f3e965caab298686a39ee143bfc591c516126836c8f7ad9c88c3c5"),
+}
+_ORACLE_BINDING = ("oracle.py", "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496")
 
 
 class R2ContractError(ValueError):
@@ -115,8 +126,11 @@ def validate_contract(
         if not isinstance(case, Mapping) or set(case) != {
             "case_id", "nodeid", "mesh_sha256", "selected_dofs", "timeout_seconds",
             "rss_soft_limit_mib", "archive_size_limit_mib", "max_attempts", "status",
+            "criteria_path", "criteria_file_sha256", "oracle_path", "oracle_sha256",
         }:
             raise R2ContractError("R2 case record has missing or unexpected fields")
+        family = case_id.split("-")[1]
+        criteria_path, criteria_sha = _CRITERIA_BINDINGS[family]
         if (
             case.get("case_id") != case_id
             or case.get("nodeid") != expected_nodeid(case_id)
@@ -129,6 +143,10 @@ def validate_contract(
             or case.get("archive_size_limit_mib") != 256
             or case.get("max_attempts") != 1
             or case.get("status") != "PREPARED_NOT_AUTHORIZED"
+            or case.get("criteria_path") != criteria_path
+            or case.get("criteria_file_sha256") != criteria_sha
+            or case.get("oracle_path") != _ORACLE_BINDING[0]
+            or case.get("oracle_sha256") != _ORACLE_BINDING[1]
         ):
             raise R2ContractError(f"R2 case binding or limits mismatch for {case_id}")
     if contract.get("excluded_routes") != ["H1", "QLOAD", "QPOST"]:

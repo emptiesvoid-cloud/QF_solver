@@ -398,3 +398,12 @@ class RecoveryR2Ledger:
                 "stopped": any(finishes.get(r.get("run_id"), {}).get("status") != "PASS"
                                for r in starts if r.get("run_id") in finishes),
             }
+
+    def verify(self) -> list[dict[str, Any]]:
+        """Return the validated append-only R2 chain under both ledger locks."""
+        r1 = R1BudgetLedger(self.predecessor_path, allowed_root=self.predecessor_path.parent)
+        lock_paths = sorted((self.lock_path, r1.lock_path), key=lambda p: str(p.resolve(strict=False)).casefold())
+        with ExitStack() as stack:
+            for lock_path in lock_paths:
+                stack.enter_context(_exclusive_lock(lock_path))
+            return self._read_unlocked()

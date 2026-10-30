@@ -398,6 +398,10 @@ def _synthetic_r2_contract():
                 "archive_size_limit_mib": 256,
                 "max_attempts": case["attempts_max"],
                 "status": "PREPARED_NOT_AUTHORIZED",
+                "criteria_path": case["criteria_path"],
+                "criteria_file_sha256": case["criteria_file_sha256"],
+                "oracle_path": "oracle.py",
+                "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
             }
             for case in cases
         ],
@@ -433,6 +437,8 @@ def test_synthetic_r2_contract_accepts_exact_ordered_initial_cases() -> None:
         (("cases", 0, "nodeid"), "tests/unit/test_unknown.py::test_unknown"),
         (("cases", 0, "timeout_seconds"), 1201),
         (("cases", 0, "selected_dofs"), 30001),
+        (("cases", 0, "criteria_file_sha256"), "f" * 64),
+        (("cases", 0, "oracle_sha256"), "f" * 64),
         (("r1_predecessor", "ledger_sha256"), "f" * 64),
         (("excluded_routes",), ["H1", "QLOAD"]),
         (("stop_policy", "non_pass"), "CONTINUE"),

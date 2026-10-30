@@ -155,6 +155,23 @@ def load_prepared_cases() -> list[dict[str, Any]]:
         mesh_path = CAMPAIGN_DIR / mesh_name
         if hashlib.sha256(mesh_path.read_bytes()).hexdigest() != case.get("mesh_sha256"):
             raise ValueError(f"prepared mesh hash mismatch: {case.get('case_id')}")
+        artifact_root = CAMPAIGN_DIR.parent.resolve(strict=True)
+        for path_key, digest_key in (
+            ("criteria_path", "criteria_file_sha256"),
+            ("oracle_path", "oracle_sha256"),
+        ):
+            raw_relative = str(case.get(path_key, ""))
+            relative = Path(raw_relative)
+            if (relative.is_absolute() or ".." in relative.parts or "\\" in raw_relative
+                    or not relative.parts):
+                raise ValueError(f"prepared {path_key} escapes the VV3D experiment root")
+            artifact = (artifact_root / relative).resolve(strict=True)
+            try:
+                artifact.relative_to(artifact_root)
+            except ValueError as exc:
+                raise ValueError(f"prepared {path_key} escapes the VV3D experiment root") from exc
+            if hashlib.sha256(artifact.read_bytes()).hexdigest() != case.get(digest_key):
+                raise ValueError(f"prepared {path_key} hash mismatch: {case.get('case_id')}")
     return cases
 
 

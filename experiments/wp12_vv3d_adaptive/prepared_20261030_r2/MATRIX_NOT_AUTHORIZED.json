@@ -6,6 +6,8 @@
       "affine_jacobian_min_m3": 0.125,
       "attempts_max": 1,
       "case_id": "VV3D-TET4-L1",
+      "criteria_file_sha256": "2950a590bd77aa823a97b37a852a7b5f341870756196266a95f1428dc91bc975",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet4_draft.json",
       "divisions": [
         2,
         2,
@@ -26,6 +28,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L1]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 27,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
@@ -35,6 +39,8 @@
       "affine_jacobian_min_m3": 0.015625,
       "attempts_max": 1,
       "case_id": "VV3D-TET4-L2",
+      "criteria_file_sha256": "2950a590bd77aa823a97b37a852a7b5f341870756196266a95f1428dc91bc975",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet4_draft.json",
       "divisions": [
         4,
         4,
@@ -55,6 +61,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L2]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 125,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
@@ -64,6 +72,8 @@
       "affine_jacobian_min_m3": 0.001953125,
       "attempts_max": 1,
       "case_id": "VV3D-TET4-L3",
+      "criteria_file_sha256": "2950a590bd77aa823a97b37a852a7b5f341870756196266a95f1428dc91bc975",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet4_draft.json",
       "divisions": [
         8,
         8,
@@ -84,6 +94,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET4-L3]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 729,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
@@ -93,6 +105,8 @@
       "affine_jacobian_min_m3": 0.125,
       "attempts_max": 1,
       "case_id": "VV3D-TET10-L1",
+      "criteria_file_sha256": "cb5f4e329c3c614ae7458ea42316ca2a95593109e419485b96deb84ed89aa64f",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet10_draft.json",
       "divisions": [
         2,
         2,
@@ -113,6 +127,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L1]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 125,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
@@ -122,6 +138,8 @@
       "affine_jacobian_min_m3": 0.015625,
       "attempts_max": 1,
       "case_id": "VV3D-TET10-L2",
+      "criteria_file_sha256": "cb5f4e329c3c614ae7458ea42316ca2a95593109e419485b96deb84ed89aa64f",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet10_draft.json",
       "divisions": [
         4,
         4,
@@ -142,6 +160,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L2]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 729,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
@@ -151,6 +171,8 @@
       "affine_jacobian_min_m3": 0.001953125,
       "attempts_max": 1,
       "case_id": "VV3D-TET10-L3",
+      "criteria_file_sha256": "cb5f4e329c3c614ae7458ea42316ca2a95593109e419485b96deb84ed89aa64f",
+      "criteria_path": "criteria_proposals_20261029/criteria_tet10_draft.json",
       "divisions": [
         8,
         8,
@@ -171,6 +193,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-TET10-L3]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 4913,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
@@ -180,6 +204,8 @@
       "affine_jacobian_min_m3": 0.015625,
       "attempts_max": 1,
       "case_id": "VV3D-HEX8-L1",
+      "criteria_file_sha256": "b05ab349bf90c99aa487f8d546724dbe72f03cfecabc8974be559399fe83f20f",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex8_draft.json",
       "divisions": [
         2,
         2,
@@ -200,6 +226,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L1]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 27,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
@@ -209,6 +237,8 @@
       "affine_jacobian_min_m3": 0.001953125,
       "attempts_max": 1,
       "case_id": "VV3D-HEX8-L2",
+      "criteria_file_sha256": "b05ab349bf90c99aa487f8d546724dbe72f03cfecabc8974be559399fe83f20f",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex8_draft.json",
       "divisions": [
         4,
         4,
@@ -229,6 +259,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L2]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 125,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
@@ -238,6 +270,8 @@
       "affine_jacobian_min_m3": 0.000244140625,
       "attempts_max": 1,
       "case_id": "VV3D-HEX8-L3",
+      "criteria_file_sha256": "b05ab349bf90c99aa487f8d546724dbe72f03cfecabc8974be559399fe83f20f",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex8_draft.json",
       "divisions": [
         8,
         8,
@@ -258,6 +292,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX8-L3]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 729,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
@@ -267,6 +303,8 @@
       "affine_jacobian_min_m3": 0.015625,
       "attempts_max": 1,
       "case_id": "VV3D-HEX20-L1",
+      "criteria_file_sha256": "4fc7a4c7c8f3e965caab298686a39ee143bfc591c516126836c8f7ad9c88c3c5",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex20_draft.json",
       "divisions": [
         2,
         2,
@@ -287,6 +325,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L1]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 81,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
@@ -296,6 +336,8 @@
       "affine_jacobian_min_m3": 0.001953125,
       "attempts_max": 1,
       "case_id": "VV3D-HEX20-L2",
+      "criteria_file_sha256": "4fc7a4c7c8f3e965caab298686a39ee143bfc591c516126836c8f7ad9c88c3c5",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex20_draft.json",
       "divisions": [
         4,
         4,
@@ -316,6 +358,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L2]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 425,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
@@ -325,6 +369,8 @@
       "affine_jacobian_min_m3": 0.000244140625,
       "attempts_max": 1,
       "case_id": "VV3D-HEX20-L3",
+      "criteria_file_sha256": "4fc7a4c7c8f3e965caab298686a39ee143bfc591c516126836c8f7ad9c88c3c5",
+      "criteria_path": "criteria_proposals_20261029/criteria_hex20_draft.json",
       "divisions": [
         8,
         8,
@@ -345,6 +391,8 @@
       "nodeid": "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[VV3D-HEX20-L3]",
       "nodeid_status": "PREPARED_NOT_AUTHORIZED",
       "nodes": 2673,
+      "oracle_path": "oracle.py",
+      "oracle_sha256": "1f0cddc469ff32d6f60590e451fe7256e0c505dbf0abde75a76c202fb71fe496",
       "rss_soft_limit_mib": 4096,
       "status": "PREPARED_NOT_AUTHORIZED",
       "timeout_max_seconds": 1200
