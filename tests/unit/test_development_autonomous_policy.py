@@ -120,6 +120,10 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
         r"E:\QFSolverAgents\controllers\wp12-vv3d-tet4-l3-optimized-98819a45\qf_solver"
         r"\scripts\development_autonomous.py"
     )
+    family_remainder_path = (
+        r"E:\QFSolverAgents\controllers\wp12-vv3d-family-remainder-controller-0148a963\qf_solver"
+        r"\scripts\development_autonomous.py"
+    )
     declarations = []
     for line in agents_text.splitlines():
         if line.startswith("- "):
@@ -133,11 +137,13 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
     assert [path for path, _ in declarations].count(r2_path) == 1
     assert [path for path, _ in declarations].count(previous_diagnostic_path) == 1
     assert [path for path, _ in declarations].count(optimized_diagnostic_path) == 1
-    assert len(declarations) == 4
+    assert [path for path, _ in declarations].count(family_remainder_path) == 1
+    assert len(declarations) == 5
     r1 = next(line for path, line in declarations if path == r1_path)
     r2 = next(line for path, line in declarations if path == r2_path)
     previous_diagnostic = next(line for path, line in declarations if path == previous_diagnostic_path)
     optimized_diagnostic = next(line for path, line in declarations if path == optimized_diagnostic_path)
+    family_remainder = next(line for path, line in declarations if path == family_remainder_path)
     assert "outside VV3D R2" in r1
     assert "VV3D R2 only" in r2
     assert "`wp12_vv3d_recovery_r2`" in r2
@@ -153,6 +159,12 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
     assert "`wp12_vv3d_tet4_l3_optimized_diagnostic`" not in r2
     assert "`wp12_vv3d_tet4_l3_diagnostic`" not in optimized_diagnostic
     assert "`wp12_vv3d_tet4_l3_optimized_diagnostic`" not in previous_diagnostic
+    assert "VV3D family remainder only" in family_remainder
+    assert "`wp12_vv3d_family_remainder`" in family_remainder
+    assert "`wp12_vv3d_family_remainder`" not in r1
+    assert "`wp12_vv3d_family_remainder`" not in r2
+    assert "`wp12_vv3d_recovery_r2`" not in family_remainder
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" not in family_remainder
 
     def assert_pin(declaration: str, label: str, value: str) -> None:
         assert re.search(rf"\b{re.escape(label)}\s+`{value}`", declaration)
@@ -176,6 +188,11 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
     assert_pin(optimized_diagnostic, "HEAD", "98819a45ae5d525a670ad345a01c670721a2e67d")
     assert_pin(optimized_diagnostic, "tree", "03df7312767502014215a70e8877d9d2fa8079e3")
     assert_pin(optimized_diagnostic, "diagnostic fingerprint", "306903e538a0eb98c1805f6c443bd0c408ea836dd8b7e0cd508f09cddadcbbe8")
+    assert_pin(family_remainder, "HEAD", "0148a963500ad2fd57194fcdc7951fcca2aa627c")
+    assert_pin(family_remainder, "tree", "60b677a8e9d4c6e359eced091b8c8d2e6143f94f")
+    assert_pin(family_remainder, "generic controller fingerprint", "01d28fc815bac533068f144491df9f79c287f52937fc64482ea140079827a2d7")
+    assert_pin(family_remainder, "family-remainder scope fingerprint", "64a356ad98c6e817826f82f03e871beed01b194233f93aa780f1f82d4f03de3b")
+    assert "`fdc76b49a21b9562dda517cecef7bf17c0a7a327f6fc1f1c6cfc7e9433c347bb`" in family_remainder
     assert "Controller selection is resolved only by this canonical release-branch `AGENTS.md` entry." in agents_text
     assert "do not recursively follow its snapshot `AGENTS.md`" in agents_text
     assert "wp12-shared-controller-081d788" not in agents_text
