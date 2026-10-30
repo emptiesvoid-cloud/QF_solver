@@ -41,6 +41,23 @@ except ImportError:  # pragma: no cover - exercised only in an incomplete dev in
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _load_vv3d_tet4_l3_diagnostic_module() -> Any:
+    """Load the diagnostic sibling from this controller, including direct CLI use."""
+    module_name = ".wp12_vv3d_tet4_l3_diagnostic" if __package__ else "wp12_vv3d_tet4_l3_diagnostic"
+    module = importlib.import_module(module_name, package=__package__ or None)
+    expected = Path(__file__).resolve().with_name("wp12_vv3d_tet4_l3_diagnostic.py")
+    if Path(module.__file__).resolve(strict=True) != expected:
+        raise PolicyError("diagnostic module resolved outside the active controller checkout")
+    return module
+
+
+def _call_vv3d_tet4_l3_diagnostic(function: str, *args: Any) -> Any:
+    try:
+        return getattr(_load_vv3d_tet4_l3_diagnostic_module(), function)(sys.modules[__name__], *args)
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        raise PolicyError(f"TET4-L3 diagnostic refused: {exc}") from exc
+
+
 def _load_vv3d_r2_ledger_module() -> Any:
     """Load the R2 ledger as a sibling module in CLI and package contexts."""
     module_name = ".wp12_vv3d_r2_ledger" if __package__ else "wp12_vv3d_r2_ledger"
@@ -1650,6 +1667,7 @@ def build_pytest_command(
     hex8sri_convergence24_collect_only_attestation: bool = False,
     vv3d_collect_only_attestation: bool = False,
     vv3d_r2_collect_only_attestation: bool = False,
+    vv3d_tet4_l3_diagnostic_attestation: bool = False,
     wp12_dynamics_collect_only_attestation: bool = False,
     wp12b_hex20_diagnostic_collect_only_attestation: bool = False,
     junit_xml_path: Path | None = None,
@@ -1659,6 +1677,7 @@ def build_pytest_command(
         hex8sri_convergence24_collect_only_attestation,
         vv3d_collect_only_attestation,
         vv3d_r2_collect_only_attestation,
+        vv3d_tet4_l3_diagnostic_attestation,
         wp12_dynamics_collect_only_attestation,
         wp12b_hex20_diagnostic_collect_only_attestation,
     )
@@ -1683,6 +1702,10 @@ def build_pytest_command(
             not collect_only or allow_native_skip_override or targets[0] not in VV3D_R2_NODEIDS
         ):
             raise PolicyError("VV3D R2 attestation is restricted to its exact twelve skip-free collect-only nodes")
+        if vv3d_tet4_l3_diagnostic_attestation and (
+            not collect_only or allow_native_skip_override or targets[0] != VV3D_R2_NODEIDS[2]
+        ):
+            raise PolicyError("TET4-L3 diagnostic attestation requires its one exact skip-free collect-only node")
         if wp12_dynamics_collect_only_attestation and (not collect_only or allow_native_skip_override):
             raise PolicyError("WP12 dynamics attestation requires collect-only without any skip override")
         if wp12_dynamics_collect_only_attestation and targets[0] not in WP12_DYNAMICS_PREFLIGHT_NODEIDS:
@@ -1738,6 +1761,9 @@ def build_pytest_command(
                 "if mode == 'vv3d-r2-preflight':",
                 "    from development_autonomous_pytest_plugin import VV3DCollectOnlyAttestor",
                 "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_recovery_r2'))",
+                "if mode == 'vv3d-tet4-l3-diagnostic-preflight':",
+                "    from development_autonomous_pytest_plugin import VV3DCollectOnlyAttestor",
+                "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_tet4_l3_diagnostic'))",
                 "if mode == 'wp12-dynamics-preflight':",
                 "    from development_autonomous_pytest_plugin import ExactCollectOnlyAttestor",
                 "    attestor = ExactCollectOnlyAttestor(",
@@ -1767,6 +1793,8 @@ def build_pytest_command(
             bootstrap_mode = "vv3d-preflight"
         elif vv3d_r2_collect_only_attestation:
             bootstrap_mode = "vv3d-r2-preflight"
+        elif vv3d_tet4_l3_diagnostic_attestation:
+            bootstrap_mode = "vv3d-tet4-l3-diagnostic-preflight"
         elif wp12_dynamics_collect_only_attestation:
             bootstrap_mode = "wp12-dynamics-preflight"
         elif wp12b_hex20_diagnostic_collect_only_attestation:
@@ -7239,6 +7267,8 @@ def preflight_pytest(
     preflight_id: str | None = None,
 ) -> dict[str, Any]:
     """Collect one exact registered node without reserving a FEM attempt."""
+    if worktree_id == "wp12_vv3d_tet4_l3_diagnostic":
+        return _call_vv3d_tet4_l3_diagnostic("preflight", target, preflight_id)
     policy = load_policy()
     if worktree_id in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID}:
         if target not in policy["worktrees"][worktree_id]["allowed_nodeids"]:
@@ -8432,6 +8462,11 @@ def run_pytest(
     hypothesis_id: str | None = None,
     batch_context: Mapping[str, Any] | None = None,
 ) -> tuple[dict[str, Any], int]:
+    if worktree_id == "wp12_vv3d_tet4_l3_diagnostic":
+        if (scope_name != "fem_exploratory" or series_id is not None or not target or not reason
+                or not preflight_id or execution_manifest is None or attempt_basis or hypothesis_id or batch_context):
+            raise PolicyError("diagnostic requires one exact node, reason, preflight and manifest; retries are forbidden")
+        return _call_vv3d_tet4_l3_diagnostic("run", target, reason, preflight_id, Path(execution_manifest))
     policy = load_policy()
     if worktree_id == VV3D_R2_WORKTREE_ID:
         vv3d_r2_entry = policy["worktrees"][VV3D_R2_WORKTREE_ID]
@@ -9064,6 +9099,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         "verify-vv3d-r2-ledger-import",
         help="verify the R2 ledger sibling import and source path without reading or writing a ledger",
     )
+    subparsers.add_parser("inspect-vv3d-tet4-l3-diagnostic", help="inspect the exact diagnostic scope without execution")
+    subparsers.add_parser("prepare-vv3d-tet4-l3-diagnostic", help="freeze the diagnostic contract without authorization")
+    diagnostic_manifest_parser = subparsers.add_parser(
+        "prepare-vv3d-tet4-l3-manifest", help="bind the approved diagnostic to its exact successful preflight"
+    )
+    diagnostic_manifest_parser.add_argument("--preflight-id", required=True)
     p0_batch_prepare_parser = subparsers.add_parser(
         "prepare-wp12a-p0-batch",
         help="freeze an ordered WP12-A P0 case contract and ledger baseline; does not authorize or run FEM",
@@ -9100,6 +9141,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             HEX8SRI_CONVERGENCE24_WORKTREE_ID,
             VV3D_WORKTREE_ID,
             VV3D_R2_WORKTREE_ID,
+            "wp12_vv3d_tet4_l3_diagnostic",
         ),
         required=True,
     )
@@ -9179,7 +9221,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     test_parser.add_argument("--hypothesis-id", help="unique ID required for a same-input new diagnostic hypothesis")
     args = parser.parse_args(argv)
     try:
-        if args.command == "verify-vv3d-r2-ledger-import":
+        if args.command == "inspect-vv3d-tet4-l3-diagnostic":
+            result = _call_vv3d_tet4_l3_diagnostic("inspect")
+            exit_code = 0
+        elif args.command == "prepare-vv3d-tet4-l3-diagnostic":
+            result = _call_vv3d_tet4_l3_diagnostic("prepare_contract")
+            exit_code = 0
+        elif args.command == "prepare-vv3d-tet4-l3-manifest":
+            result = _call_vv3d_tet4_l3_diagnostic("prepare_manifest", args.preflight_id)
+            exit_code = 0
+        elif args.command == "verify-vv3d-r2-ledger-import":
             ledger_module = _load_vv3d_r2_ledger_module()
             result = {
                 "state": "IMPORT_OK",
