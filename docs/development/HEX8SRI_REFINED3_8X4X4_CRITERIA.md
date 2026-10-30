@@ -41,7 +41,7 @@ The same denominator floors and zero-work behavior are part of the frozen defini
 
 ## Provenance and gates
 
-The source candidate is branch `research/hex8sri-equilibrium-8x4x4-20261030`, HEAD `b4c3c269411815a6cb3330f46a0714b77d8f9c3b`, tree `e221d03e27475f95ee30df0916d0b59e9badd43e`, raw-source fingerprint `64d5760e1c904d110a1c1ce9bc490f3f64fdc5168b264de244a7cd878e6c4f2d`. These are prospective identities, not yet an execution authorization.
+The source candidate is branch `research/hex8sri-equilibrium-8x4x4-20261030`, HEAD `e251883a0dd13e20628eb2ee229b630603af1efb`, tree `fdf9e76cff3293be3705cf29a3226fb480a928ad`, raw-source fingerprint `64d5760e1c904d110a1c1ce9bc490f3f64fdc5168b264de244a7cd878e6c4f2d`. These are prospective identities, not yet an execution authorization.
 
 The existing `wp12_elements` ledger and `hex8sri-convergence24` campaign ledger are separate. The latter has no authoritative prior ledger file or attempt history at the reviewed stores; no history is inferred or fabricated. Its initial ledger must only be created through the controller's normal first valid reservation after all approvals, with zero prior attempts represented. No ledger is initialized by this criteria proposal.
 
