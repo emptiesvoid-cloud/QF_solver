@@ -109,7 +109,7 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
         r"\scripts\development_autonomous.py"
     )
     r2_path = (
-        r"E:\QFSolverAgents\controllers\wp12-vv3d-r2-controller-a432e71\qf_solver"
+        r"E:\QFSolverAgents\controllers\wp12-vv3d-r2-controller-5e2e722\qf_solver"
         r"\scripts\development_autonomous.py"
     )
     declarations = []
@@ -138,14 +138,14 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
     assert_pin(r1, "tree", "de18d79a17a4ec1722e2d83c89f4a692a00beb4a")
     assert_pin(r1, "VV3D-scope provenance fingerprint", "00f89f5dcf8540a1d257afe9f1e668b9b7bafc4a25d46436447f43a9c2cbef04")
     assert_pin(r1, "generic controller fingerprint", "d2709a82882a546613e291f56e8c561604ee6c002999518dca753ca8db37585e")
-    assert_pin(r2, "HEAD", "a432e71c7273e887591e549eec1a4f0381eb4b64")
-    assert_pin(r2, "tree", "2f284c80a811469b1a83bdee0a562fd1dca6a791")
-    assert_pin(r2, "generic fingerprint", "14288c9d31eac1d11177f0f0d5eff1039e18025358212118c33b4a0163d2c865")
-    assert_pin(r2, "VV3D R2-scope fingerprint", "af9fe723185f5578a1c774713f1896adf6ebdfbe0024fdfc7bae344a480aced2")
+    assert_pin(r2, "HEAD", "5e2e7224661afea975cc902dae1f19bd6cdfdeb9")
+    assert_pin(r2, "tree", "33970cead41711b24c3d52889de2ec8bd991189c")
+    assert_pin(r2, "generic fingerprint", "5094c1f7024105b967b7718582639c77bc78f72741b0a0e7189d5ac81cc72fb5")
+    assert_pin(r2, "VV3D R2-scope fingerprint", "851194718819999d483710435d0e119c799787e5962148b3e50672a99f6f387e")
     assert_pin(
         r2,
         "VV3D R1-scope fingerprint (recorded for comparison only)",
-        "b2226b9deafbff7b59ceeb42cc45b21f78371f86e1e19ff98f8849489ecdfe98",
+        "f4c6056d22801f7d5e3ed55013eae1e1a24d8cf73df32efe271f49b23731396e",
     )
     assert "Controller selection is resolved only by this canonical release-branch `AGENTS.md` entry." in agents_text
     assert "do not recursively follow its snapshot `AGENTS.md`" in agents_text
