@@ -133,11 +133,13 @@ def _write_inventory(directory: Path) -> None:
 
 
 def _mock_science_identity(monkeypatch: pytest.MonkeyPatch, science_root: Path) -> None:
+    registered_branch = controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["branch"]
+
     def fake_git(root: Path, *args: str) -> str:
         if args == ("rev-parse", "--show-toplevel"):
             return str(science_root)
         if args == ("branch", "--show-current"):
-            return "research/hex8-sri-equilibrium"
+            return registered_branch
         if args == ("rev-parse", "HEAD"):
             return SOURCE_HEAD
         if args == ("status", "--porcelain", "--untracked-files=all"):
@@ -171,6 +173,9 @@ def test_refresh_plan_rebinds_exact_refined_three_without_changing_case_physics_
     assert len(plan["bindings"]) == 3
     assert plan["controller_identity_status"] == "PENDING"
     assert plan["source_fingerprint_sha256"] == SOURCE_FINGERPRINT
+    registered_branch = controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["branch"]
+    refreshed_common = json.loads(plan["payloads"]["common_problem.json"])
+    assert refreshed_common["source_identity"]["branch"] == registered_branch
 
     target = refresh.REFINED3_NODEIDS[0]
     old = json.loads((source_dir / "manifest_hex8_standard_nu_0p4999_8x4x4.json").read_text(encoding="utf-8"))
@@ -335,6 +340,28 @@ def test_refresh_refuses_fingerprint_or_authorization_drift(tmp_path: Path, monk
             science_root,
             source_dir,
             science_root / "authorized-input",
+            expected_science_head=SOURCE_HEAD,
+            expected_source_fingerprint=SOURCE_FINGERPRINT,
+            nodeids=refresh.REFINED3_NODEIDS,
+        )
+
+
+def test_refresh_requires_the_policy_registered_science_branch(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    science_root, source_dir, _ = _synthetic_case_files(tmp_path)
+    _mock_science_identity(monkeypatch, science_root)
+    real_git = refresh._git
+
+    def wrong_branch_git(root: Path, *args: str) -> str:
+        if args == ("branch", "--show-current"):
+            return "research/unregistered-branch"
+        return real_git(root, *args)
+
+    monkeypatch.setattr(refresh, "_git", wrong_branch_git)
+    with pytest.raises(ValueError, match="not on the registered HEX8-SRI branch"):
+        refresh.build_refresh_plan(
+            science_root,
+            source_dir,
+            science_root / "wrong-branch",
             expected_science_head=SOURCE_HEAD,
             expected_source_fingerprint=SOURCE_FINGERPRINT,
             nodeids=refresh.REFINED3_NODEIDS,

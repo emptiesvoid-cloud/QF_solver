@@ -344,7 +344,8 @@ def build_refresh_plan(
     output_dir = output_dir.resolve()
     if Path(_git(science_root, "rev-parse", "--show-toplevel")).resolve() != science_root:
         raise ValueError("science root is not the exact Git worktree root")
-    if _git(science_root, "branch", "--show-current") != "research/hex8-sri-equilibrium":
+    entry = controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+    if _git(science_root, "branch", "--show-current") != entry["branch"]:
         raise ValueError("science worktree is not on the registered HEX8-SRI branch")
     if _git(science_root, "rev-parse", "HEAD") != expected_science_head:
         raise ValueError("science HEAD differs from the Owner-supplied source identity")
@@ -392,7 +393,6 @@ def build_refresh_plan(
         raise ValueError("source file inventory differs between registered nodeids")
 
     first_hashes = source_hashes_by_target[targets[0]]
-    entry = controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
     identity = controller._git_identity(science_root, expected_branch=entry["branch"], baseline_commit=entry["baseline_commit"])
     controller._validate_hex8sri_registered_source_identity(
         science_root, entry, identity, targets[0], first_hashes, expected_source_fingerprint
@@ -408,7 +408,7 @@ def build_refresh_plan(
 
     refreshed_common = dict(common_problem)
     refreshed_common["source_identity"] = {
-        "branch": "research/hex8-sri-equilibrium",
+        "branch": entry["branch"],
         "source_commit": expected_science_head,
         "source_files_sha256": first_hashes,
         "source_fingerprint_sha256": expected_source_fingerprint,
