@@ -10,7 +10,7 @@ from scripts import wp12_vv3d_contract as c
 
 def fixture_contract():
     cases=[]
-    for cid in sorted(c.INITIAL_IDS):
+    for cid in c.INITIAL_CASE_IDS:
         family=cid.split('-')[1]
         cases.append({"case_id":cid,"phase":"INITIAL","nodeid":f"tests/unit/test_vv3d.py::test_case[{cid}]",
             "family":family,"mesh_sha256":"a"*64,"manifest_sha256":"b"*64,"oracle_sha256":"c"*64,
@@ -66,20 +66,35 @@ def test_vv3d_contract_accepts_and_refuses_invalid_budget_and_cases():
             validate(bad)
 
 
-def test_vv3d_decision_binds_exact_raw_contract_and_case_order():
+def test_vv3d_decision_binds_exact_initial_cases_and_raw_contract():
     contract=fixture_contract()
     validate(contract)
     raw=(json.dumps(contract,sort_keys=True,indent=2)+"\n").encode()
     sha=hashlib.sha256(raw).hexdigest()
     decision={"schema":c.DECISION_SCHEMA,"campaign_id":c.CAMPAIGN,"decision_id":"synthetic-owner-decision",
         "approved_by":"Owner","approved_at_utc":"2026-10-29T10:00:00Z","contract_sha256":sha,
-        "case_ids":[x["case_id"] for x in contract["cases"]]
-                   +[x["job_id"] for x in contract["qpost_jobs"]],"status":"APPROVED"}
+        "case_ids":list(c.INITIAL_CASE_IDS),"status":"APPROVED"}
     c.validate_decision(contract,decision,contract_bytes=raw)
+    assert decision["case_ids"] == [case["case_id"] for case in contract["cases"] if case["phase"] == "INITIAL"]
+    for item_id in (
+        "VV3D-ADAPT-TET4-H1", "VV3D-ADAPT-TET4-QLOAD", "VV3D-ADAPT-TET4-QPOST",
+    ):
+        with pytest.raises(c.VV3DContractError, match="does not authorize"):
+            c.validate_decision_scope(decision, item_id)
+    for item_id in c.INITIAL_CASE_IDS:
+        c.validate_decision_scope(decision, item_id)
     for bad in (dict(decision,status="NOT_AUTHORIZED"),dict(decision,contract_sha256="0"*64),
-                dict(decision,case_ids=decision["case_ids"][:-1]),dict(decision,approved_by="other")):
+                dict(decision,case_ids=decision["case_ids"][:-1]),
+                dict(decision,case_ids=decision["case_ids"] + ["VV3D-ADAPT-TET4-H1"]),
+                dict(decision,case_ids=list(reversed(decision["case_ids"]))),
+                dict(decision,case_ids=decision["case_ids"] + [decision["case_ids"][0]]),
+                dict(decision,approved_by="other")):
         with pytest.raises(c.VV3DContractError):
             c.validate_decision(contract,bad,contract_bytes=raw)
+    full_catalog_decision = dict(decision, case_ids=[case["case_id"] for case in contract["cases"]]
+                                 + [job["job_id"] for job in contract["qpost_jobs"]])
+    with pytest.raises(c.VV3DContractError):
+        c.validate_decision(contract, full_catalog_decision, contract_bytes=raw)
     with pytest.raises(c.VV3DContractError):
         c.validate_decision(contract,decision,contract_bytes=raw+b" ")
     with pytest.raises(c.VV3DContractError):

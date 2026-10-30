@@ -10,6 +10,7 @@ import pytest
 import json
 
 from scripts import development_autonomous as controller
+from scripts import wp12_vv3d_contract
 
 
 def test_policy_registers_closed_24_node_catalog_and_adaptive_runner_capability() -> None:
@@ -96,6 +97,7 @@ def test_vv3d_preflight_routes_to_official_collect_only_helper_without_reserving
         ("manifest_fingerprint", "Owner manifest identity"),
         ("preflight_nodeid", "receipt does not attest"),
         ("owner_decision", "does not reference the exact archived campaign Owner decision"),
+        ("decision_scope", "does not authorize this case or QPOST job"),
     ],
 )
 def test_vv3d_initial_execution_bindings_accept_exact_synthetic_package_and_refuse_mutations(
@@ -150,7 +152,11 @@ def test_vv3d_initial_execution_bindings_accept_exact_synthetic_package_and_refu
     contract_sha = controller._sha256(contract_path)
     decision_id = "synthetic-campaign-01"
     decision_path = auth_root / "campaign-decision.json"
-    decision_path.write_text(json.dumps({"decision_id": decision_id, "status": "APPROVED"}), encoding="utf-8")
+    decision = {"decision_id": decision_id, "status": "APPROVED",
+                "case_ids": list(wp12_vv3d_contract.INITIAL_CASE_IDS)}
+    if tamper == "decision_scope":
+        decision["case_ids"].remove(case_id)
+    decision_path.write_text(json.dumps(decision), encoding="utf-8")
     decision_sha = controller._sha256(decision_path)
 
     preflight_id = "pf-aaaaaaaaaaaa"
@@ -170,8 +176,10 @@ def test_vv3d_initial_execution_bindings_accept_exact_synthetic_package_and_refu
     (preflight_dir / "preflight.sha256.json").write_text(json.dumps({"sha256": preflight_sha}), encoding="utf-8")
 
     fake_contract = types.ModuleType("wp12_vv3d_contract")
+    from scripts import wp12_vv3d_contract as vv3d_contract
     fake_contract.validate_contract = lambda *_args, **_kwargs: None
     fake_contract.validate_decision = lambda *_args, **_kwargs: None
+    fake_contract.validate_decision_scope = vv3d_contract.validate_decision_scope
     fake_contract.verify_artifact_bindings = lambda *_args, **_kwargs: None
     monkeypatch.setitem(sys.modules, "wp12_vv3d_contract", fake_contract)
     monkeypatch.setattr(controller, "_stable_fingerprint", lambda _value: controller_fp)
@@ -248,6 +256,61 @@ def test_unintegrated_adaptive_and_qpost_dispatch_refuse_before_store_creation(
             execution_manifest=tmp_path / "manifest.json",
         )
     assert not store.exists()
+
+
+@pytest.mark.parametrize("route", ["h1", "qload", "qpost"])
+def test_initial_campaign_decision_cannot_authorize_adaptive_or_qpost_binding(
+    monkeypatch, tmp_path: Path, route: str,
+) -> None:
+    """The approved initial tranche cannot reach H1, QLOAD, or QPOST binding paths."""
+    import sys
+    import types
+
+    store = tmp_path / "store"
+    auth_root = store / "authorizations" / controller.VV3D_WORKTREE_ID
+    auth_root.mkdir(parents=True)
+    evidence_root = tmp_path / "evidence"
+    evidence_root.mkdir()
+    manifest_path = auth_root / "manifest.json"
+    manifest_path.write_text("{}", encoding="utf-8")
+    (auth_root / "campaign-contract.json").write_text("{}", encoding="utf-8")
+    decision = {"case_ids": list(wp12_vv3d_contract.INITIAL_CASE_IDS)}
+    (auth_root / "campaign-decision.json").write_text(json.dumps(decision), encoding="utf-8")
+
+    fake_contract = types.ModuleType("wp12_vv3d_contract")
+    fake_contract.validate_contract = lambda *_args, **_kwargs: None
+    fake_contract.validate_decision = lambda *_args, **_kwargs: None
+    fake_contract.validate_decision_scope = wp12_vv3d_contract.validate_decision_scope
+    fake_contract.verify_artifact_bindings = lambda *_args, **_kwargs: None
+    monkeypatch.setitem(sys.modules, "wp12_vv3d_contract", fake_contract)
+    monkeypatch.setattr(controller, "_stable_fingerprint", lambda _value: "b" * 64)
+
+    if route in {"h1", "qload"}:
+        index = 0 if route == "h1" else 1
+        candidate_id = f"VV3D-ADAPT-TET4-{'H1' if route == 'h1' else 'QLOAD'}"
+        target = controller.VV3D_ADAPTIVE_FEM_NODEIDS[index]
+        candidate = {"candidate_id": candidate_id, "execution_kind": "FEM",
+                     "kind": "uniform_h_refinement" if route == "h1" else "body_load_quadrature_escalation"}
+        monkeypatch.setattr(controller, "_vv3d_adaptive_candidate_metadata",
+                            lambda *_args, **_kwargs: (candidate, {}))
+        with pytest.raises(controller.PolicyError, match="does not authorize this case or QPOST job"):
+            controller._vv3d_adaptive_fem_launch_bindings(
+                target=target, preflight_id="pf-000000000001", manifest_path=manifest_path,
+                entry={}, execution_root=tmp_path, identity={}, source_fingerprint="a" * 64,
+                controller_provenance={}, store=store,
+            )
+    else:
+        target = controller.VV3D_QPOST_NODEIDS[0]
+        candidate = {"candidate_id": "VV3D-ADAPT-TET4-QPOST", "execution_kind": "POSTPROCESS_ONLY"}
+        monkeypatch.setattr(controller, "_vv3d_adaptive_candidate_metadata",
+                            lambda *_args, **_kwargs: (candidate, {}))
+        with pytest.raises(controller.PolicyError, match="does not authorize this case or QPOST job"):
+            controller._vv3d_qpost_launch_bindings(
+                target=target, preflight_id="pf-000000000001", manifest_path=manifest_path,
+                entry={"evidence_root": str(evidence_root)}, execution_root=tmp_path,
+                identity={}, source_fingerprint="a" * 64, controller_provenance={}, store=store,
+            )
+    assert not (store / "node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl").exists()
 
 
 def test_vv3d_state_archive_is_created_once_from_exact_completed_sidecar(tmp_path: Path) -> None:
@@ -490,6 +553,9 @@ def test_vv3d_qpost_launch_bindings_enforce_campaign_transition_binding(
     fake_contract = types.ModuleType("wp12_vv3d_contract")
     fake_contract.validate_contract = lambda *_args, **_kwargs: None
     fake_contract.validate_decision = lambda *_args, **_kwargs: None
+    # This fixture covers QPOST's remaining source/archive bindings after an
+    # independently approved job scope; the initial-tranche denial is tested above.
+    fake_contract.validate_decision_scope = lambda *_args, **_kwargs: None
     fake_contract.verify_artifact_bindings = lambda *_args, **_kwargs: None
     monkeypatch.setitem(sys.modules, "wp12_vv3d_contract", fake_contract)
 
