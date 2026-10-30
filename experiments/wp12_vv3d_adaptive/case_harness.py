@@ -16,9 +16,9 @@ from typing import Any
 
 from experiments.wp12_vv3d_adaptive import criteria_evaluator, evidence
 
-CAMPAIGN_DIR = Path(__file__).parent / "prepared_20261029"
+CAMPAIGN_DIR = Path(__file__).parent / "prepared_20261030_r2"
 MATRIX_PATH = CAMPAIGN_DIR / "MATRIX_NOT_AUTHORIZED.json"
-VV3D_LEDGER_FILENAME = "node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl"
+VV3D_LEDGER_FILENAME = "node-attempt-ledger-wp12-vv3d-recovery-r2.jsonl"
 NOT_AUTHORIZED_FINGERPRINT = "0" * 64
 ADAPTIVE_CATALOG_PATH = Path(__file__).parent / "ADAPTIVE_CATALOG_DRAFT.json"
 ADAPTIVE_RECEIPT_SCHEMA = "qf-wp12-vv3d-adaptive-runner-receipt-v1"
@@ -60,6 +60,8 @@ ADAPTIVE_SOURCE_FILES = (
     "experiments/wp12_vv3d_adaptive/metrics.py",
     "experiments/wp12_vv3d_adaptive/criteria_evaluator.py",
     "experiments/wp12_vv3d_adaptive/evidence.py",
+    "scripts/wp12_vv3d_r2_ledger.py",
+    "experiments/wp12_vv3d_adaptive/r2_contract.py",
     "tests/unit/test_wp12_vv3d_adaptive_prepared.py",
 )
 
@@ -131,7 +133,7 @@ def load_prepared_cases() -> list[dict[str, Any]]:
     matrix = json.loads(matrix_raw)
     if matrix.get("state") != "PREPARATION_AUTHORIZED_EXECUTION_NOT_AUTHORIZED":
         raise ValueError("VV3D matrix is not in its expected preparation-only state")
-    if matrix.get("campaign_id") != "WP12-VV3D-ADAPTIVE-20261029-R1":
+    if matrix.get("campaign_id") != "WP12-VV3D-RECOVERY-20261030-R2":
         raise ValueError("unexpected VV3D campaign identity")
     cases = matrix.get("cases")
     expected = {f"VV3D-{family}-L{level}" for family in ("TET4", "TET10", "HEX8", "HEX20")
@@ -1026,6 +1028,22 @@ def run_registered_adaptive_fem_candidate(candidate_id: str) -> dict[str, Any]:
     return outcome
 
 
+def _valid_campaign_reserved_seconds(value: Any, *, minimum: int) -> bool:
+    """Validate the controller's JSON number without rounding elapsed time.
+
+    JSON booleans are Python integers by inheritance, so exact type checks are
+    intentional. Integer values are inherently finite; floats must be finite.
+    The range check also rejects arbitrarily large JSON integers.
+    """
+    if type(value) is int:
+        seconds: int | float = value
+    elif type(value) is float and math.isfinite(value):
+        seconds = value
+    else:
+        return False
+    return minimum <= seconds <= 28_800
+
+
 def require_authorized_execution(case_id: str) -> dict[str, Any]:
     """Check runner-provided identity and raw authorized-manifest bytes.
 
@@ -1050,7 +1068,7 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
         "runner_receipt_sha256": "QF_DEV_VV3D_RUNNER_RECEIPT_SHA256",
     }
     context = {key: os.environ.get(name, "") for key, name in names.items()}
-    context["campaign_id"] = "WP12-VV3D-ADAPTIVE-20261029-R1"
+    context["campaign_id"] = "WP12-VV3D-RECOVERY-20261030-R2"
     if (context["case_id"] != case_id or context["nodeid"] != _expected_nodeid(case_id)
             or not all(context.values())
             or not re.fullmatch(r"[0-9a-f]{64}", context["manifest_sha256"])
@@ -1081,7 +1099,7 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
         raise PermissionError("authorized VV3D manifest is not strict JSON") from exc
     expected = {
         "schema": "qf-wp12-vv3d-case-manifest-v1",
-        "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+        "campaign_id": "WP12-VV3D-RECOVERY-20261030-R2",
         "case_id": case_id,
         "nodeid": context["nodeid"],
         "state": "OWNER_AUTHORIZED",
@@ -1158,7 +1176,7 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
             or runner_receipt.get("authorization_id") != context["authorization_id"]
             or runner_receipt.get("scientific_fingerprint") != context["scientific_fingerprint"]
             or runner_receipt.get("controller_fingerprint") != context["controller_fingerprint"]
-            or runner_receipt.get("ledger_scope_id") != "wp12_vv3d_adaptive"
+            or runner_receipt.get("ledger_scope_id") != "wp12_vv3d_recovery_r2"
             or not isinstance(runner_receipt.get("ledger_path"), str)
             or Path(runner_receipt.get("ledger_path", "")).name != VV3D_LEDGER_FILENAME
             or runner_receipt.get("selected_dofs") != case["dofs"]
@@ -1172,8 +1190,10 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
             or not re.fullmatch(r"[0-9a-f]{64}", runner_receipt["ledger_sha256_after_reservation"])
             or type(runner_receipt.get("campaign_attempts_used_after")) is not int
             or not 1 <= runner_receipt["campaign_attempts_used_after"] <= 24
-            or type(runner_receipt.get("campaign_seconds_reserved_after")) is not int
-            or not case["timeout_max_seconds"] <= runner_receipt["campaign_seconds_reserved_after"] <= 28_800
+            or not _valid_campaign_reserved_seconds(
+                runner_receipt.get("campaign_seconds_reserved_after"),
+                minimum=case["timeout_max_seconds"],
+            )
             or runner_receipt.get("evidence_root") != context["evidence_root"]
             or not isinstance(reservation_id, str)
             or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", reservation_id)
@@ -1810,9 +1830,10 @@ def synthetic_not_exposed_payload(case_id: str, attempt_id: str) -> dict[str, An
         if case_id not in cases:
             raise ValueError(f"unknown prepared VV3D case: {case_id}")
         mesh_sha256 = cases[case_id]["mesh_sha256"]
+    campaign_id = "WP12-VV3D-ADAPTIVE-20261029-R1" if case_id.startswith("VV3D-ADAPT-") else "WP12-VV3D-RECOVERY-20261030-R2"
     return {
         "schema": "qf-wp12-vv3d-observables-v1",
-        "campaign_id": "WP12-VV3D-ADAPTIVE-20261029-R1",
+        "campaign_id": campaign_id,
         "case_id": case_id,
         "attempt_id": attempt_id,
         "case_state": "PREPARED_NOT_AUTHORIZED",
