@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -31,6 +32,7 @@ def test_trace_records_monotonic_stages_and_sampled_peak(tmp_path, monkeypatch) 
     ]
     assert [event["monotonic_seconds"] for event in events] == sorted(event["monotonic_seconds"] for event in events)
     assert events[-1]["peak_rss_bytes_sampled"] == 250
+    assert {event["process_id"] for event in events} == {os.getpid()}
     assert events[2]["duration_seconds"] >= 0
     assert performance_trace.current() is None
     with pytest.raises(FileExistsError):

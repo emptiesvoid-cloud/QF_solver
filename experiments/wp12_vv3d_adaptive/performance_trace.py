@@ -98,7 +98,7 @@ class PerformanceTrace:
             if rss is not None:
                 self._peak_rss = max(self._peak_rss or 0, rss)
             record = {"schema": "qf-vv3d-performance-trace-v1", "case_id": self.case_id,
-                      "attempt_id": self.attempt_id, "stage": stage, "state": state,
+                      "attempt_id": self.attempt_id, "process_id": os.getpid(), "stage": stage, "state": state,
                       "monotonic_seconds": time.monotonic() - self._started,
                       "active_stages": list(self._stack), "rss_bytes_sampled": rss,
                       "peak_rss_bytes_sampled": self._peak_rss, **fields}
