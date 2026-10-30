@@ -20,6 +20,14 @@ SOURCE_FILE = "tests/verification/test_hex8_sri_convergence.py"
 OLD_FINGERPRINT = controller._source_inventory_fingerprint({SOURCE_FILE: OLD_HASH})
 
 
+def test_default_refresh_output_is_full_head_bound_and_cannot_target_source() -> None:
+    head = "a" * 40
+    assert refresh._default_refresh_output_dir(head) == refresh.CAMPAIGN_RELATIVE / f"{refresh.REFRESH_DIR_PREFIX}{head[:8]}"
+    assert refresh._default_refresh_output_dir(head) != refresh.CAMPAIGN_RELATIVE / refresh.SOURCE_DIRNAME
+    with pytest.raises(ValueError, match="full lowercase Git SHA-1"):
+        refresh._default_refresh_output_dir("a" * 8)
+
+
 def _json_bytes(payload: object) -> bytes:
     return (json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
 
@@ -32,7 +40,7 @@ def _synthetic_case_files(tmp_path: Path) -> tuple[Path, Path, Path]:
     common = {
         "schema": "synthetic-common-v1",
         "source_identity": {
-            "branch": "research/hex8-sri-equilibrium",
+            "branch": refresh.HISTORICAL_SOURCE_BRANCH,
             "source_commit": "7" * 40,
             "source_files_sha256": {SOURCE_FILE: OLD_HASH},
             "source_fingerprint_sha256": OLD_FINGERPRINT,
@@ -88,7 +96,7 @@ def _synthetic_case_files(tmp_path: Path) -> tuple[Path, Path, Path]:
             "source_fingerprint_sha256": OLD_FINGERPRINT,
             "science_source_commit": "7" * 40,
             "source_files_sha256": {SOURCE_FILE: OLD_HASH},
-            "science_branch": "research/hex8-sri-equilibrium",
+            "science_branch": refresh.HISTORICAL_SOURCE_BRANCH,
             "execution_state": "PREPARED_NOT_AUTHORIZED",
             "execution_authorized": False,
             "do_not_execute": True,
@@ -133,11 +141,13 @@ def _write_inventory(directory: Path) -> None:
 
 
 def _mock_science_identity(monkeypatch: pytest.MonkeyPatch, science_root: Path) -> None:
+    registered_branch = controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID]["branch"]
+
     def fake_git(root: Path, *args: str) -> str:
         if args == ("rev-parse", "--show-toplevel"):
             return str(science_root)
         if args == ("branch", "--show-current"):
-            return "research/hex8-sri-equilibrium"
+            return registered_branch
         if args == ("rev-parse", "HEAD"):
             return SOURCE_HEAD
         if args == ("status", "--porcelain", "--untracked-files=all"):
@@ -270,6 +280,8 @@ def test_versioned_case_manifest_is_bound_to_clean_controller_head(
     (directory / "common_problem.json").write_bytes((source / "common_problem.json").read_bytes())
     manifest = json.loads((directory / name).read_text(encoding="utf-8"))
     entry = controller.load_policy()["worktrees"][controller.HEX8SRI_CONVERGENCE24_WORKTREE_ID]
+    manifest["science_branch"] = entry["branch"]
+    (directory / name).write_bytes(_json_bytes(manifest))
     entry["case_manifests"][target] = {"path": template, "sha256": refresh._registration_sha256(manifest)}
     entry["source_fingerprint_sha256"] = OLD_FINGERPRINT
     monkeypatch.setattr(controller, "_worktree_source_fingerprint", lambda *_args: OLD_FINGERPRINT)

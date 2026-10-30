@@ -1356,21 +1356,21 @@
       "mode": "fem_exploratory",
       "root": "E:\\QFSolverAgents\\hex8-sri-research",
       "git_root": "E:\\QFSolverAgents\\hex8-sri-research",
-      "branch": "research/hex8-sri-equilibrium",
+      "branch": "research/hex8sri-equilibrium-8x4x4-20261030",
       "baseline_commit": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4",
       "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-HEX8SRI-CONVERGENCE24-2026-10-27-v1",
       "campaign_id": "HEX8-SRI-CONVERGENCE-24-2026-10-27",
       "campaign_scope_id": "hex8sri-convergence24",
-      "source_fingerprint_sha256": "bb6238db9954ff2992347b980c0dfc681f73b74433f76e01dd94e40811c85ea3",
+      "source_fingerprint_sha256": "64d5760e1c904d110a1c1ce9bc490f3f64fdc5168b264de244a7cd878e6c4f2d",
       "source_identity": {
-        "branch": "research/hex8-sri-equilibrium",
-        "head": "5304e3f00e73a916d1af4c1d75375a9b051f0524",
-        "tree": "5d995ab972e8627d266e1cd2b86d2b858b93f84a",
-        "fingerprint_sha256": "bb6238db9954ff2992347b980c0dfc681f73b74433f76e01dd94e40811c85ea3",
+        "branch": "research/hex8sri-equilibrium-8x4x4-20261030",
+        "head": "e251883a0dd13e20628eb2ee229b630603af1efb",
+        "tree": "fdf9e76cff3293be3705cf29a3226fb480a928ad",
+        "fingerprint_sha256": "64d5760e1c904d110a1c1ce9bc490f3f64fdc5168b264de244a7cd878e6c4f2d",
         "fingerprint_algorithm": "raw_worktree_inventory_sha256_v1",
-        "inventory_path": "docs/development/hex8sri-source-byte-inventory-5304e3f0.json",
-        "inventory_sha256": "13eaa22b2f9ea9bb4c88a9605c96e65451fefef500b2cf32c54905d895bc7b09",
-        "inventory_file_count": 517,
+        "inventory_path": "docs/development/hex8sri-source-byte-inventory-e251883a.json",
+        "inventory_sha256": "53bc4d1b4c1506562469aa018d30dde8c9b7b39f1ed4ac61d6bb93e06028d183",
+        "inventory_file_count": 540,
         "raw_byte_policy": "preserve checkout bytes; no LF/CRLF normalization"
       },
       "source_test_worktree_id": "hex8sri-convergence24",
@@ -1700,7 +1700,7 @@
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[hex8_standard-nu_0p4999-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_hex8_standard_nu_0p4999_8x4x4.json",
-          "sha256": "b2ac45f0547c63e9257968774ab7911e46e1cebbcff89a7978a648f42d328348"
+          "sha256": "51b3828a67a4a0631b435c31d4a950ce5f150f6ba584bb968e247a80ce44a910"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p3-16x8x8]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p3_16x8x8.json",
@@ -1732,7 +1732,7 @@
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_corrected-nu_0p4999-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_corrected_nu_0p4999_8x4x4.json",
-          "sha256": "3242d28111f5b642ab67caf038f7a87b0d13be969caa111f4469b53fd52f2c52"
+          "sha256": "95982902fe9853b7266ebdf5dbf40d2afbf501344fdffbef45700776f8197fae"
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p3-16x8x8]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p3_16x8x8.json",
@@ -1764,7 +1764,7 @@
         },
         "tests/verification/test_hex8_sri_convergence.py::test_convergence_case[sri_historical-nu_0p4999-8x4x4]": {
           "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/first_convergence_24/results/hex8sri-registry-v4/{controller_head}/manifest_sri_historical_nu_0p4999_8x4x4.json",
-          "sha256": "01b493f2af7867330723a5dc3ce6a723fb481269035ba92a5f8d4749a6ce741b"
+          "sha256": "a51e66bb508146696e3eef4e0802e9d0a61ce8692775c6fa9060e6589f6b85d7"
         }
       }
     },
