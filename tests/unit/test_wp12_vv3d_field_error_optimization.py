@@ -207,3 +207,286 @@ def test_tet4_integrated_errors_checks_geometry_of_each_following_cell() -> None
     # orientation still raises the baseline geometry error.
     with pytest.raises(ValueError, match="cell Jacobian must be finite and positive"):
         field_error_draft.integrated_errors(mesh, field, order=4)
+
+
+def _non_tet4_mesh(family: str) -> dict:
+    def midpoint(left: tuple[int, int, int], right: tuple[int, int, int]) -> tuple[int, int, int]:
+        return tuple((left[axis] + right[axis]) // 2 for axis in range(3))
+
+    if family == "TET10":
+        corners = [(2, 2, 2), (18, 2, 2), (2, 16, 2), (2, 2, 14)]
+        edges = ((0, 1), (1, 2), (2, 0), (0, 3), (1, 3), (2, 3))
+        nodes = corners + [midpoint(corners[left], corners[right]) for left, right in edges]
+        return {
+            "family": family,
+            "nodes_integer": nodes,
+            "connectivity_zero_based": [list(range(10))],
+            "integer_coordinate_denominator": 20,
+        }
+
+    corners = [
+        (2, 2, 2), (8, 2, 2), (8, 8, 2), (2, 8, 2),
+        (2, 2, 6), (8, 2, 6), (8, 8, 6), (2, 8, 6),
+    ]
+    if family == "HEX8":
+        nodes = corners
+    elif family == "HEX20":
+        edges = ((0, 1), (0, 3), (0, 4), (1, 2), (1, 5), (3, 2),
+                 (2, 6), (3, 7), (4, 5), (4, 7), (5, 6), (7, 6))
+        nodes = corners + [midpoint(corners[left], corners[right]) for left, right in edges]
+    else:
+        raise AssertionError(f"unexpected fixture family: {family}")
+    return {
+        "family": family,
+        "nodes_integer": nodes,
+        "connectivity_zero_based": [list(range(len(nodes)))],
+        "integer_coordinate_denominator": 10,
+    }
+
+
+def _sheared_non_tet4_mesh(family: str) -> dict:
+    """Return a translated, skewed affine cell inside the MMS unit domain."""
+    mesh = _non_tet4_mesh(family)
+    center_y, center_z = (9, 8) if family == "TET10" else (5, 4)
+    mesh["nodes_integer"] = [
+        (20 * x + y - center_y, 20 * y + z - center_z, 20 * z)
+        for x, y, z in mesh["nodes_integer"]
+    ]
+    mesh["integer_coordinate_denominator"] *= 20
+    return mesh
+
+
+_NON_TET4_BASELINE_OUTPUTS = {
+    ("TET10", 8): {
+        "displacement_l2_m_5_2": 5.389253904980166e-05,
+        "displacement_relative_l2": 7.081840084596093,
+        "energy_error_norm_sqrt_j": 0.08652903616884988,
+        "energy_error_relative": 2.061928525648247,
+        "strain_error_l2_m_3_2": 9.23924844895134e-05,
+        "strain_error_relative": 2.3001740216337585,
+        "stress_error_l2_pa_m_3_2": 89.78601463375027,
+        "stress_error_relative": 1.7426523962820621,
+        "scalar_energy_j": 0.0034871143925518967,
+        "quadrature_order": 8,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+    ("TET10", 12): {
+        "displacement_l2_m_5_2": 5.3892539053557e-05,
+        "displacement_relative_l2": 7.081840060522565,
+        "energy_error_norm_sqrt_j": 0.08652903603400026,
+        "energy_error_relative": 2.0619285360995514,
+        "strain_error_l2_m_3_2": 9.239248438170066e-05,
+        "strain_error_relative": 2.300174033150805,
+        "stress_error_l2_pa_m_3_2": 89.78601442223861,
+        "stress_error_relative": 1.742652404648752,
+        "scalar_energy_j": 0.0034871143925518937,
+        "quadrature_order": 12,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+    ("HEX8", 8): {
+        "displacement_l2_m_5_2": 5.336435094379268e-05,
+        "displacement_relative_l2": 2.0820301885855637,
+        "energy_error_norm_sqrt_j": 0.08212864106352273,
+        "energy_error_relative": 1.3427142538974641,
+        "strain_error_l2_m_3_2": 8.683753845937244e-05,
+        "strain_error_relative": 1.428702184521107,
+        "stress_error_l2_pa_m_3_2": 86.89001862784565,
+        "stress_error_relative": 1.2135256862728587,
+        "scalar_energy_j": 0.0020207820512820494,
+        "quadrature_order": 8,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+    ("HEX8", 12): {
+        "displacement_l2_m_5_2": 5.3364350943792885e-05,
+        "displacement_relative_l2": 2.0820301885855343,
+        "energy_error_norm_sqrt_j": 0.08212864106352279,
+        "energy_error_relative": 1.342714253897464,
+        "strain_error_l2_m_3_2": 8.683753845937229e-05,
+        "strain_error_relative": 1.4287021845211072,
+        "stress_error_l2_pa_m_3_2": 86.89001862784619,
+        "stress_error_relative": 1.2135256862728556,
+        "scalar_energy_j": 0.0020207820512820438,
+        "quadrature_order": 12,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+    ("HEX20", 8): {
+        "displacement_l2_m_5_2": 0.00024076579380439745,
+        "displacement_relative_l2": 9.393567844711722,
+        "energy_error_norm_sqrt_j": 0.5945930605104167,
+        "energy_error_relative": 9.720952000147578,
+        "strain_error_l2_m_3_2": 0.0005970092858055571,
+        "strain_error_relative": 9.822347408072185,
+        "stress_error_l2_pa_m_3_2": 685.8451490315877,
+        "stress_error_relative": 9.578668738928593,
+        "scalar_energy_j": 0.1852426527065528,
+        "quadrature_order": 8,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+    ("HEX20", 12): {
+        "displacement_l2_m_5_2": 0.00024076579380439747,
+        "displacement_relative_l2": 9.393567844711553,
+        "energy_error_norm_sqrt_j": 0.5945930605104167,
+        "energy_error_relative": 9.72095200014757,
+        "strain_error_l2_m_3_2": 0.0005970092858055581,
+        "strain_error_relative": 9.822347408072215,
+        "stress_error_l2_pa_m_3_2": 685.8451490315874,
+        "stress_error_relative": 9.578668738928508,
+        "scalar_energy_j": 0.1852426527065527,
+        "quadrature_order": 12,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+}
+
+
+@pytest.mark.parametrize(("family", "order"), sorted(_NON_TET4_BASELINE_OUTPUTS))
+def test_optimized_non_tet4_integrated_errors_match_immutable_baseline(
+    family: str, order: int,
+) -> None:
+    mesh = _non_tet4_mesh(family)
+    field = [
+        (1.2e-5 * (index + 1), -2.1e-5 * (index + 2), 0.7e-5 * (index - 1))
+        for index in range(len(mesh["nodes_integer"]))
+    ]
+
+    actual = field_error_draft.integrated_errors(mesh, field, order=order)
+    expected = _NON_TET4_BASELINE_OUTPUTS[(family, order)]
+
+    assert actual.keys() == expected.keys()
+    for name, value in expected.items():
+        if isinstance(value, float):
+            assert actual[name] == pytest.approx(value, rel=2.0e-12, abs=1.0e-15)
+        else:
+            assert actual[name] == value
+
+
+_NON_TET4_SHEARED_BASELINE_OUTPUTS = {
+    ("TET10", 8): {
+        "displacement_l2_m_5_2": 5.391275677971163e-05,
+        "displacement_relative_l2": 7.306476652476794,
+        "energy_error_norm_sqrt_j": 0.08563299884918979,
+        "energy_error_relative": 2.0819533874757195,
+        "strain_error_l2_m_3_2": 9.147121021530311e-05,
+        "strain_error_relative": 2.3159280979164,
+        "stress_error_l2_pa_m_3_2": 88.78599527891276,
+        "stress_error_relative": 1.7648765337386343,
+        "scalar_energy_j": 0.003418302625216804,
+        "quadrature_order": 8,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+    ("TET10", 12): {
+        "displacement_l2_m_5_2": 5.39127567839355e-05,
+        "displacement_relative_l2": 7.306476622666502,
+        "energy_error_norm_sqrt_j": 0.08563299872392478,
+        "energy_error_relative": 2.0819533976339386,
+        "strain_error_l2_m_3_2": 9.147121011287012e-05,
+        "strain_error_relative": 2.315928109234534,
+        "stress_error_l2_pa_m_3_2": 88.7859950868798,
+        "stress_error_relative": 1.7648765418152201,
+        "scalar_energy_j": 0.003418302625216807,
+        "quadrature_order": 12,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+    ("HEX8", 8): {
+        "displacement_l2_m_5_2": 5.3360470128093895e-05,
+        "displacement_relative_l2": 2.0824783557694184,
+        "energy_error_norm_sqrt_j": 0.08165641449362536,
+        "energy_error_relative": 1.3351489937863827,
+        "strain_error_l2_m_3_2": 8.612551343530465e-05,
+        "strain_error_relative": 1.4170511109331523,
+        "stress_error_l2_pa_m_3_2": 86.79778647288606,
+        "stress_error_relative": 1.212498281596535,
+        "scalar_energy_j": 0.0019655877975160315,
+        "quadrature_order": 8,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+    ("HEX8", 12): {
+        "displacement_l2_m_5_2": 5.336047012809409e-05,
+        "displacement_relative_l2": 2.0824783557693847,
+        "energy_error_norm_sqrt_j": 0.08165641449362532,
+        "energy_error_relative": 1.3351489937863805,
+        "strain_error_l2_m_3_2": 8.612551343530453e-05,
+        "strain_error_relative": 1.417051110933156,
+        "stress_error_l2_pa_m_3_2": 86.79778647288657,
+        "stress_error_relative": 1.2124982815965315,
+        "scalar_energy_j": 0.0019655877975160246,
+        "quadrature_order": 12,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+    ("HEX20", 8): {
+        "displacement_l2_m_5_2": 0.00024076703295313037,
+        "displacement_relative_l2": 9.396321541097837,
+        "energy_error_norm_sqrt_j": 0.6008222007249987,
+        "energy_error_relative": 9.823933143735157,
+        "strain_error_l2_m_3_2": 0.0005996084666741898,
+        "strain_error_relative": 9.865553306266673,
+        "stress_error_l2_pa_m_3_2": 699.10399440377,
+        "stress_error_relative": 9.765944804786445,
+        "scalar_energy_j": 0.18906187083974565,
+        "quadrature_order": 8,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+    ("HEX20", 12): {
+        "displacement_l2_m_5_2": 0.0002407670329531302,
+        "displacement_relative_l2": 9.396321541097642,
+        "energy_error_norm_sqrt_j": 0.6008222007249986,
+        "energy_error_relative": 9.823933143735145,
+        "strain_error_l2_m_3_2": 0.0005996084666741889,
+        "strain_error_relative": 9.865553306266701,
+        "stress_error_l2_pa_m_3_2": 699.1039944037694,
+        "stress_error_relative": 9.76594480478635,
+        "scalar_energy_j": 0.18906187083974568,
+        "quadrature_order": 12,
+        "status": "DIAGNOSTIC_UNQUALIFIED",
+    },
+}
+
+
+@pytest.mark.parametrize(("family", "order"), sorted(_NON_TET4_SHEARED_BASELINE_OUTPUTS))
+def test_optimized_non_tet4_sheared_geometry_matches_immutable_baseline(
+    family: str, order: int,
+) -> None:
+    mesh = _sheared_non_tet4_mesh(family)
+    field = [
+        (1.2e-5 * (index + 1), -2.1e-5 * (index + 2), 0.7e-5 * (index - 1))
+        for index in range(len(mesh["nodes_integer"]))
+    ]
+
+    actual = field_error_draft.integrated_errors(mesh, field, order=order)
+    expected = _NON_TET4_SHEARED_BASELINE_OUTPUTS[(family, order)]
+
+    assert actual.keys() == expected.keys()
+    for name, value in expected.items():
+        if isinstance(value, float):
+            assert actual[name] == pytest.approx(value, rel=2.0e-12, abs=1.0e-15)
+        else:
+            assert actual[name] == value
+
+
+@pytest.mark.parametrize("family", ["TET10", "HEX8", "HEX20"])
+def test_optimized_non_tet4_integrated_errors_reuses_validation_and_cell_geometry(
+    family: str, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    mesh = _non_tet4_mesh(family)
+    cell = mesh["connectivity_zero_based"][0]
+    mesh["connectivity_zero_based"] = [cell, cell]
+    field = [
+        (1.2e-5 * (index + 1), -2.1e-5 * (index + 2), 0.7e-5 * (index - 1))
+        for index in range(len(mesh["nodes_integer"]))
+    ]
+    calls = {"validate": 0, "cell_map": 0, "inverse": 0}
+    for name in calls:
+        original = getattr(field_error_draft, f"_{name if name != 'validate' else 'validate_nodal_displacements'}")
+
+        def counted(*args: object, _name: str = name, _original=original, **kwargs: object):
+            calls[_name] += 1
+            return _original(*args, **kwargs)
+
+        monkeypatch.setattr(
+            field_error_draft,
+            f"_{name if name != 'validate' else 'validate_nodal_displacements'}",
+            counted,
+        )
+
+    field_error_draft.integrated_errors(mesh, field, order=4)
+
+    assert calls == {"validate": 1, "cell_map": 2, "inverse": 2}
