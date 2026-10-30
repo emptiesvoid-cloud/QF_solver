@@ -13,6 +13,7 @@ on:
       - "scripts/wp12a_p0_batch.py"
       - "tests/unit/test_development_autonomous_policy.py"
       - "tests/unit/test_wp12_vv3d_tet4_l3_diagnostic.py"
+      - "tests/unit/test_wp12_vv3d_tet4_l3_optimized_controller.py"
       - "tests/unit/test_wp12a_p0_batch.py"
       - "tests/unit/test_modal_newmark.py"
       - "tests/unit/test_reduced_harmonic.py"
@@ -57,6 +58,7 @@ jobs:
           scripts/wp12a_p0_batch.py
           tests/unit/test_development_autonomous_policy.py
           tests/unit/test_wp12_vv3d_tet4_l3_diagnostic.py
+          tests/unit/test_wp12_vv3d_tet4_l3_optimized_controller.py
           tests/unit/test_wp12a_p0_batch.py
           tests/unit/test_modal_newmark.py
           tests/unit/test_reduced_harmonic.py
@@ -76,6 +78,7 @@ jobs:
           scripts/wp12a_p0_batch.py
           tests/unit/test_development_autonomous_policy.py
           tests/unit/test_wp12_vv3d_tet4_l3_diagnostic.py
+          tests/unit/test_wp12_vv3d_tet4_l3_optimized_controller.py
           tests/unit/test_wp12a_p0_batch.py
           tests/unit/test_modal_newmark.py
           tests/unit/test_reduced_harmonic.py
