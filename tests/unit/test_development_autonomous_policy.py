@@ -100,25 +100,53 @@ def _assert_wp12a_p0_registration_extension(current: dict[str, Any], baseline: d
 
 
 def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
+    import re
+
     repository_root = Path(__file__).resolve().parents[2]
     agents_text = (repository_root / "AGENTS.md").read_text(encoding="utf-8")
-    declaration_marker = "For monitored FEM exploration, invoke only the shared controller at `"
-    declarations = [line for line in agents_text.splitlines() if declaration_marker in line]
-
-    assert len(declarations) == 1
-    expected_controller_path = (
+    r1_path = (
         r"E:\QFSolverAgents\controllers\wp12-vv3d-initial-controller-cda19da9\qf_solver"
         r"\scripts\development_autonomous.py"
     )
-    expected_identity = (
-        "This clean, detached controller checkout is pinned to HEAD "
-        "`cda19da911217e2f302c295b380332d0fe34b95b`, tree "
-        "`de18d79a17a4ec1722e2d83c89f4a692a00beb4a`, VV3D-scope provenance fingerprint "
-        "`00f89f5dcf8540a1d257afe9f1e668b9b7bafc4a25d46436447f43a9c2cbef04`, and generic controller fingerprint "
-        "`d2709a82882a546613e291f56e8c561604ee6c002999518dca753ca8db37585e`."
+    r2_path = (
+        r"E:\QFSolverAgents\controllers\wp12-vv3d-r2-controller-a432e71\qf_solver"
+        r"\scripts\development_autonomous.py"
     )
-    assert f"{declaration_marker}{expected_controller_path}`" in declarations[0]
-    assert expected_identity in declarations[0]
+    declarations = []
+    for line in agents_text.splitlines():
+        if line.startswith("- "):
+            paths = [
+                token
+                for token in re.findall(r"`([^`]+)`", line)
+                if re.fullmatch(r"[A-Za-z]:\\.*\\scripts\\development_autonomous\.py", token)
+            ]
+            declarations.extend((path, line) for path in paths)
+    assert [path for path, _ in declarations].count(r1_path) == 1
+    assert [path for path, _ in declarations].count(r2_path) == 1
+    assert len(declarations) == 2
+    r1 = next(line for path, line in declarations if path == r1_path)
+    r2 = next(line for path, line in declarations if path == r2_path)
+    assert "outside VV3D R2" in r1
+    assert "VV3D R2 only" in r2
+    assert "`wp12_vv3d_recovery_r2`" in r2
+    assert "`wp12_vv3d_recovery_r2`" not in r1
+
+    def assert_pin(declaration: str, label: str, value: str) -> None:
+        assert re.search(rf"\b{re.escape(label)}\s+`{value}`", declaration)
+
+    assert_pin(r1, "HEAD", "cda19da911217e2f302c295b380332d0fe34b95b")
+    assert_pin(r1, "tree", "de18d79a17a4ec1722e2d83c89f4a692a00beb4a")
+    assert_pin(r1, "VV3D-scope provenance fingerprint", "00f89f5dcf8540a1d257afe9f1e668b9b7bafc4a25d46436447f43a9c2cbef04")
+    assert_pin(r1, "generic controller fingerprint", "d2709a82882a546613e291f56e8c561604ee6c002999518dca753ca8db37585e")
+    assert_pin(r2, "HEAD", "a432e71c7273e887591e549eec1a4f0381eb4b64")
+    assert_pin(r2, "tree", "2f284c80a811469b1a83bdee0a562fd1dca6a791")
+    assert_pin(r2, "generic fingerprint", "14288c9d31eac1d11177f0f0d5eff1039e18025358212118c33b4a0163d2c865")
+    assert_pin(r2, "VV3D R2-scope fingerprint", "af9fe723185f5578a1c774713f1896adf6ebdfbe0024fdfc7bae344a480aced2")
+    assert_pin(
+        r2,
+        "VV3D R1-scope fingerprint (recorded for comparison only)",
+        "b2226b9deafbff7b59ceeb42cc45b21f78371f86e1e19ff98f8849489ecdfe98",
+    )
     assert "Controller selection is resolved only by this canonical release-branch `AGENTS.md` entry." in agents_text
     assert "do not recursively follow its snapshot `AGENTS.md`" in agents_text
     assert "wp12-shared-controller-081d788" not in agents_text
