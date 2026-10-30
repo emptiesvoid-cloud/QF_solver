@@ -23,6 +23,9 @@ VV3D_LEDGER_FILENAME = "node-attempt-ledger-wp12-vv3d-recovery-r2.jsonl"
 TET4_L3_DIAGNOSTIC_SCOPE = "wp12_vv3d_tet4_l3_diagnostic"
 TET4_L3_DIAGNOSTIC_LEDGER = "node-attempt-ledger-vv3d-tet4-l3-diagnostic.jsonl"
 TET4_L3_DIAGNOSTIC_TIMEOUT_SECONDS = 2400
+TET4_L3_OPTIMIZED_DIAGNOSTIC_SCOPE = "wp12_vv3d_tet4_l3_optimized_diagnostic"
+TET4_L3_OPTIMIZED_DIAGNOSTIC_LEDGER = "node-attempt-ledger-vv3d-tet4-l3-optimized-diagnostic.jsonl"
+TET4_L3_OPTIMIZED_DIAGNOSTIC_TIMEOUT_SECONDS = 1200
 NOT_AUTHORIZED_FINGERPRINT = "0" * 64
 ADAPTIVE_CATALOG_PATH = Path(__file__).parent / "ADAPTIVE_CATALOG_DRAFT.json"
 ADAPTIVE_RECEIPT_SCHEMA = "qf-wp12-vv3d-adaptive-runner-receipt-v1"
@@ -1090,12 +1093,25 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
     }
     context = {key: os.environ.get(name, "") for key, name in names.items()}
     context["campaign_id"] = "WP12-VV3D-RECOVERY-20261030-R2"
-    diagnostic = os.environ.get("QF_DEV_WORKTREE_ID") == TET4_L3_DIAGNOSTIC_SCOPE
+    worktree_scope = os.environ.get("QF_DEV_WORKTREE_ID")
+    diagnostic_scopes = {
+        TET4_L3_DIAGNOSTIC_SCOPE: (
+            TET4_L3_DIAGNOSTIC_TIMEOUT_SECONDS, TET4_L3_DIAGNOSTIC_LEDGER,
+        ),
+        TET4_L3_OPTIMIZED_DIAGNOSTIC_SCOPE: (
+            TET4_L3_OPTIMIZED_DIAGNOSTIC_TIMEOUT_SECONDS, TET4_L3_OPTIMIZED_DIAGNOSTIC_LEDGER,
+        ),
+    }
+    diagnostic = worktree_scope in diagnostic_scopes
     if diagnostic and (case_id != "VV3D-TET4-L3" or os.environ.get("QF_VV3D_PERFORMANCE_TRACE") != "1"):
         raise PermissionError("TET4-L3 diagnostic requires its exact case and active tracing")
-    expected_timeout = TET4_L3_DIAGNOSTIC_TIMEOUT_SECONDS if diagnostic else case["timeout_max_seconds"]
-    expected_ledger_scope = TET4_L3_DIAGNOSTIC_SCOPE if diagnostic else "wp12_vv3d_recovery_r2"
-    expected_ledger_name = TET4_L3_DIAGNOSTIC_LEDGER if diagnostic else VV3D_LEDGER_FILENAME
+    if diagnostic:
+        expected_timeout, expected_ledger_name = diagnostic_scopes[worktree_scope]
+        expected_ledger_scope = worktree_scope
+    else:
+        expected_timeout = case["timeout_max_seconds"]
+        expected_ledger_scope = "wp12_vv3d_recovery_r2"
+        expected_ledger_name = VV3D_LEDGER_FILENAME
     if (context["case_id"] != case_id or context["nodeid"] != _expected_nodeid(case_id)
             or not all(context.values())
             or not re.fullmatch(r"[0-9a-f]{64}", context["manifest_sha256"])
@@ -1142,7 +1158,7 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
         "controller_fingerprint": context["controller_fingerprint"],
     }
     if diagnostic:
-        expected["scope_id"] = TET4_L3_DIAGNOSTIC_SCOPE
+        expected["scope_id"] = worktree_scope
     if not isinstance(manifest, dict) or any(manifest.get(key) != value for key, value in expected.items()):
         raise PermissionError("VV3D manifest does not bind this case, identity and budget")
     decision = manifest.get("owner_decision")
