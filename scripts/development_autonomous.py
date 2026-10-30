@@ -72,6 +72,20 @@ def _load_vv3d_r2_ledger_module() -> Any:
     return module
 
 
+def _load_vv3d_family_remainder_ledger_module() -> Any:
+    """Load the nine-case family ledger as a sibling of the active controller."""
+    module_name = ".wp12_vv3d_family_remainder_ledger" if __package__ else "wp12_vv3d_family_remainder_ledger"
+    module = importlib.import_module(module_name, package=__package__ or None)
+    expected = Path(__file__).resolve().with_name("wp12_vv3d_family_remainder_ledger.py")
+    try:
+        actual = Path(module.__file__).resolve(strict=True)
+    except (AttributeError, OSError) as exc:
+        raise PolicyError("VV3D family-remainder ledger has no verifiable source path") from exc
+    if actual != expected:
+        raise PolicyError("VV3D family-remainder ledger resolved outside the active controller checkout")
+    return module
+
+
 def _registered_root(value: str, *, strict: bool = False) -> Path:
     """Resolve an absolute worktree root or a repository-relative root."""
     path = Path(value)
@@ -102,10 +116,14 @@ HEX8SRI_REFINED3_CRITERIA_CONTRACT_REVISION = "refined3-8x4x4-nu04999-owner-crit
 VV3D_WORKTREE_ID = "wp12_vv3d_adaptive"
 VV3D_CAMPAIGN_ID = "WP12-VV3D-ADAPTIVE-20261029-R1"
 VV3D_R2_WORKTREE_ID = "wp12_vv3d_recovery_r2"
+VV3D_FAMILY_REMAINDER_WORKTREE_ID = "wp12_vv3d_family_remainder"
 VV3D_TET4_L3_OPTIMIZED_DIAGNOSTIC_WORKTREE_ID = "wp12_vv3d_tet4_l3_optimized_diagnostic"
 VV3D_R2_CAMPAIGN_ID = "WP12-VV3D-RECOVERY-20261030-R2"
+VV3D_FAMILY_REMAINDER_CAMPAIGN_ID = "WP12-VV3D-FAMILY-REMAINDER-20261030"
 VV3D_R2_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-WP12-VV3D-RECOVERY-2026-10-30-R2"
 VV3D_R2_LEDGER_FILENAME = "node-attempt-ledger-wp12-vv3d-recovery-r2.jsonl"
+VV3D_FAMILY_REMAINDER_MANDATE_ID = "DEVELOPMENT_AUTONOMOUS-WP12-VV3D-FAMILY-REMAINDER-2026-10-30-v1"
+VV3D_FAMILY_REMAINDER_LEDGER_FILENAME = "node-attempt-ledger-wp12-vv3d-family-remainder.jsonl"
 VV3D_R1_LEDGER_SHA256 = "2788619d097d148c74a3e71cef456ee52bc03642d680f9090360418b61d20bf8"
 VV3D_R1_LEDGER_PATH = Path(
     r"E:\QFSolverAgents\evidence\wp12-vv3d-adaptive\node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl"
@@ -118,6 +136,20 @@ VV3D_R2_SOURCE_IDENTITY = {
 }
 VV3D_R2_SOURCE_ROOT = Path(r"E:\QFSolverAgents\test-worktrees\vv3d-science-source-candidate")
 VV3D_R2_EVIDENCE_ROOT = Path(r"E:\QFSolverAgents\evidence\wp12-vv3d-recovery-r2")
+VV3D_FAMILY_REMAINDER_SOURCE_ROOT = Path(r"E:\QFSolverAgents\worktrees\vv3d-family-remainder-science-final")
+VV3D_FAMILY_REMAINDER_EVIDENCE_ROOT = Path(r"E:\QFSolverAgents\evidence\wp12-vv3d-family-remainder")
+VV3D_FAMILY_REMAINDER_SOURCE_IDENTITY = {
+    "branch": "research/wp12-vv3d-family-remainder-20261030",
+    "head": "ac0f1855a88cc66e48e629eadc4f0e681d1d719d",
+    "tree": "39bf88bef3d72e6c970a3928d577239074f7b9fb",
+    "fingerprint_sha256": "fdc76b49a21b9562dda517cecef7bf17c0a7a327f6fc1f1c6cfc7e9433c347bb",
+}
+VV3D_FAMILY_REMAINDER_PREDECESSOR_LEDGER_BINDINGS = (
+    ("wp12_vv3d_adaptive", r"E:\QFSolverAgents\evidence\wp12-vv3d-adaptive\node-attempt-ledger-wp12-vv3d-adaptive-r1.jsonl", VV3D_R1_LEDGER_SHA256),
+    ("wp12_vv3d_recovery_r2", r"E:\QFSolverAgents\evidence\wp12-vv3d-recovery-r2\node-attempt-ledger-wp12-vv3d-recovery-r2.jsonl", "5e090e1351578803669af37f04d161a6c4608436763f87d71e03315978446bb5"),
+    ("wp12_vv3d_tet4_l3_diagnostic", r"E:\QFSolverAgents\evidence\wp12-vv3d-tet4-l3-diagnostic\node-attempt-ledger-vv3d-tet4-l3-diagnostic.jsonl", "3dfab79fabd3ae5986b265ecdebf6a4ed1030f3806ab25ae12f0a9d4a1f5e6c4"),
+    ("wp12_vv3d_tet4_l3_optimized_diagnostic", r"E:\QFSolverAgents\evidence\wp12-vv3d-tet4-l3-optimized-diagnostic\node-attempt-ledger-vv3d-tet4-l3-optimized-diagnostic.jsonl", "43b3a680acf30493d057bb58079ad6a9b3c4834e371314c7ec5a935834e49732"),
+)
 VV3D_INITIAL_CASE_IDS = tuple(
     f"VV3D-{family}-L{level}"
     for family in ("TET4", "TET10", "HEX8", "HEX20")
@@ -128,6 +160,15 @@ VV3D_INITIAL_NODEIDS = tuple(
     for case_id in VV3D_INITIAL_CASE_IDS
 )
 VV3D_R2_NODEIDS = VV3D_INITIAL_NODEIDS
+VV3D_FAMILY_REMAINDER_CASE_IDS = tuple(
+    f"VV3D-{family}-L{level}"
+    for family in ("TET10", "HEX8", "HEX20")
+    for level in (1, 2, 3)
+)
+VV3D_FAMILY_REMAINDER_NODEIDS = tuple(
+    "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_fem_case[" + case_id + "]"
+    for case_id in VV3D_FAMILY_REMAINDER_CASE_IDS
+)
 VV3D_ADAPTIVE_FEM_NODEIDS = tuple(
     "tests/unit/test_wp12_vv3d_adaptive_prepared.py::test_prepared_adaptive_fem_case[VV3D-ADAPT-"
     f"{family}-{kind}]"
@@ -1013,6 +1054,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         HEX8SRI_CONVERGENCE24_WORKTREE_ID,
         VV3D_WORKTREE_ID,
         VV3D_R2_WORKTREE_ID,
+        VV3D_FAMILY_REMAINDER_WORKTREE_ID,
     }
     if not isinstance(worktrees, dict) or set(worktrees) != expected_worktree_ids:
         raise PolicyError(
@@ -1052,8 +1094,11 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         is_hex8sri_convergence24 = worktree_id == HEX8SRI_CONVERGENCE24_WORKTREE_ID
         is_vv3d = worktree_id == VV3D_WORKTREE_ID
         is_vv3d_r2 = worktree_id == VV3D_R2_WORKTREE_ID
-        if not is_wp12 and not is_hex8sri_convergence24 and not is_vv3d and not is_vv3d_r2 and attempt_limit != 3:
+        is_vv3d_family_remainder = worktree_id == VV3D_FAMILY_REMAINDER_WORKTREE_ID
+        if not is_wp12 and not is_hex8sri_convergence24 and not is_vv3d and not is_vv3d_r2 and not is_vv3d_family_remainder and attempt_limit != 3:
             raise PolicyError("this Owner mandate permits at most three attempts per nodeid")
+        if is_vv3d_family_remainder and attempt_limit != 1:
+            raise PolicyError("VV3D family-remainder cases are limited to one future attempt per nodeid")
         if is_hex8sri_convergence24 and attempt_limit != 1:
             raise PolicyError("HEX8-SRI convergence preparation is limited to one future attempt per nodeid")
         budgets = entry.get("budgets")
@@ -1066,7 +1111,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         if budgets["output_total_limit_mib"] > 2 * budgets["output_stream_limit_mib"]:
             raise PolicyError(f"worktree {worktree_id} aggregate output exceeds its two stream caps")
         expected_test_root = (
-            "tests/unit" if worktree_id in {"c01", "e01", VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID, *WP12_OWNER_ENVELOPES} else "tests/verification"
+            "tests/unit" if worktree_id in {"c01", "e01", VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID, VV3D_FAMILY_REMAINDER_WORKTREE_ID, *WP12_OWNER_ENVELOPES} else "tests/verification"
         )
         if entry["pytest_root"] != expected_test_root:
             raise PolicyError(f"worktree {worktree_id} is bound to the wrong test class")
@@ -1087,6 +1132,8 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
                 raise PolicyError("VV3D catalogue accepts only its exact 12 initial, 8 adaptive, and 4 QPOST nodeids")
             if is_vv3d_r2 and nodeid not in VV3D_R2_NODEIDS:
                 raise PolicyError("VV3D R2 accepts only its exact twelve initial FEM nodeids")
+            if is_vv3d_family_remainder and nodeid not in VV3D_FAMILY_REMAINDER_NODEIDS:
+                raise PolicyError("VV3D family remainder accepts only its exact nine TET10/HEX8/HEX20 FEM nodeids")
             if worktree_id == "e01" and re.search(r"(?i)(tet|hex|beam|assembly|fem)", nodeid):
                 raise PolicyError("E01 allowlist may contain only non-FEM constitutive-math tests")
         if is_wp12:
@@ -1307,6 +1354,56 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         }
     ):
         raise PolicyError("VV3D R2 scope identity, closed node set, independent ledger or limits are invalid")
+    family = worktrees[VV3D_FAMILY_REMAINDER_WORKTREE_ID]
+    family_expected_budgets = {
+        "timeout_seconds": 1200, "rss_soft_limit_mib": 4096, "process_tree_limit": 32,
+        "output_total_limit_mib": 64, "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 1024, "archive_size_limit_mib": 256,
+    }
+    family_predecessors = [
+        {"scope_id": scope_id, "path": path, "sha256": digest}
+        for scope_id, path, digest in VV3D_FAMILY_REMAINDER_PREDECESSOR_LEDGER_BINDINGS
+    ]
+    family_dofs = {
+        VV3D_FAMILY_REMAINDER_NODEIDS[index]: VV3D_INITIAL_DOFS[case_id]
+        for index, case_id in enumerate(VV3D_FAMILY_REMAINDER_CASE_IDS)
+    }
+    if (
+        family.get("campaign_id") != VV3D_FAMILY_REMAINDER_CAMPAIGN_ID
+        or family.get("development_mandate_id") != VV3D_FAMILY_REMAINDER_MANDATE_ID
+        or family.get("execution_authorized") is not False
+        or family.get("execution_capability") != "INITIAL_NINE_FAMILY_CASES_WITH_EXACT_OWNER_DECISION"
+        or family.get("runner_capabilities") != {"initial_fem": True, "adaptive_fem": False, "qpost": False}
+        or family.get("root") != str(VV3D_FAMILY_REMAINDER_SOURCE_ROOT)
+        or family.get("git_root") != str(VV3D_FAMILY_REMAINDER_SOURCE_ROOT)
+        or family.get("branch") != VV3D_FAMILY_REMAINDER_SOURCE_IDENTITY["branch"]
+        or family.get("baseline_commit") != "ba36860a156468dd7c54ee435a809222e227205a"
+        or family.get("source_root") != "src"
+        or family.get("pytest_root") != "tests/unit"
+        or family.get("evidence_root") != str(VV3D_FAMILY_REMAINDER_EVIDENCE_ROOT)
+        or family.get("allow_native_vv_skip_override") is not False
+        or family.get("require_clean_worktree") is not True
+        or family.get("attempt_limit_per_nodeid") != 1
+        or family.get("max_family_attempts") != 9
+        or family.get("max_total_attempts") != 24
+        or family.get("max_total_seconds") != 28800
+        or family.get("max_timeout_seconds") != 1200
+        or family.get("target_max_dofs") != 30000
+        or family.get("rss_soft_limit_mib") != 4096
+        or family.get("concurrency_class") != "vv3d_serial"
+        or family.get("nodeid_registration") != {"enabled": False, "max_nodeids": 9}
+        or family.get("budgets") != family_expected_budgets
+        or family.get("allowed_nodeids") != list(VV3D_FAMILY_REMAINDER_NODEIDS)
+        or family.get("adaptive_fem_nodeids") != [] or family.get("qpost_nodeids") != []
+        or family.get("per_node_selected_dofs") != family_dofs
+        or family.get("source_identity") != VV3D_FAMILY_REMAINDER_SOURCE_IDENTITY
+        or family.get("source_fingerprint_sha256") != VV3D_FAMILY_REMAINDER_SOURCE_IDENTITY["fingerprint_sha256"]
+        or family.get("node_attempt_ledger") != {
+            "path": VV3D_FAMILY_REMAINDER_LEDGER_FILENAME,
+            "predecessors": family_predecessors,
+        }
+    ):
+        raise PolicyError("VV3D family remainder scope identity, exact nine-case set, predecessor chain or limits are invalid")
     if policy.get("resource_coordination_root") != str(WP12_COORDINATION_ROOT):
         raise PolicyError("WP12 runs must use the one registered shared resource coordination root")
     d01 = worktrees["d01"]
@@ -1668,6 +1765,7 @@ def build_pytest_command(
     hex8sri_convergence24_collect_only_attestation: bool = False,
     vv3d_collect_only_attestation: bool = False,
     vv3d_r2_collect_only_attestation: bool = False,
+    vv3d_family_remainder_collect_only_attestation: bool = False,
     vv3d_tet4_l3_optimized_diagnostic_attestation: bool = False,
     wp12_dynamics_collect_only_attestation: bool = False,
     wp12b_hex20_diagnostic_collect_only_attestation: bool = False,
@@ -1678,6 +1776,7 @@ def build_pytest_command(
         hex8sri_convergence24_collect_only_attestation,
         vv3d_collect_only_attestation,
         vv3d_r2_collect_only_attestation,
+        vv3d_family_remainder_collect_only_attestation,
         vv3d_tet4_l3_optimized_diagnostic_attestation,
         wp12_dynamics_collect_only_attestation,
         wp12b_hex20_diagnostic_collect_only_attestation,
@@ -1703,6 +1802,10 @@ def build_pytest_command(
             not collect_only or allow_native_skip_override or targets[0] not in VV3D_R2_NODEIDS
         ):
             raise PolicyError("VV3D R2 attestation is restricted to its exact twelve skip-free collect-only nodes")
+        if vv3d_family_remainder_collect_only_attestation and (
+            not collect_only or allow_native_skip_override or targets[0] not in VV3D_FAMILY_REMAINDER_NODEIDS
+        ):
+            raise PolicyError("VV3D family-remainder attestation is restricted to its exact nine skip-free collect-only nodes")
         if vv3d_tet4_l3_optimized_diagnostic_attestation and (
             not collect_only or allow_native_skip_override or targets[0] != VV3D_R2_NODEIDS[2]
         ):
@@ -1762,6 +1865,9 @@ def build_pytest_command(
                 "if mode == 'vv3d-r2-preflight':",
                 "    from development_autonomous_pytest_plugin import VV3DCollectOnlyAttestor",
                 "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_recovery_r2'))",
+                "if mode == 'vv3d-family-remainder-preflight':",
+                "    from development_autonomous_pytest_plugin import VV3DCollectOnlyAttestor",
+                "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_family_remainder'))",
                 "if mode == 'vv3d-tet4-l3-optimized-diagnostic-preflight':",
                 "    from development_autonomous_pytest_plugin import VV3DCollectOnlyAttestor",
                 "    plugins.append(VV3DCollectOnlyAttestor(target, scope_id='wp12_vv3d_tet4_l3_optimized_diagnostic'))",
@@ -1794,6 +1900,8 @@ def build_pytest_command(
             bootstrap_mode = "vv3d-preflight"
         elif vv3d_r2_collect_only_attestation:
             bootstrap_mode = "vv3d-r2-preflight"
+        elif vv3d_family_remainder_collect_only_attestation:
+            bootstrap_mode = "vv3d-family-remainder-preflight"
         elif vv3d_tet4_l3_optimized_diagnostic_attestation:
             bootstrap_mode = "vv3d-tet4-l3-optimized-diagnostic-preflight"
         elif wp12_dynamics_collect_only_attestation:
@@ -2949,6 +3057,59 @@ def _exclusive_file_lock(path: Path) -> Iterator[None]:
 
 
 @contextmanager
+def _vv3d_family_remainder_attempt_locks(ledger: Any, family_lock_path: Path) -> Iterator[None]:
+    """Hold all predecessor campaign locks and the family lock for one attempt."""
+    predecessor_paths = tuple(ledger.predecessor_campaign_lock_paths())
+    paths = (*predecessor_paths, family_lock_path.resolve(strict=False))
+    normalized = tuple(path.resolve(strict=False) for path in paths)
+    if len(set(normalized)) != len(normalized):
+        raise PolicyError("VV3D family-remainder campaign lock paths must be distinct")
+    ordered = sorted(normalized, key=lambda path: str(path).casefold())
+    with ExitStack() as stack:
+        for path in ordered:
+            stack.enter_context(_exclusive_file_lock(path))
+        yield
+
+
+def _finalize_vv3d_family_setup_error(
+    *, ledger: Any, run_id: str, record_path: Path, initial_record: Mapping[str, Any],
+    error: BaseException, reservation_started_monotonic: float,
+) -> dict[str, Any]:
+    """Consume an already-started family attempt as INFRA_ERROR after setup failure."""
+    records = []
+    close_error = None
+    try:
+        records = ledger.verify()
+        started = any(record.get("event") == "ATTEMPT_STARTED" and record.get("run_id") == run_id
+                      for record in records)
+        finished = any(record.get("event") == "ATTEMPT_FINISHED" and record.get("run_id") == run_id
+                       for record in records)
+        if started and not finished:
+            ledger.finish_runner_attempt(
+                run_id=run_id, status="INFRA_ERROR",
+                elapsed_seconds=max(0.0, time.monotonic() - reservation_started_monotonic),
+            )
+    except Exception as exc:  # Preserve the initiating error and make the failed closure visible.
+        close_error = f"{type(exc).__name__}: {exc}"
+    final = {
+        **dict(initial_record),
+        "state": "INFRA_ERROR",
+        "scientific_state": "NOT_COMPLETED",
+        "provenance_state": "NOT_VERIFIED",
+        "attempt_reserved": any(
+            record.get("event") == "ATTEMPT_STARTED" and record.get("run_id") == run_id
+            for record in records
+        ),
+        "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+        "error": f"{type(error).__name__}: {error}",
+    }
+    if close_error is not None:
+        final["ledger_close_error"] = close_error
+    _atomic_json(record_path, final)
+    return final
+
+
+@contextmanager
 def _node_attempt_locks(ledger_path: Path, ledger_lock: Path, worktree_id: str) -> Iterator[None]:
     """Serialize Dynamics reservations against an active batch; other scopes keep their old lock path."""
     if worktree_id == "wp12_dynamics" and not getattr(_WP12A_BATCH_LOCK_LOCAL, "held", False):
@@ -3634,6 +3795,15 @@ def _registered_worktree(
         or entry.get("source_fingerprint_sha256") != fingerprint
     ):
         raise PolicyError("VV3D R2 science source identity or raw source fingerprint is stale")
+    if worktree_id == VV3D_FAMILY_REMAINDER_WORKTREE_ID and (
+        identity.get("branch") != VV3D_FAMILY_REMAINDER_SOURCE_IDENTITY["branch"]
+        or identity.get("head") != VV3D_FAMILY_REMAINDER_SOURCE_IDENTITY["head"]
+        or identity.get("tree") != VV3D_FAMILY_REMAINDER_SOURCE_IDENTITY["tree"]
+        or fingerprint != VV3D_FAMILY_REMAINDER_SOURCE_IDENTITY["fingerprint_sha256"]
+        or entry.get("source_identity") != VV3D_FAMILY_REMAINDER_SOURCE_IDENTITY
+        or entry.get("source_fingerprint_sha256") != fingerprint
+    ):
+        raise PolicyError("VV3D family-remainder source identity or raw source fingerprint is stale")
     return entry, root, source_root, identity, fingerprint
 
 
@@ -3645,7 +3815,7 @@ def _run_root(policy: Mapping[str, Any], worktree_id: str | None = None) -> Path
         if _is_within(root, checkout) or _is_within(root, coordination_root) or _is_within(coordination_root, root):
             raise PolicyError("WP12 evidence must be separate from source and shared coordination roots")
         return root
-    if worktree_id in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID}:
+    if worktree_id in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID, VV3D_FAMILY_REMAINDER_WORKTREE_ID}:
         root = Path(policy["worktrees"][worktree_id]["evidence_root"]).resolve()
         checkout = Path(policy["worktrees"][worktree_id]["git_root"]).resolve()
         coordination_root = WP12_COORDINATION_ROOT.resolve()
@@ -4109,7 +4279,7 @@ def _vv3d_controller_provenance() -> dict[str, Any]:
 
 
 def _vv3d_scope_controller_provenance(worktree_id: str) -> dict[str, Any]:
-    """Keep the closed R1 identity stable while binding R2's independent ledger."""
+    """Keep historical VV3D identities stable while binding each isolated ledger."""
     provenance = _vv3d_controller_provenance()
     if worktree_id == VV3D_R2_WORKTREE_ID:
         hashes = dict(provenance.get("sha256", {}))
@@ -4117,8 +4287,15 @@ def _vv3d_scope_controller_provenance(worktree_id: str) -> dict[str, Any]:
         hashes["wp12_vv3d_r2_ledger"] = _sha256(path)
         provenance["sha256"] = hashes
         provenance["vv3d_r2_provenance_revision"] = "vv3d-r2-independent-ledger-v1"
+    elif worktree_id == VV3D_FAMILY_REMAINDER_WORKTREE_ID:
+        hashes = dict(provenance.get("sha256", {}))
+        for module_name in ("wp12_vv3d_family_remainder_contract", "wp12_vv3d_family_remainder_ledger"):
+            path = Path(__file__).with_name(f"{module_name}.py").resolve(strict=True)
+            hashes[module_name] = _sha256(path)
+        provenance["sha256"] = hashes
+        provenance["vv3d_family_remainder_provenance_revision"] = "vv3d-family-remainder-independent-ledger-v1"
     elif worktree_id != VV3D_WORKTREE_ID:
-        raise PolicyError("VV3D controller identity is available only for registered R1 and R2 scopes")
+        raise PolicyError("VV3D controller identity is available only for its registered campaign scopes")
     return provenance
 
 
@@ -6017,11 +6194,13 @@ def preflight_wp12_vv3d_pytest(
 ) -> dict[str, Any]:
     """Collect exactly one registered VV3D node; this never reserves campaign budget."""
     current_policy = load_policy() if policy is None else dict(policy)
-    if worktree_id not in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID}:
-        raise PolicyError("VV3D collect-only supports only the registered R1 or R2 scope")
+    if worktree_id not in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID, VV3D_FAMILY_REMAINDER_WORKTREE_ID}:
+        raise PolicyError("VV3D collect-only supports only the registered R1, R2 or family-remainder scope")
     is_r2 = worktree_id == VV3D_R2_WORKTREE_ID
-    campaign_id = VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID
-    matrix_subdirectory = "prepared_20261030_r2" if is_r2 else "prepared_20261029"
+    is_family_remainder = worktree_id == VV3D_FAMILY_REMAINDER_WORKTREE_ID
+    campaign_id = (VV3D_FAMILY_REMAINDER_CAMPAIGN_ID if is_family_remainder
+                   else VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID)
+    matrix_subdirectory = "prepared_20261030_r2" if is_r2 or is_family_remainder else "prepared_20261029"
     targets = resolve_targets("fem_exploratory", target, current_policy, worktree_id=worktree_id)
     entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
         worktree_id, target, current_policy
@@ -6034,12 +6213,15 @@ def preflight_wp12_vv3d_pytest(
     cases = matrix.get("cases") if isinstance(matrix, Mapping) else None
     case_id = target.rsplit("[", maxsplit=1)[-1][:-1]
     expected_dofs = entry["per_node_selected_dofs"].get(target)
-    initial_nodes = VV3D_R2_NODEIDS if is_r2 else VV3D_INITIAL_NODEIDS
+    initial_nodes = (VV3D_FAMILY_REMAINDER_NODEIDS if is_family_remainder
+                     else VV3D_R2_NODEIDS if is_r2 else VV3D_INITIAL_NODEIDS)
     if target in initial_nodes:
-        expected_ids = {nodeid.rsplit("[", maxsplit=1)[-1][:-1] for nodeid in initial_nodes}
+        expected_ids = ({nodeid.rsplit("[", maxsplit=1)[-1][:-1] for nodeid in VV3D_R2_NODEIDS}
+                        if is_family_remainder else
+                        {nodeid.rsplit("[", maxsplit=1)[-1][:-1] for nodeid in initial_nodes})
         if (not isinstance(cases, list) or len(cases) != len(expected_ids)
                 or {item.get("case_id") for item in cases if isinstance(item, Mapping)} != expected_ids):
-            raise PolicyError("VV3D prepared matrix differs from the exact twelve-case controller catalogue")
+            raise PolicyError("VV3D prepared matrix differs from its exact twelve-case source inventory")
         case = next((item for item in cases if item.get("case_id") == case_id), None)
         if (case is None or case.get("nodeid") != target or case.get("dofs") != expected_dofs
                 or case.get("execution_authorized") is not False or case.get("do_not_execute") is not True
@@ -6086,8 +6268,9 @@ def preflight_wp12_vv3d_pytest(
     command = build_pytest_command(
         "fem_exploratory", targets, temporary_dir, repository_root=execution_root,
         source_root=source_root, controller_root=ROOT, collect_only=True,
-        vv3d_collect_only_attestation=not is_r2,
+        vv3d_collect_only_attestation=not is_r2 and not is_family_remainder,
         vv3d_r2_collect_only_attestation=is_r2,
+        vv3d_family_remainder_collect_only_attestation=is_family_remainder,
     )
     environment = build_child_environment(temporary_dir, source_root=source_root)
     environment.update({
@@ -6106,6 +6289,13 @@ def preflight_wp12_vv3d_pytest(
             raise PolicyError("VV3D R2 immutable R1 predecessor ledger is unavailable") from exc
         if r1_predecessor_sha != entry["node_attempt_ledger"]["predecessor"]["sha256"]:
             raise PolicyError("VV3D R2 immutable R1 predecessor ledger SHA-256 mismatch")
+    family_predecessor_shas: dict[str, str] = {}
+    if is_family_remainder:
+        for scope_id, raw_path, expected_sha in VV3D_FAMILY_REMAINDER_PREDECESSOR_LEDGER_BINDINGS:
+            predecessor_path = Path(raw_path)
+            if _sha256(predecessor_path) != expected_sha:
+                raise PolicyError(f"VV3D family-remainder immutable predecessor changed: {scope_id}")
+            family_predecessor_shas[scope_id] = expected_sha
     initial_ledger_sha = _sha256(ledger) if ledger.is_file() else None
     record_path = receipt_dir / "preflight.json"
     started_at = datetime.now(timezone.utc).isoformat()
@@ -6148,6 +6338,11 @@ def preflight_wp12_vv3d_pytest(
         observed_r1_sha = _sha256(Path(str(entry["node_attempt_ledger"]["predecessor"]["path"])))
         if observed_r1_sha != r1_predecessor_sha or (_sha256(ledger) if ledger.is_file() else None) != initial_ledger_sha:
             state = "PREFLIGHT_LEDGER_CHANGED"
+    if is_family_remainder:
+        if (any(_sha256(Path(raw_path)) != digest for _scope_id, raw_path, digest
+                in VV3D_FAMILY_REMAINDER_PREDECESSOR_LEDGER_BINDINGS)
+                or (_sha256(ledger) if ledger.is_file() else None) != initial_ledger_sha):
+            state = "PREFLIGHT_LEDGER_CHANGED"
     final = {
         "schema": "qfsolver-development-vv3d-preflight-v1", "state": state, "status": state,
         "campaign_id": campaign_id, "worktree_id": worktree_id, "target": target, "nodeid": target,
@@ -6169,6 +6364,8 @@ def preflight_wp12_vv3d_pytest(
     }
     if is_r2:
         final["r1_predecessor_sha256"] = r1_predecessor_sha
+    if is_family_remainder:
+        final["predecessor_ledger_sha256s"] = family_predecessor_shas
     _atomic_json(record_path, final)
     receipt_sha = _sha256(record_path)
     _atomic_json(receipt_dir / "preflight.sha256.json", {"sha256": receipt_sha})
@@ -6521,6 +6718,165 @@ def _vv3d_r2_execution_bindings(
     authorization_id = manifest.get("authorization_id")
     if not isinstance(authorization_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", authorization_id):
         raise PolicyError("VV3D R2 case manifest authorization_id is invalid")
+    return (dict(manifest), dict(preflight), hashlib.sha256(manifest_raw).hexdigest(), preflight_sha,
+            str(decision["decision_id"]), decision_sha)
+
+
+def _load_vv3d_family_remainder_contract_module() -> Any:
+    """Load the controller-owned family contract helpers from this checkout."""
+    module_name = (".wp12_vv3d_family_remainder_contract" if __package__
+                   else "wp12_vv3d_family_remainder_contract")
+    module = importlib.import_module(module_name, package=__package__ or None)
+    expected = Path(__file__).with_name("wp12_vv3d_family_remainder_contract.py").resolve(strict=True)
+    if Path(module.__file__).resolve(strict=True) != expected:
+        raise PolicyError("VV3D family-remainder contract helper resolved outside this controller checkout")
+    return module
+
+
+def _vv3d_family_remainder_execution_bindings(
+    *, target: str, preflight_id: str, manifest_path: Path, entry: Mapping[str, Any],
+    execution_root: Path, identity: Mapping[str, Any], source_fingerprint: str,
+    controller_provenance: Mapping[str, Any], store: Path,
+) -> tuple[dict[str, Any], dict[str, Any], str, str, str, str]:
+    """Validate the exact nine-case contract, decision, preflight and manifest before reservation."""
+    if target not in VV3D_FAMILY_REMAINDER_NODEIDS:
+        raise PolicyError("VV3D family remainder accepts only its exact nine FEM nodeids")
+    helper = _load_vv3d_family_remainder_contract_module()
+    current_controller = _stable_fingerprint(controller_provenance)
+    expected_predecessors = {
+        scope_id: (path, digest)
+        for scope_id, path, digest in VV3D_FAMILY_REMAINDER_PREDECESSOR_LEDGER_BINDINGS
+    }
+    configured_predecessors = entry["node_attempt_ledger"].get("predecessors")
+    if not isinstance(configured_predecessors, list) or {
+        item.get("scope_id"): (item.get("path"), item.get("sha256"))
+        for item in configured_predecessors if isinstance(item, Mapping)
+    } != expected_predecessors:
+        raise PolicyError("VV3D family-remainder predecessor ledger policy differs from the frozen controller binding")
+    for scope_id, (raw_path, expected_sha) in expected_predecessors.items():
+        if _sha256(Path(raw_path)) != expected_sha:
+            raise PolicyError(f"VV3D family-remainder immutable predecessor SHA-256 mismatch: {scope_id}")
+
+    auth_root = (store / "authorizations" / VV3D_FAMILY_REMAINDER_WORKTREE_ID).resolve()
+    try:
+        resolved_manifest = manifest_path.resolve(strict=True)
+        resolved_manifest.relative_to((auth_root / "manifests").resolve())
+        contract_path = auth_root / "campaign-contract.json"
+        decision_path = auth_root / "campaign-decision.json"
+        contract_raw, decision_raw = contract_path.read_bytes(), decision_path.read_bytes()
+        contract, decision = _read_strict_json(contract_path), _read_strict_json(decision_path)
+        manifest_raw = resolved_manifest.read_bytes()
+        manifest = _read_strict_json(resolved_manifest)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"VV3D family-remainder contract, decision or manifest is unavailable: {exc}") from exc
+    if (contract_raw != json.dumps(contract, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+            or decision_raw != json.dumps(decision, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")):
+        raise PolicyError("VV3D family-remainder contract and Owner decision must be canonical immutable JSON")
+    contract_sha = hashlib.sha256(contract_raw).hexdigest()
+    decision_sha = hashlib.sha256(decision_raw).hexdigest()
+    try:
+        validated_contract_sha = helper.validate_contract(
+            contract, scientific_fingerprint=source_fingerprint, controller_fingerprint=current_controller,
+        )
+        validated_decision_sha = helper.validate_owner_decision(
+            decision, contract_sha256=contract_sha, scientific_fingerprint=source_fingerprint,
+            controller_fingerprint=current_controller,
+        )
+    except (ValueError, KeyError, TypeError) as exc:
+        raise PolicyError(f"VV3D family-remainder contract or Owner decision is invalid: {exc}") from exc
+    if validated_contract_sha != contract_sha or validated_decision_sha != decision_sha:
+        raise PolicyError("VV3D family-remainder contract or decision digest mismatch")
+
+    case_id = target.rsplit("[", maxsplit=1)[-1][:-1]
+    case = next((record for record in contract["cases"] if record["case_id"] == case_id), None)
+    matrix_path = (execution_root / "experiments" / "wp12_vv3d_adaptive" /
+                   "prepared_20261030_r2" / "MATRIX_NOT_AUTHORIZED.json")
+    matrix = _read_strict_json(matrix_path)
+    matrix_cases = matrix.get("cases") if isinstance(matrix, Mapping) else None
+    case_ids = {item.get("case_id") for item in matrix_cases if isinstance(item, Mapping)} if isinstance(matrix_cases, list) else set()
+    expected_source_ids = {nodeid.rsplit("[", maxsplit=1)[-1][:-1] for nodeid in VV3D_R2_NODEIDS}
+    matrix_case = next((record for record in matrix_cases or ()
+                        if isinstance(record, Mapping) and record.get("case_id") == case_id), None)
+    if (matrix.get("campaign_id") != VV3D_R2_CAMPAIGN_ID or case_ids != expected_source_ids
+            or case is None or matrix_case is None or case.get("nodeid") != target
+            or case.get("mesh_sha256") != matrix_case.get("mesh_sha256")
+            or case.get("selected_dofs") != matrix_case.get("dofs")
+            or case.get("timeout_seconds") != matrix_case.get("timeout_max_seconds")):
+        raise PolicyError("family-remainder contract case is not an exact selection from the immutable R2 matrix")
+    criteria_path = (execution_root / "experiments" / "wp12_vv3d_adaptive" / case["criteria_path"]).resolve(strict=True)
+    oracle_path = (execution_root / "experiments" / "wp12_vv3d_adaptive" / case["oracle_path"]).resolve(strict=True)
+    experiment_root = (execution_root / "experiments" / "wp12_vv3d_adaptive").resolve(strict=True)
+    if any(not _is_within(path, experiment_root) for path in (criteria_path, oracle_path)):
+        raise PolicyError("family-remainder criteria or oracle escaped the scientific source root")
+    if _sha256(criteria_path) != case["criteria_file_sha256"] or _sha256(oracle_path) != case["oracle_sha256"]:
+        raise PolicyError("family-remainder criteria or oracle raw SHA-256 mismatch")
+    criteria_doc = _read_strict_json(criteria_path)
+    frozen_criteria = criteria_doc.get("criteria") if isinstance(criteria_doc, Mapping) else None
+    if not isinstance(frozen_criteria, list) or not frozen_criteria:
+        raise PolicyError("family-remainder criteria artifact has no frozen criteria list")
+    criteria_sha = hashlib.sha256(json.dumps(
+        frozen_criteria, sort_keys=True, separators=(",", ":"), allow_nan=False,
+    ).encode("utf-8")).hexdigest()
+
+    preflight_dir = _preflight_directory(store, VV3D_FAMILY_REMAINDER_WORKTREE_ID, preflight_id)
+    preflight_path = preflight_dir / "preflight.json"
+    preflight_raw = preflight_path.read_bytes()
+    preflight = _read_strict_json(preflight_path)
+    checksum = _read_strict_json(preflight_dir / "preflight.sha256.json")
+    preflight_sha = hashlib.sha256(preflight_raw).hexdigest()
+    collection = preflight.get("collection_report")
+    out_paths = (preflight_dir / "output" / "stdout.log", preflight_dir / "output" / "stderr.log")
+    output_valid = all(path.is_file() for path in out_paths) and all(
+        preflight.get(key) == _sha256(path)
+        for key, path in zip(("stdout_sha256", "stderr_sha256"), out_paths, strict=True)
+    )
+    expected_origin = str((execution_root / "src" / "solveur" / "__init__.py").resolve())
+    family_ledger = store / VV3D_FAMILY_REMAINDER_LEDGER_FILENAME
+    if (checksum.get("sha256") != preflight_sha or preflight.get("status") != "PREFLIGHT_PASS"
+            or preflight.get("campaign_id") != VV3D_FAMILY_REMAINDER_CAMPAIGN_ID
+            or preflight.get("worktree_id") != VV3D_FAMILY_REMAINDER_WORKTREE_ID
+            or preflight.get("preflight_id") != preflight_id or preflight.get("target") != target
+            or preflight.get("nodeid") != target or preflight.get("identity") != dict(identity)
+            or preflight.get("source_fingerprint") != source_fingerprint
+            or preflight.get("controller_provenance") != dict(controller_provenance)
+            or preflight.get("solver_origin_expected") != expected_origin
+            or preflight.get("solver_origin_observed") != expected_origin or not output_valid
+            or not isinstance(collection, Mapping)
+            or collection.get("schema") != "qfsolver-wp12-vv3d-collection-v1"
+            or collection.get("scope_id") != VV3D_FAMILY_REMAINDER_WORKTREE_ID
+            or collection.get("target") != target or collection.get("collected_nodeids") != [target]
+            or collection.get("skip_markers") != [] or collection.get("bodies_executed") is not False
+            or collection.get("exitstatus") != 0 or preflight.get("selected_nodeids") != [target]
+            or preflight.get("skipped") != 0 or preflight.get("bodies_executed") is not False
+            or preflight.get("attempt_reserved") is not False or preflight.get("reservation_created") is not False
+            or preflight.get("predecessor_ledger_sha256s") != {
+                scope_id: digest for scope_id, (_path, digest) in expected_predecessors.items()
+            }
+            or preflight.get("ledger_sha256_before") != preflight.get("ledger_sha256_after")
+            or (family_ledger.is_file() and _sha256(family_ledger) != preflight.get("ledger_sha256_before"))):
+        raise PolicyError("VV3D family-remainder preflight does not bind exact source, controller and nodeid")
+    expected_manifest = {
+        "schema": "qf-wp12-vv3d-case-manifest-v1",
+        "campaign_id": VV3D_FAMILY_REMAINDER_CAMPAIGN_ID,
+        "scope_id": VV3D_FAMILY_REMAINDER_WORKTREE_ID,
+        "case_id": case_id, "nodeid": target, "state": "OWNER_AUTHORIZED",
+        "execution_authorized": True, "do_not_execute": False,
+        "mesh_sha256": case["mesh_sha256"], "selected_dofs": case["selected_dofs"],
+        "timeout_seconds": case["timeout_seconds"], "rss_soft_limit_mib": 4096,
+        "archive_size_limit_mib": 256, "max_attempts": 1,
+        "scientific_fingerprint": source_fingerprint, "controller_fingerprint": current_controller,
+        "campaign_contract_sha256": contract_sha, "criteria_sha256": criteria_sha,
+        "frozen_criteria": frozen_criteria,
+        "owner_decision": {"status": "APPROVED", "approved_by": "Owner",
+                           "decision_id": decision["decision_id"], "decision_sha256": decision_sha},
+        "preflight": {"preflight_id": preflight_id, "nodeid": target, "status": "PREFLIGHT_PASS",
+                       "receipt_sha256": preflight_sha, "receipt_path": str(preflight_path.resolve())},
+    }
+    if not isinstance(manifest, Mapping) or any(manifest.get(key) != value for key, value in expected_manifest.items()):
+        raise PolicyError("VV3D family-remainder manifest does not bind exact decision, criteria and budgets")
+    authorization_id = manifest.get("authorization_id")
+    if not isinstance(authorization_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", authorization_id):
+        raise PolicyError("VV3D family-remainder manifest authorization_id is invalid")
     return (dict(manifest), dict(preflight), hashlib.sha256(manifest_raw).hexdigest(), preflight_sha,
             str(decision["decision_id"]), decision_sha)
 
@@ -7273,7 +7629,7 @@ def preflight_pytest(
     if worktree_id == "wp12_vv3d_tet4_l3_diagnostic":
         raise PolicyError("the historical TET4-L3 diagnostic scope is closed; use its immutable ledger only as predecessor")
     policy = load_policy()
-    if worktree_id in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID}:
+    if worktree_id in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID, VV3D_FAMILY_REMAINDER_WORKTREE_ID}:
         if target not in policy["worktrees"][worktree_id]["allowed_nodeids"]:
             raise PolicyError("VV3D preflight target is outside the exact closed case catalogue")
         return preflight_wp12_vv3d_pytest(
@@ -7696,6 +8052,7 @@ def _vv3d_assess_campaign_family_after_run(
     evidence_root: Path, store: Path, execution_root: Path,
     source_fingerprint: str, controller_fingerprint: str, campaign_ledger: Any,
     campaign_id: str = VV3D_CAMPAIGN_ID,
+    matrix_campaign_id: str | None = None,
     matrix_subdirectory: str = "prepared_20261029",
 ) -> tuple[dict[str, Any], dict[str, str]]:
     """Assess and immutably archive one family's campaign criteria after an initial case.
@@ -7712,7 +8069,7 @@ def _vv3d_assess_campaign_family_after_run(
     matrix_path = execution_root / "experiments" / "wp12_vv3d_adaptive" / matrix_subdirectory / "MATRIX_NOT_AUTHORIZED.json"
     matrix = _read_strict_json(matrix_path)
     matrix_cases = {item.get("case_id"): item for item in matrix.get("cases", []) if isinstance(item, Mapping)}
-    if matrix.get("campaign_id") != campaign_id or any(case not in matrix_cases for case in case_ids):
+    if matrix.get("campaign_id") != (matrix_campaign_id or campaign_id) or any(case not in matrix_cases for case in case_ids):
         raise PolicyError("campaign assessment matrix does not bind the exact family L1/L2/L3 cases")
     criteria = current_manifest.get("frozen_criteria")
     criteria_raw = json.dumps(criteria, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
@@ -7917,12 +8274,14 @@ def run_wp12_vv3d_pytest(
     target: str | None, series_id: str | None, *, worktree_id: str, reason: str,
     preflight_id: str | None, execution_manifest: Path | None,
 ) -> tuple[dict[str, Any], int]:
-    """Run one Owner-approved VV3D R1 or R2 case through its campaign ledger."""
+    """Run one Owner-approved VV3D case through its isolated campaign ledger."""
     policy = load_policy()
     is_r2 = worktree_id == VV3D_R2_WORKTREE_ID
-    allowed_nodes = VV3D_R2_NODEIDS if is_r2 else (*VV3D_INITIAL_NODEIDS, *VV3D_ADAPTIVE_FEM_NODEIDS)
-    if worktree_id not in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID} or target not in allowed_nodes:
-        raise PolicyError("VV3D runner accepts only one exact nodeid registered in its R1 or R2 scope")
+    is_family_remainder = worktree_id == VV3D_FAMILY_REMAINDER_WORKTREE_ID
+    allowed_nodes = (VV3D_FAMILY_REMAINDER_NODEIDS if is_family_remainder else
+                     VV3D_R2_NODEIDS if is_r2 else (*VV3D_INITIAL_NODEIDS, *VV3D_ADAPTIVE_FEM_NODEIDS))
+    if worktree_id not in {VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID, VV3D_FAMILY_REMAINDER_WORKTREE_ID} or target not in allowed_nodes:
+        raise PolicyError("VV3D runner accepts only one exact nodeid registered in an isolated scope")
     if is_r2 and target not in VV3D_R2_NODEIDS:
         raise PolicyError("VV3D R2 excludes H1, QLOAD and QPOST routes")
     if not reason or not reason.strip() or not preflight_id or execution_manifest is None:
@@ -7930,10 +8289,11 @@ def run_wp12_vv3d_pytest(
     entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
         worktree_id, target, policy
     )
-    controller_provenance = (_vv3d_scope_controller_provenance(worktree_id) if is_r2
+    controller_provenance = (_vv3d_scope_controller_provenance(worktree_id) if is_r2 or is_family_remainder
                               else _vv3d_controller_provenance())
     store = _run_root(policy, worktree_id)
-    bindings_validator = _vv3d_r2_execution_bindings if is_r2 else _vv3d_execution_bindings
+    bindings_validator = (_vv3d_family_remainder_execution_bindings if is_family_remainder else
+                          _vv3d_r2_execution_bindings if is_r2 else _vv3d_execution_bindings)
     manifest, preflight, manifest_sha, preflight_sha, decision_id, decision_sha = bindings_validator(
         target=target, preflight_id=preflight_id, manifest_path=execution_manifest,
         entry=entry, execution_root=execution_root, identity=identity,
@@ -7964,7 +8324,7 @@ def run_wp12_vv3d_pytest(
     series_dir = _series_root(store, "fem_exploratory", worktree_id) / series_id
     evidence_root = str(Path(entry["evidence_root"]).resolve())
     controller_fingerprint = _stable_fingerprint(controller_provenance)
-    adaptive = not is_r2 and target in VV3D_ADAPTIVE_FEM_NODEIDS
+    adaptive = not is_r2 and not is_family_remainder and target in VV3D_ADAPTIVE_FEM_NODEIDS
     attempt_id = str(manifest["attempt_id"]) if adaptive else f"{series_id}-attempt-1"
     if is_r2:
         RecoveryR2Ledger = _load_vv3d_r2_ledger_module().RecoveryR2Ledger
@@ -7972,6 +8332,12 @@ def run_wp12_vv3d_pytest(
             from .wp12_vv3d_ledger import RunBinding, RunnerCaseBinding
         else:
             from wp12_vv3d_ledger import RunBinding, RunnerCaseBinding
+    elif is_family_remainder:
+        FamilyRemainderLedger = _load_vv3d_family_remainder_ledger_module().FamilyRemainderLedger
+        try:
+            from wp12_vv3d_ledger import RunBinding, RunnerCaseBinding
+        except ModuleNotFoundError:  # imported as scripts.development_autonomous by tests
+            from scripts.wp12_vv3d_ledger import RunBinding, RunnerCaseBinding
     else:
         try:
             from wp12_vv3d_ledger import BudgetLedger, RunBinding, RunnerCaseBinding
@@ -7985,9 +8351,16 @@ def run_wp12_vv3d_pytest(
             campaign_ledger_path, allowed_root=store,
             predecessor_path=Path(predecessor["path"]), predecessor_sha256=predecessor["sha256"],
         )
+    elif is_family_remainder:
+        campaign_ledger = FamilyRemainderLedger(campaign_ledger_path, allowed_root=store)
     else:
         campaign_ledger = BudgetLedger(campaign_ledger_path, allowed_root=store)
-    with _exclusive_file_lock(store / "locks" / "vv3d-campaign-exclusive.lock"):
+    campaign_lock_name = ("vv3d-family-remainder-exclusive.lock" if is_family_remainder
+                          else "vv3d-campaign-exclusive.lock")
+    campaign_lock = store / "locks" / campaign_lock_name
+    attempt_lock_context = (_vv3d_family_remainder_attempt_locks(campaign_ledger, campaign_lock)
+                            if is_family_remainder else _exclusive_file_lock(campaign_lock))
+    with attempt_lock_context:
         number, attempt_dir = _next_attempt(
             series_dir, series_id, "fem_exploratory", 1, worktree_id=worktree_id, target=target,
         )
@@ -7998,41 +8371,6 @@ def run_wp12_vv3d_pytest(
         temp_dir.mkdir()
         output_dir.mkdir()
         runner_receipt_path = attempt_dir / "vv3d-runner-reservation.json"
-        run_binding = RunBinding(
-            contract_sha256=manifest["campaign_contract_sha256"], decision_id=decision_id,
-            decision_sha256=decision_sha, manifest_sha256=manifest_sha, preflight_sha256=preflight_sha,
-            **manifest.get("_validated_transition_binding", {}),
-        )
-        case_binding = RunnerCaseBinding(
-            case_id=case_id, nodeid=target, attempt_id=attempt_id,
-            authorization_id=manifest["authorization_id"],
-            source_fingerprint=source_fingerprint, controller_fingerprint=controller_fingerprint,
-            selected_dofs=selected_dofs, timeout_seconds=timeout, rss_soft_limit_mib=4096,
-            archive_limit_mib=256, evidence_root=evidence_root,
-            reservation_id=(str(manifest["reservation_id"]) if adaptive else None),
-        )
-        try:
-            if is_r2:
-                runner_receipt = campaign_ledger.start_runner_attempt(
-                    binding=run_binding, case=case_binding, receipt_path=runner_receipt_path,
-                )
-            else:
-                runner_receipt = campaign_ledger.start_runner_attempt(
-                    binding=run_binding, case=case_binding, receipt_path=runner_receipt_path,
-                    receipt_fields=(manifest.get("_runner_receipt_fields") if adaptive else None),
-                )
-        except Exception:
-            # No campaign reservation succeeded, so the empty local attempt directory
-            # can be removed without altering the campaign ledger.
-            try:
-                temp_dir.rmdir()
-                output_dir.rmdir()
-                attempt_dir.rmdir()
-            except OSError:
-                pass
-            raise
-        reservation_started_monotonic = time.monotonic()
-        runner_receipt_sha = runner_receipt["receipt_sha256"]
         record_path = attempt_dir / "run.json"
         command = build_pytest_command(
             "fem_exploratory", [target], temp_dir, repository_root=execution_root,
@@ -8044,28 +8382,28 @@ def run_wp12_vv3d_pytest(
                 "QF_DEV_VV3D_ADAPTIVE_CANDIDATE_ID": case_id,
                 "QF_DEV_TARGET_NODEID": target,
                 "QF_DEV_VV3D_ADAPTIVE_RECEIPT_PATH": str(runner_receipt_path),
-                "QF_DEV_VV3D_ADAPTIVE_RECEIPT_SHA256": runner_receipt_sha,
                 "QF_DEV_EVIDENCE_ROOT": evidence_root,
             })
         else:
             environment.update({
-            "QF_DEV_WORKTREE_ID": worktree_id,
-            "QF_DEV_CAMPAIGN_SCOPE_ID": worktree_id,
-            "QF_DEV_VV3D_CASE_ID": case_id,
-            "QF_DEV_TARGET_NODEID": target,
-            "QF_DEV_MANIFEST_PATH": str(execution_manifest.resolve()),
-            "QF_DEV_MANIFEST_SHA256": manifest_sha,
-            "QF_DEV_AUTHORIZATION_ID": manifest["authorization_id"],
-            "QF_DEV_VV3D_SCIENCE_FINGERPRINT": source_fingerprint,
-            "QF_DEV_CONTROLLER_FINGERPRINT": controller_fingerprint,
-            "QF_DEV_EVIDENCE_ROOT": evidence_root,
-            "QF_DEV_VV3D_RUNNER_RECEIPT_PATH": str(runner_receipt_path),
-            "QF_DEV_VV3D_RUNNER_RECEIPT_SHA256": runner_receipt_sha,
+                "QF_DEV_WORKTREE_ID": worktree_id,
+                "QF_DEV_CAMPAIGN_SCOPE_ID": worktree_id,
+                "QF_DEV_VV3D_CASE_ID": case_id,
+                "QF_DEV_TARGET_NODEID": target,
+                "QF_DEV_MANIFEST_PATH": str(execution_manifest.resolve()),
+                "QF_DEV_MANIFEST_SHA256": manifest_sha,
+                "QF_DEV_AUTHORIZATION_ID": manifest["authorization_id"],
+                "QF_DEV_VV3D_SCIENCE_FINGERPRINT": source_fingerprint,
+                "QF_DEV_CONTROLLER_FINGERPRINT": controller_fingerprint,
+                "QF_DEV_EVIDENCE_ROOT": evidence_root,
+                "QF_DEV_VV3D_RUNNER_RECEIPT_PATH": str(runner_receipt_path),
             })
         started_at = datetime.now(timezone.utc).isoformat()
+        campaign_id = (VV3D_FAMILY_REMAINDER_CAMPAIGN_ID if is_family_remainder
+                       else VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID)
         initial = {
-            "schema": "qfsolver-development-vv3d-run-v1", "state": "RUNNING",
-            "campaign_id": VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID,
+            "schema": "qfsolver-development-vv3d-run-v1", "state": "RESERVATION_PENDING",
+            "campaign_id": campaign_id,
             "case_id": case_id, "attempt_id": attempt_id,
             "worktree_id": worktree_id,
             "target": target, "reason": reason.strip(), "identity": identity,
@@ -8075,13 +8413,95 @@ def run_wp12_vv3d_pytest(
             "mesh_sha256": manifest["mesh_sha256"],
             "preflight": {"id": preflight_id, "sha256": preflight_sha},
             "campaign_decision": {"decision_id": decision_id, "sha256": decision_sha},
-            "campaign_ledger": {"path": str(campaign_ledger_path), "sha256_after_reservation": runner_receipt["ledger_sha256_after_reservation"]},
-            "runner_receipt": {"path": str(runner_receipt_path), "sha256": runner_receipt_sha},
+            "campaign_ledger": {"path": str(campaign_ledger_path), "sha256_after_reservation": None},
+            "runner_receipt": None,
             "command": command, "budgets": scope, "started_at_utc": started_at,
-            "scientific_state": None, "provenance_state": "PENDING",
+            "scientific_state": None, "provenance_state": "PENDING", "attempt_reserved": False,
         }
-        _atomic_json(record_path, initial)
         scope["minimum_free_disk_mib"] = policy["minimum_free_disk_mib"]
+        run_binding = RunBinding(
+            contract_sha256=manifest["campaign_contract_sha256"], decision_id=decision_id,
+            decision_sha256=decision_sha, manifest_sha256=manifest_sha, preflight_sha256=preflight_sha,
+            **manifest.get("_validated_transition_binding", {}),
+        )
+        case_binding = RunnerCaseBinding(
+            case_id=case_id, nodeid=target, attempt_id=attempt_id,
+            authorization_id=manifest["authorization_id"],
+            source_fingerprint=source_fingerprint, controller_fingerprint=controller_fingerprint,
+            selected_dofs=selected_dofs, timeout_seconds=timeout, rss_soft_limit_mib=4096,
+            archive_limit_mib=256, evidence_root=evidence_root,
+            reservation_id=(str(manifest["reservation_id"]) if adaptive else
+                            attempt_id if is_family_remainder else None),
+        )
+        reservation_start_monotonic = time.monotonic()
+        try:
+            if is_r2 or is_family_remainder:
+                runner_receipt = campaign_ledger.start_runner_attempt(
+                    binding=run_binding, case=case_binding, receipt_path=runner_receipt_path,
+                )
+            else:
+                runner_receipt = campaign_ledger.start_runner_attempt(
+                    binding=run_binding, case=case_binding, receipt_path=runner_receipt_path,
+                    receipt_fields=(manifest.get("_runner_receipt_fields") if adaptive else None),
+                )
+        except Exception as exc:
+            if is_family_remainder:
+                try:
+                    records = campaign_ledger.verify()
+                except Exception:
+                    records = []
+                reserved = any(
+                    record.get("event") == "ATTEMPT_STARTED" and record.get("run_id") == attempt_id
+                    for record in records
+                )
+                if not reserved:
+                    try:
+                        temp_dir.rmdir()
+                        output_dir.rmdir()
+                        attempt_dir.rmdir()
+                    except OSError:
+                        pass
+                    raise
+                final = _finalize_vv3d_family_setup_error(
+                    ledger=campaign_ledger, run_id=attempt_id, record_path=record_path,
+                    initial_record=initial, error=exc,
+                    reservation_started_monotonic=reservation_start_monotonic,
+                )
+                return {"series_id": series_id, "attempt": 1, "state": final["state"],
+                        "record": str(record_path), "metrics": final}, 1
+            # No campaign reservation succeeded, so the empty local attempt directory
+            # can be removed without altering the campaign ledger.
+            try:
+                temp_dir.rmdir()
+                output_dir.rmdir()
+                attempt_dir.rmdir()
+            except OSError:
+                pass
+            raise
+        reservation_started_monotonic = time.monotonic()
+        runner_receipt_sha = runner_receipt["receipt_sha256"]
+        try:
+            if adaptive:
+                environment["QF_DEV_VV3D_ADAPTIVE_RECEIPT_SHA256"] = runner_receipt_sha
+            else:
+                environment["QF_DEV_VV3D_RUNNER_RECEIPT_SHA256"] = runner_receipt_sha
+            initial.update({
+                "state": "RUNNING", "attempt_reserved": True,
+                "campaign_ledger": {"path": str(campaign_ledger_path),
+                                    "sha256_after_reservation": runner_receipt["ledger_sha256_after_reservation"]},
+                "runner_receipt": {"path": str(runner_receipt_path), "sha256": runner_receipt_sha},
+            })
+            _atomic_json(record_path, initial)
+        except Exception as exc:
+            if is_family_remainder:
+                final = _finalize_vv3d_family_setup_error(
+                    ledger=campaign_ledger, run_id=runner_receipt["reservation_id"],
+                    record_path=record_path, initial_record=initial, error=exc,
+                    reservation_started_monotonic=reservation_started_monotonic,
+                )
+                return {"series_id": series_id, "attempt": 1, "state": final["state"],
+                        "record": str(record_path), "metrics": final}, 1
+            raise
         try:
             result = run_supervised_command(
                 command, cwd=execution_root, environment=environment, output_dir=output_dir,
@@ -8099,7 +8519,7 @@ def run_wp12_vv3d_pytest(
                 expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
                 provenance_state = ("VERIFIED" if after_entry == entry and after_identity == identity
                                     and after_fingerprint == source_fingerprint
-                                    and (_vv3d_scope_controller_provenance(worktree_id) if is_r2
+                                    and (_vv3d_scope_controller_provenance(worktree_id) if is_r2 or is_family_remainder
                                          else _vv3d_controller_provenance()) == controller_provenance
                                     and origin == expected_origin else "PROVENANCE_MISMATCH")
             except (OSError, PolicyError):
@@ -8118,7 +8538,9 @@ def run_wp12_vv3d_pytest(
                                          if isinstance(candidate_sidecar, Mapping) else None)
                     if (isinstance(candidate_sidecar, Mapping)
                             and candidate_sidecar.get("schema") == "qf-wp12-vv3d-observables-v1"
-                            and candidate_sidecar.get("campaign_id") == (VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID)
+                            and candidate_sidecar.get("campaign_id") == (
+                                VV3D_FAMILY_REMAINDER_CAMPAIGN_ID if is_family_remainder
+                                else VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID)
                             and candidate_sidecar.get("case_id") == case_id
                             and candidate_sidecar.get("attempt_id") == attempt_id
                             and candidate_sidecar.get("case_state") == "OWNER_AUTHORIZED_EXECUTION"
@@ -8156,8 +8578,10 @@ def run_wp12_vv3d_pytest(
                         evidence_root=Path(evidence_root), store=store, execution_root=execution_root,
                         source_fingerprint=source_fingerprint, controller_fingerprint=controller_fingerprint,
                         campaign_ledger=campaign_ledger,
-                        campaign_id=VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID,
-                        matrix_subdirectory="prepared_20261030_r2" if is_r2 else "prepared_20261029",
+                        campaign_id=(VV3D_FAMILY_REMAINDER_CAMPAIGN_ID if is_family_remainder
+                                     else VV3D_R2_CAMPAIGN_ID if is_r2 else VV3D_CAMPAIGN_ID),
+                        matrix_campaign_id=(VV3D_R2_CAMPAIGN_ID if is_family_remainder else None),
+                        matrix_subdirectory="prepared_20261030_r2" if is_r2 or is_family_remainder else "prepared_20261029",
                     )
                     campaign_gate_status = campaign_assessment.get("status")
                 except (OSError, PolicyError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
@@ -8179,7 +8603,7 @@ def run_wp12_vv3d_pytest(
             final_state = terminal["run_state"]
             state_archive = None
             state_archive_error = None
-            if final_state == "PASS" and not adaptive and not is_r2:
+            if final_state == "PASS" and not adaptive and not is_r2 and not is_family_remainder:
                 try:
                     state_archive = _write_vv3d_state_archive(
                         evidence_root=Path(evidence_root), case_id=case_id, attempt_id=attempt_id,
@@ -8483,6 +8907,18 @@ def run_pytest(
             raise PolicyError("VV3D R2 requires a reason, exact collect-only preflight and Owner-authorized manifest")
         return run_wp12_vv3d_pytest(
             target, series_id, worktree_id=VV3D_R2_WORKTREE_ID, reason=reason.strip(),
+            preflight_id=preflight_id, execution_manifest=Path(execution_manifest),
+        )
+    if worktree_id == VV3D_FAMILY_REMAINDER_WORKTREE_ID:
+        family_entry = policy["worktrees"][VV3D_FAMILY_REMAINDER_WORKTREE_ID]
+        if scope_name != "fem_exploratory":
+            raise PolicyError("VV3D family remainder supports only its registered FEM exploratory scope")
+        if target not in family_entry["allowed_nodeids"] or target not in VV3D_FAMILY_REMAINDER_NODEIDS:
+            raise PolicyError("VV3D family-remainder target is outside its exact nine-node allowlist")
+        if not reason or not reason.strip() or not preflight_id or execution_manifest is None:
+            raise PolicyError("VV3D family remainder requires a reason, exact collect-only preflight and Owner manifest")
+        return run_wp12_vv3d_pytest(
+            target, series_id, worktree_id=VV3D_FAMILY_REMAINDER_WORKTREE_ID, reason=reason.strip(),
             preflight_id=preflight_id, execution_manifest=Path(execution_manifest),
         )
     if worktree_id == VV3D_WORKTREE_ID:
