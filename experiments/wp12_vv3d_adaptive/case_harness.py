@@ -1026,6 +1026,22 @@ def run_registered_adaptive_fem_candidate(candidate_id: str) -> dict[str, Any]:
     return outcome
 
 
+def _valid_campaign_reserved_seconds(value: Any, *, minimum: int) -> bool:
+    """Validate the controller's JSON number without rounding elapsed time.
+
+    JSON booleans are Python integers by inheritance, so exact type checks are
+    intentional. Integer values are inherently finite; floats must be finite.
+    The range check also rejects arbitrarily large JSON integers.
+    """
+    if type(value) is int:
+        seconds: int | float = value
+    elif type(value) is float and math.isfinite(value):
+        seconds = value
+    else:
+        return False
+    return minimum <= seconds <= 28_800
+
+
 def require_authorized_execution(case_id: str) -> dict[str, Any]:
     """Check runner-provided identity and raw authorized-manifest bytes.
 
@@ -1172,8 +1188,10 @@ def require_authorized_execution(case_id: str) -> dict[str, Any]:
             or not re.fullmatch(r"[0-9a-f]{64}", runner_receipt["ledger_sha256_after_reservation"])
             or type(runner_receipt.get("campaign_attempts_used_after")) is not int
             or not 1 <= runner_receipt["campaign_attempts_used_after"] <= 24
-            or type(runner_receipt.get("campaign_seconds_reserved_after")) is not int
-            or not case["timeout_max_seconds"] <= runner_receipt["campaign_seconds_reserved_after"] <= 28_800
+            or not _valid_campaign_reserved_seconds(
+                runner_receipt.get("campaign_seconds_reserved_after"),
+                minimum=case["timeout_max_seconds"],
+            )
             or runner_receipt.get("evidence_root") != context["evidence_root"]
             or not isinstance(reservation_id, str)
             or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", reservation_id)
