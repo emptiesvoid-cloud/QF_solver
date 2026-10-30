@@ -199,6 +199,15 @@ def test_hex8sri_source_identity_inventory_freezes_exact_raw_worktree_bytes() ->
     inventory_path = MODULE.ROOT / MODULE.HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_PATH
     inventory = MODULE._read_strict_json(inventory_path)
     assert MODULE._sha256(inventory_path) == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_SHA256
+    inventory_relative = inventory_path.relative_to(MODULE.ROOT).as_posix()
+    attributes = subprocess.run(
+        ["git", "check-attr", "text", "--", inventory_relative],
+        cwd=MODULE.ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout
+    assert attributes.strip().endswith(": text: unset")
     assert entry["source_identity"] == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_IDENTITY
     files = inventory["files_sha256"]
     assert len(files) == MODULE.HEX8SRI_CONVERGENCE24_SOURCE_INVENTORY_FILE_COUNT
