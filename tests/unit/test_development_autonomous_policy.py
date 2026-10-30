@@ -112,7 +112,11 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
         r"E:\QFSolverAgents\controllers\wp12-vv3d-r2-controller-5e2e722\qf_solver"
         r"\scripts\development_autonomous.py"
     )
-    diagnostic_path = (
+    previous_diagnostic_path = (
+        r"E:\QFSolverAgents\controllers\wp12-vv3d-tet4-l3-diagnostic-controller-b6255ce7\qf_solver"
+        r"\scripts\development_autonomous.py"
+    )
+    optimized_diagnostic_path = (
         r"E:\QFSolverAgents\controllers\wp12-vv3d-tet4-l3-optimized-98819a45\qf_solver"
         r"\scripts\development_autonomous.py"
     )
@@ -127,20 +131,28 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
             declarations.extend((path, line) for path in paths)
     assert [path for path, _ in declarations].count(r1_path) == 1
     assert [path for path, _ in declarations].count(r2_path) == 1
-    assert [path for path, _ in declarations].count(diagnostic_path) == 1
-    assert len(declarations) == 3
+    assert [path for path, _ in declarations].count(previous_diagnostic_path) == 1
+    assert [path for path, _ in declarations].count(optimized_diagnostic_path) == 1
+    assert len(declarations) == 4
     r1 = next(line for path, line in declarations if path == r1_path)
     r2 = next(line for path, line in declarations if path == r2_path)
-    diagnostic = next(line for path, line in declarations if path == diagnostic_path)
+    previous_diagnostic = next(line for path, line in declarations if path == previous_diagnostic_path)
+    optimized_diagnostic = next(line for path, line in declarations if path == optimized_diagnostic_path)
     assert "outside VV3D R2" in r1
     assert "VV3D R2 only" in r2
     assert "`wp12_vv3d_recovery_r2`" in r2
     assert "`wp12_vv3d_recovery_r2`" not in r1
-    assert "VV3D TET4-L3 optimized diagnostic only" in diagnostic
-    assert "`wp12_vv3d_tet4_l3_optimized_diagnostic`" in diagnostic
-    assert "`wp12_vv3d_recovery_r2`" not in diagnostic
+    assert "TET4-L3 diagnostic only" in previous_diagnostic
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" in previous_diagnostic
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" not in r1
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" not in r2
+    assert "VV3D TET4-L3 optimized diagnostic only" in optimized_diagnostic
+    assert "`wp12_vv3d_tet4_l3_optimized_diagnostic`" in optimized_diagnostic
+    assert "`wp12_vv3d_recovery_r2`" not in optimized_diagnostic
     assert "`wp12_vv3d_tet4_l3_optimized_diagnostic`" not in r1
     assert "`wp12_vv3d_tet4_l3_optimized_diagnostic`" not in r2
+    assert "`wp12_vv3d_tet4_l3_diagnostic`" not in optimized_diagnostic
+    assert "`wp12_vv3d_tet4_l3_optimized_diagnostic`" not in previous_diagnostic
 
     def assert_pin(declaration: str, label: str, value: str) -> None:
         assert re.search(rf"\b{re.escape(label)}\s+`{value}`", declaration)
@@ -153,14 +165,17 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
     assert_pin(r2, "tree", "33970cead41711b24c3d52889de2ec8bd991189c")
     assert_pin(r2, "generic fingerprint", "5094c1f7024105b967b7718582639c77bc78f72741b0a0e7189d5ac81cc72fb5")
     assert_pin(r2, "VV3D R2-scope fingerprint", "851194718819999d483710435d0e119c799787e5962148b3e50672a99f6f387e")
+    assert_pin(previous_diagnostic, "HEAD", "b6255ce70953552ca1874842d7099cde796a8a66")
+    assert_pin(previous_diagnostic, "tree", "5d8435c3ae170969434315b1dab1c3ef36f6c02c")
+    assert_pin(previous_diagnostic, "diagnostic-scope fingerprint", "c3d2d0946b9bf2063d4cb3bf4143877eaec0f93d2c4751178baad427d2e0c987")
     assert_pin(
         r2,
         "VV3D R1-scope fingerprint (recorded for comparison only)",
         "f4c6056d22801f7d5e3ed55013eae1e1a24d8cf73df32efe271f49b23731396e",
     )
-    assert_pin(diagnostic, "HEAD", "98819a45ae5d525a670ad345a01c670721a2e67d")
-    assert_pin(diagnostic, "tree", "03df7312767502014215a70e8877d9d2fa8079e3")
-    assert_pin(diagnostic, "diagnostic fingerprint", "306903e538a0eb98c1805f6c443bd0c408ea836dd8b7e0cd508f09cddadcbbe8")
+    assert_pin(optimized_diagnostic, "HEAD", "98819a45ae5d525a670ad345a01c670721a2e67d")
+    assert_pin(optimized_diagnostic, "tree", "03df7312767502014215a70e8877d9d2fa8079e3")
+    assert_pin(optimized_diagnostic, "diagnostic fingerprint", "306903e538a0eb98c1805f6c443bd0c408ea836dd8b7e0cd508f09cddadcbbe8")
     assert "Controller selection is resolved only by this canonical release-branch `AGENTS.md` entry." in agents_text
     assert "do not recursively follow its snapshot `AGENTS.md`" in agents_text
     assert "wp12-shared-controller-081d788" not in agents_text
