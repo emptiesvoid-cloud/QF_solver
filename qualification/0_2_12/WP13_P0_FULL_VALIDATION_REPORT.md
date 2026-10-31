@@ -1,96 +1,97 @@
 # WP13 P0 full validation report
 
-**Project:** QF Solver v0.2.12 alpha  
-**Status:** `WP13_P0_PARTIAL_OR_BLOCKED` (P0 execution in progress; package solve smokes await a policy-compatible controller and explicit Owner authorization)  
-**PR:** #114 — [WP13] Verify v0.2.12 release candidate artifacts  
-**Release base:** `ab137051d920d7fa9aae9a3012a48b2b26e2198b`
+**Status:** WP13_P0_PARTIAL_OR_BLOCKED — run 1 is complete but failed/incomplete; corrected candidate CI and installed-artifact solve smokes remain open.
+**PR:** [#114 — Verify v0.2.12 release candidate artifacts](https://github.com/emptiesvoid-cloud/QF_solver/pull/114)
+**Release baseline:** ab137051d920d7fa9aae9a3012a48b2b26e2198b
+**Owner-specified initial PR head:** 57d011c9e228ffae642ff0e9b68098939c87e586
+**PR head revalidated before current corrections:** 375872ec89699b23e5af23151feebc797bc5d94e
 
-## 1. Candidate identity
+## 1. Candidate and execution identities
 
-- Owner-specified PR head observed at start: `57d011c9e228ffae642ff0e9b68098939c87e586`.
-- P0 workflow source and tree: commit `3e2d5f07585b270bb1ac0157a911e94d59991735`, tree `6f4372b7978b089c020c3c250f473bd2dd89d4ea`.
-- Frozen package source: `60c202a75d20c6dea1df35aab591bd3832d12c58`.
-- Frozen selected-distribution contract: `QF-0212-WP13-SELECTED-CANDIDATE-20261031-04`, contract file SHA-256 `f8c43bd1bad5987acb589c7735ac7a1e39e0f7119e50a49dd2061cd135954833`.
-- No source, tests, examples, package metadata, or manifest change was made from the frozen package source through the P0 workflow commit. The workflow change is isolated to `.github/workflows/quality.yml`.
-- The original attempt to create a second managed worktree failed because C: had 248 MiB free. No cleanup was attempted; the existing clean WP13 worktree on E: is separate from the historical release checkout.
+The first official P0 workflow ran on commit 3e2d5f07585b270bb1ac0157a911e94d59991735, tree 6f4372b7978b089c020c3c250f473bd2dd89d4ea, before the corrections now in the WP13 worktree. GitHub run [41201053221](https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41201053221) used workflow_dispatch with extended WP14, engineering-campaign, and documentation jobs disabled. The run is complete and failed; no publish, tag, merge, or deployment occurred.
 
-## 2. CI matrix and official workflow
+The historical v4 package contract remains QF-0212-WP13-SELECTED-CANDIDATE-20261031-04, source 60c202a75d20c6dea1df35aab591bd3832d12c58. v4 artifact results are retained in their report. The current P0 correction adds cryptography==48.0.0 to the selected requirements/baseline-standard.txt; that file is included in the sdist contract. Therefore v4 no longer identifies the selected sdist for the corrected candidate. A new contract and fresh builds are required before claiming installed-artifact results for the final candidate.
 
-The official `.github/workflows/quality.yml` was manually dispatched on the exact P0 workflow commit with `include_extended_jobs=false`:
+No solver source, numerical oracle, acceptance threshold, scientific input, WP12 proof, or ledger was changed. Corrections cover CI timeout/privacy-base handling, the locked standard-test dependency, synthetic fixtures/mocks, release-audit CLI root selection for fixture tests, the current prepublication metadata assertion, and WP13 reporting. Test source files bound by WP12 scientific contracts were restored unchanged.
 
-- Run: [41201053221](https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41201053221).
-- Expected standard cells: Ubuntu latest / Python 3.10; Ubuntu latest / Python 3.13; Windows latest / Python 3.10; Windows latest / Python 3.13.
-- Locked dependency input: `requirements/baseline-standard.txt`.
-- Gates per cell: Ruff, privacy additions check, configured progressive mypy, filtered unit and integration suite with branch coverage and global minimum 80%, P0 module coverage gate with existing 90% module thresholds, `compileall`, and both officially configured quick verification commands.
-- Tests marked `benchmark`, `large`, or `evidence` are excluded by the unchanged official selector. Three extended jobs (WP14 recovered evidence, full engineering campaign, and documentation evidence/benchmarks) are disabled for this dispatch. No historical campaign or benchmark was launched by those jobs.
-- The workflow records commit, exact Python version, platform, and `pip freeze` in each matrix job. The four per-cell results, test counts, coverage, timings, and step logs will be recorded below after completion.
+## 2. Official CI matrix — run 1
 
-At the most recent poll, all four cells had passed dependency installation,
-identity capture, Ruff, and mypy. The standard test/branch-coverage step was
-still running. The workflow's privacy step printed PASS, but its manual-dispatch
-fallback used `github.sha` and compared the candidate to itself; that workflow
-result is invalid. The official privacy script was separately run with release
-baseline `ab137051d920d7fa9aae9a3012a48b2b26e2198b` and passed. A workflow
-correction now requires an explicit base SHA on manual dispatch. Final cell
-verdicts and quantitative results remain pending.
+| Environment | Exact Python | Standard test result | Other gates / verdict |
+|---|---:|---|---|
+| Ubuntu latest | 3.10.22 | FAIL — 4,646 passed, 72 failed, 32 skipped, 107 deselected; 4,197.98 s (1:09:57); global branch coverage 84.76% | Ruff, mypy, install, identity, and workflow privacy step passed; privacy step was an invalid self-comparison. P0 module coverage, compileall, quick verification, and artifact upload were skipped after the test failure. |
+| Ubuntu latest | 3.13.17 | CANCELLED at the 90-minute job limit; 4,750 selected after 107 deselected, approximately 38% progress; no final counts or coverage | Install, identity, Ruff, mypy, and privacy step passed; downstream gates did not run. |
+| Windows latest | 3.10.11 | Pytest emitted 602 passed, 5 skipped, 107 deselected in 5,292.57 s (1:28:12); the workflow job was then cancelled at its 90-minute limit | Ruff, mypy, install, identity, and privacy step passed; no completed P0 module coverage, compileall, quick verification, or coverage artifact. The test summary alone is not a workflow PASS. |
+| Windows latest | 3.13.16 | Pytest emitted 602 passed, 5 skipped, 107 deselected in 5,334.88 s (1:28:54); the workflow job was then cancelled at its 90-minute limit | Ruff, mypy, install, identity, and privacy step passed; no completed P0 module coverage, compileall, quick verification, or coverage artifact. The test summary alone is not a workflow PASS. |
 
-## 3. Test counts, coverage, and failures
+The first-run official selector was tests/unit tests/integration -m "not benchmark and not large and not evidence". Its 107 deselections are the pre-existing marker exclusions. The per-cell runtime and dependency versions are recorded in GitHub Actions logs. Full raw log and metadata are preserved outside the repository at E:\QFSolverAgents\wp13_p0_logs_41201053221; run.log SHA-256 is F95E5BB9E8BDF6B4233BAAA6D78DB6854EC7651CCD447A27D45500A823B4A5DC, and run.json SHA-256 is 4C3C9448E492EE02365E453634D26478ECC52A010EE0E46E3163BAEF3844017B.
 
-**Pending completion of run 41201053221.** Original logs will be preserved; no threshold changes or automatic reruns are permitted. The six earlier release-branch quality runs remain historical Ruff failures (F841 for `historical_front` and `exact_pressure`); they are not rewritten by this run. Their run IDs are `40947504858`, `40950131357`, `40962192076`, `41010380832`, `41018655166`, and `41025434653`.
+The manual-dispatch privacy step compared the candidate to itself and is rejected as evidence. A direct run of python scripts/check_privacy_diff.py --base ab137051d920d7fa9aae9a3012a48b2b26e2198b passed locally. The workflow now requires that exact base as an explicit dispatch input. The standard matrix timeout is raised from 90 to 180 minutes; quality thresholds are unchanged.
 
-## 4. API, CLI, serialization, and non-regression evidence
+## 3. Run 1 failures and dispositions
 
-The frozen source already has 21 exact targeted test executions on Windows Python 3.13.1 and four additional exact executions on Windows Python 3.12, covering public/compatibility exports, model/result JSON round trips, refusal contracts, CLI version and packaging identity, release wording, and preserved rotor limitations. Exact nodeids and the bounded scope are listed in [`WP13_RELEASE_GATE_MATRIX.md`](WP13_RELEASE_GATE_MATRIX.md). These tests ran no solver/FEM cases. Their source remains identical to the package source `60c202a...`; no claims beyond their named assertions are made.
+The original 72 failures remain visible in the preserved run and are not relabelled as passes.
 
-## 5. Installed package artifacts and checks
-
-The v4 candidate artifacts remain bound to frozen package source `60c202a...`:
-
-- Wheel: `qf_solver-0.2.12-py3-none-any.whl`, 1,689,654 bytes, SHA-256 `8d3e571ce7d4ced533d7b97ed0bc0f7a91e29a3d530e3a1b406716fecf721b0e`.
-- Raw sdist: `qf_solver-0.2.12.tar.gz`, 1,320,055 bytes, SHA-256 `4d9e571583b3bd345abdbf4bca5f6b86e17d776c6d2a386019da32c8c0b8a44b`.
-- Normalized sdist: 1,294,041 bytes, SHA-256 `4fba0a1f1e700aaa6bf58c4cdd1a0edd5adea1145db886d5bf1903d30f460da1`.
-- Separate fresh Windows Python 3.13.1 environments installed the wheel and sdist with normal dependency resolution. Prior v4 import-origin, CLI version/help, package-file inventory, and six check-mesh checks passed. These did not assemble or solve a structural model.
-
-Installed wheel and sdist copies of the selected TET4 static, modal, and dynamic examples are byte-identical to each other and parse to the same JSON values as the frozen source examples. Exact installed input and oracle hashes, mathematical tolerances, and the six proposed artifact/case runs are in [`WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md`](WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md). No installed-artifact solve has run.
-
-## 6. FEM smoke status and controller gap
-
-Static TET4, modal TET4, and undamped Newmark TET4 cases are identified from the existing examples and campaign oracles. The current `scripts/run_local_vv.py` only accepts exact pytest nodeids and checks for the solver imported from the scientific source checkout. The installed wheel/sdist import is therefore incompatible with its current preflight. No WP13 package-smoke scope, exact smoke nodeids, manifest, preflight, or reservation ledger exists. Existing WP12 development scopes are not transferable.
-
-**Gate: BLOCKED / NOT_RUN.** No FEM was executed. The decision dossier requests authorization to prepare a minimal shell-free WP13 installed-package controller and a no-FEM synthetic CLI-to-preflight-to-manifest-to-reservation check. After that concrete controller, exact nodes, manifest, budgets, and hashes are reviewed, separate explicit Owner approval must bind the frozen manifest before any solve. If compatibility cannot be achieved without weakening the policy, leave the gate BLOCKED.
-
-## 7. Contract, manifest, and ledger references
-
-- Package build/install contract v4: `QF-0212-WP13-SELECTED-CANDIDATE-20261031-04`, with source and archive digests above; detailed external manifest hashes are recorded in [`WP13_CANDIDATE_ARTIFACT_VERIFICATION_20261031_v4.md`](WP13_CANDIDATE_ARTIFACT_VERIFICATION_20261031_v4.md).
-- CI run 41201053221 is bound to the P0 workflow commit shown above.
-- No FEM smoke execution manifest or reservation ledger was created because the compatible WP13 controller and Owner execution authorization are absent.
-- Historical WP12 contracts, proof artifacts, and ledgers were not modified.
-
-## 8. WP13 P0-specific change
-
-`.github/workflows/quality.yml` allows a manual dispatch on the candidate branch and defaults its three non-P0 extended jobs to disabled for `workflow_dispatch`. The manual path now requires `privacy_base_sha`, validates it as a commit, and compares the candidate against it. Push/PR-to-main behavior is unchanged. The standard matrix and all quality thresholds are unchanged. The workflow records per-cell candidate/runtime identity and gives the standard matrix jobs a 90-minute timeout. YAML parsing and `git diff --check` passed before the first dispatch; the corrected workflow must be parsed and dispatched on the final workflow commit. No scientific code, test oracle, historical evidence, or package artifact was changed.
-
-## 9. Remaining limits and anomalies
-
-- The cross-platform/Python matrix result is not yet final while the run is active.
-- Package solve smokes remain blocked on controller compatibility and explicit Owner authorization.
-- v4 installed package probes cover Windows Python 3.13.1 only; they do not establish cross-platform artifact execution.
-- G03 whole-repository archive clearance remains `FAIL_PRESERVED`; selected wheel/sdist checks do not clear it.
-- No merge to `main`, tag, PyPI upload, GitHub Release, Zenodo deposit, or site deployment occurred or is authorized.
-
-## 10. Gate verdicts
-
-| Gate | Verdict | Evidence / next action |
+| Failure group | Observed outcome | Disposition for corrected run |
 |---|---|---|
-| Exact frozen package source and artifact identity | PASS, bounded | v4 contract and hashes; no package source delta through P0 workflow commit. |
-| Ruff and progressive mypy | PASS at latest poll; final run pending | Run 41201053221, four matrix cells. |
-| Privacy additions gate | PASS, bounded local command; workflow rerun required | `scripts/check_privacy_diff.py --base ab137051d920d7fa9aae9a3012a48b2b26e2198b` returned 0. The first dispatch's self-comparison is rejected; rerun corrected workflow with the same base. |
-| Standard unit/integration suite and global branch coverage >=80% | IN_PROGRESS | Await run result; record executed/passed/failed/skipped/deselected counts and coverage for each matrix cell. |
-| P0 module branch coverage gate >=90% for declared modules | IN_PROGRESS | Await run artifacts/logs for each cell. |
-| Python compilation and official quick verification | NOT_RUN_YET | Steps are pending in the same run. |
-| API/CLI/serialization targeted regression set | PASS, bounded | 21 executions on Windows 3.13.1 plus four on 3.12; exact nodes are in the gate matrix. |
-| Wheel/sdist install, CLI, import, check-mesh | PASS, bounded | v4 only; no assembly or solve. |
-| Installed wheel/sdist static, modal, dynamic solve smokes | BLOCKED / NOT_RUN | No compatible WP13 controller or explicit exact-manifest Owner authorization. |
-| Overall WP13 P0 | `WP13_P0_PARTIAL_OR_BLOCKED` | Cannot declare `WP13_P0_VALIDATED` while the required installed-artifact solve smokes are not executed and CI is pending. |
+| Missing cryptography in the locked test environment | 21 import failures in WP12 process-attestation and synthetic signature tests | Add the already-used pinned version 48.0.0 to the standard baseline; a local exact synthetic attestation test passed. This is a test dependency, not a solver runtime dependency. |
+| Test doubles and synthetic Owner bindings | Three mocks rejected new keyword arguments; one synthetic decision did not bind its exact manifest digest | Update only mock signatures / synthetic decision fixture. Exact local tests passed. |
+| Candidate document/version assertions | Two audit tests expected the 0.2.11 identifier; public-vocabulary scan included internal/archive sources | Update expected current audit identifier and limit the scanner to README and served docs/ inputs. Exact local checks passed; historical audit findings remain FAIL. |
+| Synthetic WP12 runner tests | Windows-only absolute paths, suite-preloaded solver import, and an inventory entry without its fixture caused failures | Use host-native temporary paths, test import delta rather than global absence, and create the declared fake file. Exact local tests passed; no WP12 runner source, manifest, proof, or ledger changed. |
+| WP12/VV3D and WP19 controlled nodes | Protected nodes failed closed without their registered controller, one WP12 S oracle produced a 6.16e-16 residual against exact zero, and one WP19 adversarial record-count assertion failed | Preserve observed results; do not change tolerances, evidence, or campaigns. Exact function families are excluded from the next P0 standard dispatch and remain outside P0 qualification. |
+| WP12B HEX20 diagnostic and VV3D path fixture | HEX20 refused without QF_DEVELOPMENT_AUTONOMOUS; VV3D controller fixture used an unavailable Windows path | Exclude the controller-gated HEX20 node. Replace only the VV3D test fixture with a synthetic temporary source/ledger; its exact local test passed. No FEM ran in the fixture test. |
+| RBE2 integration | Test ran its solve/API/CLI path, then failed because check_mesh returned PASS while the frozen test expects WARNING | Preserve the FAIL and the WP12-4-bound test file unchanged. Do not replay it under the generic matrix; exact node is excluded. |
+| WPC02 AR approval and wrong-manifest guards | The Owner-approved protocol digest matches its historical protocol bytes, not the later current report; two wrong-digest tests lacked an external manifest | Preserve the decision, plan, protocol, and evidence. Bind the test to the immutable historical protocol commit; use a synthetic temporary manifest for M4/M5 refusal checks. Exact local nodes passed; no FEM ran. |
+| Release-audit CLI and publication-phase checks | Two CLI subprocess tests rescanned the entire Git history/archive although they test CLI output behavior; the post-publication test targeted 0.2.11 after package metadata moved to 0.2.12 | Add `--root` with the same default and run the CLI wiring tests against a tiny temporary Git root. Keep separate whole-current-tree audit tests. Replace the stale post-publication assertion with candidate-state checks confirming 0.2.12 remains unreleased and 0.2.11 remains latest published. Exact local nodes passed. G03 remains FAIL_PRESERVED. |
 
-No release publication or final release authorization is implied.
+The first generic CI dispatch also reached unmarked WP12/WP19 controlled nodes and the RBE2 integration before their boundaries were recognized. Their outcomes and original logs are preserved. The corrected workflow excludes the exact function families below; it does not alter or erase the first-run failures.
+
+## 4. Corrections and targeted local checks
+
+The corrected workflow keeps the standard release-audit tests and current-candidate publication-state test in the suite. Their command-line tests now use a tiny temporary Git repository while separate current-tree audit tests continue to exercise the real checkout. The explicit `-k` exclusions are limited to exact historical FEM/controlled-campaign nodes that cannot run under the registered WP12/WP19 authorization scopes in a generic matrix, plus the RBE2 integration test that performs an unregistered solve. Marker exclusions remain `benchmark`, `large`, `evidence`, `scientific_vv`, and `native_vv`; they do not change coverage thresholds, oracles, or qualification status. No policy-controlled FEM case is rerun by the corrected P0 matrix.
+
+Exact `-k` exclusions in `.github/workflows/quality.yml`:
+
+- `tests/integration/test_api_and_cli.py::test_rbe2_example_runs_through_api_cli_audit_and_vtu_export` — runs a structural solve without a WP13 package-smoke reservation.
+- `tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables`, `tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation`, and `tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization` — WP12 scientific nodes requiring their registered exact runner and authorization.
+- `tests/unit/test_wp12_s_quantitative_extraction.py::{test_wp12_s_modal_discrete_001,test_wp12_s_modal_2dof_001,test_wp12_s_dyn_sdof_001,test_wp12_s_modal_2dof_poly_001,test_wp12_s_stat_beam_uy_001,test_wp12_s_stat_beam_uz_001,test_wp12_s_fem_tet4_h_001}`, `tests/unit/test_wp12_vv3d_adaptive_prepared.py::{test_prepared_fem_case,test_prepared_adaptive_fem_case,test_prepared_archived_postprocess_case}`, and `tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12_hex20_affine_patch_archives_residual` — historical WP12 execution/campaign nodes not authorized for this WP13 run.
+- `tests/unit/test_wp19_robustness_hex8.py::{test_wp19_adversarial_cases_fail_closed_and_replay,test_wp19_hex8_diagnostic_is_bounded_and_deterministic,test_wp19_replays_golden_set_without_rewriting_wp13_evidence}` — WP19 campaign/diagnostic nodes outside the P0 release-engineering scope.
+
+The frozen WPC02 Owner approval hash assertion and WP12 static-manifest assertion are not excluded: their tests now verify the historical binding with immutable bytes and synthetic fixtures, without altering the recorded decisions or manifest.
+
+Completed local non-FEM checks on the corrected worktree:
+
+- Ruff across src/qf_solver, src/solveur, tests, and scripts: PASS.
+- Progressive mypy on the four workflow files: PASS.
+- compileall: PASS.
+- Correct-base privacy additions check: PASS.
+- YAML parse and CRLF-aware git diff --check: PASS.
+- Exact synthetic tests for CLI mocks, local-VV refusal/binding, WP12 manifest parsing fixtures, WP12 controller refusal, WPC02 wrong-digest guards, the candidate metadata phase, release-audit CLI output paths, and the review-vocabulary scan: PASS.
+- The initial WPC02 approval test compared its Owner-approved historical protocol digest to the later current report and failed. The approved digest matches the historical protocol bytes at ancestor commit `938668c16bc4d8b7a99616bd8af9904adf7f2136`; the current protocol remains different and unchanged. The corrected exact test verifies that historical binding and the current divergence, without changing the Owner decision or protocol.
+- The static WP12 manifest portability test now uses a synthetic repository with fixed bytes and separately asserts the immutable real manifest's recorded C01 conflict and missing overlay. It passed locally on Windows Python 3.13; the original Ubuntu failure is preserved in run 1.
+
+The corrected four-cell GitHub matrix has not yet run. Run 1 never completed the 90% P0 module coverage gate, compileall, or the two official quick-verification steps. No coverage gate PASS is claimed.
+
+## 5. API, CLI, serialization, and artifacts
+
+The earlier v4 report records 21 exact Windows Python 3.13.1 and four Windows Python 3.12 non-FEM API/serialization/CLI checks. Those remain valid for the unchanged solver source, but do not replace the final-candidate CI matrix.
+
+V4 wheel/sdist installs and six non-solving check-mesh probes remain historical. Because the selected baseline lock changed, a new candidate-bound v5 contract, scope scan, reproducible wheel/sdist builds, clean installs, source-origin checks, CLI probes, and check-mesh probes are required. No artifact from v4 is relabelled as v5.
+
+No package-installed static, modal, or dynamic structural solve has run. V4 check-mesh checks do not constitute mechanical solves. The current local-VV runner requires source-checkout imports and has no WP13 installed-package scope. No matching manifest, reservation, or Owner execution decision exists. The solve-smoke gate remains BLOCKED / NOT_RUN pending a compatible, synthetic-tested controller and one consolidated Owner decision covering exact artifacts, cases, oracles, budgets, and attempt limits.
+
+## 6. Current gate verdicts
+
+| Gate | Verdict at this revision |
+|---|---|
+| Ruff / progressive mypy | PASS locally and on all four first-run jobs; final corrected matrix pending. |
+| Privacy additions | PASS with the explicit release baseline locally; first workflow result rejected as self-comparison; corrected workflow pending. |
+| Full standard tests | FAIL / PARTIAL on run 1; corrected four-cell run pending. |
+| Global branch coverage >=80% | PARTIAL — Ubuntu/Python 3.10 observed 84.76%; other cells lack complete results; corrected run pending. |
+| P0 module branch coverage >=90% | NOT_RUN — downstream gate skipped/cancelled in run 1. |
+| Compileall and official quick verification | NOT_RUN in the first workflow jobs. Local compileall passed; official matrix steps still required. |
+| API/CLI/serialization | PASS, bounded for named non-FEM exact tests; RBE2 integration remains FAIL-preserved. |
+| Wheel/sdist and installed non-solving checks | PASS, historical v4 only; v5 pending because selected lock input changed. |
+| Installed-artifact static/modal/dynamic solves | BLOCKED / NOT_RUN; no FEM beyond the exact authorized CI tests. |
+| Overall WP13 P0 | WP13_P0_PARTIAL_OR_BLOCKED; do not declare WP13_P0_VALIDATED. |
+
+No publication, tag creation, merge to main, site synchronization, package upload, GitHub Release, or Zenodo deposit is authorized or performed.

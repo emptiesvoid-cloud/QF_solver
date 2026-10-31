@@ -146,13 +146,21 @@ def test_runner_refuses_wrong_manifest_digest_before_pytest() -> None:
     assert "Manifest digest does not match" in result.stderr
 
 
-def test_prospective_owner_approval_matches_frozen_ar_contract() -> None:
+def test_prospective_owner_approval_remains_bound_to_approved_protocol_snapshot() -> None:
     approval = json.loads((ROOT / "qualification/0_2_12/wp_c02_n03_ar_prospective_criteria_approval.json").read_text(encoding="utf-8"))
     plan_path = ROOT / "qualification/0_2_12/wp_c02_ar_mesh_plan.json"
     plan = json.loads(plan_path.read_text(encoding="utf-8"))
     protocol_path = ROOT / "qualification/0_2_12/wp_c02_ar_spatial_convergence_protocol_report.md"
     assert approval["plan_sha256"] == _sha256(plan_path)
-    assert approval["protocol_sha256"] == _sha256(protocol_path)
+    approved_protocol_commit = "938668c16bc4d8b7a99616bd8af9904adf7f2136"
+    historical_protocol = subprocess.run(
+        ["git", "show", f"{approved_protocol_commit}:{protocol_path.relative_to(ROOT).as_posix()}"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    ).stdout
+    assert hashlib.sha256(historical_protocol).hexdigest() == approval["protocol_sha256"]
+    assert _sha256(protocol_path) != approval["protocol_sha256"]
     assert approval["decision_id"] == "WP-C02-N03-OWNER-CRITERIA-20261023"
     assert len(approval["criteria"]) == 6
 
@@ -186,10 +194,13 @@ def test_pytest_scenario_is_disabled_without_owner_token(monkeypatch: pytest.Mon
 
 @pytest.mark.parametrize("level", ["M4", "M5"])
 def test_pytest_scenario_is_disabled_for_wrong_manifest_digest(
-    monkeypatch: pytest.MonkeyPatch, level: str
+    monkeypatch: pytest.MonkeyPatch, level: str, tmp_path: Path
 ) -> None:
     monkeypatch.setenv("WPC02_AR_NATIVE_OWNER_GO_TOKEN", "GO-RUN-FEM-NATIF")
     monkeypatch.setenv("WPC02_AR_NATIVE_OWNER_GO_MANIFEST_SHA256", "0" * 64)
+    manifest_path = tmp_path / "execution-manifest.json"
+    manifest_path.write_text('{"schema":"synthetic-invalid-for-execution"}\n', encoding="utf-8")
+    monkeypatch.setenv("WPC02_AR_NATIVE_MANIFEST_PATH", str(manifest_path))
     scenario = _load_module(
         f"wpc02_ar_candidate_scenario_digest_gate_{level.lower()}",
         ROOT / "tests/verification/test_wpc02_ar_native_contact_convergence.py",

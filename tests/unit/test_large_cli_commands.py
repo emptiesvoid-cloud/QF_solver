@@ -62,10 +62,10 @@ def test_convert_inspect_and_generate_commands_forward_arguments(monkeypatch: py
     model = SimpleNamespace(node_count=4, element_count=1, ndof=12)
     audit = SimpleNamespace(status="PASS")
     calls: list[tuple[str, object]] = []
-    monkeypatch.setattr(large, "convert_model_to_large", lambda source, target: calls.append(("convert", target)) or model)
+    monkeypatch.setattr(large, "convert_model_to_large", lambda source, target, **_kwargs: calls.append(("convert", target)) or model)
     monkeypatch.setattr(large, "load_large_model", lambda source: calls.append(("load", source)) or model)
     monkeypatch.setattr(large, "inspect_large_model", lambda value: audit)
-    monkeypatch.setattr(large, "save_result", lambda value, target: calls.append(("save", target)))
+    monkeypatch.setattr(large, "save_result", lambda value, target, **_kwargs: calls.append(("save", target)))
     monkeypatch.setattr(large, "generate_large_tet4_block", lambda target, **kwargs: calls.append(("generate", kwargs)) or model)
 
     assert large.command_convert_model(_args(output=tmp_path / "converted.h5")) == 0

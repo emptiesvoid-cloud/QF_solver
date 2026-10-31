@@ -171,17 +171,20 @@ def _write_postpublication_evidence(root: Path, *, doi: str = VERSION_DOI) -> tu
     return contract_path, record_path
 
 
-def test_current_postpublication_metadata_matches_public_evidence() -> None:
-    failures = check_publication_metadata(
-        ROOT,
-        TAG,
-        "POST_PUBLICATION",
-        version_doi=VERSION_DOI,
-        release_date=RELEASE_DATE,
-        publication_record=PUBLICATION_RECORD,
-        release_contract=RELEASE_CONTRACT,
-    )
-    assert failures == []
+def test_candidate_metadata_stays_unpublished_while_public_docs_name_latest_release() -> None:
+    project = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    citation = yaml.safe_load((ROOT / "CITATION.cff").read_text(encoding="utf-8"))
+    changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+    assert 'version = "0.2.12"' in project
+    assert citation["version"] == "0.2.12"
+    assert "unreleased candidate" in citation["message"].lower()
+    assert citation.get("doi") is None
+    assert citation.get("date-released") is None
+    assert "## 0.2.12 — Preparation (unreleased)" in changelog
+    assert "0.2.11 remains the latest published release" in readme
+    assert "contains an unreleased 0.2.12 candidate" in readme
 
 
 def test_prepublication_rejects_a_doi_or_date_claim(tmp_path: Path) -> None:

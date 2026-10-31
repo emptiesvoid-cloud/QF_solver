@@ -159,11 +159,12 @@ def _scan_member(
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--ref", default="HEAD")
     parser.add_argument("--committed-attributes", action="store_true")
     parser.add_argument("--output", type=Path, default=Path("release_archive_audit.json"))
     args = parser.parse_args(argv)
-    report = audit_release_archive(ROOT, args.ref, use_worktree_attributes=not args.committed_attributes)
+    report = audit_release_archive(args.root, args.ref, use_worktree_attributes=not args.committed_attributes)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     paths = cast(list[object], report["paths"])

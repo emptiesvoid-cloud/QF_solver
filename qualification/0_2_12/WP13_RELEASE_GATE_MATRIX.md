@@ -122,20 +122,22 @@ the gates explicitly updated here; prior v2/v3/v4 records remain historical.
 
 | Gate | Current P0 result | Evidence / limit |
 |---|---|---|
-| P0 candidate | **IN_PROGRESS** | PR #114 head `cfe6122e9ca6e8b4adebc8a7733661bcd427ef76`; package source remains `60c202a75d20c6dea1df35aab591bd3832d12c58`; no product source or test changes after freeze. |
-| Official four-cell standard CI | **IN_PROGRESS** | Manual run [41201053221](https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41201053221) on execution commit `3e2d5f07585b270bb1ac0157a911e94d59991735`, matrix Ubuntu/Windows × Python 3.10/3.13. Tests and branch coverage were running at last poll. |
-| Ruff / mypy | **PASS at latest poll; run pending** | All four cells passed both steps; retain final job status from Actions after completion. |
-| Privacy additions gate | **PASS, bounded direct check; corrected workflow rerun pending** | The first manual run's privacy step used `github.sha` as both comparison sides and is invalidated. `python scripts/check_privacy_diff.py --base ab137051d920d7fa9aae9a3012a48b2b26e2198b` passed on the candidate. The corrected workflow requires explicit `privacy_base_sha`; do not count the first workflow step as a pass. |
-| Standard tests / 80% branch coverage | **IN_PROGRESS** | Official selector unchanged: `tests/unit tests/integration -m "not benchmark and not large and not evidence"`; final executed/passed/failed/skipped/deselected counts and coverage await the run. |
-| P0 module branch coverage | **IN_PROGRESS** | Official `.coveragerc-p0` / `scripts/check_p0_coverage.py` gate, existing 90% module thresholds; final reports await the run. |
-| Compilation / quick verification | **PENDING** | Steps follow the test and P0 coverage gates within the same four-cell workflow. |
-| Installed wheel/sdist import and non-solving checks | **PASS, bounded v4** | Fresh Windows Python 3.13.1 environments; artifact and installed-origin hashes in the v4 artifact report. Six `check-mesh` checks passed; no structural solve. |
-| Installed wheel/sdist static/modal/dynamic solve smoke | **BLOCKED / NOT_RUN** | Exact case, artifact, installed example, oracle, and budget details are in [`WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md`](WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md). Current local-VV runner requires source-checkout import and no WP13 package-smoke scope exists. No reservation, manifest, or Owner execution decision exists. |
-| Overall P0 | **PARTIAL / BLOCKED** | Do not declare `WP13_P0_VALIDATED` until corrected workflow gates finish and the installed-artifact solve gate is either authorized/executed with a compatible controller or formally dispositioned by Owner. |
+| P0 candidate | **CORRECTIONS IN PROGRESS** | PR #114 was refreshed at `375872ec89699b23e5af23151feebc797bc5d94e`; the current worktree has WP13-only uncommitted corrections. The next CI run must bind the resulting commit. |
+| Official four-cell standard CI | **FAIL / INCOMPLETE — run 1** | Manual run [41201053221](https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41201053221) finished unsuccessfully on `3e2d5f07585b270bb1ac0157a911e94d59991735`. Ubuntu/Python 3.10 had 72 failures; Ubuntu/Python 3.13 was cancelled; Windows/Python 3.10 and 3.13 emitted test summaries but were cancelled before downstream gates. |
+| Ruff / mypy | **PASS — run 1, four cells** | All four first-run cells passed Ruff and progressive mypy. Corrected-candidate CI remains pending. |
+| Privacy additions gate | **PASS locally against baseline; workflow rerun required** | The first manual run compared the candidate to itself and is rejected. `python scripts/check_privacy_diff.py --base ab137051d920d7fa9aae9a3012a48b2b26e2198b` passed locally; the corrected workflow requires this explicit input. |
+| Standard tests | **FAIL — Ubuntu/Python 3.10 run 1** | 4,646 passed, 72 failed, 32 skipped, 107 deselected. The original selector reached policy-controlled historical FEM cases; their results are retained. The next dispatch excludes only exact gated cases and preserves ordinary release-audit tests. |
+| Global branch coverage >=80% | **PARTIAL** | Ubuntu/Python 3.10 recorded 84.76%; other cells lack completed coverage results. Corrected four-cell run pending. |
+| P0 module branch coverage >=90% | **NOT_RUN** | Run 1 stopped before this downstream gate in all four cells. Corrected run required. |
+| Compilation / quick verification | **NOT_RUN in completed workflow** | Run 1 did not reach these downstream steps. Local `compileall` passed; official four-cell execution remains required. |
+| Installed wheel/sdist import and non-solving checks | **PASS, bounded v4 only** | Fresh Windows Python 3.13.1 environments and six `check-mesh` checks passed. The selected standard dependency lock changed afterward, so v4 is historical and a fresh contract/build is required. |
+| Installed wheel/sdist static/modal/dynamic solve smoke | **BLOCKED / NOT_RUN** | Exact proposed cases, inputs, oracles and budgets are in [`WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md`](WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md). No WP13 package-smoke controller, manifest or reservation exists; no solve has run. |
+| Overall P0 | **WP13_P0_PARTIAL_OR_BLOCKED** | Corrected CI, fresh v5 artifacts and installed-artifact solve-smoke decision remain open. No `WP13_P0_VALIDATED` claim is made. |
 
-See [`WP13_P0_EXECUTION_BASELINE.md`](WP13_P0_EXECUTION_BASELINE.md) and
-[`WP13_P0_FULL_VALIDATION_REPORT.md`](WP13_P0_FULL_VALIDATION_REPORT.md) for
-the run identity and complete P0 record.
+The complete first-run failure inventory, corrected test-scope exclusions and
+local checks are in [`WP13_P0_FULL_VALIDATION_REPORT.md`](WP13_P0_FULL_VALIDATION_REPORT.md).
+The exact execution identities and candidate changes are in
+[`WP13_P0_EXECUTION_BASELINE.md`](WP13_P0_EXECUTION_BASELINE.md).
 - `tests/documentation/test_docs_generation.py::test_current_public_surfaces_use_consistent_version_without_promotion[index.md]`
 - `tests/documentation/test_docs_generation.py::test_current_public_surfaces_use_consistent_version_without_promotion[verification/evidence-and-maturity.md]`
 - `tests/documentation/test_docs_generation.py::test_current_public_surfaces_use_consistent_version_without_promotion[capabilities/index.md]`

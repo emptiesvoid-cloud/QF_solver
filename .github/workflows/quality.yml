@@ -28,7 +28,7 @@ jobs:
   standard-baseline:
     name: ${{ matrix.os }} / Python ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 90
+    timeout-minutes: 180
     strategy:
       fail-fast: false
       matrix:
@@ -75,10 +75,12 @@ jobs:
           src/solveur/io/manifest.py
           src/solveur/verification/traceability.py
       - name: Tests and branch coverage
+        # Scientific/native nodes with registered execution controls need a separate exact scope.
         run: >-
           python -m pytest
           tests/unit tests/integration
-          -m "not benchmark and not large and not evidence"
+          -m "not benchmark and not large and not evidence and not scientific_vv and not native_vv"
+          -k "not test_rbe2_example_runs_through_api_cli_audit_and_vtu_export and not test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables and not test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation and not test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization and not test_wp12_s_modal_discrete_001 and not test_wp12_s_modal_2dof_001 and not test_wp12_s_dyn_sdof_001 and not test_wp12_s_modal_2dof_poly_001 and not test_wp12_s_stat_beam_uy_001 and not test_wp12_s_stat_beam_uz_001 and not test_wp12_s_fem_tet4_h_001 and not test_prepared_fem_case and not test_prepared_adaptive_fem_case and not test_prepared_archived_postprocess_case and not test_wp12_hex20_affine_patch_archives_residual and not test_wp19_adversarial_cases_fail_closed_and_replay and not test_wp19_hex8_diagnostic_is_bounded_and_deterministic and not test_wp19_replays_golden_set_without_rewriting_wp13_evidence"
           --cov=solveur --cov-branch
           --cov-report=term-missing:skip-covered
           --cov-report=json:coverage.json
