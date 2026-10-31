@@ -1,18 +1,18 @@
-# WP12-F — Consolidation finale V&V et projet de décision globale
+# WP12-F — Consolidation finale V&V et décision globale Owner
 
-**Document :** `PREPARED_FOR_OWNER_DECISION` — aucune décision globale WP12 n’est prise ici<br>
-**WP12 :** `OPEN`<br>
+**Document :** `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA` — décision Owner archivée<br>
+**WP12 :** `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`<br>
 **WP12-A :** `WP12A_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`, dans le scope Owner enregistré<br>
 **WP12-B :** `WP12B_CLOSED_BOUNDED_FOR_0_2_12`<br>
 **WP13 :** `OPEN`<br>
-**Release :** `emptiesvoids-cloud/0.2.12` @ `09f0810a39f9712044450c527d7613518d6bcea6`<br>
+**HEAD release revalidé avant cette intégration documentaire :** `emptiesvoids-cloud/0.2.12` @ `24885ae7eec606c473328bece5be3310779e55a5`<br>
 **Révision :** 2026-10-31
 
 ## 1. Objet et frontière
 
-Ce dossier rassemble les décisions WP12-A et WP12-B, la matrice des 62 capacités et les rapports V&V intégrés afin de préparer une décision Owner distincte sur WP12 global. Il ne rouvre aucun lot clos, ne rejuge pas les critères scientifiques et ne transforme aucun résultat de développement en qualification sur le HEAD release.
+Ce dossier rassemble les décisions WP12-A et WP12-B, la matrice des 62 capacités et les rapports V&V intégrés. L’Owner a approuvé la clôture globale bornée de WP12, archivée dans [la décision globale](../WP12_GLOBAL_OWNER_BOUNDED_CLOSURE_DECISION_20261031.md). Le dossier ne rouvre aucun lot clos, ne rejuge pas les critères scientifiques et ne transforme aucun résultat de développement en qualification sur le HEAD release.
 
-La PR #111 n’a apporté que des documents. Aucun test, solveur, FEM, benchmark ou corrélation externe n’a été exécuté pour cette consolidation. Le dernier résultat scientifique cité reste lié à sa propre branche, son contrat, son modèle, son environnement et son ledger ; aucune exécution scientifique n’est revendiquée sur `09f0810`.
+Les PR #111 et #112 n’ont apporté que des documents. Aucun test, solveur, FEM, benchmark, corrélation externe ou replay homogène n’a été exécuté pour cette consolidation. Le dernier résultat scientifique cité reste lié à sa propre branche, son contrat, son modèle, son environnement et son ledger ; aucune exécution scientifique n’est revendiquée sur `24885ae`.
 
 ## 2. Décisions Owner et traçabilité des MUST
 
@@ -69,15 +69,8 @@ Les écarts qui restent importants pour toute revendication plus large sont : ab
 
 Ils ne requièrent pas automatiquement une nouvelle campagne pour le périmètre documentaire borné, à condition que la décision globale exclue explicitement les revendications non démontrées et accepte les états conservés. Si l’Owner demande une revendication élargie, WP12-F ne l’autorise pas : il faudra d’abord préciser la capacité, l’oracle indépendant, l’identité, le budget et la décision d’exécution correspondants. Aucun calcul n’est autorisé par ce document.
 
-## 6. Recommandation préparée pour l’Owner
+## 6. Décision globale Owner et statut final
 
-**Recommandation :** envisager une disposition globale `CLOSED_BOUNDED` pour WP12 v0.2.12, limitée aux routes et revendications effectivement inscrites dans la matrice et les dossiers de décision A/B. Cette recommandation s’appuie sur les dispositions Owner des 17 MUST et sur l’enregistrement explicite des écarts des autres capacités. Elle n’affirme aucune qualification générale et n’autorise pas la publication.
+Le 2026-10-31, l’Owner a confirmé `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`, en acceptant les dispositions des 17 MUST de la matrice (11 WP12-A et 6 WP12-B), avec **39 SHOULD et 6 DEFERRED inchangés**. La décision est archivée dans [l’enregistrement Owner](../WP12_GLOBAL_OWNER_BOUNDED_CLOSURE_DECISION_20261031.md) et reliée au HEAD revalidé `24885ae7eec606c473328bece5be3310779e55a5` et à la PR #112.
 
-Avant de prendre cette décision, l’Owner doit confirmer en une décision globale que :
-
-1. Les dispositions bornées WP12-A Alpha et WP12-B v0.2.12 satisfont les exigences MUST de traçabilité pour cette release, malgré l’absence de replay scientifique commun sur le HEAD `09f0810`.
-2. Les statuts C01, C02, D01, D02 et WP-E01 restent tels qu’enregistrés, et leurs extensions sont hors des revendications v0.2.12 couvertes par cette décision.
-3. Les FAIL, `INCONCLUSIVE`, `NOT_ACQUIRED`, `EXPERIMENTAL` et `DEFERRED` listés ci-dessus sont acceptés comme limites visibles, pas comme résultats positifs.
-4. WP13 reste `OPEN` et toute décision de publication demeure séparée.
-
-Jusqu’à cette décision globale, le statut normatif reste **`WP12=OPEN`**. Aucun statut de WP12 ou WP13 n’est modifié par ce projet. La clôture globale n’est pas automatique, et le présent dossier ne réouvre aucun lot déjà clos.
+La clôture est administrative et bornée au périmètre, aux preuves, aux exclusions et aux dispositions explicitement enregistrés. Elle n’accorde aucune qualification générale, ne transforme aucun `FAIL`, `INCONCLUSIVE` ou `NOT_ACQUIRED` en PASS, n’exige aucun nouveau FEM et n’autorise ni publication ni tag. **WP12 est clôturé dans ce périmètre ; WP13 reste `OPEN`.**
