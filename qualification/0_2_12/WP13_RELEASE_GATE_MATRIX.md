@@ -4,7 +4,7 @@
 **Release branch:** `emptiesvoids-cloud/0.2.12`
 **Baseline candidate:** `ab137051d920d7fa9aae9a3012a48b2b26e2198b`
 **Baseline worktree:** clean managed worktree; host path omitted.
-**Baseline branch:** `codex/wp13-release-engineering-20261031`, tracking the release branch at the baseline SHA. The worktree is clean.
+**Working branch:** `codex/wp13-release-engineering-20261031`, based on the release baseline and presented in draft PR #114; no release-branch update is implied. The worktree is clean.
 **Owner scope:** WP13 engineering, candidate build and verification only; no final tag, main merge, package publication, GitHub Release, Zenodo deposit or public site synchronization.
 
 This matrix records observed gates at the baseline and will be updated as evidence is acquired. A configured workflow is not a result. `PASS`, `FAIL`, `BLOCKED` and `NOT_RUN` are kept distinct. The initial review identified the latest published version as 0.2.11 and the current repository contents as a 0.2.12 development candidate.
