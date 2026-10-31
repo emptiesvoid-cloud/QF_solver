@@ -1,8 +1,11 @@
 # WP13 P0 package smoke controller preflight — attempt 1
 
-**Classification:** `CONTROLLER_PREFLIGHT_FAIL_CLOSED`  
-**Observed:** 2026-10-31 UTC  
-**FEM executed:** no  
+**Classification:** `CONTROLLER_PREFLIGHT_FAIL_CLOSED`
+
+**Observed:** 2026-10-31 UTC
+
+**FEM executed:** no
+
 **Attempt reservations:** 0
 
 The first preflight invocation used local controller commit
