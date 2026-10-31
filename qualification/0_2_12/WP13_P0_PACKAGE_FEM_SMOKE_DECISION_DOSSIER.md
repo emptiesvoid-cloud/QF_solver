@@ -15,8 +15,8 @@ smokes. No FEM has run under this dossier.
 | Package source SHA | `2865587a44f9e461a0b4e4286c912c17e4f04be5` |
 | Contract | `QF-0212-WP13-SELECTED-CANDIDATE-20261031-06` |
 | Contract file SHA-256 | `f33a72b182439774828f8e604d6ab234bbf206c697c0f1082d7bc0ef81003db9` |
-| Bounded smoke controller | [`scripts/wp13_package_smoke.py`](../../scripts/wp13_package_smoke.py), SHA-256 `83dbd60bbc481ee7dbae90dd5052454508ec3da65e42039888d9b92a9a386571` |
-| Exact smoke manifest | [`wp13_p0_package_smoke_manifest_20261031_v1.json`](wp13_p0_package_smoke_manifest_20261031_v1.json), SHA-256 `2dc2badf59c1a35aff44fcb5763eaac4e0e55b73857be878b660c3bd0430addb` |
+| Bounded smoke controller | [`scripts/wp13_package_smoke.py`](../../scripts/wp13_package_smoke.py), SHA-256 `16df6eba0f902c332cace9e9a5624d1b8b59c3e051bfcc4063782123cc9a7f2f` |
+| Exact smoke manifest | [`wp13_p0_package_smoke_manifest_20261031_v1.json`](wp13_p0_package_smoke_manifest_20261031_v1.json), SHA-256 `dea2c6f6d72bbd7303f23b6cff6b9809be471513dffa639990d13313dee9086b` |
 | Wheel (run 1 and run 2) | `qf_solver-0.2.12-py3-none-any.whl`, 1,689,662 bytes, SHA-256 `ae5211136a2eab912cdb73222937a84b1cec75f7af0a425f1162b288b39c287a` |
 | Raw sdist (run 1) | `qf_solver-0.2.12.tar.gz`, 1,320,001 bytes, SHA-256 `f4aaafffc184c662808f061e2b234fe4d6623ae07f2a3c18f2d74721185f71e3` |
 | Raw sdist (run 2; selected for the smoke dossier) | `qf_solver-0.2.12.tar.gz`, 1,320,067 bytes, SHA-256 `15c838af12c8401b61c561f5f079debc702e072241e9ee8c17cd5861cbf082e5` |

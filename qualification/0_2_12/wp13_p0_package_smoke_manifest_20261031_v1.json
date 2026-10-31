@@ -11,7 +11,7 @@
   },
   "controller": {
     "path": "scripts/wp13_package_smoke.py",
-    "sha256": "83dbd60bbc481ee7dbae90dd5052454508ec3da65e42039888d9b92a9a386571"
+    "sha256": "16df6eba0f902c332cace9e9a5624d1b8b59c3e051bfcc4063782123cc9a7f2f"
   },
   "oracle_sources": {
     "src/solveur/verification/analytical_references.py": "38ae37e1ff40844eedf7c2ca5b95d9d03f3fe660670036b05895c5043c96fb6c",

@@ -231,6 +231,7 @@ def preflight(
         raise ContractError("evidence root is not empty; refusing to reuse or overwrite it")
     if _git_output(root, "status", "--porcelain"):
         raise ContractError("controller checkout is not clean")
+    evidence_root.mkdir(parents=True, exist_ok=True)
     observed_oracle_sources = _oracle_source_hashes(root)
     if observed_oracle_sources != ORACLE_SOURCE_SHA256:
         raise ContractError("candidate oracle source hashes differ from the frozen v6 identities")
@@ -265,7 +266,6 @@ def preflight(
                 raise ContractError(f"{artifact_name}/{case_id} installed input hash mismatch")
             input_results[artifact_name][case_id] = observed_hash
 
-    evidence_root.mkdir(parents=True, exist_ok=True)
     controlled_environment = _controlled_environment()
 
     return {
