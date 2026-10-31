@@ -114,6 +114,28 @@ Windows Python 3.13.1:
 - `tests/integration/test_packaging.py::test_portable_and_legacy_launchers_expose_qf_solver_identity`
 - `tests/integration/test_packaging.py::test_mitc4_cli_version_runs`
 - `tests/documentation/test_docs_generation.py::test_public_release_status_copy_distinguishes_release_and_tagged_source`
+
+## WP13 P0 execution update — 2026-10-31
+
+This section supersedes the prior `NOT_RUN` / `BLOCKED` entries above only for
+the gates explicitly updated here; prior v2/v3/v4 records remain historical.
+
+| Gate | Current P0 result | Evidence / limit |
+|---|---|---|
+| P0 candidate | **IN_PROGRESS** | PR #114 head `cfe6122e9ca6e8b4adebc8a7733661bcd427ef76`; package source remains `60c202a75d20c6dea1df35aab591bd3832d12c58`; no product source or test changes after freeze. |
+| Official four-cell standard CI | **IN_PROGRESS** | Manual run [41201053221](https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41201053221) on execution commit `3e2d5f07585b270bb1ac0157a911e94d59991735`, matrix Ubuntu/Windows × Python 3.10/3.13. Tests and branch coverage were running at last poll. |
+| Ruff / mypy | **PASS at latest poll; run pending** | All four cells passed both steps; retain final job status from Actions after completion. |
+| Privacy additions gate | **PASS, bounded direct check; corrected workflow rerun pending** | The first manual run's privacy step used `github.sha` as both comparison sides and is invalidated. `python scripts/check_privacy_diff.py --base ab137051d920d7fa9aae9a3012a48b2b26e2198b` passed on the candidate. The corrected workflow requires explicit `privacy_base_sha`; do not count the first workflow step as a pass. |
+| Standard tests / 80% branch coverage | **IN_PROGRESS** | Official selector unchanged: `tests/unit tests/integration -m "not benchmark and not large and not evidence"`; final executed/passed/failed/skipped/deselected counts and coverage await the run. |
+| P0 module branch coverage | **IN_PROGRESS** | Official `.coveragerc-p0` / `scripts/check_p0_coverage.py` gate, existing 90% module thresholds; final reports await the run. |
+| Compilation / quick verification | **PENDING** | Steps follow the test and P0 coverage gates within the same four-cell workflow. |
+| Installed wheel/sdist import and non-solving checks | **PASS, bounded v4** | Fresh Windows Python 3.13.1 environments; artifact and installed-origin hashes in the v4 artifact report. Six `check-mesh` checks passed; no structural solve. |
+| Installed wheel/sdist static/modal/dynamic solve smoke | **BLOCKED / NOT_RUN** | Exact case, artifact, installed example, oracle, and budget details are in [`WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md`](WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md). Current local-VV runner requires source-checkout import and no WP13 package-smoke scope exists. No reservation, manifest, or Owner execution decision exists. |
+| Overall P0 | **PARTIAL / BLOCKED** | Do not declare `WP13_P0_VALIDATED` until corrected workflow gates finish and the installed-artifact solve gate is either authorized/executed with a compatible controller or formally dispositioned by Owner. |
+
+See [`WP13_P0_EXECUTION_BASELINE.md`](WP13_P0_EXECUTION_BASELINE.md) and
+[`WP13_P0_FULL_VALIDATION_REPORT.md`](WP13_P0_FULL_VALIDATION_REPORT.md) for
+the run identity and complete P0 record.
 - `tests/documentation/test_docs_generation.py::test_current_public_surfaces_use_consistent_version_without_promotion[index.md]`
 - `tests/documentation/test_docs_generation.py::test_current_public_surfaces_use_consistent_version_without_promotion[verification/evidence-and-maturity.md]`
 - `tests/documentation/test_docs_generation.py::test_current_public_surfaces_use_consistent_version_without_promotion[capabilities/index.md]`
