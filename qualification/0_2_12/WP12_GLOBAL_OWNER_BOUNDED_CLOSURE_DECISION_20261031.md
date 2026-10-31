@@ -1,10 +1,10 @@
 # WP12 — confirmation Owner de clôture globale bornée
 
-**Décision :** `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`  
-**Date :** 2026-10-31  
-**Projet :** QF Solver v0.2.12  
-**Branche visée :** `emptiesvoids-cloud/0.2.12`  
-**HEAD revalidé avant l’intégration de ce dossier :** `24885ae7eec606c473328bece5be3310779e55a5`  
+**Décision :** `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`<br>
+**Date :** 2026-10-31<br>
+**Projet :** QF Solver v0.2.12<br>
+**Branche visée :** `emptiesvoids-cloud/0.2.12`<br>
+**HEAD revalidé avant l’intégration de ce dossier :** `24885ae7eec606c473328bece5be3310779e55a5`<br>
 **Références de clôture :** PR #112 et [WP12-F — consolidation finale V&V](vv_local/WP12F_FINAL_VV_CONSOLIDATION_AND_GLOBAL_DECISION.md)
 
 ## Confirmation Owner
