@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      include_extended_jobs:
+        description: Run WP14 recovered evidence, benchmark, and engineering campaign jobs
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -18,6 +24,7 @@ jobs:
   standard-baseline:
     name: ${{ matrix.os }} / Python ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
@@ -36,6 +43,12 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements/baseline-standard.txt
           python -m pip install -e . --no-deps
+      - name: Record candidate and runtime identity
+        run: |
+          git rev-parse HEAD
+          python -VV
+          python -c "import platform; print(platform.platform())"
+          python -m pip freeze
       - name: Ruff
         run: python -m ruff check src/qf_solver src/solveur tests scripts
       - name: Privacy additions gate
@@ -82,6 +95,7 @@ jobs:
 
   engineering-campaign:
     name: Full engineering campaign
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.include_extended_jobs }}
     runs-on: ubuntu-latest
     needs: [standard-baseline, wp14-recovered-evidence]
     steps:
@@ -122,6 +136,7 @@ jobs:
 
   wp14-recovered-evidence:
     name: WP14 recovered evidence / targeted checks
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.include_extended_jobs }}
     runs-on: ubuntu-latest
     needs: standard-baseline
     steps:
@@ -181,6 +196,7 @@ jobs:
 
   documentation-evidence:
     name: Documentation evidence / ubuntu-latest
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.include_extended_jobs }}
     runs-on: ubuntu-latest
     needs: standard-baseline
     steps:
