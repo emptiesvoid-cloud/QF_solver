@@ -124,3 +124,32 @@ preflight is not compatible with imports from the installed wheel/sdist. The
 WP12 development controller scopes are not transferable to WP13. The exact
 cases and an adapted shell-free runner/manifest must be reviewed before a
 separate Owner decision; no smoke permission is inferred here.
+
+## Candidate v6 package identity and P0 run 2
+
+The latest PR/report HEAD at the v6 package verification was
+`d6a49a279b4d8ce548e4d6ed1f48e8cad6f20e23`. The package source and official
+workflow code/test commit are
+`2865587a44f9e461a0b4e4286c912c17e4f04be5`. The v6 contract is
+`QF-0212-WP13-SELECTED-CANDIDATE-20261031-06`, SHA-256
+`f33a72b182439774828f8e604d6ab234bbf206c697c0f1082d7bc0ef81003db9`.
+Its two independent build manifests, build results, normalized archives,
+fresh wheel/sdist installs, dependencies, probes and check-mesh outputs are
+summarized in
+[`WP13_CANDIDATE_ARTIFACT_VERIFICATION_20261031_v6.md`](WP13_CANDIDATE_ARTIFACT_VERIFICATION_20261031_v6.md).
+
+The wheel hash is `ae5211136a2eab912cdb73222937a84b1cec75f7af0a425f1162b288b39c287a`.
+The selected run-2 raw sdist hash is
+`15c838af12c8401b61c561f5f079debc702e072241e9ee8c17cd5861cbf082e5`; the
+normalized sdist hash is
+`183bc4448d4a83c5e24d9c8b0d7f15e9e2cca37b63b25646d9ec030220611fde`.
+No structural solves were run in either package build/install pass.
+
+Corrected official CI run
+[41210713065](https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41210713065)
+is bound to commit `2865587a44f9e461a0b4e4286c912c17e4f04be5`, with
+release privacy base `ab137051d920d7fa9aae9a3012a48b2b26e2198b` and extended
+jobs disabled. At the latest check all four matrix jobs had passed setup,
+dependency installation, identity, Ruff, privacy and progressive mypy, and
+were still executing tests and branch coverage. No final counts or downstream
+gate results were available at this baseline update.

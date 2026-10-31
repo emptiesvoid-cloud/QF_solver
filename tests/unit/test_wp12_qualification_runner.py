@@ -539,7 +539,7 @@ def test_pilot_v4_manifest_binds_separate_checkouts_and_stays_blocked(tmp_path: 
         "-o",
         "addopts=",
         "--noconftest",
-        f"--junitxml={evidence_path}\\junit.xml",
+        f"--junitxml={Path(evidence_path) / 'junit.xml'}",
         nodeid,
     ]
     manifest["environment"]["python_executable_path"] = manifest["tests"]["argv"][0]
@@ -2157,6 +2157,9 @@ def test_provenance_plugin_accepts_pinned_inventory_superset_with_only_fake_modu
             }
         ),
     )
+    for module_name in tuple(sys.modules):
+        if module_name == "solveur" or module_name.startswith("solveur."):
+            monkeypatch.delitem(sys.modules, module_name, raising=False)
     fake = types.ModuleType("solveur")
     fake.__file__ = str(source)
     monkeypatch.setitem(sys.modules, "solveur", fake)

@@ -9,24 +9,25 @@ smokes. No FEM has run under this dossier.
 | Identity | Value |
 |---|---|
 | PR | #114, `codex/wp13-release-engineering-20261031` |
-| P0 workflow execution HEAD | `3e2d5f07585b270bb1ac0157a911e94d59991735` |
+| PR #114 HEAD during v6 artifact verification | `d6a49a279b4d8ce548e4d6ed1f48e8cad6f20e23` |
+| P0 workflow execution commit | `2865587a44f9e461a0b4e4286c912c17e4f04be5` |
 | Release base | `ab137051d920d7fa9aae9a3012a48b2b26e2198b` |
-| Package source SHA | `60c202a75d20c6dea1df35aab591bd3832d12c58` |
-| Contract | `QF-0212-WP13-SELECTED-CANDIDATE-20261031-04` |
-| Contract file SHA-256 | `f8c43bd1bad5987acb589c7735ac7a1e39e0f7119e50a49dd2061cd135954833` |
-| Wheel | `qf_solver-0.2.12-py3-none-any.whl`, SHA-256 `8d3e571ce7d4ced533d7b97ed0bc0f7a91e29a3d530e3a1b406716fecf721b0e` |
-| Raw sdist | `qf_solver-0.2.12.tar.gz`, SHA-256 `4d9e571583b3bd345abdbf4bca5f6b86e17d776c6d2a386019da32c8c0b8a44b` |
-| Normalized sdist | SHA-256 `4fba0a1f1e700aaa6bf58c4cdd1a0edd5adea1145db886d5bf1903d30f460da1` |
+| Package source SHA | `2865587a44f9e461a0b4e4286c912c17e4f04be5` |
+| Contract | `QF-0212-WP13-SELECTED-CANDIDATE-20261031-06` |
+| Contract file SHA-256 | `f33a72b182439774828f8e604d6ab234bbf206c697c0f1082d7bc0ef81003db9` |
+| Wheel (run 1 and run 2) | `qf_solver-0.2.12-py3-none-any.whl`, 1,689,662 bytes, SHA-256 `ae5211136a2eab912cdb73222937a84b1cec75f7af0a425f1162b288b39c287a` |
+| Raw sdist (run 1) | `qf_solver-0.2.12.tar.gz`, 1,320,001 bytes, SHA-256 `f4aaafffc184c662808f061e2b234fe4d6623ae07f2a3c18f2d74721185f71e3` |
+| Raw sdist (run 2; selected for the smoke dossier) | `qf_solver-0.2.12.tar.gz`, 1,320,067 bytes, SHA-256 `15c838af12c8401b61c561f5f079debc702e072241e9ee8c17cd5861cbf082e5` |
+| Normalized sdist (both runs) | 1,294,049 bytes, SHA-256 `183bc4448d4a83c5e24d9c8b0d7f15e9e2cca37b63b25646d9ec030220611fde` |
 
-The wheel and raw sdist were separately installed into clean Windows Python
-3.13.1 environments with dependency resolution. Their install reports and
-probes are SHA-bound in
-[`WP13_CANDIDATE_ARTIFACT_VERIFICATION_20261031_v4.md`](WP13_CANDIDATE_ARTIFACT_VERIFICATION_20261031_v4.md).
-Both prior v4 installed-artifact probes passed import-origin, CLI version/help,
-and six check-mesh checks. Those checks did not assemble or solve a model.
-The wheel/sdist and model inputs below remain bound to the same package source:
-no `src/`, `tests/`, examples, `pyproject.toml`, or `MANIFEST.in` changes were
-made after source `60c202a75d20c6dea1df35aab591bd3832d12c58`.
+The exact run-2 wheel and raw sdist were separately installed into clean
+Windows Python 3.13.1 environments with dependency resolution. Their pip
+reports, installed-source probes, and check-mesh logs are SHA-bound in
+[`WP13_CANDIDATE_ARTIFACT_VERIFICATION_20261031_v6.md`](WP13_CANDIDATE_ARTIFACT_VERIFICATION_20261031_v6.md).
+Each install verified 501 installed source files, CLI version/help, and three
+check-mesh cases. Those checks did not assemble or solve a model. The v4
+oracle sources, inputs, and solver files below were compared with the v6
+source commit; the relevant solver code and examples are unchanged.
 
 ## Exact proposed cases
 
@@ -45,18 +46,21 @@ no override options are needed because analysis and method are in the JSON.
 | `WP13-P0-MODAL-01` / `SOV-MODAL-TET4-001` | `0d40df125888b467017d053795336cb8960f643c95a209c3c96379a50c689750` (`examples/tet4_modal_unit.json` as installed) | Same unit TET4 mesh and material, three free DOFs; `eigh`, three modes. Check first shear frequency `1619.5553821068941 Hz` against `sqrt(10*G/rho)/(2*pi)` at relative tolerance `1e-12`; maximum relative eigen residual, mass orthogonality, and stiffness-diagonal errors each `<=1e-10`. |
 | `WP13-P0-DYNAMIC-01` / `SOV-DYN-SDOF-001` | `b40d7188143e4bcc73ee63407f426633490921075990bcad47bd25c9a188480b` (`examples/tet4_dynamic_sdof_free_vibration.json` as installed) | One TET4, four nodes, one free DOF; `E=1000`, `nu=0.25`, `rho=10`; undamped Newmark average acceleration, `dt=0.001 s`, 40 steps, initial UX `0.001`. Check initial and step-39 total energy against closed-form `0.0001 J` at relative tolerance `1e-10`; step-39 relative energy drift in `[-1e-10,1e-10]`; dynamic residual and free equilibrium residual each `<=1e-10`. |
 
-Installed input paths are under `E:\QFSolverAgents\wp13_deps_wheel_20261031_v4\examples\`
-and `E:\QFSolverAgents\wp13_deps_sdist_20261031_v4\examples\`. For all
+Installed input paths are under `E:\QFSolverAgents\wp13_deps_wheel_20261031_v6\examples\`
+and `E:\QFSolverAgents\wp13_deps_sdist_20261031_v6\examples\`. For all
 three files, the installed wheel and sdist copies are byte-identical. Their
 parsed JSON values equal the corresponding frozen source examples; source and
 installed file hashes differ because their serialized bytes differ.
 
-The frozen oracle sources are `src/solveur/verification/analytical_references.py`
-(SHA-256 `cdda2add8ea2341bae0249746cd080e50a56c89b11793d2d412815c65171edfc`),
-`src/solveur/verification/campaign.py` (SHA-256
-`580f736efbf5a21caf95e5c563ead74dec369f6816294236f79c7bfe793eae72`), and
-`qualification/campaign.json` (SHA-256
-`8750d29a9d52498ec5051f4850c600232b0e7a4515905a8354f4a34771fd92cf`). The
+The frozen oracle source files are
+`src/solveur/verification/analytical_references.py` and
+`src/solveur/verification/campaign.py`, with v6 Git-blob byte SHA-256 values
+`38ae37e1ff40844eedf7c2ca5b95d9d03f3fe660670036b05895c5043c96fb6c` and
+`ea06968dc65927791549d698d19eeae33b6a3ad3e466ed2da0b87ae45e8952f1`.
+The earlier values `cdda2add…` and `580f736e…` are Windows working-tree
+hashes after CRLF conversion; they are not Git-blob hashes. The immutable
+`qualification/campaign.json` SHA-256 remains
+`8750d29a9d52498ec5051f4850c600232b0e7a4515905a8354f4a34771fd92cf`. The
 static oracle is explicitly scalar closed form and has no element, assembly,
 solver, NumPy, or SciPy dependency. The modal and dynamic oracle formulas are
 the existing closed-form campaign equations, separate from element assembly.
