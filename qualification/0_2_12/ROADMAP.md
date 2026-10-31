@@ -6,13 +6,13 @@
 
 This file records the current integration decision that supplements the preserved Owner roadmap. The Owner-approved roadmap remains byte-preserved at [`owner_provided/QF_Solver_v0.2.12_roadmap_WPE01.md`](owner_provided/QF_Solver_v0.2.12_roadmap_WPE01.md). The earlier integration snapshot is preserved verbatim at [`wp_e01_source_snapshot_ROADMAP.md`](wp_e01_source_snapshot_ROADMAP.md); its WP-E01 row reflects the status before Owner decision BC and is historical.
 
-## Latest normative state — 2026-10-26
+## Latest normative state — 2026-10-31
 
 **Integration branch:** `emptiesvoids-cloud/0.2.12`<br>
-**Integration HEAD assessed before this documentation update:** `557a4fda85d151aba57ed07671cdaedf15f47db7`<br>
+**Release integration HEAD at closeout preparation:** `ee50684d3c146102b773f604e1625ba8c07348ca`<br>
 **Frozen scientific candidate used by WP12-S:** commit `00428adf38e9397340ac136f6f503a268eb671da`, tree `df4ec667bf746b042c900fad1f86bf542e1a437b`.
 
-This is the latest operational portfolio state as of 2026-10-26. It supersedes the dated 2026-10-25 snapshot below. Campaign execution records remain tied to their own manifests and source identities; their results must not be described as runs on the later integration HEAD unless the record says so.
+This is the latest operational portfolio state as of 2026-10-31. It supersedes the dated 2026-10-26 state and the 2026-10-25 snapshot below. Campaign execution records remain tied to their own manifests and source identities; their results must not be described as runs on `ee50684` unless the record says so.
 
 ### Normative portfolio disposition
 
@@ -36,6 +36,7 @@ This is the latest operational portfolio state as of 2026-10-26. It supersedes t
 | WP-E01 | `OPEN_WITH_BOUNDED_CERTIFICATES` — selected capabilities integrated; general qualification not acquired |
 | WP11 | `CLOSED` — approved API/integration gate only |
 | WP12 | `OPEN` — verification, validation, non-regression, and performance |
+| WP12-B (sous-chantier) | Dossier de clôture bornée sans nouveau FEM autorisé en principe ; intégration, revue et confirmation finale Owner en attente ; ce n’est pas un WP distinct. |
 | WP13 | `OPEN` — packaging and publication |
 
 Portfolio total: **19 work packages; 14 positive closures, 1 historical negative closure, and 4 open or inconclusive packages** (WP-D01, WP-E01, WP12, WP13). This is an administrative count, not a measure of scientific coverage, qualification, or release readiness. WP-C01's remediation remains part of that existing work package and is not an additional open package.
@@ -111,7 +112,7 @@ See [WP12_ACCELERATED_VV_REPORT.md](vv_local/wp12_accelerated/WP12_ACCELERATED_V
 
 Ces résultats sont des preuves de développement avec sources ou rapports dédiés, non des exécutions sur le HEAD d’intégration audité cbdd54aadbb640a96c6b6b5b9726e1247da36012. Ils ne sont ni comptés comme des PASS sur le candidat intégré, ni combinés en qualification générale. L’audit statique confirme les chemins de tests de la matrice; il ne remplace pas leur exécution. WP12 reste OPEN et les décisions C01/C02/D01/D02/E01 restent inchangées.
 
-### WP12-B — proposition de clôture bornée VV3D (2026-10-31)
+### VV3D — clôture bornée approuvée, sous-dossier seulement (2026-10-31)
 
 Le rapport [VV3D bounded closeout](vv3d_bounded_closeout_0_2_12.md) documente les douze niveaux des quatre familles et leurs identités dédiées. Les neuf cas TET10/HEX8/HEX20 ont `CASE_GATE_PASS` et leurs critères inter-niveaux passent sous leur contrat. TET4-L1/L2 sont `PASS` dans R2; TET4-L3 est `DIAGNOSTIC_COMPLETED` avec `scientific_state=PASS` pour les contrôles mécaniques, mais conserve `FAIL` sur l’énergie scalaire (`0.0615360686 > 0.05`). Les ordres TET4 sont descriptifs, calculés entre preuves distinctes, sans transfert ni requalification.
 
@@ -122,7 +123,17 @@ Le rapport [VV3D bounded closeout](vv3d_bounded_closeout_0_2_12.md) documente le
 | HEX8 standard | 1,998 / 1,982 | 1,025 / 1,000 | `CONVERGENCE_PASS`, limité au contrat VV3D |
 | HEX20 | 3,069 / 3,018 | 2,347 / 2,068 | `CONVERGENCE_PASS`, limité au contrat VV3D |
 
-L’Owner a explicitement approuvé `VV3D_CLOSED_BOUNDED_FOR_0_2_12` le 2026-10-31. Le statut prend effet à l’intégration revue de cette PR, pour le sous-dossier VV3D seulement. Il ne modifie pas `WP12-B`, `WP12=OPEN` ou `WP13=OPEN`, ni la qualification générale.
+L’Owner a explicitement approuvé `VV3D_CLOSED_BOUNDED_FOR_0_2_12` le 2026-10-31. Le statut est intégré par la PR #110 au HEAD release `ee50684`, pour le sous-dossier VV3D seulement. Il ne modifie pas `WP12-B`, `WP12=OPEN` ou `WP13=OPEN`, ni la qualification générale.
+
+### WP12-B — décision de clôture bornée et passage à WP12-F (2026-10-31)
+
+L’Owner a approuvé le principe d’une clôture de WP12-B dans un périmètre v0.2.12 borné et autorisé la préparation et l’intégration du dossier sans nouveau FEM. Cette approbation reste conditionnée au contrôle final des revendications, à la traçabilité des six MUST WP12-B et à la revue de l’intégration ; elle ne constitue pas la clôture effective. WP12-B reste `OPEN` jusqu’à la confirmation explicite par l’Owner des dispositions intégrées.
+
+Le [dossier de clôture WP12-B](wp12b_bounded_closeout_0_2_12.md) préserve les statuts PASS/FAIL VV3D, les résultats bornés R4 des chargements TET10 et BEAM2, les échecs historiques HEX8-SRI et le statut post-correction `NOT_ACQUIRED`, l’échec R4 des charges QUAD8 HEX20 et le statut `NOT_ACQUIRED` après correction, ainsi que les limites exactes des certificats MITC/WEDGE et autres certificats historiques. Il documente les six MUST et les revendications publiques autorisées pour chacun. La mise à jour documentaire ne promeut aucun résultat scientifique sur le HEAD release.
+
+Après confirmation finale, le statut cible est `WP12B_CLOSED_BOUNDED_FOR_0_2_12`. Avant cette confirmation, le statut du dossier est `WP12B_BOUNDED_CLOSEOUT_READY_FOR_OWNER_CONFIRMATION`. WP12 et WP13 restent `OPEN` ; cette clôture ne vaut ni autorisation de publication ni qualification scientifique générale.
+
+Après confirmation par l’Owner des dispositions WP12-B intégrées, passer directement à la consolidation WP12-F de la matrice des 62 capacités et à la recommandation WP12. Ne pas clôturer WP12 ou WP13 par effet de bord.
 
 ### WP-E01 disposition and publication boundary
 
