@@ -10,7 +10,7 @@
 
 ## 1. Scope and evidence boundary
 
-This report uses the completed run 3 logs and exact-node local measurements already acquired. It does not rerun a full suite or a FEM test. Run 3 is the only corrected complete Linux result; the Windows jobs timed out. The earlier 17-failure run and its test/policy classifications remain in WP13_P0_TEST_PERFORMANCE_AND_CI_OPTIMIZATION_REPORT.md.
+This report uses the completed run 3 logs and exact-node local measurements already acquired. It does not rerun a full suite or a FEM test. Run 3 is the only corrected complete Linux result; the Windows jobs timed out. The earlier 17-failure run and its test/policy classifications remain in WP13_P0_TEST_PERFORMANCE_AND_CI_OPTIMIZATION_REPORT.md. A final local process inventory found no active pytest, Python solver, or package-smoke process; the latest quality workflows are completed, not queued or running.
 
 The inventory is a static AST inventory of module-level test functions and test methods on classes, not a pytest collection manifest. It does not expand dynamic parametrization, plugin-generated cases, fixture behavior, or exact workflow keyword exclusions. The file records this limitation per row. CI collected 4,858 items per cell, of which 4,708 were selected (4,676 passed and 32 skipped; 150 deselected). The static 4,175 function candidates therefore must not be read as the exact collected or selected test count.
 
@@ -55,7 +55,7 @@ Source inspection confirms that the expensive tests repeatedly invoke repository
 - the unit and integration tests invoke those read-only checks against the real checkout more than once;
 - public_document_audit also invokes the current public-release audit.
 
-This is repeated repository I/O and archive scanning, not solver algorithm time. The existing tests exercise distinct report surfaces, so no test has been removed. A minimal next optimization is to share an immutable current-checkout report within tests that make the same expensive call, and use small synthetic roots for CLI wiring and state-format assertions. Preserve at least one real whole-repository source scan, archive scan, and readiness composition in the release gate. No product-level cache or broad test consolidation has been applied in this report.
+This is repeated repository I/O and archive scanning, not solver algorithm time. The distinct scanner contracts remain asserted. Separate PR #116 (stacked on PR #114) prepares a test-only reduction: readiness-composition tests inject explicit scanner reports instead of re-running source/archive scans; the current-root history check remains real once; the integration test continues to read real Git worktree state; and the two public-document assertions share one read-only report through a module fixture. The full public-source and archive scanners remain exercised by their dedicated current-repository tests. No product-level cache or oracle removal is proposed. PR #116 is not yet integrated into the candidate, so its CI saving is not measured.
 
 Other high-cost files contain numerical or campaign-shaped tests. Their module durations do not identify which individual nodes dominate. Do not move or suppress a numerical oracle solely based on a module wall time.
 
@@ -98,7 +98,8 @@ Keep the existing observed Linux coverage result: global branch coverage 84.75%;
 | Ubuntu/Python 3.13 suite duration | 7,120.37 s | Not measured | No full-suite speedup claim. |
 | Global branch coverage | 84.75% | Not remeasured | Existing Linux result retained; thresholds unchanged. |
 | P0 module branch coverage | 100.00%, 92.16% | Not remeasured | Existing Linux result retained. |
-| Contact docs test call | 41.10 s before; 39.438 CPU s; 476.4 MiB peak RSS | 0.03 s call after; CPU/RSS unavailable | Same local Windows/Python 3.13.1; 99.93% call-time reduction. |
+| Contact docs test call | 41.10 s before; 39.438 CPU s; 476.4 MiB peak RSS | 0.03 s call after; CPU/RSS unavailable | Same local Windows/Python 3.13.1; 99.93% call-time reduction, in PR #115 only. |
+| Readiness/audit repeated calls | Ubuntu/Python 3.13 module proxies: 2413.651 s unit + 1229.360 s integration; 1226.984 s public-release audit module | Targeted composition nodes pass with repository source/archive scanners stubbed; no CI rerun | PR #116 preserves the dedicated real scanner tests; suite-level saving not measured. |
 | Windows full standard suite | 602 passed before 180-minute cancellation in each Python cell | Not rerun | BLOCKED / coverage NOT_ACQUIRED. |
 | Exact body duplicate groups | Not inventoried | 16 groups found; none proven redundant | No deletion or consolidation. |
 | Distinct oracle count / mutation detection | Not available | Not measured | Requires a separate, bounded oracle inventory and representative mutation plan. |
@@ -113,7 +114,8 @@ The measured 0.03 s contact test is a local test-call measurement, not a whole-j
 | Record complete static candidate inventory and cost evidence | Added WP13_TEST_SUITE_INVENTORY.csv and this report to PR #114. |
 | Identify exact Windows in-flight node | Not acquired from current logs. No root-cause fix claimed. |
 | Remove or merge presumed duplicate tests | Not justified; 16 AST matches target versioned modules/lots. |
-| Reduce repeated full-repository audit work | Confirmed optimization opportunity; no change yet because release-gate and test-shape review is required. |
+| Reduce repeated full-repository audit work | Test-only change prepared in PR #116, stacked on #114; exact targeted nodes pass and Ruff passes. No CI timing after change. |
+| Correct initial targeted test failure | The assertion compared raw history status with its normalized readiness-gate status. Corrected the mapping and preserved the first failure log in PR #116; exact rerun passed. |
 | Reorganize CI | Proposal only; no workflow configuration changed and no acceptance gate reduced. |
 
 Do not rerun the four-cell suite until the confirmed test-scope correction is integrated and the Windows stall is diagnosed or an Owner decision changes the required matrix. A focused Windows diagnostic must use exact nodeids and a short bound. A later reference run should enable pytest per-node durations and preserve JUnit/job logs; this should be part of a planned full reference run, not a reason by itself to start another two-hour job.
@@ -130,5 +132,6 @@ The next Owner decision is one consolidated choice: authorize a bounded, hosted 
 - Run 2 (17 failures, corrected classifications in the earlier report): https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41210713065
 - Previous performance and CI triage: WP13_P0_TEST_PERFORMANCE_AND_CI_OPTIMIZATION_REPORT.md
 - Complete static inventory: WP13_TEST_SUITE_INVENTORY.csv
-- Contact test separation: PR #115, when opened.
+- Contact test separation: [PR #115](https://github.com/emptiesvoid-cloud/QF_solver/pull/115), open and not integrated.
+- Release-audit test cost reduction: [PR #116](https://github.com/emptiesvoid-cloud/QF_solver/pull/116), stacked on #114 and not integrated.
 - Run 3 logs and SHA-256 digests are recorded in the previous performance report; no log or historical scientific ledger was rewritten.
