@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from scripts.audit_public_documents import public_document_audit
 
 
@@ -12,8 +14,16 @@ ROOT = Path(__file__).resolve().parents[2]
 RECORD = ROOT / "qualification" / "0_2_7" / "wp21_public_document_audit.json"
 
 
-def test_whole_repository_document_audit_keeps_the_unresolved_public_hygiene_gate_visible() -> None:
-    report = public_document_audit()
+@pytest.fixture(scope="module")
+def current_public_document_report() -> dict[str, object]:
+    """Share one read-only repository-wide report across its assertions."""
+    return public_document_audit()
+
+
+def test_whole_repository_document_audit_keeps_the_unresolved_public_hygiene_gate_visible(
+    current_public_document_report: dict[str, object],
+) -> None:
+    report = current_public_document_report
 
     # This is the R1 whole-repository gate, not the separately selected R3
     # package scan. Preserve the known HOLD instead of implying a clean release.
@@ -27,9 +37,11 @@ def test_whole_repository_document_audit_keeps_the_unresolved_public_hygiene_gat
     assert checks["public_source_hygiene"] == "FAIL"
 
 
-def test_controlled_public_document_audit_record_matches_current_classification() -> None:
+def test_controlled_public_document_audit_record_matches_current_classification(
+    current_public_document_report: dict[str, object],
+) -> None:
     record = json.loads(RECORD.read_text(encoding="utf-8"))
-    current = public_document_audit()
+    current = current_public_document_report
 
     # WP21 is an immutable 0.2.7 snapshot. Preserve its PASS and keep the
     # current whole-repository R1 failure distinct from the R3 package result.

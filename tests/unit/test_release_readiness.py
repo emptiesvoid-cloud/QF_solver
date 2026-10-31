@@ -8,6 +8,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
+import scripts.release_readiness as release_readiness_module
 from scripts.release_readiness import release_readiness
 from scripts.git_tools import git_command
 
@@ -48,19 +51,52 @@ def _synthetic_git_root(path: Path) -> Path:
     return path
 
 
-def test_current_open_source_tree_reports_its_actual_release_state() -> None:
+def _stub_repository_scanners(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Keep report-composition tests from rescanning the full repository."""
+    monkeypatch.setattr(
+        release_readiness_module,
+        "audit_public_release",
+        lambda _root: {"status": "FAIL", "findings": [{"identifier": "synthetic"}], "scanned_files": 1},
+    )
+    monkeypatch.setattr(
+        release_readiness_module,
+        "audit_release_archive",
+        lambda _root: {"status": "FAIL", "findings": ["synthetic"], "paths": ["README.md"]},
+    )
+
+
+def test_release_readiness_composes_current_scanner_and_history_statuses(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _stub_repository_scanners(monkeypatch)
     report = release_readiness(ROOT)
     statuses = {item["id"]: item["status"] for item in report["checks"]}
 
-    assert report["source_audit"]["status"] in {"PASS", "FAIL"}
-    assert report["archive_audit"]["status"] in {"PASS", "FAIL"}
+    assert report["source_audit"]["status"] == "FAIL"
+    assert report["archive_audit"]["status"] == "FAIL"
     assert statuses["public_source_audit"] == report["source_audit"]["status"]
     assert statuses["release_archive_audit"] == report["archive_audit"]["status"]
+    assert statuses["git_history_audit"] == (
+        "PASS" if report["history_audit"]["status"] == "PASS" else "FAIL"
+    )
     expected = "READY" if all(status == "PASS" for status in statuses.values()) else "NOT_READY"
     assert report["status"] == expected
 
 
-def test_readiness_report_lists_only_machine_checkable_blocking_gate_ids() -> None:
+def test_readiness_report_lists_only_machine_checkable_blocking_gate_ids(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _stub_repository_scanners(monkeypatch)
+    monkeypatch.setattr(
+        release_readiness_module,
+        "audit_git_history_paths",
+        lambda _root: {
+            "status": "WARNING",
+            "commit_count": 1,
+            "findings": ["synthetic finding"],
+            "limitation": "synthetic report",
+        },
+    )
     report = release_readiness(ROOT)
 
     assert all(isinstance(identifier, str) and identifier for identifier in report["blocking_gates"])
