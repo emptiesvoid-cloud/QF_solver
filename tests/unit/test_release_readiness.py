@@ -32,6 +32,22 @@ def _audit_subprocess_environment() -> dict[str, str]:
     return environment
 
 
+def _synthetic_git_root(path: Path) -> Path:
+    """Create a tiny Git root for CLI wiring tests without rescanning this repository."""
+    path.mkdir(parents=True, exist_ok=True)
+    (path / "README.md").write_text("Synthetic release-audit fixture.\n", encoding="utf-8")
+    subprocess.run([git_command(), "init", "--quiet"], cwd=path, check=True)
+    subprocess.run([git_command(), "config", "user.name", "QF Solver Test"], cwd=path, check=True)
+    subprocess.run(
+        [git_command(), "config", "user.email", "qfsolver-test@users.noreply.github.com"],
+        cwd=path,
+        check=True,
+    )
+    subprocess.run([git_command(), "add", "README.md"], cwd=path, check=True)
+    subprocess.run([git_command(), "commit", "--quiet", "-m", "synthetic audit root"], cwd=path, check=True)
+    return path
+
+
 def test_current_open_source_tree_reports_its_actual_release_state() -> None:
     report = release_readiness(ROOT)
     statuses = {item["id"]: item["status"] for item in report["checks"]}
@@ -57,10 +73,13 @@ def test_readiness_report_lists_only_machine_checkable_blocking_gate_ids() -> No
 
 def test_release_readiness_supports_direct_script_execution(tmp_path) -> None:
     output = tmp_path / "readiness.json"
+    root = _synthetic_git_root(tmp_path / "repository")
     completed = subprocess.run(
         [
             sys.executable,
             str(ROOT / "scripts" / "release_readiness.py"),
+            "--root",
+            str(root),
             "--output",
             str(output),
         ],
@@ -69,9 +88,6 @@ def test_release_readiness_supports_direct_script_execution(tmp_path) -> None:
         capture_output=True,
         check=False,
         env=_audit_subprocess_environment(),
-        # The audit scans the full public tree, Git archive, and reachable
-        # history. On Windows/Python 3.10 CI workers it can exceed three
-        # minutes without hanging; retain a finite guard for that workload.
         timeout=_RELEASE_AUDIT_SUBPROCESS_TIMEOUT,
     )
 
@@ -84,6 +100,7 @@ def test_release_readiness_supports_direct_script_execution(tmp_path) -> None:
 def test_release_audit_commands_create_nested_output_directories(tmp_path) -> None:
     # This tests export and exit-code fidelity, not release acceptance; the
     # separate current-tree tests still require the scanners to return PASS.
+    root = _synthetic_git_root(tmp_path / "repository")
     cases = (
         ("audit_public_release.py", {"PASS": 0, "FAIL": 1}),
         ("audit_release_archive.py", {"PASS": 0, "FAIL": 1}),
@@ -94,7 +111,7 @@ def test_release_audit_commands_create_nested_output_directories(tmp_path) -> No
     for script, returncodes in cases:
         output = tmp_path / "new" / "release" / f"{script}.json"
         completed = subprocess.run(
-            [sys.executable, str(ROOT / "scripts" / script), "--output", str(output)],
+            [sys.executable, str(ROOT / "scripts" / script), "--root", str(root), "--output", str(output)],
             cwd=ROOT,
             text=True,
             capture_output=True,

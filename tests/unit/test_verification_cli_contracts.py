@@ -229,7 +229,7 @@ def test_release_vv_and_evidence_commands_cover_pass_warning_and_fail(monkeypatc
 
     evidence = SimpleNamespace(status="PASS", manifest_path="manifest.json", checked_file_count=3, errors=[], warnings=[])
     monkeypatch.setattr(verification, "verify_evidence", lambda _: evidence)
-    monkeypatch.setattr(verification, "save_result", lambda *_: None)
+    monkeypatch.setattr(verification, "save_result", lambda *_args, **_kwargs: None)
     assert verification.command_verify_evidence(
         Namespace(input="manifest.json", json_report=tmp_path / "evidence.json")
     ) == int(ExitCode.ACCEPTED)

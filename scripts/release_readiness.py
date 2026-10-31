@@ -150,9 +150,10 @@ def _read_text(path: Path) -> str:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--output", type=Path, default=Path("release_readiness.json"))
     args = parser.parse_args(argv)
-    report = release_readiness(ROOT)
+    report = release_readiness(args.root)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f"RELEASE READINESS: {report['status']}")

@@ -515,19 +515,20 @@ def test_pilot_v3_manifest_binds_exact_instrumented_command_and_stays_unauthoriz
     assert assess_manifest(altered, "7" * 64).structural_errors
 
 
-def test_pilot_v4_manifest_binds_separate_checkouts_and_stays_blocked() -> None:
+def test_pilot_v4_manifest_binds_separate_checkouts_and_stays_blocked(tmp_path: Path) -> None:
     manifest = _execution_manifest_v3()
     manifest["schema"] = "qf-solver-wp12-execution-manifest-v4"
     manifest["isolation_assessment"]["runner_account"] = "QF_WP12_RUNNER"
     manifest["isolation_assessment"]["runner_account_sid"] = "S-1-5-21-1000-1000-1000-1001"
-    science_path = r"C:\WP12\science"
-    runner_path = r"C:\WP12\runner"
-    venv_path = r"C:\WP12\venv"
-    evidence_path = r"C:\WP12\evidence\WP12-1-PILOT-001\attempt-001"
+    science_path = str(tmp_path / "science")
+    runner_path = str(tmp_path / "runner")
+    venv_path = str(tmp_path / "venv")
+    python_executable = str(Path(venv_path) / "Scripts" / "python.exe")
+    evidence_path = str(tmp_path / "evidence" / "WP12-1-PILOT-001" / "attempt-001")
     nodeid = manifest["tests"]["nodeid"]
     manifest["tests"]["command_profile"] = "qf-wp12-single-node-pytest-v3"
     manifest["tests"]["argv"] = [
-        str(Path(venv_path) / "Scripts" / "python.exe"),
+        python_executable,
         "-m",
         "pytest",
         "-q",
@@ -548,7 +549,7 @@ def test_pilot_v4_manifest_binds_separate_checkouts_and_stays_blocked() -> None:
         "runner_checkout": {"path": runner_path, **manifest["runner_identity"]},
         "python_executable": manifest["tests"]["argv"][0],
         "venv_root": venv_path,
-        "python_base_root": r"C:\Python313",
+        "python_base_root": str(tmp_path / "python-base"),
         "working_directory": science_path,
         "plugin_path": str(Path(runner_path) / "scripts" / "wp12_runner" / "pytest_provenance_plugin.py"),
         "solver_import_root": str(Path(science_path) / "src"),
@@ -563,17 +564,17 @@ def test_pilot_v4_manifest_binds_separate_checkouts_and_stays_blocked() -> None:
         "expected_packages": {"pytest": "8.4.1"},
         "expected_native_libraries_sha256": {"numpy/sample.pyd": "a" * 64},
         "thread_environment": manifest["environment"]["thread_environment"],
-        "evidence_root": r"C:\WP12\evidence",
+        "evidence_root": str(tmp_path / "evidence"),
         "destination_path": evidence_path,
-        "temporary_root": r"C:\WP12\temporary",
+        "temporary_root": str(tmp_path / "temporary"),
         "archive": {
             "status": "NOT_CONFIGURED",
             "method": "ADMINISTRATOR_SEALED_COPY_V1",
-            "destination": r"C:\WP12\sealed-archive",
-            "request_root": r"C:\WP12\archive-requests",
-            "owner_decision_root": r"C:\WP12\owner-decisions",
-            "manifest_path": r"C:\WP12\owner-decisions\WP12-1-PILOT-001\manifest-v2.json",
-            "python_executable": str(Path(venv_path) / "Scripts" / "python.exe"),
+            "destination": str(tmp_path / "sealed-archive"),
+            "request_root": str(tmp_path / "archive-requests"),
+            "owner_decision_root": str(tmp_path / "owner-decisions"),
+            "manifest_path": str(tmp_path / "owner-decisions" / "WP12-1-PILOT-001" / "manifest-v2.json"),
+            "python_executable": python_executable,
             "python_executable_sha256": "5" * 64,
             "decision_verifier_script_path": str(
                 Path(runner_path) / "scripts" / "wp12_runner" / "owner_decision_verifier.py"
@@ -584,16 +585,22 @@ def test_pilot_v4_manifest_binds_separate_checkouts_and_stays_blocked() -> None:
             "canonicalization_script_sha256": "c" * 64,
             "execution_attestation": "NONE",
             "worker_task_name": r"\QFSolverWP12\ArchiveWorker",
-            "worker_script_path": r"C:\WP12\runner\scripts\wp12_runner\windows\Invoke-WP12EvidenceArchiveWorker.ps1",
+            "worker_script_path": str(
+                Path(runner_path) / "scripts" / "wp12_runner" / "windows" / "Invoke-WP12EvidenceArchiveWorker.ps1"
+            ),
             "worker_script_sha256": "c" * 64,
             "ack_timeout_seconds": 60,
         },
         "isolation_attestation": {
-            "path": r"C:\ProgramData\QFSolverWP12\isolation.json",
+            "path": str(tmp_path / "isolation.json"),
             "sha256": "6" * 64,
             "status": "NOT_VERIFIED",
         },
-        "security_review": {"status": "NOT_REVIEWED", "review_record_path": r"C:\WP12\review.json", "sha256": "7" * 64},
+        "security_review": {
+            "status": "NOT_REVIEWED",
+            "review_record_path": str(tmp_path / "review.json"),
+            "sha256": "7" * 64,
+        },
         "attempt_id": "attempt-001",
         "runner_files_sha256": {"scripts/wp12_runner/pytest_provenance_plugin.py": "8" * 64},
     }
@@ -669,6 +676,38 @@ def test_validate_v4_manifest_uses_separate_science_and_runner_checkouts(
         "git_tree": runner_tree,
     }
     manifest["execution_context"]["working_directory"] = str(science)
+    python_executable = str(tmp_path / "venv" / "Scripts" / "python.exe")
+    venv_root = str(tmp_path / "venv")
+    evidence_root = str(tmp_path / "evidence")
+    destination_path = str(Path(evidence_root) / manifest["campaign_id"] / "attempt-001")
+    manifest["tests"]["argv"][0] = python_executable
+    for index, argument in enumerate(manifest["tests"]["argv"]):
+        if isinstance(argument, str) and argument.startswith("--junitxml="):
+            manifest["tests"]["argv"][index] = f"--junitxml={Path(destination_path) / 'junit.xml'}"
+    manifest["environment"]["python_executable_path"] = python_executable
+    manifest["environment"]["virtual_environment"]["path"] = venv_root
+    manifest["execution_context"]["python_executable"] = python_executable
+    manifest["execution_context"]["venv_root"] = venv_root
+    manifest["execution_context"]["python_base_root"] = str(tmp_path / "python-base")
+    manifest["execution_context"]["evidence_root"] = evidence_root
+    manifest["execution_context"]["destination_path"] = destination_path
+    manifest["execution_context"]["temporary_root"] = str(tmp_path / "temporary")
+    manifest["execution_context"]["archive"]["destination"] = str(tmp_path / "sealed-archive")
+    manifest["execution_context"]["archive"]["request_root"] = str(tmp_path / "archive-requests")
+    owner_decision_root = tmp_path / "owner-decisions"
+    manifest["execution_context"]["archive"]["owner_decision_root"] = str(owner_decision_root)
+    manifest["execution_context"]["archive"]["manifest_path"] = str(
+        owner_decision_root / manifest["campaign_id"] / "manifest-v2.json"
+    )
+    manifest["execution_context"]["archive"]["python_executable"] = python_executable
+    manifest["execution_context"]["archive"]["decision_verifier_script_path"] = str(
+        runner / "scripts" / "wp12_runner" / "owner_decision_verifier.py"
+    )
+    manifest["execution_context"]["archive"]["worker_script_path"] = str(
+        runner / "scripts" / "wp12_runner" / "windows" / "Invoke-WP12EvidenceArchiveWorker.ps1"
+    )
+    manifest["execution_context"]["isolation_attestation"]["path"] = str(tmp_path / "isolation.json")
+    manifest["execution_context"]["security_review"]["review_record_path"] = str(tmp_path / "review.json")
     manifest["execution_context"]["plugin_path"] = str(
         runner / "scripts" / "wp12_runner" / "pytest_provenance_plugin.py"
     )
@@ -1085,10 +1124,12 @@ def test_pilot_inline_fixture_identity_is_extracted_without_importing_solver() -
     from scripts.wp12_runner.inline_fixtures import fixture_sha256, projection_pilot_fixture
 
     source_path = ROOT / "tests" / "unit" / "test_modal_symmetric_projection.py"
+    loaded_solver_modules = {name for name in sys.modules if name == "solveur" or name.startswith("solveur.")}
     fixture = projection_pilot_fixture(source_path.read_bytes())
     assert fixture["nodeid"].endswith("test_structured_symmetric_projection_matches_dense_bilinear_form")
     assert len(fixture_sha256(fixture)) == 64
-    assert not any(name == "solveur" or name.startswith("solveur.") for name in sys.modules)
+    loaded_solver_modules_after = {name for name in sys.modules if name == "solveur" or name.startswith("solveur.")}
+    assert loaded_solver_modules_after <= loaded_solver_modules
 
 
 def test_execute_pilot_denies_without_owner_decision_before_manifest_access(tmp_path: Path) -> None:
@@ -1639,14 +1680,77 @@ def test_modified_fixture_hash_is_detected(tmp_path: Path) -> None:
     assert verify_file_hashes(tmp_path, {"fixture.json": expected}) == ("SHA256_MISMATCH:fixture.json",)
 
 
-def test_static_manifest_identity_check_preserves_c02_overlay_and_c01_mismatch() -> None:
-    manifest, _digest = load_json(WP12_PREPARATION / "wp12_3_execution_manifest.json")
-    errors, records = verify_manifest_input_identities(ROOT, manifest)
-    assert any(error.startswith("FIXTURE_CONTRACT_DIGEST_MISMATCH:") for error in errors)
-    overlay = [record for record in records if record.get("state") == "OVERLAY_IDENTIFIED_NOT_MATERIALIZED"]
-    assert len(overlay) == 1
-    assert overlay[0]["path"] == "tests/unit/test_wpc02_aj_partial_active_contact.py"
-    assert not (ROOT / overlay[0]["path"]).exists()
+def test_static_manifest_identity_check_preserves_c02_overlay_and_c01_mismatch(tmp_path: Path) -> None:
+    source_manifest, _digest = load_json(WP12_PREPARATION / "wp12_3_execution_manifest.json")
+    source_entries = source_manifest["fixtures"]["entries"]
+    source_c01 = next(entry for entry in source_entries if entry.get("id") == "C01 R19 model fixture")
+    source_overlay = next(entry for entry in source_entries if entry.get("id") == "Frozen AJ mesh/load helper")
+    assert source_c01["status"] == "CONFLICT_REQUIRES_OWNER_RESOLUTION"
+    assert source_c01["expected_sha256_in_test"] == "b74c57cae86d94b4cbfdae0c298ea98aa660f70159c72eb4b72f0ee4b5eee3e5"
+    assert source_c01["byte_sha256"] == "a732254d59268aace44e44e2a21f5619d4c267531c388eed1aab0bb09fb2def0"
+    assert source_overlay["availability"].startswith("MISSING;")
+    assert not (ROOT / source_overlay["path"]).exists()
+
+    repository = tmp_path / "synthetic"
+    repository.mkdir()
+
+    def git(*args: str) -> str:
+        completed = subprocess.run(
+            ["git", *args], cwd=repository, check=True, capture_output=True, text=True
+        )
+        return completed.stdout.strip()
+
+    git("init", "--initial-branch=synthetic")
+    git("config", "user.name", "Synthetic Owner")
+    git("config", "user.email", "synthetic@users.noreply.github.com")
+    c01_relative = "examples/c01_fixture.json"
+    overlay_relative = "tests/unit/frozen_overlay.py"
+    c01_path = repository / c01_relative
+    overlay_path = repository / overlay_relative
+    c01_path.parent.mkdir(parents=True)
+    overlay_path.parent.mkdir(parents=True)
+    c01_bytes = b"synthetic C01 fixture\n"
+    overlay_bytes = b"synthetic historical overlay\n"
+    c01_path.write_bytes(c01_bytes)
+    overlay_path.write_bytes(overlay_bytes)
+    git("add", "--all")
+    git("commit", "--quiet", "-m", "synthetic fixture source")
+    source_commit = git("rev-parse", "HEAD")
+    overlay_oid = git("rev-parse", f"{source_commit}:{overlay_relative}")
+    overlay_path.unlink()
+    git("add", "--all")
+    git("commit", "--quiet", "-m", "synthetic overlay omitted")
+    target_commit = git("rev-parse", "HEAD")
+    c01_oid = git("rev-parse", f"{target_commit}:{c01_relative}")
+    c01_sha = hashlib.sha256(c01_bytes).hexdigest()
+    manifest = {
+        "target": {"commit": target_commit},
+        "fixtures": {
+            "entries": [
+                {
+                    "id": "synthetic-C01",
+                    "path": c01_relative,
+                    "source_commit": target_commit,
+                    "git_blob_oid": c01_oid,
+                    "byte_sha256": c01_sha,
+                    "expected_sha256_in_test": "0" * 64,
+                },
+                {
+                    "id": "synthetic-overlay",
+                    "path": overlay_relative,
+                    "source_commit": source_commit,
+                    "git_blob_oid": overlay_oid,
+                    "byte_sha256": hashlib.sha256(overlay_bytes).hexdigest(),
+                },
+            ]
+        },
+    }
+    errors, records = verify_manifest_input_identities(repository, manifest)
+
+    assert errors == (f"FIXTURE_CONTRACT_DIGEST_MISMATCH:{c01_relative}",)
+    overlay_records = [record for record in records if record.get("state") == "OVERLAY_IDENTIFIED_NOT_MATERIALIZED"]
+    assert len(overlay_records) == 1
+    assert overlay_records[0]["path"] == overlay_relative
 
 
 def test_nodeid_and_command_must_be_exactly_approved() -> None:
@@ -2034,7 +2138,10 @@ def test_provenance_plugin_accepts_pinned_inventory_superset_with_only_fake_modu
     source.parent.mkdir(parents=True)
     evidence.mkdir()
     source.write_text("# synthetic package marker\n", encoding="utf-8")
+    not_imported_source = source.parent / "not_imported.py"
+    not_imported_source.write_text("# declared but not imported\n", encoding="utf-8")
     source_digest = hashlib.sha256(source.read_bytes()).hexdigest()
+    not_imported_digest = hashlib.sha256(not_imported_source.read_bytes()).hexdigest()
     monkeypatch.setenv("QF_WP12_EXPECTED_NODEID", NODEID)
     plugin_path = Path(__file__).resolve().parents[2] / "scripts" / "wp12_runner" / "pytest_provenance_plugin.py"
     monkeypatch.setenv("QF_WP12_EXPECTED_PLUGIN_PATH", str(plugin_path))
@@ -2046,7 +2153,7 @@ def test_provenance_plugin_accepts_pinned_inventory_superset_with_only_fake_modu
         json.dumps(
             {
                 "src/solveur/__init__.py": source_digest,
-                "src/solveur/not_imported.py": "a" * 64,
+                "src/solveur/not_imported.py": not_imported_digest,
             }
         ),
     )

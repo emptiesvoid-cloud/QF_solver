@@ -75,20 +75,27 @@ def select_document_paths(
         or len(suffixes) != len(set(suffix.lower() for suffix in suffixes))
     ):
         raise ValueError("Documentation scope must enumerate unique supported scan suffixes.")
+    allowed = {suffix.lower() for suffix in suffixes}
     excluded_prefixes = selection.get("exclude_prefixes", [])
     if (
         not isinstance(excluded_prefixes, list)
         or any(
             not isinstance(prefix, str)
             or not prefix.startswith("docs/")
-            or not prefix.endswith("/")
+            or (not prefix.endswith("/") and Path(prefix).suffix.lower() not in allowed)
+            or "\\" in prefix
             or ".." in Path(prefix).parts
             for prefix in excluded_prefixes
         )
         or len(excluded_prefixes) != len(set(excluded_prefixes))
     ):
-        raise ValueError("Documentation exclusions must use unique canonical docs/ prefixes only.")
-    allowed = {suffix.lower() for suffix in suffixes}
+        raise ValueError("Documentation exclusions must use unique canonical docs/ paths only.")
+    for exclusion in excluded_prefixes:
+        if exclusion.endswith("/"):
+            if not any(path.startswith(exclusion) for path in tree):
+                raise ValueError("A documentation directory exclusion does not exist in the source tree.")
+        elif exclusion not in tree:
+            raise ValueError("An exact documentation exclusion does not exist in the source tree.")
     candidates = sorted(
         path for path in tree
         if path.startswith(tuple(prefixes))
@@ -109,20 +116,44 @@ def select_document_paths(
 def validate_documentation_publication_policy(
     selection: dict[str, Any], policy: dict[str, Any], config_payload: bytes,
 ) -> None:
-    """Bind the excluded source prefix to the frozen MkDocs publication policy."""
-    source_prefix = policy.get("excluded_source_prefix")
-    pattern = policy.get("mkdocs_exclude_pattern")
+    """Bind every excluded documentation path to the frozen MkDocs policy."""
+    source_paths = policy.get("excluded_source_paths")
+    patterns = policy.get("mkdocs_exclude_patterns")
     config_path = policy.get("config_path")
     if (
-        not isinstance(source_prefix, str)
-        or not source_prefix.startswith("docs/")
-        or not source_prefix.endswith("/")
-        or not isinstance(pattern, str)
-        or not isinstance(config_path, str)
-        or source_prefix != selection.get("exclude_prefixes", [None])[0]
-        or pattern != source_prefix.removeprefix("docs/") + "**"
-        or b"exclude_docs: |" not in config_payload
-        or pattern.encode("utf-8") not in config_payload
+        not isinstance(source_paths, list)
+        or not source_paths
+        or any(not isinstance(source, str) for source in source_paths)
+        or not isinstance(patterns, list)
+        or any(not isinstance(pattern, str) for pattern in patterns)
+        or len(source_paths) != len(set(source_paths))
+    ):
+        raise ValueError("The documentation scan exclusion is not bound to the frozen MkDocs policy.")
+    expected_patterns = [
+        source.removeprefix("docs/") + ("**" if source.endswith("/") else "")
+        for source in source_paths
+        if isinstance(source, str)
+    ]
+    try:
+        config_text = config_payload.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ValueError("The frozen MkDocs configuration must be UTF-8.") from exc
+    lines = config_text.splitlines()
+    try:
+        block_start = next(index for index, line in enumerate(lines) if line.strip() == "exclude_docs: |")
+    except StopIteration as exc:
+        raise ValueError("The documentation scan exclusion is not bound to the frozen MkDocs policy.") from exc
+    configured_patterns: list[str] = []
+    for line in lines[block_start + 1:]:
+        if line.strip() and not line.startswith((" ", "\t")):
+            break
+        if line.strip():
+            configured_patterns.append(line.strip())
+    if (
+        not isinstance(config_path, str)
+        or source_paths != selection.get("exclude_prefixes", [])
+        or patterns != expected_patterns
+        or configured_patterns != patterns
     ):
         raise ValueError("The documentation scan exclusion is not bound to the frozen MkDocs policy.")
 

@@ -9,10 +9,17 @@ approver: ""
 
 # Verification, validation, evidence and maturity
 
-**Current release documentation:** QF Solver `0.2.11`<br>
-**Current version DOI:** [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487)<br>
+**Latest published release:** QF Solver `0.2.11`<br>
+**0.2.11 version DOI:** [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487)<br>
 **Published:** 2026-10-07<br>
 **Previous version DOI (0.2.10 only):** [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744)
+
+This branch prepares an unreleased 0.2.12 candidate. WP12 is closed only under
+the bounded Owner decision `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`; see the
+[release-specific inventory](../ai/releases/v0.2.12.md) and [WP12 closeout](../../qualification/0_2_12/vv_local/WP12_CLOSED_AND_RELEASE_BRANCH_READY_FOR_WP13.md).
+The candidate has no assigned release date or version DOI. These facts do not
+grant general qualification, promote maturity or assert a current-HEAD
+scientific replay.
 
 The cumulative solver retains the 0.2.10 development made since the published 0.2.8
 baseline, including the development-only 0.2.9 cycle. The

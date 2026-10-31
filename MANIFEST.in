@@ -1,6 +1,9 @@
 include CHANGELOG.md LICENSE LICENSE-DOCS NOTICE README.md THIRD_PARTY_LICENSES.md
 include CITATION.cff
 recursive-include examples *.json
+include examples/contact/frictional_bstar_small_rotation/README.md
+include examples/contact/frictional_bstar_small_rotation/run_example.py
+include examples/wp_d02_dynamic_stress.py
 include qualification/benchmarks.json
 include qualification/campaign.json
 include qualification/demonstrations.json

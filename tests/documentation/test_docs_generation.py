@@ -69,6 +69,7 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
         encoding="utf-8"
     )
     normalized_roadmap = " ".join(roadmap.split())
+    normalized_readme = " ".join(readme.split())
     normalized_architecture = " ".join(architecture.split())
     normalized_index = " ".join(index.split())
     normalized_comparisons = " ".join(comparisons.split())
@@ -76,11 +77,14 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
         comparison_snapshot.replace(">", "").split()
     )
 
-    assert "The current QF Solver release is `0.2.11`" in readme
+    assert "The latest published QF Solver release is `0.2.11`" in readme
+    assert "This branch contains an unreleased 0.2.12 candidate" in normalized_readme
     assert "0.2.11 is a **candidate, not yet published**" not in readme
     assert "`0.2.8` — release candidate; not published" not in readme
     assert "source tag" in readme and "v0.2.10" in readme
     assert "QF Solver 0.2.11 is the current documentation baseline" in normalized_roadmap
+    assert "latest published release" in normalized_roadmap
+    assert "WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA" in normalized_roadmap
     assert "Version 0.2.9 was a development/source snapshot" in normalized_roadmap
     assert "QF Solver 0.2.11 architecture" in normalized_architecture
     assert "cumulative 0.2.11 solver retains explicitly bounded scopes" in open_source
@@ -102,9 +106,10 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     )
     assert "not a current capability or maturity record" in normalized_comparison_snapshot
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    assert 'version: "0.2.11"' in citation
-    assert 'date-released: "2026-10-07"' in citation
-    assert 'doi: "10.5281/zenodo.23214487"' in citation
+    assert 'version: "0.2.12"' in citation
+    assert "unreleased candidate" in citation
+    assert "date-released:" not in citation
+    assert "doi:" not in citation
 
 
 @pytest.mark.parametrize(
@@ -144,7 +149,16 @@ def test_current_public_surfaces_use_consistent_version_without_promotion(relati
         "upcoming 0.2.11",
     ):
         assert stale not in normalized
-    assert "0.2.12" not in content
+    if relative in {"index.md", "verification/evidence-and-maturity.md"}:
+        assert "0.2.12" in normalized and "candidate" in normalized
+        assert "WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA" in content
+        assert "general qualification" in normalized
+    elif relative == "capabilities/index.md":
+        assert "0.2.12 integration candidate" in normalized
+        assert "experimental_bounded" in normalized
+        assert "closed_negative" in normalized and "remediation open" in normalized
+    else:
+        assert "0.2.12" not in content
 
 
 @pytest.mark.parametrize(

@@ -78,14 +78,18 @@ be represented as audited Python distribution artifacts.
 The full-repository G03 archive gate remains failed; automatic GitHub source
 archives and a complete repository archive are not represented as cleared.
 
-For exact-version reproducibility, cite the 0.2.11 version DOI
+For exact-version reproducibility, cite the published 0.2.11 version DOI
 [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487). The
 preceding 0.2.10 release has version DOI
 [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). Use the
 project concept DOI [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
-to cite QF Solver across versions. The machine-readable
-[`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff)
-records the 0.2.11 version DOI and publication date.
+to cite QF Solver across versions. This branch prepares unreleased candidate
+0.2.12; its [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/emptiesvoids-cloud/0.2.12/CITATION.cff)
+identifies the candidate without assigning a release date or version DOI. Use
+the DOI above when citing published 0.2.11. WP12 is closed only under the
+bounded Owner disposition `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`; this is not
+general qualification. See the [candidate inventory](ai/releases/v0.2.12.md)
+and [WP12 closeout](../qualification/0_2_12/vv_local/WP12_CLOSED_AND_RELEASE_BRANCH_READY_FOR_WP13.md).
 Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solver/)
 and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
 

@@ -211,7 +211,18 @@ def test_vv3d_r2_missing_owner_contract_refuses_before_r2_ledger_creation(
     manifests.mkdir(parents=True)
     manifest_path = manifests / "case-prepared.json"
     manifest_path.write_text("{}", encoding="utf-8")
-    source = Path(entry["root"])
+    source = tmp_path / "synthetic-science-source"
+    helper_path = source / "experiments" / "wp12_vv3d_adaptive" / "r2_contract.py"
+    helper_path.parent.mkdir(parents=True)
+    helper_path.write_text(
+        "def validate_contract(*args, **kwargs): raise AssertionError('not reached')\n"
+        "def validate_owner_decision(*args, **kwargs): raise AssertionError('not reached')\n",
+        encoding="utf-8",
+    )
+    predecessor = tmp_path / "predecessor-r1-ledger.jsonl"
+    predecessor.write_text("synthetic predecessor receipt\n", encoding="utf-8")
+    entry["node_attempt_ledger"]["predecessor"]["path"] = str(predecessor)
+    entry["node_attempt_ledger"]["predecessor"]["sha256"] = hashlib.sha256(predecessor.read_bytes()).hexdigest()
     identity = dict(entry["source_identity"])
     identity["root"] = str(source)
     provenance = controller._vv3d_scope_controller_provenance(controller.VV3D_R2_WORKTREE_ID)

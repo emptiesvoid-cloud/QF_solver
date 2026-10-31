@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "record_id": "WP13-P0-PACKAGE-BUILD-V5-RUN1-20261031",
+  "status": "FAIL_CLOSED",
+  "recorded_at_utc": "2026-10-31T14:35:38Z",
+  "contract_id": "QF-0212-WP13-SELECTED-CANDIDATE-20261031-05",
+  "contract_file": "qualification/0_2_12/wp13_candidate_build_contract_20261031_v5.json",
+  "contract_file_sha256": "805222153dcf4c7da6e8fd95eae3d0a0353510805ea266e24a84d5c75d5f2ca9",
+  "source_sha": "2865587a44f9e461a0b4e4286c912c17e4f04be5",
+  "command": "SOURCE_DATE_EPOCH=1793444684 py -3.13 scripts/verify_public_package.py --root . --contract qualification/0_2_12/wp13_candidate_build_contract_20261031_v5.json --output E:\\QFSolverAgents\\wp13_candidate_build_20261031_v5_run1",
+  "environment": {
+    "python": "3.13.1",
+    "platform": "Windows 10 x86_64",
+    "build": "1.5.0",
+    "setuptools": "82.0.1",
+    "wheel": "0.47.0",
+    "twine": "7.0.0",
+    "source_date_epoch": 1793444684
+  },
+  "failure_class": "contract_tool_binding_identity_mismatch",
+  "observed": "The contract hashes were taken from Windows working-tree bytes; the verifier resolves tool files from the frozen Git source and rejected scripts/audit_public_release.py.",
+  "output_directory": "E:\\QFSolverAgents\\wp13_candidate_build_20261031_v5_run1",
+  "output_directory_created": false,
+  "artifacts_created": [],
+  "structural_solves_executed": 0,
+  "raw_log_path": "E:\\QFSolverAgents\\wp13_candidate_build_20261031_v5_run1.log",
+  "raw_log_sha256": "a19fe998e1f8ae8371c3402d048d2690df6a3c52507710362f67bba11715a993",
+  "disposition": "Preserve this failed contract/run. Superseding contract v6 binds the two tool hashes to source commit Git blobs; do not relabel v5."
+}

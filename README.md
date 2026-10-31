@@ -19,6 +19,10 @@ reproducible studies. An implemented route or a converged example is not
 automatically qualified or physically validated. The project is not certified
 and is not a general-purpose replacement for industrial FEA software.
 
+**Release status:** 0.2.11 remains the latest published release. This branch
+contains an unreleased 0.2.12 candidate; its candidate notes and bounded
+scientific limits are documented in [What's new for 0.2.12](docs/whats-new/0.2.12-preparation.md).
+
 On this page: [Capabilities](#capabilities) · [Modeling](#elements-materials-and-modeling) ·
 [How it works](#how-qf-solver-works) · [Installation](#installation) ·
 [Quick start](#quick-start) · [Analyses](#analysis-families) ·
@@ -63,7 +67,7 @@ before relying on a particular combination.
 | Stability | Linear buckling | Does not establish postbuckling or general nonlinear stability behavior. |
 | Material nonlinearity | Selected small-strain J2 plasticity routes | Bounded material/element evidence; this is not general finite-strain plasticity. |
 | Geometric nonlinearity | Selected Total-Lagrangian and corotational routes | Formulation and element scopes are narrow; corotational J2 assumes small local strains. |
-| Contact and constraints | RBE2-style constraints, frictionless contact, and bounded frictional stick/slip evidence | Contact search, sliding, mesh sensitivity and current-source requalification remain limited. |
+| Contact and constraints | RBE2-style constraints, frictionless contact, and bounded frictional stick/slip evidence | The 0.2.12 candidate records B* small-rotation transfer as an `EXPERIMENTAL_BOUNDED` sub-capability; parent WP-C01 remains `CLOSED_NEGATIVE` with remediation open. Contact search, sliding, mesh sensitivity and current-source requalification remain limited. |
 | Nonlinear solution | Newton methods, line search, adaptive increments, cutback/retry, and selected continuation/arc-length routes | Shared infrastructure does not imply convergence or qualification for arbitrary models. |
 | Larger models | Structured-TET4 workflows and selected PETSc/MPI linear-static cases | Optional dependencies and recorded configurations only; no general HPC or nonlinear distributed claim. |
 | Rotating dynamics | Experimental disk-gyroscopic `rotating_modal` and Campbell analysis in 0.2.11 | Linear BEAM2 shaft with centered rigid axisymmetric disks; serial dense QEP and explicit scope limits. |
@@ -512,14 +516,16 @@ and the controlling evidence record for the chosen analysis.
 
 ## Current release and citation
 
-The current QF Solver release is `0.2.11`, published on 2026-10-07. Cite this
-version with [DOI `10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
+The latest published QF Solver release is `0.2.11`, published on 2026-10-07.
+Cite that version with [DOI `10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
 The preceding 0.2.10 release has version DOI
 [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). Use the
 project concept DOI
 [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897) to cite
-QF Solver across versions. [`CITATION.cff`](CITATION.cff) provides
-machine-readable citation metadata. The preceding release used source tag
+QF Solver across versions. On this unreleased candidate branch,
+[`CITATION.cff`](CITATION.cff) identifies 0.2.12 and intentionally has no
+release date or version DOI; use the DOI above when citing published 0.2.11.
+The preceding release used source tag
 [`v0.2.10`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.10).
 The 0.2.11 selected wheel, sdist and checksum manifest are the audited
 distribution artifacts. GitHub's automatically generated source archives are
