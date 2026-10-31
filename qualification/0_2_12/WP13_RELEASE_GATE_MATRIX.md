@@ -38,12 +38,13 @@ This matrix records observed gates at the baseline and will be updated as eviden
 
 ## Current candidate status — 2026-10-31
 
-The candidate source is `60c202a75d20c6dea1df35aab591bd3832d12c58`, based on
-release baseline `ab137051d920d7fa9aae9a3012a48b2b26e2198b`. Contract v3 was
-superseded after its first artifact build exposed missing selected examples.
-Contract v4 is frozen at `e0d552173f932eaf7a7ef584f1f9026fd84bf336`.
-Candidate v4 artifact builds and installs are pending; this section records
-current verification evidence, not a final release recommendation.
+The frozen candidate source is `60c202a75d20c6dea1df35aab591bd3832d12c58`,
+based on release baseline `ab137051d920d7fa9aae9a3012a48b2b26e2198b`.
+Contract v4 is frozen at `e0d552173f932eaf7a7ef584f1f9026fd84bf336`; its two
+artifact executions used source above and execution HEAD
+`bf6004a9be324798558b537c744ceb73343bc1a7`. The v3 archive failure remains
+preserved. V4 selected-artifact checks are complete; this is not a final release
+recommendation or publication authorization.
 
 | Gate | Current status | Evidence / limitation |
 |---|---|---|
@@ -62,11 +63,20 @@ current verification evidence, not a final release recommendation.
 | Representative solver/FEM smoke tests | **BLOCKED BY EXECUTION POLICY** | No registered WP13 smoke node, exact source/input identity, resource budget or execution manifest is available. No FEM or benchmark ran. |
 | Candidate contract | **PASS — prospective v4** | Contract `QF-0212-WP13-SELECTED-CANDIDATE-20261031-04` binds source `60c202a75d20c6dea1df35aab591bd3832d12c58`, selected paths, tools, MkDocs policy and build settings. Contract commit is `e0d552173f932eaf7a7ef584f1f9026fd84bf336`; v3 and its failed artifact result remain recorded. |
 | Selected package/documentation scan | **PASS — v4 bounded surfaces** | v4 report binds the contract commit above: 585 selected package files and 773 served documents; zero findings on both. v3 also scanned clean before the packaging correction. v2's 16 documentation findings remain preserved and are bounded to internal reports now excluded from the site. Neither scan clears G03. |
-| Wheel/sdist, contents and hashes | **FAIL — v3 build; v4 pending** | v3 built a wheel and sdist, but archive verification found three selected files missing from the sdist and four selected example files absent from wheel data files. Both archive text scans passed; no install followed the content failure. The v4 source adds exact manifest/data-file entries. See the failure record and external run manifest below. |
-| Fresh installation and import/CLI probes | **NOT_RUN — pending v4 artifacts** | The v3 content failure stopped before installation. Contract v4 allows separate non-solving candidate probes after archive verification passes. |
-| Selected-distribution licenses/dependencies | **NOT_RUN for 0.2.12** | License declarations are present; the existing third-party inventory says exact installed versions require review. The 0.2.11 scan does not qualify this candidate. |
+| Wheel/sdist, contents and hashes | **PASS — v4 bounded builds; v3 failure retained** | Both v4 wheel builds are byte-identical (1,689,654 bytes; SHA-256 `8d3e571c…f721b0e`). Raw sdist gzip files differ; normalized sdist outputs match exactly (1,294,041 bytes; SHA-256 `4fba0a1f…f460da1`). Wheel and sdist content scans pass with 585 and 593 files respectively, zero findings; `twine check` passes for both runs. Full hashes and external manifest hashes are in [`WP13_CANDIDATE_ARTIFACT_VERIFICATION_20261031_v4.md`](WP13_CANDIDATE_ARTIFACT_VERIFICATION_20261031_v4.md). |
+| Fresh installation and import/CLI probes | **PASS — Windows Python 3.13.1, bounded** | Separate clean environments installed the exact wheel and sdist with normal dependency resolution. Each verified 501 installed source files and origins outside the checkout; CLI `--version` and `--help` passed. `verify-all` refused as expected because the installed artifact is not a Git checkout; it produced no report or solve. |
+| Selected-artifact license inventory | **PASS — metadata/files inventoried** | Both installed environments expose all 14 package distributions with license metadata and at least one license-like file. Project license files and wheel metadata are present; dependencies are installed separately and are not bundled in the candidate archives. See the artifact verification report. |
+| Third-party legal compatibility for final redistribution | **NOT_RUN — no legal clearance claimed** | This engineering inventory is not a legal compatibility determination. Optional integrations and engineering/documentation tools are not bundled in these archives; final distribution review must follow `THIRD_PARTY_LICENSES.md`. |
 | Whole-repository G03 / archive | **FAIL_PRESERVED** | `AGENTS.md` is not excluded from Git archives and tracked `docs/generated/results/*.json` are present. Neither issue is cleared by selected-distribution checks. |
 | Public site deployment, final tag, main merge and package publication | **BLOCKED — not authorized** | Local docs may be reviewed in the PR; no site synchronization, tag, merge to `main`, GitHub Release, PyPI or Zenodo operation is authorized. |
+
+### V4 installed-artifact non-solving checks
+
+The exact wheel and sdist were each used for `check-mesh` on the TET4, BEAM2
+and MITC4 examples. All six checks passed. These validate input/model and mesh
+checks only; they do not assemble elements or run a structural solve. The
+external report names and SHA-256 digests are recorded in the artifact
+verification report.
 
 ### Bounded public-scope scan records
 
