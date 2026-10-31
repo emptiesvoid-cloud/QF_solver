@@ -630,6 +630,9 @@ def test_each_worktree_has_a_separate_output_namespace(tmp_path: Path) -> None:
     assert MODULE._series_root(tmp_path, "fem_exploratory", "d01") == tmp_path / "worktrees" / "d01"
     assert MODULE._series_root(tmp_path, "fem_exploratory", "c01") == tmp_path / "worktrees" / "c01"
     assert MODULE._series_root(tmp_path, "math_non_fem", "e01") == tmp_path / "worktrees" / "e01"
+    assert MODULE._series_root(
+        tmp_path, "fem_exploratory", MODULE.VV3D_FAMILY_REMAINDER_WORKTREE_ID
+    ) == tmp_path / "worktrees" / MODULE.VV3D_FAMILY_REMAINDER_WORKTREE_ID
     assert MODULE._series_root(tmp_path, "unit", None) == tmp_path / "standard" / "unit"
     with pytest.raises(MODULE.PolicyError, match="unknown worktree"):
         MODULE._series_root(tmp_path, "fem_exploratory", "e02")
@@ -2328,6 +2331,13 @@ def test_preflight_cli_routes_only_explicit_registered_scopes(monkeypatch: pytes
     hex20_target = WP12B_HEX20_DIAGNOSTIC_NODEID
     assert MODULE.main(["preflight", "--worktree", "wp12_hex20_affine_diagnostic", "--target", hex20_target]) == 0
     assert json.loads(capsys.readouterr().out)["worktree"] == "wp12_hex20_affine_diagnostic"
+    family_target = MODULE.VV3D_FAMILY_REMAINDER_NODEIDS[0]
+    assert MODULE.main([
+        "preflight", "--worktree", MODULE.VV3D_FAMILY_REMAINDER_WORKTREE_ID, "--target", family_target,
+    ]) == 0
+    family_result = json.loads(capsys.readouterr().out)
+    assert family_result["worktree"] == MODULE.VV3D_FAMILY_REMAINDER_WORKTREE_ID
+    assert family_result["nodeid"] == family_target
     with pytest.raises(SystemExit) as exc:
         MODULE.main(["preflight", "--worktree", "unknown", "--target", target])
     assert exc.value.code == 2

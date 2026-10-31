@@ -4099,7 +4099,10 @@ def _node_ledger_context(
 
 def _series_root(store: Path, scope_name: str, worktree_id: str | None) -> Path:
     if worktree_id is not None:
-        if worktree_id not in {"d01", "c01", "e01", VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID, *WP12_OWNER_ENVELOPES}:
+        if worktree_id not in {
+            "d01", "c01", "e01", VV3D_WORKTREE_ID, VV3D_R2_WORKTREE_ID,
+            VV3D_FAMILY_REMAINDER_WORKTREE_ID, *WP12_OWNER_ENVELOPES,
+        }:
             raise PolicyError("unknown worktree output namespace")
         return store / "worktrees" / worktree_id
     if scope_name not in STANDARD_SCOPES:
@@ -9568,7 +9571,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "preflight",
         help=(
             "collect one exact D01, rotor, WP12 dynamics, WP12-B HEX20 diagnostic, "
-            "or preparation-only HEX8-SRI node without running its body"
+            "VV3D family-remainder, or preparation-only HEX8-SRI node without running its body"
         ),
     )
     preflight_parser.add_argument(
@@ -9582,6 +9585,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             HEX8SRI_CONVERGENCE24_WORKTREE_ID,
             VV3D_WORKTREE_ID,
             VV3D_R2_WORKTREE_ID,
+            VV3D_FAMILY_REMAINDER_WORKTREE_ID,
             VV3D_TET4_L3_OPTIMIZED_DIAGNOSTIC_WORKTREE_ID,
         ),
         required=True,
