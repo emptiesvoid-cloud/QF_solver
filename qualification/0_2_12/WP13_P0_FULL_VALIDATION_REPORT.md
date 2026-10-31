@@ -95,7 +95,7 @@ The earlier v4 report records 21 exact Windows Python 3.13.1 and four Windows Py
 
 V4 wheel/sdist installs remain historical. The selected standard-test lock changed, so the final candidate was rebuilt and checked under v6; v6 artifacts and fresh installs are detailed in section 7 and the linked artifact report. No v4 artifact is relabelled as v6.
 
-No package-installed static, modal, or dynamic structural solve has run. V4 check-mesh checks do not constitute mechanical solves. The current local-VV runner requires source-checkout imports and has no WP13 installed-package scope. No matching manifest, reservation, or Owner execution decision exists. The solve-smoke gate remains BLOCKED / NOT_RUN pending a compatible, synthetic-tested controller and one consolidated Owner decision covering exact artifacts, cases, oracles, budgets, and attempt limits.
+No package-installed static, modal, or dynamic structural solve has run. V4 check-mesh checks do not constitute mechanical solves. The bounded WP13 installed-package controller and exact manifest are now prepared; the persisted and synthetic preflights passed without FEM or a real reservation. The actual attempt ledger is absent. The solve-smoke gate remains BLOCKED / NOT_RUN pending one consolidated Owner decision bound to the exact controller, manifest, preflight reports and six attempt pairs.
 
 ## 6. Current gate verdicts
 
@@ -109,7 +109,7 @@ No package-installed static, modal, or dynamic structural solve has run. V4 chec
 | Compileall and official quick verification | NOT_RUN in the two failed Ubuntu jobs; Windows result pending. Local compileall passed. |
 | API/CLI/serialization | PASS for named non-FEM exact checks; targeted fixture corrections pass locally; RBE2 integration remains FAIL-preserved. |
 | Wheel/sdist and installed non-solving checks | PASS — v6 two-run candidate builds, normalized sdist, fresh wheel/sdist installs, CLI probes and six check-mesh checks. |
-| Installed-artifact static/modal/dynamic solves | BLOCKED / NOT_RUN. No solve from the selected wheel or sdist has run. The first generic CI run did execute a source-checkout RBE2 integration solve before failing its frozen status assertion; that node is excluded from run 2 and has not been replayed. |
+| Installed-artifact static/modal/dynamic solves | BLOCKED / NOT_RUN — exact Owner approval required. The controller, manifest and no-FEM preflights are prepared; the real attempt ledger is absent and no solve from the selected wheel or sdist has run. The first generic CI run did execute a source-checkout RBE2 integration solve before failing its frozen status assertion; that node is excluded from run 2 and has not been replayed. |
 | Overall WP13 P0 | WP13_P0_PARTIAL_OR_BLOCKED; do not declare WP13_P0_VALIDATED. |
 
 No publication, tag creation, merge to main, site synchronization, package upload, GitHub Release, or Zenodo deposit is authorized or performed.
@@ -194,8 +194,37 @@ were still running at this report revision; no final four-cell verdict is
 claimed.
 
 The package-installed static, modal and dynamic solves remain `BLOCKED /
-NOT_RUN`: no WP13-compatible installed-artifact controller, exact execution
-manifest or reservation is registered, and no Owner decision authorizes a
-solve. The six exact proposed cases, inputs, oracles and budgets remain in
+NOT_RUN` pending Owner approval. The controller, exact manifest and synthetic
+preflight are now prepared; no actual reservation or solve exists. The six
+exact proposed cases, inputs, oracles and budgets remain in
 [`WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md`](WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md).
 Overall status remains `WP13_P0_PARTIAL_OR_BLOCKED`.
+
+## 9. Package-smoke controller and no-FEM preflights
+
+The installed-artifact controller is pinned at SHA-256
+`16df6eba0f902c332cace9e9a5624d1b8b59c3e051bfcc4063782123cc9a7f2f`; its v1
+manifest SHA-256 is
+`dea2c6f6d72bbd7303f23b6cff6b9809be471513dffa639990d13313dee9086b`. The
+selected v6 wheel, raw sdist, dependency-install reports, Windows Python
+3.13.1 environments, six installed inputs, three independent-oracle sources,
+and controlled thread variables passed the persisted no-FEM preflight. The
+preflight report SHA-256 is
+`f2fb9a13986ab3d9ec95d91f645da973657ab02ae4f6ee261cfb5a50511ab610`.
+
+The synthetic fixed-child route passed with stdout marker
+`WP13_SYNTHETIC_NO_FEM_ROUTE_PASS`, exit 0, and no FEM. Its report SHA-256 is
+`2eac9b8eeb1635695f907ea4db977f0b223ac991667d786554d8ca8ed3addf6c`; its
+append-only ledger SHA-256 is
+`5cb540211b529db1fbef1e55a5a303d8cd623e3695a8791cfbdecbd106c2639c`. That
+ledger contains only the synthetic reservation and terminal record. The real
+attempt ledger at
+`E:\QFSolverAgents\evidence\wp13_p0_package_smokes_20261031_run1\attempt_ledger.jsonl`
+does not exist.
+
+One earlier preflight failed closed at controller commit `3202161` with
+`WinError 267` because the runner used the evidence directory as subprocess
+working directory before creating it. It created no files, made no
+reservation, and ran no FEM. The correction, captured output and classification
+are preserved in
+[`WP13_P0_PACKAGE_SMOKE_PREFLIGHT_ATTEMPT_1.md`](WP13_P0_PACKAGE_SMOKE_PREFLIGHT_ATTEMPT_1.md).

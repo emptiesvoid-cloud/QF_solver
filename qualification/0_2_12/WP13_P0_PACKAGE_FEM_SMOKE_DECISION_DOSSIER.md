@@ -17,6 +17,10 @@ smokes. No FEM has run under this dossier.
 | Contract file SHA-256 | `f33a72b182439774828f8e604d6ab234bbf206c697c0f1082d7bc0ef81003db9` |
 | Bounded smoke controller | [`scripts/wp13_package_smoke.py`](../../scripts/wp13_package_smoke.py), SHA-256 `16df6eba0f902c332cace9e9a5624d1b8b59c3e051bfcc4063782123cc9a7f2f` |
 | Exact smoke manifest | [`wp13_p0_package_smoke_manifest_20261031_v1.json`](wp13_p0_package_smoke_manifest_20261031_v1.json), SHA-256 `dea2c6f6d72bbd7303f23b6cff6b9809be471513dffa639990d13313dee9086b` |
+| Persisted no-FEM preflight | `PASS_NO_FEM_PREFLIGHT`; `E:\QFSolverAgents\evidence\wp13_p0_package_smokes_20261031_preflight_run1.json`; SHA-256 `f2fb9a13986ab3d9ec95d91f645da973657ab02ae4f6ee261cfb5a50511ab610` |
+| Synthetic no-FEM route | `PASS_NO_FEM`; `E:\QFSolverAgents\evidence\wp13_p0_package_smokes_20261031_run1\synthetic_preflight\synthetic_preflight_report.json`; SHA-256 `2eac9b8eeb1635695f907ea4db977f0b223ac991667d786554d8ca8ed3addf6c` |
+| Synthetic ledger | SHA-256 `5cb540211b529db1fbef1e55a5a303d8cd623e3695a8791cfbdecbd106c2639c`; exactly one `SYNTHETIC-NO-FEM` reservation and terminal record |
+| Actual FEM attempt ledger | **Absent**; no FEM reservation or solve has occurred |
 | Wheel (run 1 and run 2) | `qf_solver-0.2.12-py3-none-any.whl`, 1,689,662 bytes, SHA-256 `ae5211136a2eab912cdb73222937a84b1cec75f7af0a425f1162b288b39c287a` |
 | Raw sdist (run 1) | `qf_solver-0.2.12.tar.gz`, 1,320,001 bytes, SHA-256 `f4aaafffc184c662808f061e2b234fe4d6623ae07f2a3c18f2d74721185f71e3` |
 | Raw sdist (run 2; selected for the smoke dossier) | `qf_solver-0.2.12.tar.gz`, 1,320,067 bytes, SHA-256 `15c838af12c8401b61c561f5f079debc702e072241e9ee8c17cd5861cbf082e5` |
@@ -106,11 +110,15 @@ environments, inputs and frozen oracle-source hashes, and records execution
 and numerical-oracle verdicts separately. It cannot claim
 `QUALIFICATION_PASS`.
 
-At this report revision, the no-FEM preflight route has not yet been executed
-and no reservation exists. The controller requires an append-only synthetic
-preflight plus an Owner decision bound to the controller, manifest, persisted
-preflight report, synthetic no-FEM report and exact six-pair list. If any
-bound identity changes, execution is refused.
+The first controller preflight failed closed before package probes because
+its evidence working directory did not yet exist; it created no files and
+made no reservation. The failure and captured output are preserved in
+[`WP13_P0_PACKAGE_SMOKE_PREFLIGHT_ATTEMPT_1.md`](WP13_P0_PACKAGE_SMOKE_PREFLIGHT_ATTEMPT_1.md).
+The corrected controller passed both the persisted preflight and the
+append-only synthetic route. No actual FEM ledger or reservation exists.
+Before execution, the controller requires an Owner decision bound to the
+controller, manifest, persisted preflight report, synthetic no-FEM report and
+exact six-pair list. If any bound identity changes, execution is refused.
 
 **Decision requested after the synthetic preflight is recorded:** approve only
 the six one-attempt solves above, in the fixed wheel-then-sdist order, with the
