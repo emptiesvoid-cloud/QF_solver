@@ -1,0 +1,10 @@
+Command:
+python -m pytest -q -p no:cacheprovider tests/unit/test_release_readiness.py::test_release_readiness_composes_current_scanner_and_history_statuses
+
+Result: FAIL (exit 1; 1 failed in 13.27s; local Windows, CPython 3.13.1).
+
+Failure:
+assert statuses["git_history_audit"] == report["history_audit"]["status"]
+E AssertionError: assert 'FAIL' == 'WARNING'
+
+Classification: test assertion defect. release_readiness intentionally maps every history status other than PASS to the blocking check status FAIL. The test incorrectly expected the raw scanner status to be copied verbatim. Corrected expectation: PASS maps to PASS; all other history statuses map to FAIL. No product behavior or acceptance threshold changed.
