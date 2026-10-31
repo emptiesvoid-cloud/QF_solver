@@ -30,6 +30,12 @@ Le rapport tet4/fem-cases-wp12-v1/analysis-20261026-v1/report.md (SHA-256 D06D8E
 
 Pour TET4, les incréments relatifs successifs de la norme du déplacement moyen de face décroissent de 175,3 % à 90,8 % puis 31,7 %; la norme augmente encore entre chaque niveau et le niveau le plus fin reste à 11,75 % du diagnostic de poutre 1D non équivalent. Les contrôles de résidu, de réactions, de moments et d’énergie passent sur ces fixtures, mais aucun ordre asymptotique ni validation 3D n’est établi. TET10 et HEX8 n’ont chacun qu’un point de comparaison à facteur 4. Il s’agit de résultats de développement externes au HEAD intégré, sans conclusion générale par élément.
 
+### Clôture bornée VV3D proposée — 2026-10-31
+
+Le rapport [VV3D bounded closeout v0.2.12](../vv3d_bounded_closeout_0_2_12.md) consolide les douze niveaux avec cinq ledgers distincts et leurs contrats, décisions et empreintes. Seules les lignes `EL-TET4`, `EL-TET10`, `EL-HEX8` et `EL-HEX20` de la matrice CSV référencent cette preuve. Les neuf cas TET10/HEX8/HEX20 sont `CASE_GATE_PASS`; leurs évaluations inter-niveaux sont `CONVERGENCE_PASS` sous le contrat famille exact. TET4-L1/L2 restent les `PASS` de R2; les ordres obtenus à partir des niveaux conservés sont descriptifs, car L3 provient d’un diagnostic séparé.
+
+TET4-L3 demeure `DIAGNOSTIC_COMPLETED` avec contrôles mécaniques `PASS`, mais l’erreur relative d’énergie scalaire `0.0615360686 > 0.05` reste `FAIL`. La précision demandée n’est pas atteinte. Aucun ledger n’est réécrit ou combiné en campagne homogène. La disposition `VV3D_CLOSED_BOUNDED_FOR_0_2_12` est proposée, pas effective avant intégration revue et décision Owner. Elle ne promeut pas d’autres capacités et ne change pas WP12-B, WP12 ou WP13.
+
 ### HEX8-SRI
 
 Les deux diagnostics test_wp12_hex8_sri_near_incompressible_nu04999_nx16 et test_wp12_hex8_sri_near_degenerate_nu0495_nx4 restent PYTEST_FAILED avec leurs portes échouées. La sous-campagne est classée CLOSED_NEGATIVE; cette fermeture ne transforme pas les échecs en succès et ne qualifie pas HEX8-SRI. L’analyse multiprécision montre que la résolution float64 des mêmes coefficients explique une grande part des résidus libres et écarts d’énergie, tandis que les écarts globaux de forces et de moments persistent. La cause complète reste indéterminée; aucun défaut propre au noyau HEX8-SRI n’est démontré. La note de clôture est référencée par son SHA-256 dans la matrice.

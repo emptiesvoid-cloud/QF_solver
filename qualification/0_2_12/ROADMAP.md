@@ -111,6 +111,19 @@ See [WP12_ACCELERATED_VV_REPORT.md](vv_local/wp12_accelerated/WP12_ACCELERATED_V
 
 Ces résultats sont des preuves de développement avec sources ou rapports dédiés, non des exécutions sur le HEAD d’intégration audité cbdd54aadbb640a96c6b6b5b9726e1247da36012. Ils ne sont ni comptés comme des PASS sur le candidat intégré, ni combinés en qualification générale. L’audit statique confirme les chemins de tests de la matrice; il ne remplace pas leur exécution. WP12 reste OPEN et les décisions C01/C02/D01/D02/E01 restent inchangées.
 
+### WP12-B — proposition de clôture bornée VV3D (2026-10-31)
+
+Le rapport [VV3D bounded closeout](vv3d_bounded_closeout_0_2_12.md) documente les douze niveaux des quatre familles et leurs identités dédiées. Les neuf cas TET10/HEX8/HEX20 ont `CASE_GATE_PASS` et leurs critères inter-niveaux passent sous leur contrat. TET4-L1/L2 sont `PASS` dans R2; TET4-L3 est `DIAGNOSTIC_COMPLETED` avec `scientific_state=PASS` pour les contrôles mécaniques, mais conserve `FAIL` sur l’énergie scalaire (`0.0615360686 > 0.05`). Les ordres TET4 sont descriptifs, calculés entre preuves distinctes, sans transfert ni requalification.
+
+| Famille | Ordre déplacement L1→L2 / L2→L3 | Ordre énergie L1→L2 / L2→L3 | Disposition documentaire |
+|---|---:|---:|---|
+| TET4 | 1,397 / 1,754 | 0,752 / 0,922 | Observé; précision d’énergie scalaire non acquise (`FAIL`) |
+| TET10 | 2,886 / 3,031 | 1,757 / 1,901 | `CONVERGENCE_PASS`, limité au contrat VV3D |
+| HEX8 standard | 1,998 / 1,982 | 1,025 / 1,000 | `CONVERGENCE_PASS`, limité au contrat VV3D |
+| HEX20 | 3,069 / 3,018 | 2,347 / 2,068 | `CONVERGENCE_PASS`, limité au contrat VV3D |
+
+Statut proposé uniquement : `VV3D_CLOSED_BOUNDED_FOR_0_2_12`, en attente de revue/intégration et d’approbation Owner explicite. Cette proposition ne rend pas la clôture effective et ne modifie pas les états `WP12-B`, `WP12=OPEN` ou `WP13=OPEN`, ni la qualification générale.
+
 ### WP-E01 disposition and publication boundary
 
 `WP-E01=OPEN_WITH_BOUNDED_CERTIFICATES`. The selected E01 capabilities are integrated into the v0.2.12 candidate, but WP-E01 is **not officially CLOSED** and general qualification is not acquired.
