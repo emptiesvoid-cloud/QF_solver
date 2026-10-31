@@ -1,11 +1,14 @@
 # WP12 — Audit de couverture des 62 capacités
 
 **Révision :** 2026-10-31
-**État :** audit des 62 capacités conservé; WP12-B `WP12B_CLOSED_BOUNDED_FOR_0_2_12`; WP12=OPEN en attente de décision globale
+**État :** audit des 62 capacités conservé; WP12-A et WP12-B bornés selon leurs décisions Owner; WP12=`WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`
 **HEAD historique de l’audit statique (2026-10-26) :** cbdd54aadbb640a96c6b6b5b9726e1247da36012
 **HEAD release examiné pour le closeout documentaire :** ee50684d3c146102b773f604e1625ba8c07348ca; aucune preuve scientifique n’est présentée comme un replay de ce HEAD.
 **HEAD release après la confirmation Owner WP12-B :** 09f0810a39f9712044450c527d7613518d6bcea6 (PR #111, documentation seulement; aucun résultat scientifique exécuté sur ce HEAD).
+**HEAD release revalidé pour la décision globale Owner :** 24885ae7eec606c473328bece5be3310779e55a5 (PR #112; consolidation documentaire seulement; aucun replay scientifique sur ce HEAD).
 **Exécution pour ce closeout :** aucune FEM, aucun solveur ni benchmark. Deux tests synthétiques du contrôleur R2 ont passé dans le worktree `wp12b-vv3d-bounded-closeout-20261031`; ils utilisent des fichiers temporaires et ne constituent pas une exécution scientifique ni une validation complète du parcours CLI R2.
+
+Le 2026-10-31, l’Owner a accepté les dispositions des 17 MUST (11 WP12-A et 6 WP12-B) et a clôturé WP12 dans un périmètre borné. Les dispositions des 39 SHOULD et 6 DEFERRED restent inchangées. Voir la [décision Owner globale](../WP12_GLOBAL_OWNER_BOUNDED_CLOSURE_DECISION_20261031.md) et la [consolidation WP12-F](../vv_local/WP12F_FINAL_VV_CONSOLIDATION_AND_GLOBAL_DECISION.md). La matrice des capacités et ses dispositions ne sont pas modifiées par cette décision documentaire.
 
 Le fichier [WP12_62_CAPABILITY_AUDIT.csv](WP12_62_CAPABILITY_AUDIT.csv) reprend les 62 identifiants de [CAPABILITY_TEST_MATRIX.csv](CAPABILITY_TEST_MATRIX.csv), sans modifier cette matrice de planification. Il ajoute, par capacité, l’état observé sur le HEAD d’intégration, les résultats récents associés à d’autres identités de source, une lecture des oracles, un risque de régression, une priorité proposée et un chantier WP12 responsable.
 

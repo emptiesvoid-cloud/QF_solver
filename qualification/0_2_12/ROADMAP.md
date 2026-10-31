@@ -9,7 +9,7 @@ This file records the current integration decision that supplements the preserve
 ## Latest normative state — 2026-10-31
 
 **Integration branch:** `emptiesvoids-cloud/0.2.12`<br>
-**Release integration HEAD after WP12-B confirmation:** `09f0810a39f9712044450c527d7613518d6bcea6`<br>
+**Release HEAD revalidated for global WP12 closeout:** `24885ae7eec606c473328bece5be3310779e55a5`<br>
 **Frozen scientific candidate used by WP12-S:** commit `00428adf38e9397340ac136f6f503a268eb671da`, tree `df4ec667bf746b042c900fad1f86bf542e1a437b`.
 
 This is the latest operational portfolio state as of 2026-10-31. It supersedes the dated 2026-10-26 state and the 2026-10-25 snapshot below. Campaign execution records remain tied to their own manifests and source identities; the documentation-only integration at `09f0810` is not a scientific execution or replay.
@@ -35,13 +35,13 @@ This is the latest operational portfolio state as of 2026-10-31. It supersedes t
 | WP-D02 | `CLOSED_BOUNDED` — within its recorded scope |
 | WP-E01 | `OPEN_WITH_BOUNDED_CERTIFICATES` — selected capabilities integrated; general qualification not acquired |
 | WP11 | `CLOSED` — approved API/integration gate only |
-| WP12 | `OPEN` — verification, validation, non-regression, and performance |
+| WP12 | `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA` — Owner-approved bounded disposition; not general qualification |
 | WP12-B (sous-chantier) | `WP12B_CLOSED_BOUNDED_FOR_0_2_12` — clôture bornée confirmée par l’Owner le 2026-10-31, PR #111 / `09f0810` ; ce n’est pas un WP distinct. |
 | WP13 | `OPEN` — packaging and publication |
 
-Portfolio total: **19 work packages; 14 positive closures, 1 historical negative closure, and 4 open or inconclusive packages** (WP-D01, WP-E01, WP12, WP13). This is an administrative count, not a measure of scientific coverage, qualification, or release readiness. WP-C01's remediation remains part of that existing work package and is not an additional open package.
+Portfolio total: **19 work packages; 15 positive closures, 1 historical negative closure, and 3 open or inconclusive packages** (WP-D01, WP-E01, WP13). This is an administrative count, not a measure of scientific coverage, qualification, or release readiness. WP-C01's remediation remains part of that existing work package and is not an additional open package.
 
-WP11 remains closed only for its accepted API, integration, traceability, result-contract, serialization, compatibility, and refusal scope. WP12 remains the scientific V&V and performance gate; WP13 remains the packaging/publication gate. No status below promotes maturity or grants publication approval. The [WP12 master plan](vv_master_plan/README.md) records these governance boundaries.
+WP11 remains closed only for its accepted API, integration, traceability, result-contract, serialization, compatibility, and refusal scope. WP12 is now closed only for its Owner-approved bounded V&V disposition; WP13 remains the packaging/publication gate. No status below promotes maturity or grants publication approval. The [WP12 master plan](vv_master_plan/README.md) records these governance boundaries.
 
 ### WP12 progress — 2026-10-26
 
@@ -123,7 +123,7 @@ Le rapport [VV3D bounded closeout](vv3d_bounded_closeout_0_2_12.md) documente le
 | HEX8 standard | 1,998 / 1,982 | 1,025 / 1,000 | `CONVERGENCE_PASS`, limité au contrat VV3D |
 | HEX20 | 3,069 / 3,018 | 2,347 / 2,068 | `CONVERGENCE_PASS`, limité au contrat VV3D |
 
-L’Owner a explicitement approuvé `VV3D_CLOSED_BOUNDED_FOR_0_2_12` le 2026-10-31. Le statut est intégré par la PR #110 au HEAD release `ee50684`, pour le sous-dossier VV3D seulement. Il ne modifie pas `WP12-B`, `WP12=OPEN` ou `WP13=OPEN`, ni la qualification générale.
+Au stade de l’intégration de la PR #110, l’Owner avait explicitement approuvé `VV3D_CLOSED_BOUNDED_FOR_0_2_12` le 2026-10-31. Le statut était limité au sous-dossier VV3D et ne modifiait alors ni WP12-B ni les statuts globaux, encore ouverts à cette date. La décision globale ultérieure est enregistrée dans la section WP12-F ci-dessous.
 
 ### WP12-B — clôture bornée confirmée et passage à WP12-F (2026-10-31)
 
@@ -131,11 +131,11 @@ L’Owner a confirmé `WP12B_CLOSED_BOUNDED_FOR_0_2_12` le 2026-10-31 après rev
 
 Le [dossier de clôture WP12-B](wp12b_bounded_closeout_0_2_12.md) préserve les statuts PASS/FAIL VV3D, les résultats bornés R4 des chargements TET10 et BEAM2, les échecs historiques HEX8-SRI et le statut post-correction `NOT_ACQUIRED`, l’échec R4 des charges QUAD8 HEX20 et le statut `NOT_ACQUIRED` après correction, ainsi que les limites exactes des certificats MITC/WEDGE et autres certificats historiques. Aucun verdict scientifique n’est promu par cette clôture documentaire.
 
-WP12-B reste limité au périmètre accepté ; WP12 et WP13 restent `OPEN`. Cette clôture ne vaut ni autorisation de publication ni qualification scientifique générale.
+Au stade de la PR #111, WP12-B était limité au périmètre accepté et WP12 ainsi que WP13 restaient `OPEN`. Cette décision n’autorisait ni publication ni qualification scientifique générale. La décision globale Owner ultérieure est enregistrée dans la section WP12-F ci-dessous.
 
-### WP12-F — consolidation finale et décision globale à préparer
+### WP12-F — consolidation finale et décision globale Owner (2026-10-31)
 
-Le rapport [WP12-F — consolidation finale V&V et projet de décision globale](vv_local/WP12F_FINAL_VV_CONSOLIDATION_AND_GLOBAL_DECISION.md) rassemble les décisions bornées WP12-A/WP12-B, le registre des 62 capacités et les statuts négatifs, inconclusifs, expérimentaux ou différés déjà documentés. Il ne clôt pas WP12 : la décision globale reste à l’Owner. Aucun nouveau FEM ou campagne n’est lancé par cette consolidation. WP13 reste `OPEN`.
+L’Owner a approuvé `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`. La [décision globale archivée](WP12_GLOBAL_OWNER_BOUNDED_CLOSURE_DECISION_20261031.md) et le [rapport WP12-F](vv_local/WP12F_FINAL_VV_CONSOLIDATION_AND_GLOBAL_DECISION.md) conservent les 17 dispositions MUST, les 39 SHOULD, les 6 DEFERRED et les limites des preuves existantes. Cette clôture bornée ne vaut pas qualification générale et n’autorise pas la publication. Aucun nouveau FEM ou benchmark n’est lancé. WP13 reste `OPEN`.
 
 ### WP-E01 disposition and publication boundary
 
@@ -150,7 +150,7 @@ The [WP-E01 integration report](wp_e01_bc_integration_report.md) and [global sci
 
 ### Publication and status interpretation
 
-`WP11=CLOSED` is limited to its operational API/integration scope. `WP12=OPEN` and `WP13=OPEN`. `WP-C01=CLOSED_NEGATIVE` with remediation open; `WP-C02=CLOSED_BOUNDED` only for AR/N03; `WP-D01=INCONCLUSIVE`; `WP-D02=CLOSED_BOUNDED`; and `WP-E01=OPEN_WITH_BOUNDED_CERTIFICATES`. Administrative closure, implementation maturity, scientific evidence, and publication authorization are distinct. This update does not authorize further WP12 execution, close WP12/WP13, promote maturity, or publish v0.2.12.
+`WP11=CLOSED` is limited to its operational API/integration scope. `WP12=WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA` under the archived Owner decision; `WP13=OPEN`. `WP-C01=CLOSED_NEGATIVE` with remediation open; `WP-C02=CLOSED_BOUNDED` only for AR/N03; `WP-D01=INCONCLUSIVE`; `WP-D02=CLOSED_BOUNDED`; and `WP-E01=OPEN_WITH_BOUNDED_CERTIFICATES`. Administrative closure, implementation maturity, scientific evidence, and publication authorization are distinct. This bounded closure does not authorize further WP12 execution, close WP13, promote maturity, or publish v0.2.12.
 
 ## Historical snapshot — normative portfolio state as of 2026-10-25 (superseded)
 

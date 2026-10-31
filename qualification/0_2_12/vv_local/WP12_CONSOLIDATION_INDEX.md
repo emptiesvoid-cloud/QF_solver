@@ -51,4 +51,10 @@ La [roadmap v0.2.12](../ROADMAP.md) conserve la synthèse de portefeuille déjà
 
 L’Owner a confirmé `WP12B_CLOSED_BOUNDED_FOR_0_2_12` après intégration de la PR #111 au commit `09f0810a39f9712044450c527d7613518d6bcea6`. La décision est conservée dans [l’archive Owner WP12-B](../WP12B_OWNER_BOUNDED_CLOSURE_DECISION_20261031.md). Les six dispositions MUST sont acceptées dans leurs périmètres documentés ; les preuves, échecs et ledgers historiques restent inchangés.
 
-La consolidation et la préparation de la décision globale sont dans [WP12-F](WP12F_FINAL_VV_CONSOLIDATION_AND_GLOBAL_DECISION.md). Le statut global demeure `WP12=OPEN` jusqu’à une décision Owner distincte ; WP13 reste `OPEN`. Cette mise à jour n’autorise aucune campagne scientifique.
+La consolidation et la préparation de la décision globale sont dans [WP12-F](WP12F_FINAL_VV_CONSOLIDATION_AND_GLOBAL_DECISION.md). Au moment de cette mise à jour du 2026-10-31, le statut global demeurait `WP12=OPEN` jusqu’à une décision Owner distincte ; WP13 restait `OPEN`. Cette mise à jour n’autorisait aucune campagne scientifique.
+
+## Mise à jour normative — WP12 global clôturé et transmission WP13 (2026-10-31)
+
+L’Owner a approuvé `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`, avec 17 dispositions MUST acceptées (11 WP12-A, 6 WP12-B), 39 SHOULD et 6 DEFERRED conservés. La décision est archivée dans [l’enregistrement Owner global](../WP12_GLOBAL_OWNER_BOUNDED_CLOSURE_DECISION_20261031.md). Le rapport [WP12-F](WP12F_FINAL_VV_CONSOLIDATION_AND_GLOBAL_DECISION.md) a été actualisé; WP13 reste `OPEN`.
+
+L’audit de branches et de PR est consigné dans [WP12_CLOSED_AND_RELEASE_BRANCH_READY_FOR_WP13](WP12_CLOSED_AND_RELEASE_BRANCH_READY_FOR_WP13.md), avec l’inventaire des références. Aucune preuve scientifique ni aucun ledger n’a été modifié. Aucun FEM, benchmark, tag ou publication n’est autorisé par cette mise à jour.
