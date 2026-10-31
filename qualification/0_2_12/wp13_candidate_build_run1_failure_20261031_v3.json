@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0212-WP13-CANDIDATE-BUILD-FAILURE",
+  "status": "FAIL_CLOSED_CANDIDATE_BUILD",
+  "contract_id": "QF-0212-WP13-SELECTED-CANDIDATE-20261031-03",
+  "contract_sha256": "17aa69b9e3e6f9e9f73ba08b2f522993fb4cac2814f59237f6f713ce72e9bb48",
+  "source_sha": "c4d4fa0a60370df4f023ac8702c5774710d16e60",
+  "execution_sha": "24a6a34aed8619ab15714d6bfec1d2cc982491ce",
+  "runtime": {
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "C:\\Python313\\python.exe",
+    "build": "1.5.0",
+    "setuptools": "82.0.1",
+    "wheel": "0.47.0"
+  },
+  "archive_build_command_exit_code": 0,
+  "archive_build_wall_seconds": 27.07818920002319,
+  "archive_content_check": "FAIL",
+  "source_scan": {
+    "wheel_status": "PASS",
+    "wheel_scanned_files": 581,
+    "sdist_status": "PASS",
+    "sdist_scanned_files": 590,
+    "finding_count": 0
+  },
+  "missing_from_sdist": [
+    "examples/contact/frictional_bstar_small_rotation/README.md",
+    "examples/contact/frictional_bstar_small_rotation/run_example.py",
+    "examples/wp_d02_dynamic_stress.py"
+  ],
+  "missing_from_wheel_data_files": [
+    "examples/contact/frictional_bstar_small_rotation/README.md",
+    "examples/contact/frictional_bstar_small_rotation/model_r14_bstar_slip.json",
+    "examples/contact/frictional_bstar_small_rotation/run_example.py",
+    "examples/wp_d02_dynamic_stress.py"
+  ],
+  "built_artifacts": [
+    {
+      "filename": "qf_solver-0.2.12-py3-none-any.whl",
+      "bytes": 1683876,
+      "sha256": "51c31322e701e71985467a3e77bc87093189efb63d4aebf2e78675f19f706d96"
+    },
+    {
+      "filename": "qf_solver-0.2.12.tar.gz",
+      "bytes": 1316598,
+      "sha256": "bdd8f724af84c3988471a5d11dd4a6ef3f9b5484fd1714ffc22ffed98a274193"
+    }
+  ],
+  "external_output": {
+    "directory_name": "wp13_candidate_build_20261031_run1",
+    "manifest_sha256": "10a7cda3222359b26bba4643c016ffcbe053704ef800c0c8c8f1609a8f810212",
+    "runner_manifest": {
+      "files": [
+        {
+          "path": "commands.json",
+          "bytes": 907,
+          "sha256": "fb511c9eb3198f6a1504dcec8344c36c44ebeccd0be4da1a822cb00bdfa55bec"
+        },
+        {
+          "path": "result.json",
+          "bytes": 1418,
+          "sha256": "e85340544034da3244945cd1dafed5e72b66f8d3fd7b5750a12f783cb7f84ad9"
+        },
+        {
+          "path": "source_mapping.json",
+          "bytes": 144768,
+          "sha256": "954d486a412c731f74832f7f7bf264675008117def1c177a3c585a803395d82f"
+        },
+        {
+          "path": "logs/01.stderr.log",
+          "bytes": 893,
+          "sha256": "770801fdf83f604c64511d1cc11da5454690d645415cbfeeeec539e0a12675d3"
+        },
+        {
+          "path": "logs/01.stdout.log",
+          "bytes": 197115,
+          "sha256": "7dd2f2e1e9ee24e831289f4aeae302e551d4a748a64ad545ab871db700e0225e"
+        },
+        {
+          "path": "dist/qf_solver-0.2.12-py3-none-any.whl",
+          "bytes": 1683876,
+          "sha256": "51c31322e701e71985467a3e77bc87093189efb63d4aebf2e78675f19f706d96"
+        },
+        {
+          "path": "dist/qf_solver-0.2.12.tar.gz",
+          "bytes": 1316598,
+          "sha256": "bdd8f724af84c3988471a5d11dd4a6ef3f9b5484fd1714ffc22ffed98a274193"
+        }
+      ],
+      "includes_build_install_logs": true,
+      "generated_worktrees_and_venv_are_not_evidence_inputs": true
+    }
+  },
+  "installation_or_probe_attempted": false,
+  "publication_or_tag_created": false,
+  "structural_solves_or_benchmarks_run": false,
+  "scientific_evidence_or_ledger_changed": false,
+  "superseded_by_source_sha": "60c202a75d20c6dea1df35aab591bd3832d12c58",
+  "disposition": "Packaging-only inclusion rules and metadata regression expectations were corrected; the failed v3 outputs remain preserved externally."
+}
