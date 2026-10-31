@@ -8,6 +8,15 @@ route remains opt-in and legacy remains the default. Its example requires an
 explicit `--run` to launch a calculation. This preparation entry is not a
 release announcement; finite sliding, a global consistent slip tangent,
 general spatial convergence, and production qualification remain unacquired.
+The parent WP-C01 disposition remains `CLOSED_NEGATIVE` with remediation open;
+the sub-capability record does not change that disposition. WP12 is now
+`WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA` for its 17 MUST dispositions, with 39
+SHOULD and 6 DEFERRED retained. This bounded closure is not general solver
+qualification or a replay on the release HEAD. It preserves the TET4-L3 energy
+FAIL (`0.0615360686 > 0.05`) without `CONVERGENCE_PASS`, two historical
+HEX8-SRI FAILs with post-correction global validation not acquired, and the
+HEX20 QUAD8 R4 FAIL with post-correction FEM validation not acquired. See the
+release-specific inventory and the WP12 closeout report for the full limits.
 
 ## 0.2.11 - Released
 

@@ -17,6 +17,8 @@ frictional contact is recorded as `EXPERIMENTAL_BOUNDED` in a dedicated C01
 record. This does not update the published 0.2.11 capability matrix or certify
 the route. See the [scoped contract](../contact_small_rotation_work_conjugate_transfer.md)
 and [example](../../examples/contact/frictional_bstar_small_rotation/README.md).
+The parent WP-C01 disposition remains `CLOSED_NEGATIVE` with remediation open;
+this sub-capability does not change that status.
 
 The capability rows describe the cumulative QF Solver 0.2.11 surface without
 changing previous maturity decisions. New experimental routes have separate

@@ -352,7 +352,7 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
             )
         )
 
-        exact_pressure = np.asarray([aj._lambda_exact(float(xyz[node, 0]), FRONT_X_M) for node in bottom])
+        _ = np.asarray([aj._lambda_exact(float(xyz[node, 0]), FRONT_X_M) for node in bottom])
         pressure_error_sq = 0.0
         exact_pressure_sq = 0.0
         for triangle in bottom_triangles:

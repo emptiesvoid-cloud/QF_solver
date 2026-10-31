@@ -1,0 +1,104 @@
+# WP13 release candidate — gate matrix
+
+**Project:** QF Solver v0.2.12 alpha  
+**Release branch:** `emptiesvoids-cloud/0.2.12`  
+**Baseline candidate:** `ab137051d920d7fa9aae9a3012a48b2b26e2198b`  
+**Baseline worktree:** clean managed worktree; host path omitted.  
+**Baseline branch:** `codex/wp13-release-engineering-20261031`, tracking the release branch at the baseline SHA. The worktree is clean.  
+**Owner scope:** WP13 engineering, candidate build and verification only; no final tag, main merge, package publication, GitHub Release, Zenodo deposit or public site synchronization.
+
+This matrix records observed gates at the baseline and will be updated as evidence is acquired. A configured workflow is not a result. `PASS`, `FAIL`, `BLOCKED` and `NOT_RUN` are kept distinct. The initial review identified the latest published version as 0.2.11 and the current repository contents as a 0.2.12 development candidate.
+
+## Initial gates at `ab137051d920d7fa9aae9a3012a48b2b26e2198b`
+
+| Gate | Initial state | Acceptance criterion | Verification method | Owner / responsible | Baseline evidence |
+|---|---|---|---|---|---|
+| Candidate source identity | **PASS** | Clean integration worktree exactly at refreshed `origin/emptiesvoids-cloud/0.2.12`; no unreviewed baseline edits. | Compare `HEAD`, release ref, remote `ls-remote`, `git status`. | Root integrator | Candidate SHA `ab137051d920d7fa9aae9a3012a48b2b26e2198b`; clean worktree. |
+| WP12/WP13 governance boundary | **PASS** | WP12 bounded closure remains authoritative; WP13 OPEN; no publication permission inferred. | Read integrated closeout and Owner directive. | Root integrator | `qualification/0_2_12/vv_local/WP12_CLOSED_AND_RELEASE_BRANCH_READY_FOR_WP13.md`; `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`. |
+| Version metadata targets 0.2.12 | **FAIL** | All candidate package, source, citation, README, changelog and release-note metadata identify 0.2.12 while remaining prepublication. | Cross-file metadata comparison after minimal updates; no fabricated DOI/date. | Root integrator + documentation worker | `pyproject.toml` and `src/solveur/version.py` say 0.2.11; `CITATION.cff` and README identify published 0.2.11. |
+| Existing package/build rules understood | **NOT_RUN** | Candidate follows package discovery, data-file, manifest, license and selected-surface policy. | Static audit, then artifact-content checks on frozen candidate. | Packaging worker + root integrator | `pyproject.toml`, `MANIFEST.in`, `PUBLIC_RELEASE_POLICY.md`; details pending audit. |
+| Public API, result DTO and serialization runtime | **NOT_RUN** | Required WP07 round-trip, metadata consistency, public/compatibility API and refusal contracts pass their exact targeted tests. | Targeted unit tests by exact function nodeid, then proportionate non-FEM integration tests; no broad suite. | API/runtime worker + root integrator | Static review found no confirmed defect. `solve --analysis` override choices omit three routes accepted through JSON model settings; whether that violates a public promise remains unestablished. No test is claimed at baseline. |
+| CLI, load/save and supported-route regressions | **NOT_RUN** | CLI/help, invalid-input refusals, model-load/result-save and supported-route tests pass without launching an unapproved solver calculation. | Exact-nodeid tests and non-solving CLI probes; any solve-backed smoke test requires separate execution identity/budget/manifest. | API/runtime worker + root integrator | No run at baseline. |
+| CI/lint/type/coverage gates | **NOT_RUN** | Required release checks pass on the candidate for declared Python/OS coverage; thresholds unchanged. | Run safe target checks; inspect GitHub checks and workflow target filters. Never treat untriggered workflows as PASS. | CI worker + root integrator | `quality.yml`/`docs-tests.yml` do not target this release branch; workflow definitions alone are not PASS. |
+| Candidate versioned distribution contract | **BLOCKED** | New prospective frozen contract binds exact post-fix source SHA, selection, tools, exclusions and build/install probes before staging/building. | Review existing contract schema/runner, create and commit candidate-bound contract after source freeze. | Root integrator + packaging worker | Only the 0.2.11 contract is present; it cannot authorize a 0.2.12 candidate. |
+| Wheel/sdist, contents and hashes | **BLOCKED** | Two reproducible candidate builds meet the bound selection; archives contain only declared files; checksum manifest and `twine check` pass. | Existing public-package verification workflow from the frozen contract into a new external output directory. | Root integrator + packaging worker | Not built; wait for candidate contract. |
+| Fresh installation and import/CLI probes | **BLOCKED** | Wheel and sdist installs use separate clean environments; imports, data, dependencies and CLI probes resolve from installed artifacts outside the checkout. | Contract-bound offline install and non-solving smoke probes. | Root integrator + packaging worker | Not run; wait for frozen candidate artifacts. |
+| Selected distribution privacy/licensing | **NOT_RUN** | Selected wheel/sdist and served documentation have no prohibited content, undeclared payloads or unresolved license issues. | Existing strict selected-source and artifact scans plus manual license/content review. | Distribution/privacy worker + root integrator | Prior 0.2.11 scan is not evidence for this SHA. |
+| Whole-repository archive clearance (G03) | **FAIL — PRESERVE** | Only a separate future Owner-approved whole-repository review could change this status. | Preserve existing G03 finding; do not infer clearance from selected wheel/sdist checks. | Owner / root integrator | `PUBLIC_RELEASE_POLICY.md` and prior selected-distribution contract record `G03=FAIL_PRESERVED`; whole repository archive not cleared. |
+| Public documentation and maturity claims | **NOT_RUN** | Version, APIs, support matrix, limitations and WP12 FAIL/INCONCLUSIVE/NOT_ACQUIRED boundaries agree; no publication announcement. | Static claim matrix and changed-document review after runtime/package stabilization. | Documentation worker + root integrator | README and docs currently identify 0.2.11; public claims audit pending. |
+| Public site synchronization | **BLOCKED** | Separate Owner approval for final site synchronization. | Review local site sources and public site read-only; do not deploy. | Documentation worker + Owner | Not synchronized; publication decision remains separate. |
+| Tag, `main`, PyPI, GitHub Release, Zenodo | **BLOCKED** | Explicit final Owner authorization after all gates and candidate report. | No action in this mandate. | Owner | Explicitly not authorized in WP13 directive. |
+
+## Runtime and scientific restrictions
+
+- WP12 evidence, thresholds, manifests and ledgers remain immutable. The bounded WP12 decision preserves TET4-L3 energy FAIL, two HEX8-SRI FAILs, HEX20 R4 FAIL and all `NOT_ACQUIRED`/`INCONCLUSIVE` states.
+- No historical scientific campaign or benchmark may be launched to satisfy release engineering.
+- A test that invokes a solver/FEM model is not assumed to be an ordinary unit test. Before any such smoke test, bind source/input identities, numeric/time/resource limits and an execution manifest, and obtain the separate Owner execution authorization required by the repository policy.
+- `SELECTED_DISTRIBUTION_CLEARANCE` and `WHOLE_REPOSITORY_ARCHIVE_CLEARANCE` remain separate; G03 must remain failed unless its own gate is independently satisfied and authorized.
+
+## Current candidate status — 2026-10-31
+
+The source changes are in the dedicated integration worktree based on
+`ab137051d920d7fa9aae9a3012a48b2b26e2198b`. A final candidate source commit
+and contract-bound package run are still pending; this section records current
+verification evidence, not a final release recommendation.
+
+| Gate | Current status | Evidence / limitation |
+|---|---|---|
+| Version metadata and public release wording | **PASS — source review** | `pyproject.toml`, `src/solveur/version.py` and `CITATION.cff` identify 0.2.12. The CFF has no `date-released` or version DOI; the concept DOI is retained. README/docs continue to identify 0.2.11 as the latest published release. |
+| WP12 closeout claims | **PASS — bounded wording** | Roadmap and closeout remain authoritative at `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`; documentation preserves the TET4-L3 energy FAIL, two HEX8-SRI FAILs, HEX20 QUAD8 R4 FAIL and non-acquired states. WP12 evidence/ledgers are unchanged. |
+| Targeted API/serialization/CLI tests | **PASS — 21 executions on Windows Python 3.13.1; 4 additional executions on Windows Python 3.12** | Every invocation used one exact test node. Coverage includes JSON refusal, model/result round-trip, public/compatibility APIs, CLI version, citation/release wording and retained rotor limits. No solver/FEM test ran. Exact nodes are listed in the PR evidence. |
+| Representative model loading/mesh-check smoke | **PASS — non-solving only** | `check-mesh` returned `MESH STATUS: PASS` for `examples/tet4_static.json`, `examples/beam2_cantilever.json` and `examples/mitc4_shell_static.json` on Windows Python 3.12 and 3.13. This exercises parsing and mesh/model checks, not element assembly or a structural solve. |
+| Ruff | **PASS** | `python -m ruff check src/qf_solver src/solveur tests scripts`. Two prior unused-local findings were corrected while preserving their expressions' evaluation; no oracle, threshold or ledger changed. |
+| Mypy | **PASS** | CI's four-file progressive typing command; no issues. |
+| Python compilation | **PASS** | CI's `compileall -q src scripts tests qf_solver.py main_solveur.py mitc4_solver.py`. |
+| MkDocs | **PASS** | `python -m mkdocs build --strict -f .github/pages/mkdocs.yml` returned 0. The site was built locally only; no deployment occurred. |
+| Standard full test suite and coverage thresholds | **NOT_RUN** | CI targets `main`, not this release branch. Repository policy requires one exact unit/integration nodeid per invocation, so the directory-wide suite and 80%/90% coverage gates were not substituted with targeted passes. |
+| Linux and Python 3.10/3.11/3.13 matrix | **NOT_RUN** | Available local runtimes are Windows Python 3.12/3.13. WSL has Python 3.14 without a prepared dependency environment; Docker Engine is unavailable. No official Linux/3.10/3.11 matrix result is claimed. |
+| Representative solver/FEM smoke tests | **BLOCKED BY EXECUTION POLICY** | No registered WP13 smoke node, exact source/input identity, resource budget or execution manifest is available. No FEM or benchmark ran. |
+| Candidate contract, selected source/docs scan, wheel/sdist and installs | **BLOCKED — pending source freeze** | Candidate source-bound contract must be committed prospectively after the product-source commit. No package has been built or installed at this stage. |
+| Selected-distribution licenses/dependencies | **NOT_RUN for 0.2.12** | License declarations are present; the existing third-party inventory says exact installed versions require review. The 0.2.11 scan does not qualify this candidate. |
+| Whole-repository G03 / archive | **FAIL_PRESERVED** | `AGENTS.md` is not excluded from Git archives and tracked `docs/generated/results/*.json` are present. Neither issue is cleared by selected-distribution checks. |
+| Public site deployment, final tag, main merge and package publication | **BLOCKED — not authorized** | Local docs may be reviewed in the PR; no site synchronization, tag, merge to `main`, GitHub Release, PyPI or Zenodo operation is authorized. |
+
+## API observation
+
+Static review and targeted tests found no confirmed public API or serialization
+defect. The CLI `solve --analysis` override exposes fewer choices than routes
+accepted from JSON model settings (`geometric_nonlinear_static`,
+`rotating_modal`, `campbell`). Documentation does not promise all JSON routes
+as CLI overrides, so this remains an observed limitation, not a release defect.
+
+### Exact targeted test nodes that passed
+
+Windows Python 3.13.1:
+
+- `tests/unit/test_json_io.py::test_json_reader_rejects_unknown_fields_and_bad_analysis_method`
+- `tests/unit/test_json_io.py::test_json_reader_rejects_bad_schema_metadata_and_missing_dynamic_parameters`
+- `tests/unit/test_large_solver_and_serialization_edges.py::test_model_writer_rbe_and_round_trip_keep_controlled_fields`
+- `tests/unit/test_result_serialization_contracts.py::test_versioned_experimental_result_dtos_round_trip_without_solver_execution`
+- `tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata`
+- `tests/unit/test_public_api_contract.py::test_public_facade_matches_documented_export_inventory`
+- `tests/unit/test_public_api_contract.py::test_02x_compatibility_imports_remain_available`
+- `tests/unit/test_save_result_cli_overwrite.py::test_all_json_result_cli_commands_expose_overwrite`
+- `tests/unit/test_git_history_audit.py::test_history_path_filter_covers_generated_and_private_markers`
+- `tests/integration/test_packaging.py::test_pyproject_declares_installable_solver_package`
+- `tests/integration/test_packaging.py::test_solver_cli_version_runs`
+- `tests/integration/test_packaging.py::test_portable_and_legacy_launchers_expose_qf_solver_identity`
+- `tests/integration/test_packaging.py::test_mitc4_cli_version_runs`
+- `tests/documentation/test_docs_generation.py::test_public_release_status_copy_distinguishes_release_and_tagged_source`
+- `tests/documentation/test_docs_generation.py::test_current_public_surfaces_use_consistent_version_without_promotion[index.md]`
+- `tests/documentation/test_docs_generation.py::test_current_public_surfaces_use_consistent_version_without_promotion[verification/evidence-and-maturity.md]`
+- `tests/documentation/test_docs_generation.py::test_current_public_surfaces_use_consistent_version_without_promotion[capabilities/index.md]`
+- `tests/integration/test_public_qf_solver_api.py::test_public_facade_exports_documented_workflow`
+- `tests/integration/test_public_qf_solver_api.py::test_public_facade_exports_documented_types`
+- `tests/integration/test_public_qf_solver_api.py::test_source_launcher_is_also_an_import_compatible_facade`
+- `tests/documentation/test_docs_generation.py::test_rotating_public_evidence_retains_limits[verification/evidence-and-maturity.md]`
+
+Windows Python 3.12 (four additional executions):
+
+- `tests/unit/test_result_serialization_contracts.py::test_versioned_experimental_result_dtos_round_trip_without_solver_execution`
+- `tests/unit/test_public_api_contract.py::test_public_facade_matches_documented_export_inventory`
+- `tests/integration/test_packaging.py::test_solver_cli_version_runs`
+- `tests/documentation/test_docs_generation.py::test_public_release_status_copy_distinguishes_release_and_tagged_source`
+

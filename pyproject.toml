@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qf-solver"
-version = "0.2.11"
+version = "0.2.12"
 description = "Python FEM/FEA solver for structural mechanics and dynamics with inspectable formulations, bounded nonlinear routes, and reproducible verification evidence."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -38,7 +38,7 @@ Issues = "https://github.com/emptiesvoid-cloud/QF_solver/issues"
 Documentation = "https://emptiesvoid-cloud.github.io/QF_solver/"
 DOI = "https://doi.org/10.5281/zenodo.22697897"
 Changelog = "https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHANGELOG.md"
-"Release Notes" = "https://github.com/emptiesvoid-cloud/QF_solver/blob/main/docs/whats-new/0.2.11.md"
+"Release Notes" = "https://github.com/emptiesvoid-cloud/QF_solver/blob/emptiesvoids-cloud/0.2.12/docs/whats-new/0.2.12-preparation.md"
 
 [project.optional-dependencies]
 hdf5 = [
