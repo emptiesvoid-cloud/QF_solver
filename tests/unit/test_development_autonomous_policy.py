@@ -121,7 +121,7 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
         r"\scripts\development_autonomous.py"
     )
     family_remainder_path = (
-        r"E:\QFSolverAgents\controllers\wp12-vv3d-family-remainder-controller-0148a963\qf_solver"
+        r"E:\QFSolverAgents\controllers\wp12-vv3d-family-remainder-controller-50659ce7\qf_solver"
         r"\scripts\development_autonomous.py"
     )
     declarations = []
@@ -188,10 +188,10 @@ def test_release_controller_designation_is_unambiguous_and_pinned() -> None:
     assert_pin(optimized_diagnostic, "HEAD", "98819a45ae5d525a670ad345a01c670721a2e67d")
     assert_pin(optimized_diagnostic, "tree", "03df7312767502014215a70e8877d9d2fa8079e3")
     assert_pin(optimized_diagnostic, "diagnostic fingerprint", "306903e538a0eb98c1805f6c443bd0c408ea836dd8b7e0cd508f09cddadcbbe8")
-    assert_pin(family_remainder, "HEAD", "0148a963500ad2fd57194fcdc7951fcca2aa627c")
-    assert_pin(family_remainder, "tree", "60b677a8e9d4c6e359eced091b8c8d2e6143f94f")
-    assert_pin(family_remainder, "generic controller fingerprint", "01d28fc815bac533068f144491df9f79c287f52937fc64482ea140079827a2d7")
-    assert_pin(family_remainder, "family-remainder scope fingerprint", "64a356ad98c6e817826f82f03e871beed01b194233f93aa780f1f82d4f03de3b")
+    assert_pin(family_remainder, "HEAD", "50659ce7417e21e2b0d44ab906deb68e091fddf0")
+    assert_pin(family_remainder, "tree", "9f96ab5fb7c622eb86914f15919ca69879b2b3a3")
+    assert_pin(family_remainder, "generic controller fingerprint", "807385f3a7a55195c067f855ed7d487d7d7c81f8beb0e0835458c86bbc74564a")
+    assert_pin(family_remainder, "family-remainder scope fingerprint", "edf1ef48fdee1465b7889e6e894f56d440e9ba2863f4d6d3d39ed4cca4997e62")
     assert "`fdc76b49a21b9562dda517cecef7bf17c0a7a327f6fc1f1c6cfc7e9433c347bb`" in family_remainder
     assert "Controller selection is resolved only by this canonical release-branch `AGENTS.md` entry." in agents_text
     assert "do not recursively follow its snapshot `AGENTS.md`" in agents_text
