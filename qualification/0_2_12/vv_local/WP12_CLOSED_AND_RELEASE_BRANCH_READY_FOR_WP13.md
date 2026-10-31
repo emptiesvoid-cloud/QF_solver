@@ -4,7 +4,7 @@
 **Projet :** QF Solver v0.2.12 alpha<br>
 **Branche release :** `emptiesvoids-cloud/0.2.12`<br>
 **HEAD distant revalidé au début de l’audit :** `24885ae7eec606c473328bece5be3310779e55a5` (PR #112)<br>
-**Dossier préparé pour intégration :** [PR documentaire globale #113](https://github.com/emptiesvoid-cloud/QF_solver/pull/113) (son commit de merge constitue le HEAD release après cette intégration).
+**Dossier de clôture global :** [PR documentaire #113](https://github.com/emptiesvoid-cloud/QF_solver/pull/113).
 
 La publication v0.2.12 n’est pas autorisée. WP13 reste `OPEN`.
 
@@ -32,8 +32,9 @@ La branche distante `origin/emptiesvoids-cloud/0.2.12` était exactement au HEAD
 | #111 — WP12-B | Fusionnée au `09f0810a39f9712044450c527d7613518d6bcea6` | Six MUST WP12-B acceptés dans leur périmètre. |
 | #112 — WP12-F | Fusionnée au `24885ae7eec606c473328bece5be3310779e55a5` | Base documentaire de la décision globale. |
 | [#70 — ancienne désignation du contrôleur HEX8-SRI](https://github.com/emptiesvoid-cloud/QF_solver/pull/70) | Fermée sans merge le 2026-10-31 | Supplantée : sa branche `a813c7b592939a1f25635c48c37ce79efae40d03` repointait `AGENTS.md` et son assertion vers le contrôleur historique `0d91fc5`; la release désigne `cda19da911217e2f302c295b380332d0fe34b95b`. Branche conservée pour audit. |
+| [#113 — clôture globale WP12 et transmission WP13](https://github.com/emptiesvoid-cloud/QF_solver/pull/113) | PR documentaire ciblée sur `emptiesvoids-cloud/0.2.12` | Archive la décision Owner, les statuts, l’inventaire et le backlog WP13; aucun changement scientifique. |
 
-Après fermeture de #70, l’inventaire GitHub contient 111 PR : 106 `MERGED`, 5 `CLOSED` et 0 `OPEN`. Aucune PR de correctif indispensable à WP12 n’est en attente. Aucune PR n’a été mergée par cette clôture en dehors de la PR documentaire globale préparée ici.
+À l’instantané de l’audit initial après fermeture de #70, l’inventaire GitHub contenait 111 PR : 106 `MERGED`, 5 `CLOSED` et 0 `OPEN`. Aucune PR de correctif indispensable à WP12 n’était en attente. L’intégration documentaire de clôture est portée par la PR #113; aucune PR de correctif scientifique n’a été intégrée.
 
 ## 3. Inventaire Git, divergences et worktrees
 
@@ -60,10 +61,9 @@ Les worktrees sales et leurs modifications préexistantes ont été laissés int
 
 | Catégorie | Conclusion auditée |
 |---|---|
-| `MERGED_SAFE_TO_DELETE` | Quatre références **locales seulement** ont été retirées après vérification, toutes ancestrales de la release, non attachées à un worktree, sans branche distante vivante ni PR ouverte. Leurs commits restent atteignables depuis la release. |
+| `MERGED_SAFE_TO_DELETE` | Quatre références **locales seulement** ont été retirées après vérification, toutes ancestrales de la release, non attachées à un worktree, sans branche distante vivante ni PR ouverte. Leurs commits restent atteignables depuis la release et sont détaillés ci-dessous. Aucune autre référence conservée ne satisfait le contrôle de dépendance, de worktree et de preuve pour suppression automatique. |
 | `PATCH_EQUIVALENT` | `fix/wp12-wp07-serialization` (`0a2e8135a9d4b6d80abf41dbdd9bf2aefa1cafd6`) : ses deux changements attendus, `src/solveur/core/results.py` et `tests/unit/test_result_serialization_contracts.py`, ont les mêmes blobs sur la release (`2c46b31…` et `596720f…`). Pas de correctif en double. La validation runtime v0.2.12 reste `WP13_REQUIRED`. |
 | `INTEGRATE_REQUIRED` | Aucun changement fonctionnel indispensable à un MUST restant n’a été identifié dans les branches examinées. La décision Owner accepte explicitement les limites `NOT_ACQUIRED` et l’absence de replay release. |
-| `MERGED_SAFE_TO_DELETE` | Quatre branches locales vérifiées et supprimées avant de figer l’inventaire; leurs commits restent atteignables depuis la release et sont détaillés ci-dessous. Aucune autre référence conservée ne satisfait le contrôle de dépendance, de worktree et de preuve pour suppression automatique. |
 | `ARCHIVE_KEEP` / `OBSOLETE_REVIEW` | Toutes les 201 références recensées ont une disposition dans le CSV : 173 gardées pour leur worktree, leur rôle ou leur source de preuve; 28 conservées en revue, notamment les refs `origin/*` périmées et des historiques divergents non encore purgés de dépendances. |
 | `WP13_REQUIRED` | Validation runtime WP07, API/compatibilité, régressions/CI du candidat, installation et packaging, docs publiques, confidentialité/distribution et préparation de publication sont hors du périmètre WP12. |
 | `DEFER_TO_0_3_0` | Qualification post-correction HEX8-SRI et HEX20 QUAD8; extensions adaptatives VV3D ou analyses non nécessaires à la portée bornée. Aucun nouvel FEM n’est demandé pour v0.2.12. |
@@ -109,4 +109,4 @@ Ce backlog n’est pas un nouveau travail WP12 et n’a pas été exécuté dans
 - Risques scientifiques acceptés : absence de replay homogène release, FAIL TET4-L3, deux FAIL HEX8-SRI, HEX20 R4 FAIL, validation post-correction non acquise, C01 remediation open, D01 inconclusive, E01 open et registres WP12-U non concordants.
 - Le checkout local historique release demeure sale et désynchronisé; le worktree propre d’audit a servi de référence. Ne pas confondre son HEAD local avec le HEAD distant.
 
-**Conclusion :** les dispositions Owner clôturent WP12 dans la portée bornée alpha. La branche release est prête pour la suite WP13 après intégration et contrôle de cette PR documentaire. Aucune publication v0.2.12, création de tag, bascule vers `main` ou clôture de WP13 n’est autorisée par ce rapport.
+**Conclusion :** les dispositions Owner clôturent WP12 dans la portée bornée alpha. La PR #113 porte l’intégration documentaire de cette décision et la transmission WP13. Après son intégration et le contrôle du HEAD release, la branche est prête pour la suite WP13. Aucune publication v0.2.12, création de tag, bascule vers `main` ou clôture de WP13 n’est autorisée par ce rapport.
