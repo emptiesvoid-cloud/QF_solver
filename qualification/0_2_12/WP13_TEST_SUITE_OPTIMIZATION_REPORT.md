@@ -1,11 +1,11 @@
 # WP13 test suite optimization and rationalization
 
-**Status:** WP13 P0 remains PARTIAL_OR_BLOCKED.  
-**Release decision:** No release, publication, tag, merge to main, or quality-criteria change is authorized or performed.  
-**Release base:** ab137051d920d7fa9aae9a3012a48b2b26e2198b  
-**PR #114 documentation head:** a29abce0a1b7a3d36ca846240ec63d72b651a848  
-**Run 3 code/test source:** f00bbb9c23769f984a12c2dda37802382ffc5414  
-**Evidence run:** GitHub Actions 41225195330  
+**Status:** WP13 P0 remains PARTIAL_OR_BLOCKED.
+**Release decision:** No release, publication, tag, merge to main, or quality-criteria change is authorized or performed.
+**Release base:** ab137051d920d7fa9aae9a3012a48b2b26e2198b
+**PR #114 documentation head:** a29abce0a1b7a3d36ca846240ec63d72b651a848
+**Run 3 code/test source:** f00bbb9c23769f984a12c2dda37802382ffc5414
+**Evidence run:** GitHub Actions 41225195330
 **Inventory:** WP13_TEST_SUITE_INVENTORY.csv, 4,175 static pytest candidates in 705 files.
 
 ## 1. Scope and evidence boundary
