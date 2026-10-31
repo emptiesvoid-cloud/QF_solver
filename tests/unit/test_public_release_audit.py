@@ -8,8 +8,14 @@ from scripts.audit_public_release import audit_public_release, public_source_fil
 from scripts.audit_release_archive import _scan_member, audit_release_archive
 
 
-def test_whole_repository_public_release_scan_preserves_unresolved_g03_findings() -> None:
-    report = audit_public_release()
+def test_whole_repository_public_release_scan_preserves_unresolved_g03_findings(
+    current_public_release_scan,
+) -> None:
+    if current_public_release_scan is None:
+        report = audit_public_release()
+    else:
+        current_public_release_scan.assert_current()
+        report = current_public_release_scan.report
     # The R1 scan deliberately covers the engineering repository. Its current
     # findings remain a separate G03 HOLD; the selected R3 package scan does
     # not waive or silently replace this broader gate.

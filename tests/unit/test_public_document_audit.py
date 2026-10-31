@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
 
 import pytest
 
+import scripts.audit_public_documents as public_document_audit_module
 from scripts.audit_public_documents import public_document_audit
 
 
@@ -15,9 +17,27 @@ RECORD = ROOT / "qualification" / "0_2_7" / "wp21_public_document_audit.json"
 
 
 @pytest.fixture(scope="module")
-def current_public_document_report() -> dict[str, object]:
-    """Share one read-only repository-wide report across its assertions."""
-    return public_document_audit()
+def current_public_document_report(current_public_release_scan) -> dict[str, object]:
+    """Share the real source scan while classifying its public-document report."""
+    if current_public_release_scan is None:
+        return public_document_audit()
+
+    current_public_release_scan.assert_current()
+    original_audit = public_document_audit_module.audit_public_release
+
+    def reuse_identical_source_scan(root: str | Path) -> dict[str, object]:
+        if Path(root).resolve() != ROOT.resolve():
+            raise AssertionError("The shared report is valid only for the current repository root.")
+        current_public_release_scan.assert_current()
+        return copy.deepcopy(current_public_release_scan.report)
+
+    public_document_audit_module.audit_public_release = reuse_identical_source_scan
+    try:
+        report = public_document_audit()
+    finally:
+        public_document_audit_module.audit_public_release = original_audit
+    current_public_release_scan.assert_current()
+    return report
 
 
 def test_whole_repository_document_audit_keeps_the_unresolved_public_hygiene_gate_visible(

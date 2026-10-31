@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import hashlib
 import os
+import subprocess
+from dataclasses import dataclass
 from pathlib import Path
 
 import pytest
@@ -138,3 +141,66 @@ def _gmsh_available() -> bool:
     except (ImportError, OSError):
         return False
     return True
+
+
+@dataclass(frozen=True)
+class CurrentPublicReleaseScan:
+    """One real scanner report tied to the exact checkout content used to create it."""
+
+    identity: str
+    report: dict[str, object]
+
+    def assert_current(self) -> None:
+        if _public_audit_input_identity() != self.identity:
+            raise RuntimeError("Public release audit inputs changed; refusing to reuse a stale scan report.")
+
+
+def _public_audit_input_identity() -> str | None:
+    """Fingerprint Git identity plus changed and untracked scanner inputs without reading the clean tree."""
+    try:
+        def git_bytes(*args: str) -> bytes:
+            completed = subprocess.run(
+                ["git", *args], cwd=ROOT, check=True, capture_output=True, timeout=20
+            )
+            return completed.stdout
+
+        head = git_bytes("rev-parse", "HEAD")
+        tree = git_bytes("rev-parse", "HEAD^{tree}")
+        status = git_bytes("status", "--porcelain=v1", "-z", "--untracked-files=all")
+        tracked_flags = git_bytes("ls-files", "-v", "-z", "--cached")
+        # Git's lower-case assume-unchanged and S skip-worktree flags weaken a
+        # clean-status proof, so disable sharing for such checkouts.
+        if any(record[:1] != b"H" for record in tracked_flags.split(b"\0") if record):
+            return None
+        tracked_diff = git_bytes("diff", "--binary", "HEAD", "--")
+        untracked = git_bytes("ls-files", "--others", "--exclude-standard", "-z")
+        untracked_content: list[tuple[str, str]] = []
+        for raw_path in untracked.split(b"\0"):
+            if not raw_path:
+                continue
+            relative = Path(os.fsdecode(raw_path))
+            path = ROOT / relative
+            if path.is_file():
+                untracked_content.append(
+                    (relative.as_posix(), hashlib.sha256(path.read_bytes()).hexdigest())
+                )
+        payload = b"\0".join(
+            (head, tree, status, hashlib.sha256(tracked_diff).hexdigest().encode(), repr(untracked_content).encode())
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return hashlib.sha256(payload).hexdigest()
+
+
+@pytest.fixture(scope="session")
+def current_public_release_scan() -> CurrentPublicReleaseScan | None:
+    """Share one actual source audit only while its full Git/worktree identity stays fixed."""
+    identity = _public_audit_input_identity()
+    if identity is None:
+        return None
+    from scripts.audit_public_release import audit_public_release
+
+    report = audit_public_release(ROOT)
+    scan = CurrentPublicReleaseScan(identity=identity, report=report)
+    scan.assert_current()
+    return scan
