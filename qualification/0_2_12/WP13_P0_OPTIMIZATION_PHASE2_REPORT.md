@@ -14,6 +14,19 @@ The measurements in this report use targeted, non-FEM tests. Raw local log files
 
 GitHub Actions run [41225195330](https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41225195330), job `124607776630` (Windows, Python 3.13), was cancelled at the 180-minute limit after 602 passed, 5 skipped and 150 deselected. Its log contains no active nodeid, stack trace, CPU or RSS measurement. It therefore does not establish a root cause.
 
+The Owner-cited earlier run [41210713065](https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41210713065) is a separate source identity, `2865587a44f9e461a0b4e4286c912c17e4f04be5`. Its Windows/Python 3.13 job `124564905544` ended cancelled after 602 passed, 5 skipped and 149 deselected in 10,723.80 s. The final log line contains no active nodeid, stack or traceback. The Ubuntu/Python 3.13 job `124564905530` completed with 4,659 passed, 17 failed, 32 skipped and 149 deselected in 7,627.12 s (84.75% coverage). No job from either run remains active.
+
+The 17 Linux failures are classified from that run's short summary and tracebacks:
+
+| Count | Failing tests | Cause and disposition in the candidate |
+|---:|---|---|
+| 14 | `tests/unit/test_wp12_process_attestation.py` | The attestation backend correctly returned `DENY_EXECUTION` with `SUSPENDED_WINDOWS_PROCESS_REQUIRED_FOR_ATTESTATION` on Linux before the Windows-child scenarios ran. The tests had expected post-launch statuses on a platform that cannot provide the required suspended Windows process. The candidate now asserts the fail-closed Linux refusal explicitly, while retaining the deeper child/receipt checks on Windows. The production attestation code and its denial policy are unchanged. |
+| 1 | `test_pilot_v4_manifest_binds_separate_checkouts_and_stays_blocked` | The test constructed `--junitxml` with a hard-coded Windows separator. It now uses `Path` composition, preserving the exact argv/nodeid check on both platforms. |
+| 1 | `test_provenance_plugin_accepts_pinned_inventory_superset_with_only_fake_module` | A previously imported checkout `solveur` module contaminated the synthetic fake-module fixture. The test now removes cached `solveur` modules before injecting the fake, leaving the pinned-inventory assertions intact. |
+| 1 | `tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual` | The standard-suite `-k` exclusion named the old `test_wp12_hex20_...` spelling and missed the actual `test_wp12b_hex20_...` node. The controller refused the run before assembly/solve because no registered diagnostic authorization was present. The candidate fixes the exclusion spelling; the diagnostic remains available only through its authorized scientific route. No FEM ran in the failed CI attempt. |
+
+The three test fixes and corrected quality filter are present at PR #114 HEAD `32520eba0aacbce782c0b3cd660074ecf1b7f824`; the corresponding test and workflow blobs match run `41225195330` at `f00bbb9c23769f984a12c2dda37802382ffc5414`. The process-attestation production source is unchanged across these commits. On that subsequent Linux/Python 3.13 run, the standard suite completed with 4,676 passed, 32 skipped and 150 deselected in 7,120.37 s; the P0 module gate and quick verification also passed. This is historical executed evidence on the same relevant test/workflow blobs, not a new run for this report. The 17 failures were test-platform assumptions, a cross-platform path construction, fixture isolation and a stale selection spelling; none required weakening a security refusal or scientific oracle.
+
 ### Bounded local diagnostic
 
 The quality-workflow filters selected 4,708 items in a local collect-only pass; the policy module began at selected item 556 and contributed 247 items. With 602 passes plus 5 skips, the next ordered item would be item 53 of that module:
@@ -108,7 +121,7 @@ These historical spans are a triage list, not permission to move or suppress tes
 
 - PR #115: test-only separation verified; current exact node passes.
 - PR #116: identity-bound sharing added to tests only; targeted scanner, document, composition and integration assertions pass; real source scanner remains exercised. The current archive test is locally incomplete at the measurement cap but has an unchanged implementation and historical Linux full-suite evidence.
-- New diagnostic workflow and runner are prepared for review; no hosted diagnostic was run because the workflow is not on the default branch.
+- New diagnostic workflow and runner are prepared for review in [PR #117](https://github.com/emptiesvoid-cloud/QF_solver/pull/117); no hosted diagnostic was run because the workflow is not on the default branch. The PR has no checks attached.
 - No release package, wheel, sdist, coverage gate, full matrix, tag, publication, site update, or merge into `main` was performed.
 - Current P0 status remains `WP13_P0_PARTIAL_OR_BLOCKED`. These measurements do not qualify the release candidate or identify the hosted Windows root cause.
 

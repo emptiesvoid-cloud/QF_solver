@@ -85,6 +85,89 @@
       ]
     }
   },
+  "owner_cited_quality_run_41210713065": {
+    "source_head": "2865587a44f9e461a0b4e4286c912c17e4f04be5",
+    "windows_job": {
+      "job_id": 124564905544,
+      "python": "3.13.16",
+      "status": "CANCELLED_AFTER_180_MINUTES",
+      "passed": 602,
+      "skipped": 5,
+      "deselected": 149,
+      "pytest_seconds": 10723.8,
+      "active_nodeid_or_traceback_recorded": false,
+      "raw_log_sha256": "9d8f0904bd645321c7dcab7f24fa7b808c9e4ad4cd20860371bf74bad1ca3036"
+    },
+    "ubuntu_python_3_13_job": {
+      "job_id": 124564905530,
+      "status": "FAIL",
+      "passed": 4659,
+      "failed": 17,
+      "skipped": 32,
+      "deselected": 149,
+      "pytest_seconds": 7627.12,
+      "branch_coverage_percent": 84.75,
+      "raw_log_sha256": "9e2eedc7e7339d093216b2888540fce4f01536c33343baa49cf7d7c4dfeb06bb",
+      "failure_groups": [
+        {
+          "count": 14,
+          "classification": "test_platform_policy_mismatch",
+          "detail": "Linux intentionally refused suspended-Windows-process attestation with DENY_EXECUTION; tests expected child-result states before asserting the supported-platform refusal.",
+          "candidate_disposition": "Assert fail-closed refusal on non-Windows; retain child-result tests on Windows; production denial unchanged."
+        },
+        {
+          "count": 1,
+          "classification": "cross_platform_test_defect",
+          "detail": "A manifest test used a hard-coded Windows path separator for junitxml.",
+          "candidate_disposition": "Construct the path with pathlib while preserving exact argv validation."
+        },
+        {
+          "count": 1,
+          "classification": "test_fixture_isolation_defect",
+          "detail": "A cached checkout solveur module contaminated a synthetic fake-module provenance test.",
+          "candidate_disposition": "Clear cached solveur modules before injecting the synthetic module; retain pinned-inventory assertions."
+        },
+        {
+          "count": 1,
+          "classification": "standard_suite_selection_defect",
+          "detail": "The quality -k filter excluded an obsolete HEX20 nodeid spelling; the controller denied before assembly or solve.",
+          "candidate_disposition": "Correct the spelling to the current WP12B nodeid; preserve the node in the authorized scientific route."
+        }
+      ],
+      "failed_nodeids": [
+        "tests/unit/test_wp12_process_attestation.py::test_valid_ephemeral_owner_decision_attests_only_fixed_fake_child",
+        "tests/unit/test_wp12_process_attestation.py::test_scientific_nodeid_refused_and_synthetic_reports_classified[tests/unit/test_wp12_process_attestation.py::test_no_junit-INFRA_ERROR]",
+        "tests/unit/test_wp12_process_attestation.py::test_scientific_nodeid_refused_and_synthetic_reports_classified[tests/unit/test_wp12_process_attestation.py::test_contradictory_junit-INFRA_ERROR]",
+        "tests/unit/test_wp12_process_attestation.py::test_scientific_nodeid_refused_and_synthetic_reports_classified[tests/unit/test_wp12_process_attestation.py::test_junit_substitution-INFRA_ERROR]",
+        "tests/unit/test_wp12_process_attestation.py::test_scientific_nodeid_refused_and_synthetic_reports_classified[tests/unit/test_wp12_process_attestation.py::test_nonzero-FAIL]",
+        "tests/unit/test_wp12_process_attestation.py::test_existing_archive_destination_is_never_overwritten",
+        "tests/unit/test_wp12_process_attestation.py::test_receipt_tampering_is_detected_and_attempt_collision_is_refused",
+        "tests/unit/test_wp12_process_attestation.py::test_declared_interpreter_mismatch_is_denied_before_process_creation",
+        "tests/unit/test_wp12_process_attestation.py::test_system_identity_observation_is_rejected_before_child_resume",
+        "tests/unit/test_wp12_process_attestation.py::test_input_change_after_prelaunch_check_is_recorded_as_infrastructure_error",
+        "tests/unit/test_wp12_process_attestation.py::test_process_launch_error_is_archived_as_infrastructure_error",
+        "tests/unit/test_wp12_process_attestation.py::test_supervisor_interruption_is_not_reclassified_as_pass",
+        "tests/unit/test_wp12_process_attestation.py::test_job_assignment_failure_terminates_the_suspended_process_handle",
+        "tests/unit/test_wp12_process_attestation.py::test_timeout_and_descendant_scenarios_are_not_reported_as_pass",
+        "tests/unit/test_wp12_qualification_runner.py::test_pilot_v4_manifest_binds_separate_checkouts_and_stays_blocked",
+        "tests/unit/test_wp12_qualification_runner.py::test_provenance_plugin_accepts_pinned_inventory_superset_with_only_fake_module",
+        "tests/unit/test_wp12b_hex20_affine_diagnostic.py::test_wp12b_hex20_affine_patch_archives_residual"
+      ]
+    },
+    "follow_up_run_after_fixes": {
+      "workflow_run_id": 41225195330,
+      "source_head": "f00bbb9c23769f984a12c2dda37802382ffc5414",
+      "ubuntu_job_id": 124607776668,
+      "status": "PASS",
+      "passed": 4676,
+      "failed": 0,
+      "skipped": 32,
+      "deselected": 150,
+      "pytest_seconds": 7120.37,
+      "raw_log_sha256": "073034c7caaea536c219eac18cad5a4a43602625643bd5e9091fc411c62057ef"
+    },
+    "relevant_test_and_workflow_blobs_match_current_candidate_head": "32520eba0aacbce782c0b3cd660074ecf1b7f824"
+  },
   "scan_comparisons": {
     "environment": {
       "os": "Windows 10.0.19045 x64",
