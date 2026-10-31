@@ -31,12 +31,11 @@ associees sont centralisees dans le [pack 0.2.5](0_2_5/README.md).
 | strict | Revue technique | Warnings bloquants selon politique |
 | qualification | Candidat controle | Revision source, preuves et maturites obligatoires |
 
-## Certificat borne E01-L C03 — branche d'integration v0.2.12
+## Certificat borne E01-L C03 — snapshot historique v0.2.12
 
-La branche `codex/v0.2.12-integration` contient le certificat documentaire
-`C03_BRANCH_STABILITY=CERTIFIED_BOUNDED`. Il etablit la stabilite du signe de
-branche J2 pour huit actions archivees TET4/HEX8, avec histoire entrante fixe
-et segments demontres de ±1e-4 m. Les sources scientifiques correspondent au
+Le certificat documentaire `C03_BRANCH_STABILITY=CERTIFIED_BOUNDED` etablit
+la stabilite du signe de branche J2 pour huit actions archivees TET4/HEX8,
+avec histoire entrante fixe et segments demontres de ±1e-4 m. Les sources scientifiques correspondent au
 snapshot historique `87e54913077c7d9fce6f259fb4a4a11f5295e6a5`; la preuve ne
 s'applique pas automatiquement au HEAD d'integration.
 
