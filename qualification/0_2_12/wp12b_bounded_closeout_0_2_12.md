@@ -1,10 +1,10 @@
 # QF Solver v0.2.12 — dossier de clôture bornée WP12-B
 
 **Révision :** 2026-10-31<br>
-**Branche d’intégration de référence :** `emptiesvoids-cloud/0.2.12` @ `ee50684d3c146102b773f604e1625ba8c07348ca`<br>
-**Décision Owner :** principe d’une clôture bornée sans nouveau FEM approuvé par directive du 2026-10-31 ; dispositions finales et dossier soumis à revue et confirmation Owner explicite.<br>
-**État WP12-B actuel :** `OPEN — DOSSIER PRÉPARÉ POUR CONFIRMATION OWNER`<br>
-**Statut cible après confirmation finale :** `WP12B_CLOSED_BOUNDED_FOR_0_2_12`
+**Branche d’intégration de référence :** `emptiesvoids-cloud/0.2.12` @ `09f0810a39f9712044450c527d7613518d6bcea6`<br>
+**Décision Owner :** clôture bornée explicitement confirmée le 2026-10-31 après intégration de la PR #111.<br>
+**État WP12-B actuel :** `WP12B_CLOSED_BOUNDED_FOR_0_2_12`<br>
+**Statut WP12 / WP13 :** `OPEN` / `OPEN`
 
 Ce dossier consigne les preuves bornées et les revendications de release autorisées. Il ne crée pas de preuve de qualification, ne modifie aucun critère scientifique et ne transforme aucun résultat de développement en PASS sur le HEAD release. Aucun nouveau FEM, benchmark, retry ou campagne scientifique n’a été lancé. Aucun code solveur, archive historique, contrat, manifeste ou ledger n’a été modifié.
 
@@ -14,7 +14,7 @@ La disposition VV3D acceptée reste `VV3D_CLOSED_BOUNDED_FOR_0_2_12`, limitée �
 
 Les six identifiants MUST ci-dessous sont ceux de WP12-B dans la matrice des 62 capacités : `EL-TET4`, `EL-TET10`, `MAT-ELASTIC`, `AN-STATIC`, `LOADS-REACTIONS` et `MESH-QUALITY`. Un MUST exige une disposition bornée et traçable. Il n’exige pas que toutes les routes passent, une qualification universelle, ni un nouveau calcul lorsqu’un résultat existant ou une disposition explicite `FAIL`, `INCONCLUSIVE` ou `NOT_ACQUIRED` est défendable.
 
-Les calculs scientifiques cités n’ont pas été rejoués sur le candidat d’intégration `ee50684`. Chaque résultat reste lié à sa source, son cas, son contrat et son environnement enregistrés. Ce dossier ne prétend pas qu’ils ont été exécutés sur `ee50684`.
+Les calculs scientifiques cités n’ont pas été rejoués sur le HEAD release actuel `09f0810a39f9712044450c527d7613518d6bcea6`. La PR #111 n’a apporté que des documents. Chaque résultat reste lié à sa source, son cas, son contrat et son environnement enregistrés.
 
 ## 2. Matrice des éléments et chargements
 
@@ -65,14 +65,20 @@ Le site public identifie toujours v0.2.10 comme version publiée courante. Ses p
 - **R4 :** rapport `E:\QFSolverAgents\evidence\wp12-elements-loads-corrective-r1\WP12B_R4_EXECUTION_RESULTS_20261027.md` ; source `2db9c9b54283a6c78953fbcede427527101ec8cf` ; contrôleur `44331a1a1ba2f1a1cbb8be160a1369845cc6fa0c` ; SHA des ledgers correctif et prédécesseur ci-dessus. Chaque sidecar R4 indique une invocation FEM. Aucun retry n’a été fait.
 - **HEX8-SRI :** correction #91 `326b357fe752b33bb034c46ed546973abb1d2cb0` ; [rapport correction/campagne](WP12B_HEX8SRI_CORRECTION_AND_CAMPAIGN_STATUS.md) ; [critères prospectifs 8×4×4](../../docs/development/HEX8SRI_REFINED3_8X4X4_CRITERIA.md). La proposition n’autorise aucune exécution et ne change aucun FAIL historique.
 - **HEX20 :** correction #72 `aea4ce54d383efdf948021c36c80c9fe9c858cb5` ; [analyse R1 sur archives](../../investigations/wp12b_hex20_r1/HEX20_R1_MECHANICAL_ROOT_CAUSE_ANALYSIS.md) ; [préparation corrective R2](../../investigations/wp12b_hex20_r1/HEX20_R2_CORRECTIVE_PLAN.md). Le diagnostic analytique d’archives ne vaut pas un solve post-correction.
-- **Décisions Owner :** l’approbation VV3D du 2026-10-31 est consignée dans son rapport. L’approbation du principe WP12-B est la directive Owner du 2026-10-31 pour ce dossier. Elle autorise sa préparation/intégration sans FEM mais réserve la clôture effective à la revue finale et à la confirmation Owner ; aucun identifiant de décision n’est inventé.
+- **Décisions Owner :** l’approbation VV3D du 2026-10-31 est consignée dans son rapport. La confirmation effective WP12-B du 2026-10-31 est archivée dans [la décision Owner](WP12B_OWNER_BOUNDED_CLOSURE_DECISION_20261031.md), avec référence PR #111 et commit d’intégration ; aucun identifiant signé ni horodatage de signature distinct n’est inventé.
 
 ## 6. Risques résiduels et état final
 
 Les risques résiduels v0.2.12 sont explicites : aucun replay scientifique exact sur le HEAD release ; aucune validation globale post-correction HEX8-SRI ; aucun FEM HEX20 QUAD8 après correction ; les combinaisons routes/matériaux/analyses ne sont pas un produit cartésien qualifié ; les contrôles de qualité de maillage ne certifient pas la précision de solution. Le paquet ne revendique ni validation universelle, ni corrélation externe pour ces cas, ni certification ou garantie de production.
 
-Une fois ce dossier, les lignes pertinentes de la matrice et la mise à jour de roadmap intégrés et contrôlés, le paquet pourra être présenté sous le statut :
+Avant la confirmation Owner du 2026-10-31, le dossier était prêt à être présenté sous le statut :
 
 `WP12B_BOUNDED_CLOSEOUT_READY_FOR_OWNER_CONFIRMATION`
 
-Ce n’est pas le statut de clôture effective. `WP12B_CLOSED_BOUNDED_FOR_0_2_12` ne prend effet qu’après confirmation explicite par l’Owner des dispositions intégrées finales. WP12 et WP13 restent ouverts. Après cette confirmation, le prochain chantier est la consolidation WP12-F.
+Cette étape est désormais historique. Le 2026-10-31, l’Owner a confirmé les dispositions intégrées et le statut effectif est devenu `WP12B_CLOSED_BOUNDED_FOR_0_2_12`. WP12 et WP13 restent ouverts. La suite directe est la consolidation WP12-F, sans réouverture du lot B.
+
+## 7. Confirmation Owner et clôture effective
+
+La décision explicite de clôture bornée est archivée dans [WP12B_OWNER_BOUNDED_CLOSURE_DECISION_20261031.md](WP12B_OWNER_BOUNDED_CLOSURE_DECISION_20261031.md). Elle confirme les six dispositions MUST, les limites HEX8-SRI/HEX20, la préservation de VV3D et l’absence de nouveau FEM requis. La PR #111 a été intégrée sur la branche release au commit `09f0810a39f9712044450c527d7613518d6bcea6`.
+
+L’intégration et cette confirmation ne changent aucun verdict scientifique, ne modifient aucun ledger et ne clôturent ni WP12 ni WP13. La décision demandée suivante est la décision globale WP12 préparée par WP12-F.
