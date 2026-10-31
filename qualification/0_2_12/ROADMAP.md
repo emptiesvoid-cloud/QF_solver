@@ -122,7 +122,7 @@ Le rapport [VV3D bounded closeout](vv3d_bounded_closeout_0_2_12.md) documente le
 | HEX8 standard | 1,998 / 1,982 | 1,025 / 1,000 | `CONVERGENCE_PASS`, limité au contrat VV3D |
 | HEX20 | 3,069 / 3,018 | 2,347 / 2,068 | `CONVERGENCE_PASS`, limité au contrat VV3D |
 
-Statut proposé uniquement : `VV3D_CLOSED_BOUNDED_FOR_0_2_12`, en attente de revue/intégration et d’approbation Owner explicite. Cette proposition ne rend pas la clôture effective et ne modifie pas les états `WP12-B`, `WP12=OPEN` ou `WP13=OPEN`, ni la qualification générale.
+L’Owner a explicitement approuvé `VV3D_CLOSED_BOUNDED_FOR_0_2_12` le 2026-10-31. Le statut prend effet à l’intégration revue de cette PR, pour le sous-dossier VV3D seulement. Il ne modifie pas `WP12-B`, `WP12=OPEN` ou `WP13=OPEN`, ni la qualification générale.
 
 ### WP-E01 disposition and publication boundary
 

@@ -1,8 +1,10 @@
 # Clôture bornée du sous-dossier VV3D — QF Solver v0.2.12
 
-**Disposition proposée :** `VV3D_CLOSED_BOUNDED_FOR_0_2_12`
+**Disposition :** `VV3D_CLOSED_BOUNDED_FOR_0_2_12`
 
-**État :** `PROPOSED_PENDING_REVIEW_AND_OWNER_APPROVAL` — cette disposition ne devient effective qu’après intégration revue de cette modification et approbation Owner explicite.
+**Approbation Owner :** reçue explicitement le 2026-10-31.
+
+**Prise d’effet :** à l’intégration revue de cette version.
 
 **Périmètre :** sous-dossier VV3D seulement. `WP12-B`, `WP12` et `WP13` restent ouverts et inchangés.
 
@@ -96,8 +98,8 @@ Aucun retry implicite n’apparaît dans ces scopes : chaque nodeid R1/R2/diagno
 
 Les détails de conservation et les références des quatre lignes élémentaires concernées dans la matrice des 62 capacités figurent dans [l’audit WP12 des 62 capacités](vv_master_plan/WP12_62_CAPABILITY_AUDIT.md) et [son CSV](vv_master_plan/WP12_62_CAPABILITY_AUDIT.csv). La roadmap garde les statuts WP12/WP13 inchangés.
 
-## 6. Recommandation de clôture bornée
+## 6. Décision Owner et portée de la clôture bornée
 
-Recommandation : approuver `VV3D_CLOSED_BOUNDED_FOR_0_2_12` uniquement pour le sous-dossier VV3D, avec les preuves, scopes, limites et le FAIL TET4-L3 ci-dessus. Cette recommandation administrative n’est pas une qualification universelle, ne promeut pas les autres capacités et n’altère aucun ledger historique. Elle est en attente de la revue/intégration de cette modification et de la décision Owner exacte suivante :
+L’approbation explicite ci-dessous a été reçue le 2026-10-31. À l’intégration revue de cette version, `VV3D_CLOSED_BOUNDED_FOR_0_2_12` prend effet uniquement pour le sous-dossier VV3D, avec les preuves, scopes, limites et le FAIL TET4-L3 ci-dessus. Cette décision administrative n’est pas une qualification universelle, ne promeut pas les autres capacités et n’altère aucun ledger historique :
 
 > **J’approuve le statut `VV3D_CLOSED_BOUNDED_FOR_0_2_12` pour le seul sous-dossier VV3D de QF Solver v0.2.12, selon le rapport intégré `qualification/0_2_12/vv3d_bounded_closeout_0_2_12.md`. Cette clôture conserve le FAIL TET4-L3 sur l’énergie scalaire et ne modifie ni les critères, ni les preuves historiques, ni les statuts WP12-B, WP12 et WP13.**

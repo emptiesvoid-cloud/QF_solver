@@ -34,7 +34,7 @@ Pour TET4, les incréments relatifs successifs de la norme du déplacement moyen
 
 Le rapport [VV3D bounded closeout v0.2.12](../vv3d_bounded_closeout_0_2_12.md) consolide les douze niveaux avec cinq ledgers distincts et leurs contrats, décisions et empreintes. Seules les lignes `EL-TET4`, `EL-TET10`, `EL-HEX8` et `EL-HEX20` de la matrice CSV référencent cette preuve. Les neuf cas TET10/HEX8/HEX20 sont `CASE_GATE_PASS`; leurs évaluations inter-niveaux sont `CONVERGENCE_PASS` sous le contrat famille exact. TET4-L1/L2 restent les `PASS` de R2; les ordres obtenus à partir des niveaux conservés sont descriptifs, car L3 provient d’un diagnostic séparé.
 
-TET4-L3 demeure `DIAGNOSTIC_COMPLETED` avec contrôles mécaniques `PASS`, mais l’erreur relative d’énergie scalaire `0.0615360686 > 0.05` reste `FAIL`. La précision demandée n’est pas atteinte. Aucun ledger n’est réécrit ou combiné en campagne homogène. La disposition `VV3D_CLOSED_BOUNDED_FOR_0_2_12` est proposée, pas effective avant intégration revue et décision Owner. Elle ne promeut pas d’autres capacités et ne change pas WP12-B, WP12 ou WP13.
+TET4-L3 demeure `DIAGNOSTIC_COMPLETED` avec contrôles mécaniques `PASS`, mais l’erreur relative d’énergie scalaire `0.0615360686 > 0.05` reste `FAIL`. La précision demandée n’est pas atteinte. Aucun ledger n’est réécrit ou combiné en campagne homogène. L’Owner a explicitement approuvé la disposition `VV3D_CLOSED_BOUNDED_FOR_0_2_12` le 2026-10-31; elle prend effet à l’intégration revue de cette PR. Elle ne promeut pas d’autres capacités et ne change pas WP12-B, WP12 ou WP13.
 
 ### HEX8-SRI
 
