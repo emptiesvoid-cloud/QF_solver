@@ -228,3 +228,54 @@ working directory before creating it. It created no files, made no
 reservation, and ran no FEM. The correction, captured output and classification
 are preserved in
 [`WP13_P0_PACKAGE_SMOKE_PREFLIGHT_ATTEMPT_1.md`](WP13_P0_PACKAGE_SMOKE_PREFLIGHT_ATTEMPT_1.md).
+
+
+## 10. Corrected official CI run 3 and performance triage — 2026-10-31
+
+The corrected official workflow
+[41225195330](https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41225195330)
+used PR #114 HEAD f00bbb9c23769f984a12c2dda37802382ffc5414. This run supersedes
+the run-2 in-progress descriptions above for its own cells; run-2 failures
+remain unchanged historical evidence.
+
+| Environment | Pytest result | Coverage / later gates |
+|---|---|---|
+| Ubuntu / Python 3.10.22 | 4,676 passed, 32 skipped, 150 deselected, 4 warnings; 7,537.95 s | Global branch coverage 84.75%; P0 module coverage, compileall, official quick verification and artifact upload PASS. |
+| Ubuntu / Python 3.13.17 | 4,676 passed, 32 skipped, 150 deselected, 4 warnings; 7,120.37 s | Global branch coverage 84.75%; P0 module coverage, compileall, official quick verification and artifact upload PASS. |
+| Windows / Python 3.10.11 | 602 passed, 5 skipped, 150 deselected before cancellation; 10,681.97 s | Reached the 180-minute job limit in tests/branch coverage. No coverage artifact or downstream gate result. |
+| Windows / Python 3.13.16 | 602 passed, 5 skipped, 150 deselected before cancellation; 10,724.65 s | Reached the 180-minute job limit in tests/branch coverage. No coverage artifact or downstream gate result. |
+
+All four jobs passed setup, identity, Ruff, privacy additions and progressive
+mypy. The Windows logs stop at 12% while reporting the governance-policy
+module and a pathlib traceback. The exact in-flight nodeid is not present in
+the logs; no test has been attributed to the stall by inference. The same
+stopping point appeared in the prior run. Windows complete-suite and coverage
+gates remain BLOCKED / NOT_ACQUIRED.
+
+The Linux fixes resolve all 17 run-2 failures in the corrected matrix without
+changing solver behavior, scientific oracle thresholds or ledgers. Fourteen
+platform-specific attestation tests now assert the existing fail-closed
+DENY_EXECUTION behavior on non-Windows; two synthetic fixture defects were
+corrected; the exact controller-gated HEX20 node remains excluded and NOT_RUN
+in generic CI.
+
+The local bounded profile, the single contact-documentation node that
+unexpectedly executed real structural FEM, its temporary-output-only result,
+the full selected-node timing table, source-scan observation, and CI
+recommendation are documented in
+[WP13_P0_TEST_PERFORMANCE_AND_CI_OPTIMIZATION_REPORT.md](WP13_P0_TEST_PERFORMANCE_AND_CI_OPTIMIZATION_REPORT.md).
+That contact-node execution is disclosed as a scope deviation, not qualification
+evidence. No further FEM, package solve, benchmark or full-suite rerun was
+performed for this triage.
+
+| Gate | Current verdict |
+|---|---|
+| Linux Python 3.10 and 3.13 permitted full suite | PASS |
+| Linux global and P0 branch coverage | PASS |
+| Windows Python 3.10 and 3.13 full suite / coverage | BLOCKED / NOT_ACQUIRED |
+| Package-installed static, modal and dynamic solves | NOT_RUN; separate exact authorization required |
+| Old four-cell full-suite obligation | NOT_ACQUIRED |
+| Overall WP13 P0 | WP13_P0_PARTIAL_OR_BLOCKED; not validated |
+
+No publication, tag, merge to main, site deployment or release artifact was
+created.

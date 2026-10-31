@@ -153,3 +153,21 @@ jobs disabled. At the latest check all four matrix jobs had passed setup,
 dependency installation, identity, Ruff, privacy and progressive mypy, and
 were still executing tests and branch coverage. No final counts or downstream
 gate results were available at this baseline update.
+
+
+## Corrected P0 execution and performance triage — 2026-10-31
+
+PR #114 was revalidated at candidate HEAD f00bbb9c23769f984a12c2dda37802382ffc5414, based on release baseline ab137051d920d7fa9aae9a3012a48b2b26e2198b. The official quality workflow run 41225195330 used this exact HEAD; no quality workflow remained active after it completed.
+
+| Environment | Result | Timing and gates |
+|---|---|---|
+| Ubuntu / Python 3.10.22 | 4,676 passed, 32 skipped, 150 deselected, 4 warnings | 7,537.95 s. Global branch coverage 84.75%; declared P0 module coverage, compileall, quick verification and upload PASS. |
+| Ubuntu / Python 3.13.17 | 4,676 passed, 32 skipped, 150 deselected, 4 warnings | 7,120.37 s. Global branch coverage 84.75%; declared P0 module coverage, compileall, quick verification and upload PASS. |
+| Windows / Python 3.10.11 | 602 passed, 5 skipped, 150 deselected before cancellation | 10,681.97 s in the test/coverage step; job reached its 180-minute limit. No coverage or downstream gate result. |
+| Windows / Python 3.13.16 | 602 passed, 5 skipped, 150 deselected before cancellation | 10,724.65 s in the test/coverage step; job reached its 180-minute limit. No coverage or downstream gate result. |
+
+All four cells passed setup, environment identity, Ruff, privacy additions and progressive mypy. The Windows cells did not reach coverage, compileall or quick verification. Their logs stop at the same 12% point in test_development_autonomous_policy.py and a pathlib traceback, but no verbose in-flight nodeid was recorded. The Windows full-suite gate is therefore BLOCKED / NOT_ACQUIRED, not PASS. Run 41210713065 and its original 17 failures remain historical; the corrected run has no Linux test failures.
+
+The bounded local profile and its exact nodeids, CPU/wall/RSS observations, limits, contact-campaign scope deviation, CI proposal and overall verdict are recorded in [WP13_P0_TEST_PERFORMANCE_AND_CI_OPTIMIZATION_REPORT.md](WP13_P0_TEST_PERFORMANCE_AND_CI_OPTIMIZATION_REPORT.md). The profile is not a whole-suite top-20 ranking. No suite was rerun to collect timing data, no additional scientific execution was performed after the one disclosed profiling scope deviation, and no qualification ledger or historical evidence was changed.
+
+The official four-cell complete-suite requirement remains NOT_ACQUIRED because Windows did not finish. The proposed reference-full plus targeted-compatibility matrix is not adopted. Installed-artifact static/modal/dynamic solve smokes remain NOT_RUN pending their exact separate Owner authorization.

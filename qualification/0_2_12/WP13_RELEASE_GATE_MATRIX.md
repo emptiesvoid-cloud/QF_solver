@@ -153,3 +153,31 @@ Windows Python 3.12 (four additional executions):
 - `tests/unit/test_public_api_contract.py::test_public_facade_matches_documented_export_inventory`
 - `tests/integration/test_packaging.py::test_solver_cli_version_runs`
 - `tests/documentation/test_docs_generation.py::test_public_release_status_copy_distinguishes_release_and_tagged_source`
+
+
+## P0 performance triage update — 2026-10-31
+
+This addendum supersedes the run-2 status rows above only for the corrected
+run-3 evidence. Run 2 and earlier results remain preserved in the linked
+reports.
+
+| Gate | Current status | Evidence / limitation |
+|---|---|---|
+| Candidate identity | PASS for run 3 | Official workflow 41225195330 used PR #114 HEAD f00bbb9c23769f984a12c2dda37802382ffc5414, based on release baseline ab137051d920d7fa9aae9a3012a48b2b26e2198b. |
+| Ubuntu / Python 3.10 complete permitted standard suite | PASS | 4,676 passed, 32 skipped, 150 deselected, 4 warnings; 7,537.95 s. |
+| Ubuntu / Python 3.13 complete permitted standard suite | PASS | 4,676 passed, 32 skipped, 150 deselected, 4 warnings; 7,120.37 s. |
+| Global branch coverage >=80% | PASS on both Ubuntu cells | 84.75% in each cell. |
+| Declared P0 module branch coverage >=90% | PASS on both Ubuntu cells | solveur/core/errors.py 100.00%; solveur/verification/traceability.py 92.16%. |
+| Ruff, privacy additions, progressive mypy | PASS in four cells | Run-3 workflow completed these gates before each test step. |
+| Compileall and official quick verification | PASS on Ubuntu; NOT_RUN on Windows | Both Ubuntu cells completed; Windows jobs were cancelled before downstream steps. |
+| Windows / Python 3.10 and 3.13 complete standard suite | BLOCKED / NOT_ACQUIRED | Each job reached 602 passed and 5 skipped, then hit the 180-minute limit at the same 12% progress in the governance-policy module. Exact in-flight nodeid, coverage and downstream gates are unavailable. |
+| Installed wheel/sdist mechanical solve smoke | BLOCKED / NOT_RUN | No exact WP13 Owner execution authorization or real attempt ledger; no package solve was run. |
+| Overall WP13 P0 | WP13_P0_PARTIAL_OR_BLOCKED | Do not declare P0 validated. The complete four-cell suite obligation remains NOT_ACQUIRED. |
+
+The proposal to use one Ubuntu reference-full cell and targeted compatibility
+cells is not an adopted acceptance criterion. Keep the existing four-cell
+full-suite requirement visible as NOT_ACQUIRED until the Owner formally
+changes it. The bounded performance findings, 17-failure classification and
+unmeasured CI proposal are in
+[WP13_P0_TEST_PERFORMANCE_AND_CI_OPTIMIZATION_REPORT.md](WP13_P0_TEST_PERFORMANCE_AND_CI_OPTIMIZATION_REPORT.md).
+No merge to main, tag, publication or package release occurred.
