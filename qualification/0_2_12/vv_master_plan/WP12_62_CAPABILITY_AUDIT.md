@@ -1,9 +1,10 @@
 # WP12 — Audit de couverture des 62 capacités
 
-**Révision :** 2026-10-26
-**État :** audit documentaire; WP12=OPEN
-**HEAD d’intégration audité :** cbdd54aadbb640a96c6b6b5b9726e1247da36012
-**Exécution pendant cet audit :** aucune collecte pytest, aucun solveur, aucun calcul FEM ni benchmark.
+**Révision :** 2026-10-31
+**État :** audit documentaire complété par le dossier WP12-B borné; WP12-B reste ouvert jusqu’à confirmation Owner; WP12=OPEN
+**HEAD historique de l’audit statique (2026-10-26) :** cbdd54aadbb640a96c6b6b5b9726e1247da36012
+**HEAD release examiné pour le closeout documentaire :** ee50684d3c146102b773f604e1625ba8c07348ca; aucune preuve scientifique n’est présentée comme un replay de ce HEAD.
+**Exécution pour ce closeout :** aucune FEM, aucun solveur ni benchmark. Deux tests synthétiques du contrôleur R2 ont passé dans le worktree `wp12b-vv3d-bounded-closeout-20261031`; ils utilisent des fichiers temporaires et ne constituent pas une exécution scientifique ni une validation complète du parcours CLI R2.
 
 Le fichier [WP12_62_CAPABILITY_AUDIT.csv](WP12_62_CAPABILITY_AUDIT.csv) reprend les 62 identifiants de [CAPABILITY_TEST_MATRIX.csv](CAPABILITY_TEST_MATRIX.csv), sans modifier cette matrice de planification. Il ajoute, par capacité, l’état observé sur le HEAD d’intégration, les résultats récents associés à d’autres identités de source, une lecture des oracles, un risque de régression, une priorité proposée et un chantier WP12 responsable.
 
@@ -30,15 +31,34 @@ Le rapport tet4/fem-cases-wp12-v1/analysis-20261026-v1/report.md (SHA-256 D06D8E
 
 Pour TET4, les incréments relatifs successifs de la norme du déplacement moyen de face décroissent de 175,3 % à 90,8 % puis 31,7 %; la norme augmente encore entre chaque niveau et le niveau le plus fin reste à 11,75 % du diagnostic de poutre 1D non équivalent. Les contrôles de résidu, de réactions, de moments et d’énergie passent sur ces fixtures, mais aucun ordre asymptotique ni validation 3D n’est établi. TET10 et HEX8 n’ont chacun qu’un point de comparaison à facteur 4. Il s’agit de résultats de développement externes au HEAD intégré, sans conclusion générale par élément.
 
-### Clôture bornée VV3D proposée — 2026-10-31
+### Clôture bornée VV3D — disposition Owner approuvée, limitée à VV3D (2026-10-31)
 
 Le rapport [VV3D bounded closeout v0.2.12](../vv3d_bounded_closeout_0_2_12.md) consolide les douze niveaux avec cinq ledgers distincts et leurs contrats, décisions et empreintes. Seules les lignes `EL-TET4`, `EL-TET10`, `EL-HEX8` et `EL-HEX20` de la matrice CSV référencent cette preuve. Les neuf cas TET10/HEX8/HEX20 sont `CASE_GATE_PASS`; leurs évaluations inter-niveaux sont `CONVERGENCE_PASS` sous le contrat famille exact. TET4-L1/L2 restent les `PASS` de R2; les ordres obtenus à partir des niveaux conservés sont descriptifs, car L3 provient d’un diagnostic séparé.
 
-TET4-L3 demeure `DIAGNOSTIC_COMPLETED` avec contrôles mécaniques `PASS`, mais l’erreur relative d’énergie scalaire `0.0615360686 > 0.05` reste `FAIL`. La précision demandée n’est pas atteinte. Aucun ledger n’est réécrit ou combiné en campagne homogène. L’Owner a explicitement approuvé la disposition `VV3D_CLOSED_BOUNDED_FOR_0_2_12` le 2026-10-31; elle prend effet à l’intégration revue de cette PR. Elle ne promeut pas d’autres capacités et ne change pas WP12-B, WP12 ou WP13.
+TET4-L3 demeure `DIAGNOSTIC_COMPLETED` avec contrôles mécaniques `PASS`, mais l’erreur relative d’énergie scalaire `0.0615360686 > 0.05` reste `FAIL`. La précision demandée n’est pas atteinte. Aucun ledger n’est réécrit ou combiné en campagne homogène. L’Owner a explicitement approuvé la disposition `VV3D_CLOSED_BOUNDED_FOR_0_2_12` le 2026-10-31; cette décision est intégrée par la PR #110 au HEAD release `ee50684`. Elle ne promeut pas d’autres capacités et ne change pas WP12-B, WP12 ou WP13.
+
+### WP12-B — dossier de clôture bornée autorisé en principe (2026-10-31)
+
+L’Owner a approuvé le principe d’une clôture bornée sans nouveau calcul FEM et autorisé la préparation et l’intégration de son dossier. Ce n’est pas la clôture effective : WP12-B reste `OPEN` jusqu’au contrôle du dossier intégré et à la confirmation explicite des dispositions finales. Le statut cible après confirmation est `WP12B_CLOSED_BOUNDED_FOR_0_2_12`; avant celle-ci, le dossier vise `WP12B_BOUNDED_CLOSEOUT_READY_FOR_OWNER_CONFIRMATION`.
+
+Le rapport [WP12-B bounded closeout v0.2.12](../wp12b_bounded_closeout_0_2_12.md) porte les familles et chargements retenus, les six MUST, les résultats, les limites et les revendications autorisées. Il distingue les résultats liés à leurs sources des preuves sur le HEAD d’intégration : aucune campagne scientifique n’est déclarée exécutée sur `ee50684`.
+
+| MUST WP12-B | Disposition bornée retenue |
+|---|---|
+| `EL-TET4` | Résultats bornés conservés; pas de `CONVERGENCE_PASS`; FAIL énergétique TET4-L3 conservé. |
+| `EL-TET10` | `CONVERGENCE_PASS` uniquement sous le contrat VV3D; pression R4 bornée distincte. |
+| `MAT-ELASTIC` | Routes linéaires isotropes compatibles et déclarées seulement; pas de produit cartésien qualifié. |
+| `AN-STATIC` | Cas statiques bornés; pas de certificat statique général. |
+| `LOADS-REACTIONS` | Résultantes, moments et réactions documentés pour Beam2/TET10; HEX20 QUAD8 corrigé reste `NOT_ACQUIRED` en FEM. |
+| `MESH-QUALITY` | Contrôles limités aux contrats et maillages identifiés; pas de garantie de précision de solution. |
+
+La correction HEX8-SRI et la correction QUAD8 HEX20 sont intégrées, mais leur validation mécanique globale post-correction reste `NOT_ACQUIRED`. Les FAIL HEX8-SRI et HEX20 R4 sont conservés. Les certificats historiques MITC3/MITC4 et WEDGE6 restent dans leurs seuls scopes enregistrés; les extensions sont EXPERIMENTAL, DEFERRED ou NOT_ACQUIRED selon le registre. MPC/RBE demeure assigné à WP12-A.
+
+Après confirmation Owner, la suite demandée est WP12-F. WP12 et WP13 restent ouverts; ce dossier n’accorde aucune qualification générale ni autorisation de publication.
 
 ### HEX8-SRI
 
-Les deux diagnostics test_wp12_hex8_sri_near_incompressible_nu04999_nx16 et test_wp12_hex8_sri_near_degenerate_nu0495_nx4 restent PYTEST_FAILED avec leurs portes échouées. La sous-campagne est classée CLOSED_NEGATIVE; cette fermeture ne transforme pas les échecs en succès et ne qualifie pas HEX8-SRI. L’analyse multiprécision montre que la résolution float64 des mêmes coefficients explique une grande part des résidus libres et écarts d’énergie, tandis que les écarts globaux de forces et de moments persistent. La cause complète reste indéterminée; aucun défaut propre au noyau HEX8-SRI n’est démontré. La note de clôture est référencée par son SHA-256 dans la matrice.
+Les deux diagnostics test_wp12_hex8_sri_near_incompressible_nu04999_nx16 et test_wp12_hex8_sri_near_degenerate_nu0495_nx4 restent `PYTEST_FAILED / CLOSED_NEGATIVE`; ils ne sont ni remplacés ni attribués au seul défaut de poids volumique. Le correctif de formulation #91 est intégré au release par le commit `326b357fe752b33bb034c46ed546973abb1d2cb0`, ancêtre du HEAD release `ee50684`; ses huit tests d’élément sont rapportés PASS, sans assemblage ni résolution globale. La validation mécanique globale post-correction demeure `NOT_ACQUIRED`, HEX8-SRI reste `EXPERIMENTAL`, et la proposition 8×4×4 reste non gelée et non exécutée.
 
 ### Dynamique et harmonique
 
@@ -60,4 +80,4 @@ Ces trois tests n’ont pas été exécutés sur le HEAD intégré audité. Leur
 
 ## Décision de gouvernance
 
-Cet audit recommande de garder WP12 OPEN. Les campagnes et priorités ci-dessus préparent l’ordonnancement; aucun calcul n’est autorisé par ce document. Toute campagne future doit utiliser ses propres manifestes, identités et décisions Owner. Les résultats anciens, les FAIL, les INCONCLUSIVE et les limites restent intacts.
+L’audit statique du 2026-10-26 recommandait de garder WP12 OPEN. À la révision du 2026-10-31, l’Owner a autorisé la préparation d’une clôture WP12-B bornée sans FEM, mais WP12-B n’est pas encore clôturé. Le rapport intégré doit rester limité aux dispositions et revendications qui y sont consignées et attend la confirmation explicite de l’Owner. WP12 et WP13 restent OPEN. Toute campagne ultérieure exige ses propres manifestes, identités et décisions Owner. Les résultats anciens, les FAIL, les INCONCLUSIVE et les limites restent intacts.
