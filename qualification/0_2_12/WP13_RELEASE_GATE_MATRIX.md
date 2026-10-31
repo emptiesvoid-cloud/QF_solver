@@ -38,28 +38,39 @@ This matrix records observed gates at the baseline and will be updated as eviden
 
 ## Current candidate status — 2026-10-31
 
-The source changes are in the dedicated integration worktree based on
-`ab137051d920d7fa9aae9a3012a48b2b26e2198b`. A final candidate source commit
-and contract-bound package run are still pending; this section records current
+The candidate source is `c4d4fa0a60370df4f023ac8702c5774710d16e60`, based on
+release baseline `ab137051d920d7fa9aae9a3012a48b2b26e2198b`. Contract v3 was
+prospectively frozen at `578cb5be3ee7968a3c533f87b1d278e233c19ccf`. Candidate
+artifact builds and installs are still pending; this section records current
 verification evidence, not a final release recommendation.
 
 | Gate | Current status | Evidence / limitation |
 |---|---|---|
+| Candidate source identity | **PASS — frozen** | Source `c4d4fa0a60370df4f023ac8702c5774710d16e60`; contract execution commit `578cb5be3ee7968a3c533f87b1d278e233c19ccf`; dedicated branch is based on the refreshed release baseline. No release tag, merge to `main` or publication occurred. |
 | Version metadata and public release wording | **PASS — source review** | `pyproject.toml`, `src/solveur/version.py` and `CITATION.cff` identify 0.2.12. The CFF has no `date-released` or version DOI; the concept DOI is retained. README/docs continue to identify 0.2.11 as the latest published release. |
 | WP12 closeout claims | **PASS — bounded wording** | Roadmap and closeout remain authoritative at `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`; documentation preserves the TET4-L3 energy FAIL, two HEX8-SRI FAILs, HEX20 QUAD8 R4 FAIL and non-acquired states. WP12 evidence/ledgers are unchanged. |
+| Public claims and documentation scope | **PASS — bounded selected surface** | Superseded WP12 status summaries and B* parent-status wording were corrected; the public qualification page now cites its historical source snapshot. Internal engineering and audit reports remain in Git but are excluded from the served site. Strict scan v3 has no selected-doc findings. |
 | Targeted API/serialization/CLI tests | **PASS — 21 executions on Windows Python 3.13.1; 4 additional executions on Windows Python 3.12** | Every invocation used one exact test node. Coverage includes JSON refusal, model/result round-trip, public/compatibility APIs, CLI version, citation/release wording and retained rotor limits. No solver/FEM test ran. Exact nodes are listed in the PR evidence. |
 | Representative model loading/mesh-check smoke | **PASS — non-solving only** | `check-mesh` returned `MESH STATUS: PASS` for `examples/tet4_static.json`, `examples/beam2_cantilever.json` and `examples/mitc4_shell_static.json` on Windows Python 3.12 and 3.13. This exercises parsing and mesh/model checks, not element assembly or a structural solve. |
 | Ruff | **PASS** | `python -m ruff check src/qf_solver src/solveur tests scripts`. Two prior unused-local findings were corrected while preserving their expressions' evaluation; no oracle, threshold or ledger changed. |
 | Mypy | **PASS** | CI's four-file progressive typing command; no issues. |
 | Python compilation | **PASS** | CI's `compileall -q src scripts tests qf_solver.py main_solveur.py mitc4_solver.py`. |
-| MkDocs | **PASS** | `python -m mkdocs build --strict -f .github/pages/mkdocs.yml` returned 0. The site was built locally only; no deployment occurred. |
+| MkDocs | **PASS — local build only** | `python -m mkdocs build --strict -f .github/pages/mkdocs.yml` returned 0 after adding explicit exclusions for internal reports. The generated site was not synchronized or deployed. |
 | Standard full test suite and coverage thresholds | **NOT_RUN** | CI targets `main`, not this release branch. Repository policy requires one exact unit/integration nodeid per invocation, so the directory-wide suite and 80%/90% coverage gates were not substituted with targeted passes. |
 | Linux and Python 3.10/3.11/3.13 matrix | **NOT_RUN** | Available local runtimes are Windows Python 3.12/3.13. WSL has Python 3.14 without a prepared dependency environment; Docker Engine is unavailable. No official Linux/3.10/3.11 matrix result is claimed. |
 | Representative solver/FEM smoke tests | **BLOCKED BY EXECUTION POLICY** | No registered WP13 smoke node, exact source/input identity, resource budget or execution manifest is available. No FEM or benchmark ran. |
-| Candidate contract, selected source/docs scan, wheel/sdist and installs | **BLOCKED — pending source freeze** | Candidate source-bound contract must be committed prospectively after the product-source commit. No package has been built or installed at this stage. |
+| Candidate contract | **PASS — prospective v3** | Contract `QF-0212-WP13-SELECTED-CANDIDATE-20261031-03` binds source `c4d4fa0a60370df4f023ac8702c5774710d16e60`, selected paths, tools, MkDocs policy and build settings. Contract commit is `578cb5be3ee7968a3c533f87b1d278e233c19ccf`. |
+| Selected package/documentation scan | **PASS — bounded surfaces** | v3 report binds the contract commit above: 585 selected package files and 773 served documents; zero findings on both. v2's 16 documentation findings remain preserved in its report; all 16 came from internal workflow/audit material now excluded from the site. Neither scan clears G03. See the two JSON reports below. |
+| Wheel/sdist, contents and hashes | **NOT_RUN — pending** | No v0.2.12 artifact has been built yet. The v3 contract permits candidate verification into fresh external output directories only. |
+| Fresh installation and import/CLI probes | **NOT_RUN — pending** | No v0.2.12 wheel or sdist has been installed. Planned probes are non-solving and contract-bound. |
 | Selected-distribution licenses/dependencies | **NOT_RUN for 0.2.12** | License declarations are present; the existing third-party inventory says exact installed versions require review. The 0.2.11 scan does not qualify this candidate. |
 | Whole-repository G03 / archive | **FAIL_PRESERVED** | `AGENTS.md` is not excluded from Git archives and tracked `docs/generated/results/*.json` are present. Neither issue is cleared by selected-distribution checks. |
 | Public site deployment, final tag, main merge and package publication | **BLOCKED — not authorized** | Local docs may be reviewed in the PR; no site synchronization, tag, merge to `main`, GitHub Release, PyPI or Zenodo operation is authorized. |
+
+### Bounded public-scope scan records
+
+- v2: [`wp13_candidate_public_scope_scan_20261031_v2.json`](wp13_candidate_public_scope_scan_20261031_v2.json) records `FAIL_CLOSED_BOUNDED_PUBLIC_SURFACES` at source `0521907e43bbb6f29e95428b471da387950214c8`, with 585 package files / 0 findings and 794 selected documents / 16 findings. This failed scan is retained as history.
+- v3: [`wp13_candidate_public_scope_scan_20261031_v3.json`](wp13_candidate_public_scope_scan_20261031_v3.json) records `PASS_BOUNDED_PUBLIC_SURFACES` at source `c4d4fa0a60370df4f023ac8702c5774710d16e60` and contract commit `578cb5be3ee7968a3c533f87b1d278e233c19ccf`, with 585 package files / 0 findings and 773 served documents / 0 findings. It excludes `docs/development/`, the RBE audit report, the WP12-B loads audit and the already-excluded 0.2.9 archive from site publication; their Git history and contents are preserved.
 
 ## API observation
 
