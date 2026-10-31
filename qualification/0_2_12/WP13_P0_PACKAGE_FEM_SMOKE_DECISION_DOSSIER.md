@@ -15,6 +15,8 @@ smokes. No FEM has run under this dossier.
 | Package source SHA | `2865587a44f9e461a0b4e4286c912c17e4f04be5` |
 | Contract | `QF-0212-WP13-SELECTED-CANDIDATE-20261031-06` |
 | Contract file SHA-256 | `f33a72b182439774828f8e604d6ab234bbf206c697c0f1082d7bc0ef81003db9` |
+| Bounded smoke controller | [`scripts/wp13_package_smoke.py`](../../scripts/wp13_package_smoke.py), SHA-256 `83dbd60bbc481ee7dbae90dd5052454508ec3da65e42039888d9b92a9a386571` |
+| Exact smoke manifest | [`wp13_p0_package_smoke_manifest_20261031_v1.json`](wp13_p0_package_smoke_manifest_20261031_v1.json), SHA-256 `2dc2badf59c1a35aff44fcb5763eaac4e0e55b73857be878b660c3bd0430addb` |
 | Wheel (run 1 and run 2) | `qf_solver-0.2.12-py3-none-any.whl`, 1,689,662 bytes, SHA-256 `ae5211136a2eab912cdb73222937a84b1cec75f7af0a425f1162b288b39c287a` |
 | Raw sdist (run 1) | `qf_solver-0.2.12.tar.gz`, 1,320,001 bytes, SHA-256 `f4aaafffc184c662808f061e2b234fe4d6623ae07f2a3c18f2d74721185f71e3` |
 | Raw sdist (run 2; selected for the smoke dossier) | `qf_solver-0.2.12.tar.gz`, 1,320,067 bytes, SHA-256 `15c838af12c8401b61c561f5f079debc702e072241e9ee8c17cd5861cbf082e5` |
@@ -44,7 +46,7 @@ no override options are needed because analysis and method are in the JSON.
 |---|---|---|
 | `WP13-P0-STATIC-01` / `SOV-TET4-STATIC-001` | `5296102b955ae4ac83b341178a8a555feb87faa0e9a30abe9f77c29df21988b8` (`examples/tet4_static.json` as installed) | One TET4, four nodes, three free DOFs; isotropic linear elastic `E=210 GPa`, `nu=0.3`; direct linear static; `1000 N` at node 1 UX. Check `UX=2.1224489795918369e-08 m` and von Mises `3428.5714285714284 Pa` against the closed-form constrained TET4 oracle at relative tolerance `1e-12`; free relative residual `<=1e-9`; reaction resultant X `-1000 N` within absolute `1e-10 N`; relative force-balance error `<=1e-12`; linear-energy-identity error `<=1e-9`. |
 | `WP13-P0-MODAL-01` / `SOV-MODAL-TET4-001` | `0d40df125888b467017d053795336cb8960f643c95a209c3c96379a50c689750` (`examples/tet4_modal_unit.json` as installed) | Same unit TET4 mesh and material, three free DOFs; `eigh`, three modes. Check first shear frequency `1619.5553821068941 Hz` against `sqrt(10*G/rho)/(2*pi)` at relative tolerance `1e-12`; maximum relative eigen residual, mass orthogonality, and stiffness-diagonal errors each `<=1e-10`. |
-| `WP13-P0-DYNAMIC-01` / `SOV-DYN-SDOF-001` | `b40d7188143e4bcc73ee63407f426633490921075990bcad47bd25c9a188480b` (`examples/tet4_dynamic_sdof_free_vibration.json` as installed) | One TET4, four nodes, one free DOF; `E=1000`, `nu=0.25`, `rho=10`; undamped Newmark average acceleration, `dt=0.001 s`, 40 steps, initial UX `0.001`. Check initial and step-39 total energy against closed-form `0.0001 J` at relative tolerance `1e-10`; step-39 relative energy drift in `[-1e-10,1e-10]`; dynamic residual and free equilibrium residual each `<=1e-10`. |
+| `WP13-P0-DYNAMIC-01` / `SOV-DYN-SDOF-001` | `b40d7188143e4bcc73ee63407f426633490921075990bcad47bd25c9a188480b` (`examples/tet4_dynamic_sdof_free_vibration.json` as installed) | One TET4, four nodes, one free DOF; `E=1000`, `nu=0.25`, `rho=10`; undamped Newmark average acceleration, `dt=0.001 s`, 40 steps, initial UX `0.001`, initial velocity zero. The history is indexed 0–39 for steps 1–40: index 39 is step 40 at `0.040 s`. Check analytic initial energy, first recorded energy at `0.001 s`, final state energy, history energy and relative drift against `0.0001 J` at the frozen tolerances; dynamic and free-equilibrium residuals each `<=1e-10`. |
 
 Installed input paths are under `E:\QFSolverAgents\wp13_deps_wheel_20261031_v6\examples\`
 and `E:\QFSolverAgents\wp13_deps_sdist_20261031_v6\examples\`. For all
@@ -95,19 +97,24 @@ or capability maturity.
 
 The repository's current `scripts/run_local_vv.py` accepts one exact pytest
 nodeid per run and expects `solveur` to import from the scientific source
-checkout. It rejects/does not represent an installed wheel or sdist import.
-The registered development scopes are not WP13 package-smoke scopes. No
-compatible WP13 controller, exact pytest nodes, manifest, preflight, or
-reservation currently exists. The current candidate's CLI supports the
-installed `qf-solver solve --input ... --output ...` route, but that alone is
-not a policy-compliant execution controller.
+checkout. It does not represent imports from an installed wheel or sdist. The
+registered development scopes are not WP13 package-smoke scopes. A dedicated
+WP13 controller and exact manifest are now prepared, with their hashes above.
+The controller allows only the six fixed artifact/case pairs, constructs
+shell-free installed CLI arguments, rechecks the installed archives,
+environments, inputs and frozen oracle-source hashes, and records execution
+and numerical-oracle verdicts separately. It cannot claim
+`QUALIFICATION_PASS`.
 
-**Decision requested:** authorize preparation of a minimal shell-free WP13
-package-smoke runner/scope for only the six case/artifact pairs above, followed
-by a synthetic no-FEM CLI-to-reservation preflight. The controller source,
-exact manifest, independent-oracle constants, resource enforcement, and all
-SHA-256 values must be frozen and reviewed in the PR before any reservation.
-After those artifacts are reviewable, Owner approval must explicitly bind the
-final manifest SHA and permit the six one-attempt solves. If this runner cannot
-be made compatible without weakening existing gates, close the solve-smoke
-gate as `BLOCKED` and do not substitute an unbounded command.
+At this report revision, the no-FEM preflight route has not yet been executed
+and no reservation exists. The controller requires an append-only synthetic
+preflight plus an Owner decision bound to the controller, manifest, persisted
+preflight report, synthetic no-FEM report and exact six-pair list. If any
+bound identity changes, execution is refused.
+
+**Decision requested after the synthetic preflight is recorded:** approve only
+the six one-attempt solves above, in the fixed wheel-then-sdist order, with the
+30-second per-attempt timeout, output caps, 512 MiB sampled RSS stop, exact
+input hashes and analytical oracles, serial execution and stop-on-first-fail
+rule. If the runner or preflight cannot meet the existing policy, the
+solve-smoke gate will remain `BLOCKED`; no unbounded substitute is permitted.
