@@ -23,7 +23,9 @@ Cette page rassemble les rapports committés absents de la base et indique où l
 | `verify/wp12-rotor-performance` — `4adc0c220369b7b8f257f604ca2bb9e89d12c1c3` | Le document WP12 distinct trouvé dans le diff est un plan de performance; aucun rapport final d’audit de résultats n’est committé. La roadmap courante maintient D01 `INCONCLUSIVE`. | Le plan n’est pas présenté comme un audit achevé ni comme une exécution. Les mesures et limites héritées de la rotordynamique restent dans la roadmap et les rapports de release concernés. |
 | `test/wp12-fem-regressions` — `fa889f480766506787941617fa0db4124381c63b` | Les documents WP12 ajoutés sont un plan HEX8-SRI et une matrice de travail; aucun rapport final de clôture de la sous-campagne n’est committé dans cette branche. | Aucun brouillon n’est importé comme conclusion. La classification `CLOSED_NEGATIVE` des deux diagnostics HEX8-SRI et leurs `PYTEST_FAILED` historiques restent ceux déjà rapportés dans la roadmap; seuils et preuves demeurent inchangés. |
 
-## WP12-B — lot d’éléments préparé, non autorisé
+> **Portée historique :** la section WP12-B ci-dessous consigne l’état de préparation avant les résultats R4 et la décision Owner du 2026-10-31. Elle n’est plus le statut courant ; voir la mise à jour normative à la fin de ce fichier.
+
+## WP12-B — lot d’éléments préparé, non autorisé (état historique)
 
 Le lot transmis au commit `8818b1b4095bd7f5c1303d640375c2c577bdc4d8` sur `verify/wp12-elements-loads` est consigné `PREPARED_NOT_AUTHORIZED` en attente d’une inscription conforme. Il comprend les cas proposés ci-dessous; budgets proposés : une tentative par cas, 300 s par tentative, RSS observée plafonnée à 4 096 MiB, trois tentatives au total.
 
@@ -44,3 +46,9 @@ Le worktree observé `C:\Users\fari\.codex\worktrees\verify-wp12-elements-loads\
 - Aucun résultat de cette page n’est une qualification formelle ou une validation physique générale.
 
 La [roadmap v0.2.12](../ROADMAP.md) conserve la synthèse de portefeuille déjà intégrée. Cette page n’en recopie pas les tableaux de capacités et ajoute les rapports détaillés manquants avec leur identité source. Aucune politique, aucun runner, aucun fichier solveur, seuil ou archive historique n’est modifié.
+
+## Mise à jour normative — WP12-B clôturé et WP12-F préparé (2026-10-31)
+
+L’Owner a confirmé `WP12B_CLOSED_BOUNDED_FOR_0_2_12` après intégration de la PR #111 au commit `09f0810a39f9712044450c527d7613518d6bcea6`. La décision est conservée dans [l’archive Owner WP12-B](../WP12B_OWNER_BOUNDED_CLOSURE_DECISION_20261031.md). Les six dispositions MUST sont acceptées dans leurs périmètres documentés ; les preuves, échecs et ledgers historiques restent inchangés.
+
+La consolidation et la préparation de la décision globale sont dans [WP12-F](WP12F_FINAL_VV_CONSOLIDATION_AND_GLOBAL_DECISION.md). Le statut global demeure `WP12=OPEN` jusqu’à une décision Owner distincte ; WP13 reste `OPEN`. Cette mise à jour n’autorise aucune campagne scientifique.
