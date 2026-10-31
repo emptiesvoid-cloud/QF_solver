@@ -4,7 +4,7 @@
 **Projet :** QF Solver v0.2.12 alpha<br>
 **Branche release :** `emptiesvoids-cloud/0.2.12`<br>
 **HEAD distant revalidé au début de l’audit :** `24885ae7eec606c473328bece5be3310779e55a5` (PR #112)<br>
-**Dossier préparé pour intégration :** PR documentaire de clôture globale WP12 (son commit de merge constitue le HEAD release après cette intégration; voir la référence de PR dans GitHub).
+**Dossier préparé pour intégration :** [PR documentaire globale #113](https://github.com/emptiesvoid-cloud/QF_solver/pull/113) (son commit de merge constitue le HEAD release après cette intégration).
 
 La publication v0.2.12 n’est pas autorisée. WP13 reste `OPEN`.
 
