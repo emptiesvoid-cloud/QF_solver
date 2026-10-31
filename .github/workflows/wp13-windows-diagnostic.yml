@@ -1,0 +1,43 @@
+name: WP13 Windows diagnostic
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wp13-windows-diagnostic-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  diagnose-policy-tests:
+    name: Windows / Python 3.13 / synthetic policy diagnostic
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out selected candidate ref
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements/baseline-standard.txt
+      - name: Install standard test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements/baseline-standard.txt
+          python -m pip install -e . --no-deps
+      - name: Run bounded governance-only diagnosis
+        run: python scripts/wp13_windows_diagnostic.py --output-dir "${{ runner.temp }}\wp13-windows-diagnostic"
+      - name: Preserve diagnostic logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wp13-windows-diagnostic-${{ github.run_id }}
+          path: ${{ runner.temp }}/wp13-windows-diagnostic
+          if-no-files-found: warn
+          retention-days: 14

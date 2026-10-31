@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "overall_status": "WP13_P0_PARTIAL_OR_BLOCKED",
+  "measurement_scope": "Targeted non-FEM checks only; no full suite, coverage run, benchmark, package build, or publication.",
+  "windows_diagnostic": {
+    "remote_run": {
+      "workflow_run_id": 41225195330,
+      "job_id": 124607776630,
+      "head": "f00bbb9c23769f984a12c2dda37802382ffc5414",
+      "python": "3.13.16",
+      "status": "CANCELLED_AFTER_180_MINUTES",
+      "observed": {
+        "passed": 602,
+        "skipped": 5,
+        "deselected": 150
+      },
+      "last_log": "No active nodeid, stack, CPU, or RSS was recorded; log ends with a file-progress line and buffered dots."
+    },
+    "local_candidate": {
+      "head": "32520eba0aacbce782c0b3cd660074ecf1b7f824",
+      "module_blob": "6603a639662bf79462d14bb87d8b9929d1c7adb2",
+      "quality_workflow_blob": "e1ebb19f35ea640812f3dd1e742b1be9a74dcaac",
+      "platform": "Windows 10.0.19045 x64",
+      "python": "3.13.1",
+      "pytest": "8.4.1",
+      "psutil": "7.2.2",
+      "filtered_suite_selected_items": 4708,
+      "module_first_global_ordinal": 556,
+      "module_selected_items": 247,
+      "module_nodeids_sha256": "0227ce061aff18ced4c0ef36463565bdc49dfcdd28340799b3e1426e0b9df946",
+      "suspected_module_index_1_based": 53,
+      "suspected_nodeid": "tests/unit/test_development_autonomous_policy.py::test_wp12_runner_selects_scope_mandate_without_launching[rotor]",
+      "isolated": {
+        "status": "PASS",
+        "pytest_summary": "1 passed in 1.32s",
+        "runner_wall_seconds": 3.7713,
+        "node_wall_seconds": 0.0345,
+        "node_cpu_seconds": 0.046875,
+        "rss_start_bytes": 114036736,
+        "rss_end_bytes": 113115136,
+        "read_ops": 5,
+        "read_bytes": 135221,
+        "write_ops": 3,
+        "write_bytes": 379
+      },
+      "prefix_first_53": {
+        "status": "PASS",
+        "passed": 53,
+        "failed": 0,
+        "pytest_seconds": 8.66,
+        "runner_wall_seconds": 10.5023,
+        "peak_sampled_cpu_seconds": 7.828125,
+        "peak_sampled_rss_bytes": 135376896,
+        "candidate_node_wall_seconds": 0.0334,
+        "candidate_node_cpu_seconds": 0.03125
+      },
+      "result": "NOT_REPRODUCED_LOCALLY; hosted cause remains unproven",
+      "checkout_status_unchanged": true,
+      "raw_logs": [
+        {
+          "name": "collection.log",
+          "bytes": 33525,
+          "sha256": "fc3b0d4ba8819b727849425374004e88939760ae74e1803b9f83f84269b5ed01"
+        },
+        {
+          "name": "isolated.pytest.log",
+          "bytes": 1388,
+          "sha256": "6b3ba600edf93e5e20301afc367641b615300954ee276ad01113f2122410bb96"
+        },
+        {
+          "name": "isolated.events.jsonl",
+          "bytes": 410,
+          "sha256": "b53911de18160021d839c4636f5884e9accf98430461fd0785f518b73e34b546"
+        },
+        {
+          "name": "prefix_1_through_53.pytest.log",
+          "bytes": 49896,
+          "sha256": "578116f8e396ddba12a11852e2e2d01ebde66167ebfb06a3fec83c415218d4f4"
+        },
+        {
+          "name": "prefix_1_through_53.events.jsonl",
+          "bytes": 22027,
+          "sha256": "d091f65c3771424566fd97a72114d58b5c8b5d02c88ec6772f9243e6406d8587"
+        }
+      ]
+    }
+  },
+  "scan_comparisons": {
+    "environment": {
+      "os": "Windows 10.0.19045 x64",
+      "python": "3.13.1",
+      "pytest": "8.4.1",
+      "coverage": "not run"
+    },
+    "same_module_public_document_tests": {
+      "before": {
+        "head": "f00bbb9c23769f984a12c2dda37802382ffc5414",
+        "nodeids": 2,
+        "passed": 2,
+        "failed": 0,
+        "scan_count": 2,
+        "pytest_seconds": 270.49,
+        "wall_seconds": 272.4644,
+        "cpu_seconds": 243.84375,
+        "sampled_peak_rss_bytes": 200392704,
+        "read_ops": 188266,
+        "read_bytes": 1287881919,
+        "write_ops": 30,
+        "write_bytes": 924,
+        "raw_log_sha256": "cdc07b61b2d7096cbf6639f3a5d9d2a68db4b0299a3229a18d4f2b33ff0040bf"
+      },
+      "after": {
+        "head": "3475813131d069f6f6d60adb8f59efe9495349ab",
+        "nodeids": 2,
+        "passed": 2,
+        "failed": 0,
+        "scan_count": 1,
+        "pytest_seconds": 119.99,
+        "wall_seconds": 121.9369,
+        "cpu_seconds": 120.921875,
+        "sampled_peak_rss_bytes": 197554176,
+        "read_ops": 166309,
+        "read_bytes": 652587121,
+        "write_ops": 30,
+        "write_bytes": 941,
+        "raw_log_sha256": "7ba69ba0a8071be8b5b95f1d2d97b48d1da00735c6e767c3d9ee02205af98d07"
+      },
+      "pytest_seconds_reduction_percent": 55.6,
+      "cpu_seconds_reduction_percent": 50.4,
+      "read_bytes_reduction_percent": 49.3,
+      "peak_rss_reduction_percent": 1.4,
+      "nodeids": [
+        "tests/unit/test_public_document_audit.py::test_whole_repository_document_audit_keeps_the_unresolved_public_hygiene_gate_visible",
+        "tests/unit/test_public_document_audit.py::test_controlled_public_document_audit_record_matches_current_classification"
+      ]
+    },
+    "cross_module_public_source_tests": {
+      "before": {
+        "head": "3475813131d069f6f6d60adb8f59efe9495349ab",
+        "nodeids": 3,
+        "passed": 3,
+        "failed": 0,
+        "scan_count": 2,
+        "pytest_seconds": 238.05,
+        "wall_seconds": 241.7238,
+        "cpu_seconds": 239.078125,
+        "sampled_peak_rss_bytes": 200441856,
+        "read_ops": 177196,
+        "read_bytes": 977317179,
+        "write_ops": 33,
+        "write_bytes": 2476,
+        "raw_log_sha256": "0d0ebebe0a7cc7fbbe9174152a6cd0abefe4bffe42e889fbae02a79a825ded5f"
+      },
+      "after": {
+        "head": "368b3ef3e10b5df9e325f25bb62880a50ee24ac2",
+        "nodeids": 3,
+        "passed": 3,
+        "failed": 0,
+        "scan_count": 1,
+        "pytest_seconds": 132.14,
+        "wall_seconds": 135.6818,
+        "cpu_seconds": 123.25,
+        "sampled_peak_rss_bytes": 196747264,
+        "read_ops": 167130,
+        "read_bytes": 655389257,
+        "write_ops": 29,
+        "write_bytes": 927,
+        "raw_log_sha256": "cb55a0816ce9070b63467a7c91453a8f30f77f1461bfa2a12b62723b87585c79"
+      },
+      "pytest_seconds_reduction_percent": 44.5,
+      "wall_seconds_reduction_percent": 43.9,
+      "cpu_seconds_reduction_percent": 48.4,
+      "read_bytes_reduction_percent": 32.9,
+      "nodeids": [
+        "tests/unit/test_public_release_audit.py::test_whole_repository_public_release_scan_preserves_unresolved_g03_findings",
+        "tests/unit/test_public_document_audit.py::test_whole_repository_document_audit_keeps_the_unresolved_public_hygiene_gate_visible",
+        "tests/unit/test_public_document_audit.py::test_controlled_public_document_audit_record_matches_current_classification"
+      ]
+    }
+  },
+  "archive_scanner": {
+    "nodeid": "tests/unit/test_public_release_audit.py::test_current_git_archive_keeps_whole_repository_hygiene_findings_visible",
+    "head": "3475813131d069f6f6d60adb8f59efe9495349ab",
+    "status": "INTERRUPTED_BY_LOCAL_MEASUREMENT_CAP; NO_PYTEST_VERDICT",
+    "wall_cap_seconds": 480,
+    "last_sample": {
+      "wall_seconds": 456,
+      "cpu_seconds_at_least": 452.92,
+      "rss_bytes": 98103296
+    },
+    "git_archive_child": "exited before the sampled long Python scan; scanner was CPU-bound while reading/scanning archive members",
+    "raw_log": {
+      "bytes": 516,
+      "sha256": "1093d0138de82086393d28e02b2e52cc2191ac665a062d81e50ac1ea1bdfab88"
+    },
+    "historical_context": "The real archive test remained selected in the Linux/Python 3.13 successful quality run 41225195330 at f00bbb9; scanner source is unchanged at 368b3ef3."
+  },
+  "pull_requests": {
+    "114": {
+      "state": "OPEN",
+      "head": "32520eba0aacbce782c0b3cd660074ecf1b7f824",
+      "base": "ab137051d920d7fa9aae9a3012a48b2b26e2198b",
+      "checks": []
+    },
+    "115": {
+      "state": "OPEN",
+      "head": "00306cd4f6358947f329ded2f7450925225037ce",
+      "base": "ab137051d920d7fa9aae9a3012a48b2b26e2198b",
+      "checks": []
+    },
+    "116": {
+      "state": "OPEN",
+      "head": "368b3ef3e10b5df9e325f25bb62880a50ee24ac2",
+      "base_ref": "codex/wp13-release-engineering-20261031",
+      "recorded_base_sha": "6268a263110120b884473c5c5c91a610d7ffcc9e",
+      "latest_pr114_head": "32520eba0aacbce782c0b3cd660074ecf1b7f824",
+      "mergeable": "CLEAN",
+      "checks": []
+    }
+  },
+  "pr115_target": {
+    "nodeid": "tests/unit/test_contact_documentation_assets.py::test_contact_publisher_copies_campaign_assets_without_running_fem",
+    "result": "PASS",
+    "collected": 1,
+    "pytest_summary": "1 passed in 1.83s"
+  },
+  "limits": {
+    "coverage_effect": "not measured by these targeted runs",
+    "full_four_cell_matrix": "NOT_ACQUIRED for current final candidate",
+    "full_suite_after_optimization": "NOT_RUN",
+    "hosted_windows_diagnostic": "NOT_RUN; workflow_dispatch requires the workflow to exist on the default branch; no such merge was made"
+  }
+}
