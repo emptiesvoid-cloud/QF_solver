@@ -2,6 +2,11 @@ name: WP13 Windows diagnostic
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - codex/wp13-windows-diagnostic-20261031
+    paths:
+      - .github/workflows/wp13-windows-diagnostic.yml
 
 permissions:
   contents: read
