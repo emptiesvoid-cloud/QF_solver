@@ -25,6 +25,7 @@ EXPECTED_MANIFEST_BLOB = "34130c8ec7f78564a01f2d62bd7b2ffee68efbf4"
 EXPECTED_QUALITY_WORKFLOW_BLOB = "e1ebb19f35ea640812f3dd1e742b1be9a74dcaac"
 NODE_TIMEOUT_SECONDS = 110
 TOTAL_BUDGET_SECONDS = 720
+SUPPORTED_PYTHON_VERSIONS = {(3, 10), (3, 13)}
 
 
 def utc_now() -> str:
@@ -266,8 +267,8 @@ def main() -> int:
         pass
     else:
         raise RuntimeError("Diagnostic output must stay outside the checkout and scientific evidence roots.")
-    if sys.platform != "win32" or sys.version_info[:2] != (3, 13):
-        raise RuntimeError("This workflow is restricted to Windows and Python 3.13.")
+    if sys.platform != "win32" or sys.version_info[:2] not in SUPPORTED_PYTHON_VERSIONS:
+        raise RuntimeError("This workflow is restricted to Windows and Python 3.10 or 3.13.")
     output_dir.mkdir(parents=True, exist_ok=True)
     scratch = output_dir / "scratch"
     scratch.mkdir(parents=True, exist_ok=True)
