@@ -1,9 +1,9 @@
 # WP13 — Rapport final de validation et de performance
 
-Date de l’audit : 1 novembre 2026  
-Dépôt : emptiesvoid-cloud/QF_solver  
-PR : [#114](https://github.com/emptiesvoid-cloud/QF_solver/pull/114)  
-Branche : codex/wp13-release-engineering-20261031  
+Date de l’audit : 1 novembre 2026
+Dépôt : emptiesvoid-cloud/QF_solver
+PR : [#114](https://github.com/emptiesvoid-cloud/QF_solver/pull/114)
+Branche : codex/wp13-release-engineering-20261031
 Branche de release examinée : emptiesvoids-cloud/0.2.12
 
 ## Verdict exécutif
@@ -113,6 +113,7 @@ Résultats PASS réalisés dans ce mandat ou vérifiés sur le candidat :
 - Tests locaux ciblés du câblage documentaire, de la composition readiness, des commandes sur dépôt synthétique et du pipeline readiness : PASS.
 - Ruff et py_compile sur le contrôleur de diagnostic; parsing YAML, validation des matrices, vérification du pin de blob et git diff --check : PASS.
 - Run #41325197449 pour les contrôles rapides de workflow : Ruff, compilation, JSON, diff whitespace et contrats synthétiques PASS. L’échec Python 3.10 du diagnostic dans #41325192627 est expliqué et corrigé; les runs post-correctif #41325510873 et #41326063607 ont passé en 3.10 et 3.13. Le dernier a vérifié le pin de workflow et les artefacts séparés sur le HEAD d4761299f.
+- Le run #41326438148 a ensuite échoué uniquement au contrôle git diff --check : des espaces de fin de ligne dans les métadonnées du présent rapport. Ils ont été supprimés; le contrôle local du diff complet passe. Le run a échoué avant les contrats synthétiques et n’a révélé aucun défaut du contrôleur.
 
 Non exécutés ou non acquis :
 
