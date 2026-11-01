@@ -174,10 +174,52 @@ reports.
 | Installed wheel/sdist mechanical solve smoke | BLOCKED / NOT_RUN | No exact WP13 Owner execution authorization or real attempt ledger; no package solve was run. |
 | Overall WP13 P0 | WP13_P0_PARTIAL_OR_BLOCKED | Do not declare P0 validated. The complete four-cell suite obligation remains NOT_ACQUIRED. |
 
-The proposal to use one Ubuntu reference-full cell and targeted compatibility
-cells is not an adopted acceptance criterion. Keep the existing four-cell
-full-suite requirement visible as NOT_ACQUIRED until the Owner formally
-changes it. The bounded performance findings, 17-failure classification and
-unmeasured CI proposal are in
+Historical snapshot note: the preceding run-3 gate state predates the explicit
+Owner approval below. At that point the proposal had not been accepted and the
+full four-cell result was not acquired. The bounded performance findings,
+17-failure classification and earlier unmeasured CI proposal are in
 [WP13_P0_TEST_PERFORMANCE_AND_CI_OPTIMIZATION_REPORT.md](WP13_P0_TEST_PERFORMANCE_AND_CI_OPTIMIZATION_REPORT.md).
 No merge to main, tag, publication or package release occurred.
+
+## Effective Owner-approved matrix — 2026-11-01
+
+The Owner explicitly replaced the four-full-suite policy for QF Solver v0.2.12
+with one Ubuntu/Python 3.13 standard reference suite and exact, targeted
+non-scientific compatibility nodeids on the other three cells. This is a
+policy disposition, not a PASS for the former four-suite criterion. Its three
+secondary cells intentionally execute fewer tests; coverage thresholds and
+scientific criteria are unchanged.
+
+The single authorized `quality.yml` dispatch was run with
+`include_extended_jobs=false` and
+`privacy_base_sha=ab137051d920d7fa9aae9a3012a48b2b26e2198b`. It used exactly
+`698e858e79d6b6ded7cdf764f5e0dd26c710c301` on branch
+`codex/wp13-release-engineering-20261031`:
+[Actions run #41328516423](https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41328516423).
+
+| Gate | Statut | Preuve | Blocage | Action nécessaire |
+|---|---|---|---|---|
+| Owner approval of lightweight release matrix | PASS | Explicit Owner decision on 2026-11-01; policy and scope recorded above. | None for the matrix policy. | Keep the old criterion identified as replaced, never PASS. |
+| Former four-cell full-suite criterion | REPLACED_BY_OWNER_DECISION (not PASS) | The old Windows full-suite cells remain historically incomplete; the Owner replaced this criterion for v0.2.12. | None under the approved policy. | Do not represent the old criterion as passed. |
+| Candidate / workflow identity | PASS | Run #41328516423 is `workflow_dispatch` on the requested branch and exact commit `698e858e79d6b6ded7cdf764f5e0dd26c710c301`; privacy base SHA matches the approved value in all four jobs. | None for this run. | Preserve the run and artifact links. |
+| Ubuntu / Python 3.13 reference suite | PASS | Python 3.13.17; 4,679 passed, 0 failed, 32 skipped, 150 deselected; pytest 2,097.90 s; global branch coverage 84.75%; P0 modules `errors.py` 100.00%, `traceability.py` 92.16%. JUnit/coverage artifact ID 13093243065. | None under this gate. | Retain the reports with the run identity. |
+| Ubuntu / Python 3.10 targeted compatibility | PASS | Python 3.10.22; the 15-nodeid manifest passed 15/15, 0 failed/skipped; pytest 3.39 s. Artifact ID 13092317209. | Only the manifest selection is covered. | Keep the exact manifest and hash attached to this result. |
+| Windows / Python 3.10 targeted compatibility | PASS | Python 3.10.11; the 15-nodeid manifest passed 15/15, 0 failed/skipped; pytest 6.23 s. Artifact ID 13092775721. | Only the manifest selection is covered. | Keep the exact manifest and hash attached to this result. |
+| Windows / Python 3.13 targeted compatibility | PASS | Python 3.13.16; the 15-nodeid manifest passed 15/15, 0 failed/skipped; pytest 4.38 s. Artifact ID 13091563751. | Only the manifest selection is covered. | Keep the exact manifest and hash attached to this result. |
+| Ruff, progressive mypy, privacy additions, compileall | PASS | All four matrix jobs report success for these checks. | None within the declared checks. | None. |
+| Targeted missing-ancestor Windows loop correction | PASS (targeted scope) | Earlier targeted run #41325510873 passed 64 distinct nodeids / 65 occurrences on Python 3.10 and 3.13; the current matrix also passes all 15 compatibility nodeids on Windows. | Does not claim a full Windows standard suite. | No rerun required for this bounded fix. |
+| Quick verification / extended jobs | NOT_RUN | Quick verification was skipped for this manual WP13 dispatch; documentation, engineering, and WP14 extended jobs were disabled by the approved input. | These jobs are outside this matrix execution. | Do not infer PASS; run only under their separate authorization/scope. |
+| Installed wheel/sdist static/modal/dynamic smoke | NOT_ACQUIRED | Six attempts remain PREPARED_NOT_AUTHORIZED; none ran in this workflow. | Separate exact Owner execution authorization is absent. | Keep unexecuted pending that distinct decision. |
+| Selected v6 wheel/sdist and public documentation identity | PASS (selected scope) | The candidate's changes are workflow, infrastructure script/manifest, tests and internal reports; selected distribution and public documentation blobs remain the v6 identities documented below. | Does not clear whole-repository G03 or license review. | Reuse v6 only for those unchanged identities. |
+| G03 whole-repository archive criterion | FAIL_PRESERVED | Existing independent finding remains: `AGENTS.md` is in Git archives and tracked `docs/generated/results/*.json` remain present. | Independent G03 criterion unsatisfied. | Preserve FAIL until its own criterion is met. |
+| Independent third-party license review | NOT_RUN | No legal clearance was produced by this CI run. | Independent review remains outstanding. | Complete the review before publication. |
+| Scientific qualification / FEM campaigns | NOT_RUN | No independent campaign ran; no smoke result is promoted as scientific qualification. | Separate manifests and Owner authorization remain required. | Use the distinct Scientific V&V gate. |
+| Overall WP13 | WP13_PARTIAL_OR_BLOCKED | The approved CI matrix passes, but smoke authorization, G03, legal review and other release gates remain open. | Independent release gates remain. | Keep overall verdict `WP13_PARTIAL_OR_BLOCKED`. |
+
+The explicit compatibility nodeid manifest is
+[`wp13_compatibility_nodeids.json`](wp13_compatibility_nodeids.json),
+SHA-256 `0fb5add51545ce77e0ce93ddc5c7c1cb20cff2d74f554136c47f24cf423156ba`.
+The compatibility artifacts each contain a JUnit report; the reference
+artifact contains JUnit plus global and P0 coverage evidence. The effective
+CI matrix gate is PASS under the Owner-approved policy. Overall WP13 remains
+PARTIAL_OR_BLOCKED.
