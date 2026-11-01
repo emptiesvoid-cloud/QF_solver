@@ -4,6 +4,7 @@
 - PR : [#114](https://github.com/emptiesvoid-cloud/QF_solver/pull/114)
 - Branche source examinée : `codex/wp13-release-engineering-20261031`
 - HEAD source au début de la revue : `e180969645f19fead1564834ad028a55d7e590e0`
+- HEAD PR validé par le contrôle GitHub #41347863345 : `4d192a6fd9dae26089c67644c2b342cef9708c3b` (rapports WP13 et corrections de whitespace uniquement; ce rapport reçoit ensuite une mise à jour documentaire du résultat CI)
 - Branche cible : `emptiesvoids-cloud/0.2.12`
 - HEAD cible vérifié sur GitHub : `ab137051d920d7fa9aae9a3012a48b2b26e2198b`
 - Contrat package v7 : `d0b0030ecc7de9a34b2d6444303cfc91abe84cd3088fe371841d0f3afb4b9b43`
@@ -12,7 +13,7 @@
 
 L’intégration de code dans la branche de candidate 0.2.12 est distincte de la validation d’une candidate, de la publication des packages et de la publication d’un export Git complet. La sélection package v7 reste identique, les six smoke tests autorisés ont passé leurs oracles dans leur portée, et les gates de publication G03 et revue juridique restent ouverts sans être reclassés.
 
-À l’instantané initial `e180969`, la PR était ouverte et GitHub indiquait `mergeable=true`, mais `mergeStateStatus=UNSTABLE` à cause d’un contrôle WP12 qui échouait uniquement sur `git diff --check` pour des espaces de fin dans cinq rapports. Les 12 lignes signalées ont été corrigées dans cette mise à jour. Un contrôle distinct des contenus ajoutés a aussi trouvé des chemins absolus de poste de travail dans deux anciens fichiers WP13 hash-bound; ils restent dans l’historique de la PR et ne sont pas modifiés ici.
+À l’instantané initial `e180969`, la PR était ouverte et GitHub indiquait `mergeable=true`, mais `mergeStateStatus=UNSTABLE` à cause d’un contrôle WP12 qui échouait uniquement sur `git diff --check` pour des espaces de fin dans cinq rapports. Les 12 lignes signalées ont été corrigées. Après push des rapports, le contrôle GitHub #41347863345 sur `4d192a6` a terminé `SUCCESS` en 2 min 9 s, y compris Ruff, compilation, JSON, whitespace et contrats synthétiques. GitHub indique maintenant `mergeable=true` et `mergeStateStatus=CLEAN`. Un contrôle distinct des contenus ajoutés a aussi trouvé des chemins absolus de poste de travail dans deux anciens fichiers WP13 hash-bound; ils restent dans l’historique de la PR et ne sont pas modifiés ici.
 
 **Verdict : `WP13_MERGE_BLOCKED`** — les chemins privés présents dans le diff PR ne sont pas une simple réserve de publication, et leur retrait du tip ne purgerait pas les commits existants. Aucune fusion n’est effectuée.
 
@@ -20,13 +21,13 @@ L’intégration de code dans la branche de candidate 0.2.12 est distincte de la
 
 | Contrôle | Résultat | Preuve |
 |---|---|---|
-| PR source | OPEN | PR #114, head `e180969645f19fead1564834ad028a55d7e590e0`, base `ab137051d920d7fa9aae9a3012a48b2b26e2198b` au début de la revue. |
+| PR source | OPEN | Snapshot vérifié par CI : HEAD `4d192a6fd9dae26089c67644c2b342cef9708c3b`, base `ab137051d920d7fa9aae9a3012a48b2b26e2198b`; le code audité est celui de `e180969`, puis seuls les rapports et la mise en forme ont changé. |
 | HEAD destination | PASS | Référence distante et API GitHub concordent sur `ab137051d920d7fa9aae9a3012a48b2b26e2198b`. Aucun commit ni fichier de la branche cible n’a été modifié. |
 | Ancestry | PASS | Le merge-base source/destination est le HEAD cible; la source descend directement de la destination. |
-| Simulation de fusion | PASS sans conflit | `git merge-tree --write-tree` a produit l’arbre `b7f4fd8550c93b4bea5220ed12623461a475aadd`, identique à l’arbre source `e180969`. L’opération n’a pas créé de commit ni touché de branche. |
+| Simulation de fusion | PASS sans conflit | `git merge-tree --write-tree` sur le snapshot source `e180969` a produit l’arbre `b7f4fd8550c93b4bea5220ed12623461a475aadd`, identique à l’arbre source. Les commits ultérieurs sont seulement des rapports; la branche cible demeure l’ancêtre direct et inchangé. L’opération n’a pas créé de commit ni touché de branche. |
 | Worktree source avant corrections documentaires | PASS | HEAD propre `e180969`; le diff de préparation ajoute uniquement les rapports et corrige la mise en forme des rapports WP13 existants. |
 
-Le nouveau commit de rapport et les corrections d’espaces sont documentaires. Ils ne modifient ni le code de calcul, ni le contrat, ni les fichiers sélectionnés du candidat. Le HEAD final à intégrer sera celui de la PR après ce commit de rapport, sous réserve du contrôle ciblé qui reste en attente dans cet instantané.
+Le commit de rapport et les corrections d’espaces sont documentaires. Ils ne modifient ni le code de calcul, ni le contrat, ni les fichiers sélectionnés du candidat. Le contrôle ciblé sur le HEAD courant a passé; le HEAD à réexaminer après résolution du blocage de confidentialité est `4d192a6fd9dae26089c67644c2b342cef9708c3b`.
 
 ## Diagnostic de traçabilité
 
@@ -87,11 +88,11 @@ Les six rapports et leurs limites sont dans [WP13_V7_INSTALLED_PACKAGE_SMOKE_EXE
 | Parsing JSON des 15 fichiers modifiés et YAML de 3 configurations | PASS. |
 | Scan privacy additions du diff | PASS. |
 | Scan complémentaire des racines de poste de travail dans les ajouts | FAIL — 14 valeurs dans deux manifests/rapports WP13 historiques; elles ne sont pas dans la sélection v7 et ne sont pas supprimées dans ce mandat. |
-| `git diff --check` sur le diff complet avant correction documentaire | FAIL, 12 espaces finaux répartis dans cinq rapports; ces lignes ont été corrigées. Contrôle à relire sur le nouveau HEAD. |
+| `git diff --check` | PASS localement après correction; confirmé par le contrôle GitHub #41347863345 sur `4d192a6`. |
 | MkDocs strict et vérification des liens README | PASS aux contrôles documentaires précédents; aucun contenu `docs/`, README ou métadonnée publique n’a changé après le commit source du candidat v7. |
 | Tests complets, matrice CI complète, campagnes FEM/WP12 | NOT_RUN dans cette revue; aucune nécessité démontrée, aucune autorisation de nouvelle campagne. |
 
-Le contrôle de matrice de release approuvé avait déjà passé son unique exécution, run #41328516423. Le contrôle GitHub `WP12 controller / synthetic contracts` sur `e180969` (#41346306199) a échoué à sa dernière étape `git diff --check` sur les mêmes espaces finaux; les logs n’indiquent pas d’échec numérique ou scientifique. Il ne sera considéré résolu pour l’intégration qu’après un contrôle sur le nouveau HEAD.
+Le contrôle de matrice de release approuvé avait déjà passé son unique exécution, run #41328516423. Le contrôle `WP12 controller / synthetic contracts` sur `e180969` (#41346306199) avait échoué à `git diff --check` sur les mêmes espaces finaux; le contrôle suivant, #41347863345 sur `4d192a6`, a réussi toutes les étapes. L’avertissement Actions sur la migration de Node.js et `ubuntu-latest` ne fait pas échouer le job.
 
 ## Critères d’intégration et critères réservés à la publication
 
@@ -113,4 +114,4 @@ G03 et la revue juridique sont maintenus exactement à leur état acquis. La rev
 
 ## Verdict
 
-**`WP13_MERGE_BLOCKED`** par les chemins locaux contenus dans deux fichiers de preuve historiques présents dans la PR. G03 reste aussi `FAIL_PRESERVED` pour les archives complètes; la revue juridique reste `NOT_ACQUIRED` pour la redistribution. Le check ciblé de formatage sur le nouveau HEAD reste à confirmer, mais son succès ne lèverait pas le blocage de confidentialité/historique. Aucun merge, tag, publication ou déploiement n’a eu lieu.
+**`WP13_MERGE_BLOCKED`** par les chemins locaux contenus dans deux fichiers de preuve historiques présents dans la PR. G03 reste aussi `FAIL_PRESERVED` pour les archives complètes; la revue juridique reste `NOT_ACQUIRED` pour la redistribution. Le contrôle GitHub ciblé #41347863345 est vert, mais ne lève pas le blocage de confidentialité/historique. Aucun merge, tag, publication ou déploiement n’a eu lieu.
