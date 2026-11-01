@@ -389,7 +389,7 @@ def test_orchestrator_records_only_synthetic_pass_and_refuses_second_attempt(
     monkeypatch.setattr(execution_module, "verify_file_inventory", lambda *_args: [{"sha256": "c" * 64}])
     monkeypatch.setattr(execution_module, "_case_command", lambda *_args: (["synthetic-child"], tmp_path, {}))
     monkeypatch.setattr(execution_module, "supervise_process", fake_supervise)
-    monkeypatch.setattr(execution_module, "extract_numeric_payload", lambda _path: ("NOT_EXPOSED", None))
+    monkeypatch.setattr(execution_module, "extract_numeric_payload", lambda _path, **_kwargs: ("NOT_EXPOSED", None))
 
     first = runner.run_case(manifest, raw_manifest, decision, case)
     assert first["status"] == "PYTEST_PASS_ONLY"
@@ -408,6 +408,7 @@ def test_orchestrator_rejects_missing_required_numeric_payload(tmp_path: Path, m
     case["numeric_payload_schema"] = "synthetic-observables-v1"
     raw_manifest = b"synthetic manifest requiring output"
     decision = _decision(manifest)
+    decision["manifest_sha256"] = runner.sha256_bytes(raw_manifest)
 
     def fake_preflight(_manifest: object, _case: object) -> dict[str, object]:
         identity = {"path": str(tmp_path), "commit": COMMIT, "tree": TREE, "status": "CLEAN"}
@@ -450,7 +451,7 @@ def test_orchestrator_rejects_missing_required_numeric_payload(tmp_path: Path, m
     monkeypatch.setattr(execution_module, "verify_file_inventory", lambda *_args: [{"sha256": "c" * 64}])
     monkeypatch.setattr(execution_module, "_case_command", lambda *_args: (["synthetic-child"], tmp_path, {}))
     monkeypatch.setattr(execution_module, "supervise_process", fake_supervise)
-    monkeypatch.setattr(execution_module, "extract_numeric_payload", lambda _path: ("NOT_EXPOSED", None))
+    monkeypatch.setattr(execution_module, "extract_numeric_payload", lambda _path, **_kwargs: ("NOT_EXPOSED", None))
 
     result = runner.run_case(manifest, raw_manifest, decision, case)
     assert result["status"] == "INFRA_ERROR"

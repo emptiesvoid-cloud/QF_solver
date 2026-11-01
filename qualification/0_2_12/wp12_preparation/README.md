@@ -1,6 +1,8 @@
 # WP12 — Préparation du cadre V&V et suivi des snapshots
 
-**PREPARATION_ONLY** · **NUMERICAL_EXECUTION_NOT_PERFORMED** · **WP12_STATUS=OPEN**
+**PREPARATION_ONLY** · **NUMERICAL_EXECUTION_NOT_PERFORMED** · **WP12_PREPARATION_SNAPSHOT_STATUS=OPEN_AT_2026-10-26**
+
+> **Status superseded — 2026-10-31:** the Owner approved `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`. See the [global closeout](../vv_local/WP12_CLOSED_AND_RELEASE_BRANCH_READY_FOR_WP13.md) and [Owner decision](../WP12_GLOBAL_OWNER_BOUNDED_CLOSURE_DECISION_20261031.md). The security, manifest, runner and execution details below remain preparation history; they do not reopen WP12 or change its recorded evidence and dispositions.
 
 ## État opérationnel courant — WP12-B, 2026-10-26
 

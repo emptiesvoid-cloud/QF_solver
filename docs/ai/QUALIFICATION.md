@@ -58,7 +58,7 @@ Use the exact definitions in the relevant roadmap, contract, decision, and repor
 
 ## Current v0.2.12 distinctions
 
-As recorded by the roadmap: WP-C01 is CLOSED_NEGATIVE with remediation open; WP-C02 is CLOSED_BOUNDED for AR/N03 only; WP-D01 is INCONCLUSIVE; WP-D02 is CLOSED_BOUNDED; WP-E01 is OPEN_WITH_BOUNDED_CERTIFICATES; WP11 is CLOSED for its approved API/integration scope; WP12 and the operational release-engineering WP13 are OPEN.
+As recorded by the roadmap: WP-C01 is CLOSED_NEGATIVE with remediation open; WP-C02 is CLOSED_BOUNDED for AR/N03 only; WP-D01 is INCONCLUSIVE; WP-D02 is CLOSED_BOUNDED; WP-E01 is OPEN_WITH_BOUNDED_CERTIFICATES; WP11 is CLOSED for its approved API/integration scope; WP12 is `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA` within its documented bounded dispositions; the operational release-engineering WP13 remains OPEN. The WP12 decision preserves the historical FAIL, INCONCLUSIVE and NOT_ACQUIRED states and grants no general qualification.
 
 The [WP11 closure assessment](../../qualification/0_2_12/wp11_final/closure_gate_assessment.md) and its [traceability matrix](../../qualification/0_2_12/wp11_final/capability_traceability_matrix.tsv) define WP11’s boundary. WP12’s [preparation index](../../qualification/0_2_12/wp12_preparation/README.md), [runner security review](../../qualification/0_2_12/wp12_preparation/wp12_r2_runner_security_review.md), and [rotor regression plan](../../qualification/0_2_12/wp12_rotating_inherited_regression_plan.md) do not authorize campaigns. The runner is RUNNER_READY_FOR_OWNER_SECURITY_REVIEW; scientific execution remains disabled.
 
