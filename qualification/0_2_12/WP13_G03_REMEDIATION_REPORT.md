@@ -38,7 +38,9 @@ Le seul scan complet d’archive de cette phase a utilisé `scripts/audit_releas
 
 L’échantillonneur a mesuré 17 min 20,44 s murales (début 2026-11-01 18:23:00.9026960 UTC, fin 18:40:21.3434183 UTC), 1 030,03 s CPU et 148,29 Mio de RSS maximale. La lenteur vient du passage d’analyse de contenu sur les 6 711 fichiers exportés. Le résultat JSON, conservé hors dépôt, mesure 2 948 773 octets. Ce scan n’est pas exécuté une seconde fois.
 
-Le scan complet `audit_public_release.py` du contenu source suivi n’a pas été lancé : les 7 060 constats d’archive et l’avertissement historique établissent déjà que G03 ne peut pas passer; son exécution globale, coûteuse, ne lèverait aucun de ces deux bloqueurs. Les scans de sélection v6 restent acquis pour leurs 585 chemins de paquet et 773 chemins documentaires inchangés. La liste de chemins de l’archive finale sera comparée rapidement après commit, sans refaire l’analyse complète du contenu.
+Le scan complet `audit_public_release.py` du contenu source suivi n’a pas été lancé : les 7 060 constats d’archive et l’avertissement historique établissent déjà que G03 ne peut pas passer; son exécution globale, coûteuse, ne lèverait aucun de ces deux bloqueurs. Les scans de sélection v6 restent acquis pour leurs 585 chemins de paquet et 773 chemins documentaires inchangés.
+
+Au commit de vérification de chemins `62bd4f0d31161bb1b35b320c9f96c25f90cc0d54`, la comparaison rapide des listes `git archive` donne 6 714 chemins, contre 6 711 durant l’audit complet : aucun chemin retiré et trois ajouts exactement, les dossiers de décision Owner, G03 et licences. Les trois ajouts passent chacun le même scanner de contenu ciblé avec zéro constat. L’archive n’exporte toujours ni `AGENTS.md`, ni les JSON générés sous `docs/generated/results/`; le Markdown généré référencé demeure présent; aucun préfixe de chemin interdit n’apparaît. Depuis ce contrôle, seuls les rapports de qualification ont été actualisés; leur contenu a été rescanné sans constat. Comme le contenu du snapshot audité n’a pas changé, les 7 060 constats de contenu connus demeurent applicables à la candidate finale sans un second scan complet.
 
 ## Historique Git
 
