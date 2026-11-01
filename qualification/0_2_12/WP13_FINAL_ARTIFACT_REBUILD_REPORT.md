@@ -1,8 +1,8 @@
 # WP13 — rapport de reconstruction du candidat d’artefacts v7
 
-Date : 2026-11-01  
-Dépôt : `emptiesvoid-cloud/QF_solver` · PR #114  
-Branche : `codex/wp13-release-engineering-20261031`
+- Date : 2026-11-01
+- Dépôt : `emptiesvoid-cloud/QF_solver` · PR #114
+- Branche : `codex/wp13-release-engineering-20261031`
 
 ## Identités gelées
 

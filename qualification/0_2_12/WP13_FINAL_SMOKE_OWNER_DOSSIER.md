@@ -1,8 +1,8 @@
 # WP13 — dossier Owner final des smoke tests du candidat v7
 
-**État courant : six smoke tests exécutés; les six oracles numériques ont passé. `qualification_status=NOT_CLAIMED`.**
-**Portée de la décision : six calculs installés maximum; aucune qualification globale**  
-**PR : #114 · branche `codex/wp13-release-engineering-20261031`**
+- **État courant : six smoke tests exécutés; les six oracles numériques ont passé. `qualification_status=NOT_CLAIMED`.**
+- **Portée de la décision : six calculs installés maximum; aucune qualification globale**
+- **PR : #114 · branche `codex/wp13-release-engineering-20261031`**
 
 ## Identités exactes proposées
 

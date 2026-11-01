@@ -1,8 +1,8 @@
 # WP13 — audit de la documentation, de l’arborescence et de la cohérence scientifique
 
-Date de l’audit : 2026-11-01  
-Dépôt : `emptiesvoid-cloud/QF_solver`  
-Branche examinée : `codex/wp13-release-engineering-20261031`  
+- Date de l’audit : 2026-11-01
+- Dépôt : `emptiesvoid-cloud/QF_solver`
+- Branche examinée : `codex/wp13-release-engineering-20261031`
 HEAD de départ revérifié : `357b4b5398c1d3e5059e0a1049f8494f4096f13e`
 
 ## Portée et méthode

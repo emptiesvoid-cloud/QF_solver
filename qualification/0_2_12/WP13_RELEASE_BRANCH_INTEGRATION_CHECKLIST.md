@@ -1,9 +1,9 @@
 # WP13 — checklist d’intégration de la candidate 0.2.12
 
-Date de contrôle : 2026-11-01  
-PR #114 : <https://github.com/emptiesvoid-cloud/QF_solver/pull/114>  
-Branche WP13 : `codex/wp13-release-engineering-20261031`  
-Destination visée : `emptiesvoids-cloud/0.2.12` · base observée `ab137051d920d7fa9aae9a3012a48b2b26e2198b`
+- Date de contrôle : 2026-11-01
+- PR #114 : <https://github.com/emptiesvoid-cloud/QF_solver/pull/114>
+- Branche WP13 : `codex/wp13-release-engineering-20261031`
+- Destination visée : `emptiesvoids-cloud/0.2.12` · base observée `ab137051d920d7fa9aae9a3012a48b2b26e2198b`
 
 ## Intégrité et traçabilité
 
