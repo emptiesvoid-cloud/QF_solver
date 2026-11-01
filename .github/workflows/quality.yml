@@ -26,14 +26,25 @@ concurrency:
 
 jobs:
   standard-baseline:
-    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    name: ${{ matrix.os }} / Python ${{ matrix.python }} / ${{ matrix.validation }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 180
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        python: ["3.10", "3.13"]
+        include:
+          - os: ubuntu-latest
+            python: "3.13"
+            validation: reference
+          - os: ubuntu-latest
+            python: "3.10"
+            validation: compatibility
+          - os: windows-latest
+            python: "3.10"
+            validation: compatibility
+          - os: windows-latest
+            python: "3.13"
+            validation: compatibility
     steps:
       - uses: actions/checkout@v4
         with:
@@ -75,6 +86,7 @@ jobs:
           src/solveur/io/manifest.py
           src/solveur/verification/traceability.py
       - name: Tests and branch coverage
+        if: ${{ matrix.validation == 'reference' }}
         # Scientific/native nodes with registered execution controls need a separate exact scope.
         run: >-
           python -m pytest
@@ -88,7 +100,11 @@ jobs:
           --cov-report=json:coverage.json
           --cov-report=xml:coverage.xml
           --cov-fail-under=80
+      - name: Targeted compatibility contracts
+        if: ${{ matrix.validation == 'compatibility' }}
+        run: python scripts/run_wp13_compatibility.py
       - name: P0 module coverage gate
+        if: ${{ matrix.validation == 'reference' }}
         run: |
           python -m coverage run --rcfile=.coveragerc-p0 -m pytest tests/unit/test_traceability.py
           python -m coverage json --rcfile=.coveragerc-p0 -o coverage-p0.json
@@ -96,6 +112,8 @@ jobs:
       - name: Compile all Python sources
         run: python -m compileall -q src scripts tests qf_solver.py main_solveur.py mitc4_solver.py
       - name: Quick verification
+        # Standalone mechanical verification is outside the approved WP13 pytest matrix.
+        if: ${{ github.event_name != 'workflow_dispatch' && matrix.validation == 'reference' }}
         run: |
           python qf_solver.py verify --quick
           python mitc4_solver.py verify --quick
@@ -103,7 +121,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-${{ matrix.os }}-py${{ matrix.python }}
+          name: validation-${{ matrix.os }}-py${{ matrix.python }}
           path: |
             coverage.json
             coverage-p0.json
