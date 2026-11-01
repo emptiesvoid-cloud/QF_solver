@@ -18,6 +18,7 @@ La politique de quatre suites complètes a été explicitement remplacée par d�
 
 - Le HEAD initial de la PR, rafraîchi depuis GitHub, était c06a669180d1e5e7545b1a48aa5e904f2f45539d, identique à celui indiqué dans le mandat.
 - À l’ouverture de la phase de matrice approuvée, le HEAD de PR #114 était 26d12db7621ba746db10b8588d0c09d759e7e97d, identique à celui fourni par l’Owner. Le workflow corrigé et sa sélection exacte ont été poussés dans 698e858e79d6b6ded7cdf764f5e0dd26c710c301.
+- Le commit de finalisation 0538d3d91022793a1ca4a79aa4b972628cb5bc62 a été poussé après l’unique run #41328516423 au commit workflow 698e858e. Les commits de finalisation ajoutent les règles d’archive, le test ciblé et les rapports; ils ne changent pas `quality.yml`, le manifeste de compatibilité, les dépendances ou les tests numériques. Le contrôle ciblé a passé; aucun second dispatch n’a été lancé.
 - Le worktree WP13 était propre à 67adffbe3 avant rafraîchissement. Le worktree release et ses modifications locales WP12 n’ont pas été touchés.
 - La base de PR #114 est emptiesvoids-cloud/0.2.12, commit ab137051d920d7fa9aae9a3012a48b2b26e2198b.
 - Les correctifs des PR #115 et #116 sont présents dans le commit intégré #118, 0a736a47d4e9980020970f30c973c6acca4098c1. Le test de câblage des documents remplace les exécutions FEM par des mocks à la frontière de campagne; la fixture de scan réutilise un audit uniquement quand son identité d’entrée Git et son état de worktree correspondent.
