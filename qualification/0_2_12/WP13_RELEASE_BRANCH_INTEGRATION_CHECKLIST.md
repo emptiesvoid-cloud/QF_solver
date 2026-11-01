@@ -9,12 +9,12 @@ Destination visée : `emptiesvoids-cloud/0.2.12` · base observée `ab137051d920
 
 | Contrôle | État | Preuve / action restante |
 | --- | --- | --- |
-| PR #114 | PASS — PR ouverte | GitHub rapporte base `emptiesvoids-cloud/0.2.12`, branche source WP13 et le HEAD `c3c10f2f30c82550261eeb436df8468614c742e6` au contrôle du préflight. Les commits finaux des rapports avancent ensuite la tête de cette même PR. |
+| PR #114 | PASS — PR ouverte | GitHub rapporte base `emptiesvoids-cloud/0.2.12` et la branche source WP13. Les préflights et six smoke tests ont été exécutés sur le HEAD contrôlé `d0a3df9bd7265429d433b44560c0cd0606aedbf0`; le commit documentaire de ce rapport avance ensuite la tête de la PR. |
 | Source du package v7 | PASS | Blobs distribués reconstruits depuis `7a78cc673da2abb7c3d0afd6cabd378aa327f424`; contrat prospectif lié à cette identité. |
 | Contrat v7 | PASS | `f466a5b901fe77755e45d18e3831ad72be1e1381`, SHA-256 `d0b0030ecc7de9a34b2d6444303cfc91abe84cd3088fe371841d0f3afb4b9b43`. |
 | Smoke controller v7 | PASS — compilé et lié aux nouveaux artifacts | `c3c10f2f30c82550261eeb436df8468614c742e6`, SHA-256 `cba01759b5b3b1cc41cfcc23c405adef55a6cccdaffcec85ac4a057b8b7e2ed7`. |
 | Modifications WP13 depuis le HEAD initial | PASS — traçables | `7a78cc6` documentation/structure, `f466a5b` contrat v7, `c3c10f2` bindings du controller; rapports finaux et matrice sont ensuite commités sur la même branche. |
-| Working tree avant cette checklist | PASS — propre | `git status --porcelain` vide avant création de ce rapport; les builds, environnements, manifestes et préflight sont hors dépôt. Refaire `git status` après commit final. |
+| Working tree pendant les smoke tests | PASS — propre | `git status --porcelain` était vide sur le HEAD d0a3 pendant les préflights et les exécutions. Les artefacts, environnements, manifestes, rapports bruts et ledgers sont hors dépôt. Les seuls changements de ce commit sont les rapports publics expurgés. |
 | Conflits avec la destination | NOT_RUN | Aucun merge simulé ni merge réel n’est inclus dans ce mandat; vérifier l’état PR GitHub avant toute intégration ultérieure. |
 
 ## Documentation, structure et surface publiée
@@ -31,7 +31,7 @@ Destination visée : `emptiesvoids-cloud/0.2.12` · base observée `ab137051d920
 - Wheel v7 et sdist normalisée reconstruits deux fois indépendamment; hashes identiques entre reconstructions et Twine PASS.
 - Installations fraîches Windows/Python 3.13.1 depuis wheel et sdist; imports, version, CLI et `pip check` PASS.
 - Six contrôles `check-mesh` TET4/BEAM2/MITC4 ont passé sans assemblage/résolution.
-- Préflight smoke principal PASS avec zéro réservation et zéro FEM. Les six calculs restent en attente d’une approbation Owner exacte; le contrôle synthétique qui écrit un ledger synthétique reste `NOT_RUN`.
+- Préflight principal et synthétique `PASS_NO_FEM`; le ledger synthétique est séparé et contient deux événements, sans réservation réelle ni FEM. Puis les six smoke tests autorisés ont passé `EXECUTION_PASS` et `NUMERICAL_ORACLE_PASS`, sous le contrôleur officiel et depuis les packages installés. Voir [`WP13_V7_INSTALLED_PACKAGE_SMOKE_EXECUTION_REPORT.md`](WP13_V7_INSTALLED_PACKAGE_SMOKE_EXECUTION_REPORT.md); aucune septième tentative.
 - Matrice CI de politique Owner PASS sur le commit `698e858e79d6b6ded7cdf764f5e0dd26c710c301`, run #41328516423. Les changements documentaires ultérieurs ont eu des contrôles ciblés; aucune deuxième exécution complète de la matrice n’a été lancée.
 - G03 reste `FAIL_PRESERVED`; revue juridique indépendante `NOT_ACQUIRED`; les conclusions négatives et non acquises de WP12 demeurent inchangées.
 
@@ -44,4 +44,4 @@ Destination visée : `emptiesvoids-cloud/0.2.12` · base observée `ab137051d920
 
 ## Décision de sortie
 
-La branche contient une candidate documentaire et d’artefacts cohérente et vérifiée dans sa portée sélectionnée. Elle est prête pour la revue Owner des identités v7, mais pas encore pour une fusion/release tant que les décisions de smoke, G03 et revue juridique restent ouvertes. Le verdict global demeure **`WP13_PARTIAL_OR_BLOCKED`**; le gate artefacts v7 est PASS dans sa portée contractuelle seulement.
+La branche contient une candidate documentaire et d’artefacts cohérente, et les six smoke tests installés v7 passent dans leur portée. La fusion/release reste bloquée par les gates indépendants ouverts, dont G03 et la revue juridique. Le verdict global demeure **`WP13_PARTIAL_OR_BLOCKED`**; le statut smoke limité est **`WP13_V7_INSTALLED_PACKAGE_SMOKES_PASS`**, sans qualification scientifique globale.

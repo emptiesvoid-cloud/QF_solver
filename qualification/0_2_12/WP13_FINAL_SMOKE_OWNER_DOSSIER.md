@@ -1,6 +1,6 @@
 # WP13 — dossier Owner final des smoke tests du candidat v7
 
-**État : `PREPARED_NOT_AUTHORIZED`**  
+**État courant : six smoke tests exécutés; les six oracles numériques ont passé. `qualification_status=NOT_CLAIMED`.**
 **Portée de la décision : six calculs installés maximum; aucune qualification globale**  
 **PR : #114 · branche `codex/wp13-release-engineering-20261031`**
 
@@ -11,13 +11,14 @@
 | Source package v7 | `7a78cc673da2abb7c3d0afd6cabd378aa327f424` |
 | Contrat de build | `QF-0212-WP13-SELECTED-CANDIDATE-20261101-07`; SHA-256 `d0b0030ecc7de9a34b2d6444303cfc91abe84cd3088fe371841d0f3afb4b9b43` |
 | Smoke controller | `scripts/wp13_package_smoke.py`; SHA-256 `cba01759b5b3b1cc41cfcc23c405adef55a6cccdaffcec85ac4a057b8b7e2ed7`; commit `c3c10f2f30c82550261eeb436df8468614c742e6` |
-| Manifeste v7 externe | SHA-256 `e1e86a8c5aae20b687469886f0efa4434769c84d5770538cec93f4a9123a8bd8` |
-| Préflight principal | `PASS_NO_FEM_PREFLIGHT`; SHA-256 `a7c2b1f52a8998ce4a45d54a27bacea38b8f86b957d75c5bde5740d0024425e6` |
-| Préflight synthétique requis par le runner | `NOT_RUN`; hash `NOT_ACQUIRED` dans ce mandat |
+| Manifeste v7 rebind | SHA-256 `4a9398df42b52d1e088d640a6896b6e00873f479f77cf8fdec01310809ffa9cb` |
+| Préflight principal courant | `PASS_NO_FEM_PREFLIGHT`; SHA-256 `01795a37ef09d67a4bd653fd34aca98d0aadee1eb23cec3ba826c63f0b20cd46` |
+| Préflight synthétique | `PASS_NO_FEM`; SHA-256 `7790f26725a4b9f56bcb6862de88952c279384b05e521d4b77b9908f8256187e` |
+| Décision Owner appliquée | `OWNER-WP13-V7-SIX-SMOKES-HEAD-D0A3-01`; SHA-256 `a692c5d65e18f806b655eb4cd1070c62627b976227f9e40a0fc574fb5ee1ee1c` |
 | Wheel installé | 1 690 080 octets; SHA-256 `c1debafb55a0cf4d4b8fcc349cf66f020ffd784daefde3972003cf9e325d2518` |
 | Sdist normalisée installée | 1 295 214 octets; SHA-256 `56c607ae305704b10f4e005c5db5a28bc11ca4902929e6bc6d03c5a1a9759174` |
 | Runtime visé | Windows · Python 3.13.1 · QF Solver 0.2.12 |
-| HEAD vérifié lors du préflight | `c3c10f2f30c82550261eeb436df8468614c742e6`; branche propre |
+| HEAD vérifié lors du préflight et des exécutions | `d0a3df9bd7265429d433b44560c0cd0606aedbf0`; branche propre |
 
 Les chemins du manifeste, des environnements et des sorties sont maintenus hors dépôt; ils ne sont pas recopiés dans ce dossier. Les rapports d’installation séparés sont liés par hashes `12c6d1a755d19a53f0418f73b3beda2e15f413716b70d0085c01723c4086ee91` (wheel) et `fb2c839745bcc98f0ab439bd2c07243f4a4b25cf5cdd88df94b758930ee25755` (sdist normalisée).
 
@@ -63,12 +64,12 @@ Les oracles et tolérances sont ceux du dossier historique [`WP13_P0_PACKAGE_FEM
 - Import depuis le package installé seulement; les entrées sont relues depuis les données de chaque installation et leurs hashes revalidés.
 - Variables numériques mono-thread contrôlées par le controller. Les checks de préparation n’exécutent ni `solve`, ni assemblage.
 
-Le préflight principal a réussi : les deux paquets sont trouvés dans leur venv Windows/Python 3.13.1; versions et entrées installées concordent; les SHA du manifeste sont valides. Son rapport affirme `execution_authorized=false`, `actual_attempt_reservations=0` et `fem_executed=false`. Le ledger réel n’existe pas et le répertoire d’evidence est vide. Aucun calcul smoke n’a été lancé.
+Le préflight c3 antérieur est conservé comme historique. Après le rebind Owner, le préflight principal courant et le contrôle synthétique ont passé sur le HEAD d0a3. Les six tentatives ont ensuite été exécutées depuis les deux environnements installés. Le rapport complet, les hashes par tentative et les résultats numériques figurent dans [`WP13_V7_INSTALLED_PACKAGE_SMOKE_EXECUTION_REPORT.md`](WP13_V7_INSTALLED_PACKAGE_SMOKE_EXECUTION_REPORT.md). Le ledger synthétique est distinct; le ledger réel contient les six tentatives autorisées et aucune septième.
 
-## Approbation Owner encore requise
+## Décision Owner appliquée et portée du résultat
 
-L’accord de principe précédent ne constitue pas l’autorisation d’exécuter le nouveau candidat v7. Le contrôleur exige également un `synthetic-preflight` no-FEM qui crée un ledger synthétique distinct; ce contrôle n’a pas été lancé sans décision sur cette réservation synthétique. Son hash exact n’est donc pas disponible. Le controller `run-all` n’acceptera qu’une décision Owner explicite liée aux hashes du manifeste, du préflight principal et de ce rapport synthétique.
+La décision Owner exacte a été liée au manifeste, au nouveau préflight principal et au rapport synthétique. Le contrôleur officiel a accepté cette décision et exécuté une seule tentative par couple, dans l’ordre du manifeste, avec arrêt au premier échec et sans retry. Le ledger d’exécution est append-only; son SHA-256 est `62c2c843e3cd5c80a2098efef97ca146a332c9a4375df549542d2593522bb67f`.
 
-Pour permettre la progression, l’Owner doit autoriser explicitement le périmètre : **le contrôle synthétique sans FEM décrit ci-dessus, puis, seulement si celui-ci passe et si les identités restent inchangées, les six tentatives exactes de la table**. Le fichier de décision lié au hash synthétique sera préparé à partir de cette autorisation avant toute réservation réelle. En cas de changement d’identité, aucune ancienne autorisation ne s’applique.
+Les six statuts sont `EXECUTION_PASS` et `NUMERICAL_ORACLE_PASS`; les checks wheel/sdist sont identiques pour chacun des trois cas. Le verdict reste limité à `WP13_V7_INSTALLED_PACKAGE_SMOKES_PASS`; aucune qualification scientifique globale n’est revendiquée. Les sorties contiennent également une traceabilité `FAIL` et un `qualification_summary.status=WARNING`, consignés comme limite distincte des oracles numériques.
 
-Cette autorisation ne vaudrait que pour `EXECUTION_PASS` et `NUMERICAL_ORACLE_PASS` dans les six cas bornés. Elle ne conférerait ni qualification scientifique, ni clôture WP12, ni promotion de maturité, ni autorisation de release, tag, merge ou publication. L’état courant reste `PREPARED_NOT_AUTHORIZED`.
+Les rapports de smoke et les ledgers demeurent hors dépôt. Les résultats ne modifient ni WP12, ni les critères scientifiques, ni les statuts de release; aucune fusion, tag ou publication n’a eu lieu.

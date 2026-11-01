@@ -6,13 +6,19 @@
 
 **G03 whole-repository gate:** FAIL_PRESERVED pending history disposition
 
-**Installed-package FEM smokes:** `PREPARED_NOT_AUTHORIZED`
+**Installed-package smoke tests v7:** `WP13_V7_INSTALLED_PACKAGE_SMOKES_PASS`; six execution and numerical-oracle PASS results, with `qualification_status=NOT_CLAIMED`
 
 **Publication, tag, merge, release branch update:** not authorized and not performed
 
 This dossier records only decisions that require Owner action. Supporting evidence and the precise technical limits are linked below.
 
-## Decision 1 — Six installed-package smokes
+## Current v7 smoke execution status
+
+The v7 execution was authorized by `OWNER-WP13-V7-SIX-SMOKES-HEAD-D0A3-01` (decision SHA-256 `a692c5d65e18f806b655eb4cd1070c62627b976227f9e40a0fc574fb5ee1ee1c`). The HEAD-bound manifest SHA-256 is `4a9398df42b52d1e088d640a6896b6e00873f479f77cf8fdec01310809ffa9cb`; main preflight `01795a37ef09d67a4bd653fd34aca98d0aadee1eb23cec3ba826c63f0b20cd46`; synthetic report `7790f26725a4b9f56bcb6862de88952c279384b05e521d4b77b9908f8256187e`. All six pairs passed execution and numerical oracles. See [`WP13_V7_INSTALLED_PACKAGE_SMOKE_EXECUTION_REPORT.md`](WP13_V7_INSTALLED_PACKAGE_SMOKE_EXECUTION_REPORT.md) for per-attempt metrics and proof hashes. No qualification, release, tag or merge decision follows from these results.
+
+The decision and candidate discussion below preserve the earlier v6/pre-execution checkpoint as history; they are superseded for current smoke status by the v7 report above. G03 remains `FAIL_PRESERVED` independently.
+
+## Historical v6 smoke proposal — superseded
 
 The three approved case definitions and frozen analytical checks are in [`WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md`](WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md). The candidate is the v6 package source `2865587a44f9e461a0b4e4286c912c17e4f04be5`, not a claim about a newly rebuilt package. A complete comparison against the v6 package and documentation selections found 585/585 package paths and 773/773 selected-document paths with identical Git blobs at current HEAD `3ced76d841402fc53e64545ebc37acb8361fa369`; the archive-only attributes and internal reports do not change the candidate artifacts.
 
@@ -56,7 +62,7 @@ To authorize exactly these six attempts, the Owner may provide the following dec
 }
 ```
 
-Until that explicit record is supplied, no reservation or smoke execution is permitted. The CI authorization from 1 November covers only the WP13 quality matrix and is not this decision.
+At that historical v6 checkpoint, no reservation or smoke execution was permitted. That statement does not describe the completed v7 execution above. The CI matrix authorization remains a separate gate.
 
 ## Decision 2 — G03 public-history disposition
 

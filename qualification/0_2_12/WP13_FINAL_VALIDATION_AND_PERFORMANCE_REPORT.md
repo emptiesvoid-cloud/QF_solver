@@ -12,7 +12,7 @@ Branche de release examinée : emptiesvoids-cloud/0.2.12
 
 Les correctifs d’infrastructure autorisés et les diagnostics Windows bornés sont vérifiés. Au checkpoint précédent, la preuve v6 s’appliquait encore à ses blobs sélectionnés; la consolidation README, métadonnées et liens a ensuite modifié cette surface. V6 est désormais historique pour les nouveaux octets, et le candidat courant a été reconstruit et lié au contrat v7 (§12). Le correctif de scan source intégré via #118 réduit le travail répété, et le test de câblage documentaire ne lance plus les campagnes FEM.
 
-La politique de quatre suites complètes a été explicitement remplacée par décision Owner le 1 novembre 2026. La nouvelle matrice a passé son unique exécution autorisée (#41328516423) : suite complète Ubuntu/Python 3.13 et 15 nodeids ciblés sur chaque cellule secondaire. Le gate de validation CI est donc PASS selon cette politique, sans transformer l’ancien critère en PASS. WP13 reste néanmoins PARTIAL_OR_BLOCKED : les six smoke tests installés sont toujours PREPARED_NOT_AUTHORIZED, G03 reste FAIL_PRESERVED, l’examen juridique indépendant des licences n’est pas acquis, et les gates scientifiques/distribution distincts restent ouverts.
+La politique de quatre suites complètes a été explicitement remplacée par décision Owner le 1 novembre 2026. La nouvelle matrice a passé son unique exécution autorisée (#41328516423) : suite complète Ubuntu/Python 3.13 et 15 nodeids ciblés sur chaque cellule secondaire. Les six smoke tests installés v7 ont ensuite tous passé leurs contrôles d’exécution et d’oracle numérique, selon le rapport lié en §13. Le verdict global reste `WP13_PARTIAL_OR_BLOCKED` : G03 reste `FAIL_PRESERVED`, l’examen juridique indépendant des licences n’est pas acquis, et les gates distincts demeurent ouverts.
 
 ## 1. État initial vérifié
 
@@ -141,12 +141,13 @@ Résultats PASS réalisés dans ce mandat ou vérifiés sur le candidat :
 - Ruff et py_compile sur le contrôleur de diagnostic; parsing YAML, validation des matrices, vérification du pin de blob et git diff --check : PASS.
 - Run #41325197449 pour les contrôles rapides de workflow : Ruff, compilation, JSON, diff whitespace et contrats synthétiques PASS. L’échec Python 3.10 du diagnostic dans #41325192627 est expliqué et corrigé; les runs post-correctif #41325510873 et #41326063607 ont passé en 3.10 et 3.13. Le dernier a vérifié le pin de workflow et les artefacts séparés sur le HEAD d4761299f.
 - Le run #41326438148 a ensuite échoué uniquement au contrôle git diff --check : des espaces de fin de ligne dans les métadonnées du présent rapport. Ils ont été supprimés; le contrôle local du diff complet passe. Le run a échoué avant les contrats synthétiques et n’a révélé aucun défaut du contrôleur.
+- Les six smoke tests installés v7, exécutés après le rebind approuvé au HEAD d0a3, ont tous passé `EXECUTION_PASS` et `NUMERICAL_ORACLE_PASS`; détails et preuves §13.
 
 Non exécutés ou non acquis :
 
 - Suites complètes sur les trois cellules secondaires : elles ont été remplacées pour v0.2.12 par décision Owner par 15 nodeids ciblés chacune. L’ancien critère de quatre suites complètes est `REPLACED_BY_OWNER_DECISION`, jamais PASS; les deux suites Windows complètes restent historiquement non acquises.
-- Six calculs smoke depuis package installé. Ils restent PREPARED_NOT_AUTHORIZED; aucun résultat n’est attribué.
-- FEM, campagne de contact, benchmarks, convergence, qualification scientifique, ou tout résultat de smoke qualifié comme preuve scientifique globale.
+- Aucune autre campagne FEM, campagne de contact, benchmark, convergence ou qualification scientifique indépendante n’a été exécutée dans cette phase.
+- Les six smoke tests ne sont pas promus en qualification globale; leurs limites de readiness/traçabilité restent enregistrées dans le rapport d’exécution.
 - Vérification légale indépendante des licences tierces.
 - CPU/RSS de la suite complète du run #41328516423; GitHub n’a pas émis ces métriques. Le temps par nodeid, la durée pytest et les artefacts JUnit/coverage sont acquis.
 
@@ -196,7 +197,7 @@ Le tableau ci-dessous est le statut consolidé après la décision Owner et le r
 | Rapport complet avec preuves de ce mandat | PASS | Ce rapport assemble les preuves relues, mesurées et les gates non acquis; les runs #41326063607 et #41328516423 sont inclus. | Les gates explicitement NOT_RUN/NOT_ACQUIRED/FAIL restent ouverts. | Conserver le statut WP13_PARTIAL_OR_BLOCKED; ne pas inférer une clôture. |
 | Candidat de distribution, sélection v6 | HISTORICAL (v6) | SHA source v6 2865587a et périmètre acquis à ce checkpoint; voir §9 et le rapport v6. Le changement ultérieur de la surface distribuée est traité par le candidat v7. | V6 n’identifie plus les nouveaux octets sélectionnés. | Utiliser le contrat et les artefacts v7 pour la candidate actuelle. |
 | Builds v6 wheel/sdist et contrôles d’archive | HISTORICAL (v6) | Wheel/sdist v6, scans sélectionnés, Twine et installations consignés dans le rapport v6. | Ne vaut pas preuve des artefacts v7; n’englobe ni G03 ni l’avis juridique indépendant. | Conserver comme preuve des artefacts v6 uniquement. |
-| Candidats smoke wheel/sdist (six tentatives) | NOT_ACQUIRED | Contrôleur et manifestes préparés; le dossier indique PREPARED_NOT_AUTHORIZED. | Autorisation distincte de la campagne absente. | Décision exacte Owner décrite §10; ne pas lancer sans elle. |
+| Smoke installés wheel/sdist v7 (six tentatives) | PASS (portée exacte) | Six `EXECUTION_PASS` et six `NUMERICAL_ORACLE_PASS`; rapport d’exécution §13, ledger append-only à six réservations. | Ne vaut pas qualification globale; sorties signalent aussi traceabilité FAIL / readiness WARNING. | Ne pas transformer en `QUALIFICATION_PASS`; G03 et les autres gates restent indépendants. |
 | Documentation publique sélectionnée v6 | HISTORICAL (v6) | La sélection v6 avait 773 documents sans constat; la politique et les contenus concernés ont ensuite évolué et sont évalués par le scan différentiel v7 en §12. | Ne couvre pas la sélection documentaire v7 et ne purge pas les archives ni les fichiers hors sélection. | Utiliser le résultat différentiel v7 pour la sélection courante; G03 reste indépendant. |
 | Sélection de chemins d’archive prospective | PASS (contrôle ciblé) | La règle `/AGENTS.md` et `docs/generated/results/**` est `export-ignore`; `git check-attr` confirme l’exclusion de la racine et des JSON, tout en conservant le Markdown généré référencé. Le test ciblé de règle passe. | Contrôle de chemins seulement; le contenu complet et l’historique Git restent distincts. | Vérifier la liste de chemins de l’archive finale après commit. |
 | G03, critère indépendant archive/dépôt | FAIL_PRESERVED | Audit prospectif FAIL au snapshot `3ced76d`: 6 711 fichiers, 7 060 constats sur 618 chemins (822 `internal_workflow`, 3 130 `private_environment`, 3 098 `workstation_path`, 10 `private_email`), aucun `forbidden_path`. La liste finale a 6 714 chemins (+3 rapports scannés individuellement, 0 constat chacun), sans préfixe interdit. Préfiltre historique WARNING (2 587 commits, 1 429 événements). Détails dans [`WP13_G03_REMEDIATION_REPORT.md`](WP13_G03_REMEDIATION_REPORT.md). | Contenu d’archive et historique non conformes; le filtrage ne purge pas les commits. L’audit complet de la source suivie n’a pas été lancé, car il ne peut pas lever les bloqueurs connus. | Conserver FAIL_PRESERVED; aucune réécriture n’est autorisée dans ce mandat. |
@@ -229,16 +230,16 @@ Artefacts v6 consignés :
 - Installation fraîche Windows/Python 3.13.1 pour wheel et sdist; 501 fichiers source installés, version/aide CLI et six vérifications non résolvantes check-mesh PASS.
 - Les octets bruts de sdist varient avec les métadonnées gzip; la comparaison documentée porte sur la sdist normalisée.
 
-La version v6 de l’inventaire de dépendances a des versions différentes de la v4. Cela ne fournit pas de clearance juridique indépendante. Il n’y a ni smoke de solveur installé, ni nouvelle preuve Ubuntu ou Python 3.10. Le dossier smoke fixe un contrôleur (SHA-256 16df6eba0f902c332cace9e9a5624d1b8b59c3e051bfcc4063782123cc9a7f2f) et un manifeste (SHA-256 dea2c6f6d72bbd7303f23b6cff6b9809be471513dffa639990d13313dee9086b); ils n’ont pas été modifiés. Les six tentatives statique, modale et dynamique × wheel/sdist restent préparées sans autorisation d’exécution.
+Au checkpoint v6, il n’y avait ni smoke de solveur installé ni nouvelle preuve Ubuntu/Python 3.10; ce constat est historique et les smoke v7 sont consignés en §13. L’inventaire technique de dépendances v6 ne fournit toujours pas de clearance juridique indépendante.
 
 ## 10. Décisions Owner (résolue et en attente)
 
 1. **Politique Release Validation — résolue** — le 2026-11-01, l’Owner a explicitement remplacé les quatre suites complètes par la suite complète Ubuntu/Python 3.13 et les 15 nodeids de compatibilité dans les trois cellules secondaires. La politique a passé le run #41328516423. L’ancienne obligation est remplacée, pas déclarée PASS. Le coût historique d’environ 10 h additionnées était un total des durées de tests par cellule, pas une mesure CPU; la nouvelle suite de référence a pris 2 097,90 s.
-2. **Six smoke tests installés** — autoriser séparément les six tentatives serialisées exactement prévues au dossier, sur les wheels/sdists et entrées/oracles figés, avec leur budget/contrôleur/ledger prescrits. Sans cette autorisation exacte, aucun calcul ne sera lancé. Ces résultats ne seraient que des smoke d’installation/correctness dans leur portée, jamais une qualification scientifique globale.
+2. **Six smoke tests installés** — gate exécuté et PASS dans sa portée exacte (§13). Aucune qualification scientifique globale n’est impliquée.
 3. **Disposition G03 / historique public** — la correction prospective retire les chemins visés de l’archive `git archive`, mais le préfiltre de l’historique public signale toujours des événements historiques. Le choix entre conserver cet historique avec G03 en FAIL_PRESERVED et ouvrir une revue séparée pour une éventuelle histoire publique propre doit être traité dans un mandat ultérieur. Aucune réécriture n’est autorisée ici.
 4. **Revue juridique des licences** — le dossier technique est livré comme inventaire limité; une détermination indépendante de compatibilité de redistribution reste à acquérir avant publication.
 
-Les décisions Owner encore nécessaires sont l’autorisation distincte des six smoke tests installés, la disposition du risque de l’historique public G03 dans un mandat séparé, et l’acceptation d’une revue juridique indépendante. G03 reste un échec conservé jusqu’à satisfaction de son critère indépendant. La décision sur les suites complètes ne modifie ni G03, ni les résultats WP12, ni les critères scientifiques.
+Les décisions Owner encore nécessaires portent sur la disposition du risque d’historique public G03 dans un mandat séparé et sur une revue juridique indépendante. G03 reste un échec conservé jusqu’à satisfaction de son critère indépendant. La matrice CI et les smoke installés ne modifient ni les résultats WP12 ni les critères scientifiques.
 
 ## 11. Risques résiduels
 
@@ -284,7 +285,7 @@ L’unique dispatch `quality.yml` a été exécuté le 2026-11-01 pour la PR #11
 
 La suite Ubuntu/Python 3.13 a produit 84,75 % de couverture globale avec branches (seuil ≥80 %). Le contrôle P0 a réussi : `solveur/core/errors.py` à 100,00 % et `solveur/verification/traceability.py` à 92,16 % (seuil ≥90 %); le contrôle P0 a exécuté 37 tests passés et 2 ignorés en 1,22 s. Le JUnit et les logs contiennent les 20 durées les plus longues; les dix premières figurent en §4.
 
-Les quatre jobs ont passé Ruff, mypy progressif, le contrôle de confidentialité et `compileall`. Quick verification et les jobs étendus ont été `NOT_RUN`/skipped par conception pour le dispatch approuvé; aucune campagne FEM distincte ni aucun smoke installé n’a été lancé. Il n’y a eu ni timeout, ni test échoué, ni relance automatique. Le run entier s’est achevé en 36 min 02 s; sa conclusion GitHub est `success`.
+Les quatre jobs ont passé Ruff, mypy progressif, le contrôle de confidentialité et `compileall`. Quick verification et les jobs étendus ont été `NOT_RUN`/skipped par conception pour le dispatch approuvé; à la date de cette exécution de matrice, aucune campagne FEM distincte ni aucun smoke installé n’avait été lancé. Il n’y a eu ni timeout, ni test échoué, ni relance automatique. Le run entier s’est achevé en 36 min 02 s; sa conclusion GitHub est `success`.
 
 La sélection secondaire est le manifeste de 15 nodeids `wp13_compatibility_nodeids.json`, SHA-256 `0fb5add51545ce77e0ce93ddc5c7c1cb20cff2d74f554136c47f24cf423156ba`. Les tests ont été vérifiés par nodeid avant inclusion. Aucun des 15 tests ne lance de solveur/assemblage; la preuve du correctif de boucle Windows est portée séparément par le run ciblé #41325510873 sur Python 3.10 et 3.13.
 
@@ -292,7 +293,7 @@ La sélection secondaire est le manifeste de 15 nodeids `wp13_compatibility_node
 
 **WP13_PARTIAL_OR_BLOCKED**
 
-Le gate CI de la politique explicitement approuvée par l’Owner est PASS sur le commit exact de workflow : suite de référence complète, seuils de couverture et trois cellules ciblées ont tous passé. L’ancienne exigence de quatre suites complètes est `REPLACED_BY_OWNER_DECISION`, non PASS; ses deux cellules Windows complètes historiquement interrompues restent ainsi documentées. WP13 n’est pas terminée : les six smoke tests installés demeurent PREPARED_NOT_AUTHORIZED, G03 reste FAIL_PRESERVED, l’examen juridique indépendant des licences n’est pas acquis et les autres gates distincts demeurent ouverts. Aucun tag, merge release/main ni publication n’a eu lieu.
+Le gate CI de la politique explicitement approuvée par l’Owner est PASS sur le commit exact de workflow : suite de référence complète, seuils de couverture et trois cellules ciblées ont tous passé. Les six smoke tests installés v7 ont ensuite passé leurs contrôles dans la portée exacte (voir §13). L’ancienne exigence de quatre suites complètes est `REPLACED_BY_OWNER_DECISION`, non PASS; ses deux cellules Windows complètes historiquement interrompues restent ainsi documentées. WP13 n’est pas terminée : G03 reste `FAIL_PRESERVED`, l’examen juridique indépendant des licences n’est pas acquis et les autres gates distincts demeurent ouverts. Aucun tag, merge release/main ni publication n’a eu lieu.
 
 ## Addendum final — consolidation documentaire et candidate package v7 (2026-11-01)
 
@@ -320,14 +321,20 @@ Les durées persistées par le runner commencent après matérialisation des sou
 | MkDocs/public-doc scan différentiel | PASS (borné) | Build strict, 55 routes présentes, 761 documents sélectionnés; 753 réutilisations à hash égal, 8 réanalysés sans constat; mapping SHA `71371c8e431200bd14ceb406498d4de1f862feb62597080dd7443b2b5f568eb2`. |
 | Wheel/sdist v7 | PASS (sélection contractuelle) | Deux builds, wheel et sdist normalisée identiques, 585 fichiers de package et zéro constat; installation/CLI/Twine/check-mesh PASS. Rapport final d’artefacts v7. |
 | Smoke préflight v7 | PASS, sans FEM | Manifeste `e1e86a8c5aae20b687469886f0efa4434769c84d5770538cec93f4a9123a8bd8`; rapport `a7c2b1f52a8998ce4a45d54a27bacea38b8f86b957d75c5bde5740d0024425e6`; zéro réservation réelle et aucun FEM. |
-| Préflight synthétique et six calculs | NOT_RUN / BLOCKED | Le préflight synthétique et ses écritures de ledger n’ont pas reçu d’autorisation; aucun calcul n’a tourné. Dossier Owner v7 requis avant toute réservation. |
+| Préflight synthétique et six calculs | PASS dans la portée autorisée | Préflight synthétique `PASS_NO_FEM`; six exécutions et oracles `PASS`. Rapport §13 et ledger append-only lié par hash. |
 | Matrice CI approuvée | PASS sur commit de workflow acquis | Run #41328516423 sur `698e858e79d6b6ded7cdf764f5e0dd26c710c301`; cette phase n’a pas prétendu être une nouvelle exécution complète sur le HEAD documentaire final. |
 | G03 | FAIL_PRESERVED | Aucun scan sélectionné ne modifie ce critère complet d’archive/historique. |
 | Revue juridique indépendante | NOT_ACQUIRED | L’inventaire technique v6 reste valable pour la graph de dépendances inchangée; aucun avis juridique indépendant n’est acquis. |
 | WP12 et qualification scientifique | Inchangés | TET4-L3, deux FAIL HEX8-SRI, HEX20 R4, états NOT_ACQUIRED/INCONCLUSIVE gardés. Aucun oracle ou seuil changé. |
 
-Le préflight principal PASS ne vaut pas autorisation d’exécuter. Le synthetic preflight reste `NOT_RUN`; le ledger de tentatives réelles n’existe pas. Les résultats de smoke, s’ils sont autorisés plus tard, ne pourront établir que des résultats dans les trois cas installés et ne vaudront jamais qualification globale.
+Le préflight principal et le synthetic preflight ont précédé l’exécution. Le rapport §13 documente les six résultats; ils valent uniquement pour les trois cas installés. Ils ne constituent jamais une qualification globale.
 
 ### Verdict
 
-**`WP13_PARTIAL_OR_BLOCKED`**. La documentation et le gate package v7 sélectionné sont vérifiés, mais la smoke reste bloquée par la décision Owner exacte, G03 reste FAIL et l’examen juridique indépendant n’est pas acquis. Aucun tag, merge, publication, dépôt Zenodo ou déploiement n’a eu lieu.
+**`WP13_PARTIAL_OR_BLOCKED`**. La documentation, les artefacts v7 sélectionnés et les six smoke tests installés sont vérifiés dans leur portée. G03 reste `FAIL_PRESERVED` et l’examen juridique indépendant n’est pas acquis. Aucun tag, merge, publication, dépôt Zenodo ou déploiement n’a eu lieu.
+
+## 13. Smoke tests installés v7 — exécution et résultat
+
+Le manifeste rebind et les deux préflights ont passé sur HEAD `d0a3df9bd7265429d433b44560c0cd0606aedbf0`. L’enregistrement Owner `OWNER-WP13-V7-SIX-SMOKES-HEAD-D0A3-01` a été appliqué. Les six couples ont réussi `EXECUTION_PASS` et `NUMERICAL_ORACLE_PASS`, une seule tentative chacun, en série. Le ledger contient six réservations et six terminaux, sans septième essai; SHA-256 `62c2c843e3cd5c80a2098efef97ca146a332c9a4375df549542d2593522bb67f`. Durée cumulée 11,457 s; RSS maximale 119 607 296 octets (114,07 MiB). Les tableaux numériques et les SHA des preuves sont dans [`WP13_V7_INSTALLED_PACKAGE_SMOKE_EXECUTION_REPORT.md`](WP13_V7_INSTALLED_PACKAGE_SMOKE_EXECUTION_REPORT.md).
+
+Les sorties incluent `audit.qualification.traceability.status=FAIL` et `qualification_summary.status=WARNING`; ces signaux n’ont pas été convertis en qualification. Le résultat exact des smoke est **`WP13_V7_INSTALLED_PACKAGE_SMOKES_PASS`**. Le verdict global reste `WP13_PARTIAL_OR_BLOCKED` à cause des autres gates, notamment G03 et la revue juridique indépendante.
