@@ -4,9 +4,13 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - codex/wp13-windows-diagnostic-20261031
+      - codex/wp13-release-engineering-20261031
     paths:
       - .github/workflows/wp13-windows-diagnostic.yml
+      - scripts/development_autonomous.py
+      - scripts/wp13_windows_diagnostic.py
+      - tests/unit/test_development_autonomous_policy.py
+      - qualification/0_2_12/wp13_windows_missing_root_diagnostic_nodeids.json
 
 permissions:
   contents: read

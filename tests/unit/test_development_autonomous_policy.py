@@ -1833,6 +1833,10 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
     from contextlib import nullcontext
 
     policy = _policy()
+    coordination_root = tmp_path / "coordination"
+    coordination_root.mkdir()
+    policy["resource_coordination_root"] = str(coordination_root)
+    monkeypatch.setattr(MODULE, "WP12_COORDINATION_ROOT", coordination_root)
     entry = policy["worktrees"][worktree_id]
     targets = {
         "wp12_wp07": [
@@ -1859,7 +1863,11 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
         }
         predecessor_path.write_text(json.dumps(predecessor_payload, sort_keys=True) + "\n", encoding="utf-8")
         entry["node_attempt_ledger"]["predecessor"]["sha256"] = MODULE._sha256(predecessor_path)
+    store_before = tuple(
+        sorted((path.relative_to(store).as_posix(), path.read_bytes()) for path in store.rglob("*") if path.is_file())
+    )
     observed: dict[str, str] = {}
+    reservation_boundary_calls: list[bool] = []
 
     class StopBeforeAttempt(Exception):
         pass
@@ -1926,11 +1934,11 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
         return context
 
     monkeypatch.setattr(MODULE, "_node_ledger_context", observe_ledger_context)
-    monkeypatch.setattr(
-        MODULE,
-        "_next_attempt",
-        lambda *_args, **_kwargs: (_ for _ in ()).throw(StopBeforeAttempt()),
-    )
+    def stop_before_attempt(*_args: Any, **_kwargs: Any) -> None:
+        reservation_boundary_calls.append(True)
+        raise StopBeforeAttempt
+
+    monkeypatch.setattr(MODULE, "_next_attempt", stop_before_attempt)
     monkeypatch.setattr(
         MODULE,
         "run_supervised_command",
@@ -1949,6 +1957,10 @@ def test_wp12_runner_selects_scope_mandate_without_launching(
             execution_manifest=tmp_path / "synthetic-authorized-manifest.json",
         )
     assert observed["mandate_id"] == entry["development_mandate_id"]
+    assert reservation_boundary_calls == [True]
+    assert tuple(
+        sorted((path.relative_to(store).as_posix(), path.read_bytes()) for path in store.rglob("*") if path.is_file())
+    ) == store_before
 
 
 def test_wp12_scope_mandate_change_refuses_legacy_ledger_without_rewriting_it(tmp_path: Path) -> None:
@@ -6270,3 +6282,61 @@ def test_wp12_dynamics_preflight_detects_identity_changes_and_never_reserves(
     assert receipt["controller_provenance_after"]["fingerprint"] == (
         "e" if change_controller_during_collection else "d"
     ) * 64
+
+
+def test_required_disk_ancestor_returns_existing_path_directly(tmp_path: Path) -> None:
+    existing = tmp_path / "existing"
+    existing.mkdir()
+
+    assert MODULE._existing_filesystem_ancestor(existing) == existing.resolve()
+
+
+def test_required_disk_ancestor_climbs_to_existing_parent(tmp_path: Path) -> None:
+    existing = tmp_path / "existing"
+    existing.mkdir()
+    missing = existing / "nested" / "deeper" / "coordination"
+
+    assert MODULE._existing_filesystem_ancestor(missing) == existing.resolve()
+
+
+def test_required_disk_ancestor_refuses_absent_windows_drive_root_without_loop() -> None:
+    from pathlib import PureWindowsPath
+
+    exists_checks: list[str] = []
+
+    class SimulatedWindowsPath:
+        def __init__(self, path: PureWindowsPath) -> None:
+            self.path = path
+
+        def resolve(self) -> SimulatedWindowsPath:
+            return self
+
+        def exists(self) -> bool:
+            exists_checks.append(self.path.as_posix())
+            return False
+
+        @property
+        def parent(self) -> SimulatedWindowsPath:
+            parent = self.path.parent
+            if parent == self.path:
+                return self
+            return SimulatedWindowsPath(parent)
+
+        def __eq__(self, other: object) -> bool:
+            return isinstance(other, SimulatedWindowsPath) and self.path == other.path
+
+        def __str__(self) -> str:
+            return str(self.path)
+
+    missing_drive_path = SimulatedWindowsPath(PureWindowsPath(r"Z:\QF_solver\missing\coordination"))
+
+    with pytest.raises(MODULE.PolicyError, match="No existing filesystem ancestor") as error:
+        MODULE._existing_filesystem_ancestor(missing_drive_path)  # type: ignore[arg-type]
+
+    assert str(missing_drive_path) in str(error.value)
+    assert exists_checks == [
+        "Z:/QF_solver/missing/coordination",
+        "Z:/QF_solver/missing",
+        "Z:/QF_solver",
+        "Z:/",
+    ]

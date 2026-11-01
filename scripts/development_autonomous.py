@@ -8879,6 +8879,16 @@ def run_wp12_vv3d_qpost_pytest(
         raise
 
 
+def _existing_filesystem_ancestor(disk_path: Path) -> Path:
+    anchor = disk_path.resolve()
+    while not anchor.exists():
+        parent = anchor.parent
+        if parent == anchor:
+            raise PolicyError(f"No existing filesystem ancestor for required path: {disk_path}")
+        anchor = parent
+    return anchor
+
+
 def run_pytest(
     scope_name: str,
     target: str | None,
@@ -9124,10 +9134,7 @@ def run_pytest(
         disk_paths.append(_run_root(policy))
     disk_anchors: list[Path] = []
     for disk_path in disk_paths:
-        anchor = disk_path.resolve()
-        while not anchor.exists():
-            anchor = anchor.parent
-        disk_anchors.append(anchor)
+        disk_anchors.append(_existing_filesystem_ancestor(disk_path))
     free_bytes = min(shutil.disk_usage(path).free for path in disk_anchors)
     minimum_free = int(policy["minimum_free_disk_mib"] * 1024 * 1024)
     if free_bytes < minimum_free:
