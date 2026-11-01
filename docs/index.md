@@ -88,8 +88,7 @@ to cite QF Solver across versions. This branch prepares unreleased candidate
 identifies the candidate without assigning a release date or version DOI. Use
 the DOI above when citing published 0.2.11. WP12 is closed only under the
 bounded Owner disposition `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`; this is not
-general qualification. See the [candidate inventory](ai/releases/v0.2.12.md)
-and [WP12 closeout](../qualification/0_2_12/vv_local/WP12_CLOSED_AND_RELEASE_BRANCH_READY_FOR_WP13.md).
+general qualification. See the [0.2.12 candidate preparation note](whats-new/0.2.12-preparation.md).
 Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solver/)
 and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
 

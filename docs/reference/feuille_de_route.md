@@ -21,8 +21,7 @@ The 0.2.12 branch is an unreleased candidate. Its Owner-approved WP12 state is
 `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`; bounded dispositions preserve the
 recorded FAIL, INCONCLUSIVE and NOT_ACQUIRED states and do not grant general
 qualification. WP13 release engineering remains open; publication is not
-authorized. See the [candidate inventory](../ai/releases/v0.2.12.md) and
-[WP12 closeout](../../qualification/0_2_12/vv_local/WP12_CLOSED_AND_RELEASE_BRANCH_READY_FOR_WP13.md).
+authorized. See the [0.2.12 candidate preparation note](../whats-new/0.2.12-preparation.md).
 
 ## Current direction
 

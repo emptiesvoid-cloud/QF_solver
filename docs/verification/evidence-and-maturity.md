@@ -16,7 +16,7 @@ approver: ""
 
 This branch prepares an unreleased 0.2.12 candidate. WP12 is closed only under
 the bounded Owner decision `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`; see the
-[release-specific inventory](../ai/releases/v0.2.12.md) and [WP12 closeout](../../qualification/0_2_12/vv_local/WP12_CLOSED_AND_RELEASE_BRANCH_READY_FOR_WP13.md).
+[0.2.12 candidate preparation note](../whats-new/0.2.12-preparation.md).
 The candidate has no assigned release date or version DOI. These facts do not
 grant general qualification, promote maturity or assert a current-HEAD
 scientific replay.

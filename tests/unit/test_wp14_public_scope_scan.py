@@ -62,6 +62,7 @@ def test_document_scope_rejects_non_regular_selected_paths() -> None:
 def test_documentation_exclusions_must_match_the_mkdocs_publication_policy() -> None:
     selection = {
         "exclude_prefixes": [
+            "docs/ai/",
             "docs/verification/0_2_9/",
             "docs/verification/internal-review.md",
         ],
@@ -69,10 +70,12 @@ def test_documentation_exclusions_must_match_the_mkdocs_publication_policy() -> 
     policy = {
         "config_path": ".github/pages/mkdocs.yml",
         "excluded_source_paths": [
+            "docs/ai/",
             "docs/verification/0_2_9/",
             "docs/verification/internal-review.md",
         ],
         "mkdocs_exclude_patterns": [
+            "ai/**",
             "verification/0_2_9/**",
             "verification/internal-review.md",
         ],
@@ -80,7 +83,7 @@ def test_documentation_exclusions_must_match_the_mkdocs_publication_policy() -> 
     validate_documentation_publication_policy(
         selection,
         policy,
-        b"exclude_docs: |\n  verification/0_2_9/**\n  verification/internal-review.md\n",
+        b"exclude_docs: |\n  ai/**\n  verification/0_2_9/**\n  verification/internal-review.md\n",
     )
     with pytest.raises(ValueError, match="not bound"):
         validate_documentation_publication_policy(
@@ -90,10 +93,11 @@ def test_documentation_exclusions_must_match_the_mkdocs_publication_policy() -> 
         )
 
 
-def test_public_mkdocs_configuration_excludes_controlled_029_archive() -> None:
+def test_public_mkdocs_configuration_excludes_internal_documentation() -> None:
     config = Path(".github/pages/mkdocs.yml")
     text = config.read_text(encoding="utf-8")
-    assert "exclude_docs: |\n  development/**" in text
+    assert "exclude_docs: |\n  ai/**\n  development/**" in text
+    assert "  ai/**" in text
     assert "  verification/0_2_9/**" in text
     assert "  elements/rbe2_rbe3_audit_vv.md" in text
     assert "  verification/wp12_b_elements_loads_audit.md" in text

@@ -18,7 +18,7 @@ Examples demonstrate a concrete workflow; they do not qualify every possible
 combination of element, load, material and solver.
 
 The repository also contains an internal 0.2.12 integration-candidate example
-for [experimental B* frictional contact](../../examples/contact/frictional_bstar_small_rotation/README.md).
+for [experimental B* frictional contact](https://github.com/emptiesvoid-cloud/QF_solver/blob/emptiesvoids-cloud/0.2.12/examples/contact/frictional_bstar_small_rotation/README.md).
 It is explicitly opt-in, never runs during test or documentation generation,
 and does not change the published 0.2.11 capability claims.
 

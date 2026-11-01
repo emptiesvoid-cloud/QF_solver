@@ -107,6 +107,10 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     assert "not a current capability or maturity record" in normalized_comparison_snapshot
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     assert 'version: "0.2.12"' in citation
+    assert 'url: "https://qfsolver.org/"' in citation
+    project = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert 'Homepage = "https://qfsolver.org/"' in project
+    assert 'Documentation = "https://qfsolver.org/getting-started"' in project
     assert "unreleased candidate" in citation
     assert "date-released:" not in citation
     assert "doi:" not in citation
@@ -129,8 +133,6 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
         "mechanics/nonlinear-overview.md",
         "mechanics/rotating-modal.md",
         "mechanics/campbell.md",
-        "reference/qf_solver_api.md",
-        "reference/api_stability.md",
         "solveurs/index.md",
         "verification/evidence-and-maturity.md",
         "verification/0_2_11/README.md",
@@ -159,6 +161,15 @@ def test_current_public_surfaces_use_consistent_version_without_promotion(relati
         assert "closed_negative" in normalized and "remediation open" in normalized
     else:
         assert "0.2.12" not in content
+
+
+def test_candidate_api_contracts_are_not_backdated_to_published_release() -> None:
+    for relative in ("reference/qf_solver_api.md", "reference/api_stability.md"):
+        content = (DOCS / relative).read_text(encoding="utf-8")
+        normalized = " ".join(content.split()).lower()
+        assert "status: controlled_candidate" in content
+        assert "applicable_version: 0.2.12" in content
+        assert "candidate" in normalized
 
 
 @pytest.mark.parametrize(

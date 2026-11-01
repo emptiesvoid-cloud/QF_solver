@@ -8,7 +8,7 @@ authors:
   - family-names: "Farinazzo"
     given-names: "Quentin"
 repository-code: "https://github.com/emptiesvoid-cloud/QF_solver"
-url: "https://emptiesvoid-cloud.github.io/QF_solver/"
+url: "https://qfsolver.org/"
 
 abstract: "Open-source Python finite-element solver for structural mechanics and dynamics, designed for inspectable formulations, engineering-method development, and reproducible numerical verification."
 
