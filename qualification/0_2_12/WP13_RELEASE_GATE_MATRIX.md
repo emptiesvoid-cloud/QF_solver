@@ -4,7 +4,7 @@
 **Release branch:** `emptiesvoids-cloud/0.2.12`
 **Baseline candidate:** `ab137051d920d7fa9aae9a3012a48b2b26e2198b`
 **Baseline worktree:** clean managed worktree; host path omitted.
-**Working branch:** `codex/wp13-release-engineering-20261031`, based on the release baseline and presented in draft PR #114; no release-branch update is implied. The worktree is clean.
+**WP13 worktree:** changes are presented in PR #114 and remain separate from the release branch. The initial worktree was clean; finalization changes are itemized below.
 **Owner scope:** WP13 engineering, candidate build and verification only; no final tag, main merge, package publication, GitHub Release, Zenodo deposit or public site synchronization.
 
 This matrix records observed gates at the baseline and will be updated as evidence is acquired. A configured workflow is not a result. `PASS`, `FAIL`, `BLOCKED` and `NOT_RUN` are kept distinct. The initial review identified the latest published version as 0.2.11 and the current repository contents as a 0.2.12 development candidate.
@@ -36,7 +36,7 @@ This matrix records observed gates at the baseline and will be updated as eviden
 - A test that invokes a solver/FEM model is not assumed to be an ordinary unit test. Before any such smoke test, bind source/input identities, numeric/time/resource limits and an execution manifest, and obtain the separate Owner execution authorization required by the repository policy.
 - `SELECTED_DISTRIBUTION_CLEARANCE` and `WHOLE_REPOSITORY_ARCHIVE_CLEARANCE` remain separate; G03 must remain failed unless its own gate is independently satisfied and authorized.
 
-## Current candidate status — 2026-10-31
+## Baseline candidate status — 2026-10-31 (historical snapshot)
 
 The current P0 package source is
 `2865587a44f9e461a0b4e4286c912c17e4f04be5`, based on release baseline
@@ -193,8 +193,7 @@ scientific criteria are unchanged.
 The single authorized `quality.yml` dispatch was run with
 `include_extended_jobs=false` and
 `privacy_base_sha=ab137051d920d7fa9aae9a3012a48b2b26e2198b`. It used exactly
-`698e858e79d6b6ded7cdf764f5e0dd26c710c301` on branch
-`codex/wp13-release-engineering-20261031`:
+commit `698e858e79d6b6ded7cdf764f5e0dd26c710c301` in PR #114:
 [Actions run #41328516423](https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41328516423).
 
 | Gate | Statut | Preuve | Blocage | Action nécessaire |
@@ -211,8 +210,11 @@ The single authorized `quality.yml` dispatch was run with
 | Quick verification / extended jobs | NOT_RUN | Quick verification was skipped for this manual WP13 dispatch; documentation, engineering, and WP14 extended jobs were disabled by the approved input. | These jobs are outside this matrix execution. | Do not infer PASS; run only under their separate authorization/scope. |
 | Installed wheel/sdist static/modal/dynamic smoke | NOT_ACQUIRED | Six attempts remain PREPARED_NOT_AUTHORIZED; none ran in this workflow. | Separate exact Owner execution authorization is absent. | Keep unexecuted pending that distinct decision. |
 | Selected v6 wheel/sdist and public documentation identity | PASS (selected scope) | The candidate's changes are workflow, infrastructure script/manifest, tests and internal reports; selected distribution and public documentation blobs remain the v6 identities documented below. | Does not clear whole-repository G03 or license review. | Reuse v6 only for those unchanged identities. |
-| G03 whole-repository archive criterion | FAIL_PRESERVED | Existing independent finding remains: `AGENTS.md` is in Git archives and tracked `docs/generated/results/*.json` remain present. | Independent G03 criterion unsatisfied. | Preserve FAIL until its own criterion is met. |
-| Independent third-party license review | NOT_RUN | No legal clearance was produced by this CI run. | Independent review remains outstanding. | Complete the review before publication. |
+| Prospective source-archive path filtering | PASS (bounded path check) | Root `/AGENTS.md` and `docs/generated/results/**` have `export-ignore`; `git check-attr` confirms the root instruction and generated JSON are excluded while `docs/generated/mitc4_locking_results.md` remains included. The focused archive-rule test passes. | This proves path selection only, not archive-content clearance or GitHub history clearance. | Preserve the root-only rule and verify the final archive path set after commit. |
+| G03 whole-repository archive/history criterion | FAIL_PRESERVED | Prospective archive audit FAIL: 6,711 files, 7,060 findings on 618 paths; no forbidden export paths. History prefilter WARNING: 2,587 reachable commits and 1,429 events. See [`WP13_G03_REMEDIATION_REPORT.md`](WP13_G03_REMEDIATION_REPORT.md). | Content findings and public-history warning remain; path exclusions cannot remove committed history. | Keep FAIL_PRESERVED; no history rewrite is authorized here. |
+| Full repository source-content audit | NOT_RUN | The prospective archive already has 7,060 content findings and the history prefilter remains WARNING; a second full scan cannot clear either blocker. Selected v6 package/docs scans remain separately PASS. | Whole-source result is not acquired. | Revisit only after a bounded content-remediation plan and a separate history decision. |
+| Technical third-party license inventory | PASS (bounded technical review) | The exact v6 wheel/sdist default dependency graph and license files were reviewed; details and limitations are in [`WP13_THIRD_PARTY_LICENSE_AUDIT.md`](WP13_THIRD_PARTY_LICENSE_AUDIT.md). | This is not an independent legal opinion and does not cover every allowed resolver version or optional extra resolution. | Retain license payloads and obtain independent review before publication. |
+| Independent third-party legal review | NOT_ACQUIRED | No independent counsel/reviewer determination is recorded. | Redistribution compatibility remains unapproved. | Obtain a scoped review of the exact candidate and optional dependency policy. |
 | Scientific qualification / FEM campaigns | NOT_RUN | No independent campaign ran; no smoke result is promoted as scientific qualification. | Separate manifests and Owner authorization remain required. | Use the distinct Scientific V&V gate. |
 | Overall WP13 | WP13_PARTIAL_OR_BLOCKED | The approved CI matrix passes, but smoke authorization, G03, legal review and other release gates remain open. | Independent release gates remain. | Keep overall verdict `WP13_PARTIAL_OR_BLOCKED`. |
 

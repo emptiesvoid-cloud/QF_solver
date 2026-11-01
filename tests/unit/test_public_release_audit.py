@@ -99,6 +99,8 @@ def test_archive_rules_exclude_local_and_working_evidence_trees() -> None:
         "results",
         "results_large",
         "site",
+        "/AGENTS.md",
+        "docs/generated/results",
         "VNV-*",
         "qualification/vnv",
     ):

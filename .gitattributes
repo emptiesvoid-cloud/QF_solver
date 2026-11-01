@@ -33,6 +33,9 @@ results export-ignore
 results_large export-ignore
 site export-ignore
 output export-ignore
+/AGENTS.md export-ignore
+docs/generated/results export-ignore
+docs/generated/results/** export-ignore
 git_history_audit.json export-ignore
 release_readiness.json export-ignore
 VNV-* export-ignore

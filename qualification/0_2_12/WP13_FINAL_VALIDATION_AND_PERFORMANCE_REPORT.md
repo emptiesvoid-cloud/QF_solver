@@ -3,7 +3,7 @@
 Date de l’audit : 1 novembre 2026
 Dépôt : emptiesvoid-cloud/QF_solver
 PR : [#114](https://github.com/emptiesvoid-cloud/QF_solver/pull/114)
-Branche : codex/wp13-release-engineering-20261031
+Branche de travail : branche WP13 de la PR #114, distincte de la branche release
 Branche de release examinée : emptiesvoids-cloud/0.2.12
 
 ## Verdict exécutif
@@ -40,9 +40,9 @@ Les rapports et profils disponibles attribuent l’essentiel du coût aux opéra
 
 - Les audits publics reparcouraient les sources à plusieurs reprises dans la même session pytest. Le correctif #116 les partage dans une fixture session avec identité d’entrée vérifiée; tout doute invalide la réutilisation.
 - Le test de câblage de documentation exécutait auparavant des calculs de campagne FEM alors qu’il vérifiait seulement la copie des entrées. Le test mocke maintenant les trois frontières de campagne; les tests numériques réels restent séparés.
-- L’audit réel d’archive Git reste cher : un diagnostic local borné a été interrompu à environ 456 s murales, après au moins 452,92 s CPU, pendant le parcours des membres de l’archive. Il n’a pas été relancé.
+- L’audit réel d’archive Git reste le poste dominant mesuré : après un ancien diagnostic borné interrompu à 456 s, un scan complet ciblé a pris 1 040,44 s murales, 1 030,03 s CPU et 148,29 Mio RSS maximale pour 6 711 fichiers et 7 060 constats. Les règles de chemin ont passé, mais 618 chemins gardent des constats de contenu; aucun cache ni relancement ne supprime ce résultat FAIL.
 - Les fichiers comportant des calculs FEM, non-linéaires ou de contact restent coûteux par conception. Aucun de ces tests n’a été supprimé ni remplacé par un mock dans le but d’accélérer la suite.
-- Un profil de scan d’architecture sur ce poste a dépassé 169,064 s murales pour 3,016 s CPU avec 87,4 Mio RSS; le stall dépendait du parcours récursif du volume E: local. Cette observation n’est pas une durée portable du runner Ubuntu.
+- Un profil de scan d’architecture sur le poste de mesure a dépassé 169,064 s murales pour 3,016 s CPU avec 87,4 Mio RSS; le stall dépendait du parcours récursif d’un volume local. Cette observation n’est pas une durée portable du runner Ubuntu.
 - Chaque cellule CI doit installer ses dépendances adaptées à son OS et à sa version Python. Le cache pip est déjà activé dans les workflows concernés; partager un environnement entre ces cellules n’est pas équivalent.
 - Le démarrage et la collecte pytest représentent environ 1,9 à 2,7 s sur les nodeids de gouvernance mesurés. Les diagnostics Windows lancent séparément trois processus pytest pour isoler le cas rotor, les autres paramètres et la séquence de prédécesseurs.
 
@@ -56,7 +56,7 @@ Le classement ci-dessous réutilise les plus longues durées de fichier disponib
 |---:|---|---:|---|
 | 1 | tests/unit/test_release_readiness.py | 2 413,651 s | Les tests de composition utilisent des scanners mockés; les commandes utilisent un petit dépôt synthétique. Les nodeids locaux concernés passent en 1,23 à 3,41 s. La durée complète du fichier n’a pas été remesurée. |
 | 2 | tests/integration/test_release_readiness_pipeline.py | 1 229,360 s | La composition reste vérifiée avec scanners mockés; nodeid ciblé PASS en 2,07 s localement. Suite complète non relancée. |
-| 3 | tests/unit/test_public_release_audit.py | 1 226,984 s | Les scans de sources identiques sont partagés sous contrôle d’identité. L’audit d’archive réelle reste mesuré au moins 456 s sous plafond puis interrompu; pas de cache d’archive. |
+| 3 | tests/unit/test_public_release_audit.py | 1 226,984 s | Les scans de sources identiques restent partagés sous contrôle d’identité. Le scan d’archive réel final est mesuré à 1 040,44 s murales / 1 030,03 s CPU et 148,29 Mio RSS max; il échoue avec 7 060 constats de contenu. Pas de cache d’archive ni de relance. |
 | 4 | tests/unit/test_wp_e01_j2_corotational_global.py | 504,639 s | Assemblage/global FEM; aucune exécution dans ce mandat. À profiler uniquement dans le cadre et le budget scientifiques autorisés. |
 | 5 | tests/unit/test_nonlinear_multielement.py | 337,249 s | Cas non-linéaires; nodeid exact et classification nécessaires avant toute exécution. Aucune tentative dans ce mandat. |
 | 6 | tests/unit/test_public_document_audit.py | 309,638 s | Le scan réel est conservé et mutualisé. Dans le test apparié, lectures mesurées réduites de 1 287 881 919 à 652 587 121 octets. |
@@ -197,19 +197,24 @@ Le tableau ci-dessous est le statut consolidé après la décision Owner et le r
 | Builds v6 wheel/sdist et contrôles d’archive | PASS | Wheel/sdist v6, scans sélectionnés, Twine et contrôles d’installation Windows/Python 3.13.1 consignés dans le rapport v6. | Pas de nouvel OS/Python d’installation; pas de licence indépendante. | Réutiliser uniquement pour l’identité de sélection inchangée. |
 | Candidats smoke wheel/sdist (six tentatives) | NOT_ACQUIRED | Contrôleur et manifestes préparés; le dossier indique PREPARED_NOT_AUTHORIZED. | Autorisation distincte de la campagne absente. | Décision exacte Owner décrite §10; ne pas lancer sans elle. |
 | Documentation publique sélectionnée | PASS | Sélection v3 : 773 documents, zéro constat de sélection; contenus inchangés depuis la preuve. | Ne purge pas les archives ni les fichiers hors sélection. | Maintenir la sélection et les contrôles de confidentialité. |
-| G03, critère indépendant archive/dépôt | FAIL | Le rapport conserve AGENTS.md dans l’archive Git et les fichiers suivis docs/generated/results/*.json. | Critère indépendant non satisfait. | Corriger/qualifier le constat selon son critère propre; ne pas reclasser à partir des scans sélectionnés. |
+| Sélection de chemins d’archive prospective | PASS (contrôle ciblé) | La règle `/AGENTS.md` et `docs/generated/results/**` est `export-ignore`; `git check-attr` confirme l’exclusion de la racine et des JSON, tout en conservant le Markdown généré référencé. Le test ciblé de règle passe. | Contrôle de chemins seulement; le contenu complet et l’historique Git restent distincts. | Vérifier la liste de chemins de l’archive finale après commit. |
+| G03, critère indépendant archive/dépôt | FAIL_PRESERVED | Audit prospectif FAIL : 6 711 fichiers, 7 060 constats sur 618 chemins, répartis entre 822 `internal_workflow`, 3 130 `private_environment`, 3 098 `workstation_path`, 10 `private_email`; aucun `forbidden_path`. Le préfiltre historique reste WARNING (2 587 commits, 1 429 événements). Détails dans [`WP13_G03_REMEDIATION_REPORT.md`](WP13_G03_REMEDIATION_REPORT.md). | Contenu d’archive et historique non conformes; le filtrage ne purge pas les commits. L’audit complet de la source suivie n’a pas été lancé, car il ne peut pas lever les bloqueurs connus. | Conserver FAIL_PRESERVED; aucune réécriture n’est autorisée dans ce mandat. |
+| Audit complet du contenu source suivi | NOT_RUN | L’audit d’archive a déjà 7 060 constats et le préfiltre historique reste WARNING; un second scan global ne peut pas lever ces bloqueurs. Les sélections package/docs v6 restent PASS séparément. | Résultat du scan complet des sources non acquis. | Réexaminer après plan borné de remédiation de contenu et décision séparée sur l’historique. |
+| Inventaire technique des licences v6 | PASS (portée bornée) | Graphe runtime par défaut et fichiers de licence wheel/sdist inventoriés dans [`WP13_THIRD_PARTY_LICENSE_AUDIT.md`](WP13_THIRD_PARTY_LICENSE_AUDIT.md). | N’est pas un avis juridique et ne couvre pas chaque version autorisée ni l’installation de tous les extras. | Préserver les notices et demander la revue indépendante. |
 | Ancienne obligation de quatre suites complètes | REPLACED_BY_OWNER_DECISION (not PASS) | Décision Owner explicite du 2026-11-01; les deux anciennes suites Windows complètes restent non acquises. | Aucun sous la politique de release actuelle. | Ne pas reclasser l’ancien critère comme PASS. |
 | Matrice CI selon la politique Owner | PASS | Run #41328516423, exact HEAD 698e858e79d6b6ded7cdf764f5e0dd26c710c301; quatre jobs succès. | Aucun dans la portée approuvée. | Conserver les artefacts et ce lien. |
 | Suite de référence et couverture sur le HEAD de matrice | PASS | Ubuntu/Python 3.13.17 : 4 679 passés, 32 ignorés, 150 désélectionnés, zéro échec; 84,75 % branches; P0 modules 100,00 % et 92,16 %. | Aucune pour ces seuils. | Les couvertures acquises ne s’étendent pas aux cellules ciblées. |
 | Compatibilité ciblée OS/Python | PASS (portée ciblée) | Les trois cellules secondaires ont passé les 15 nodeids exacts, 0 échec, 0 ignoré. | Les suites complètes secondaires et les installations d’artefacts dans ces cellules ne sont pas démontrées. | Maintenir la liste et son hash; ne pas extrapoler à toute la suite. |
 | Compatibilité complète OS/Python et installations wheel/sdist dans la matrice | NOT_ACQUIRED | La politique approuvée exige les sélections ciblées sur les cellules secondaires; v6 comporte une installation wheel/sdist fraîche sur Windows/Python 3.13.1. | Aucune installation de wheel/sdist n’a été faite dans les quatre cellules du run #41328516423. | Réutiliser la preuve v6 pour les blobs identiques; ne pas revendiquer d’autres installations. |
-| Audit juridique indépendant des licences | NOT_RUN | Inventaire technique des versions/fichiers consigné; aucune décision juridique. | Compatibilité de redistribution non évaluée indépendamment. | Effectuer l’examen requis avant publication. |
+| Audit juridique indépendant des licences | NOT_ACQUIRED | Aucune détermination indépendante de compatibilité de redistribution n’est enregistrée. | La revue technique n’est pas une clearance juridique. | Obtenir la revue de la candidate exacte et de la politique d’extras avant publication. |
 | V&V scientifique / FEM / benchmarks / convergence | NOT_RUN | Aucune campagne scientifique lancée dans ce mandat. | Manifeste et autorisation campagne absents. | Circuit distinct avec gate Owner exact avant toute campagne. |
 | Publication, tag, merge release/main | NOT_RUN | Aucun acte de publication, tag ou merge effectué. | Autorisation volontairement absente du mandat. | Une décision de release distincte reste nécessaire. |
 
 **WP13 P0 demeure PARTIAL_OR_BLOCKED.** Les PASS limités ci-dessus ne constituent ni un P0 validé ni un feu vert de publication.
 
 ## 9. Compatibilité et identité des packages
+
+La comparaison des blob Git entre la source v6 `2865587a44f9e461a0b4e4286c912c17e4f04be5` et le HEAD WP13 audité `3ced76d841402fc53e64545ebc37acb8361fa369` donne 585/585 chemins de package identiques et 773/773 chemins de documentation sélectionnée identiques : aucun ajout, retrait ou blob modifié dans ces sélections. Les règles d’archive, les tests et les dossiers de qualification ajoutés sont hors de ces ensembles. Les hashes et vérifications du wheel/sdist v6 restent donc applicables; aucune reconstruction n’est justifiée.
 
 Le contrat de sélection public v6 est lié à la source 2865587a44f9e461a0b4e4286c912c17e4f04be5, contrat QF-0212-WP13-SELECTED-CANDIDATE-20261031-06, SHA-256 f33a72b… Les diffs Git entre ce snapshot et le candidat WP13 audité ne montrent aucun changement dans les chemins sélectionnés par le contrat. La phase de matrice (workflow `quality.yml`, script de sélection, manifeste de nodeids, tests et rapports) n’a modifié aucun fichier distribué ni aucune documentation publique sélectionnée; ces blobs demeurent donc identiques au contrat v6. Le run CI installe le baseline verrouillé, pas le wheel/sdist v6.
 
@@ -229,16 +234,20 @@ La version v6 de l’inventaire de dépendances a des versions différentes de l
 
 1. **Politique Release Validation — résolue** — le 2026-11-01, l’Owner a explicitement remplacé les quatre suites complètes par la suite complète Ubuntu/Python 3.13 et les 15 nodeids de compatibilité dans les trois cellules secondaires. La politique a passé le run #41328516423. L’ancienne obligation est remplacée, pas déclarée PASS. Le coût historique d’environ 10 h additionnées était un total des durées de tests par cellule, pas une mesure CPU; la nouvelle suite de référence a pris 2 097,90 s.
 2. **Six smoke tests installés** — autoriser séparément les six tentatives serialisées exactement prévues au dossier, sur les wheels/sdists et entrées/oracles figés, avec leur budget/contrôleur/ledger prescrits. Sans cette autorisation exacte, aucun calcul ne sera lancé. Ces résultats ne seraient que des smoke d’installation/correctness dans leur portée, jamais une qualification scientifique globale.
+3. **Disposition G03 / historique public** — la correction prospective retire les chemins visés de l’archive `git archive`, mais le préfiltre de l’historique public signale toujours des événements historiques. Le choix entre conserver cet historique avec G03 en FAIL_PRESERVED et ouvrir une revue séparée pour une éventuelle histoire publique propre doit être traité dans un mandat ultérieur. Aucune réécriture n’est autorisée ici.
+4. **Revue juridique des licences** — le dossier technique est livré comme inventaire limité; une détermination indépendante de compatibilité de redistribution reste à acquérir avant publication.
 
-La seule décision Owner encore nécessaire dans le périmètre immédiat des validations préparées est l’autorisation distincte des six smoke tests de package installé, avec le manifeste et le contrôleur déjà figés. G03 reste un échec conservé jusqu’à satisfaction de son critère indépendant. La décision sur les suites complètes ne modifie ni G03, ni les résultats WP12, ni un seuil de couverture.
+Les décisions Owner encore nécessaires sont l’autorisation distincte des six smoke tests installés, la disposition du risque de l’historique public G03 dans un mandat séparé, et l’acceptation d’une revue juridique indépendante. G03 reste un échec conservé jusqu’à satisfaction de son critère indépendant. La décision sur les suites complètes ne modifie ni G03, ni les résultats WP12, ni les critères scientifiques.
 
 ## 11. Risques résiduels
 
 - Les durées JUnit par nodeid sont disponibles pour la suite Ubuntu/Python 3.13, mais CPU et RSS de cette suite ne sont pas collectés par le workflow.
-- Le test d’archive Git réel a pris 695,367 s et le test d’audit documentaire 98,094 s dans le run; l’archive reste un poste coûteux, gardé réel pour préserver le contrôle indépendant G03.
+- Le nodeid d’archive du run CI a pris 695,367 s et le test d’audit documentaire 98,094 s. Le scan local complet ultérieur a pris 1 040,44 s murales, 1 030,03 s CPU et 148,29 Mio RSS max; il garde le contrôle réel et rend FAIL, sans résultat susceptible d’être accéléré par cache.
 - La matrice approuvée ne détectera pas nécessairement les défauts qui n’apparaissent que dans les tests omis des trois cellules ciblées.
 - Les suites complètes secondaires, les installations wheel/sdist dans les quatre cellules et la couverture sur les cellules ciblées ne sont pas acquises. Elles ne font pas partie du critère CI accepté par l’Owner.
 - Le smoke package, G03, les licences et toute qualification scientifique restent des gates indépendants.
+- Le correctif `.gitattributes` cible uniquement `AGENTS.md` à la racine et les JSON de résultats générés; il ne retire aucun contenu des commits ni de l’historique Git.
+- Le scan complet d’archive est une opération coûteuse en CPU, sans cache partagé; sa mesure et son résultat finaux sont consignés dans le rapport G03. Aucun scan global n’est relancé automatiquement.
 - Les durées de scans sur le volume local et les temps locaux de tests ne prédisent pas directement les runners GitHub.
 - Le résultat de test ne permet pas de publier, taguer ou fusionner dans la branche release.
 
@@ -257,10 +266,13 @@ La seule décision Owner encore nécessaire dans le périmètre immédiat des va
 - [Rapport candidat v6](./WP13_CANDIDATE_ARTIFACT_VERIFICATION_20261031_v6.md).
 - [Dossier smoke package](./WP13_P0_PACKAGE_FEM_SMOKE_DECISION_DOSSIER.md).
 - [Rapport d’optimisation des tests](./WP13_TEST_SUITE_OPTIMIZATION_REPORT.md).
+- [Rapport de remédiation G03](./WP13_G03_REMEDIATION_REPORT.md).
+- [Audit technique des licences tierces](./WP13_THIRD_PARTY_LICENSE_AUDIT.md).
+- [Dossier des décisions finales Owner](./WP13_FINAL_OWNER_DECISION_DOSSIER.md).
 
 ## 13. Détail de la matrice approuvée
 
-L’unique dispatch `quality.yml` a été exécuté le 2026-11-01 sur `codex/wp13-release-engineering-20261031`, commit `698e858e79d6b6ded7cdf764f5e0dd26c710c301`. Les paramètres correspondent à la décision : `include_extended_jobs=false`, `privacy_base_sha=ab137051d920d7fa9aae9a3012a48b2b26e2198b`. Chaque job a enregistré le même HEAD, son OS et sa version Python exacte.
+L’unique dispatch `quality.yml` a été exécuté le 2026-11-01 pour la PR #114, commit `698e858e79d6b6ded7cdf764f5e0dd26c710c301`. Les paramètres correspondent à la décision : `include_extended_jobs=false`, `privacy_base_sha=ab137051d920d7fa9aae9a3012a48b2b26e2198b`. Chaque job a enregistré le même HEAD, son OS et sa version Python exacte.
 
 | Cellule | Python exact | Résultat/tests | Durée pytest | Durée du job | JUnit / couverture |
 |---|---|---|---:|---:|---|
