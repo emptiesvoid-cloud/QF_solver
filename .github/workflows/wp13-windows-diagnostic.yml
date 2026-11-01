@@ -50,7 +50,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: wp13-windows-diagnostic-${{ github.run_id }}
+          name: wp13-windows-diagnostic-py${{ matrix.python-version }}-${{ github.run_id }}
           path: ${{ runner.temp }}/wp13-windows-diagnostic
           if-no-files-found: warn
           retention-days: 14
