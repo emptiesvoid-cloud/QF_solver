@@ -173,8 +173,21 @@ def _run(tmp_path: Path, nodeid: str = SUCCESS_NODEID):
     )
 
 
+def _assert_non_windows_backend_refusal(result) -> bool:
+    if os.name == "nt":
+        return False
+    # Keep Linux coverage fail-closed; child-result classifications run on Windows.
+    assert result.status == "DENY_EXECUTION"
+    assert result.reason == "SUSPENDED_WINDOWS_PROCESS_REQUIRED_FOR_ATTESTATION"
+    assert result.process_attestation is None
+    assert result.receipt_path is None
+    return True
+
+
 def test_valid_ephemeral_owner_decision_attests_only_fixed_fake_child(tmp_path: Path) -> None:
     result = _run(tmp_path)
+    if _assert_non_windows_backend_refusal(result):
+        return
     assert result.status == "PASS"
     assert result.process_attestation is not None
     assert result.process_attestation["pid"] > 0
@@ -211,6 +224,8 @@ def test_scientific_nodeid_refused_and_synthetic_reports_classified(
         assert not (tmp_path / "archive" / "run-001").exists()
         return
     result = _run(tmp_path, nodeid)
+    if _assert_non_windows_backend_refusal(result):
+        return
     assert result.status == expected_status
     assert result.process_attestation is not None
     assert result.receipt_path is not None
@@ -272,6 +287,9 @@ def test_existing_archive_destination_is_never_overwritten(tmp_path: Path) -> No
         evidence_root=destination,
         now=datetime.now(timezone.utc),
     )
+    if _assert_non_windows_backend_refusal(result):
+        assert sentinel.read_text(encoding="utf-8") == "keep"
+        return
     assert result.status == "DENY_EXECUTION"
     assert result.reason == "EVIDENCE_DESTINATION_ALREADY_EXISTS_OR_UNSAFE"
     assert sentinel.read_text(encoding="utf-8") == "keep"
@@ -279,6 +297,8 @@ def test_existing_archive_destination_is_never_overwritten(tmp_path: Path) -> No
 
 def test_receipt_tampering_is_detected_and_attempt_collision_is_refused(tmp_path: Path) -> None:
     result = _run(tmp_path)
+    if _assert_non_windows_backend_refusal(result):
+        return
     assert result.status == "PASS"
     assert result.receipt_path is not None
     receipt_path = Path(result.receipt_path)
@@ -310,6 +330,8 @@ def test_declared_interpreter_mismatch_is_denied_before_process_creation(tmp_pat
         evidence_root=evidence_root,
         now=datetime.now(timezone.utc),
     )
+    if _assert_non_windows_backend_refusal(result):
+        return
     assert result.status == "DENY_EXECUTION"
     assert result.reason == "SYNTHETIC_INPUT_IDENTITY_MISMATCH"
     assert result.process_attestation is None
@@ -327,6 +349,8 @@ def test_system_identity_observation_is_rejected_before_child_resume(
 
     monkeypatch.setattr(process_attestation, "_process_user_identity", report_system)
     result = _run(tmp_path)
+    if _assert_non_windows_backend_refusal(result):
+        return
     assert result.status == "INFRA_ERROR"
     assert "LocalSystem" in (result.reason or "")
     assert result.receipt_path is not None
@@ -347,6 +371,8 @@ def test_input_change_after_prelaunch_check_is_recorded_as_infrastructure_error(
 
     monkeypatch.setattr(process_attestation, "_process_user_identity", observe_then_mutate)
     result = _run(tmp_path / "run")
+    if _assert_non_windows_backend_refusal(result):
+        return
     assert result.status == "INFRA_ERROR"
     assert "pinned input changed" in (result.reason or "")
     assert result.receipt_path is not None
@@ -358,6 +384,8 @@ def test_process_launch_error_is_archived_as_infrastructure_error(tmp_path: Path
 
     monkeypatch.setattr(process_attestation.subprocess, "Popen", fail_launch)
     result = _run(tmp_path)
+    if _assert_non_windows_backend_refusal(result):
+        return
     assert result.status == "INFRA_ERROR"
     assert result.process_attestation is None
     assert result.receipt_path is not None
@@ -377,6 +405,8 @@ def test_supervisor_interruption_is_not_reclassified_as_pass(tmp_path: Path, mon
 
     monkeypatch.setattr(process_attestation.subprocess, "Popen", interrupt_communication)
     result = _run(tmp_path)
+    if _assert_non_windows_backend_refusal(result):
+        return
     assert result.status == "INTERRUPTED"
     assert result.receipt_path is not None
     assert result.process_attestation is not None
@@ -436,6 +466,9 @@ def test_job_assignment_failure_terminates_the_suspended_process_handle(
 
     monkeypatch.setattr(windows_job, "WindowsJob", FailingJob)
     result = _run(tmp_path)
+    if _assert_non_windows_backend_refusal(result):
+        assert process_ids == []
+        return
     assert result.status == "INFRA_ERROR"
     assert result.receipt_path is not None
     assert process_ids
@@ -444,6 +477,10 @@ def test_job_assignment_failure_terminates_the_suspended_process_handle(
 
 def test_timeout_and_descendant_scenarios_are_not_reported_as_pass(tmp_path: Path) -> None:
     timeout = _run(tmp_path / "timeout", "tests/unit/test_wp12_process_attestation.py::test_timeout")
+    if _assert_non_windows_backend_refusal(timeout):
+        descendant = _run(tmp_path / "descendant", "tests/unit/test_wp12_process_attestation.py::test_descendant")
+        assert _assert_non_windows_backend_refusal(descendant)
+        return
     assert timeout.status == "TIMEOUT"
     assert timeout.receipt_path is not None
     descendant = _run(tmp_path / "descendant", "tests/unit/test_wp12_process_attestation.py::test_descendant")

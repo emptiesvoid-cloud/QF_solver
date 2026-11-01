@@ -97,6 +97,7 @@ def test_runtime_distribution_excludes_repository_only_trees():
     data_files = data["tool"]["setuptools"]["data-files"]
     assert set(data_files) == {
         "examples",
+        "examples/contact/frictional_bstar_small_rotation",
         "examples/vnv_026_g06",
         "qualification",
         "qualification/0_2_7",
@@ -108,6 +109,12 @@ def test_runtime_distribution_excludes_repository_only_trees():
         "qualification/technical_content_coverage.json",
     } <= set(data_files["qualification"])
     assert data_files["examples/vnv_026_g06"] == ["examples/vnv_026_g06/*.json"]
+    assert "examples/wp_d02_dynamic_stress.py" in data_files["examples"]
+    assert set(data_files["examples/contact/frictional_bstar_small_rotation"]) == {
+        "examples/contact/frictional_bstar_small_rotation/model_r14_bstar_slip.json",
+        "examples/contact/frictional_bstar_small_rotation/README.md",
+        "examples/contact/frictional_bstar_small_rotation/run_example.py",
+    }
     assert len(list((PROJECT_ROOT / "examples/vnv_026_g06").glob("*.json"))) == 4
     assert set(data_files["qualification/0_2_8"]) == {
         "qualification/0_2_8/consolidated_registry.json",

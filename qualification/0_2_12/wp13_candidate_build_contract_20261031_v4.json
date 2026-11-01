@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-0212-WP13-SELECTED-CANDIDATE-20261031-04",
+  "status": "FROZEN_CANDIDATE_BUILD",
+  "package_version": "0.2.12",
+  "source_sha": "60c202a75d20c6dea1df35aab591bd3832d12c58",
+  "expected_tag": "NOT_CREATED",
+  "expected_tag_target_sha": null,
+  "source_date_epoch": 1793444684,
+  "integration": {
+    "strategy": "Candidate source is frozen after version, public documentation, publication-scope and selected example packaging updates.",
+    "release_branch_baseline_sha": "ab137051d920d7fa9aae9a3012a48b2b26e2198b",
+    "source_commit_sha": "60c202a75d20c6dea1df35aab591bd3832d12c58",
+    "historical_tag_unchanged": true,
+    "tag_is_not_created_by_this_contract": true
+  },
+  "change_scope": {
+    "numerical_source_changed": false,
+    "scientific_test_changed": true,
+    "scientific_test_oracle_changed": false,
+    "qualification_records_changed_in_public_surface_or_correction_commits": false,
+    "qualification_thresholds_changed": false,
+    "scientific_inputs_changed": false,
+    "qualification_contract_changed": false,
+    "public_api_changed": false,
+    "documentation_meaning_changed": true,
+    "package_metadata_changed": true,
+    "changelog_changed": true,
+    "historical_records_or_maturities_changed": false
+  },
+  "selection": {
+    "include_exact": [
+      "CHANGELOG.md",
+      "CITATION.cff",
+      "LICENSE",
+      "LICENSE-DOCS",
+      "MANIFEST.in",
+      "NOTICE",
+      "README.md",
+      "THIRD_PARTY_LICENSES.md",
+      "pyproject.toml",
+      "qualification/benchmarks.json",
+      "qualification/campaign.json",
+      "qualification/demonstrations.json",
+      "qualification/element_analysis_matrix.json",
+      "qualification/formulas.json",
+      "qualification/requirements.json",
+      "qualification/release_vv_0_2_1.json",
+      "qualification/technical_content_coverage.json",
+      "qualification/0_2_7/capability_registry_v2.json",
+      "qualification/0_2_8/consolidated_registry.json",
+      "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",
+      "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+      "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+      "qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json",
+      "qualification/0_2_8/wp13_05_inp_import_capability_record.json",
+      "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json",
+      "qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json",
+      "qualification/0_2_8/wp13_07d_contact_capability_record.json",
+      "requirements/baseline-standard.txt",
+      "requirements/baseline-large-linux.txt"
+    ],
+    "include_prefixes": [
+      "examples/",
+      "src/qf_solver/",
+      "src/solveur/"
+    ],
+    "exclude_exact": [
+      "examples/README.md",
+      "src/solveur/verification/j2_multifamily_performance.py"
+    ],
+    "forbid_prefixes": [
+      "qualification/0_2_9/",
+      "docs/",
+      "scripts/",
+      "tests/"
+    ]
+  },
+  "documentation_selection": {
+    "include_prefixes": [
+      "docs/"
+    ],
+    "exclude_prefixes": [
+      "docs/development/",
+      "docs/elements/rbe2_rbe3_audit_vv.md",
+      "docs/verification/0_2_9/",
+      "docs/verification/wp12_b_elements_loads_audit.md"
+    ],
+    "suffixes": [
+      ".cff",
+      ".cfg",
+      ".csv",
+      ".htm",
+      ".html",
+      ".ini",
+      ".json",
+      ".md",
+      ".pdf",
+      ".ps1",
+      ".py",
+      ".rst",
+      ".sh",
+      ".tex",
+      ".toml",
+      ".txt",
+      ".xml",
+      ".yaml",
+      ".yml"
+    ]
+  },
+  "documentation_publication_policy": {
+    "config_path": ".github/pages/mkdocs.yml",
+    "config_sha256": "f44f1b28fb8c5c5a9d33561972b32e090ca686ad08bb1b5f25636e2539da8413",
+    "excluded_source_paths": [
+      "docs/development/",
+      "docs/elements/rbe2_rbe3_audit_vv.md",
+      "docs/verification/0_2_9/",
+      "docs/verification/wp12_b_elements_loads_audit.md"
+    ],
+    "mkdocs_exclude_patterns": [
+      "development/**",
+      "elements/rbe2_rbe3_audit_vv.md",
+      "verification/0_2_9/**",
+      "verification/wp12_b_elements_loads_audit.md"
+    ]
+  },
+  "tool_bindings": {
+    "scripts/audit_public_release.py": "dcfe6726f3be931d1fb26c8325003b01fa1894b0318ab70d7b3c37345d50dfb3",
+    "scripts/audit_release_archive.py": "b67613d0eb5e1b305aba2bb9181d12529eda7859db00b840a71746bc39c52a37",
+    "scripts/git_tools.py": "9192aef8e8610ee4f651cac11a18af189678f561d9c85c20c64c77be47a287fa",
+    "scripts/plan_public_package.py": "d1a734cb4a11d53abfa102507f531f9369bc70797adf23075dd5b03c10f8e1f8",
+    "scripts/probe_installed_package.py": "46576afa82a8285730c4afc67e41fd58f5a8deb753f054f5a35cc0442eb18675",
+    "scripts/review_vocabulary.py": "28af00eab2a09fdcb94bf3c4682230dcaaca9b519aeb0867d96b67d4589ad3aa",
+    "scripts/verify_public_package.py": "7e25532f5a8c2c80b0a8ab711c235fc45a34eb6219efdef0386543d00f1bc86c"
+  },
+  "scope_scan_tool_sha256": "d0256736b52d6805de1b8d0745b64e83e83bc155dbcfdd828a2f0dc0e87c1023",
+  "sdist_normalization": {
+    "tool_path": "scripts/normalize_public_sdist.py",
+    "tool_sha256": "1c3594c61b46af5601fda7993644aa613fb1523edb4709526b0ee35a01213d2c",
+    "source_date_epoch": 1793444684,
+    "command_contract": "Normalize each fresh raw sdist to a new external path with this source-bound script and epoch; compare normalized bytes, not gzip metadata."
+  },
+  "expected_preflight_counts": {
+    "selected_package_files": 585,
+    "served_document_files": 773,
+    "docs_archival_exclusion_files": 229,
+    "findings_per_surface": 0
+  },
+  "candidate_execution_profile": {
+    "source_materialization": "Selected regular Git blobs from source_sha only; no working-tree source bytes.",
+    "build_command": "Set SOURCE_DATE_EPOCH to the contract epoch; python scripts/verify_public_package.py --root . --contract qualification/0_2_12/wp13_candidate_build_contract_20261031_v4.json --output <new-external-output>",
+    "build_environment": {
+      "python": "3.13.1",
+      "platform": "win32",
+      "build": "1.5.0",
+      "setuptools": "82.0.1",
+      "wheel": "0.47.0",
+      "twine": "7.0.0",
+      "source_date_epoch": 1793444684
+    },
+    "reproducibility": "Two independent fresh external output directories; compare exact wheel bytes and normalized sdist bytes. No prior candidate artifact reuse.",
+    "archive_checks": [
+      "regular files and safe portable paths only",
+      "selected source byte equality",
+      "reject undeclared payloads, aliases, symlinks and unexpected files",
+      "verify package version and distribution metadata",
+      "twine check on exact wheel and raw/normalized sdist"
+    ],
+    "installed_probes": [
+      "contract runner: separate no-index/no-deps install of exact wheel and installed import/CLI/refusal probes",
+      "independent fresh sdist installation from the exact candidate sdist and installed source-hash/import/CLI/refusal probes",
+      "dependency-resolving installation from the local wheel and local sdist in separate clean environments",
+      "non-solving check-mesh probes on TET4, BEAM2 and MITC4 examples only; no assembly or structural solve"
+    ],
+    "evidence_output": "New external output directories only; preserve source mapping, command records, environment, archive checks, installed probes and hashes."
+  },
+  "candidate_status": {
+    "latest_published_version": "0.2.11",
+    "candidate_version": "0.2.12",
+    "version_doi_0_2_12": "NOT_ASSIGNED_NOT_CLAIMED",
+    "release_date_0_2_12": "NOT_SET",
+    "whole_repository_g03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14": "HOLD_NOT_PROMOTED",
+    "wp12": "WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA",
+    "tET4_l3_energy": "FAIL_PRESERVED_0.0615360686_GT_0.05",
+    "hex8_sri_post_correction_global_validation": "NOT_ACQUIRED",
+    "hex20_quad8_corrected_fem_validation": "NOT_ACQUIRED"
+  },
+  "package_build_allowed": true,
+  "publication_allowed": false,
+  "structural_solves_allowed": false,
+  "numeric_threshold_changes_allowed": false,
+  "whole_repository_gate_waivers_allowed": false,
+  "release_permissions": {
+    "tag_creation_allowed": false,
+    "main_merge_allowed": false,
+    "github_release_allowed": false,
+    "pypi_upload_allowed": false,
+    "zenodo_deposit_allowed": false,
+    "site_synchronization_allowed": false,
+    "ledger_update_allowed": false,
+    "maturity_promotion_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "whole_repository_archive_publication_allowed": false
+  },
+  "limitations": [
+    "This contract authorizes selected candidate build and bounded scans only; it does not authorize a tag, main merge, GitHub Release, PyPI upload, Zenodo deposit, DOI assignment, ledger update or maturity promotion.",
+    "The selected scope does not scan or clear the full repository or Git history; G03 remains FAIL_PRESERVED and the whole-repository archive remains uncleared.",
+    "No structural solves or FEM campaigns are authorized or executed by this candidate build contract.",
+    "Full directory-wide unit/integration and coverage suites are not represented by targeted node results.",
+    "Only the Windows Python versions listed in execution results are locally verified; no Linux runtime result is inferred."
+  ],
+  "owner_authorization": "WP13 Owner directive authorizes bounded candidate build and verification only; publication, tag creation, main merge and site synchronization are not authorized.",
+  "contract_revision": 4,
+  "supersedes_contract_id": "QF-0212-WP13-SELECTED-CANDIDATE-20261031-03",
+  "supersession_reason": "The v3 strict public-surface scan passed, but its first candidate build found that three selected examples were omitted from the sdist and four selected examples were missing from wheel data files. This source revision adds only those explicit distribution inputs and updates packaging/version regression expectations. The v3 failure outputs remain preserved; no scientific source, oracle, threshold or ledger changed."
+}

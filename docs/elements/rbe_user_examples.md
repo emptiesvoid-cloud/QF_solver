@@ -8,7 +8,7 @@ integrated source revision; see `qualification/0_2_12/wp13_rbe_integration_repor
 
 ## RBE2 rigid offset with a combined wrench
 
-Input: [`examples/rbe2_rigid_offset_combined_wrench.json`](../../examples/rbe2_rigid_offset_combined_wrench.json).
+Input: [`examples/rbe2_rigid_offset_combined_wrench.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/emptiesvoids-cloud/0.2.12/examples/rbe2_rigid_offset_combined_wrench.json).
 
 The master is at `(0,0,0)` and the slave at `(2,1,0) m`. The master has a
 `1000 N/m` `UX` spring, a `1000 N m/rad` `RZ` spring, and fixed `UY`, `UZ`,
@@ -42,7 +42,7 @@ combinations or `tie_rotations` behavior.
 
 ## RBE3 unequal positive weights on distributed supports
 
-Input: [`examples/rbe3_unequal_weight_projection.json`](../../examples/rbe3_unequal_weight_projection.json).
+Input: [`examples/rbe3_unequal_weight_projection.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/emptiesvoids-cloud/0.2.12/examples/rbe3_unequal_weight_projection.json).
 
 The reference is at the origin. Six independent translation-only support
 nodes are placed at `+/-1 m` on X, `+/-2 m` on Y and `+/-3 m` on Z. Their

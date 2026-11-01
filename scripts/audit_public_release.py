@@ -237,9 +237,10 @@ def _mask_controlled_public_ref(line: str) -> str:
 def main(argv: Sequence[str] | None = None) -> int:
     """Run the audit and emit portable JSON without exposing the workstation root."""
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--output", type=Path, default=Path("public_release_audit.json"))
     args = parser.parse_args(argv)
-    report = audit_public_release(ROOT)
+    report = audit_public_release(args.root)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     findings = cast(list[object], report["findings"])

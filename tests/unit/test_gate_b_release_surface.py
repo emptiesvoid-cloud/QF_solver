@@ -67,7 +67,7 @@ def test_hdf5_api_smoke_with_optional_dependency() -> None:
     assert set(result["element_blocks"]) == {"WEDGE6"}
 
 
-def test_version_registry_and_public_docs_are_aligned() -> None:
+def test_candidate_version_registry_and_public_docs_are_aligned() -> None:
     try:
         import tomllib
     except ModuleNotFoundError:  # pragma: no cover - Python 3.10 compatibility
@@ -76,17 +76,18 @@ def test_version_registry_and_public_docs_are_aligned() -> None:
     project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
     from solveur.version import __version__
 
-    assert project["version"] == __version__ == "0.2.11"
+    assert project["version"] == __version__ == "0.2.12"
     assert project["optional-dependencies"]["hdf5"] == ["h5py>=3.10"]
-    # Citation metadata records the published version DOI; the package project
-    # URL continues to identify the concept DOI across releases.
+    # Candidate citation metadata has no version DOI or release date; the
+    # project URL and citation message retain the concept DOI.
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    assert 'version: "0.2.11"' in citation
-    assert 'date-released: "2026-10-07"' in citation
-    assert 'doi: "10.5281/zenodo.23214487"' in citation
+    assert 'version: "0.2.12"' in citation
+    assert "date-released:" not in citation
+    assert "doi:" not in citation
+    assert "10.5281/zenodo.22697897" in citation
     assert project["urls"]["DOI"] == "https://doi.org/10.5281/zenodo.22697897"
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "The current QF Solver release is `0.2.11`" in readme
+    assert "The latest published QF Solver release is `0.2.11`" in readme
     assert "10.5281/zenodo.23214487" in readme
     assert "0.2.11 is a **candidate, not yet published**" not in readme
     registry = json.loads((ROOT / "qualification/0_2_8/consolidated_registry.json").read_text(encoding="utf-8"))

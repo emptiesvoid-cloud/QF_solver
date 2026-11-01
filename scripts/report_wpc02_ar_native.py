@@ -526,7 +526,7 @@ def render_report(archive: Path) -> str:
     # The AQ summary contains aggregate M2/M3 front values, but not row traces,
     # row-bracket coverage, or multiple-front diagnostics.  AR explicitly
     # requires those for every row, so this sub-gate cannot be silently waived.
-    historical_front = {
+    _ = {
         level: {
             "reported_error_over_hx": baselines[level]["front_error_max_over_hx"],
             "reported_false_positives": baselines[level]["false_positive_count"],

@@ -1,0 +1,117 @@
+{
+  "schema": "qf-wp13-package-smoke-manifest-v1",
+  "scope": "WP13_P0_INSTALLED_ARTIFACT_SMOKE_ONLY",
+  "candidate": {
+    "release": "0.2.12",
+    "pr_number": 114,
+    "release_baseline_sha": "ab137051d920d7fa9aae9a3012a48b2b26e2198b",
+    "package_source_sha": "2865587a44f9e461a0b4e4286c912c17e4f04be5",
+    "build_contract_id": "QF-0212-WP13-SELECTED-CANDIDATE-20261031-06",
+    "build_contract_sha256": "f33a72b182439774828f8e604d6ab234bbf206c697c0f1082d7bc0ef81003db9"
+  },
+  "controller": {
+    "path": "scripts/wp13_package_smoke.py",
+    "sha256": "16df6eba0f902c332cace9e9a5624d1b8b59c3e051bfcc4063782123cc9a7f2f"
+  },
+  "oracle_sources": {
+    "src/solveur/verification/analytical_references.py": "38ae37e1ff40844eedf7c2ca5b95d9d03f3fe660670036b05895c5043c96fb6c",
+    "src/solveur/verification/campaign.py": "ea06968dc65927791549d698d19eeae33b6a3ad3e466ed2da0b87ae45e8952f1",
+    "qualification/campaign.json": "8750d29a9d52498ec5051f4850c600232b0e7a4515905a8354f4a34771fd92cf"
+  },
+  "artifacts": {
+    "wheel": {
+      "archive_path": "E:\\QFSolverAgents\\wp13_candidate_build_20261031_v6_run2\\dist\\qf_solver-0.2.12-py3-none-any.whl",
+      "archive_sha256": "ae5211136a2eab912cdb73222937a84b1cec75f7af0a425f1162b288b39c287a",
+      "install_report_path": "E:\\QFSolverAgents\\wp13_deps_wheel_20261031_v6\\pip_install_report.json",
+      "install_report_sha256": "0adc8a1908c9d91fc65c47b05a2646d4da5d604de9e7e9a4d1d20353cee44fc5",
+      "environment_root": "E:\\QFSolverAgents\\wp13_deps_wheel_20261031_v6",
+      "examples_root": "E:\\QFSolverAgents\\wp13_deps_wheel_20261031_v6\\examples"
+    },
+    "sdist": {
+      "archive_path": "E:\\QFSolverAgents\\wp13_candidate_build_20261031_v6_run2\\dist\\qf_solver-0.2.12.tar.gz",
+      "archive_sha256": "15c838af12c8401b61c561f5f079debc702e072241e9ee8c17cd5861cbf082e5",
+      "install_report_path": "E:\\QFSolverAgents\\wp13_deps_sdist_20261031_v6\\pip_install_report.json",
+      "install_report_sha256": "7fcd951fa10727a137fa2619d0df7854a8d6cbd6d5749715eba2be6255e6790e",
+      "environment_root": "E:\\QFSolverAgents\\wp13_deps_sdist_20261031_v6",
+      "examples_root": "E:\\QFSolverAgents\\wp13_deps_sdist_20261031_v6\\examples"
+    }
+  },
+  "cases": [
+    {
+      "case_id": "STATIC-01",
+      "campaign_reference": "SOV-TET4-STATIC-001",
+      "input_name": "tet4_static.json",
+      "input_sha256": "5296102b955ae4ac83b341178a8a555feb87faa0e9a30abe9f77c29df21988b8",
+      "oracles": {
+        "ux_m": 2.1224489795918369e-8,
+        "ux_relative_tolerance": 1e-12,
+        "von_mises_pa": 3428.5714285714284,
+        "stress_relative_tolerance": 1e-12,
+        "free_relative_residual_max": 1e-9,
+        "reaction_resultant_x_n": -1000.0,
+        "reaction_absolute_tolerance_n": 1e-10,
+        "force_balance_relative_error_max": 1e-12,
+        "linear_energy_identity_relative_error_max": 1e-9
+      }
+    },
+    {
+      "case_id": "MODAL-01",
+      "campaign_reference": "SOV-MODAL-TET4-001",
+      "input_name": "tet4_modal_unit.json",
+      "input_sha256": "0d40df125888b467017d053795336cb8960f643c95a209c3c96379a50c689750",
+      "oracles": {
+        "first_frequency_hz": 1619.5553821068941,
+        "frequency_relative_tolerance": 1e-12,
+        "max_relative_eigen_residual": 1e-10,
+        "mass_orthogonality_error_max": 1e-10,
+        "stiffness_diagonal_error_max": 1e-10
+      }
+    },
+    {
+      "case_id": "DYNAMIC-01",
+      "campaign_reference": "SOV-DYN-SDOF-001",
+      "input_name": "tet4_dynamic_sdof_free_vibration.json",
+      "input_sha256": "b40d7188143e4bcc73ee63407f426633490921075990bcad47bd25c9a188480b",
+      "oracles": {
+        "stiffness_n_per_m": 200.0,
+        "mass_kg": 0.16666666666666666,
+        "initial_displacement_m": 0.001,
+        "initial_velocity_m_s": 0.0,
+        "expected_energy_j": 0.0001,
+        "energy_relative_tolerance": 1e-10,
+        "first_record_time_s": 0.001,
+        "history_index": 39,
+        "history_step": 40,
+        "final_time_s": 0.04,
+        "history_energy_consistency_absolute_tolerance_j": 1e-14,
+        "relative_energy_drift_absolute_tolerance": 1e-10,
+        "dynamic_residual_norm_max": 1e-10,
+        "free_relative_residual_max": 1e-10
+      }
+    }
+  ],
+  "execution": {
+    "pairs": [
+      {"artifact": "wheel", "case": "STATIC-01"},
+      {"artifact": "wheel", "case": "MODAL-01"},
+      {"artifact": "wheel", "case": "DYNAMIC-01"},
+      {"artifact": "sdist", "case": "STATIC-01"},
+      {"artifact": "sdist", "case": "MODAL-01"},
+      {"artifact": "sdist", "case": "DYNAMIC-01"}
+    ],
+    "attempts_per_pair": 1,
+    "serial": true,
+    "stop_on_first_failure": true,
+    "timeout_seconds": 30,
+    "stdout_max_bytes": 1048576,
+    "stderr_max_bytes": 1048576,
+    "rss_soft_limit_mib": 512,
+    "max_nodes": 4,
+    "max_free_dofs": 3,
+    "retry_policy": "PROHIBITED",
+    "qualification_claim": "NOT_CLAIMED"
+  },
+  "evidence_root": "E:\\QFSolverAgents\\evidence\\wp13_p0_package_smokes_20261031_run1",
+  "attempt_ledger_path": "E:\\QFSolverAgents\\evidence\\wp13_p0_package_smokes_20261031_run1\\attempt_ledger.jsonl",
+  "preflight_report_path": "E:\\QFSolverAgents\\evidence\\wp13_p0_package_smokes_20261031_preflight_run1.json"
+}

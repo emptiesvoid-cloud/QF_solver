@@ -1,6 +1,10 @@
 *.msh -text whitespace=-trailing-space
 # Qualification files are hash-bound evidence; preserve their Git blob bytes on Windows.
 qualification/** -text
+# The WP13 installed-package smoke controller is hash-pinned by its execution manifest.
+scripts/wp13_package_smoke.py text eol=lf
+# Keep the WP-C02 manifest contract test diff-safe across Windows checkouts.
+tests/unit/test_wpc02_ar_native_manifest_contract.py whitespace=cr-at-eol
 # WP-E01 reviewed numerical test modules are SHA-256-bound by tests/unit/conftest.py.
 tests/unit/test_wp_e01m_hencky_material_point.py text eol=lf
 tests/unit/test_wp_e01q_hencky_tangent.py text eol=lf
@@ -29,6 +33,9 @@ results export-ignore
 results_large export-ignore
 site export-ignore
 output export-ignore
+/AGENTS.md export-ignore
+docs/generated/results export-ignore
+docs/generated/results/** export-ignore
 git_history_audit.json export-ignore
 release_readiness.json export-ignore
 VNV-* export-ignore
