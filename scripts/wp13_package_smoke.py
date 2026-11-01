@@ -1,7 +1,7 @@
 """Bounded installed-artifact smoke runner for the WP13 P0 candidate.
 
-The runner is intentionally bound to the v6 wheel/sdist, three named input
-examples, and one attempt per artifact/case pair. It is not a qualification
+The runner is intentionally bound to the v7 wheel and normalized sdist,
+three named input examples, and one attempt per artifact/case pair. It is not a qualification
 runner and cannot grant authorization. The run command requires a separate
 Owner decision that matches the exact manifest and preflight report hashes.
 """
@@ -25,12 +25,12 @@ from typing import Any
 
 SCHEMA = "qf-wp13-package-smoke-manifest-v1"
 OWNER_SCHEMA = "qf-wp13-package-smoke-owner-decision-v1"
-PACKAGE_SOURCE_SHA = "2865587a44f9e461a0b4e4286c912c17e4f04be5"
+PACKAGE_SOURCE_SHA = "7a78cc673da2abb7c3d0afd6cabd378aa327f424"
 RELEASE_BASELINE_SHA = "ab137051d920d7fa9aae9a3012a48b2b26e2198b"
-V6_CONTRACT_SHA = "f33a72b182439774828f8e604d6ab234bbf206c697c0f1082d7bc0ef81003db9"
+V7_CONTRACT_SHA = "d0b0030ecc7de9a34b2d6444303cfc91abe84cd3088fe371841d0f3afb4b9b43"
 ARTIFACT_SHA256 = {
-    "wheel": "ae5211136a2eab912cdb73222937a84b1cec75f7af0a425f1162b288b39c287a",
-    "sdist": "15c838af12c8401b61c561f5f079debc702e072241e9ee8c17cd5861cbf082e5",
+    "wheel": "c1debafb55a0cf4d4b8fcc349cf66f020ffd784daefde3972003cf9e325d2518",
+    "sdist": "56c607ae305704b10f4e005c5db5a28bc11ca4902929e6bc6d03c5a1a9759174",
 }
 INPUT_SHA256 = {
     "STATIC-01": "5296102b955ae4ac83b341178a8a555feb87faa0e9a30abe9f77c29df21988b8",
@@ -141,13 +141,13 @@ def _validate_manifest(manifest: object) -> None:
     if not isinstance(candidate, dict):
         raise ContractError("manifest candidate identity is missing")
     if candidate.get("package_source_sha") != PACKAGE_SOURCE_SHA:
-        raise ContractError("manifest package source differs from the v6 source")
-    if candidate.get("build_contract_sha256") != V6_CONTRACT_SHA:
-        raise ContractError("manifest build-contract digest differs from v6")
+        raise ContractError("manifest package source differs from the v7 source")
+    if candidate.get("build_contract_sha256") != V7_CONTRACT_SHA:
+        raise ContractError("manifest build-contract digest differs from v7")
     if candidate.get("release_baseline_sha") != RELEASE_BASELINE_SHA or candidate.get("pr_number") != 114:
         raise ContractError("release baseline or PR identity differs from the reviewed candidate")
     if manifest.get("oracle_sources") != ORACLE_SOURCE_SHA256:
-        raise ContractError("independent oracle sources differ from the frozen v6 source identities")
+        raise ContractError("independent oracle sources differ from the frozen v7 source identities")
     controller = manifest.get("controller")
     if not isinstance(controller, dict) or controller.get("path") != "scripts/wp13_package_smoke.py":
         raise ContractError("manifest controller path is not the frozen WP13 controller")
@@ -157,11 +157,11 @@ def _validate_manifest(manifest: object) -> None:
 
     artifacts = manifest.get("artifacts")
     if not isinstance(artifacts, dict) or set(artifacts) != set(ARTIFACT_SHA256):
-        raise ContractError("manifest must identify exactly the v6 wheel and sdist")
+        raise ContractError("manifest must identify exactly the v7 wheel and normalized sdist")
     for artifact_name, expected_hash in ARTIFACT_SHA256.items():
         artifact = artifacts[artifact_name]
         if not isinstance(artifact, dict) or artifact.get("archive_sha256") != expected_hash:
-            raise ContractError(f"{artifact_name} archive does not match the frozen v6 hash")
+            raise ContractError(f"{artifact_name} archive does not match the frozen v7 hash")
         if not _is_sha256(artifact.get("install_report_sha256")):
             raise ContractError(f"{artifact_name} install report SHA-256 is malformed")
         for key in ("environment_root", "archive_path", "install_report_path", "examples_root"):
@@ -234,7 +234,7 @@ def preflight(
     evidence_root.mkdir(parents=True, exist_ok=True)
     observed_oracle_sources = _oracle_source_hashes(root)
     if observed_oracle_sources != ORACLE_SOURCE_SHA256:
-        raise ContractError("candidate oracle source hashes differ from the frozen v6 identities")
+        raise ContractError("candidate oracle source hashes differ from the frozen v7 identities")
 
     artifact_results: dict[str, Any] = {}
     for name, artifact in manifest["artifacts"].items():
@@ -1075,7 +1075,7 @@ def _utc_now() -> str:
 
 
 def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Bounded v6 wheel/sdist WP13 smoke controller")
+    parser = argparse.ArgumentParser(description="Bounded v7 wheel/normalized-sdist WP13 smoke controller")
     subparsers = parser.add_subparsers(dest="command", required=True)
     for name in ("preflight", "synthetic-preflight"):
         command = subparsers.add_parser(name)
