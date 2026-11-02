@@ -152,6 +152,13 @@ class Hex20Element:
         ):
             minimum = float(np.min(determinants))
             raise ValueError(f"Invalid HEX20 Jacobian determinant {minimum:.6e}.")
+        # Subnormal determinants have fixed absolute spacing, so their relative
+        # error can dominate the integration weight even when the sign is positive.
+        if np.any(np.asarray(determinants) < np.finfo(float).tiny):
+            minimum = float(np.min(determinants))
+            raise ValueError(
+                f"HEX20 Jacobian determinant {minimum:.6e} is subnormal and not representable with reliable precision."
+            )
 
     @classmethod
     def b_matrix(cls, coords: np.ndarray, point: tuple[float, float, float] | np.ndarray) -> tuple[np.ndarray, float]:

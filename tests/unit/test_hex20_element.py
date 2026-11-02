@@ -99,6 +99,13 @@ def test_hex20_rejects_underflowed_positive_geometry_before_stiffness() -> None:
         element().stiffness(coordinates)
 
 
+def test_hex20_rejects_positive_subnormal_jacobian_determinant() -> None:
+    coordinates = unit_hex20() * 1.0e-107
+
+    with pytest.raises(ValueError, match="not representable with reliable precision"):
+        element().stiffness(coordinates)
+
+
 @pytest.mark.parametrize("scale", [1.0e-100, 1.0e100])
 def test_hex20_stiffness_remains_finite_and_nonzero_at_small_and_large_scales(scale: float) -> None:
     stiffness = element().stiffness(unit_hex20() * scale)

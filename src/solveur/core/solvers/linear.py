@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import warnings
 from dataclasses import dataclass, field
+from math import fsum
 from time import perf_counter
 from typing import Any
 
@@ -80,6 +81,62 @@ def relative_residual_ratio(residual_norm: float, reference_norm: float) -> floa
     if residual_norm > 0.0 and ratio == 0.0:
         return float(np.nextafter(0.0, 1.0))
     return ratio
+
+
+def _sparse_matvec_roundoff_bound(
+    matrix: csr_matrix,
+    rhs: np.ndarray,
+    solution: np.ndarray,
+    product: np.ndarray,
+) -> np.ndarray:
+    """Bound dot-product and final subtraction error row by row.
+
+    The bound uses absolute product sums and a conservative operation-count
+    factor. If those sums overflow, convergence cannot be certified.
+    """
+    eps = np.finfo(float).eps
+    smallest = np.nextafter(0.0, 1.0)
+    row_bounds = np.zeros(matrix.shape[0], dtype=float)
+    matrix = matrix.tocsr()
+    vector_magnitude = np.abs(solution)
+    rhs_magnitude = np.abs(rhs)
+    product_magnitude = np.abs(product)
+
+    for row in range(matrix.shape[0]):
+        start, stop = matrix.indptr[row], matrix.indptr[row + 1]
+        columns = matrix.indices[start:stop]
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            terms = np.abs(matrix.data[start:stop]) * vector_magnitude[columns]
+        if not np.all(np.isfinite(terms)):
+            row_bounds[row] = float("inf")
+            continue
+        try:
+            absolute_sum = fsum(float(term) for term in terms)
+        except OverflowError:
+            row_bounds[row] = float("inf")
+            continue
+        if not np.isfinite(absolute_sum):
+            row_bounds[row] = float("inf")
+            continue
+
+        operations = max(stop - start, 1)
+        factor = 32.0 * eps * (operations + 1)
+        if factor >= 1.0:
+            row_bounds[row] = float("inf")
+            continue
+        nonzero_operands = (np.abs(matrix.data[start:stop]) > 0.0) & (vector_magnitude[columns] > 0.0)
+        underflow_terms = int(np.count_nonzero(nonzero_operands & (terms < np.finfo(float).tiny)))
+        subtraction_underflow = int(float(rhs_magnitude[row]) > 0.0 or float(product_magnitude[row]) > 0.0)
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            bound = (
+                factor * absolute_sum
+                + 32.0 * eps * (float(rhs_magnitude[row]) + float(product_magnitude[row]))
+                + 32.0 * smallest * (underflow_terms + subtraction_underflow)
+            )
+        if np.isfinite(bound) and bound > 0.0:
+            bound = float(np.nextafter(bound * (1.0 + 32.0 * eps), float("inf")))
+        row_bounds[row] = bound
+    return row_bounds
 
 
 @dataclass(frozen=True)
@@ -541,6 +598,32 @@ class LinearSystemSolver:
                     "relative_residual": relative,
                     "residual_failure_tolerance": limit,
                     "backward_error_eta_inf": backward_error,
+                },
+            )
+        roundoff_vector = _sparse_matvec_roundoff_bound(matrix, rhs, solution, product)
+        roundoff_norm = stable_l2_norm(roundoff_vector)
+        rhs_norm = stable_l2_norm(rhs)
+        product_norm = stable_l2_norm(product)
+        norm_factor = 32.0 * np.finfo(float).eps * max(rhs.size, product.size, 1)
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            roundoff_norm_upper = roundoff_norm * (1.0 + norm_factor)
+            residual_upper_bound = (residual + roundoff_norm_upper) * (1.0 + norm_factor)
+            reference_lower_bound = max(
+                rhs_norm * (1.0 - norm_factor),
+                max(product_norm - roundoff_norm_upper, 0.0) * (1.0 - norm_factor),
+            )
+            relative_upper_bound = relative_residual_ratio(residual_upper_bound, reference_lower_bound)
+        if norm_factor >= 1.0 or not np.isfinite(relative_upper_bound) or relative_upper_bound > limit:
+            raise NumericalConvergenceError(
+                f"{method} cannot demonstrate residual convergence within floating-point roundoff "
+                f"(relative upper bound={relative_upper_bound:.6e}, allowed={limit:.6e}).",
+                diagnostics={
+                    "residual_norm": residual,
+                    "relative_residual": relative,
+                    "matvec_roundoff_bound": roundoff_norm,
+                    "norm_relative_roundoff_factor": norm_factor,
+                    "relative_residual_upper_bound": relative_upper_bound,
+                    "residual_failure_tolerance": limit,
                 },
             )
         return residual, relative

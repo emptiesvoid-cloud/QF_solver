@@ -1,5 +1,16 @@
 # QF Solver 0.2.12 P1/P2 Remediation Report — Second Review
 
+## Final numerical follow-up (Owner directive)
+
+This addendum resolves the DA-003 and DA-005 counterexamples found during the second independent review. It supersedes that review's interim `DEFECT_FOUND` disposition for those two items, subject to the limits below.
+
+- **DA-003:** HEX20 still applies the existing signed, dimensionless determinant threshold. It now also rejects any sampled raw Jacobian determinant below the smallest normal IEEE-754 float. A positive subnormal determinant has fixed absolute spacing, so its relative error can dominate the integration weight. The `1e-107` regression now fails explicitly; regular stiffness tests at `1e-100` and `1e100` pass. No scientific quality threshold changed.
+- **DA-005:** final residual validation computes a row-wise conservative floating-point error bound from absolute sparse products, with `math.fsum` for their magnitude sum. It combines that bound with the computed residual and uses an upper bound for the relative residual. If that upper bound exceeds the existing tolerance, or cannot be represented finitely, the solve raises `NumericalConvergenceError` with roundoff diagnostics. This catches the dot-product cancellation example although the ordinary sparse product reports zero. The exact zero-RHS/zero-solution case remains converged.
+- The gate addresses whether the computed equation residual is within tolerance after accounting for arithmetic uncertainty. It does not equate residual with backward error, and neither quantity proves small forward or solution error for an ill-conditioned matrix. The solver makes no such precision guarantee.
+- Regression tests were run red against the prior code: the HEX20 `1e-107` case was accepted and the direct cancellation case did not raise. Both pass after the guards. The former small-CG false convergence remains rejected with relative residual 1. The well-conditioned direct and standard CG tests pass.
+- Validation after this follow-up: 28 exact test-function nodeids, 51 case outcomes PASS; Ruff PASS; in-memory compilation of the four changed Python files PASS; `git diff --check` PASS. No controlled FEM, WP12, v7 smoke, benchmark, or full CI was run.
+- The bound is deliberately conservative and can reject valid results for large rows or extreme scales. It establishes a residual upper bound under the floating-point operation model, not a forward-error guarantee. Matrix conditioning and solution error remain distinct. HEX20 elements with subnormal determinant are now rejected, including mathematically scaled coordinates; this is the declared supported-precision boundary, not a change to the geometric distortion criterion.
+
 ## Scope and identity
 
 - Repository: `emptiesvoid-cloud/QF_solver`.
@@ -80,4 +91,4 @@ No full test suite, complete CI matrix, controlled FEM qualification, WP12 campa
 
 ## Verdict
 
-**`REMEDIATION_READY_FOR_SECOND_REVIEW`** — the five requested P1/P2 corrections have targeted regression evidence, Ruff and compilation pass, and no controlled FEM campaign was run. This verdict recommends independent review only. It does not authorize merge, qualification, package release, tagging, or publication.
+**`REMEDIATION_READY_FOR_FINAL_REVIEW`** — the five requested P1/P2 corrections, including the DA-003 and DA-005 follow-up guards, have targeted regression evidence; Ruff, compilation, and diff checks pass. This verdict does not authorize merge, qualification, package release, tagging, or publication.

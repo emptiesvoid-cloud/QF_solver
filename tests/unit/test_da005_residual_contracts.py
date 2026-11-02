@@ -65,6 +65,29 @@ def test_default_residual_failure_tolerance_and_standard_cg_are_unchanged() -> N
     assert info.relative_residual_norm <= 1.0e-7
 
 
+def test_zero_rhs_and_zero_solution_remain_converged() -> None:
+    solution, info = LinearSystemSolver().solve(
+        csr_matrix([[1.0]]), np.asarray([0.0]), method="cg", parameters={"backend": "scipy"}
+    )
+
+    assert solution == pytest.approx(np.asarray([0.0]))
+    assert info.converged
+    assert info.residual_norm == 0.0
+    assert info.relative_residual_norm == 0.0
+
+
+def test_roundoff_guard_accepts_well_conditioned_direct_system() -> None:
+    solution, info = LinearSystemSolver().solve(
+        csr_matrix([[4.0, 1.0], [1.0, 3.0]]),
+        np.asarray([6.0, 7.0]),
+        method="direct",
+        parameters={"backend": "scipy"},
+    )
+
+    assert solution == pytest.approx(np.asarray([1.0, 2.0]))
+    assert info.converged
+
+
 def test_cg_rejects_underflowed_residual_instead_of_accepting_bad_solution() -> None:
     matrix = csr_matrix([[1.0e-200]])
     rhs = np.asarray([1.0e-200])
@@ -134,6 +157,14 @@ def test_direct_solver_still_rejects_singular_matrix() -> None:
         LinearSystemSolver().solve(
             csr_matrix([[0.0]]), np.asarray([0.0]), method="direct", parameters={"backend": "scipy"}
         )
+
+
+def test_direct_solver_rejects_residual_hidden_by_dot_product_cancellation() -> None:
+    matrix = csr_matrix([[1.0e16, 1.0, -1.0e16], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
+    rhs = np.asarray([0.0, 1.0, 1.0])
+
+    with pytest.raises(NumericalConvergenceError, match="cannot demonstrate residual convergence"):
+        LinearSystemSolver().solve(matrix, rhs, method="direct", parameters={"backend": "scipy"})
 
 
 @pytest.mark.parametrize(
