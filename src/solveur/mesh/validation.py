@@ -82,8 +82,12 @@ class MeshValidator:
         if dofs is not None:
             self._check_conditions(model, dofs, errors, warnings)
             errors.extend(multipoint_constraint_errors(model, dofs))
-            self._check_mechanical_rank(model, dofs, details, warnings)
-            self._check_component_constraints(model, dofs, details, warnings)
+            if errors:
+                details["mechanical_rank"] = {"checked": False, "reason": "input validation failed"}
+                warnings.append("Mechanical rank and component constraints were not checked because input validation failed.")
+            else:
+                self._check_mechanical_rank(model, dofs, details, warnings)
+                self._check_component_constraints(model, dofs, details, warnings)
         if not model.fixed_dofs:
             warnings.append("No fixed degree of freedom is defined; the solve may be singular.")
         status = "FAIL" if errors else "WARNING" if warnings else "PASS"
@@ -604,7 +608,9 @@ class MeshValidator:
                 if not dofs.has(condition.node, name):
                     errors.append(f"Fixed DOF {name} is not active on node {condition.node}.")
                 constrained += 1
-        for load in model.loads:
+        for index, load in enumerate(model.loads):
+            if not _is_finite_scalar(load.value):
+                errors.append(f"Nodal load {index}: value must be a finite scalar.")
             if load.node < 0 or load.node >= model.node_count:
                 errors.append(f"Load references invalid node {load.node}.")
                 continue

@@ -29,7 +29,13 @@ from solveur.core.errors import (
     MeshValidationError,
     NumericalConvergenceError,
 )
-from solveur.core.solvers.linear import LinearSystemSolver, ReusableSparseFactorization
+from solveur.core.solvers.linear import (
+    LinearSystemSolver,
+    ReusableSparseFactorization,
+    relative_residual_ratio,
+    stable_l2_norm,
+    validate_residual_failure_tolerance,
+)
 from solveur.core.solvers.policy import LinearSolverPolicy, linear_execution_settings
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import DynamicResult
@@ -56,6 +62,10 @@ class NewmarkDynamicSolver:
     def solve(self, model: FiniteElementModel) -> DynamicResult:
         if model.analysis.method not in self.supported_methods:
             raise InputValidationError(f"Unsupported dynamic method {model.analysis.method!r}.")
+        residual_limit = validate_residual_failure_tolerance(
+            model.analysis.parameters,
+            "dynamic_residual_failure_tolerance",
+        )
         report = self.validator.validate(model)
         if report.status == "FAIL":
             raise MeshValidationError("Mesh validation failed: " + "; ".join(report.errors))
@@ -220,16 +230,14 @@ class NewmarkDynamicSolver:
             if not all(np.all(np.isfinite(vector)) for vector in (displacement, velocity, acceleration)):
                 raise NumericalConvergenceError(f"Newmark produced a non-finite state at step {step}.")
             dynamic_residual = mass @ acceleration + damping @ velocity + stiffness @ displacement - force
-            residual_norm = float(np.linalg.norm(dynamic_residual[free]))
+            residual_norm = stable_l2_norm(dynamic_residual[free])
             dynamic_reference = max(
-                float(np.linalg.norm(force[free])),
-                float(np.linalg.norm((mass @ acceleration)[free])),
-                float(np.linalg.norm((damping @ velocity)[free])),
-                float(np.linalg.norm((stiffness @ displacement)[free])),
-                1.0,
+                stable_l2_norm(force[free]),
+                stable_l2_norm((mass @ acceleration)[free]),
+                stable_l2_norm((damping @ velocity)[free]),
+                stable_l2_norm((stiffness @ displacement)[free]),
             )
-            relative_dynamic_residual = residual_norm / dynamic_reference
-            residual_limit = float(params.get("dynamic_residual_failure_tolerance", 1.0e-7))
+            relative_dynamic_residual = relative_residual_ratio(residual_norm, dynamic_reference)
             if not np.isfinite(relative_dynamic_residual) or relative_dynamic_residual > residual_limit:
                 raise NumericalConvergenceError(
                     f"Newmark residual is abnormal at step {step}: relative={relative_dynamic_residual:.6e}, "
@@ -601,15 +609,15 @@ def _dynamic_equilibrium_summary(
     fixed: np.ndarray,
     free: np.ndarray,
 ) -> dict[str, float | int]:
-    free_norm = float(np.linalg.norm(residual[free]))
-    reference = max(float(np.linalg.norm(loads[free])), 1.0)
+    free_norm = stable_l2_norm(residual[free])
+    reference = max(stable_l2_norm(loads[free]), 1.0)
     return {
         "ndof": dofs.ndof,
         "fixed_dof_count": int(fixed.size),
         "free_dof_count": int(free.size),
         "free_residual_norm": free_norm,
         "free_relative_residual": free_norm / reference,
-        "reaction_norm": float(np.linalg.norm(residual[fixed])) if fixed.size else 0.0,
+        "reaction_norm": stable_l2_norm(residual[fixed]) if fixed.size else 0.0,
     }
 
 

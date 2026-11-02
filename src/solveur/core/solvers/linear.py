@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import warnings
 from dataclasses import dataclass, field
+from math import fsum
 from time import perf_counter
 from typing import Any
 
@@ -11,8 +12,278 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import MatrixRankWarning, LinearOperator, bicgstab, cg, gmres, minres, spilu, splu, spsolve
 
-from solveur.core.errors import NumericalConvergenceError
+from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.solvers.backend import select_backend, solve_with_petsc
+
+
+def stable_l2_norm(values: np.ndarray) -> float:
+    """Compute a Euclidean norm without squaring unscaled magnitudes."""
+    array = np.asarray(values)
+    if array.size == 0:
+        return 0.0
+    if not np.all(np.isfinite(array)):
+        return float("inf")
+
+    if np.iscomplexobj(array):
+        real = np.asarray(array.real, dtype=float).ravel()
+        imag = np.asarray(array.imag, dtype=float).ravel()
+        scale = max(
+            float(np.max(np.abs(real), initial=0.0)),
+            float(np.max(np.abs(imag), initial=0.0)),
+        )
+        if scale == 0.0:
+            return 0.0
+        scaled_real = real / scale
+        scaled_imag = imag / scale
+        sum_squares = float(np.dot(scaled_real, scaled_real) + np.dot(scaled_imag, scaled_imag))
+    else:
+        flat = np.asarray(array, dtype=float).ravel()
+        scale = float(np.max(np.abs(flat), initial=0.0))
+        if scale == 0.0:
+            return 0.0
+        scaled = flat / scale
+        sum_squares = float(np.dot(scaled, scaled))
+
+    with np.errstate(over="ignore", invalid="ignore"):
+        norm = scale * np.sqrt(sum_squares)
+    return float(norm)
+
+
+def validate_residual_failure_tolerance(parameters: dict[str, Any], key: str = "residual_failure_tolerance") -> float:
+    """Return a configured residual limit after requiring a finite positive scalar."""
+    raw_value = parameters.get(key, 1.0e-7)
+    if isinstance(raw_value, (bool, np.bool_)) or not isinstance(
+        raw_value, (int, float, np.integer, np.floating)
+    ):
+        raise InputValidationError(f"{key} must be a finite positive number.")
+    try:
+        value = float(raw_value)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise InputValidationError(f"{key} must be a finite positive number.") from exc
+    if not np.isfinite(value) or value <= 0.0:
+        raise InputValidationError(f"{key} must be a finite positive number.")
+    return value
+
+
+def relative_residual_ratio(residual_norm: float, reference_norm: float) -> float:
+    """Scale a residual without a unit-dependent floor; define the zero case."""
+    if (
+        not np.isfinite(residual_norm)
+        or not np.isfinite(reference_norm)
+        or residual_norm < 0.0
+        or reference_norm < 0.0
+    ):
+        return float("inf")
+    if reference_norm == 0.0:
+        return 0.0 if residual_norm == 0.0 else float("inf")
+    with np.errstate(over="ignore", under="ignore", divide="ignore", invalid="ignore"):
+        ratio = float(np.divide(residual_norm, reference_norm))
+    if residual_norm > 0.0 and ratio == 0.0:
+        return float(np.nextafter(0.0, 1.0))
+    return ratio
+
+
+def _require_exact_integer_input(values: np.ndarray, method: str) -> None:
+    """Reject integers whose conversion to the solver's float64 changes their value."""
+    array = np.asarray(values)
+    if np.issubdtype(array.dtype, np.integer) and any(int(float(value)) != int(value) for value in array.flat):
+        raise NumericalConvergenceError(
+            f"{method} cannot demonstrate residual convergence: integer input is not exactly representable as float64."
+        )
+
+
+def _promotion_preserves_values(converted: np.ndarray, original: np.ndarray) -> bool:
+    """Compare a widened array with its source without lossy cast warnings."""
+    if np.iscomplexobj(converted) and not np.iscomplexobj(original):
+        if np.any(converted.imag != 0.0):
+            return False
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            restored_real = converted.real.astype(original.dtype, copy=False)
+        return bool(np.array_equal(restored_real, original))
+    if not np.iscomplexobj(converted) and np.iscomplexobj(original):
+        if np.any(original.imag != 0.0):
+            return False
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            restored_real = converted.astype(original.real.dtype, copy=False)
+        return bool(np.array_equal(restored_real, original.real))
+    with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+        restored = converted.astype(original.dtype, copy=False)
+    return bool(np.array_equal(restored, original))
+
+
+def _promote_array_exact(
+    values: np.ndarray,
+    target_dtype: np.dtype,
+    method: str,
+    label: str,
+) -> np.ndarray:
+    """Convert one numeric array only when all represented values survive."""
+    array = np.asarray(values)
+    if array.dtype.kind not in "biufc":
+        raise NumericalConvergenceError(
+            f"{method} cannot demonstrate residual convergence: {label} must have a real or complex numeric dtype."
+        )
+    if not np.all(np.isfinite(array)):
+        raise NumericalConvergenceError(
+            f"{method} cannot demonstrate residual convergence: {label} contains non-finite values."
+        )
+    if target_dtype.kind != "c" and np.iscomplexobj(array):
+        if np.any(array.imag != 0.0):
+            raise NumericalConvergenceError(
+                f"{method} cannot demonstrate residual convergence: {label} loses its imaginary component when promoted to {target_dtype.name}."
+            )
+        array_to_convert = array.real
+    else:
+        array_to_convert = array
+    try:
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            converted = array_to_convert.astype(target_dtype, copy=False)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise NumericalConvergenceError(
+            f"{method} cannot demonstrate residual convergence: {label} cannot be promoted exactly."
+        ) from exc
+    if not np.all(np.isfinite(converted)) or not _promotion_preserves_values(converted, array):
+        raise NumericalConvergenceError(
+            f"{method} cannot demonstrate residual convergence: {label} loses represented values when promoted to {target_dtype.name}."
+        )
+    return converted
+
+
+def _require_exact_array_promotion(
+    values: np.ndarray,
+    target_dtype: np.dtype,
+    method: str,
+    label: str,
+) -> None:
+    """Check exact promotion in bounded chunks without retaining a full copy."""
+    array = np.asarray(values)
+    if array.dtype.kind not in "biufc":
+        raise NumericalConvergenceError(
+            f"{method} cannot demonstrate residual convergence: {label} must have a real or complex numeric dtype."
+        )
+    if not np.all(np.isfinite(array)):
+        raise NumericalConvergenceError(
+            f"{method} cannot demonstrate residual convergence: {label} contains non-finite values."
+        )
+    if target_dtype.kind != "c" and np.iscomplexobj(array) and np.any(array.imag != 0.0):
+        raise NumericalConvergenceError(
+            f"{method} cannot demonstrate residual convergence: {label} loses its imaginary component when promoted to {target_dtype.name}."
+        )
+
+    source = array.real if target_dtype.kind != "c" and np.iscomplexobj(array) else array
+    flat_source = source.reshape(-1)
+    flat_original = array.reshape(-1)
+    chunk_size = 65_536
+    for start in range(0, array.size, chunk_size):
+        stop = min(start + chunk_size, array.size)
+        original_chunk = flat_original[start:stop]
+        try:
+            with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+                converted = flat_source[start:stop].astype(target_dtype, copy=False)
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise NumericalConvergenceError(
+                f"{method} cannot demonstrate residual convergence: {label} cannot be promoted exactly."
+            ) from exc
+        if not np.all(np.isfinite(converted)) or not _promotion_preserves_values(converted, original_chunk):
+            raise NumericalConvergenceError(
+                f"{method} cannot demonstrate residual convergence: {label} loses represented values when promoted to {target_dtype.name}."
+            )
+
+
+def _promote_residual_inputs(
+    matrix: csr_matrix,
+    rhs: np.ndarray,
+    solution: np.ndarray,
+    method: str,
+) -> tuple[csr_matrix, np.ndarray, np.ndarray]:
+    """Promote represented inputs before certification without discarding bits.
+
+    The solver may use single precision, but its residual certificate is based
+    on float64/complex128 arithmetic. Widening float32/complex64 is exact. A
+    wider dtype is accepted only when a round trip proves every represented
+    value survives the promotion unchanged.
+    """
+    arrays = (np.asarray(matrix.data), np.asarray(rhs), np.asarray(solution))
+    _require_exact_integer_input(arrays[0], method)
+    _require_exact_integer_input(arrays[1], method)
+    _require_exact_integer_input(arrays[2], method)
+    if any(array.dtype.kind not in "biufc" for array in arrays):
+        raise NumericalConvergenceError(
+            f"{method} cannot demonstrate residual convergence: inputs must have real or complex numeric dtypes."
+        )
+
+    target_dtype = np.dtype(np.complex128 if any(np.iscomplexobj(array) for array in arrays) else np.float64)
+    _require_exact_array_promotion(arrays[0], target_dtype, method, "matrix")
+    promoted_rhs = _promote_array_exact(arrays[1], target_dtype, method, "right-hand side")
+    promoted_solution = _promote_array_exact(arrays[2], target_dtype, method, "solution")
+
+    # Exactness was checked in bounded chunks before this cast. Avoid a
+    # positional .data comparison after conversion: CSC-to-CSR reorders it.
+    promoted_matrix = matrix.astype(target_dtype, copy=False)
+    return promoted_matrix.tocsr(), promoted_rhs, promoted_solution
+
+
+def _sparse_matvec_roundoff_bound(
+    matrix: csr_matrix,
+    rhs: np.ndarray,
+    solution: np.ndarray,
+    product: np.ndarray,
+) -> np.ndarray:
+    """Bound dot-product and final subtraction error row by row.
+
+    The bound uses absolute product sums and a conservative operation-count
+    factor. If those sums overflow, convergence cannot be certified.
+    """
+    eps = np.finfo(float).eps
+    smallest = np.nextafter(0.0, 1.0)
+    row_bounds = np.zeros(matrix.shape[0], dtype=float)
+    matrix = matrix.tocsr()
+    vector_values = np.asarray(solution)
+    vector_magnitude = np.abs(
+        vector_values.astype(float) if np.issubdtype(vector_values.dtype, np.integer) else vector_values
+    )
+    rhs_values = np.asarray(rhs)
+    rhs_magnitude = np.abs(rhs_values.astype(float) if np.issubdtype(rhs_values.dtype, np.integer) else rhs_values)
+    product_magnitude = np.abs(product)
+
+    for row in range(matrix.shape[0]):
+        start, stop = matrix.indptr[row], matrix.indptr[row + 1]
+        columns = matrix.indices[start:stop]
+        row_data = matrix.data[start:stop]
+        # abs(int64 minimum) overflows in integer arithmetic. Convert first.
+        magnitudes = np.abs(row_data.astype(float)) if np.issubdtype(row_data.dtype, np.integer) else np.abs(row_data)
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            terms = magnitudes * vector_magnitude[columns]
+        if not np.all(np.isfinite(terms)):
+            row_bounds[row] = float("inf")
+            continue
+        try:
+            absolute_sum = fsum(float(term) for term in terms)
+        except OverflowError:
+            row_bounds[row] = float("inf")
+            continue
+        if not np.isfinite(absolute_sum):
+            row_bounds[row] = float("inf")
+            continue
+
+        operations = max(stop - start, 1)
+        factor = 32.0 * eps * (operations + 1)
+        if factor >= 1.0:
+            row_bounds[row] = float("inf")
+            continue
+        nonzero_operands = (magnitudes > 0.0) & (vector_magnitude[columns] > 0.0)
+        underflow_terms = int(np.count_nonzero(nonzero_operands & (terms < np.finfo(float).tiny)))
+        subtraction_underflow = int(float(rhs_magnitude[row]) > 0.0 or float(product_magnitude[row]) > 0.0)
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            bound = (
+                factor * absolute_sum
+                + 32.0 * eps * (float(rhs_magnitude[row]) + float(product_magnitude[row]))
+                + 32.0 * smallest * (underflow_terms + subtraction_underflow)
+            )
+        if np.isfinite(bound) and bound > 0.0:
+            bound = float(np.nextafter(bound * (1.0 + 32.0 * eps), float("inf")))
+        row_bounds[row] = bound
+    return row_bounds
 
 
 @dataclass(frozen=True)
@@ -53,8 +324,10 @@ class ReusableSparseFactorization:
     """Factorize one sparse matrix once and solve multiple right-hand sides."""
 
     def __init__(self, matrix: csr_matrix, parameters: dict[str, Any] | None = None) -> None:
+        _require_exact_integer_input(matrix.data, "splu_reuse")
         self.matrix = matrix.tocsr()
         self.parameters = dict(parameters or {})
+        validate_residual_failure_tolerance(self.parameters)
         self.factorization_count = 1
         self.solve_count = 0
         self.factorization_seconds = 0.0
@@ -69,19 +342,23 @@ class ReusableSparseFactorization:
 
     def solve(self, rhs: np.ndarray) -> tuple[np.ndarray, LinearSolveInfo]:
         """Solve one right-hand side and validate the normalized residual."""
+        _require_exact_integer_input(rhs, "splu_reuse")
+        rhs_original = np.asarray(rhs)
+        rhs_array = _promote_array_exact(
+            rhs_original, np.dtype(np.float64), "splu_reuse", "right-hand side"
+        )
         started = perf_counter()
         try:
-            solution = np.asarray(self._factor.solve(np.asarray(rhs, dtype=float)), dtype=float)
+            solution = np.asarray(self._factor.solve(rhs_array), dtype=float)
         except (FloatingPointError, RuntimeError, ValueError) as exc:
             raise NumericalConvergenceError(f"Reusable sparse solve failed: {exc}") from exc
         elapsed = perf_counter() - started
         self.solve_count += 1
         self.last_solve_seconds = elapsed
         self.solve_seconds_total += elapsed
-        rhs_array = np.asarray(rhs, dtype=float)
         residual, relative = LinearSystemSolver._validated_residual_metrics(
             self.matrix,
-            rhs_array,
+            rhs_original,
             solution,
             "splu_reuse",
             self.parameters,
@@ -92,7 +369,7 @@ class ReusableSparseFactorization:
             residual,
             True,
             residual_history=[residual],
-            initial_residual_norm=float(np.linalg.norm(rhs_array)),
+            initial_residual_norm=stable_l2_norm(rhs_array),
             relative_residual_norm=relative,
             tolerance=_reported_tolerance("splu_reuse", self.parameters),
         )
@@ -119,6 +396,9 @@ class LinearSystemSolver:
         parameters: dict[str, Any] | None = None,
     ) -> tuple[np.ndarray, LinearSolveInfo]:
         parameters = parameters or {}
+        _require_exact_integer_input(matrix.data, method)
+        _require_exact_integer_input(rhs, method)
+        validate_residual_failure_tolerance(parameters)
         normalized = method.lower()
         if normalized == "auto":
             raise ValueError("LinearSystemSolver.solve requires an effective method; resolve 'auto' through LinearSolverPolicy.")
@@ -126,7 +406,7 @@ class LinearSystemSolver:
         if backend.selected == "petsc":
             solution, iterations, _ = solve_with_petsc(matrix, rhs, normalized, parameters)
             residual, relative = self._validated_residual_metrics(matrix, rhs, solution, normalized, parameters)
-            initial = float(np.linalg.norm(np.asarray(rhs, dtype=float)))
+            initial = stable_l2_norm(np.asarray(rhs, dtype=float))
             return solution, LinearSolveInfo(
                 normalized,
                 iterations,
@@ -159,7 +439,7 @@ class LinearSystemSolver:
                     }
                 )
                 raise
-            initial = float(np.linalg.norm(np.asarray(rhs, dtype=float)))
+            initial = stable_l2_norm(np.asarray(rhs, dtype=float))
             return solution, LinearSolveInfo(
                 normalized,
                 1,
@@ -191,6 +471,9 @@ class LinearSystemSolver:
         """Solve one complex sparse system used by harmonic response."""
 
         params = parameters or {}
+        _require_exact_integer_input(matrix.data, "direct_frequency")
+        _require_exact_integer_input(rhs, "direct_frequency")
+        validate_residual_failure_tolerance(params)
         backend = select_backend("scipy", problem_size=matrix.shape[0], parameters=params)
         try:
             with warnings.catch_warnings():
@@ -207,7 +490,7 @@ class LinearSystemSolver:
             residual,
             True,
             backend=backend.selected,
-            initial_residual_norm=float(np.linalg.norm(np.asarray(rhs, dtype=complex))),
+            initial_residual_norm=stable_l2_norm(np.asarray(rhs, dtype=complex)),
             relative_residual_norm=relative,
             tolerance=_reported_tolerance("direct_frequency", params),
         )
@@ -256,7 +539,7 @@ class LinearSystemSolver:
             True,
             str(parameters.get("preconditioner", "none")),
             residual_history=residual_history,
-            initial_residual_norm=float(np.linalg.norm(np.asarray(rhs, dtype=float))),
+            initial_residual_norm=stable_l2_norm(np.asarray(rhs, dtype=float)),
             relative_residual_norm=relative,
             tolerance=_reported_tolerance(method, parameters),
         )
@@ -299,7 +582,7 @@ class LinearSystemSolver:
             True,
             str(parameters.get("preconditioner", "none")),
             residual_history=residual_history,
-            initial_residual_norm=float(np.linalg.norm(np.asarray(rhs, dtype=float))),
+            initial_residual_norm=stable_l2_norm(np.asarray(rhs, dtype=float)),
             relative_residual_norm=relative,
             tolerance=_reported_tolerance("minres", parameters),
         )
@@ -342,7 +625,7 @@ class LinearSystemSolver:
         value = np.asarray(state)
         if value.ndim == 0:
             return float(abs(value.item()))
-        return float(np.linalg.norm(matrix @ value - rhs))
+        return stable_l2_norm(matrix @ value - rhs)
 
     @staticmethod
     def _append_final_residual(history: list[float], residual: float) -> None:
@@ -369,9 +652,9 @@ class LinearSystemSolver:
         steps = int(raw_steps)
         if steps < 0:
             raise ValueError("experimental_direct_refinement_steps must be non-negative.")
+        limit = validate_residual_failure_tolerance(parameters)
         if steps == 0:
             return solution, 0
-        limit = float(parameters.get("residual_failure_tolerance", 1.0e-7))
         current = np.asarray(solution, dtype=float).copy()
         _, relative = LinearSystemSolver._raw_residual_metrics(matrix, rhs, current)
         if relative <= limit:
@@ -411,10 +694,13 @@ class LinearSystemSolver:
         rhs: np.ndarray,
         solution: np.ndarray,
     ) -> tuple[float, float]:
-        product = matrix @ solution
-        residual = float(np.linalg.norm(product - rhs))
-        reference = max(float(np.linalg.norm(rhs)), float(np.linalg.norm(product)), 1.0)
-        return residual, residual / reference
+        matrix_wide, rhs_wide, solution_wide = _promote_residual_inputs(
+            matrix, rhs, solution, "residual calculation"
+        )
+        product = matrix_wide @ solution_wide
+        residual = stable_l2_norm(product - rhs_wide)
+        reference = max(stable_l2_norm(rhs_wide), stable_l2_norm(product))
+        return residual, relative_residual_ratio(residual, reference)
 
     @staticmethod
     def _validated_residual(
@@ -437,14 +723,19 @@ class LinearSystemSolver:
         method: str,
         parameters: dict[str, Any],
     ) -> tuple[float, float]:
-        if not np.all(np.isfinite(solution)):
-            kind = "nan" if np.any(np.isnan(solution)) else "inf"
+        solution_array = np.asarray(solution)
+        if not np.all(np.isfinite(solution_array)):
+            kind = "nan" if np.any(np.isnan(solution_array)) else "inf"
             raise NumericalConvergenceError(
                 f"{method} produced a non-finite solution.", diagnostics={"nonfinite": kind}
             )
+        matrix, rhs, solution = _promote_residual_inputs(matrix, rhs, solution, method)
         product = matrix @ solution
-        residual, relative = LinearSystemSolver._raw_residual_metrics(matrix, rhs, solution)
-        limit = float(parameters.get("residual_failure_tolerance", 1.0e-7))
+        residual_vector = product - rhs
+        residual = stable_l2_norm(residual_vector)
+        reference = max(stable_l2_norm(rhs), stable_l2_norm(product))
+        relative = relative_residual_ratio(residual, reference)
+        limit = validate_residual_failure_tolerance(parameters)
         if not np.isfinite(residual) or not np.isfinite(relative):
             raise NumericalConvergenceError(f"{method} produced a non-finite residual.")
         if relative > limit:
@@ -454,7 +745,7 @@ class LinearSystemSolver:
             matrix_inf = float(np.max(np.asarray(np.abs(matrix).sum(axis=1)).ravel(), initial=0.0))
             backward_denominator = matrix_inf * solution_inf + rhs_inf
             backward_error = (
-                float(np.max(np.abs(product - rhs), initial=0.0)) / backward_denominator
+                float(np.max(np.abs(residual_vector), initial=0.0)) / backward_denominator
                 if backward_denominator > 0.0
                 else float("inf")
             )
@@ -471,6 +762,32 @@ class LinearSystemSolver:
                     "relative_residual": relative,
                     "residual_failure_tolerance": limit,
                     "backward_error_eta_inf": backward_error,
+                },
+            )
+        roundoff_vector = _sparse_matvec_roundoff_bound(matrix, rhs, solution, product)
+        roundoff_norm = stable_l2_norm(roundoff_vector)
+        rhs_norm = stable_l2_norm(rhs)
+        product_norm = stable_l2_norm(product)
+        norm_factor = 32.0 * np.finfo(float).eps * max(rhs.size, product.size, 1)
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            roundoff_norm_upper = roundoff_norm * (1.0 + norm_factor)
+            residual_upper_bound = (residual + roundoff_norm_upper) * (1.0 + norm_factor)
+            reference_lower_bound = max(
+                rhs_norm * (1.0 - norm_factor),
+                max(product_norm - roundoff_norm_upper, 0.0) * (1.0 - norm_factor),
+            )
+            relative_upper_bound = relative_residual_ratio(residual_upper_bound, reference_lower_bound)
+        if norm_factor >= 1.0 or not np.isfinite(relative_upper_bound) or relative_upper_bound > limit:
+            raise NumericalConvergenceError(
+                f"{method} cannot demonstrate residual convergence within floating-point roundoff "
+                f"(relative upper bound={relative_upper_bound:.6e}, allowed={limit:.6e}).",
+                diagnostics={
+                    "residual_norm": residual,
+                    "relative_residual": relative,
+                    "matvec_roundoff_bound": roundoff_norm,
+                    "norm_relative_roundoff_factor": norm_factor,
+                    "relative_residual_upper_bound": relative_upper_bound,
+                    "residual_failure_tolerance": limit,
                 },
             )
         return residual, relative
