@@ -29,7 +29,12 @@ from solveur.core.errors import (
     MeshValidationError,
     NumericalConvergenceError,
 )
-from solveur.core.solvers.linear import LinearSystemSolver, ReusableSparseFactorization
+from solveur.core.solvers.linear import (
+    LinearSystemSolver,
+    ReusableSparseFactorization,
+    relative_residual_ratio,
+    validate_residual_failure_tolerance,
+)
 from solveur.core.solvers.policy import LinearSolverPolicy, linear_execution_settings
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import DynamicResult
@@ -56,6 +61,10 @@ class NewmarkDynamicSolver:
     def solve(self, model: FiniteElementModel) -> DynamicResult:
         if model.analysis.method not in self.supported_methods:
             raise InputValidationError(f"Unsupported dynamic method {model.analysis.method!r}.")
+        residual_limit = validate_residual_failure_tolerance(
+            model.analysis.parameters,
+            "dynamic_residual_failure_tolerance",
+        )
         report = self.validator.validate(model)
         if report.status == "FAIL":
             raise MeshValidationError("Mesh validation failed: " + "; ".join(report.errors))
@@ -226,10 +235,8 @@ class NewmarkDynamicSolver:
                 float(np.linalg.norm((mass @ acceleration)[free])),
                 float(np.linalg.norm((damping @ velocity)[free])),
                 float(np.linalg.norm((stiffness @ displacement)[free])),
-                1.0,
             )
-            relative_dynamic_residual = residual_norm / dynamic_reference
-            residual_limit = float(params.get("dynamic_residual_failure_tolerance", 1.0e-7))
+            relative_dynamic_residual = relative_residual_ratio(residual_norm, dynamic_reference)
             if not np.isfinite(relative_dynamic_residual) or relative_dynamic_residual > residual_limit:
                 raise NumericalConvergenceError(
                     f"Newmark residual is abnormal at step {step}: relative={relative_dynamic_residual:.6e}, "

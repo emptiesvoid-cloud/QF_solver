@@ -11,8 +11,29 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import MatrixRankWarning, LinearOperator, bicgstab, cg, gmres, minres, spilu, splu, spsolve
 
-from solveur.core.errors import NumericalConvergenceError
+from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.solvers.backend import select_backend, solve_with_petsc
+
+
+def validate_residual_failure_tolerance(parameters: dict[str, Any], key: str = "residual_failure_tolerance") -> float:
+    """Return a configured residual limit after requiring a finite positive scalar."""
+    raw_value = parameters.get(key, 1.0e-7)
+    if isinstance(raw_value, (bool, np.bool_)):
+        raise InputValidationError(f"{key} must be a finite positive number.")
+    try:
+        value = float(raw_value)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise InputValidationError(f"{key} must be a finite positive number.") from exc
+    if not np.isfinite(value) or value <= 0.0:
+        raise InputValidationError(f"{key} must be a finite positive number.")
+    return value
+
+
+def relative_residual_ratio(residual_norm: float, reference_norm: float) -> float:
+    """Scale a residual without a unit-dependent floor; define the zero case."""
+    if reference_norm == 0.0:
+        return 0.0 if residual_norm == 0.0 else float("inf")
+    return residual_norm / reference_norm
 
 
 @dataclass(frozen=True)
@@ -55,6 +76,7 @@ class ReusableSparseFactorization:
     def __init__(self, matrix: csr_matrix, parameters: dict[str, Any] | None = None) -> None:
         self.matrix = matrix.tocsr()
         self.parameters = dict(parameters or {})
+        validate_residual_failure_tolerance(self.parameters)
         self.factorization_count = 1
         self.solve_count = 0
         self.factorization_seconds = 0.0
@@ -119,6 +141,7 @@ class LinearSystemSolver:
         parameters: dict[str, Any] | None = None,
     ) -> tuple[np.ndarray, LinearSolveInfo]:
         parameters = parameters or {}
+        validate_residual_failure_tolerance(parameters)
         normalized = method.lower()
         if normalized == "auto":
             raise ValueError("LinearSystemSolver.solve requires an effective method; resolve 'auto' through LinearSolverPolicy.")
@@ -191,6 +214,7 @@ class LinearSystemSolver:
         """Solve one complex sparse system used by harmonic response."""
 
         params = parameters or {}
+        validate_residual_failure_tolerance(params)
         backend = select_backend("scipy", problem_size=matrix.shape[0], parameters=params)
         try:
             with warnings.catch_warnings():
@@ -369,9 +393,9 @@ class LinearSystemSolver:
         steps = int(raw_steps)
         if steps < 0:
             raise ValueError("experimental_direct_refinement_steps must be non-negative.")
+        limit = validate_residual_failure_tolerance(parameters)
         if steps == 0:
             return solution, 0
-        limit = float(parameters.get("residual_failure_tolerance", 1.0e-7))
         current = np.asarray(solution, dtype=float).copy()
         _, relative = LinearSystemSolver._raw_residual_metrics(matrix, rhs, current)
         if relative <= limit:
@@ -413,8 +437,8 @@ class LinearSystemSolver:
     ) -> tuple[float, float]:
         product = matrix @ solution
         residual = float(np.linalg.norm(product - rhs))
-        reference = max(float(np.linalg.norm(rhs)), float(np.linalg.norm(product)), 1.0)
-        return residual, residual / reference
+        reference = max(float(np.linalg.norm(rhs)), float(np.linalg.norm(product)))
+        return residual, relative_residual_ratio(residual, reference)
 
     @staticmethod
     def _validated_residual(
@@ -444,7 +468,7 @@ class LinearSystemSolver:
             )
         product = matrix @ solution
         residual, relative = LinearSystemSolver._raw_residual_metrics(matrix, rhs, solution)
-        limit = float(parameters.get("residual_failure_tolerance", 1.0e-7))
+        limit = validate_residual_failure_tolerance(parameters)
         if not np.isfinite(residual) or not np.isfinite(relative):
             raise NumericalConvergenceError(f"{method} produced a non-finite residual.")
         if relative > limit:

@@ -10,6 +10,7 @@ from solveur.elements.solid.common import (
     symmetrize,
     validate_coords_shape,
     von_mises_3d,
+    relative_determinant,
 )
 from solveur.materials.solid import SolidConstitutiveMaterial
 
@@ -134,13 +135,19 @@ class Hex20Element:
     def validate_geometry(cls, coords: np.ndarray) -> None:
         """Reject inverted, degenerate or locally folded HEX20 geometry."""
         coords = cls._validated_coords(coords)
-        span = max(float(np.max(np.ptp(coords, axis=0))), 1.0)
-        tolerance = 1.0e-14 * span**3
-        determinants = np.asarray(
-            [cls.jacobian_determinant(coords, point) for point in cls.integration_points],
-            dtype=float,
-        )
-        if not np.all(np.isfinite(determinants)) or np.any(determinants <= tolerance):
+        determinants: list[float] = []
+        scaled_determinants: list[float] = []
+        for point in cls.integration_points:
+            jacobian = cls.jacobian(coords, point)
+            determinant = float(np.linalg.det(jacobian))
+            scaled_determinant = relative_determinant(jacobian)
+            determinants.append(determinant)
+            scaled_determinants.append(scaled_determinant)
+        if (
+            not np.all(np.isfinite(determinants))
+            or not np.all(np.isfinite(scaled_determinants))
+            or np.any(np.asarray(scaled_determinants) <= 1.0e-14)
+        ):
             minimum = float(np.min(determinants))
             raise ValueError(f"Invalid HEX20 Jacobian determinant {minimum:.6e}.")
 

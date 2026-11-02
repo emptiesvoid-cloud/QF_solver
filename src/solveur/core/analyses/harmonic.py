@@ -13,7 +13,7 @@ from solveur.core.audit import SolverAudit
 from solveur.core.analyses.dynamic_reduction import DynamicDofReducer
 from solveur.core.analyses.dynamic_controls import rayleigh_damping_definition
 from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
-from solveur.core.solvers.linear import LinearSystemSolver
+from solveur.core.solvers.linear import LinearSystemSolver, relative_residual_ratio, validate_residual_failure_tolerance
 from solveur.core.solvers.policy import LinearSolverPolicy, linear_execution_settings
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import HarmonicResult
@@ -34,6 +34,10 @@ class HarmonicResponseSolver:
     def solve(self, model: FiniteElementModel) -> HarmonicResult:
         if model.analysis.method not in self.supported_methods:
             raise InputValidationError(f"Unsupported harmonic method {model.analysis.method!r}.")
+        residual_limit = validate_residual_failure_tolerance(
+            model.analysis.parameters,
+            "harmonic_residual_failure_tolerance",
+        )
         report = self.validator.validate(model)
         if report.status == "FAIL":
             raise MeshValidationError("Mesh validation failed: " + "; ".join(report.errors))
@@ -91,9 +95,9 @@ class HarmonicResponseSolver:
             residual = stiffness @ response + 1j * omega * (damping @ response) - omega**2 * (mass @ response) - loads
             responses.append(response)
             residual_norm = float(np.linalg.norm(residual[free]))
-            reference = max(float(np.linalg.norm(loads[free])), 1.0)
-            relative_residual = residual_norm / reference
-            limit = float(model.analysis.parameters.get("harmonic_residual_failure_tolerance", 1.0e-7))
+            reference = float(np.linalg.norm(loads[free]))
+            relative_residual = relative_residual_ratio(residual_norm, reference)
+            limit = residual_limit
             if not np.isfinite(relative_residual) or relative_residual > limit:
                 raise NumericalConvergenceError(
                     f"Harmonic residual is abnormal at {frequency:.9g} Hz: "

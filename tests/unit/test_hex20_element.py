@@ -87,6 +87,23 @@ def test_hex20_jacobian_stiffness_mass_and_rigid_modes() -> None:
     assert max(np.linalg.norm(stiffness @ mode, ord=np.inf) / scale for mode in modes) < 1.0e-10
 
 
+@pytest.mark.parametrize("scale", [1.0e-5, 1.0, 1.0e5])
+def test_hex20_geometry_acceptance_is_independent_of_length_units(scale: float) -> None:
+    Hex20Element.validate_geometry(unit_hex20() * scale)
+
+
+def test_hex20_geometry_still_rejects_degenerate_and_inverted_elements() -> None:
+    degenerate = unit_hex20()
+    degenerate[:, 2] = 0.0
+    inverted = unit_hex20().copy()
+    inverted[:, 0] *= -1.0
+
+    with pytest.raises(ValueError, match="Invalid HEX20 Jacobian determinant"):
+        Hex20Element.validate_geometry(degenerate)
+    with pytest.raises(ValueError, match="Invalid HEX20 Jacobian determinant"):
+        Hex20Element.validate_geometry(inverted)
+
+
 def test_hex20_integration_validates_geometry_once(monkeypatch: pytest.MonkeyPatch) -> None:
     calls: list[int] = []
     original = Hex20Element.validate_geometry

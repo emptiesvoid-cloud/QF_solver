@@ -604,7 +604,9 @@ class MeshValidator:
                 if not dofs.has(condition.node, name):
                     errors.append(f"Fixed DOF {name} is not active on node {condition.node}.")
                 constrained += 1
-        for load in model.loads:
+        for index, load in enumerate(model.loads):
+            if not _is_finite_scalar(load.value):
+                errors.append(f"Nodal load {index}: value must be a finite scalar.")
             if load.node < 0 or load.node >= model.node_count:
                 errors.append(f"Load references invalid node {load.node}.")
                 continue
