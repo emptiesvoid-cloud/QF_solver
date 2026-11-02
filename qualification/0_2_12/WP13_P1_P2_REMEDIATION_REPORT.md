@@ -22,14 +22,24 @@
 
 The new regressions were first exercised against the pre-correction code. They reproduced the silent spring-route continuation, the HEX20 underflow acceptance, the missing Markdown status, the CG underflow false convergence, and unsafe nodal-load input handling. During this pass, an added oversized-JSON-integer counterexample also reproduced an uncaught `OverflowError`; after the shared schema fix it is rejected through `InputValidationError`.
 
-| Counterexample | Before correction | After correction |
-| --- | --- | --- |
-| `nonlinear_static` model with a discrete spring | Route continued into validation/assembly sentinel | `InputValidationError` before either sentinel |
-| HEX20 unit cell scaled to (10^{-108}) | Raw determinant could underflow although normalized geometry stayed positive | Rejected before stiffness integration |
-| Contact report with unavailable residual | Markdown omitted `NOT_COMPUTABLE` | Status is visible; residual remains `None` |
-| CG system (A=[10^{-200}], b=[10^{-200}]) with zero inaccurate iterate | Squared norms could become zero and satisfy the gate | Relative residual is 1; solver raises `NumericalConvergenceError` |
-| Nodal load `True`, numeric string, non-finite value, or unrepresentable integer | Implicit coercion, late failure, or uncaught overflow | Rejected at input/schema validation |
-| Finite but unrepresentable Euclidean norm | Raw norm arithmetic could overflow or underflow | Non-finite norm is detected and the solver rejects it |
+| Finding and counterexample | Regression nodeid | Before correction | After correction |
+| --- | --- | --- | --- |
+| DA-001 — `nonlinear_static` with a spring | `test_nonlinear_static_rejects_springs_before_mesh_or_load_assembly` | Reached validation/assembly sentinel | `InputValidationError` before either sentinel |
+| DA-002 — unavailable contact residual | `test_contact_residual_status_is_visible_in_markdown_without_fabricating_a_value` | Markdown omitted `NOT_COMPUTABLE` | Status is visible; residual remains `None` |
+| DA-003 — HEX20 scaled to (10^{-108}) | `test_hex20_rejects_underflowed_positive_geometry_before_stiffness` | Raw determinant could underflow while normalized geometry stayed positive | Rejected before stiffness integration |
+| DA-004 — boolean/string/non-finite/oversized load | `test_from_raw_rejects_nonfinite_or_implicitly_coerced_nodal_load_values`; `test_json_schema_rejects_unrepresentable_integer_nodal_load_cleanly` | Implicit coercion, late failure, or uncaught `OverflowError` | Rejected at input/schema validation |
+| DA-005 — CG system (A=[10^{-200}], b=[10^{-200}]), inaccurate zero iterate | `test_cg_rejects_underflowed_residual_instead_of_accepting_bad_solution` | Squared norms could become zero and satisfy the gate | Relative residual is 1; solver raises `NumericalConvergenceError` |
+| DA-005 — Euclidean norm outside float range | `test_unrepresentable_norm_fails_the_residual_gate_conservatively` | Raw norm arithmetic could overflow or underflow | Non-finite norm is detected and the solver rejects it |
+
+## Regression risks by correction
+
+| Finding | Residual regression risk |
+| --- | --- |
+| DA-001 | Nonlinear callers that previously supplied springs and relied on their omission now receive an explicit error. No spring-free route behavior or nonlinear spring support was added. |
+| DA-002 | Markdown now exposes the unavailable status. Consumers that assumed every residual cell is numeric must honor `residual_status`; JSON metadata already used `null`. |
+| DA-003 | Geometries with an unrepresentable raw determinant now fail explicitly, including some mathematically scaled geometries. Tested finite stiffness remains available at (10^{-100}) and (10^{100}); no general conditioning guarantee is claimed. |
+| DA-004 | Callers relying on strings, booleans, or non-finite nodal-load coercion now receive `InputValidationError`. Finite built-in and NumPy numeric scalars remain supported. |
+| DA-005 | If a true norm exceeds floating-point range, the solver rejects the result even if a separately scaled ratio might be representable. This conservative false-failure risk prevents overflow from becoming false convergence. |
 
 ## Targeted tests executed
 
