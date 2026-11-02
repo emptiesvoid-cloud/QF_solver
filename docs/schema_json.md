@@ -229,6 +229,11 @@ ponctuelles `loads` restent compatibles. L'ordre utilise par
 `load_factors_by_load` est toujours: toutes les charges nodales, puis toutes
 les charges reparties, dans l'ordre du JSON.
 
+Les cibles `element` et `elements` utilisent des indices entiers ; les
+booléens, chaînes et nombres à virgule ne sont pas convertis en indices par
+`FiniteElementModel.from_raw`. Une liste `elements` explicitement vide ne
+sélectionne aucun élément.
+
 Types disponibles:
 
 | Type | Support | `value` | Unite SI | Cible |

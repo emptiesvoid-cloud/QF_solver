@@ -1,8 +1,12 @@
 from __future__ import annotations
 
+from fractions import Fraction
+from math import sqrt
+import warnings
+
 import numpy as np
 import pytest
-from scipy.sparse import csr_matrix
+from scipy.sparse import csc_matrix, csr_matrix
 
 from solveur.core.analyses.dynamic import NewmarkDynamicSolver
 from solveur.core.analyses.harmonic import HarmonicResponseSolver
@@ -10,6 +14,7 @@ from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
 from solveur.core.solvers.linear import (
     LinearSystemSolver,
+    _promote_residual_inputs,
     _sparse_matvec_roundoff_bound,
     relative_residual_ratio,
     stable_l2_norm,
@@ -203,6 +208,148 @@ def test_exact_integer_inputs_remain_supported() -> None:
     )
     assert solution == pytest.approx([1.0, 2.0])
     assert info.converged
+
+
+def test_bicgstab_float32_cancellation_is_rejected_by_wide_residual() -> None:
+    matrix_values = np.asarray(
+        [[10000.0, 1.0e-4, -10000.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]], dtype=np.float32
+    )
+    rhs = np.asarray([0.0, 1.0, 1.0], dtype=np.float32)
+    matrix = csr_matrix(matrix_values)
+    # Reconstruct the first exact dot product from the binary32 values, rather
+    # than from their rounded float32 BLAS result.
+    exact_row = sum(
+        (Fraction.from_float(float(value)) for value in matrix_values[0]), Fraction(0)
+    )
+    exact_rhs = Fraction.from_float(float(rhs[0]))
+    exact_residual = abs(exact_row - exact_rhs)
+    exact_relative = float(exact_residual) / sqrt(2.0)
+    assert exact_relative == pytest.approx(7.0710676e-5, rel=1.0e-7)
+    assert exact_relative > 1.0e-7
+
+    with pytest.raises(NumericalConvergenceError, match=r"relative=7\.071068e-05"):
+        LinearSystemSolver().solve(
+            matrix,
+            rhs,
+            method="bicgstab",
+            parameters={"backend": "scipy"},
+        )
+
+
+def test_float32_well_conditioned_direct_system_passes_wide_certification() -> None:
+    matrix = csr_matrix(np.asarray([[4.0, 1.0], [1.0, 3.0]], dtype=np.float32))
+    rhs = np.asarray([6.0, 7.0], dtype=np.float32)
+    solution, info = LinearSystemSolver().solve(
+        matrix, rhs, method="direct", parameters={"backend": "scipy"}
+    )
+    assert solution == pytest.approx(np.asarray([1.0, 2.0]))
+    assert info.converged
+    assert info.relative_residual_norm <= 1.0e-7
+
+
+def test_complex64_residual_is_certified_after_exact_widening() -> None:
+    matrix = csr_matrix(np.asarray([[3.0 + 2.0j]], dtype=np.complex64))
+    rhs = np.asarray([1.0 + 1.0j], dtype=np.complex64)
+    solution, info = LinearSystemSolver().solve_complex(matrix, rhs)
+    assert solution == pytest.approx(np.asarray([(1.0 + 1.0j) / (3.0 + 2.0j)]))
+    assert info.converged
+    assert info.relative_residual_norm <= 1.0e-7
+
+
+def test_csc_nonsymmetric_matrix_is_preserved_by_residual_promotion() -> None:
+    matrix = csc_matrix(np.asarray([[4.0, 1.0], [2.0, 3.0]], dtype=np.float64))
+    solution, info = LinearSystemSolver().solve(
+        matrix, np.asarray([6.0, 8.0]), method="direct", parameters={"backend": "scipy"}
+    )
+    assert solution == pytest.approx([1.0, 2.0])
+    assert info.converged
+
+
+def test_csr_float32_promotion_checks_coefficients_across_chunk_boundary() -> None:
+    count = 65_537
+    data = np.linspace(0.25, 1.25, count, dtype=np.float32)
+    matrix = csr_matrix(
+        (data, np.arange(count, dtype=np.int32), np.asarray([0, count], dtype=np.int32)),
+        shape=(1, count),
+    )
+    rhs = np.asarray([0.0], dtype=np.float32)
+    solution = np.ones(count, dtype=np.float32)
+
+    promoted, _, promoted_solution = _promote_residual_inputs(matrix, rhs, solution, "chunk-boundary")
+
+    assert promoted.nnz == count
+    assert promoted.dtype == np.dtype(np.float64)
+    assert np.array_equal(promoted.data, data.astype(np.float64))
+    assert promoted_solution.size == count
+
+
+@pytest.mark.parametrize(("value", "expected_kind"), [(np.nan, "nan"), (np.inf, "inf")])
+def test_nonfinite_solution_retains_nan_inf_diagnostic(value: float, expected_kind: str) -> None:
+    with pytest.raises(NumericalConvergenceError) as captured:
+        LinearSystemSolver._validated_residual_metrics(
+            csr_matrix([[1.0]]), np.asarray([1.0]), np.asarray([value]), "test-nonfinite", {}
+        )
+    assert captured.value.diagnostics["nonfinite"] == expected_kind
+
+
+def test_reused_real_factorization_rejects_imaginary_rhs_without_cast_warning() -> None:
+    factor = LinearSystemSolver.factorize(csr_matrix([[1.0]]))
+    with pytest.raises(NumericalConvergenceError, match="loses its imaginary component"):
+        factor.solve(np.asarray([1.0 + 1.0j]))
+
+
+def test_reused_factorization_rejects_lossy_longdouble_rhs_before_solve() -> None:
+    if np.finfo(np.longdouble).nmant <= np.finfo(np.float64).nmant:
+        pytest.skip("Platform long double has no precision beyond float64.")
+    factor = LinearSystemSolver.factorize(csr_matrix([[1.0]]))
+    rhs = np.asarray([np.longdouble(1.0) + np.finfo(np.longdouble).eps], dtype=np.longdouble)
+    with pytest.raises(NumericalConvergenceError, match="loses represented values"):
+        factor.solve(rhs)
+
+
+def test_real_inputs_promote_to_complex_without_cast_warning() -> None:
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        residual, relative = LinearSystemSolver._validated_residual_metrics(
+            csr_matrix([[1.0]]),
+            np.asarray([1.0 + 0.0j]),
+            np.asarray([1.0 + 0.0j]),
+            "real-to-complex-promotion",
+            {},
+        )
+    assert residual == 0.0
+    assert relative == 0.0
+
+
+def test_wide_float_input_is_rejected_when_promotion_loses_bits() -> None:
+    if np.finfo(np.longdouble).nmant <= np.finfo(np.float64).nmant:
+        pytest.skip("Platform long double has no precision beyond float64.")
+    value = np.longdouble(1.0) + np.finfo(np.longdouble).eps
+    matrix = csr_matrix(np.asarray([[value]], dtype=np.longdouble))
+    with pytest.raises(NumericalConvergenceError, match="loses represented values"):
+        LinearSystemSolver._validated_residual_metrics(
+            matrix,
+            np.asarray([1.0], dtype=np.longdouble),
+            np.asarray([1.0], dtype=np.longdouble),
+            "wide-float-input",
+            {},
+        )
+
+
+def test_wide_complex_input_is_rejected_when_promotion_loses_bits() -> None:
+    if np.finfo(np.longdouble).nmant <= np.finfo(np.float64).nmant:
+        pytest.skip("Platform complex long double has no precision beyond complex128.")
+    dtype = np.clongdouble
+    value = dtype(1.0 + 1.0j) + dtype(np.finfo(np.longdouble).eps)
+    matrix = csr_matrix(np.asarray([[value]], dtype=dtype))
+    with pytest.raises(NumericalConvergenceError, match="loses represented values"):
+        LinearSystemSolver._validated_residual_metrics(
+            matrix,
+            np.asarray([value], dtype=dtype),
+            np.asarray([value], dtype=dtype),
+            "wide-complex-input",
+            {},
+        )
 
 
 def test_reused_factorization_rejects_unrepresentable_integer_rhs() -> None:

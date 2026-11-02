@@ -1,5 +1,9 @@
 # DA-003 and DA-005 final remediation
 
+## Follow-up after acceptance review of 4cf69066
+
+The float32 BiCGSTAB counterexample and direct HEX20 load-integrator findings were subsequently addressed. Residual certification now promotes the represented matrix, right-hand side and solution to float64/complex128 before the product and subtraction, with exact-conversion checks. The direct load integrator checks targets and rejects non-finite local and accumulated contributions before filtering; distributed-load parsing rejects coerced element indices, and the HEX20 body-load path rejects non-finite coordinates, force density and Jacobians. See `PR119_FINAL_NUMERICAL_CORRECTIONS.md` for the reproductions, limits and current verdict. The historical review and evidence below remain applicable to their stated commits.
+
 ## Identity and scope
 
 - PR #119 source at start: `75241bc57eb6b49d6ba67ace011c277a9137eadf`; target base: `d31614f59341d175d8e2daade92daf7d8149d199`. The final commit is identified by the PR head.
@@ -12,7 +16,7 @@ The existing determinant guard accepted a regular cube scaled by `1e-100` with `
 
 An additional local reproduction with `density=1e200` and cube scale `1e40` returned 3,600 non-finite mass entries. A test first failed on the old code; `mass` now also rejects a non-finite final matrix. This does not establish accuracy of finite matrices, nor change any geometry threshold.
 
-Other HEX20 paths were examined. The nonlinear assembler has a downstream non-finite force/tangent check. The internal `_hex20_body_vector` helper was independently observed to return non-finite components for directly supplied NaN coordinates; it is outside these stiffness/mass guards and remains an open risk. Normal model validation may reject such inputs, but direct helper calls were not repaired or globally audited here. No other element family was changed.
+Other HEX20 paths were examined. The nonlinear assembler has a downstream non-finite force/tangent check. At the earlier reviewed commit, `_hex20_body_vector` was observed to return non-finite components for directly supplied NaN coordinates; the follow-up described above addresses that direct path. No other element family was changed in this earlier remediation.
 
 ## DA-005: residual bound and integer inputs
 

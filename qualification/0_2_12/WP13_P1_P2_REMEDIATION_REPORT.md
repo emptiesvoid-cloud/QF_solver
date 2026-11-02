@@ -1,5 +1,13 @@
 # QF Solver 0.2.12 P1/P2 Remediation Report — Second Review
 
+## Follow-up after acceptance review of 4cf69066
+
+Residual certification now widens the represented sparse matrix, RHS and solution to float64/complex128 **before** the matrix product and subtraction. It rejects any conversion that loses represented values. The prior BiCGSTAB float32 false PASS now raises on relative residual `7.071068e-5` against the unchanged `1e-7` threshold. Reusable real factorizations check their RHS before conversion, and ordinary CSC inputs and non-finite-solution diagnostics remain supported.
+
+Direct distributed-load integration now rejects non-finite HEX20 coordinates, load vectors and determinants, checks local and accumulated contributions before sparse filtering, validates target indices, and uses a stable norm for the reported load magnitude. Distributed-load parsing also rejects non-integral, boolean and string element targets before they can be coerced to a different index; exact integer targets remain supported. The previous NaN-coordinate and finite-coordinate Jacobian-overflow examples raise `InputValidationError`. Valid load resultants and the explicitly empty-target no-op are preserved. The pre-existing sparse cutoff `1e-30` is unchanged.
+
+The independent bound still depends on the documented IEEE-754 and sparse-accumulation assumptions; the test results are not a proof of global qualification. For detailed reproductions, targeted validation, compatibility limits and v7 impact, see `PR119_FINAL_NUMERICAL_CORRECTIONS.md`.
+
 ## Final remediation after review of 75241bc
 
 The HEX20 stiffness and consistent mass methods now explicitly reject non-finite final matrices. The previously reported stiffness counterexample and a newly reproduced mass overflow are rejected; tests of regular elements still pass. The existing subnormal-determinant and distortion checks are unchanged.
@@ -99,4 +107,4 @@ No full test suite, complete CI matrix, controlled FEM qualification, WP12 campa
 
 ## Verdict
 
-**`REMEDIATION_READY_FOR_INDEPENDENT_ACCEPTANCE`** — the final changes have targeted regression evidence and documented limitations. Independent acceptance must assess the conditional residual bound and residual risks. This verdict does not authorize merge, qualification, package release, tagging, or publication.
+**`PR119_READY_FOR_FINAL_ACCEPTANCE`** — the current corrections have targeted regression evidence and documented limitations. Independent acceptance must assess the conditional residual bound and residual risks. This verdict does not authorize merge, qualification, package release, tagging, or publication.

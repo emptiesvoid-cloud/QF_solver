@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from numbers import Integral
 from typing import Any, TypeAlias
 
 Vector3 = tuple[float, float, float]
@@ -90,7 +91,7 @@ def parse_distributed_loads(values: list[dict[str, Any]] | None) -> list[Distrib
                 value = float(item["value"]) if load_type == "pressure" else _vector(item["value"])
                 parsed.append(
                     SurfaceLoad(
-                        element=int(item["element"]),
+                        element=_element_index(item["element"]),
                         kind=load_type,
                         value=value,
                         face=int(item["face"]) if item.get("face") is not None else None,
@@ -101,7 +102,7 @@ def parse_distributed_loads(values: list[dict[str, Any]] | None) -> list[Distrib
             elif load_type == "edge_traction":
                 parsed.append(
                     EdgeLoad(
-                        element=int(item["element"]),
+                        element=_element_index(item["element"]),
                         edge=int(item["edge"]),
                         value=_vector(item["value"]),
                         coordinate_system=str(item.get("coordinate_system", "global")).lower(),
@@ -110,7 +111,7 @@ def parse_distributed_loads(values: list[dict[str, Any]] | None) -> list[Distrib
             elif load_type == "line_load":
                 parsed.append(
                     LineLoad(
-                        element=int(item["element"]),
+                        element=_element_index(item["element"]),
                         value=_vector(item["value"]),
                         coordinate_system=str(item.get("coordinate_system", "global")).lower(),
                     )
@@ -129,4 +130,11 @@ def _vector(value: object) -> Vector3:
 def _targets(value: object | None) -> tuple[int, ...] | None:
     if value is None or value == "all":
         return None
-    return tuple(int(index) for index in value)  # type: ignore[arg-type]
+    return tuple(_element_index(index) for index in value)  # type: ignore[arg-type]
+
+
+def _element_index(value: object) -> int:
+    """Preserve target identity; do not truncate or coerce model indices."""
+    if isinstance(value, bool) or not isinstance(value, Integral):
+        raise TypeError("element index must be an integer")
+    return int(value)
