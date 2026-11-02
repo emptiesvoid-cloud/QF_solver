@@ -1,0 +1,730 @@
+{
+  "source_commit": "056b4405112de0681a9c34d236e9efe98f8f14eb",
+  "source_tree": "68c8c70d2384ecb1c373239343c1921c0ceebb59",
+  "branch": "codex/wp13-ci-eight-failure-remediation-20261102",
+  "ci_failure_run": {
+    "id": 41509887231,
+    "url": "https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/41509887231",
+    "head_sha": "056b4405112de0681a9c34d236e9efe98f8f14eb",
+    "conclusion": "failure",
+    "failure_count": 8
+  },
+  "local_validation_environment": {
+    "os": "Windows",
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "pytest": "8.4.1",
+    "note": "The failed CI reference ran Ubuntu/Python 3.13.17; local OS and patch version differ."
+  },
+  "exact_failure_nodeids_after_remediation": {
+    "scope": "one pytest process per exact nodeid, sequential; no suite or full CI",
+    "attempts": [
+      {
+        "nodeid": "tests/unit/test_frictionless_contact.py::test_common_penalty_rejects_invalid_penetration_limit_before_assembly",
+        "outcome": "PASS",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "elapsed_s": 3.674,
+        "peak_rss_observed_mib": 126.45,
+        "timeout_s": 180.0,
+        "timed_out": false,
+        "output_limit_exceeded": false,
+        "process_limit_exceeded": false,
+        "rss_limit_exceeded": false
+      },
+      {
+        "nodeid": "tests/unit/test_mitc4_laminate.py::test_unidirectional_laminate_avoids_shear_locking[0.001]",
+        "outcome": "PASS",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "elapsed_s": 4.701,
+        "peak_rss_observed_mib": 157.42,
+        "timeout_s": 180.0,
+        "timed_out": false,
+        "output_limit_exceeded": false,
+        "process_limit_exceeded": false,
+        "rss_limit_exceeded": false
+      },
+      {
+        "nodeid": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_crosses_a_snap_through_turning_point",
+        "outcome": "PASS",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "elapsed_s": 5.712,
+        "peak_rss_observed_mib": 156.32,
+        "timeout_s": 180.0,
+        "timed_out": false,
+        "output_limit_exceeded": false,
+        "process_limit_exceeded": false,
+        "rss_limit_exceeded": false
+      },
+      {
+        "nodeid": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_restart_preserves_postcritical_branch[before_turn]",
+        "outcome": "PASS",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "elapsed_s": 6.491,
+        "peak_rss_observed_mib": 157.25,
+        "timeout_s": 180.0,
+        "timed_out": false,
+        "output_limit_exceeded": false,
+        "process_limit_exceeded": false,
+        "rss_limit_exceeded": false
+      },
+      {
+        "nodeid": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_restart_preserves_postcritical_branch[after_turn]",
+        "outcome": "PASS",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "elapsed_s": 6.494,
+        "peak_rss_observed_mib": 157.0,
+        "timeout_s": 180.0,
+        "timed_out": false,
+        "output_limit_exceeded": false,
+        "process_limit_exceeded": false,
+        "rss_limit_exceeded": false
+      },
+      {
+        "nodeid": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_rolls_back_after_failure_near_turning_point",
+        "outcome": "PASS",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "elapsed_s": 5.731,
+        "peak_rss_observed_mib": 156.19,
+        "timeout_s": 180.0,
+        "timed_out": false,
+        "output_limit_exceeded": false,
+        "process_limit_exceeded": false,
+        "rss_limit_exceeded": false
+      },
+      {
+        "nodeid": "tests/unit/test_tet4_tet10_reference.py::test_reference_runner_writes_machine_readable_artifacts",
+        "outcome": "PASS",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "elapsed_s": 7.309,
+        "peak_rss_observed_mib": 214.4,
+        "timeout_s": 180.0,
+        "timed_out": false,
+        "output_limit_exceeded": false,
+        "process_limit_exceeded": false,
+        "rss_limit_exceeded": false
+      },
+      {
+        "nodeid": "tests/unit/test_tet4_tet10_reference.py::test_reference_runner_accepts_the_corrected_centered_load_contract",
+        "outcome": "PASS",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "elapsed_s": 7.276,
+        "peak_rss_observed_mib": 213.61,
+        "timeout_s": 180.0,
+        "timed_out": false,
+        "output_limit_exceeded": false,
+        "process_limit_exceeded": false,
+        "rss_limit_exceeded": false
+      }
+    ],
+    "totals": {
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "direct_da005_regressions": {
+    "scope": "23 explicit algebraic/unit nodeids, sequential; no full module target",
+    "attempts": [
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_zero_rhs_and_zero_solution_remain_converged",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_roundoff_guard_accepts_well_conditioned_direct_system",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_cg_rejects_underflowed_residual_instead_of_accepting_bad_solution",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_residual_norms_do_not_underflow_or_overflow",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_unrepresentable_norm_fails_the_residual_gate_conservatively",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_direct_solver_rejects_residual_hidden_by_dot_product_cancellation",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_direct_solver_rejects_int64_minimum_cancellation",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_roundoff_bound_handles_exactly_representable_int64_minimum",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_real_float64_roundoff_bound_encloses_high_precision_cancellation_and_underflow",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_bicgstab_float32_cancellation_is_rejected_by_wide_residual",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_float32_well_conditioned_direct_system_passes_wide_certification",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_complex64_residual_is_certified_after_exact_widening",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_csc_nonsymmetric_matrix_is_preserved_by_residual_promotion",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_csr_float32_promotion_checks_coefficients_across_chunk_boundary",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_nonfinite_solution_retains_nan_inf_diagnostic",
+        "outcome": "PASS",
+        "passed": 2,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_exact_integer_inputs_remain_supported",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_reused_real_factorization_rejects_imaginary_rhs_without_cast_warning",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_real_inputs_promote_to_complex_without_cast_warning",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_wide_float_input_is_rejected_when_promotion_loses_bits",
+        "outcome": "SKIP",
+        "passed": 0,
+        "skipped": 1,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_wide_complex_input_is_rejected_when_promotion_loses_bits",
+        "outcome": "SKIP",
+        "passed": 0,
+        "skipped": 1,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_reused_factorization_rejects_unrepresentable_integer_rhs",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_factorization_rejects_unrepresentable_integer_matrix",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      },
+      {
+        "nodeid": "tests/unit/test_da005_residual_contracts.py::test_complex_solver_rejects_unrepresentable_unsigned_rhs",
+        "outcome": "PASS",
+        "passed": 1,
+        "skipped": 0,
+        "failed": 0
+      }
+    ],
+    "totals": {
+      "passed": 22,
+      "failed": 0,
+      "skipped": 2
+    }
+  },
+  "residual_diagnostics": [
+    {
+      "case": "tests/unit/test_mitc4_laminate.py::test_unidirectional_laminate_avoids_shear_locking[0.001]",
+      "reproduction_upper_bound": 3.2094530782453293e-06,
+      "recalculated_residual_norm": 1.1567475892187258e-09,
+      "recalculated_relative_residual": 2.003545596059646e-09,
+      "new_certified_relative_upper_bound": 9.731531057062269e-08,
+      "unchanged_tolerance": 1e-07,
+      "matrix_shape": [
+        288,
+        288
+      ],
+      "matrix_nnz": 6016,
+      "matrix_inf_norm": 442918659.3484266,
+      "rhs_l2_norm": 0.5773502691896257,
+      "solution_l2_norm": 2.543277482411592,
+      "condition_2_estimate": 36277839618.2568,
+      "backward_error_eta_inf": 2.470926909948357e-18,
+      "new_roundoff_bound_l2": 5.502827316465969e-08,
+      "new_roundoff_bound_max_row": 2.3572260007062433e-08,
+      "high_precision_exact_relative_residual": "1.90922866630032097059373e-9",
+      "high_precision_exact_residual_l2": "1.10229368443304043143902e-9",
+      "max_abs_error_computed_residual_vs_exact": "3.19441562447623646630552e-10",
+      "max_abs_row_certificate": "2.35722600070624327412928e-8",
+      "all_row_errors_within_new_certificate": true,
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 1.8518218495801203e-06,
+        "final_subtraction_l2": 8.204640795016407e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 1.851821851075822e-06,
+        "maximum_row_bound": 7.902319545224745e-07,
+        "norm_relative_roundoff_factor": 2.0463630789890885e-12
+      }
+    },
+    {
+      "case": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_crosses_a_snap_through_turning_point",
+      "reproduction_upper_bound": 7.826544930924984e-07,
+      "recalculated_residual_norm": 7.604216979143458e-10,
+      "recalculated_relative_residual": 1.3170890159654396e-09,
+      "new_certified_relative_upper_bound": 2.2245769331086517e-08,
+      "unchanged_tolerance": 1e-07,
+      "matrix_shape": [
+        6,
+        6
+      ],
+      "matrix_nnz": 36,
+      "matrix_inf_norm": 71.58858336504109,
+      "rhs_l2_norm": 0.5773502691896257,
+      "solution_l2_norm": 173105.1046818945,
+      "condition_2_estimate": 16322474.088161694,
+      "backward_error_eta_inf": 8.29099645376035e-17,
+      "new_roundoff_bound_l2": 1.2083179213717148e-08,
+      "new_roundoff_bound_max_row": 9.627408480279386e-09,
+      "high_precision_exact_relative_residual": "8.51325626979232164631958e-10",
+      "high_precision_exact_residual_l2": "4.91513079945952549488213e-10",
+      "max_abs_error_computed_residual_vs_exact": "2.1344355251979042556095e-10",
+      "max_abs_row_certificate": "9.62740848027938583649907e-9",
+      "all_row_errors_within_new_certificate": true,
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 4.51105352749025e-07,
+        "final_subtraction_l2": 8.204640795236539e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 4.511053605714518e-07,
+        "maximum_row_bound": 3.594232519041616e-07,
+        "norm_relative_roundoff_factor": 4.263256414560601e-14
+      }
+    },
+    {
+      "case": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_restart_preserves_postcritical_branch[before_turn]",
+      "reproduction_upper_bound": 7.826544930924984e-07,
+      "recalculated_residual_norm": 7.604216979143458e-10,
+      "recalculated_relative_residual": 1.3170890159654396e-09,
+      "new_certified_relative_upper_bound": 2.2245769331086517e-08,
+      "unchanged_tolerance": 1e-07,
+      "matrix_shape": [
+        6,
+        6
+      ],
+      "matrix_nnz": 36,
+      "matrix_inf_norm": 71.58858336504109,
+      "rhs_l2_norm": 0.5773502691896257,
+      "solution_l2_norm": 173105.1046818945,
+      "condition_2_estimate": 16322474.088161694,
+      "backward_error_eta_inf": 8.29099645376035e-17,
+      "new_roundoff_bound_l2": 1.2083179213717148e-08,
+      "new_roundoff_bound_max_row": 9.627408480279386e-09,
+      "high_precision_exact_relative_residual": "8.51325626979232164631958e-10",
+      "high_precision_exact_residual_l2": "4.91513079945952549488213e-10",
+      "max_abs_error_computed_residual_vs_exact": "2.1344355251979042556095e-10",
+      "max_abs_row_certificate": "9.62740848027938583649907e-9",
+      "all_row_errors_within_new_certificate": true,
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 4.51105352749025e-07,
+        "final_subtraction_l2": 8.204640795236539e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 4.511053605714518e-07,
+        "maximum_row_bound": 3.594232519041616e-07,
+        "norm_relative_roundoff_factor": 4.263256414560601e-14
+      }
+    },
+    {
+      "case": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_restart_preserves_postcritical_branch[after_turn]",
+      "reproduction_upper_bound": 7.826544930924984e-07,
+      "recalculated_residual_norm": 7.604216979143458e-10,
+      "recalculated_relative_residual": 1.3170890159654396e-09,
+      "new_certified_relative_upper_bound": 2.2245769331086517e-08,
+      "unchanged_tolerance": 1e-07,
+      "matrix_shape": [
+        6,
+        6
+      ],
+      "matrix_nnz": 36,
+      "matrix_inf_norm": 71.58858336504109,
+      "rhs_l2_norm": 0.5773502691896257,
+      "solution_l2_norm": 173105.1046818945,
+      "condition_2_estimate": 16322474.088161694,
+      "backward_error_eta_inf": 8.29099645376035e-17,
+      "new_roundoff_bound_l2": 1.2083179213717148e-08,
+      "new_roundoff_bound_max_row": 9.627408480279386e-09,
+      "high_precision_exact_relative_residual": "8.51325626979232164631958e-10",
+      "high_precision_exact_residual_l2": "4.91513079945952549488213e-10",
+      "max_abs_error_computed_residual_vs_exact": "2.1344355251979042556095e-10",
+      "max_abs_row_certificate": "9.62740848027938583649907e-9",
+      "all_row_errors_within_new_certificate": true,
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 4.51105352749025e-07,
+        "final_subtraction_l2": 8.204640795236539e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 4.511053605714518e-07,
+        "maximum_row_bound": 3.594232519041616e-07,
+        "norm_relative_roundoff_factor": 4.263256414560601e-14
+      }
+    },
+    {
+      "case": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_rolls_back_after_failure_near_turning_point",
+      "reproduction_upper_bound": 7.820084684322561e-07,
+      "recalculated_residual_norm": 3.5565467076952393e-10,
+      "recalculated_relative_residual": 6.160119597219972e-10,
+      "new_certified_relative_upper_bound": 2.1546166892593043e-08,
+      "unchanged_tolerance": 1e-07,
+      "matrix_shape": [
+        6,
+        6
+      ],
+      "matrix_nnz": 36,
+      "matrix_inf_norm": 71.58858411613929,
+      "rhs_l2_norm": 0.5773502691896257,
+      "solution_l2_norm": 173117.29975811485,
+      "condition_2_estimate": 16323624.183774916,
+      "backward_error_eta_inf": 4.1452057888021944e-17,
+      "new_roundoff_bound_l2": 1.208403058467208e-08,
+      "new_roundoff_bound_max_row": 9.628086821646875e-09,
+      "high_precision_exact_relative_residual": "9.34094755885806043166663e-10",
+      "high_precision_exact_residual_l2": "5.39299858759287854575775e-10",
+      "max_abs_error_computed_residual_vs_exact": "1.64329128225873566142327e-10",
+      "max_abs_row_certificate": "9.62808682164687471432999e-9",
+      "all_row_errors_within_new_certificate": true,
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 4.5113713726467587e-07,
+        "final_subtraction_l2": 8.204640794281392e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 4.511371450871027e-07,
+        "maximum_row_bound": 3.5944857664854796e-07,
+        "norm_relative_roundoff_factor": 4.263256414560601e-14
+      }
+    },
+    {
+      "case": "tests/unit/test_tet4_tet10_reference.py::test_reference_runner_writes_machine_readable_artifacts",
+      "reproduction_upper_bound": 1.1450679263117352e-07,
+      "recalculated_residual_norm": 1.1644765496547194e-11,
+      "recalculated_relative_residual": 2.3289530993094388e-11,
+      "new_certified_relative_upper_bound": 3.5400620611102616e-09,
+      "unchanged_tolerance": 1e-07,
+      "matrix_shape": [
+        108,
+        108
+      ],
+      "matrix_nnz": 4672,
+      "matrix_inf_norm": 1328635897435.898,
+      "rhs_l2_norm": 0.5,
+      "solution_l2_norm": 4.612340727456769e-07,
+      "condition_2_estimate": 1075756.0000791939,
+      "backward_error_eta_inf": 2.5130919235287485e-17,
+      "new_roundoff_bound_l2": 1.7583862650545157e-09,
+      "new_roundoff_bound_max_row": 1.0247574882065631e-09,
+      "high_precision_exact_relative_residual": "2.14758527794988048230121e-11",
+      "high_precision_exact_residual_l2": "1.07379263897494024115061e-11",
+      "max_abs_error_computed_residual_vs_exact": "2.76867616984472892169786e-12",
+      "max_abs_row_certificate": "1.02475748820656311150356e-9",
+      "all_row_errors_within_new_certificate": true,
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 5.724174989018905e-08,
+        "final_subtraction_l2": 7.105427357577475e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 5.7241751549958416e-08,
+        "maximum_row_bound": 3.3197082087086265e-08,
+        "norm_relative_roundoff_factor": 7.673861546209082e-13
+      }
+    },
+    {
+      "case": "tests/unit/test_tet4_tet10_reference.py::test_reference_runner_accepts_the_corrected_centered_load_contract",
+      "reproduction_upper_bound": 1.52164803265433e-07,
+      "recalculated_residual_norm": 2.9034397281227715e-11,
+      "recalculated_relative_residual": 5.806879456243645e-11,
+      "new_certified_relative_upper_bound": 4.723904974331681e-09,
+      "unchanged_tolerance": 1e-07,
+      "matrix_shape": [
+        78,
+        78
+      ],
+      "matrix_nnz": 3362,
+      "matrix_inf_norm": 1944797435897.437,
+      "rhs_l2_norm": 0.5,
+      "solution_l2_norm": 3.462246529407685e-07,
+      "condition_2_estimate": 1140456.3131099006,
+      "backward_error_eta_inf": 6.262471144664054e-17,
+      "new_roundoff_bound_l2": 2.332918089880699e-09,
+      "new_roundoff_bound_max_row": 1.1302306044060933e-09,
+      "high_precision_exact_relative_residual": "5.0102856832117451219724e-11",
+      "high_precision_exact_residual_l2": "2.50514284161118280039895e-11",
+      "max_abs_error_computed_residual_vs_exact": "7.08669708873718595258575e-12",
+      "max_abs_row_certificate": "1.13023060440609325458225e-9",
+      "all_row_errors_within_new_certificate": true,
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 7.605336538155952e-08,
+        "final_subtraction_l2": 7.105427357602163e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 7.605336723530879e-08,
+        "maximum_row_bound": 3.671536993707031e-08,
+        "norm_relative_roundoff_factor": 5.542233338928781e-13
+      }
+    }
+  ],
+  "static_checks": {
+    "ruff": "PASS",
+    "py_compile": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "not_run": [
+    "full CI workflow rerun",
+    "full unit/integration suite",
+    "WP12 campaigns",
+    "six v8 installed-package FEM smokes",
+    "Linux post-remediation targeted tests",
+    "full scientific qualification"
+  ],
+  "release_states": {
+    "G03": "FAIL_PRESERVED",
+    "legal_review": "NOT_ACQUIRED",
+    "release": "BLOCKED"
+  },
+  "instrumented_oracle_capture": {
+    "scope": "same seven previously failing exact nodeids, rerun sequentially only to capture test-local numerical outputs; no new scenario",
+    "attempts": [
+      {
+        "nodeid": "tests/unit/test_mitc4_laminate.py::test_unidirectional_laminate_avoids_shear_locking[0.001]",
+        "outcome": "PASS",
+        "elapsed_s": 4.646
+      },
+      {
+        "nodeid": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_crosses_a_snap_through_turning_point",
+        "outcome": "PASS",
+        "elapsed_s": 7.16
+      },
+      {
+        "nodeid": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_restart_preserves_postcritical_branch[before_turn]",
+        "outcome": "PASS",
+        "elapsed_s": 8.297
+      },
+      {
+        "nodeid": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_restart_preserves_postcritical_branch[after_turn]",
+        "outcome": "PASS",
+        "elapsed_s": 8.203
+      },
+      {
+        "nodeid": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_rolls_back_after_failure_near_turning_point",
+        "outcome": "PASS",
+        "elapsed_s": 7.072
+      },
+      {
+        "nodeid": "tests/unit/test_tet4_tet10_reference.py::test_reference_runner_writes_machine_readable_artifacts",
+        "outcome": "PASS",
+        "elapsed_s": 8.673
+      },
+      {
+        "nodeid": "tests/unit/test_tet4_tet10_reference.py::test_reference_runner_accepts_the_corrected_centered_load_contract",
+        "outcome": "PASS",
+        "elapsed_s": 8.608
+      }
+    ],
+    "all_pass": true
+  },
+  "physical_oracle_observations": {
+    "mitc4": {
+      "measured_tip_displacement": -0.2956497788612951,
+      "analytical_reference": -0.29629896296296293,
+      "relative_difference": 0.0021909766243392403,
+      "existing_relative_tolerance": 0.003,
+      "existing_minimum_displacement_reference_ratio": 0.99,
+      "measured_ratio": 0.9978090233756608,
+      "test_oracle": "PASS"
+    },
+    "arc_length": {
+      "crossing": {
+        "status": "PASS_INTERNAL_RESEARCH",
+        "maximum_relative_residual": 2.8114039958906933e-11,
+        "branch_turn_count": 1,
+        "turning_point_step": 75,
+        "turning_point_load_factor": -0.03732654176953603,
+        "load_factor_range": [
+          -0.03732654176953603,
+          -0.0007272446870781338
+        ],
+        "minimum_det_f": 0.44143400331144383,
+        "rejected_increments": 0
+      },
+      "restart_before_turn": {
+        "status": "PASS_INTERNAL_RESEARCH",
+        "material_state_match": true,
+        "suffix_load_factor_max_error": 0.0,
+        "final_displacement_relative_error": 0.0
+      },
+      "restart_after_turn": {
+        "status": "PASS_INTERNAL_RESEARCH",
+        "material_state_match": true,
+        "suffix_load_factor_max_error": 0.0,
+        "final_displacement_relative_error": 0.0
+      },
+      "rollback": {
+        "status": "PASS_INTERNAL_RESEARCH",
+        "rejected_increments": 1,
+        "corrections_completed": 2,
+        "retry_clean": true
+      }
+    },
+    "tet_reference": {
+      "reference_artifacts": {
+        "status": "WARNING",
+        "maturity": "stable_candidate",
+        "study_id": "VNV-TET4-TET10-3D-REFERENCE-001",
+        "criterion_relative_limit": 0.01,
+        "criterion_checks": {
+          "finite": true,
+          "tet10_reference_under_one_percent": false,
+          "tet10_residual": true
+        },
+        "tet10_relative_reference_errors": [
+          0.1253176746088082,
+          0.04464452505371025
+        ],
+        "tet4_relative_reference_errors": [
+          0.9642340623295618,
+          0.8834364662984447
+        ],
+        "tet4_tet10_relative_differences": [
+          0.9591097972004381,
+          0.8779893591878892
+        ],
+        "tet4_residuals": [
+          1.607924123488432e-10,
+          2.5737423531427896e-10
+        ],
+        "tet10_residuals": [
+          1.1678333177688499e-11,
+          2.3440451996819702e-11
+        ],
+        "qualification_interpretation": "WARNING; the artifact/contract test passing is not a physical or qualification PASS."
+      },
+      "centered_load_contract": {
+        "status": "WARNING",
+        "maturity": "stable_candidate",
+        "study_id": "VNV-TET4-TET10-3D-REFERENCE-CORRECTED-002",
+        "criterion_relative_limit": 0.01,
+        "criterion_checks": {
+          "finite": true,
+          "tet10_reference_under_one_percent": false,
+          "tet10_residual": true
+        },
+        "tet10_relative_reference_errors": [
+          0.2744023943846,
+          0.09607006494350115
+        ],
+        "tet4_relative_reference_errors": [
+          0.985440696123884,
+          0.955726067170923
+        ],
+        "tet4_tet10_relative_differences": [
+          0.9799347410142459,
+          0.951020614417079
+        ],
+        "tet4_residuals": [
+          6.014892388516251e-11,
+          1.5773717628790467e-10
+        ],
+        "tet10_residuals": [
+          2.9877617586650474e-11,
+          4.2089643051313207e-11
+        ],
+        "qualification_interpretation": "WARNING; the artifact/contract test passing is not a physical or qualification PASS."
+      }
+    }
+  }
+}

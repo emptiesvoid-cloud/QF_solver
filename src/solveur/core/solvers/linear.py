@@ -49,6 +49,20 @@ def stable_l2_norm(values: np.ndarray) -> float:
     return float(norm)
 
 
+def _round_up_nonnegative(value: float) -> float:
+    """Round a nonnegative bound outward without perturbing exact zero."""
+    if value == 0.0 or np.isposinf(value):
+        return float(value)
+    return float(np.nextafter(value, float("inf")))
+
+
+def _round_down_nonnegative(value: float) -> float:
+    """Round a nonnegative lower bound downward and clamp it at zero."""
+    if value <= 0.0:
+        return 0.0
+    return max(float(np.nextafter(value, float("-inf"))), 0.0)
+
+
 def validate_residual_failure_tolerance(parameters: dict[str, Any], key: str = "residual_failure_tolerance") -> float:
     """Return a configured residual limit after requiring a finite positive scalar."""
     raw_value = parameters.get(key, 1.0e-7)
@@ -231,9 +245,28 @@ def _sparse_matvec_roundoff_bound(
 ) -> np.ndarray:
     """Bound dot-product and final subtraction error row by row.
 
-    The bound uses absolute product sums and a conservative operation-count
-    factor. If those sums overflow, convergence cannot be certified.
+    Real float64 CSR rows use the standard ``gamma_m`` forward-error bound
+    with ``m = 2*k`` for at most one product and one accumulation per stored
+    entry. The absolute product sum is rounded upward and underflow gets an
+    additive allowance. Complex and non-float64 direct helper inputs retain
+    the broader legacy bound. If a bound cannot be represented, convergence
+    cannot be certified.
     """
+    matrix = matrix.tocsr()
+    # The validated solver path has already exactly promoted these arrays to
+    # native float64. Keep direct calls with wider/integer inputs on the legacy
+    # branch rather than silently narrowing them here.
+    if (
+        matrix.dtype == np.dtype(np.float64)
+        and np.asarray(rhs).dtype == np.dtype(np.float64)
+        and np.asarray(solution).dtype == np.dtype(np.float64)
+        and np.asarray(product).dtype == np.dtype(np.float64)
+        and not np.iscomplexobj(rhs)
+        and not np.iscomplexobj(solution)
+        and not np.iscomplexobj(product)
+    ):
+        return _real_float64_sparse_matvec_roundoff_bound(matrix, rhs, solution, product)
+
     eps = np.finfo(float).eps
     smallest = np.nextafter(0.0, 1.0)
     row_bounds = np.zeros(matrix.shape[0], dtype=float)
@@ -283,6 +316,145 @@ def _sparse_matvec_roundoff_bound(
         if np.isfinite(bound) and bound > 0.0:
             bound = float(np.nextafter(bound * (1.0 + 32.0 * eps), float("inf")))
         row_bounds[row] = bound
+    return row_bounds
+
+
+def _real_float64_sparse_matvec_roundoff_bound(
+    matrix: csr_matrix,
+    rhs: np.ndarray,
+    solution: np.ndarray,
+    product: np.ndarray,
+) -> np.ndarray:
+    """Return a componentwise forward-error bound for a real float64 CSR matvec.
+
+    Under IEEE-754 round-to-nearest with gradual underflow, a row containing
+    ``k`` stored entries performs at most ``2*k`` rounded scalar operations
+    (multiplication and accumulation). For normal-range operations, the
+    standard bound is ``gamma_(2k) * sum(abs(a_j*x_j))``. The additive terms
+    cover underflow in products/accumulations and the final ``product-rhs``
+    subtraction. This bounds the represented-system residual calculation; it
+    does not bound the forward error of the linear-system solution.
+    """
+    eps = np.finfo(np.float64).eps
+    unit_roundoff = eps / 2.0
+    smallest = np.nextafter(np.float64(0.0), np.float64(1.0))
+    one_minus_u = 1.0 - unit_roundoff
+    row_bounds = np.zeros(matrix.shape[0], dtype=np.float64)
+    vector = np.asarray(solution, dtype=np.float64)
+    rhs_values = np.asarray(rhs, dtype=np.float64)
+    product_values = np.asarray(product, dtype=np.float64)
+    vector_magnitude = np.abs(vector)
+    rhs_magnitude = np.abs(rhs_values)
+    product_magnitude = np.abs(product_values)
+
+    if not (
+        np.all(np.isfinite(matrix.data))
+        and np.all(np.isfinite(vector_magnitude))
+        and np.all(np.isfinite(rhs_magnitude))
+        and np.all(np.isfinite(product_magnitude))
+    ):
+        return np.full(matrix.shape[0], float("inf"), dtype=np.float64)
+
+    for row in range(matrix.shape[0]):
+        start, stop = int(matrix.indptr[row]), int(matrix.indptr[row + 1])
+        row_data = np.abs(matrix.data[start:stop])
+        columns = matrix.indices[start:stop]
+        count = stop - start
+        operation_count = 2 * count
+        operation_product = (
+            0.0
+            if operation_count == 0
+            else float(np.nextafter(operation_count * unit_roundoff, float("inf")))
+        )
+        if operation_product >= 0.5:
+            row_bounds[row] = float("inf")
+            continue
+
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            vector_row = vector_magnitude[columns]
+            nonzero_products = (row_data > 0.0) & (vector_row > 0.0)
+            rounded_products = row_data * vector_row
+
+        if not np.any(nonzero_products):
+            # Every product and accumulation is exactly zero, even if the CSR
+            # row stores explicit zeros.
+            dot_bound = 0.0
+        else:
+            with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+                # If p=fl(|a*x|), then the exact product is bounded by
+                # (p + eta)/(1-u). eta is deliberately a full minimum
+                # subnormal, covering the <= eta/2 underflow error with slack.
+                product_plus_underflow = np.where(
+                    nonzero_products,
+                    np.nextafter(rounded_products + smallest, float("inf")),
+                    0.0,
+                )
+                product_upper = np.where(
+                    nonzero_products,
+                    np.nextafter(product_plus_underflow / one_minus_u, float("inf")),
+                    0.0,
+                )
+            if not np.all(np.isfinite(product_upper)):
+                row_bounds[row] = float("inf")
+                continue
+
+            try:
+                absolute_sum_upper = fsum(float(value) for value in product_upper)
+            except OverflowError:
+                row_bounds[row] = float("inf")
+                continue
+            if not np.isfinite(absolute_sum_upper):
+                row_bounds[row] = float("inf")
+                continue
+            # math.fsum is faithfully rounded on supported CPython builds;
+            # two outward steps cover its documented rare double-rounding
+            # case and the final conversion to binary64.
+            absolute_sum_upper = _round_up_nonnegative(absolute_sum_upper)
+            absolute_sum_upper = _round_up_nonnegative(absolute_sum_upper)
+
+            denominator_lower = float(
+                np.nextafter(1.0 - operation_product, float("-inf"))
+            )
+            if denominator_lower <= 0.0:
+                row_bounds[row] = float("inf")
+                continue
+            gamma = float(
+                np.nextafter(operation_product / denominator_lower, float("inf"))
+            )
+            # At most m additive eta/2 underflow errors may be amplified by
+            # later operations. Since m*u < 1/2 here, m*eta is a conservative
+            # allowance for that amplification.
+            underflow_allowance = float(
+                np.nextafter(operation_count * smallest, float("inf"))
+            )
+            with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+                relative_dot_bound = _round_up_nonnegative(gamma * absolute_sum_upper)
+                dot_bound = _round_up_nonnegative(relative_dot_bound + underflow_allowance)
+
+        # The residual subtraction is separately rounded after the matvec.
+        # Add eta rather than eta/2 to cover gradual underflow conservatively.
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            subtraction_scale = float(
+                np.nextafter(
+                    float(rhs_magnitude[row]) + float(product_magnitude[row]),
+                    float("inf"),
+                )
+            )
+            subtraction_relative_bound = _round_up_nonnegative(
+                unit_roundoff * subtraction_scale
+            )
+            subtraction_underflow = (
+                0.0
+                if float(rhs_values[row]) == float(product_values[row])
+                else float(smallest)
+            )
+            subtraction_bound = (
+                _round_up_nonnegative(subtraction_relative_bound + subtraction_underflow)
+            )
+            row_bound = _round_up_nonnegative(dot_bound + subtraction_bound)
+        if np.isfinite(row_bound) and row_bound > 0.0:
+            row_bound = float(np.nextafter(row_bound, float("inf")))
+        row_bounds[row] = row_bound
     return row_bounds
 
 
@@ -768,15 +940,38 @@ class LinearSystemSolver:
         roundoff_norm = stable_l2_norm(roundoff_vector)
         rhs_norm = stable_l2_norm(rhs)
         product_norm = stable_l2_norm(product)
-        norm_factor = 32.0 * np.finfo(float).eps * max(rhs.size, product.size, 1)
-        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
-            roundoff_norm_upper = roundoff_norm * (1.0 + norm_factor)
-            residual_upper_bound = (residual + roundoff_norm_upper) * (1.0 + norm_factor)
-            reference_lower_bound = max(
-                rhs_norm * (1.0 - norm_factor),
-                max(product_norm - roundoff_norm_upper, 0.0) * (1.0 - norm_factor),
+        norm_factor = float(
+            np.nextafter(
+                32.0 * np.finfo(float).eps * max(rhs.size, product.size, 1),
+                float("inf"),
             )
-            relative_upper_bound = relative_residual_ratio(residual_upper_bound, reference_lower_bound)
+        )
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            upper_norm_factor = float(
+                np.nextafter(1.0 + norm_factor, float("inf"))
+            )
+            lower_norm_factor = float(
+                np.nextafter(1.0 - norm_factor, float("-inf"))
+            )
+            roundoff_norm_upper = _round_up_nonnegative(roundoff_norm * upper_norm_factor)
+            residual_sum_upper = _round_up_nonnegative(residual + roundoff_norm_upper)
+            residual_upper_bound = _round_up_nonnegative(residual_sum_upper * upper_norm_factor)
+            # stable_l2_norm scales by the maximum component before squaring.
+            # The scaled norm is therefore at least one; 32*eps*n is a
+            # conservative margin for component scaling, products, reduction,
+            # sqrt and final rescaling. Large dimensions that invalidate this
+            # margin fail closed.
+            rhs_norm_lower = _round_down_nonnegative(rhs_norm * lower_norm_factor)
+            product_minus_error_lower = _round_down_nonnegative(
+                product_norm - roundoff_norm_upper
+            )
+            product_norm_lower = _round_down_nonnegative(
+                product_minus_error_lower * lower_norm_factor
+            )
+            reference_lower_bound = max(rhs_norm_lower, product_norm_lower)
+            relative_upper_bound = _round_up_nonnegative(
+                relative_residual_ratio(residual_upper_bound, reference_lower_bound)
+            )
         if norm_factor >= 1.0 or not np.isfinite(relative_upper_bound) or relative_upper_bound > limit:
             raise NumericalConvergenceError(
                 f"{method} cannot demonstrate residual convergence within floating-point roundoff "
