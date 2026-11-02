@@ -47,6 +47,8 @@ All listed pytest invocations selected one exact test-function nodeid per proces
 
 Ruff checks passed for all changed Python sources and tests. Python compilation and `git diff --check` passed. No full suite, controlled FEM campaign, CI matrix, or WP13 v7 smoke was run.
 
+One initial run of the synthetic fixed-DOF serialization test queried reaction rows from the compact summary audit, which intentionally omits those rows. The test fixture now requests values detail and passes; this was a test-fixture correction, not a solver failure.
+
 ## Points retained as open
 
 These entries remain open exactly as limitations or hypotheses; no code change here promotes them to defects or closes them:
