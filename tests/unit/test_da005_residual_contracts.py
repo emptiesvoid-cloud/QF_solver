@@ -193,6 +193,37 @@ def test_roundoff_bound_handles_exactly_representable_int64_minimum() -> None:
     assert bound[0] > 1.0e5
 
 
+def test_real_float64_roundoff_bound_encloses_high_precision_cancellation_and_underflow() -> None:
+    smallest = np.nextafter(0.0, 1.0)
+    matrix = csr_matrix(
+        np.asarray(
+            [
+                [1.0e16, 1.0, -1.0e16, 0.0],
+                [0.0, 0.0, 0.0, smallest],
+            ],
+            dtype=np.float64,
+        )
+    )
+    solution = np.asarray([1.0, 1.0, 1.0, 0.5], dtype=np.float64)
+    rhs = np.zeros(2, dtype=np.float64)
+    product = matrix @ solution
+    computed_residual = product - rhs
+    bound = _sparse_matvec_roundoff_bound(matrix, rhs, solution, product)
+
+    for row in range(matrix.shape[0]):
+        exact_product = sum(
+            (
+                Fraction.from_float(float(matrix[row, column]))
+                * Fraction.from_float(float(solution[column]))
+                for column in range(matrix.shape[1])
+            ),
+            Fraction(0),
+        )
+        exact_residual = Fraction.from_float(float(rhs[row])) - exact_product
+        observed_error = abs(Fraction.from_float(float(computed_residual[row])) - exact_residual)
+        assert Fraction.from_float(float(bound[row])) >= observed_error
+
+
 def test_direct_solver_rejects_unrepresentable_integer_rhs() -> None:
     matrix = csr_matrix([[1.0]])
     rhs = np.asarray([2**63 - 1], dtype=np.int64)
