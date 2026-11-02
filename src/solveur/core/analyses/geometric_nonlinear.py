@@ -197,6 +197,8 @@ class GeometricNonlinearStaticSolver:
 
     @staticmethod
     def _validate_scope(model: FiniteElementModel) -> None:
+        if model.springs:
+            raise InputValidationError("geometric_nonlinear_static does not support discrete springs.")
         families = {element.type for element in model.elements}
         if not families or not families <= {"TET4", "TET10", "HEX8", "HEX20"}:
             raise InputValidationError("geometric_nonlinear_static supports TET4, TET10, HEX8 and HEX20.")
