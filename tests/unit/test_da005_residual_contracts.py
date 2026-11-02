@@ -10,6 +10,7 @@ from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
 from solveur.core.solvers.linear import (
     LinearSystemSolver,
+    _sparse_matvec_roundoff_bound,
     relative_residual_ratio,
     stable_l2_norm,
     validate_residual_failure_tolerance,
@@ -165,6 +166,62 @@ def test_direct_solver_rejects_residual_hidden_by_dot_product_cancellation() -> 
 
     with pytest.raises(NumericalConvergenceError, match="cannot demonstrate residual convergence"):
         LinearSystemSolver().solve(matrix, rhs, method="direct", parameters={"backend": "scipy"})
+
+
+def test_direct_solver_rejects_int64_minimum_cancellation() -> None:
+    matrix = csr_matrix(np.asarray([[-(2**63), 2**63 - 1], [0, 1]], dtype=np.int64))
+    rhs = np.asarray([0.0, 1.0])
+
+    with pytest.raises(NumericalConvergenceError, match="cannot demonstrate residual convergence"):
+        LinearSystemSolver().solve(matrix, rhs, method="direct", parameters={"backend": "scipy"})
+
+
+def test_roundoff_bound_handles_exactly_representable_int64_minimum() -> None:
+    matrix = csr_matrix(np.asarray([[-(2**63), 2**63 - 1024]], dtype=np.int64))
+    solution = np.ones(2)
+    rhs = np.zeros(1)
+    product = matrix @ solution
+
+    bound = _sparse_matvec_roundoff_bound(matrix, rhs, solution, product)
+
+    assert np.isfinite(bound[0])
+    assert bound[0] > 1.0e5
+
+
+def test_direct_solver_rejects_unrepresentable_integer_rhs() -> None:
+    matrix = csr_matrix([[1.0]])
+    rhs = np.asarray([2**63 - 1], dtype=np.int64)
+
+    with pytest.raises(NumericalConvergenceError, match="integer input is not exactly representable"):
+        LinearSystemSolver().solve(matrix, rhs, method="direct", parameters={"backend": "scipy"})
+
+
+def test_exact_integer_inputs_remain_supported() -> None:
+    matrix = csr_matrix(np.asarray([[2, 0], [0, 4]], dtype=np.int64))
+    solution, info = LinearSystemSolver().solve(
+        matrix, np.asarray([2, 8], dtype=np.int64), method="direct", parameters={"backend": "scipy"}
+    )
+    assert solution == pytest.approx([1.0, 2.0])
+    assert info.converged
+
+
+def test_reused_factorization_rejects_unrepresentable_integer_rhs() -> None:
+    factor = LinearSystemSolver.factorize(csr_matrix([[1.0]]))
+    with pytest.raises(NumericalConvergenceError, match="integer input is not exactly representable"):
+        factor.solve(np.asarray([2**63 - 1], dtype=np.int64))
+
+
+def test_factorization_rejects_unrepresentable_integer_matrix() -> None:
+    matrix = csr_matrix(np.asarray([[2**63 - 1]], dtype=np.int64))
+    with pytest.raises(NumericalConvergenceError, match="integer input is not exactly representable"):
+        LinearSystemSolver.factorize(matrix)
+
+
+def test_complex_solver_rejects_unrepresentable_unsigned_rhs() -> None:
+    matrix = csr_matrix([[1.0 + 0.0j]])
+    rhs = np.asarray([2**64 - 1], dtype=np.uint64)
+    with pytest.raises(NumericalConvergenceError, match="integer input is not exactly representable"):
+        LinearSystemSolver().solve_complex(matrix, rhs)
 
 
 @pytest.mark.parametrize(

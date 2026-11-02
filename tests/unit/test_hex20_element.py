@@ -106,6 +106,18 @@ def test_hex20_rejects_positive_subnormal_jacobian_determinant() -> None:
         element().stiffness(coordinates)
 
 
+def test_hex20_rejects_nonfinite_stiffness_from_intermediate_overflow() -> None:
+    extreme = Hex20Element(SolidMaterial(E=1.0e200, nu=0.3, density=1.0))
+    with pytest.raises(ValueError, match="stiffness contains non-finite values"):
+        extreme.stiffness(unit_hex20() * 1.0e-100)
+
+
+def test_hex20_rejects_nonfinite_mass_from_overflow() -> None:
+    extreme = Hex20Element(SolidMaterial(E=1.0e3, nu=0.3, density=1.0e200))
+    with pytest.raises(ValueError, match="mass contains non-finite values"):
+        extreme.mass(unit_hex20() * 1.0e40)
+
+
 @pytest.mark.parametrize("scale", [1.0e-100, 1.0e100])
 def test_hex20_stiffness_remains_finite_and_nonzero_at_small_and_large_scales(scale: float) -> None:
     stiffness = element().stiffness(unit_hex20() * scale)

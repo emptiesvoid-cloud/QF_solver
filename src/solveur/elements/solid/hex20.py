@@ -192,9 +192,13 @@ class Hex20Element:
 
     def stiffness(self, coords: np.ndarray) -> np.ndarray:
         stiffness = np.zeros((60, 60), dtype=float)
-        for _, weight, b_matrix, determinant in self.integration_data(coords):
-            stiffness += weight * determinant * (b_matrix.T @ self.material.elasticity_matrix @ b_matrix)
-        return symmetrize(stiffness)
+        with np.errstate(over="ignore", invalid="ignore"):
+            for _, weight, b_matrix, determinant in self.integration_data(coords):
+                stiffness += weight * determinant * (b_matrix.T @ self.material.elasticity_matrix @ b_matrix)
+            stiffness = symmetrize(stiffness)
+        if not np.all(np.isfinite(stiffness)):
+            raise ValueError("HEX20 stiffness contains non-finite values; numerical integration failed.")
+        return stiffness
 
     def internal_force_tangent_state(
         self,
@@ -233,10 +237,14 @@ class Hex20Element:
             raise ValueError("HEX20 modal analysis requires a positive material density.")
         mass = np.zeros((60, 60), dtype=float)
         identity = np.eye(3)
-        for point, weight, _, determinant in self.integration_data(coords):
-            shape = self.shape_functions(point)
-            mass += self.material.density * weight * determinant * np.kron(np.outer(shape, shape), identity)
-        return symmetrize(mass)
+        with np.errstate(over="ignore", invalid="ignore"):
+            for point, weight, _, determinant in self.integration_data(coords):
+                shape = self.shape_functions(point)
+                mass += self.material.density * weight * determinant * np.kron(np.outer(shape, shape), identity)
+            mass = symmetrize(mass)
+        if not np.all(np.isfinite(mass)):
+            raise ValueError("HEX20 mass contains non-finite values; numerical integration failed.")
+        return mass
 
     def mass_lumped(self, coords: np.ndarray) -> np.ndarray:
         """Return the row-sum lumped mass as a diagonal matrix."""

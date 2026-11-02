@@ -1,5 +1,13 @@
 # QF Solver 0.2.12 P1/P2 Remediation Report — Second Review
 
+## Final remediation after review of 75241bc
+
+The HEX20 stiffness and consistent mass methods now explicitly reject non-finite final matrices. The previously reported stiffness counterexample and a newly reproduced mass overflow are rejected; tests of regular elements still pass. The existing subnormal-determinant and distortion checks are unchanged.
+
+An additional DA-005 counterexample used the minimum signed `int64` value: integer `abs` overflowed inside the roundoff estimate, while a neighbouring integer was rounded on conversion to float64. The supplied integer system had exact residual -1 yet was reported converged. Integer magnitudes are now converted before `abs`, and integer coefficients, right-hand sides, and checked solutions whose values cannot be represented exactly in float64 are rejected before solver conversion or residual certification. Small exact integers remain accepted; this is an API compatibility tightening.
+
+Bounded exact-fraction checks found no bound violations in 280 real and 280 complex rows. This is empirical evidence, not a general proof. The bound depends on binary64/complex128 arithmetic, rounding behavior, gradual underflow, sparse accumulation, and norm implementations. See `DA003_DA005_FINAL_REMEDIATION_REPORT.md` for the conditional analysis, tests, unaddressed paths, and risks.
+
 ## Final numerical follow-up (Owner directive)
 
 This addendum resolves the DA-003 and DA-005 counterexamples found during the second independent review. It supersedes that review's interim `DEFECT_FOUND` disposition for those two items, subject to the limits below.
@@ -9,7 +17,7 @@ This addendum resolves the DA-003 and DA-005 counterexamples found during the se
 - The gate addresses whether the computed equation residual is within tolerance after accounting for arithmetic uncertainty. It does not equate residual with backward error, and neither quantity proves small forward or solution error for an ill-conditioned matrix. The solver makes no such precision guarantee.
 - Regression tests were run red against the prior code: the HEX20 `1e-107` case was accepted and the direct cancellation case did not raise. Both pass after the guards. The former small-CG false convergence remains rejected with relative residual 1. The well-conditioned direct and standard CG tests pass.
 - Validation after this follow-up: 28 exact test-function nodeids, 51 case outcomes PASS; Ruff PASS; in-memory compilation of the four changed Python files PASS; `git diff --check` PASS. No controlled FEM, WP12, v7 smoke, benchmark, or full CI was run.
-- The bound is deliberately conservative and can reject valid results for large rows or extreme scales. It establishes a residual upper bound under the floating-point operation model, not a forward-error guarantee. Matrix conditioning and solution error remain distinct. HEX20 elements with subnormal determinant are now rejected, including mathematically scaled coordinates; this is the declared supported-precision boundary, not a change to the geometric distortion criterion.
+- The bound is deliberately conservative and can reject valid results for large rows or extreme scales. Its validity is conditional on the floating-point operation model and remains subject to independent acceptance; it is not a forward-error guarantee. Matrix conditioning and solution error remain distinct. HEX20 elements with subnormal determinant are now rejected, including mathematically scaled coordinates; this is the declared supported-precision boundary, not a change to the geometric distortion criterion.
 
 ## Scope and identity
 
@@ -84,11 +92,11 @@ No full test suite, complete CI matrix, controlled FEM qualification, WP12 campa
 ## Remaining risks and limitations
 
 - The HEX20 test samples the existing integration points. It does not prove positive Jacobian everywhere between samples or certify general mesh quality.
-- A mathematically finite relative residual may be impossible to represent when its norm exceeds the floating-point range. The implementation fails conservatively in this case; this can produce a false failure for extreme magnitudes, but not a false convergence.
+- A mathematically finite relative residual may be impossible to represent when its norm exceeds the floating-point range. The implementation rejects this case conservatively; the residual bound is not claimed as a general proof for every numeric environment.
 - The dynamic equilibrium summary retains its pre-existing unit floor for its reporting-only load reference. The Newmark convergence gate uses the scale-aware relative residual and no unit floor.
 - Harmonic and transient convergence paths received stable norm integration and route-input tests, but no actual FEM response was executed under this mandate.
 - The existing proof limitations DA-006/DA-007 and hypotheses DA-H01/DA-H02 remain open; this remediation does not reclassify them.
 
 ## Verdict
 
-**`REMEDIATION_READY_FOR_FINAL_REVIEW`** — the five requested P1/P2 corrections, including the DA-003 and DA-005 follow-up guards, have targeted regression evidence; Ruff, compilation, and diff checks pass. This verdict does not authorize merge, qualification, package release, tagging, or publication.
+**`REMEDIATION_READY_FOR_INDEPENDENT_ACCEPTANCE`** — the final changes have targeted regression evidence and documented limitations. Independent acceptance must assess the conditional residual bound and residual risks. This verdict does not authorize merge, qualification, package release, tagging, or publication.

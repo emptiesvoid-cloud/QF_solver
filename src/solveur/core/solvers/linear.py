@@ -83,6 +83,15 @@ def relative_residual_ratio(residual_norm: float, reference_norm: float) -> floa
     return ratio
 
 
+def _require_exact_integer_input(values: np.ndarray, method: str) -> None:
+    """Reject integers whose conversion to the solver's float64 changes their value."""
+    array = np.asarray(values)
+    if np.issubdtype(array.dtype, np.integer) and any(int(float(value)) != int(value) for value in array.flat):
+        raise NumericalConvergenceError(
+            f"{method} cannot demonstrate residual convergence: integer input is not exactly representable as float64."
+        )
+
+
 def _sparse_matvec_roundoff_bound(
     matrix: csr_matrix,
     rhs: np.ndarray,
@@ -98,15 +107,22 @@ def _sparse_matvec_roundoff_bound(
     smallest = np.nextafter(0.0, 1.0)
     row_bounds = np.zeros(matrix.shape[0], dtype=float)
     matrix = matrix.tocsr()
-    vector_magnitude = np.abs(solution)
-    rhs_magnitude = np.abs(rhs)
+    vector_values = np.asarray(solution)
+    vector_magnitude = np.abs(
+        vector_values.astype(float) if np.issubdtype(vector_values.dtype, np.integer) else vector_values
+    )
+    rhs_values = np.asarray(rhs)
+    rhs_magnitude = np.abs(rhs_values.astype(float) if np.issubdtype(rhs_values.dtype, np.integer) else rhs_values)
     product_magnitude = np.abs(product)
 
     for row in range(matrix.shape[0]):
         start, stop = matrix.indptr[row], matrix.indptr[row + 1]
         columns = matrix.indices[start:stop]
+        row_data = matrix.data[start:stop]
+        # abs(int64 minimum) overflows in integer arithmetic. Convert first.
+        magnitudes = np.abs(row_data.astype(float)) if np.issubdtype(row_data.dtype, np.integer) else np.abs(row_data)
         with np.errstate(over="ignore", under="ignore", invalid="ignore"):
-            terms = np.abs(matrix.data[start:stop]) * vector_magnitude[columns]
+            terms = magnitudes * vector_magnitude[columns]
         if not np.all(np.isfinite(terms)):
             row_bounds[row] = float("inf")
             continue
@@ -124,7 +140,7 @@ def _sparse_matvec_roundoff_bound(
         if factor >= 1.0:
             row_bounds[row] = float("inf")
             continue
-        nonzero_operands = (np.abs(matrix.data[start:stop]) > 0.0) & (vector_magnitude[columns] > 0.0)
+        nonzero_operands = (magnitudes > 0.0) & (vector_magnitude[columns] > 0.0)
         underflow_terms = int(np.count_nonzero(nonzero_operands & (terms < np.finfo(float).tiny)))
         subtraction_underflow = int(float(rhs_magnitude[row]) > 0.0 or float(product_magnitude[row]) > 0.0)
         with np.errstate(over="ignore", under="ignore", invalid="ignore"):
@@ -177,6 +193,7 @@ class ReusableSparseFactorization:
     """Factorize one sparse matrix once and solve multiple right-hand sides."""
 
     def __init__(self, matrix: csr_matrix, parameters: dict[str, Any] | None = None) -> None:
+        _require_exact_integer_input(matrix.data, "splu_reuse")
         self.matrix = matrix.tocsr()
         self.parameters = dict(parameters or {})
         validate_residual_failure_tolerance(self.parameters)
@@ -194,6 +211,7 @@ class ReusableSparseFactorization:
 
     def solve(self, rhs: np.ndarray) -> tuple[np.ndarray, LinearSolveInfo]:
         """Solve one right-hand side and validate the normalized residual."""
+        _require_exact_integer_input(rhs, "splu_reuse")
         started = perf_counter()
         try:
             solution = np.asarray(self._factor.solve(np.asarray(rhs, dtype=float)), dtype=float)
@@ -244,6 +262,8 @@ class LinearSystemSolver:
         parameters: dict[str, Any] | None = None,
     ) -> tuple[np.ndarray, LinearSolveInfo]:
         parameters = parameters or {}
+        _require_exact_integer_input(matrix.data, method)
+        _require_exact_integer_input(rhs, method)
         validate_residual_failure_tolerance(parameters)
         normalized = method.lower()
         if normalized == "auto":
@@ -317,6 +337,8 @@ class LinearSystemSolver:
         """Solve one complex sparse system used by harmonic response."""
 
         params = parameters or {}
+        _require_exact_integer_input(matrix.data, "direct_frequency")
+        _require_exact_integer_input(rhs, "direct_frequency")
         validate_residual_failure_tolerance(params)
         backend = select_backend("scipy", problem_size=matrix.shape[0], parameters=params)
         try:
@@ -564,6 +586,11 @@ class LinearSystemSolver:
         method: str,
         parameters: dict[str, Any],
     ) -> tuple[float, float]:
+        _require_exact_integer_input(matrix.data, method)
+        _require_exact_integer_input(rhs, method)
+        _require_exact_integer_input(solution, method)
+        if np.issubdtype(np.asarray(solution).dtype, np.integer):
+            solution = np.asarray(solution, dtype=float)
         if not np.all(np.isfinite(solution)):
             kind = "nan" if np.any(np.isnan(solution)) else "inf"
             raise NumericalConvergenceError(
