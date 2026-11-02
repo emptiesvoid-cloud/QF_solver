@@ -343,7 +343,15 @@
       "max_abs_error_computed_residual_vs_exact": "3.19441562447623646630552e-10",
       "max_abs_row_certificate": "2.35722600070624327412928e-8",
       "all_row_errors_within_new_certificate": true,
-      "targeted_test_after_fix": "PASS"
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 1.8518218495801203e-06,
+        "final_subtraction_l2": 8.204640795016407e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 1.851821851075822e-06,
+        "maximum_row_bound": 7.902319545224745e-07,
+        "norm_relative_roundoff_factor": 2.0463630789890885e-12
+      }
     },
     {
       "case": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_crosses_a_snap_through_turning_point",
@@ -369,7 +377,15 @@
       "max_abs_error_computed_residual_vs_exact": "2.1344355251979042556095e-10",
       "max_abs_row_certificate": "9.62740848027938583649907e-9",
       "all_row_errors_within_new_certificate": true,
-      "targeted_test_after_fix": "PASS"
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 4.51105352749025e-07,
+        "final_subtraction_l2": 8.204640795236539e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 4.511053605714518e-07,
+        "maximum_row_bound": 3.594232519041616e-07,
+        "norm_relative_roundoff_factor": 4.263256414560601e-14
+      }
     },
     {
       "case": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_restart_preserves_postcritical_branch[before_turn]",
@@ -395,7 +411,15 @@
       "max_abs_error_computed_residual_vs_exact": "2.1344355251979042556095e-10",
       "max_abs_row_certificate": "9.62740848027938583649907e-9",
       "all_row_errors_within_new_certificate": true,
-      "targeted_test_after_fix": "PASS"
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 4.51105352749025e-07,
+        "final_subtraction_l2": 8.204640795236539e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 4.511053605714518e-07,
+        "maximum_row_bound": 3.594232519041616e-07,
+        "norm_relative_roundoff_factor": 4.263256414560601e-14
+      }
     },
     {
       "case": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_restart_preserves_postcritical_branch[after_turn]",
@@ -421,7 +445,15 @@
       "max_abs_error_computed_residual_vs_exact": "2.1344355251979042556095e-10",
       "max_abs_row_certificate": "9.62740848027938583649907e-9",
       "all_row_errors_within_new_certificate": true,
-      "targeted_test_after_fix": "PASS"
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 4.51105352749025e-07,
+        "final_subtraction_l2": 8.204640795236539e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 4.511053605714518e-07,
+        "maximum_row_bound": 3.594232519041616e-07,
+        "norm_relative_roundoff_factor": 4.263256414560601e-14
+      }
     },
     {
       "case": "tests/unit/test_nonlinear_multielement.py::test_common_fem_arc_length_rolls_back_after_failure_near_turning_point",
@@ -447,7 +479,15 @@
       "max_abs_error_computed_residual_vs_exact": "1.64329128225873566142327e-10",
       "max_abs_row_certificate": "9.62808682164687471432999e-9",
       "all_row_errors_within_new_certificate": true,
-      "targeted_test_after_fix": "PASS"
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 4.5113713726467587e-07,
+        "final_subtraction_l2": 8.204640794281392e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 4.511371450871027e-07,
+        "maximum_row_bound": 3.5944857664854796e-07,
+        "norm_relative_roundoff_factor": 4.263256414560601e-14
+      }
     },
     {
       "case": "tests/unit/test_tet4_tet10_reference.py::test_reference_runner_writes_machine_readable_artifacts",
@@ -473,7 +513,15 @@
       "max_abs_error_computed_residual_vs_exact": "2.76867616984472892169786e-12",
       "max_abs_row_certificate": "1.02475748820656311150356e-9",
       "all_row_errors_within_new_certificate": true,
-      "targeted_test_after_fix": "PASS"
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 5.724174989018905e-08,
+        "final_subtraction_l2": 7.105427357577475e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 5.7241751549958416e-08,
+        "maximum_row_bound": 3.3197082087086265e-08,
+        "norm_relative_roundoff_factor": 7.673861546209082e-13
+      }
     },
     {
       "case": "tests/unit/test_tet4_tet10_reference.py::test_reference_runner_accepts_the_corrected_centered_load_contract",
@@ -499,7 +547,15 @@
       "max_abs_error_computed_residual_vs_exact": "7.08669708873718595258575e-12",
       "max_abs_row_certificate": "1.13023060440609325458225e-9",
       "all_row_errors_within_new_certificate": true,
-      "targeted_test_after_fix": "PASS"
+      "targeted_test_after_fix": "PASS",
+      "previous_certificate_components": {
+        "dot_product_l2": 7.605336538155952e-08,
+        "final_subtraction_l2": 7.105427357602163e-15,
+        "underflow_allowance_l2": 0.0,
+        "reported_roundoff_vector_l2": 7.605336723530879e-08,
+        "maximum_row_bound": 3.671536993707031e-08,
+        "norm_relative_roundoff_factor": 5.542233338928781e-13
+      }
     }
   ],
   "static_checks": {
