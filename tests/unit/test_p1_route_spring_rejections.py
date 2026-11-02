@@ -7,6 +7,7 @@ import solveur.core.analyses.geometric_nonlinear as geometric_analysis
 from solveur.api import solve_model
 from solveur.core.analyses.buckling import LinearBucklingSolver
 from solveur.core.analyses.geometric_nonlinear import GeometricNonlinearStaticSolver
+from solveur.core.nonlinear.solver import NonlinearStaticSolver
 from solveur.core.errors import InputValidationError
 from solveur.core.model import FiniteElementModel
 
@@ -27,7 +28,7 @@ def _model(analysis: str, *, with_spring: bool) -> FiniteElementModel:
             if with_spring
             else []
         ),
-        analysis={"type": analysis, "method": "newton_raphson" if analysis == "geometric_nonlinear_static" else "eigsh"},
+        analysis={"type": analysis, "method": "newton_raphson" if analysis in {"geometric_nonlinear_static", "nonlinear_static"} else "eigsh"},
     )
 
 
@@ -53,6 +54,17 @@ def test_linear_buckling_rejects_springs_before_validation_or_assembly(monkeypat
         solve_model(model, enforce_policy=False)
 
 
+def test_nonlinear_static_rejects_springs_before_mesh_or_load_assembly(monkeypatch: pytest.MonkeyPatch) -> None:
+    solver = NonlinearStaticSolver()
+    model = _model("nonlinear_static", with_spring=True)
+    monkeypatch.setattr(solver.validator, "validate", _fail_if_called)
+    monkeypatch.setattr(solver.assembler, "assemble_loads", _fail_if_called)
+
+    with pytest.raises(InputValidationError, match="does not support discrete springs"):
+        solver.solve(model)
+
+
 def test_spring_free_models_remain_inside_both_existing_scopes() -> None:
     GeometricNonlinearStaticSolver._validate_scope(_model("geometric_nonlinear_static", with_spring=False))
     LinearBucklingSolver._validate_scope(_model("linear_buckling", with_spring=False))
+    NonlinearStaticSolver._validate_kinematics_scope(_model("nonlinear_static", with_spring=False), {})

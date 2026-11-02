@@ -132,6 +132,12 @@ class FiniteElementModel:
         units: dict[str, str] | None = None,
         verification_profile: str = "engineering",
     ) -> "FiniteElementModel":
+        """Build a model from raw entities using finite numeric nodal loads.
+
+        Nodal-load values must be finite integer/float scalars (including NumPy
+        numeric scalars); booleans and strings are rejected rather than coerced,
+        matching the strict JSON model-input contract.
+        """
         parsed_elements = [
             ElementDefinition(
                 type=str(item["type"]).upper(),
@@ -147,14 +153,28 @@ class FiniteElementModel:
             )
             for item in fixed_dofs or []
         ]
-        parsed_loads = [
-            NodalLoad(
-                node=int(item["node"]),
-                dof=normalize_dof_name(item["dof"]),
-                value=float(item["value"]),
+        parsed_loads: list[NodalLoad] = []
+        for index, item in enumerate(loads or []):
+            raw_value = item.get("value")
+            if isinstance(raw_value, (bool, np.bool_)) or not isinstance(
+                raw_value, (int, float, np.integer, np.floating)
+            ):
+                raise InputValidationError(f"loads[{index}].value must be a finite numeric scalar.")
+            try:
+                value = float(raw_value)
+            except (TypeError, ValueError, OverflowError) as exc:
+                raise InputValidationError(
+                    f"loads[{index}].value must be a finite numeric scalar."
+                ) from exc
+            if not np.isfinite(value):
+                raise InputValidationError(f"loads[{index}].value must be a finite numeric scalar.")
+            parsed_loads.append(
+                NodalLoad(
+                    node=int(item["node"]),
+                    dof=normalize_dof_name(item["dof"]),
+                    value=value,
+                )
             )
-            for item in loads or []
-        ]
         try:
             parsed_distributed_loads = parse_distributed_loads(distributed_loads)
         except ValueError as exc:

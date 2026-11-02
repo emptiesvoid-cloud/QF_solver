@@ -160,6 +160,8 @@ class AuditMarkdownWriter:
             ("Preconditionneur", solver.get("preconditioner", "")),
             ("Residu final", solver.get("residual_norm", "")),
         ]
+        if "residual_status" in solver:
+            rows.append(("Statut residu", solver["residual_status"]))
         lines.extend(["## Solveur numerique", "", "| Champ | Valeur |", "| --- | ---: |"])
         lines.extend(f"| {label} | {_sci(value)} |" for label, value in rows)
         history = solver.get("residual_history", [])

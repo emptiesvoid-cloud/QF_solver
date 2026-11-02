@@ -15,10 +15,45 @@ from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.solvers.backend import select_backend, solve_with_petsc
 
 
+def stable_l2_norm(values: np.ndarray) -> float:
+    """Compute a Euclidean norm without squaring unscaled magnitudes."""
+    array = np.asarray(values)
+    if array.size == 0:
+        return 0.0
+    if not np.all(np.isfinite(array)):
+        return float("inf")
+
+    if np.iscomplexobj(array):
+        real = np.asarray(array.real, dtype=float).ravel()
+        imag = np.asarray(array.imag, dtype=float).ravel()
+        scale = max(
+            float(np.max(np.abs(real), initial=0.0)),
+            float(np.max(np.abs(imag), initial=0.0)),
+        )
+        if scale == 0.0:
+            return 0.0
+        scaled_real = real / scale
+        scaled_imag = imag / scale
+        sum_squares = float(np.dot(scaled_real, scaled_real) + np.dot(scaled_imag, scaled_imag))
+    else:
+        flat = np.asarray(array, dtype=float).ravel()
+        scale = float(np.max(np.abs(flat), initial=0.0))
+        if scale == 0.0:
+            return 0.0
+        scaled = flat / scale
+        sum_squares = float(np.dot(scaled, scaled))
+
+    with np.errstate(over="ignore", invalid="ignore"):
+        norm = scale * np.sqrt(sum_squares)
+    return float(norm)
+
+
 def validate_residual_failure_tolerance(parameters: dict[str, Any], key: str = "residual_failure_tolerance") -> float:
     """Return a configured residual limit after requiring a finite positive scalar."""
     raw_value = parameters.get(key, 1.0e-7)
-    if isinstance(raw_value, (bool, np.bool_)):
+    if isinstance(raw_value, (bool, np.bool_)) or not isinstance(
+        raw_value, (int, float, np.integer, np.floating)
+    ):
         raise InputValidationError(f"{key} must be a finite positive number.")
     try:
         value = float(raw_value)
@@ -31,9 +66,20 @@ def validate_residual_failure_tolerance(parameters: dict[str, Any], key: str = "
 
 def relative_residual_ratio(residual_norm: float, reference_norm: float) -> float:
     """Scale a residual without a unit-dependent floor; define the zero case."""
+    if (
+        not np.isfinite(residual_norm)
+        or not np.isfinite(reference_norm)
+        or residual_norm < 0.0
+        or reference_norm < 0.0
+    ):
+        return float("inf")
     if reference_norm == 0.0:
         return 0.0 if residual_norm == 0.0 else float("inf")
-    return residual_norm / reference_norm
+    with np.errstate(over="ignore", under="ignore", divide="ignore", invalid="ignore"):
+        ratio = float(np.divide(residual_norm, reference_norm))
+    if residual_norm > 0.0 and ratio == 0.0:
+        return float(np.nextafter(0.0, 1.0))
+    return ratio
 
 
 @dataclass(frozen=True)
@@ -114,7 +160,7 @@ class ReusableSparseFactorization:
             residual,
             True,
             residual_history=[residual],
-            initial_residual_norm=float(np.linalg.norm(rhs_array)),
+            initial_residual_norm=stable_l2_norm(rhs_array),
             relative_residual_norm=relative,
             tolerance=_reported_tolerance("splu_reuse", self.parameters),
         )
@@ -149,7 +195,7 @@ class LinearSystemSolver:
         if backend.selected == "petsc":
             solution, iterations, _ = solve_with_petsc(matrix, rhs, normalized, parameters)
             residual, relative = self._validated_residual_metrics(matrix, rhs, solution, normalized, parameters)
-            initial = float(np.linalg.norm(np.asarray(rhs, dtype=float)))
+            initial = stable_l2_norm(np.asarray(rhs, dtype=float))
             return solution, LinearSolveInfo(
                 normalized,
                 iterations,
@@ -182,7 +228,7 @@ class LinearSystemSolver:
                     }
                 )
                 raise
-            initial = float(np.linalg.norm(np.asarray(rhs, dtype=float)))
+            initial = stable_l2_norm(np.asarray(rhs, dtype=float))
             return solution, LinearSolveInfo(
                 normalized,
                 1,
@@ -231,7 +277,7 @@ class LinearSystemSolver:
             residual,
             True,
             backend=backend.selected,
-            initial_residual_norm=float(np.linalg.norm(np.asarray(rhs, dtype=complex))),
+            initial_residual_norm=stable_l2_norm(np.asarray(rhs, dtype=complex)),
             relative_residual_norm=relative,
             tolerance=_reported_tolerance("direct_frequency", params),
         )
@@ -280,7 +326,7 @@ class LinearSystemSolver:
             True,
             str(parameters.get("preconditioner", "none")),
             residual_history=residual_history,
-            initial_residual_norm=float(np.linalg.norm(np.asarray(rhs, dtype=float))),
+            initial_residual_norm=stable_l2_norm(np.asarray(rhs, dtype=float)),
             relative_residual_norm=relative,
             tolerance=_reported_tolerance(method, parameters),
         )
@@ -323,7 +369,7 @@ class LinearSystemSolver:
             True,
             str(parameters.get("preconditioner", "none")),
             residual_history=residual_history,
-            initial_residual_norm=float(np.linalg.norm(np.asarray(rhs, dtype=float))),
+            initial_residual_norm=stable_l2_norm(np.asarray(rhs, dtype=float)),
             relative_residual_norm=relative,
             tolerance=_reported_tolerance("minres", parameters),
         )
@@ -366,7 +412,7 @@ class LinearSystemSolver:
         value = np.asarray(state)
         if value.ndim == 0:
             return float(abs(value.item()))
-        return float(np.linalg.norm(matrix @ value - rhs))
+        return stable_l2_norm(matrix @ value - rhs)
 
     @staticmethod
     def _append_final_residual(history: list[float], residual: float) -> None:
@@ -436,8 +482,8 @@ class LinearSystemSolver:
         solution: np.ndarray,
     ) -> tuple[float, float]:
         product = matrix @ solution
-        residual = float(np.linalg.norm(product - rhs))
-        reference = max(float(np.linalg.norm(rhs)), float(np.linalg.norm(product)))
+        residual = stable_l2_norm(product - rhs)
+        reference = max(stable_l2_norm(rhs), stable_l2_norm(product))
         return residual, relative_residual_ratio(residual, reference)
 
     @staticmethod

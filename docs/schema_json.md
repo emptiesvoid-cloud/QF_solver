@@ -34,10 +34,15 @@ Champs optionnels:
 - `verification_profile`: `quick`, `engineering`, `strict` ou
   `qualification`. Par defaut: `engineering`.
 - `fixed_dofs`: conditions aux limites nodales.
-- `loads`: charges nodales.
+- `loads`: charges nodales. Chaque valeur est un nombre fini; les booléens
+  et chaînes ne sont pas des valeurs numériques admises.
 - `distributed_loads`: pesanteur, forces volumiques, pressions, tractions de
   surface et tractions de bord integrees de maniere coherente.
 - `springs`: ressorts lineaires au sol ou entre deux noeuds.
+Le constructeur Python FiniteElementModel.from_raw applique le même contrat
+aux valeurs des charges nodales : il accepte les scalaires numériques entiers ou
+flottants finis (y compris leurs scalaires NumPy), et refuse les booléens, les
+chaînes et les valeurs non finies au lieu de les convertir implicitement.
 - `concentrated_masses`: masses nodales avec excentration et inertie optionnelles.
 - `multipoint_constraints`: equations lineaires entre DDL nommes.
 - `rbe2`: liaisons rigides maitre/esclaves avec bras geometrique.

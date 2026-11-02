@@ -11,6 +11,7 @@ from solveur.core.model import FiniteElementModel
 from solveur.core.solvers.linear import (
     LinearSystemSolver,
     relative_residual_ratio,
+    stable_l2_norm,
     validate_residual_failure_tolerance,
 )
 from solveur.core.solvers.static import LinearStaticSolver
@@ -34,10 +35,80 @@ def _model(analysis_type: str, tolerance_name: str, tolerance: object) -> Finite
     )
 
 
-@pytest.mark.parametrize("value", [float("nan"), float("inf"), float("-inf"), 0.0, -1.0, True, "bad"])
+@pytest.mark.parametrize(
+    "value",
+    [float("nan"), float("inf"), float("-inf"), 0.0, -1.0, True, np.bool_(True), "bad", None, 1.0 + 0.0j],
+)
 def test_residual_failure_tolerances_must_be_finite_positive_scalars(value: object) -> None:
     with pytest.raises(InputValidationError, match="finite positive number"):
         validate_residual_failure_tolerance({"residual_failure_tolerance": value})
+
+
+@pytest.mark.parametrize("value", ["1e-7", "0.000001"])
+def test_residual_failure_tolerance_rejects_numeric_strings(value: str) -> None:
+    with pytest.raises(InputValidationError, match="finite positive number"):
+        validate_residual_failure_tolerance({"residual_failure_tolerance": value})
+
+
+def test_residual_failure_tolerance_accepts_finite_python_and_numpy_numbers() -> None:
+    assert validate_residual_failure_tolerance({"residual_failure_tolerance": 1}) == 1.0
+    assert validate_residual_failure_tolerance({"residual_failure_tolerance": np.float32(1.0e-5)}) == pytest.approx(1.0e-5)
+
+
+def test_default_residual_failure_tolerance_and_standard_cg_are_unchanged() -> None:
+    assert validate_residual_failure_tolerance({}) == 1.0e-7
+    solution, info = LinearSystemSolver().solve(
+        csr_matrix([[2.0]]), np.asarray([4.0]), method="cg", parameters={"backend": "scipy"}
+    )
+    assert solution == pytest.approx(np.asarray([2.0]))
+    assert info.converged
+    assert info.relative_residual_norm <= 1.0e-7
+
+
+def test_cg_rejects_underflowed_residual_instead_of_accepting_bad_solution() -> None:
+    matrix = csr_matrix([[1.0e-200]])
+    rhs = np.asarray([1.0e-200])
+
+    with pytest.raises(NumericalConvergenceError, match=r"relative=1\.000000e\+00"):
+        LinearSystemSolver().solve(matrix, rhs, method="cg", parameters={"backend": "scipy"})
+
+
+def test_residual_norms_do_not_underflow_or_overflow() -> None:
+    tiny_matrix = csr_matrix([[1.0]])
+    tiny_rhs = np.asarray([1.0e-200])
+    zero_solution = np.asarray([0.0])
+    residual, relative = LinearSystemSolver._raw_residual_metrics(tiny_matrix, tiny_rhs, zero_solution)
+    assert residual == pytest.approx(1.0e-200)
+    assert relative == pytest.approx(1.0)
+
+    large_rhs = np.full(200, 1.0e153)
+    inaccurate_solution = large_rhs + 1.0e147
+    large_matrix = csr_matrix(np.eye(200))
+    residual, relative = LinearSystemSolver._raw_residual_metrics(large_matrix, large_rhs, inaccurate_solution)
+    assert np.isfinite(residual)
+    assert relative == pytest.approx(1.0e-6, rel=2.0e-3)
+    with pytest.raises(NumericalConvergenceError, match=r"relative="):
+        LinearSystemSolver._validated_residual_metrics(
+            large_matrix, large_rhs, inaccurate_solution, "large-counterexample", {}
+        )
+
+
+def test_unrepresentable_norm_fails_the_residual_gate_conservatively() -> None:
+    rhs = np.full(2, 1.7e308)
+    matrix = csr_matrix(np.eye(2))
+
+    assert np.isinf(stable_l2_norm(rhs))
+    with pytest.raises(NumericalConvergenceError, match="non-finite residual"):
+        LinearSystemSolver._validated_residual_metrics(matrix, rhs, np.zeros(2), "overflow-counterexample", {})
+
+
+def test_stable_l2_norm_handles_complex_harmonic_vectors() -> None:
+    tiny = np.asarray([1.0e-200 + 1.0e-200j])
+    large = np.full(200, 1.0e153 + 1.0e153j)
+
+    assert stable_l2_norm(tiny) == pytest.approx(np.sqrt(2.0) * 1.0e-200)
+    assert stable_l2_norm(large) == pytest.approx(np.sqrt(400.0) * 1.0e153)
+    assert np.isfinite(stable_l2_norm(large))
 
 
 def test_relative_linear_residual_is_not_hidden_by_unit_floor() -> None:
@@ -56,6 +127,38 @@ def test_relative_linear_residual_is_not_hidden_by_unit_floor() -> None:
 def test_relative_residual_defines_exact_zero_reference() -> None:
     assert relative_residual_ratio(0.0, 0.0) == 0.0
     assert relative_residual_ratio(1.0, 0.0) == float("inf")
+
+
+def test_direct_solver_still_rejects_singular_matrix() -> None:
+    with pytest.raises(NumericalConvergenceError, match="singular"):
+        LinearSystemSolver().solve(
+            csr_matrix([[0.0]]), np.asarray([0.0]), method="direct", parameters={"backend": "scipy"}
+        )
+
+
+@pytest.mark.parametrize(
+    ("analysis_type", "tolerance_name", "solver_type"),
+    [
+        ("linear_static", "residual_failure_tolerance", LinearStaticSolver),
+        ("harmonic_response", "harmonic_residual_failure_tolerance", HarmonicResponseSolver),
+        ("transient_dynamic", "dynamic_residual_failure_tolerance", NewmarkDynamicSolver),
+    ],
+)
+def test_analysis_routes_reject_numeric_string_residual_limits_before_mesh_work(
+    analysis_type: str,
+    tolerance_name: str,
+    solver_type: type[object],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    model = _model(analysis_type, tolerance_name, "1e-7")
+    solver = solver_type()
+
+    def fail_if_mesh_validation_runs(*_args: object, **_kwargs: object) -> None:
+        pytest.fail("Residual input validation must happen before mesh validation.")
+
+    monkeypatch.setattr(solver.validator, "validate", fail_if_mesh_validation_runs)
+    with pytest.raises(InputValidationError, match=tolerance_name):
+        solver.solve(model)
 
 
 @pytest.mark.parametrize(

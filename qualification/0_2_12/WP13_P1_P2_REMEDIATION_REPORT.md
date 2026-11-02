@@ -1,69 +1,73 @@
-# QF Solver 0.2.12 P1/P2 Remediation Report
+# QF Solver 0.2.12 P1/P2 Remediation Report — Second Review
 
-## Audit identity and scope
+## Scope and identity
 
-- Repository and target branch: `emptiesvoid-cloud/QF_solver`, `emptiesvoids-cloud/0.2.12`.
-- Audited source commit: `d31614f59341d175d8e2daade92daf7d8149d199`.
-- Audited source tree: `d11b456a045955efb9563acf43b031bd77fab2ae`.
-- Findings register SHA-256: `213b4502e7e3b93a783425c209c388a38e2efd7ead1cd6f9b8c663b8ac83e504`.
-- Remediation roadmap SHA-256: `0e32b322111891a648fb3b14faffa037097d9403b70b4068ecb1af8cf61b37bd`.
-- Corrective branch is based directly on the audited commit; the P1 spring rejection is retained unchanged from its prior commit.
+- Repository: `emptiesvoid-cloud/QF_solver`.
+- Corrective PR: #119, branch `codex/qfsolver-0.2.12-p1-p2-remediation-20261102`.
+- Audited PR head at start: `062b04f562bd52a5ac4340e255f09658d8c42112`.
+- Target branch baseline: `emptiesvoids-cloud/0.2.12` at `d31614f59341d175d8e2daade92daf7d8149d199`.
+- This report covers the additional corrections requested after independent review. No target-branch change, merge, tag, package build, controlled FEM campaign, or WP13 v7 smoke was performed.
 
-The register and roadmap identify DA-002 through DA-005 as the four demonstrated P2 code defects. The remaining DA-006/DA-007 entries are proof limitations, not newly demonstrated code defects. DA-H01 and DA-H02 remain hypotheses.
+## Findings and disposition
 
-## P2 disposition
-
-| Finding | Status | Correction and evidence | Limits |
+| Finding | Status | Cause and correction | Evidence and limits |
 | --- | --- | --- | --- |
-| DA-002 — contact residual reported as zero | FIXED | Contact solver metadata now emits `residual_norm: null`, `relative_residual_norm: null`, and `residual_status: NOT_COMPUTABLE`. Synthetic JSON serialization test passes. | Contact numerical behavior was not rerun; this change only corrects the meaning of reported metadata. Consumers must handle unavailable residuals. |
-| DA-003 — TET4/HEX20 thresholds depend on length units | FIXED | TET4 volume and HEX20 Jacobian checks now use a dimensionless signed determinant normalized by the local matrix 2-norm, retaining the `1e-14` relative shape threshold. Tests accept scales `1e-5`, `1`, and `1e5`; inverted and degenerate cases remain rejected. | Direct element geometry/kernel checks only; no global FEM solution or qualification was run. |
-| DA-004 — non-finite nodal loads pass mesh validation | FIXED | The common mesh validation boundary rejects non-finite nodal values with an indexed error. NaN and both infinities are covered. A finite load on a fixed DOF remains reportable as a reaction in a synthetic audit and serializes as strict JSON. | The synthetic reaction record checks unchanged reporting/serialization logic, not a solved structural response. |
-| DA-005 — unit-floor residuals and unchecked residual limits | FIXED | Linear, harmonic, and Newmark residual ratios no longer use a unit-sized denominator floor. Configured failure limits must be finite positive scalars and are checked before route work. The default limits and their configured values were not changed. A `1e-12` right-hand side with zero solution reports relative residual `1`, and the existing `1e-7` gate rejects it. | Algebraic and route-input tests only. Full harmonic/dynamic FEM compatibility was not rerun under this mandate. |
+| DA-001 — Springs omitted by unsupported nonlinear routes | FIXED | The nonlinear static route uses its own nonlinear assembly path, which does not assemble the model's discrete spring terms. It now raises `InputValidationError` as soon as a valid nonlinear method is selected and before mesh validation or load assembly. The earlier geometric nonlinear and buckling guards remain. | Regression tests replace validation/assembly with fail-fast sentinels and verify spring cases stop at the guard. Spring-free models remain in the existing supported scopes. No nonlinear solve was run. |
+| DA-002 — Unmeasured contact residual hidden in Markdown | FIXED | Contact metadata correctly has no measured residual and stores `null` with `residual_status=NOT_COMPUTABLE`; the Markdown writer omitted the status. It now prints that status and leaves the residual value unavailable. | JSON and Markdown tests pass. No residual was invented and no contact solve was repeated. |
+| DA-003 — HEX20 raw determinant underflow | FIXED | The dimensionless determinant check can remain positive after the raw Jacobian determinant underflows to zero, while stiffness integration consumes the raw determinant. Geometry validation now also requires every sampled raw determinant to be finite and strictly positive. The existing scaled signed-determinant threshold remains in force. | Tests cover regular geometry, inverted and degenerate geometry, a positive geometry whose raw determinant underflows, extreme distortion, and stiffness at scales (10^{-100}) and (10^{100}). This does not establish mesh quality between integration points or general conditioning. |
+| DA-004 — Nodal-load coercion and validation crash | FIXED | `from_raw` previously converted booleans and numeric strings with `float()`. It now accepts finite built-in or NumPy integer/float scalars and rejects booleans, strings, and non-finite values before conversion. The JSON numeric predicate now catches conversion overflow and reports an ordinary schema error for integers outside the finite float range. Directly constructed invalid models still return a validation failure; mechanical-rank and component checks are marked unrun when input validation has already failed, avoiding a crash during rank fingerprinting. | Tests cover JSON and Python input, oversized integers, NumPy booleans, non-finite values, accepted finite NumPy scalars, and strict JSON reaction serialization. The Python API admits NumPy scalar types that JSON itself cannot encode. Other `from_raw` coercions are outside this finding. |
+| DA-005 — CG false convergence and unsafe residual norms | FIXED | Squaring very small residual entries in the previous Euclidean norm underflowed to zero. A zero norm ratio could then pass the residual gate even when the computed solution was inaccurate. Residual and reference norms now use scaled sum-of-squares evaluation; non-finite or unrepresentable norms cause a numerical failure. The zero-reference convention remains exact: (0/0=0), nonzero/0 is infinite. Residual failure limits accept only finite positive built-in/NumPy integer or floating scalars; booleans and strings are rejected. No tolerance default or threshold was changed. | Algebraic regressions reproduce the tiny CG false-convergence case, test very small and large norms including true norm overflow, complex vectors, zero references, ordinary CG, singular direct solve, and route-level tolerance rejection. No full harmonic or transient solve was run. |
 
-## P1 retained
+## Before/after regression evidence
 
-The prior P1 fix remains unchanged: `geometric_nonlinear_static` and `linear_buckling` reject discrete springs before mesh validation or assembly. Its original targeted tests remain in the branch. This remediation did not add spring support.
+The new regressions were first exercised against the pre-correction code. They reproduced the silent spring-route continuation, the HEX20 underflow acceptance, the missing Markdown status, the CG underflow false convergence, and unsafe nodal-load input handling. During this pass, an added oversized-JSON-integer counterexample also reproduced an uncaught `OverflowError`; after the shared schema fix it is rejected through `InputValidationError`.
 
-## Targeted tests and checks
+| Counterexample | Before correction | After correction |
+| --- | --- | --- |
+| `nonlinear_static` model with a discrete spring | Route continued into validation/assembly sentinel | `InputValidationError` before either sentinel |
+| HEX20 unit cell scaled to (10^{-108}) | Raw determinant could underflow although normalized geometry stayed positive | Rejected before stiffness integration |
+| Contact report with unavailable residual | Markdown omitted `NOT_COMPUTABLE` | Status is visible; residual remains `None` |
+| CG system (A=[10^{-200}], b=[10^{-200}]) with zero inaccurate iterate | Squared norms could become zero and satisfy the gate | Relative residual is 1; solver raises `NumericalConvergenceError` |
+| Nodal load `True`, numeric string, non-finite value, or unrepresentable integer | Implicit coercion, late failure, or uncaught overflow | Rejected at input/schema validation |
+| Finite but unrepresentable Euclidean norm | Raw norm arithmetic could overflow or underflow | Non-finite norm is detected and the solver rejects it |
 
-All listed pytest invocations selected one exact test-function nodeid per process. Parameterized cases are reported by pytest as individual cases.
+## Targeted tests executed
 
-| Test nodeid | Result |
-| --- | --- |
-| `tests/unit/test_da002_contact_residual_metadata.py::test_contact_solver_metadata_serializes_unmeasured_residuals_as_null` | PASS, 1 |
-| `tests/unit/test_tet4_element.py::test_tet4_geometry_acceptance_is_independent_of_length_units` | PASS, 3 |
-| `tests/unit/test_tet4_element.py::test_tet4_rejects_inverted_or_degenerate_element` | PASS, 1 |
-| `tests/unit/test_hex20_element.py::test_hex20_geometry_acceptance_is_independent_of_length_units` | PASS, 3 |
-| `tests/unit/test_hex20_element.py::test_hex20_geometry_still_rejects_degenerate_and_inverted_elements` | PASS, 1 |
-| `tests/unit/test_da004_nodal_load_validation.py::test_mesh_validator_rejects_nonfinite_nodal_load_values` | PASS, 3 |
-| `tests/unit/test_da004_nodal_load_validation.py::test_finite_nodal_load_on_fixed_dof_remains_reportable_and_json_serializable` | PASS, 1 |
-| `tests/unit/test_da005_residual_contracts.py::test_residual_failure_tolerances_must_be_finite_positive_scalars` | PASS, 7 |
-| `tests/unit/test_da005_residual_contracts.py::test_relative_linear_residual_is_not_hidden_by_unit_floor` | PASS, 1 |
-| `tests/unit/test_da005_residual_contracts.py::test_relative_residual_defines_exact_zero_reference` | PASS, 1 |
-| `tests/unit/test_da005_residual_contracts.py::test_analysis_routes_reject_nonfinite_residual_limits_before_mesh_work` | PASS, 3 |
-| `tests/unit/test_backend_coverage_margin.py::test_linear_solver_reports_bad_residual_and_nonfinite_solution` | PASS, 1 |
-| `tests/unit/test_backend_coverage_margin.py::test_direct_refinement_is_opt_in_and_keeps_the_same_residual_gate` | PASS, 1 |
-| `tests/unit/test_backend_coverage_margin.py::test_linear_solver_supports_complex_frequency_systems` | PASS, 1 |
+Each pytest invocation selected one exact test-function nodeid. Parameterized outcomes are counted individually. All 35 selected functions passed after the final source changes (64 case outcomes):
 
-Ruff checks passed for all changed Python sources and tests. Python compilation and `git diff --check` passed. No full suite, controlled FEM campaign, CI matrix, or WP13 v7 smoke was run.
+- DA-005: `tests/unit/test_da005_residual_contracts.py` — tolerance type/range validation, numeric-string rejection, accepted finite Python/NumPy tolerances, default CG, tiny-system false-convergence regression, underflow/overflow norms, complex norms, zero-reference behavior, singular direct solve, and static/harmonic/dynamic route validation.
+- DA-003: `tests/unit/test_hex20_element.py` — unit-scale invariance, underflow rejection, small/large-scale stiffness, determinant overflow, severe positive distortion, inverted/degenerate geometry, and the existing stiffness/mass/rigid-mode test.
+- DA-001: `tests/unit/test_p1_route_spring_rejections.py` — geometric nonlinear, buckling, and nonlinear static rejection before validation/assembly, plus spring-free scope checks.
+- DA-004: `tests/unit/test_da004_nodal_load_validation.py` — invalid direct-model values, invalid `from_raw` values, accepted finite Python/NumPy values, oversized JSON integer rejection, and fixed-DOF reaction JSON serialization.
+- JSON compatibility: `tests/unit/test_json_io.py::test_json_reader_rejects_invalid_boundary_and_load_fields` and `::test_json_reader_loads_tet4_model`.
+- DA-002: `tests/unit/test_da002_contact_residual_metadata.py` — null JSON metadata and visible Markdown status.
+- Mesh-validation compatibility: `tests/unit/test_mesh_validation.py::test_mesh_validation_accepts_valid_tet4` and `::test_mesh_validation_rejects_incompatible_dof`.
 
-One initial run of the synthetic fixed-DOF serialization test queried reaction rows from the compact summary audit, which intentionally omits those rows. The test fixture now requests values detail and passes; this was a test-fixture correction, not a solver failure.
+Static checks passed:
 
-## Points retained as open
+- Ruff on all changed Python source and test files.
+- Python compilation of all changed Python source and test files.
+- `git diff --check`.
 
-These entries remain open exactly as limitations or hypotheses; no code change here promotes them to defects or closes them:
+No full test suite, complete CI matrix, controlled FEM qualification, WP12 campaign, package rebuild, or v7 smoke rerun was performed.
 
-- DA-006: full-repository confidentiality gate G03 remains `FAIL_PRESERVED`; archive selection does not purge Git history.
-- DA-007: independent legal review remains `NOT_ACQUIRED`.
-- DA-H01: positivity of the HEX Jacobian between sampled integration points remains an unverified hypothesis.
-- DA-H02: interpretation of the buckling critical factor for non-unit preloads remains an unverified hypothesis.
+## Compatibility, package, and proof impact
 
-They are preserved as release-review items and were not relabeled PASS.
+- The existing finite default residual tolerances are unchanged. Numeric strings and booleans that were previously coerced are now invalid input.
+- Finite Python integers/floats and NumPy integer/floating scalars remain supported for nodal loads. JSON continues to accept finite JSON numbers and reject booleans/strings.
+- Spring support was not added to any nonlinear route.
+- HEX20 geometry is now rejected where the raw determinant is zero/non-finite, even if its normalized determinant alone appears valid. Extremely scaled geometries whose raw stiffness measure cannot be represented therefore fail explicitly.
+- Distributed solver source changed. The v7 wheel and sdist hashes and six smoke results remain historical evidence for their exact earlier artifacts; they do not verify a package rebuilt from this source. A new artifact contract and installed-package checks are required for a later candidate.
+- No WP12 oracle, threshold, result, or ledger was changed.
 
-## Package and v7 evidence impact
+## Remaining risks and limitations
 
-The v7 wheel, normalized sdist, contracts, hashes, and six smoke records remain historical and unchanged. This remediation modifies distributed solver sources and therefore produces a different source/package identity. Any later candidate requires a new artifact contract, builds, hashes, and applicable installed-package verification. The v7 smoke results do not cover these changes. No rebuild or scientific rerun is claimed here.
+- The HEX20 test samples the existing integration points. It does not prove positive Jacobian everywhere between samples or certify general mesh quality.
+- A mathematically finite relative residual may be impossible to represent when its norm exceeds the floating-point range. The implementation fails conservatively in this case; this can produce a false failure for extreme magnitudes, but not a false convergence.
+- The dynamic equilibrium summary retains its pre-existing unit floor for its reporting-only load reference. The Newmark convergence gate uses the scale-aware relative residual and no unit floor.
+- Harmonic and transient convergence paths received stable norm integration and route-input tests, but no actual FEM response was executed under this mandate.
+- The existing proof limitations DA-006/DA-007 and hypotheses DA-H01/DA-H02 remain open; this remediation does not reclassify them.
 
 ## Verdict
 
-**`REMEDIATION_READY_FOR_REVIEW`** — the four demonstrated P2 code defects have minimal corrections and targeted non-campaign tests. Independent review is still needed, and the open proof limitations and hypotheses remain outside this code remediation. This verdict does not approve integration, qualification, tagging, or publication.
+**`REMEDIATION_READY_FOR_SECOND_REVIEW`** — the five requested P1/P2 corrections have targeted regression evidence, Ruff and compilation pass, and no controlled FEM campaign was run. This verdict recommends independent review only. It does not authorize merge, qualification, package release, tagging, or publication.

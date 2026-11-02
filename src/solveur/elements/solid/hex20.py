@@ -139,12 +139,14 @@ class Hex20Element:
         scaled_determinants: list[float] = []
         for point in cls.integration_points:
             jacobian = cls.jacobian(coords, point)
-            determinant = float(np.linalg.det(jacobian))
+            with np.errstate(over="ignore", invalid="ignore", under="ignore"):
+                determinant = float(np.linalg.det(jacobian))
             scaled_determinant = relative_determinant(jacobian)
             determinants.append(determinant)
             scaled_determinants.append(scaled_determinant)
         if (
             not np.all(np.isfinite(determinants))
+            or np.any(np.asarray(determinants) <= 0.0)
             or not np.all(np.isfinite(scaled_determinants))
             or np.any(np.asarray(scaled_determinants) <= 1.0e-14)
         ):

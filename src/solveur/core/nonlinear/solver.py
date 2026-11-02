@@ -62,6 +62,8 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
     def solve(self, model: FiniteElementModel) -> SolveResult:
         if model.analysis.method not in self.supported_methods:
             raise InputValidationError(f"Unsupported nonlinear method {model.analysis.method!r}.")
+        if model.springs:
+            raise InputValidationError("nonlinear_static does not support discrete springs.")
 
         self._assembly_plan = None
         report = self.validator.validate(model)

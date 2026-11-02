@@ -13,7 +13,12 @@ from solveur.core.audit import SolverAudit
 from solveur.core.analyses.dynamic_reduction import DynamicDofReducer
 from solveur.core.analyses.dynamic_controls import rayleigh_damping_definition
 from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
-from solveur.core.solvers.linear import LinearSystemSolver, relative_residual_ratio, validate_residual_failure_tolerance
+from solveur.core.solvers.linear import (
+    LinearSystemSolver,
+    relative_residual_ratio,
+    stable_l2_norm,
+    validate_residual_failure_tolerance,
+)
 from solveur.core.solvers.policy import LinearSolverPolicy, linear_execution_settings
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import HarmonicResult
@@ -94,8 +99,8 @@ class HarmonicResponseSolver:
             )
             residual = stiffness @ response + 1j * omega * (damping @ response) - omega**2 * (mass @ response) - loads
             responses.append(response)
-            residual_norm = float(np.linalg.norm(residual[free]))
-            reference = float(np.linalg.norm(loads[free]))
+            residual_norm = stable_l2_norm(residual[free])
+            reference = stable_l2_norm(loads[free])
             relative_residual = relative_residual_ratio(residual_norm, reference)
             limit = residual_limit
             if not np.isfinite(relative_residual) or relative_residual > limit:

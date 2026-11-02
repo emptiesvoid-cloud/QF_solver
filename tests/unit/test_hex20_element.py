@@ -92,6 +92,34 @@ def test_hex20_geometry_acceptance_is_independent_of_length_units(scale: float) 
     Hex20Element.validate_geometry(unit_hex20() * scale)
 
 
+def test_hex20_rejects_underflowed_positive_geometry_before_stiffness() -> None:
+    coordinates = unit_hex20() * 1.0e-108
+
+    with pytest.raises(ValueError, match="Invalid HEX20 Jacobian determinant"):
+        element().stiffness(coordinates)
+
+
+@pytest.mark.parametrize("scale", [1.0e-100, 1.0e100])
+def test_hex20_stiffness_remains_finite_and_nonzero_at_small_and_large_scales(scale: float) -> None:
+    stiffness = element().stiffness(unit_hex20() * scale)
+
+    assert np.all(np.isfinite(stiffness))
+    assert np.any(stiffness != 0.0)
+
+
+def test_hex20_rejects_scale_whose_raw_jacobian_determinant_overflows() -> None:
+    with pytest.raises(ValueError, match="Invalid HEX20 Jacobian determinant"):
+        Hex20Element.validate_geometry(unit_hex20() * 1.0e104)
+
+
+def test_hex20_rejects_extremely_distorted_positive_geometry() -> None:
+    distorted = unit_hex20()
+    distorted[:, 2] *= 1.0e-15
+
+    with pytest.raises(ValueError, match="Invalid HEX20 Jacobian determinant"):
+        Hex20Element.validate_geometry(distorted)
+
+
 def test_hex20_geometry_still_rejects_degenerate_and_inverted_elements() -> None:
     degenerate = unit_hex20()
     degenerate[:, 2] = 0.0

@@ -8,7 +8,12 @@ from typing import Any
 
 
 def is_number(value: Any) -> bool:
-    return isinstance(value, (int, float)) and not isinstance(value, bool) and isfinite(float(value))
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        return False
+    try:
+        return isfinite(float(value))
+    except (OverflowError, TypeError, ValueError):
+        return False
 
 
 def is_int(value: Any) -> bool:

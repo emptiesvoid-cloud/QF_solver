@@ -82,8 +82,12 @@ class MeshValidator:
         if dofs is not None:
             self._check_conditions(model, dofs, errors, warnings)
             errors.extend(multipoint_constraint_errors(model, dofs))
-            self._check_mechanical_rank(model, dofs, details, warnings)
-            self._check_component_constraints(model, dofs, details, warnings)
+            if errors:
+                details["mechanical_rank"] = {"checked": False, "reason": "input validation failed"}
+                warnings.append("Mechanical rank and component constraints were not checked because input validation failed.")
+            else:
+                self._check_mechanical_rank(model, dofs, details, warnings)
+                self._check_component_constraints(model, dofs, details, warnings)
         if not model.fixed_dofs:
             warnings.append("No fixed degree of freedom is defined; the solve may be singular.")
         status = "FAIL" if errors else "WARNING" if warnings else "PASS"
