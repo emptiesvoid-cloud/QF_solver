@@ -47,8 +47,8 @@ restent `GLOBAL_J2_TANGENT_QUALIFICATION=NOT_ACQUIRED`,
 `CRITERIA_GLOBAL=NOT_APPROVED`, `BA_GLOBAL_VERDICT=FAIL` et
 `WP_E01_STATUS=OPEN_WITH_BOUNDED_CERTIFICATES`. Aucun calcul FEM n'a ete lance
 pour integrer ce dossier. Le dossier de preuve, sa provenance, la revue et la
-decision Owner sont conserves dans
-`qualification/0_2_12/wp_e01_l_c03_metadata_fix/`.
+decision Owner sont conserves dans le snapshot source historique
+[`06fce7a`](https://github.com/emptiesvoid-cloud/QF_solver/tree/06fce7a47d41223955755c34e7238376b3c4a7b5/qualification/0_2_12/wp_e01_l_c03_metadata_fix). Ce lien ne qualifie pas le HEAD d’integration.
 
 Le site `engineering` peut etre construit sur un depot non committe, mais il
 affiche `source revision: uncommitted`. Le site `qualification` refuse cet

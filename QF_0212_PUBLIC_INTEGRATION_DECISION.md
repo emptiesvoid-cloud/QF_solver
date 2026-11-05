@@ -18,7 +18,7 @@ Le pointeur distant `origin/main` a été relu avant le commit local et correspo
 
 ## Contenu réellement intégré
 
-Le commit local contient 186 chemins sélectionnés (28 368 insertions, 964 suppressions), tous comparés octet pour octet à la candidate `6a5ff4c…` avant commit. La comparaison candidate/main compte 1 078 chemins changés : 186 intégrés et 892 laissés hors branche. Les 74 chemins `src/` correspondent exactement aux blobs de cette candidate. Aucun seuil, oracle ou test n’a été édité pour faire passer un contrôle.
+Le commit local contient 186 chemins sélectionnés (28 368 insertions, 964 suppressions), comparés octet pour octet à la candidate `6a5ff4c…` avant commit. 185 fichiers sont identiques; `docs/verification/qualification.md` remplace un chemin de preuve relatif par un lien au snapshot historique distant `06fce7a…`, vérifié dans le tree Git et conservant son avertissement de non-transfert. La comparaison candidate/main compte 1 078 chemins changés : 186 intégrés et 892 laissés hors branche. Les 74 chemins `src/` correspondent exactement aux blobs de cette candidate. Aucun seuil, oracle ou test n’a été édité pour faire passer un contrôle.
 
 | Famille | Fichiers |
 |---|---:|
@@ -32,7 +32,7 @@ Le commit local contient 186 chemins sélectionnés (28 368 insertions, 964 supp
 | Workflows, packaging, métadonnées et configuration | 11 |
 | **Total** | **186** |
 
-Le README, le changelog, la citation et les pages de préparation distinguent explicitement la version publiée `0.2.11` de la candidate non publiée `0.2.12`. La matrice candidate `docs/qualification_matrix.md` n’a pas été importée : elle ajoutait une revendication C03 détaillée qui n’est pas nécessaire au fonctionnement ni à la CI standard de cette branche. Le texte de qualification déjà présent sur `main` n’a pas été réécrit. Il cite le dossier C03 sous `qualification/0_2_12/wp_e01_l_c03_metadata_fix/`, absent de la branche d’intégration; le record existe au ref distant `06fce7a…` (SHA-256 `5c62a1a389c8afc4f048a0b9e4ec0ce6b09bdda58a590f9abc69b8db0e116757`). Cette référence historique n’est pas promue en preuve du HEAD d’intégration.
+Le README, le changelog, la citation et les pages de préparation distinguent explicitement la version publiée `0.2.11` de la candidate non publiée `0.2.12`. La matrice candidate `docs/qualification_matrix.md` n’a pas été importée : elle ajoutait une revendication C03 supplémentaire qui n’est pas nécessaire à la CI standard. `docs/verification/qualification.md` conserve la note C03 limitée et historique de la candidate, en remplaçant le chemin relatif absent de `main` par un lien vers le tree distant vérifié `06fce7a…`. Le record consulté a le SHA-256 `5c62a1a389c8afc4f048a0b9e4ec0ce6b09bdda58a590f9abc69b8db0e116757`. La note indique explicitement que le certificat ne s’applique pas au HEAD d’intégration; ce lien Git public n’est pas un archivage externe distinct.
 
 ## Différentiel de confidentialité des 52 chemins
 
