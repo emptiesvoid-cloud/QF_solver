@@ -50,12 +50,22 @@ Les solveurs iteratifs utilisent `rtol`, `atol` et `maxiter`. Une solution est
 ensuite controlee par:
 
 $$
-\eta=\frac{\|\mathbf K_{ff}\mathbf u_f-\mathbf f_f\|_2}
-{\max(\|\mathbf f_f\|_2,\|\mathbf K_{ff}\mathbf u_f\|_2,1)}.
+\eta=\frac{\|\operatorname{fl}(\operatorname{fl}(\mathbf K_{ff}\mathbf u_f)-\mathbf f_f)\|_2}
+{\max(\|\mathbf f_f\|_2,\|\operatorname{fl}(\mathbf K_{ff}\mathbf u_f)\|_2)}.
 $$
 
-Une solution non finie, un avertissement de rang ou $\eta$ superieur au seuil
-devient une `NumericalConvergenceError`.
+La norme est evaluee de facon mise a l'echelle. Si le residu et sa reference
+sont tous deux nuls, le ratio vaut zero; un residu non nul avec reference
+nulle est refuse. Le solveur verifie aussi une borne superieure conditionnelle
+tenant compte des arrondis du produit creux et de la soustraction, ainsi que
+des marges sur les normes. Une borne non finie ou depassant le seuil conduit
+a un refus. Cette borne repose sur les hypotheses et conversions expliquees
+dans `src/solveur/core/solvers/linear.py` et ne prouve pas la precision de la
+solution d'un systeme mal conditionne, ni l'erreur de discretisation. Le
+residu calcule, sa borne, l'erreur retrograde et l'erreur en solution sont des
+grandeurs distinctes.
+
+Une solution non finie, un avertissement de rang ou $\eta$ superieur au seuil devient une `NumericalConvergenceError`.
 
 ## Verification mecanique
 

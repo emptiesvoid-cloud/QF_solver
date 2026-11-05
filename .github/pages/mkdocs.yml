@@ -2,7 +2,7 @@
 site_name: QF Solver
 site_description: Open-source Python FEM/FEA solver for structural mechanics and dynamics
 site_author: Quentin Farinazzo
-site_url: https://emptiesvoid-cloud.github.io/QF_solver/
+site_url: https://qfsolver.org/
 
 repo_name: emptiesvoid-cloud/QF_solver
 repo_url: https://github.com/emptiesvoid-cloud/QF_solver
@@ -10,10 +10,15 @@ repo_url: https://github.com/emptiesvoid-cloud/QF_solver
 docs_dir: ../../docs
 site_dir: ../../site
 
-# Keep the controlled 0.2.9 qualification archive in Git, but do not serve it
-# as public documentation. It is not part of the published navigation.
+# Keep controlled qualification archives and internal engineering records in
+# Git, but do not serve them as public documentation.
 exclude_docs: |
+  ai/**
+  development/**
+  qualification/**
+  elements/rbe2_rbe3_audit_vv.md
   verification/0_2_9/**
+  verification/wp12_b_elements_loads_audit.md
 
 theme:
   name: material
@@ -37,16 +42,35 @@ nav:
       - When to Use QF Solver: getting-started/when-to-use-qf-solver.md
   - Capabilities:
       - Overview: capabilities/index.md
-      - Elements: elements/index.md
+      - Elements and Connections:
+          - Element families: elements/index.md
+          - TET4: elements/tet4.md
+          - TET10: elements/tet10.md
+          - BEAM2: elements/beam2.md
+          - MITC3: elements/mitc3.md
+          - MITC4: elements/mitc4.md
+          - Discrete entities: elements/entites_discretes.md
+          - MPC and rigid links: elements/liaisons_mpc_rbe.md
+          - RBE examples: elements/rbe_user_examples.md
+          - Frictionless contact: elements/contact_sans_frottement.md
+          - Frictional contact: elements/contact_avec_frottement.md
       - Analyses: analyses/index.md
+      - Materials and Composites:
+          - Material models: fondements/materiaux.md
+          - Composite overview: composites/index.md
+          - Orthotropic solids: composites/solides_orthotropes.md
+          - Laminated shells: composites/mitc4_multicouche.md
+          - First-ply indicators: composites/criteres_rupture.md
+          - Composite verification: composites/verification_composites.md
       - Nonlinear Mechanics: mechanics/nonlinear-overview.md
+      - Experimental Contact B*: contact_small_rotation_work_conjugate_transfer.md
       - Experimental Rotating Modal: mechanics/rotating-modal.md
       - Experimental Campbell Diagrams: mechanics/campbell.md
       - Architecture: architecture.md
       - Solvers & Backends: solveurs/index.md
       - Known Limitations: etat/limites.md
   - Examples:
-      - Overview: examples/index.md
+      - Runnable examples: examples/index.md
       - Demonstrations: demonstrations/index.md
   - Verification & Validation:
       - V&V and Maturity: verification/evidence-and-maturity.md
@@ -56,9 +80,13 @@ nav:
       - Benchmarks: benchmarks/index.md
       - Historical Evidence:
           - 0.2.7 Verification: verification/0_2_7/README.md
-  - API:
+  - API and Formats:
       - Public API Contract: reference/qf_solver_api.md
       - API Stability: reference/api_stability.md
+      - Interfaces and Compatibility: reference/interfaces.md
+      - Gmsh Import: reference/import_gmsh.md
+      - Audit Detail Modes: reference/audit_detail_modes.md
+      - Result Conventions: conventions_resultats.md
   - Comparisons:
       - Overview: comparisons/index.md
       - Python FEM Solvers: comparisons/python-fem-solvers.md
@@ -67,6 +95,7 @@ nav:
       - QF Solver vs scikit-fem: comparisons/qf-vs-scikit-fem.md
       - QF Solver vs SfePy: comparisons/qf-vs-sfepy.md
   - Project:
+      - What's New 0.2.12 Candidate: whats-new/0.2.12-preparation.md
       - What's New 0.2.11: whats-new/0.2.11.md
       - What's New 0.2.10: whats-new/0.2.10.md
       - What's New 0.2.8: whats-new/0.2.8.md

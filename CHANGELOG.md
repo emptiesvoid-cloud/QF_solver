@@ -1,5 +1,101 @@
 # Changelog
 
+## 0.2.12 — Preparation (unreleased)
+
+This section records the integration candidate only. The latest published
+release remains 0.2.11; 0.2.12 has no release date, version DOI, or publication
+authorization. The [candidate capability inventory](docs/ai/releases/v0.2.12.md)
+describes implemented routes and their evidence boundaries in more detail.
+
+### Added
+
+- Explicit reduced-dynamics routes: `harmonic_response/modal_superposition`
+  and `transient_dynamic/modal_newmark`, using a prepared dynamic system and
+  reusable modal basis. These routes remain experimental and have narrower
+  compatibility domains than the direct full-order routes.
+- Uniform translational base acceleration for those two reduced routes, with
+  explicit axis, units, sign, and time/frequency representation. It is not a
+  general support-motion option for every analysis.
+- Candidate contracts and diagnostics for prepared operators, modal bases,
+  reduced damping, time histories, and reduced-response result metadata.
+- Modal mode calculation is reported separately from residual validation.
+  The modal routes default to `modal_validation_policy="strict"`; a calculated
+  candidate is not thereby certified.
+
+### Changed
+
+- Reduced-analysis input, operator, and provenance compatibility checks fail
+  closed when the supplied model, prepared system, basis, or excitation is
+  incompatible. Route availability does not imply general scientific
+  qualification.
+- Nonlinear static, geometric nonlinear static, and linear buckling reject
+  models with discrete springs because those routes do not assemble them.
+  Spring support was not added to those analyses.
+- Input validation rejects non-finite nodal loads and unsafe implicit
+  coercions. Contact-audit serialization preserves unavailable residual
+  measurements as `null` with an explicit `NOT_COMPUTABLE` status.
+
+### Fixed
+
+- HEX20 geometry checks reject sampled raw Jacobian determinants that are
+  non-finite, zero, or non-positive before stiffness integration; the existing
+  dimensionless orientation/distortion criterion is retained.
+- Linear residual checks use scale-safe norm evaluation and reject invalid
+  residual tolerances and unrepresentable diagnostics rather than treating
+  underflow or overflow as convergence. The default residual threshold was not
+  raised. The roundoff analysis has stated implementation assumptions and is
+  not a guarantee of solution accuracy for ill-conditioned systems.
+
+### Known limitations and compatibility
+
+- Reduced harmonic response, modal Newmark, uniform base acceleration, and
+  related dynamic result recovery remain experimental or provisional under
+  their route-specific contracts. They do not add arbitrary shells, contact,
+  rotors, prestress, nonlinear response, or distributed execution to the
+  supported reduced-domain.
+- `modal_validation_policy="allow_inconclusive"` is an explicit compatibility
+  option for a computed modal candidate whose only unresolved condition is a
+  certification-budget limit. Such a basis and derived response keep
+  `INCONCLUSIVE`, `NOT_ASSESSED`, and `usable_as_certified_evidence=false`;
+  the option never accepts `FAIL`, non-finite data, or other inconclusive
+  causes. Omitting the option is strict. `PASS_CERTIFIED` applies only to the
+  bounded residual criterion, not to solution error or physical validation.
+- Modal Newmark checkpoints are accepted only when their execution and basis
+  identities match the current run, including the validation policy. Older
+  checkpoints lacking required identity fields or carrying a different basis
+  identity are rejected; no automatic migration or general backward
+  compatibility is promised. Regenerate a checkpoint under the matching
+  candidate when restart is needed.
+- New fail-closed validation may reject booleans, numeric strings, non-finite
+  inputs, unsupported spring-bearing models, or geometries whose required raw
+  numerical quantities are not representable. These rejections do not add
+  support for those cases.
+- The parent WP-C01 disposition remains `CLOSED_NEGATIVE` with remediation
+  open. The bounded B* sub-capability is opt-in and does not qualify finite
+  sliding, a global consistent slip tangent, general spatial convergence, or
+  production use.
+- WP12 remains `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA` for its 17 MUST
+  dispositions, with 39 SHOULD and 6 DEFERRED retained. It is not general
+  solver qualification or a scientific replay on the release HEAD. Preserve
+  the TET4-L3 energy FAIL (`0.0615360686 > 0.05`) without
+  `CONVERGENCE_PASS`, the two HEX8-SRI FAILs with post-correction global
+  validation `NOT_ACQUIRED`, and the HEX20 QUAD8 R4 FAIL with corrected FEM
+  validation `NOT_ACQUIRED`.
+- The v9 package, CI, and smoke evidence apply only to their recorded source
+  and artifact identities. Subsequent source changes require a new candidate
+  and do not inherit those results automatically.
+
+### Verification evidence
+
+- The identity-bound remediation report records targeted tests for the fixes
+  above and states explicitly that no full test suite, new controlled FEM
+  campaign, WP12 replay, or package rebuild was performed as part of that
+  remediation. Any CI, package, or smoke evidence remains bound to the exact
+  source and artifact identities in its own record. See
+  [WP13 P1/P2 remediation](qualification/0_2_12/WP13_P1_P2_REMEDIATION_REPORT.md)
+  and the [v9 candidate inventory](docs/ai/releases/v0.2.12.md). These records
+  are evidence references, not a new qualification claim for later commits.
+
 ## 0.2.11 - Released
 
 QF Solver 0.2.11 is a cumulative update to 0.2.10, published on 2026-10-07.

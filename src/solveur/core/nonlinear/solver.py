@@ -18,6 +18,7 @@ from solveur.core.assembly.nonlinear import (
     NonlinearAssemblyPlan,
     assemble_internal_tangent,
     build_nonlinear_assembly_plan,
+    validate_corotational_formulation,
 )
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.controls import (
@@ -29,6 +30,15 @@ from solveur.core.nonlinear.checkpoint import NonlinearCheckpointSession, Nonlin
 from solveur.core.nonlinear.arc_length import NonlinearArcLengthMixin
 from solveur.core.nonlinear.load_control import NonlinearLoadControlMixin
 from solveur.core.nonlinear.state import NonlinearState
+from solveur.elements.solid.corotational_j2 import (
+    CORRECTED_COROTATIONAL_J2,
+    CORRECTED_RESULT_SCHEMA,
+    CORRECTED_STRESS_SEMANTICS,
+    CORRECTED_TANGENT_FINITE_DIFFERENCE,
+    CORRECTED_TANGENT_POLAR_ANALYTIC,
+    CORRECTED_TANGENT_RELATIVE_STEP,
+    corrected_tangent_strategy_version,
+)
 from solveur.core.results import SolveResult
 from solveur.mesh.validation import MeshValidator
 from solveur.post.audit import PostProcessingAuditor
@@ -52,6 +62,8 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
     def solve(self, model: FiniteElementModel) -> SolveResult:
         if model.analysis.method not in self.supported_methods:
             raise InputValidationError(f"Unsupported nonlinear method {model.analysis.method!r}.")
+        if model.springs:
+            raise InputValidationError("nonlinear_static does not support discrete springs.")
 
         self._assembly_plan = None
         report = self.validator.validate(model)
@@ -215,11 +227,15 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 accepted_state = self._last_load_step_state
                 if accepted_state is None:
                     raise InputValidationError("Unified nonlinear load step did not expose an accepted state.")
-                accepted_state.accepted_increment_metadata = {
-                    "step": step,
-                    "load_increment": float(history[-1].load_increment),
-                    "load_control": "fixed",
-                }
+                accepted_metadata = dict(accepted_state.accepted_increment_metadata)
+                accepted_metadata.update(
+                    {
+                        "step": step,
+                        "load_increment": float(history[-1].load_increment),
+                        "load_control": "fixed",
+                    }
+                )
+                accepted_state.accepted_increment_metadata = accepted_metadata
                 checkpoint_session.save_state(
                     step,
                     accepted_state,
@@ -275,6 +291,36 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
             analysis="nonlinear_static",
             method=model.analysis.method,
             solver={
+                **(
+                    {
+                        "formulation_id": CORRECTED_COROTATIONAL_J2,
+                        "constitutive_state_version": "corotational_j2_state/v2",
+                        "stress_semantic_version": CORRECTED_STRESS_SEMANTICS,
+                        "result_schema_version": CORRECTED_RESULT_SCHEMA,
+                        "tangent_scheme": (
+                            "polar_sylvester_derivative_of_corrected_force_fixed_accepted_state"
+                            if self._assembly_plan is not None
+                            and self._assembly_plan.corotational_tangent_strategy == CORRECTED_TANGENT_POLAR_ANALYTIC
+                            else "central_difference_of_corrected_force_fixed_accepted_state"
+                        ),
+                        "tangent_strategy_version": corrected_tangent_strategy_version(
+                            self._assembly_plan.corotational_tangent_strategy
+                            if self._assembly_plan is not None
+                            else CORRECTED_TANGENT_FINITE_DIFFERENCE
+                        ),
+                        **(
+                            {"tangent_relative_step": CORRECTED_TANGENT_RELATIVE_STEP}
+                            if self._assembly_plan is None
+                            or self._assembly_plan.corotational_tangent_strategy != CORRECTED_TANGENT_POLAR_ANALYTIC
+                            else {}
+                        ),
+                        "maturity": "EXPERIMENTAL",
+                        "qualification_status": "NOT_ASSESSED",
+                        "numerical_pass_implies_qualification": False,
+                    }
+                    if params.get("corotational_formulation") == CORRECTED_COROTATIONAL_J2
+                    else {}
+                ),
                 "nonlinear_options": {
                     "load_steps": options.load_steps,
                     "max_iterations": options.max_iterations,
@@ -288,15 +334,9 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 "adaptive_load_steps": adaptive,
                 "arc_length": model.analysis.method == "arc_length",
                 "adaptive_arc_length": bool(arc_length_controls and arc_length_controls.adaptive_radius),
-                "arc_length_growth_factor": (
-                    arc_length_controls.growth_factor if arc_length_controls else None
-                ),
-                "arc_length_shrink_factor": (
-                    arc_length_controls.shrink_factor if arc_length_controls else None
-                ),
-                "arc_length_minimum_radius": (
-                    arc_length_controls.minimum_radius if arc_length_controls else None
-                ),
+                "arc_length_growth_factor": (arc_length_controls.growth_factor if arc_length_controls else None),
+                "arc_length_shrink_factor": (arc_length_controls.shrink_factor if arc_length_controls else None),
+                "arc_length_minimum_radius": (arc_length_controls.minimum_radius if arc_length_controls else None),
                 "arc_length_stop_mode": str(params.get("arc_length_stop_mode", "target_load")).lower(),
                 "arc_length_allow_load_factor_turning": bool(
                     params.get(
@@ -321,9 +361,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 "checkpoint_path": checkpoint_session.settings.path if checkpoint_session else None,
                 "checkpoint_files": checkpoint_session.files if checkpoint_session else [],
                 "checkpoint_model_signature": (
-                    checkpoint_session.persisted_signature or checkpoint_session.signature
-                    if checkpoint_session
-                    else ""
+                    checkpoint_session.persisted_signature or checkpoint_session.signature if checkpoint_session else ""
                 ),
                 "rejected_increments": self._rejected_increments,
                 "rejection_log": list(self._rejection_log),
@@ -340,12 +378,6 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
             audit=audit,
         )
 
-
-
-
-
-
-
     @staticmethod
     def _validate_kinematics_scope(model: FiniteElementModel, params: dict[str, object]) -> None:
         """Validate the supported common finite-kinematic nonlinear branches."""
@@ -359,6 +391,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
             if any(contact.friction_coefficient > 0.0 for contact in model.contacts):
                 raise InputValidationError("The common nonlinear contact path is frictionless only.")
         kinematics = str(params.get("kinematics", "small_strain")).lower()
+        validate_corotational_formulation(model)
         if kinematics == "small_strain":
             return
         if kinematics not in {"total_lagrangian", "total_lagrangian_j2", "corotational_j2"}:
@@ -377,22 +410,13 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 f"{kinematics} currently supports homogeneous TET4, TET10, HEX8 or HEX20 meshes."
             )
         if len(families) != 1:
-            raise InputValidationError(
-                f"{kinematics} currently requires one homogeneous element family."
-            )
-        material_types = {
-            str(model.materials[element.material].get("type", "")).lower()
-            for element in model.elements
-        }
+            raise InputValidationError(f"{kinematics} currently requires one homogeneous element family.")
+        material_types = {str(model.materials[element.material].get("type", "")).lower() for element in model.elements}
         expected_material = (
-            "von_mises_elastoplastic_3d"
-            if kinematics in {"total_lagrangian_j2", "corotational_j2"}
-            else "isotropic_3d"
+            "von_mises_elastoplastic_3d" if kinematics in {"total_lagrangian_j2", "corotational_j2"} else "isotropic_3d"
         )
         if material_types != {expected_material}:
-            raise InputValidationError(
-                f"{kinematics} requires material type '{expected_material}'."
-            )
+            raise InputValidationError(f"{kinematics} requires material type '{expected_material}'.")
 
     def _assemble_internal_tangent(
         self,

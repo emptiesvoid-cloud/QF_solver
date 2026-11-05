@@ -32,7 +32,7 @@ def command_solve(args: argparse.Namespace) -> int:
     if args.analysis is not None or args.method is not None:
         model.analysis = model.analysis.with_overrides(analysis_type=args.analysis, method=args.method)
     result = solve_model(model, enforce_policy=False)
-    save_result(result, args.output)
+    save_result(result, args.output, overwrite=getattr(args, "overwrite", False))
     if args.audit_md is not None:
         save_audit_markdown(result, args.audit_md)
     if args.csv_dir is not None:
@@ -75,7 +75,7 @@ def command_check_mesh(args: argparse.Namespace) -> int:
     apply_verification_profile(model, args.verification_profile)
     report = check_mesh(model)
     if args.json_report is not None:
-        save_result(report, args.json_report)
+        save_result(report, args.json_report, overwrite=getattr(args, "overwrite", False))
     print(f"MESH STATUS: {report.status}")
     if args.json_report is not None:
         print(f"json report: {args.json_report}")
@@ -98,7 +98,7 @@ def command_inspect(args: argparse.Namespace) -> int:
     if args.output is None and args.markdown is None:
         print(json.dumps(data, indent=2))
     if args.output is not None:
-        save_result(audit, args.output)
+        save_result(audit, args.output, overwrite=getattr(args, "overwrite", False))
         print(f"AUDIT STATUS: {audit.mesh_status}")
         print(f"output: {args.output}")
     if args.markdown is not None:

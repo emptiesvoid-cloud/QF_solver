@@ -79,14 +79,23 @@ class Hex8Element:
     def jacobian_determinant(cls, coords: np.ndarray, point: tuple[float, float, float] | np.ndarray) -> float:
         return float(np.linalg.det(cls.jacobian(coords, point)))
 
+    @staticmethod
+    def _jacobian_determinant_tolerance(coords: np.ndarray) -> float:
+        """Return a scale-relative determinant tolerance for this element."""
+        characteristic_length = float(np.max(np.ptp(coords, axis=0)))
+        return 1.0e-14 * characteristic_length**3
+
     @classmethod
     def validate_geometry(cls, coords: np.ndarray) -> None:
         """Reject inverted, degenerate or locally folded HEX8 geometry."""
         coords = cls._validated_coords(coords)
-        span = max(float(np.max(np.ptp(coords, axis=0))), 1.0)
-        tolerance = 1.0e-14 * span**3
-        determinants = np.asarray([cls.jacobian_determinant(coords, point) for point in cls.integration_points])
-        if np.any(determinants <= tolerance):
+        if np.any(~np.isfinite(coords)):
+            raise ValueError("Invalid HEX8 Jacobian determinant: coordinates must be finite.")
+        tolerance = cls._jacobian_determinant_tolerance(coords)
+        determinants = np.asarray(
+            [cls.jacobian_determinant(coords, point) for point in cls.integration_points]
+        )
+        if np.any(~np.isfinite(determinants)) or np.any(determinants <= tolerance):
             minimum = float(np.min(determinants))
             raise ValueError(f"Invalid HEX8 Jacobian determinant {minimum:.6e}.")
 

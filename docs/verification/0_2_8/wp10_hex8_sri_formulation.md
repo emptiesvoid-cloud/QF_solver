@@ -37,7 +37,9 @@ convention used by QF Solver. The SRI stiffness is
 \]
 
 The deviatoric contribution uses the eight standard Gauss points. The
-volumetric contribution uses the element centre only. This choice targets
+volumetric contribution uses the element centre only. On the reference cube
+`[-1, 1]^3`, the eight full-integration weights are each 1 and sum to 8;
+the centre-only volumetric quadrature has weight `w_0 = 8`. This choice targets
 volumetric locking while retaining full deviatoric/shear integration; no
 hourglass control or production reduced-integration HEX8 variant is added.
 

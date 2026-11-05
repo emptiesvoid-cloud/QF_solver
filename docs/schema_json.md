@@ -34,10 +34,15 @@ Champs optionnels:
 - `verification_profile`: `quick`, `engineering`, `strict` ou
   `qualification`. Par defaut: `engineering`.
 - `fixed_dofs`: conditions aux limites nodales.
-- `loads`: charges nodales.
+- `loads`: charges nodales. Chaque valeur est un nombre fini; les booléens
+  et chaînes ne sont pas des valeurs numériques admises.
 - `distributed_loads`: pesanteur, forces volumiques, pressions, tractions de
   surface et tractions de bord integrees de maniere coherente.
 - `springs`: ressorts lineaires au sol ou entre deux noeuds.
+Le constructeur Python FiniteElementModel.from_raw applique le même contrat
+aux valeurs des charges nodales : il accepte les scalaires numériques entiers ou
+flottants finis (y compris leurs scalaires NumPy), et refuse les booléens, les
+chaînes et les valeurs non finies au lieu de les convertir implicitement.
 - `concentrated_masses`: masses nodales avec excentration et inertie optionnelles.
 - `multipoint_constraints`: equations lineaires entre DDL nommes.
 - `rbe2`: liaisons rigides maitre/esclaves avec bras geometrique.
@@ -223,6 +228,11 @@ l'element puis assemblees dans le vecteur global. Les anciennes charges
 ponctuelles `loads` restent compatibles. L'ordre utilise par
 `load_factors_by_load` est toujours: toutes les charges nodales, puis toutes
 les charges reparties, dans l'ordre du JSON.
+
+Les cibles `element` et `elements` utilisent des indices entiers ; les
+booléens, chaînes et nombres à virgule ne sont pas convertis en indices par
+`FiniteElementModel.from_raw`. Une liste `elements` explicitement vide ne
+sélectionne aucun élément.
 
 Types disponibles:
 

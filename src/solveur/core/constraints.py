@@ -234,8 +234,16 @@ def _equations(
             raise InputValidationError(f"MPC {position} must contain at least two terms.")
         dependent = constraint.dependent
         pivot = float(dependent.coefficient)
-        if not np.isfinite(pivot) or abs(pivot) <= 1.0e-14:
-            raise InputValidationError(f"MPC {position} has a zero dependent coefficient.")
+        row_scale = max((abs(float(term.coefficient)) for term in constraint.terms), default=0.0)
+        if (
+            not np.isfinite(pivot)
+            or not np.isfinite(row_scale)
+            or row_scale == 0.0
+            or abs(pivot) <= 1.0e-14 * row_scale
+        ):
+            raise InputValidationError(
+                f"MPC {position} has a zero or numerically negligible dependent coefficient relative to its row."
+            )
         dependent_index = dofs.index(dependent.node, dependent.dof)
         coefficients: dict[int, float] = {}
         seen: set[tuple[int, str]] = set()
@@ -290,7 +298,10 @@ def _resolve(
         resolved += factor * child_constant
         for column, value in child_mapping.items():
             mapped[column] = mapped.get(column, 0.0) + factor * value
-    result = (resolved, {column: value for column, value in mapped.items() if abs(value) > 1.0e-15})
+    # MPC coefficients carry units (RBE lever arms and projection weights in
+    # particular).  An absolute cutoff can silently erase valid couplings when
+    # the model uses small/large coordinate scales, so only exact zeros vanish.
+    result = (resolved, {column: value for column, value in mapped.items() if value != 0.0})
     memo[index] = result
     return result
 

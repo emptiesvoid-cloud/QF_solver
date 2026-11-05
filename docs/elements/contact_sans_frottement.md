@@ -52,9 +52,16 @@ Le vecteur global $B$ est tel que $g(u)=g_0+Bu$. La convention est :
 - $g>0$ : separation;
 - $g=0$ : contact ferme;
 - $g<0$ : penetration interdite;
-- $p=-\lambda\geq0$ : pression compressive.
+- $p=-\lambda\geq0$ : effort normal nodal compressif.
 
-La paire de contact respecte les conditions de Kuhn-Tucker :
+Le champ historique `pressure` contient cet effort nodal, et non une pression
+surfacique. En SI, $g$ est en m, $p$ et $\lambda$ en N, et $gp$ en N·m.
+Une pression en Pa necessiterait une aire de reference explicitement definie;
+aucune division par une aire n'est effectuee dans ce champ.
+
+Pour la formulation active-set exacte, la paire respecte les conditions de
+Kuhn-Tucker (une penalisation a penetration finie ne satisfait pas en general
+la complementarite exacte) :
 
 $$
 g\geq0,\qquad p\geq0,\qquad gp=0.

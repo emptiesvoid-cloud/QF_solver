@@ -54,16 +54,18 @@ def test_security_policy_identifies_current_and_older_release_channels() -> None
     assert "best-effort basis" in security
 
 
-def test_published_release_citation_has_exact_release_metadata() -> None:
+def test_candidate_citation_has_unreleased_version_without_release_metadata() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     runtime = _text("src/solveur/version.py")
     citation = _text("CITATION.cff")
-    assert project["version"] == "0.2.11"
-    assert '__version__ = "0.2.11"' in runtime
+    assert project["version"] == "0.2.12"
+    assert '__version__ = "0.2.12"' in runtime
     assert 'title: "QF Solver"' in citation
-    assert 'version: "0.2.11"' in citation
-    assert 'date-released: "2026-10-07"' in citation
-    assert 'doi: "10.5281/zenodo.23214487"' in citation
+    assert 'version: "0.2.12"' in citation
+    assert "date-released:" not in citation
+    assert "doi:" not in citation
+    assert "No version DOI or release date has been assigned." in citation
+    assert "10.5281/zenodo.22697897" in citation
     assert 'license: "Apache-2.0"' in citation
     assert 'repository-code: "https://github.com/emptiesvoid-cloud/QF_solver"' in citation
     assert "NOT_PUBLISHED_YET" not in citation
@@ -83,10 +85,10 @@ def test_published_release_citation_has_exact_release_metadata() -> None:
 
     assert "0.2.8" in _text("README.md")
     assert "0.2.8" in _text("CHANGELOG.md")
-    assert "The current QF Solver release is `0.2.11`" in _text("README.md")
+    assert "The latest published QF Solver release is `0.2.11`" in _text("README.md")
     assert "10.5281/zenodo.23106744" in _text("README.md")
     assert "10.5281/zenodo.22697897" in _text("README.md")
-    assert "current QF Solver release is `0.2.11`" in _text("README.md")
+    assert "latest published QF Solver release is `0.2.11`" in _text("README.md")
 
 
 def test_public_release_policy_classifies_reviewed_evidence_and_exclusions() -> None:

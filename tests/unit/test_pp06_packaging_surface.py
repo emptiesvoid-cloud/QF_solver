@@ -20,7 +20,7 @@ def _text(relative: str) -> str:
 def test_package_declares_complete_license_set_and_documentation_engine() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     assert project["name"] == "qf-solver"
-    assert project["version"] == "0.2.11"
+    assert project["version"] == "0.2.12"
     assert set(project["license-files"]) == {"LICENSE", "LICENSE-DOCS", "NOTICE", "THIRD_PARTY_LICENSES.md"}
     docs = set(project["optional-dependencies"]["docs"])
     assert "mkdocs>=1.6,<2" in docs
@@ -31,6 +31,12 @@ def test_manifest_and_license_inventory_cover_public_license_documents() -> None
     manifest = _text("MANIFEST.in")
     for filename in ("LICENSE", "LICENSE-DOCS", "NOTICE", "THIRD_PARTY_LICENSES.md"):
         assert filename in manifest
+    for example in (
+        "examples/contact/frictional_bstar_small_rotation/README.md",
+        "examples/contact/frictional_bstar_small_rotation/run_example.py",
+        "examples/wp_d02_dynamic_stress.py",
+    ):
+        assert f"include {example}" in manifest
     inventory = _text("THIRD_PARTY_LICENSES.md")
     for component in ("NumPy", "SciPy", "Matplotlib", "Gmsh", "h5py", "mpi4py", "PETSc", "SLEPc", "MkDocs"):
         assert component in inventory

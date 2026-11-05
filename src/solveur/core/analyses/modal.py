@@ -23,7 +23,12 @@ from scipy.sparse.linalg import (
 from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.core.audit import SolverAudit
 from solveur.core.analyses.dynamic_reduction import DynamicDofReducer
-from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
+from solveur.core.errors import (
+    InputValidationError,
+    MeshValidationError,
+    ModalResidualValidationError,
+    NumericalConvergenceError,
+)
 from solveur.core.model import FiniteElementModel
 from solveur.core.analyses.modal_dense import dense_generalized_eigh as _dense_generalized_eigh
 from solveur.core.analyses.modal_options import (
@@ -33,6 +38,14 @@ from solveur.core.analyses.modal_options import (
     _positive_int_parameter,
     _positive_parameter,
     validate_slepc_modal_scale,
+)
+from solveur.core.analyses.modal_residual_validation import (
+    ModalEigenpairValidation,
+    _modal_eigenpair_preflight,
+    is_budget_limited_inconclusive,
+    modal_result_components_are_finite,
+    modal_response_status,
+    validate_modal_eigenpairs,
 )
 from solveur.core.results import ModalResult
 from solveur.core.solvers.backend import select_backend, solve_with_slepc
@@ -67,6 +80,25 @@ class ModalAnalysisSolver:
             },
         )
         parameters = model.analysis.parameters
+        modal_validation_policy = parameters.get("modal_validation_policy", "strict")
+        if not isinstance(modal_validation_policy, str) or modal_validation_policy not in {
+            "strict",
+            "allow_inconclusive",
+        }:
+            raise InputValidationError(
+                "modal_validation_policy must be 'strict' or 'allow_inconclusive'."
+            )
+        raw_residual_limit = parameters.get("modal_residual_failure_tolerance", 1.0e-7)
+        if (isinstance(raw_residual_limit, (bool, np.bool_)) or
+            not isinstance(raw_residual_limit, (int, float, np.integer, np.floating)) or
+            isinstance(raw_residual_limit, np.floating) and raw_residual_limit.dtype.itemsize > 8):
+            raise InputValidationError("modal_residual_failure_tolerance must be a finite positive number.")
+        try:
+            residual_limit = float(raw_residual_limit)
+        except (OverflowError, TypeError, ValueError) as exc:
+            raise InputValidationError("modal_residual_failure_tolerance must be a finite positive number.") from exc
+        if not math.isfinite(residual_limit) or residual_limit <= 0.0:
+            raise InputValidationError("modal_residual_failure_tolerance must be a finite positive number.")
         requested_backend = str(parameters.get("backend", "auto")).strip().lower()
         use_slepc_modal = _boolean_parameter(
             parameters.get("use_slepc_modal", False), "use_slepc_modal"
@@ -226,7 +258,44 @@ class ModalAnalysisSolver:
         refinement = _refine_eigenpairs(
             kff, mff, values, vectors, iterations=refinement_iterations
         )
-        values, vectors = refinement["values"], refinement["vectors"]
+        values = cast(np.ndarray[Any, Any], refinement["values"])
+        vectors = cast(np.ndarray[Any, Any], refinement["vectors"])
+        frequencies = np.sqrt(values) / (2.0 * math.pi)
+        full_modes = np.column_stack([reducer.expand_state(vectors[:, index]) for index in range(values.size)])
+        preflight_reason, preflight_operations = _modal_eigenpair_preflight(
+            kff, mff, values, vectors
+        )
+        preflight_validation = (
+            None
+            if preflight_reason is None
+            else ModalEigenpairValidation(
+                "INCONCLUSIVE", preflight_reason, (), preflight_operations
+            )
+        )
+        allow_budget_inconclusive = (
+            modal_validation_policy == "allow_inconclusive"
+            and preflight_validation is not None
+            and is_budget_limited_inconclusive(preflight_validation)
+        )
+        if preflight_reason is not None and not allow_budget_inconclusive:
+            preflight = ModalEigenpairValidation(
+                "INCONCLUSIVE", preflight_reason, (), preflight_operations
+            )
+            raise ModalResidualValidationError(
+                "Modal eigenpair validation is outside its supported bounded domain; computed modes are retained: "
+                f"reason={preflight_reason}.",
+                validation_status="INCONCLUSIVE",
+                diagnostics=preflight.to_dict(),
+                computed_result={
+                    "analysis": "modal",
+                    "status": "INCONCLUSIVE",
+                    "eigenvalues": values,
+                    "frequencies_hz": frequencies,
+                    "modes": full_modes,
+                    "method": used_method,
+                    "solver": {"modal_residual_validation": preflight.to_dict()},
+                },
+            )
         influences = {
             direction: reducer.reduce_state(_direction_vector(dofs, direction))
             for direction in ("UX", "UY", "UZ")
@@ -240,19 +309,69 @@ class ModalAnalysisSolver:
         diagnostics["dynamic_reduction"] = dict(reducer.diagnostics)
         diagnostics["eigenpair_refinement"] = {
             "iterations_requested": refinement_iterations,
-            "iterations_performed": int(refinement["iterations_performed"]),
-            "maximum_residual_before": float(refinement["maximum_residual_before"]),
-            "maximum_residual_after": float(refinement["maximum_residual_after"]),
+            "iterations_performed": cast(int, refinement["iterations_performed"]),
+            "maximum_residual_before": cast(float, refinement["maximum_residual_before"]),
+            "maximum_residual_after": cast(float, refinement["maximum_residual_after"]),
         }
-        residual_limit = float(parameters.get("modal_residual_failure_tolerance", 1.0e-7))
-        if diagnostics["max_relative_residual"] > residual_limit:
-            raise NumericalConvergenceError(
-                "Modal eigenpair residual is abnormal: "
-                f"relative={diagnostics['max_relative_residual']:.6e}, allowed={residual_limit:.6e}."
+        validation = validate_modal_eigenpairs(
+            kff,
+            mff,
+            values,
+            vectors,
+            residual_limit,
+            legacy_residuals=diagnostics.get("relative_residuals"),
+        )
+        if not modal_result_components_are_finite(diagnostics, frequencies, full_modes):
+            validation = ModalEigenpairValidation(
+                "INCONCLUSIVE", "nonfinite_modal_result_component", validation.checks,
+                validation.operation_count,
             )
-        frequencies = np.sqrt(values) / (2.0 * math.pi)
-        full_modes = np.column_stack([reducer.expand_state(vectors[:, index]) for index in range(values.size)])
-        telemetry_values = cast(np.ndarray[Any, Any], values)
+        diagnostics["modal_residual_validation"] = validation.to_dict()
+        diagnostics["status"] = (
+            "PASS_CERTIFIED" if validation.status == "PASS_CERTIFIED" else "COMPUTED"
+        )
+        diagnostics["calculation_status"] = "COMPUTED"
+        diagnostics["modal_validation_status"] = validation.status
+        diagnostics["modal_use_policy"] = (
+            "ALLOW_INCONCLUSIVE_COMPUTED_MODES"
+            if allow_budget_inconclusive and is_budget_limited_inconclusive(validation)
+            else "CERTIFIED_ONLY"
+        )
+        compatibility_result = (
+            allow_budget_inconclusive and is_budget_limited_inconclusive(validation)
+        )
+        if validation.status != "PASS_CERTIFIED" and not compatibility_result:
+            computed_result = {
+                "analysis": "modal",
+                "status": validation.status,
+                "eigenvalues": values,
+                "frequencies_hz": frequencies,
+                "modes": full_modes,
+                "method": used_method,
+                "solver": diagnostics,
+                "mesh_report": report.to_dict(),
+            }
+            raise ModalResidualValidationError(
+                "Modal eigenpair residual was not certified within the supported domain: "
+                f"status={validation.status}, reason={validation.reason}.",
+                validation_status=validation.status,
+                diagnostics=validation.to_dict(),
+                computed_result=computed_result,
+            )
+        modal_result = ModalResult(
+            status=modal_response_status(validation.status),
+            eigenvalues=values,
+            frequencies_hz=frequencies,
+            modes=full_modes,
+            dofs=dofs,
+            mesh_report=report,
+            node_count=model.node_count,
+            element_count=len(model.elements),
+            method=used_method,
+            solver=diagnostics,
+            audit=audit,
+        )
+        telemetry_values = values
         telemetry_frequencies = cast(np.ndarray[Any, Any], frequencies)
         telemetry_residuals = cast(np.ndarray[Any, Any], diagnostics["relative_residuals"])
         for index, (eigenvalue, frequency) in enumerate(zip(telemetry_values, telemetry_frequencies)):
@@ -285,19 +404,7 @@ class ModalAnalysisSolver:
                 "total_analysis_time_s": perf_counter() - run_started,
             },
         )
-        return ModalResult(
-            status="PASS",
-            eigenvalues=values,
-            frequencies_hz=frequencies,
-            modes=full_modes,
-            dofs=dofs,
-            mesh_report=report,
-            node_count=model.node_count,
-            element_count=len(model.elements),
-            method=used_method,
-            solver=diagnostics,
-            audit=audit,
-        )
+        return modal_result
 
     @staticmethod
     def _solve_eigenproblem(

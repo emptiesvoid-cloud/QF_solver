@@ -94,8 +94,16 @@ class ConstraintSchemaValidator:
                     weights.append(float(weight))
             if len(nodes) != len(set(nodes)):
                 errors.append(f"{path}.independents must not repeat nodes.")
-            if weights and abs(sum(weights)) <= 1.0e-14:
-                errors.append(f"{path}.independents weights must have a non-zero sum.")
+            if weights and len(weights) == len(independents):
+                weight_scale = max((abs(weight) for weight in weights), default=0.0)
+                if weight_scale == 0.0:
+                    errors.append(f"{path}.independents weights must have a non-zero sum.")
+                else:
+                    scaled_weights = [weight / weight_scale for weight in weights]
+                    scaled_sum = sum(scaled_weights)
+                    scaled_magnitude = sum(abs(weight) for weight in scaled_weights)
+                    if abs(scaled_sum) <= 1.0e-14 * scaled_magnitude:
+                        errors.append(f"{path}.independents weights must have a numerically non-zero sum.")
             mode = str(item.get("mode", "rigid_body_projection")).lower()
             if mode not in {"rigid_body_projection", "weighted"}:
                 errors.append(f"{path}.mode must be 'rigid_body_projection' or 'weighted'.")
@@ -127,6 +135,7 @@ class ConstraintSchemaValidator:
         if "name" in item and not isinstance(item["name"], str):
             errors.append(f"{path}.name must be a string.")
         seen: set[tuple[int, str]] = set()
+        coefficient_values: list[float] = []
         for term_index, term in enumerate(terms):
             term_path = f"{path}.terms[{term_index}]"
             if not isinstance(term, Mapping):
@@ -147,5 +156,11 @@ class ConstraintSchemaValidator:
             coefficient = term.get("coefficient")
             if not is_number(coefficient):
                 errors.append(f"{term_path}.coefficient must be a finite number.")
-            elif term_index == 0 and abs(float(coefficient)) <= 1.0e-14:
-                errors.append(f"{term_path}.coefficient must be non-zero for the dependent DOF.")
+            else:
+                coefficient_values.append(float(coefficient))
+        if len(coefficient_values) == len(terms):
+            coefficient_scale = max((abs(coefficient) for coefficient in coefficient_values), default=0.0)
+            if coefficient_scale == 0.0 or abs(coefficient_values[0]) <= 1.0e-14 * coefficient_scale:
+                errors.append(
+                    f"{path}.terms[0].coefficient must be non-zero relative to the MPC row for the dependent DOF."
+                )
