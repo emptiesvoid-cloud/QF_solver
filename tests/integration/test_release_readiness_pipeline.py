@@ -2,11 +2,32 @@ import subprocess
 from pathlib import Path
 
 from scripts.git_tools import git_command
+import scripts.release_readiness as release_readiness_module
 from scripts.release_readiness import release_readiness
 
 
-def test_release_readiness_remains_dry_run_and_reports_worktree_state() -> None:
+def test_release_readiness_remains_dry_run_and_reports_worktree_state(monkeypatch) -> None:
     root = Path(__file__).resolve().parents[2]
+    monkeypatch.setattr(
+        release_readiness_module,
+        "audit_public_release",
+        lambda _root: {"status": "PASS", "findings": [], "scanned_files": 1},
+    )
+    monkeypatch.setattr(
+        release_readiness_module,
+        "audit_release_archive",
+        lambda _root: {"status": "PASS", "findings": [], "paths": ["README.md"]},
+    )
+    monkeypatch.setattr(
+        release_readiness_module,
+        "audit_git_history_paths",
+        lambda _root: {
+            "status": "PASS",
+            "commit_count": 1,
+            "findings": [],
+            "limitation": "synthetic report",
+        },
+    )
     report = release_readiness(root)
 
     git_status = subprocess.run(

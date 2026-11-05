@@ -32,6 +32,7 @@ class SolverCli:
         solve = sub.add_parser("solve", help="solve a JSON finite element model")
         solve.add_argument("--input", required=True, type=Path)
         solve.add_argument("--output", required=True, type=Path)
+        solve.add_argument("--overwrite", action="store_true", help="replace an existing JSON result file")
         solve.add_argument(
             "--analysis",
             choices=(
@@ -59,6 +60,7 @@ class SolverCli:
         check = sub.add_parser("check-mesh", help="validate a JSON model mesh")
         check.add_argument("--input", required=True, type=Path)
         check.add_argument("--json-report", type=Path, default=None)
+        check.add_argument("--overwrite", action="store_true", help="replace an existing JSON report")
         check.add_argument("--verification-profile", choices=PROFILES, default=None)
         check.add_argument("--strict-schema", action="store_true", help="accepted for explicit v1 strict JSON validation")
         check.set_defaults(func=standard_cli.command_check_mesh)
@@ -66,6 +68,7 @@ class SolverCli:
         inspect = sub.add_parser("inspect", help="write a white-box audit for a JSON model")
         inspect.add_argument("--input", required=True, type=Path)
         inspect.add_argument("--output", type=Path, default=None)
+        inspect.add_argument("--overwrite", action="store_true", help="replace an existing JSON audit")
         inspect.add_argument("--markdown", type=Path, default=None)
         inspect.add_argument("--audit-gate", choices=("none", "fail", "warning"), default="none")
         inspect.add_argument(
@@ -150,6 +153,7 @@ class SolverCli:
         inspect_large = sub.add_parser("inspect-large", help="write an aggregated audit for a large model")
         inspect_large.add_argument("--input", required=True, type=Path)
         inspect_large.add_argument("--output", required=True, type=Path)
+        inspect_large.add_argument("--overwrite", action="store_true", help="replace an existing JSON audit")
         inspect_large.set_defaults(func=large_cli.command_inspect_large)
 
         solve_large = sub.add_parser("solve-large", help="solve a large-scale linear static TET4 model")
@@ -293,6 +297,7 @@ class SolverCli:
         verify_evidence_parser = sub.add_parser("verify-evidence", help="verify an evidence bundle manifest")
         verify_evidence_parser.add_argument("--input", required=True, type=Path)
         verify_evidence_parser.add_argument("--json-report", type=Path, default=None)
+        verify_evidence_parser.add_argument("--overwrite", action="store_true", help="replace an existing JSON report")
         verify_evidence_parser.set_defaults(func=verification_cli.command_verify_evidence)
 
         verify = sub.add_parser("verify", help="run existing MITC4 verification")
@@ -338,6 +343,7 @@ class SolverCli:
         readiness.add_argument("--scope", choices=QUALIFICATION_SCOPES, default="tet4-linear-static")
         readiness.add_argument("--registry", type=Path, default=None)
         readiness.add_argument("--json-report", type=Path, default=None)
+        readiness.add_argument("--overwrite", action="store_true", help="replace an existing JSON report")
         readiness.set_defaults(func=verification_cli.command_qualification_readiness)
 
         maturity = sub.add_parser(

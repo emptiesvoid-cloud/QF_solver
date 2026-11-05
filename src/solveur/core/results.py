@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -102,6 +103,14 @@ class ModalResult(QualificationAwareResult):
     message: str = ""
     solver: dict[str, Any] = field(default_factory=dict)
     audit: SolverAudit | None = None
+
+    @property
+    def run_verdict(self) -> RunVerdict:
+        if self.status == "INCONCLUSIVE":
+            return RunVerdict.WARNING
+        if self.status == "FAIL":
+            return RunVerdict.FAIL
+        return super().run_verdict
 
     def to_dict(self) -> dict[str, Any]:
         mode_list: list[dict[str, Any]] = []
@@ -383,6 +392,8 @@ class HarmonicResult(QualificationAwareResult):
         return float(max(np.max(np.abs(response)) for response in self.responses))
 
     def to_dict(self) -> dict[str, Any]:
+        if len(self.frequencies_hz) != len(self.responses):
+            raise ValueError("Harmonic result frequency and response counts must match.")
         rows = [
             _frequency_response_row(index, frequency, response, self.dofs)
             for index, (frequency, response) in enumerate(zip(self.frequencies_hz, self.responses))
@@ -408,6 +419,626 @@ class HarmonicResult(QualificationAwareResult):
             data["audit"] = self.audit.to_dict()
             data["qualification_summary"] = qualification_summary(self)
         return data
+
+
+@dataclass(frozen=True)
+class ModalNewmarkResult(QualificationAwareResult):
+    """Versioned transient result for experimental modal Newmark analysis."""
+
+    numerical_status: str
+    times: np.ndarray
+    displacements: np.ndarray
+    velocities: np.ndarray
+    accelerations: np.ndarray
+    modal_displacements: np.ndarray
+    modal_velocities: np.ndarray
+    modal_accelerations: np.ndarray
+    dofs: DofManager
+    node_count: int
+    element_count: int
+    solver: dict[str, Any]
+    provenance: dict[str, Any]
+    result_availability: dict[str, Any]
+    execution_identity: dict[str, Any]
+    execution_key: str
+    qualification_scope_id: str
+    mesh_report: dict[str, Any]
+    time_history: tuple[dict[str, Any], ...] = ()
+    modal_history: tuple[dict[str, Any], ...] = ()
+    reactions: np.ndarray | None = None
+    absolute_accelerations: np.ndarray | None = None
+
+    CONTRACT = "qf-modal-newmark-result/v1"
+
+    def __post_init__(self) -> None:
+        times = _readonly_real_vector(self.times, "modal Newmark times")
+        if times.size == 0 or np.any(np.diff(times) <= 0.0) or times[0] < 0.0:
+            raise ValueError("Modal Newmark result times must be non-empty, finite and strictly increasing.")
+        vectors = {
+            "displacements": _readonly_real_vector(self.displacements, "modal Newmark displacement"),
+            "velocities": _readonly_real_vector(self.velocities, "modal Newmark velocity"),
+            "accelerations": _readonly_real_vector(self.accelerations, "modal Newmark acceleration"),
+            "modal_displacements": _readonly_real_vector(self.modal_displacements, "modal coordinates"),
+            "modal_velocities": _readonly_real_vector(self.modal_velocities, "modal velocities"),
+            "modal_accelerations": _readonly_real_vector(self.modal_accelerations, "modal accelerations"),
+        }
+        physical_size = self.dofs.ndof
+        if any(vectors[name].size != physical_size for name in ("displacements", "velocities", "accelerations")):
+            raise ValueError("Modal Newmark final physical state does not match the DOF map.")
+        if (
+            len({vectors[name].size for name in ("modal_displacements", "modal_velocities", "modal_accelerations")})
+            != 1
+        ):
+            raise ValueError("Modal Newmark final reduced state vectors have inconsistent dimensions.")
+        reactions = None if self.reactions is None else _readonly_real_vector(self.reactions, "modal Newmark reactions")
+        if reactions is not None and reactions.size != physical_size:
+            raise ValueError("Modal Newmark reaction vector does not match the DOF map.")
+        absolute_accelerations = (
+            None
+            if self.absolute_accelerations is None
+            else _readonly_real_vector(self.absolute_accelerations, "modal Newmark absolute acceleration")
+        )
+        if absolute_accelerations is not None and absolute_accelerations.size != physical_size:
+            raise ValueError("Modal Newmark absolute acceleration vector does not match the DOF map.")
+        if not isinstance(self.execution_key, str) or not self.execution_key:
+            raise ValueError("Modal Newmark result requires an execution key.")
+        object.__setattr__(self, "times", times)
+        for name, value in vectors.items():
+            object.__setattr__(self, name, value)
+        object.__setattr__(self, "reactions", reactions)
+        object.__setattr__(self, "absolute_accelerations", absolute_accelerations)
+        object.__setattr__(self, "time_history", tuple(deepcopy(dict(row)) for row in self.time_history))
+        object.__setattr__(self, "modal_history", tuple(deepcopy(dict(row)) for row in self.modal_history))
+        object.__setattr__(self, "solver", deepcopy(self.solver))
+        object.__setattr__(self, "provenance", deepcopy(self.provenance))
+        object.__setattr__(self, "result_availability", deepcopy(self.result_availability))
+        object.__setattr__(self, "execution_identity", deepcopy(self.execution_identity))
+        object.__setattr__(self, "mesh_report", deepcopy(self.mesh_report))
+
+    @property
+    def analysis(self) -> str:
+        return "transient_dynamic"
+
+    @property
+    def method(self) -> str:
+        return "modal_newmark"
+
+    @property
+    def maturity(self) -> str:
+        return "EXPERIMENTAL"
+
+    @property
+    def status(self) -> str:
+        return self.numerical_status
+
+    @property
+    def run_verdict(self) -> RunVerdict:
+        if self.numerical_status == "INCONCLUSIVE":
+            return RunVerdict.WARNING
+        return RunVerdict.WARNING if self.numerical_status == "PASS" else RunVerdict.FAIL
+
+    @property
+    def ndof(self) -> int:
+        return int(self.displacements.size)
+
+    @property
+    def max_displacement(self) -> float:
+        return float(np.max(np.abs(self.displacements), initial=0.0))
+
+    def to_dict(self) -> dict[str, Any]:
+        final_state = {
+            "displacement": self.displacements.tolist(),
+            "velocity": self.velocities.tolist(),
+            "acceleration": self.accelerations.tolist(),
+            "modal_displacement": self.modal_displacements.tolist(),
+            "modal_velocity": self.modal_velocities.tolist(),
+            "modal_acceleration": self.modal_accelerations.tolist(),
+            "reactions": None if self.reactions is None else self.reactions.tolist(),
+        }
+        if self.absolute_accelerations is not None:
+            final_state["absolute_acceleration"] = self.absolute_accelerations.tolist()
+            final_state["response_frames"] = {
+                "displacement": "RELATIVE_RESPONSE",
+                "velocity": "RELATIVE_RESPONSE",
+                "acceleration": "RELATIVE_RESPONSE",
+                "absolute_acceleration": "ABSOLUTE_RESPONSE",
+            }
+        return {
+            "schema": self.CONTRACT,
+            "analysis": self.analysis,
+            "method": self.method,
+            "status": self.numerical_status,
+            "numerical_status": self.numerical_status,
+            "run_verdict": self.run_verdict.value,
+            "maturity": self.maturity,
+            "qualification_decision": "NOT_ASSESSED",
+            "qualification_scope_id": self.qualification_scope_id,
+            "node_count": self.node_count,
+            "element_count": self.element_count,
+            "ndof": self.ndof,
+            "dof_map": [
+                {"node": int(node), "dofs": list(names)} for node, names in sorted(self.dofs.node_dofs.items())
+            ],
+            "times_s": self.times.tolist(),
+            "final_state": final_state,
+            "time_history": deepcopy(self.time_history),
+            "modal_history": deepcopy(self.modal_history),
+            "result_availability": deepcopy(self.result_availability),
+            "execution_identity": deepcopy(self.execution_identity),
+            "execution_key": self.execution_key,
+            "solver": deepcopy(self.solver),
+            "provenance": deepcopy(self.provenance),
+            "mesh_report": deepcopy(self.mesh_report),
+        }
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "ModalNewmarkResult":
+        if payload.get("schema") != cls.CONTRACT:
+            raise ValueError(f"Unsupported modal Newmark result schema {payload.get('schema')!r}.")
+        if payload.get("analysis") != "transient_dynamic" or payload.get("method") != "modal_newmark":
+            raise ValueError("Serialized result is not a modal Newmark transient result.")
+        try:
+            raw_map = payload["dof_map"]
+            if not isinstance(raw_map, list):
+                raise ValueError("DOF map must be a list.")
+            requirements = {int(item["node"]): set(str(dof) for dof in item["dofs"]) for item in raw_map}
+            dofs = DofManager.from_node_requirements(requirements)
+            state = payload["final_state"]
+            reactions = state.get("reactions")
+            result = cls(
+                numerical_status=str(payload["numerical_status"]),
+                times=np.asarray(payload["times_s"], dtype=np.float64),
+                displacements=np.asarray(state["displacement"], dtype=np.float64),
+                velocities=np.asarray(state["velocity"], dtype=np.float64),
+                accelerations=np.asarray(state["acceleration"], dtype=np.float64),
+                modal_displacements=np.asarray(state["modal_displacement"], dtype=np.float64),
+                modal_velocities=np.asarray(state["modal_velocity"], dtype=np.float64),
+                modal_accelerations=np.asarray(state["modal_acceleration"], dtype=np.float64),
+                reactions=None if reactions is None else np.asarray(reactions, dtype=np.float64),
+                absolute_accelerations=(
+                    None
+                    if "absolute_acceleration" not in state
+                    else np.asarray(state["absolute_acceleration"], dtype=np.float64)
+                ),
+                dofs=dofs,
+                node_count=int(payload["node_count"]),
+                element_count=int(payload["element_count"]),
+                solver=dict(payload["solver"]),
+                provenance=dict(payload["provenance"]),
+                result_availability=dict(payload["result_availability"]),
+                execution_identity=dict(payload["execution_identity"]),
+                execution_key=str(payload["execution_key"]),
+                qualification_scope_id=str(payload["qualification_scope_id"]),
+                mesh_report=dict(payload["mesh_report"]),
+                time_history=tuple(payload.get("time_history", ())),
+                modal_history=tuple(payload.get("modal_history", ())),
+            )
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError("Serialized modal Newmark result is incomplete or malformed.") from exc
+        _validate_serialized_result_metadata(
+            payload,
+            result.to_dict(),
+            (
+                "status",
+                "numerical_status",
+                "run_verdict",
+                "maturity",
+                "qualification_decision",
+                "ndof",
+                "dof_map",
+                "final_state",
+            ),
+            "modal Newmark",
+        )
+        return result
+
+
+@dataclass(frozen=True)
+class ReducedHarmonicResult:
+    """Versioned result for the method-specific experimental reduced route."""
+
+    numerical_status: str
+    frequencies_hz: np.ndarray
+    responses: tuple[np.ndarray, ...]
+    modal_coordinates: tuple[np.ndarray, ...]
+    dof_signature: tuple[tuple[int, tuple[str, ...]], ...]
+    full_dof_count: int
+    node_count: int
+    element_count: int
+    solver: dict[str, Any]
+    provenance: dict[str, Any]
+    result_availability: dict[str, Any]
+    execution_identity: dict[str, Any]
+    execution_key: str
+    qualification_scope_id: str
+    mesh_report: dict[str, Any]
+    absolute_responses: tuple[np.ndarray | None, ...] | None = None
+    absolute_velocity_responses: tuple[np.ndarray | None, ...] | None = None
+    relative_velocity_responses: tuple[np.ndarray, ...] | None = None
+    relative_acceleration_responses: tuple[np.ndarray, ...] | None = None
+    absolute_acceleration_responses: tuple[np.ndarray, ...] | None = None
+
+    CONTRACT = "qf-reduced-harmonic-result/v1"
+
+    def __post_init__(self) -> None:
+        frequencies = np.asarray(self.frequencies_hz, dtype=np.float64).copy()
+        if frequencies.ndim != 1 or frequencies.size == 0 or not np.all(np.isfinite(frequencies)):
+            raise ValueError("Reduced harmonic result frequencies must be a non-empty finite vector.")
+        if np.any(frequencies < 0.0):
+            raise ValueError("Reduced harmonic result frequencies must be non-negative.")
+        responses = tuple(_readonly_complex_vector(value, "reduced harmonic response") for value in self.responses)
+        coordinates = tuple(
+            _readonly_complex_vector(value, "reduced harmonic modal coordinates") for value in self.modal_coordinates
+        )
+        if len(responses) != frequencies.size or len(coordinates) != frequencies.size:
+            raise ValueError("Reduced harmonic response and modal-coordinate counts must match the frequency count.")
+        absolute_responses = _optional_complex_vectors(
+            self.absolute_responses, frequencies.size, "absolute reduced harmonic response"
+        )
+        absolute_velocity_responses = _optional_complex_vectors(
+            self.absolute_velocity_responses, frequencies.size, "absolute reduced harmonic velocity response"
+        )
+        relative_velocity_responses = _required_complex_vectors(
+            self.relative_velocity_responses, frequencies.size, "relative reduced harmonic velocity response"
+        )
+        relative_acceleration_responses = _required_complex_vectors(
+            self.relative_acceleration_responses,
+            frequencies.size,
+            "relative reduced harmonic acceleration response",
+        )
+        absolute_acceleration_responses = _required_complex_vectors(
+            self.absolute_acceleration_responses,
+            frequencies.size,
+            "absolute reduced harmonic acceleration response",
+        )
+        dof_signature = tuple((int(node), tuple(str(name) for name in names)) for node, names in self.dof_signature)
+        response_size = sum(len(names) for _, names in dof_signature)
+        if any(value.size != response_size for value in responses):
+            raise ValueError("Reduced harmonic response vectors do not match the serialized DOF map.")
+        for label, vectors in (
+            ("Absolute reduced harmonic response", absolute_responses),
+            ("Absolute reduced harmonic velocity", absolute_velocity_responses),
+            ("Relative reduced harmonic velocity", relative_velocity_responses),
+            ("Relative reduced harmonic acceleration", relative_acceleration_responses),
+            ("Absolute reduced harmonic acceleration", absolute_acceleration_responses),
+        ):
+            if any(value is not None and value.size != response_size for value in (vectors or ())):
+                raise ValueError(f"{label} vectors do not match the serialized DOF map.")
+        if (absolute_responses is None) != (absolute_velocity_responses is None):
+            raise ValueError("Absolute displacement and velocity availability must be declared together.")
+        dynamic_fields = (
+            relative_velocity_responses,
+            relative_acceleration_responses,
+            absolute_acceleration_responses,
+        )
+        if any(value is not None for value in dynamic_fields) and not all(
+            value is not None for value in dynamic_fields
+        ):
+            raise ValueError(
+                "WP07 harmonic relative velocity/acceleration and absolute acceleration must be declared together."
+            )
+        if isinstance(self.full_dof_count, bool) or self.full_dof_count < response_size:
+            raise ValueError("Reduced harmonic full_dof_count is inconsistent with the response DOF map.")
+        if not isinstance(self.execution_key, str) or not self.execution_key:
+            raise ValueError("Reduced harmonic result requires an execution key.")
+        frequencies.setflags(write=False)
+        object.__setattr__(self, "frequencies_hz", frequencies)
+        object.__setattr__(self, "responses", responses)
+        object.__setattr__(self, "modal_coordinates", coordinates)
+        object.__setattr__(self, "absolute_responses", absolute_responses)
+        object.__setattr__(self, "absolute_velocity_responses", absolute_velocity_responses)
+        object.__setattr__(self, "relative_velocity_responses", relative_velocity_responses)
+        object.__setattr__(self, "relative_acceleration_responses", relative_acceleration_responses)
+        object.__setattr__(self, "absolute_acceleration_responses", absolute_acceleration_responses)
+        object.__setattr__(self, "dof_signature", dof_signature)
+        object.__setattr__(self, "solver", deepcopy(self.solver))
+        object.__setattr__(self, "provenance", deepcopy(self.provenance))
+        object.__setattr__(self, "result_availability", deepcopy(self.result_availability))
+        object.__setattr__(self, "execution_identity", deepcopy(self.execution_identity))
+        object.__setattr__(self, "mesh_report", deepcopy(self.mesh_report))
+
+    @property
+    def status(self) -> str:
+        return self.numerical_status
+
+    @property
+    def method(self) -> str:
+        return "modal_superposition"
+
+    @property
+    def analysis(self) -> str:
+        return "harmonic_response"
+
+    @property
+    def maturity(self) -> str:
+        return "EXPERIMENTAL"
+
+    @property
+    def run_verdict(self) -> RunVerdict:
+        if self.numerical_status != "PASS":
+            if self.numerical_status == "INCONCLUSIVE":
+                return RunVerdict.WARNING
+            return RunVerdict.FAIL
+        return RunVerdict.WARNING
+
+    @property
+    def max_displacement(self) -> float:
+        return float(max((np.max(np.abs(row), initial=0.0) for row in self.responses), default=0.0))
+
+    @staticmethod
+    def _encode_complex(values: np.ndarray) -> dict[str, Any]:
+        array = np.asarray(values, dtype=np.complex128)
+        if not np.all(np.isfinite(array)):
+            raise ValueError("Reduced harmonic result cannot serialize non-finite complex values.")
+        return {"real": array.real.tolist(), "imag": array.imag.tolist()}
+
+    @staticmethod
+    def _decode_complex(payload: Any) -> np.ndarray:
+        if not isinstance(payload, dict) or set(payload) != {"real", "imag"}:
+            raise ValueError("Complex reduced harmonic values require explicit real and imag fields.")
+        real = np.asarray(payload["real"], dtype=np.float64)
+        imag = np.asarray(payload["imag"], dtype=np.float64)
+        if real.shape != imag.shape or not np.all(np.isfinite(real)) or not np.all(np.isfinite(imag)):
+            raise ValueError("Complex reduced harmonic real/imag values must have matching finite shapes.")
+        # Assign components directly so arithmetic does not canonicalize signed zero.
+        values = np.empty(real.shape, dtype=np.complex128)
+        values.real = real
+        values.imag = imag
+        return values
+
+    def to_dict(self) -> dict[str, Any]:
+        rows = []
+        for index, (frequency, response, coordinates) in enumerate(
+            zip(self.frequencies_hz, self.responses, self.modal_coordinates, strict=True)
+        ):
+            row = {
+                "index": index,
+                "frequency_hz": float(frequency),
+                "omega_rad_s": float(2.0 * np.pi * frequency),
+                "max_displacement_amplitude": float(np.max(np.abs(response), initial=0.0)),
+                "displacements": _reduced_complex_nodal_state(self.dof_signature, response),
+                "modal_coordinates": self._encode_complex(coordinates),
+            }
+            if self.absolute_responses is not None and self.absolute_velocity_responses is not None:
+                row["response_frame"] = "RELATIVE_RESPONSE"
+                absolute = self.absolute_responses[index]
+                absolute_velocity = self.absolute_velocity_responses[index]
+                row["absolute_displacements"] = (
+                    None if absolute is None else _reduced_complex_nodal_state(self.dof_signature, absolute)
+                )
+                row["absolute_velocities"] = (
+                    None
+                    if absolute_velocity is None
+                    else _reduced_complex_nodal_state(self.dof_signature, absolute_velocity)
+                )
+            if (
+                self.relative_velocity_responses is not None
+                and self.relative_acceleration_responses is not None
+                and self.absolute_acceleration_responses is not None
+            ):
+                row["response_frames"] = {
+                    "displacement": "RELATIVE_RESPONSE",
+                    "velocity": "RELATIVE_RESPONSE",
+                    "acceleration": "RELATIVE_RESPONSE",
+                    "absolute_acceleration": "ABSOLUTE_RESPONSE",
+                }
+                row["relative_velocities"] = _reduced_complex_nodal_state(
+                    self.dof_signature, self.relative_velocity_responses[index]
+                )
+                row["relative_accelerations"] = _reduced_complex_nodal_state(
+                    self.dof_signature, self.relative_acceleration_responses[index]
+                )
+                row["absolute_accelerations"] = _reduced_complex_nodal_state(
+                    self.dof_signature, self.absolute_acceleration_responses[index]
+                )
+            rows.append(row)
+        data = {
+            "schema": self.CONTRACT,
+            "analysis": self.analysis,
+            "method": self.method,
+            "status": self.numerical_status,
+            "numerical_status": self.numerical_status,
+            "run_verdict": self.run_verdict.value,
+            "maturity": self.maturity,
+            "qualification_decision": "NOT_ASSESSED",
+            "qualification_scope_id": self.qualification_scope_id,
+            "node_count": self.node_count,
+            "element_count": self.element_count,
+            "full_dof_count": self.full_dof_count,
+            "response_dof_count": sum(len(names) for _, names in self.dof_signature),
+            "dof_map": [{"node": node, "dofs": list(names)} for node, names in self.dof_signature],
+            "frequencies_hz": self.frequencies_hz.tolist(),
+            "frequency_response": rows,
+            "raw_complex_response_vectors": [self._encode_complex(row) for row in self.responses],
+            "raw_complex_modal_coordinates": [self._encode_complex(row) for row in self.modal_coordinates],
+            "execution_identity": deepcopy(self.execution_identity),
+            "execution_key": self.execution_key,
+            "result_availability": deepcopy(self.result_availability),
+            "solver": deepcopy(self.solver),
+            "provenance": deepcopy(self.provenance),
+            "mesh_report": deepcopy(self.mesh_report),
+        }
+        if self.absolute_responses is not None and self.absolute_velocity_responses is not None:
+            data["raw_complex_absolute_response_vectors"] = [
+                None if row is None else self._encode_complex(row) for row in self.absolute_responses
+            ]
+            data["raw_complex_absolute_velocity_vectors"] = [
+                None if row is None else self._encode_complex(row) for row in self.absolute_velocity_responses
+            ]
+        if (
+            self.relative_velocity_responses is not None
+            and self.relative_acceleration_responses is not None
+            and self.absolute_acceleration_responses is not None
+        ):
+            data["raw_complex_relative_velocity_vectors"] = [
+                self._encode_complex(row) for row in self.relative_velocity_responses
+            ]
+            data["raw_complex_relative_acceleration_vectors"] = [
+                self._encode_complex(row) for row in self.relative_acceleration_responses
+            ]
+            data["raw_complex_absolute_acceleration_vectors"] = [
+                self._encode_complex(row) for row in self.absolute_acceleration_responses
+            ]
+        return data
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "ReducedHarmonicResult":
+        if payload.get("schema") != cls.CONTRACT:
+            raise ValueError(f"Unsupported reduced harmonic result schema {payload.get('schema')!r}.")
+        if payload.get("analysis") != "harmonic_response" or payload.get("method") != "modal_superposition":
+            raise ValueError("Serialized result is not a harmonic modal-superposition result.")
+        raw_dof_map = payload.get("dof_map")
+        if not isinstance(raw_dof_map, list):
+            raise ValueError("Reduced harmonic result requires a DOF map.")
+        try:
+            signature = tuple((int(item["node"]), tuple(str(name) for name in item["dofs"])) for item in raw_dof_map)
+            responses = tuple(cls._decode_complex(item) for item in payload["raw_complex_response_vectors"])
+            coordinates = tuple(cls._decode_complex(item) for item in payload["raw_complex_modal_coordinates"])
+            frequencies = np.asarray(payload["frequencies_hz"], dtype=np.float64)
+            absolute_raw = payload.get("raw_complex_absolute_response_vectors")
+            absolute_velocity_raw = payload.get("raw_complex_absolute_velocity_vectors")
+            absolute_responses = (
+                None
+                if absolute_raw is None
+                else tuple(None if item is None else cls._decode_complex(item) for item in absolute_raw)
+            )
+            absolute_velocity_responses = (
+                None
+                if absolute_velocity_raw is None
+                else tuple(None if item is None else cls._decode_complex(item) for item in absolute_velocity_raw)
+            )
+            relative_velocity_raw = payload.get("raw_complex_relative_velocity_vectors")
+            relative_acceleration_raw = payload.get("raw_complex_relative_acceleration_vectors")
+            absolute_acceleration_raw = payload.get("raw_complex_absolute_acceleration_vectors")
+            relative_velocity_responses = (
+                None
+                if relative_velocity_raw is None
+                else tuple(cls._decode_complex(item) for item in relative_velocity_raw)
+            )
+            relative_acceleration_responses = (
+                None
+                if relative_acceleration_raw is None
+                else tuple(cls._decode_complex(item) for item in relative_acceleration_raw)
+            )
+            absolute_acceleration_responses = (
+                None
+                if absolute_acceleration_raw is None
+                else tuple(cls._decode_complex(item) for item in absolute_acceleration_raw)
+            )
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError("Reduced harmonic result is incomplete or malformed.") from exc
+        result = cls(
+            numerical_status=str(payload["numerical_status"]),
+            frequencies_hz=frequencies,
+            responses=responses,
+            modal_coordinates=coordinates,
+            dof_signature=signature,
+            full_dof_count=int(payload["full_dof_count"]),
+            node_count=int(payload["node_count"]),
+            element_count=int(payload["element_count"]),
+            solver=dict(payload["solver"]),
+            provenance=dict(payload["provenance"]),
+            result_availability=dict(payload["result_availability"]),
+            execution_identity=dict(payload["execution_identity"]),
+            execution_key=str(payload["execution_key"]),
+            qualification_scope_id=str(payload["qualification_scope_id"]),
+            mesh_report=dict(payload["mesh_report"]),
+            absolute_responses=absolute_responses,
+            absolute_velocity_responses=absolute_velocity_responses,
+            relative_velocity_responses=relative_velocity_responses,
+            relative_acceleration_responses=relative_acceleration_responses,
+            absolute_acceleration_responses=absolute_acceleration_responses,
+        )
+        _validate_serialized_result_metadata(
+            payload,
+            result.to_dict(),
+            (
+                "status",
+                "numerical_status",
+                "run_verdict",
+                "maturity",
+                "qualification_decision",
+                "response_dof_count",
+                "dof_map",
+                "frequency_response",
+            ),
+            "reduced harmonic",
+        )
+        return result
+
+
+def _validate_serialized_result_metadata(
+    payload: dict[str, Any],
+    canonical: dict[str, Any],
+    fields: tuple[str, ...],
+    label: str,
+) -> None:
+    """Reject serialized aliases or derived metadata that contradict the DTO."""
+
+    for name in fields:
+        if name not in payload or type(payload[name]) is not type(canonical[name]) or payload[name] != canonical[name]:
+            raise ValueError(f"Serialized {label} result has inconsistent {name!r} metadata.")
+
+
+def _readonly_complex_vector(values: np.ndarray, label: str) -> np.ndarray:
+    array = np.asarray(values, dtype=np.complex128).copy()
+    if array.ndim != 1 or not np.all(np.isfinite(array)):
+        raise ValueError(f"{label} must be a finite complex vector.")
+    array.setflags(write=False)
+    return array
+
+
+def _readonly_real_vector(values: np.ndarray, label: str) -> np.ndarray:
+    raw = np.asarray(values)
+    if np.iscomplexobj(raw):
+        raise ValueError(f"{label} must not contain complex values in a real time-domain result.")
+    array = np.asarray(raw, dtype=np.float64).copy()
+    if array.ndim != 1 or not np.all(np.isfinite(array)):
+        raise ValueError(f"{label} must be a finite real vector.")
+    array.setflags(write=False)
+    return array
+
+
+def _optional_complex_vectors(
+    values: tuple[np.ndarray | None, ...] | None, expected_count: int, label: str
+) -> tuple[np.ndarray | None, ...] | None:
+    if values is None:
+        return None
+    result = tuple(None if value is None else _readonly_complex_vector(value, label) for value in values)
+    if len(result) != expected_count:
+        raise ValueError(f"{label} count must match the frequency count.")
+    return result
+
+
+def _required_complex_vectors(
+    values: tuple[np.ndarray, ...] | None, expected_count: int, label: str
+) -> tuple[np.ndarray, ...] | None:
+    if values is None:
+        return None
+    result = tuple(_readonly_complex_vector(value, label) for value in values)
+    if len(result) != expected_count:
+        raise ValueError(f"{label} count must match the frequency count.")
+    return result
+
+
+def _reduced_complex_nodal_state(
+    signature: tuple[tuple[int, tuple[str, ...]], ...], response: np.ndarray
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    offset = 0
+    for node, names in signature:
+        values: dict[str, Any] = {}
+        for name in names:
+            value = complex(response[offset])
+            values[name] = {
+                "real": float(value.real),
+                "imag": float(value.imag),
+                "amplitude": float(abs(value)),
+                "phase_degrees": float(np.degrees(np.angle(value))),
+            }
+            offset += 1
+        rows.append({"node": node, "dofs": values})
+    return rows
 
 
 def _frequency_response_row(index: int, frequency: float, response: np.ndarray, dofs: DofManager) -> dict[str, Any]:

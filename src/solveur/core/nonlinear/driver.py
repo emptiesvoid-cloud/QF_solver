@@ -15,6 +15,7 @@ from scipy.sparse import csr_matrix
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.robustness import UnifiedNonlinearRobustnessController
+from solveur.core.nonlinear.corotational_guard_diagnostics import bind_newton_trial_guard_context
 from solveur.core.nonlinear.state import NonlinearState, NonlinearStateTransaction
 from solveur.core.nonlinear.telemetry import (
     NonlinearTelemetryObserver,
@@ -399,9 +400,7 @@ LineSearch = Callable[
 ]
 TrialStateApplier = Callable[[NonlinearState, CompositeContributionResponse], None]
 FinalTrialStateApplier = Callable[[NonlinearState, CompositeContributionResponse], None]
-FailureDiagnostics = Callable[
-    [int, int, list[float], float, float, int], dict[str, Any]
-]
+FailureDiagnostics = Callable[[int, int, list[float], float, float, int], dict[str, Any]]
 AssemblyFailureReason = Callable[[str], NonlinearFailureReason]
 NonFiniteFailureReason = Callable[[np.ndarray], NonlinearFailureReason]
 FloorAwareEvidence = Callable[
@@ -444,6 +443,7 @@ class UnifiedNewtonEngine:
         accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
         telemetry_observer: NonlinearTelemetryObserver | None = None,
         floor_aware_evidence: FloorAwareEvidence | None = None,
+        diagnostic_increment: int | None = None,
     ) -> UnifiedNewtonResult:
         """Solve the requested fixed load factors through one transaction lifecycle."""
 
@@ -498,6 +498,7 @@ class UnifiedNewtonEngine:
                     robustness_controller=policy,
                     telemetry_observer=telemetry_observer,
                     floor_aware_evidence=floor_aware_evidence,
+                    diagnostic_increment=diagnostic_increment,
                 )
                 if accepted_state_callback is not None:
                     accepted_state_callback(step, transaction.accepted_state.detached_copy())
@@ -512,8 +513,11 @@ class UnifiedNewtonEngine:
                         step_wall_time_s=step_result["assembly_seconds"]
                         + step_result["linear_solve_seconds"]
                         + step_result["line_search_seconds"],
-                        matrix_nnz=(step_result["linear_system_diagnostics"][-1].get("matrix_nnz")
-                                    if step_result["linear_system_diagnostics"] else None),
+                        matrix_nnz=(
+                            step_result["linear_system_diagnostics"][-1].get("matrix_nnz")
+                            if step_result["linear_system_diagnostics"]
+                            else None
+                        ),
                         status="ACCEPTED",
                     ),
                 )
@@ -538,7 +542,9 @@ class UnifiedNewtonEngine:
                 )
                 emit_telemetry(
                     telemetry_observer,
-                    telemetry_event("SOLVE_FAILED", load_step=step, reason=exc.reason.value if exc.reason else None, status="FAILED"),
+                    telemetry_event(
+                        "SOLVE_FAILED", load_step=step, reason=exc.reason.value if exc.reason else None, status="FAILED"
+                    ),
                 )
                 raise
             except (TypeError, ValueError, FloatingPointError) as exc:
@@ -598,6 +604,7 @@ class UnifiedNewtonEngine:
         robustness_controller: UnifiedNonlinearRobustnessController,
         telemetry_observer: NonlinearTelemetryObserver | None,
         floor_aware_evidence: FloorAwareEvidence | None,
+        diagnostic_increment: int | None = None,
     ) -> tuple[dict[str, Any], int]:
         trial = transaction.trial_state
         if trial is None:
@@ -619,6 +626,10 @@ class UnifiedNewtonEngine:
         correction_norms: list[float] = []
         relative_residual_history: list[float] = []
         contribution_diagnostics: Mapping[str, Mapping[str, Any]] = {}
+        guard_diagnostics_enabled = any(
+            bool(getattr(contribution, "corotational_guard_diagnostics_enabled", False))
+            for contribution in contributions
+        )
         stagnation_diagnostics: dict[str, Any] | None = None
 
         def add_robustness_diagnostics(details: dict[str, Any]) -> dict[str, Any]:
@@ -632,7 +643,16 @@ class UnifiedNewtonEngine:
             iteration_started = perf_counter()
             assembly_started = perf_counter()
             try:
-                responses = tuple(contribution.evaluate(trial) for contribution in contributions)
+                with bind_newton_trial_guard_context(
+                    {
+                        "load_factor": float(load_factor),
+                        "increment": int(diagnostic_increment or step),
+                        "newton_iteration": iteration,
+                        "evaluation_state": "TRIAL",
+                    },
+                    enabled=guard_diagnostics_enabled,
+                ):
+                    responses = tuple(contribution.evaluate(trial) for contribution in contributions)
                 composite = compose_contribution_responses(responses)
                 contribution_diagnostics = composite.diagnostics
                 if apply_trial_state is not None:
@@ -641,7 +661,13 @@ class UnifiedNewtonEngine:
                 raise
             except (TypeError, ValueError, FloatingPointError) as exc:
                 diagnostics = self._failure_diagnostics(
-                    failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
+                    failure_diagnostics,
+                    step,
+                    iteration,
+                    residual_history,
+                    float("inf"),
+                    tolerance,
+                    line_search_iterations,
                 )
                 add_robustness_diagnostics(diagnostics)
                 diagnostics["assembly_error"] = str(exc)
@@ -661,7 +687,13 @@ class UnifiedNewtonEngine:
 
             if composite.failure_reason is not None:
                 diagnostics = self._failure_diagnostics(
-                    failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
+                    failure_diagnostics,
+                    step,
+                    iteration,
+                    residual_history,
+                    float("inf"),
+                    tolerance,
+                    line_search_iterations,
                 )
                 add_robustness_diagnostics(diagnostics)
                 diagnostics["contribution_diagnostics"] = dict(contribution_diagnostics)
@@ -672,7 +704,13 @@ class UnifiedNewtonEngine:
                 )
             if not composite.admissible:
                 diagnostics = self._failure_diagnostics(
-                    failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
+                    failure_diagnostics,
+                    step,
+                    iteration,
+                    residual_history,
+                    float("inf"),
+                    tolerance,
+                    line_search_iterations,
                 )
                 add_robustness_diagnostics(diagnostics)
                 diagnostics["contribution_diagnostics"] = dict(contribution_diagnostics)
@@ -690,7 +728,13 @@ class UnifiedNewtonEngine:
                     else NonlinearFailureReason.NAN_DETECTED
                 )
                 diagnostics = self._failure_diagnostics(
-                    failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
+                    failure_diagnostics,
+                    step,
+                    iteration,
+                    residual_history,
+                    float("inf"),
+                    tolerance,
+                    line_search_iterations,
                 )
                 add_robustness_diagnostics(diagnostics)
                 raise NumericalConvergenceError(
@@ -712,6 +756,9 @@ class UnifiedNewtonEngine:
                 if finalize_trial_state is not None:
                     finalize_trial_state(trial, composite)
                 trial.load_factor = load_factor
+                accepted_metadata = dict(trial.accepted_increment_metadata)
+                accepted_metadata["step"] = step
+                trial.accepted_increment_metadata = accepted_metadata
                 transaction.commit()
                 rss_bytes, private_bytes = process_memory_bytes()
                 emit_telemetry(
@@ -828,9 +875,7 @@ class UnifiedNewtonEngine:
                         status="LINEAR_FAILED",
                     ),
                 )
-                raise NumericalConvergenceError(
-                    str(exc), reason=exc.reason, diagnostics=diagnostics
-                ) from exc
+                raise NumericalConvergenceError(str(exc), reason=exc.reason, diagnostics=diagnostics) from exc
             finally:
                 linear_elapsed = perf_counter() - linear_started
                 linear_solve_seconds += linear_elapsed
@@ -861,9 +906,18 @@ class UnifiedNewtonEngine:
             else:
                 line_started = perf_counter()
                 try:
-                    updated, reductions, line_diagnostics = line_search(
-                        trial, free, correction, target, residual_norm
-                    )
+                    with bind_newton_trial_guard_context(
+                        {
+                            "load_factor": float(load_factor),
+                            "increment": int(diagnostic_increment or step),
+                            "newton_iteration": iteration,
+                            "evaluation_state": "TRIAL",
+                        },
+                        enabled=guard_diagnostics_enabled,
+                    ):
+                        updated, reductions, line_diagnostics = line_search(
+                            trial, free, correction, target, residual_norm
+                        )
                 except NumericalConvergenceError as exc:
                     line_elapsed = perf_counter() - line_started
                     line_search_seconds += line_elapsed
@@ -877,7 +931,10 @@ class UnifiedNewtonEngine:
                         line_search_iterations,
                     )
                     diagnostics.update(exc.diagnostics)
-                    if isinstance(exc.diagnostics, Mapping) and exc.reason is NonlinearFailureReason.LINE_SEARCH_FAILURE:
+                    if (
+                        isinstance(exc.diagnostics, Mapping)
+                        and exc.reason is NonlinearFailureReason.LINE_SEARCH_FAILURE
+                    ):
                         line_search_events.append(dict(exc.diagnostics))
                     if floor_aware_evidence is not None:
                         evidence: Mapping[str, Any] | None
@@ -903,11 +960,7 @@ class UnifiedNewtonEngine:
                         improvement_available: bool | None = None
                         if isinstance(initial_merit, (int, float)) and np.isfinite(float(initial_merit)):
                             try:
-                                finite_merits = (
-                                    float(value)
-                                    for value in merit_history
-                                    if np.isfinite(float(value))
-                                )
+                                finite_merits = (float(value) for value in merit_history if np.isfinite(float(value)))
                                 improvement_available = any(value < float(initial_merit) for value in finite_merits)
                             except (TypeError, ValueError):
                                 improvement_available = None
@@ -1029,9 +1082,7 @@ class UnifiedNewtonEngine:
                                 max(iteration - 1, 0),
                             )
                     add_robustness_diagnostics(diagnostics)
-                    raise NumericalConvergenceError(
-                        str(exc), reason=exc.reason, diagnostics=diagnostics
-                    ) from exc
+                    raise NumericalConvergenceError(str(exc), reason=exc.reason, diagnostics=diagnostics) from exc
                 line_search_seconds += perf_counter() - line_started
                 trial.displacement = np.array(updated, dtype=float, copy=True)
                 if line_diagnostics is not None:

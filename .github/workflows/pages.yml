@@ -2,6 +2,12 @@ name: Deploy QF Solver docs
 
 on:
   workflow_dispatch:
+    inputs:
+      deploy_public_site:
+        description: Deploy docs after build; requires the separately configured github-pages reviewer rule
+        type: boolean
+        required: true
+        default: false
   push:
     branches:
       - main
@@ -49,10 +55,11 @@ jobs:
           path: site/
 
   deploy:
-    if: github.ref == 'refs/heads/main' && needs.build.result == 'success'
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.deploy_public_site && needs.build.result == 'success' }}
     permissions:
       pages: write
       id-token: write
+    # Configure required reviewers and disable bypass on the repository environment before deployment.
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

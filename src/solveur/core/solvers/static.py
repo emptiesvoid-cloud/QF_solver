@@ -13,7 +13,7 @@ from solveur.core.constraints import ConstraintReduction, recover_constraint_for
 from solveur.core.audit import SolverAudit
 from solveur.core.audit import static_equilibrium_summary
 from solveur.core.errors import MeshValidationError, NumericalConvergenceError
-from solveur.core.solvers.linear import LinearSystemSolver
+from solveur.core.solvers.linear import LinearSystemSolver, validate_residual_failure_tolerance
 from solveur.core.solvers.policy import LinearSolverPolicy, linear_execution_settings
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import SolveResult
@@ -45,6 +45,8 @@ class LinearStaticSolver:
     ) -> SolveResult:
         if detail_level not in {"full", "summary"}:
             raise ValueError("detail_level must be 'full' or 'summary'.")
+        if not model.contacts:
+            validate_residual_failure_tolerance(model.analysis.parameters)
         include_detail = detail_level == "full"
         run_started = perf_counter()
         report = self.validator.validate(model)
@@ -124,12 +126,7 @@ class LinearStaticSolver:
             internal = contact_state.internal_force
             loads = contact_state.applied_loads
             contact_details = contact_state.details
-            solver_info = {
-                "method": str(contact_details["method"]),
-                "iterations": contact_details["iteration_count"],
-                "converged": contact_details["converged"],
-                "residual_norm": 0.0,
-            }
+            solver_info = _contact_solver_metadata(contact_details)
             emit_route_event_best_effort(
                 telemetry,
                 EventType.LINEAR_SOLVE_END,
@@ -357,6 +354,14 @@ def _apply_contact_moment_transport(
     raw value visible and supplies a contact-work-consistent global moment
     closure for the audit.
     """
+    if contact_details.get("tangential_transfer_mode", "legacy") == "small_rotation_work_conjugate":
+        raw = np.asarray(equilibrium.get("moment_imbalance_about_origin", (0.0, 0.0, 0.0)), dtype=float)
+        equilibrium["raw_moment_imbalance_about_origin"] = raw.tolist()
+        equilibrium["contact_reference_moment_correction"] = [0.0, 0.0, 0.0]
+        equilibrium["moment_transport_status"] = "ASSEMBLED_WORK_CONJUGATE_TRANSFER"
+        equilibrium["moment_balance_relative_error"] = float(np.linalg.norm(raw) / moment_scale)
+        return
+
     rows = contact_details.get("contacts", [])
     correction: np.ndarray = np.zeros(3, dtype=float)
     if isinstance(rows, list):
@@ -377,3 +382,15 @@ def _apply_contact_moment_transport(
     equilibrium["contact_reference_moment_correction"] = correction.tolist()
     equilibrium["moment_imbalance_about_origin"] = corrected.tolist()
     equilibrium["moment_balance_relative_error"] = float(np.linalg.norm(corrected) / moment_scale)
+
+
+def _contact_solver_metadata(contact_details: dict[str, object]) -> dict[str, object]:
+    """Expose unavailable active-set residuals without fabricating a zero measurement."""
+    return {
+        "method": str(contact_details["method"]),
+        "iterations": contact_details["iteration_count"],
+        "converged": contact_details["converged"],
+        "residual_norm": None,
+        "relative_residual_norm": None,
+        "residual_status": "NOT_COMPUTABLE",
+    }

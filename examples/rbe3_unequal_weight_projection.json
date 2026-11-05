@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI", "length": "m", "force": "N"},
+  "analysis": "linear_static",
+  "nodes": [
+    [0.0, 0.0, 0.0],
+    [1.0, 0.0, 0.0],
+    [-1.0, 0.0, 0.0],
+    [0.0, 2.0, 0.0],
+    [0.0, -2.0, 0.0],
+    [0.0, 0.0, 3.0],
+    [0.0, 0.0, -3.0]
+  ],
+  "elements": [],
+  "materials": {},
+  "springs": [
+    {"node_a": 1, "dofs": ["UX", "UY", "UZ"], "stiffness": 1000.0},
+    {"node_a": 2, "dofs": ["UX", "UY", "UZ"], "stiffness": 1000.0},
+    {"node_a": 3, "dofs": ["UX", "UY", "UZ"], "stiffness": 1000.0},
+    {"node_a": 4, "dofs": ["UX", "UY", "UZ"], "stiffness": 1000.0},
+    {"node_a": 5, "dofs": ["UX", "UY", "UZ"], "stiffness": 1000.0},
+    {"node_a": 6, "dofs": ["UX", "UY", "UZ"], "stiffness": 1000.0}
+  ],
+  "fixed_dofs": [],
+  "loads": [
+    {"node": 0, "dof": "UX", "value": 120.0},
+    {"node": 0, "dof": "UY", "value": -60.0},
+    {"node": 0, "dof": "UZ", "value": 90.0},
+    {"node": 0, "dof": "RX", "value": 70.0},
+    {"node": 0, "dof": "RY", "value": 112.0},
+    {"node": 0, "dof": "RZ", "value": -36.0}
+  ],
+  "rbe3": [
+    {
+      "name": "unequal_weight_spatial_projection",
+      "reference": 0,
+      "independents": [
+        {"node": 1, "weight": 1.0},
+        {"node": 2, "weight": 1.0},
+        {"node": 3, "weight": 2.0},
+        {"node": 4, "weight": 2.0},
+        {"node": 5, "weight": 3.0},
+        {"node": 6, "weight": 3.0}
+      ],
+      "mode": "rigid_body_projection"
+    }
+  ]
+}

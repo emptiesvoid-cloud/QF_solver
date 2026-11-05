@@ -13,6 +13,17 @@ def validate_coords_shape(coords: np.ndarray, shape: tuple[int, int], element_na
     return values
 
 
+def relative_determinant(matrix: np.ndarray) -> float:
+    """Return det(A / ||A||₂), a dimensionless signed-volume condition measure."""
+    values = np.asarray(matrix, dtype=float)
+    if values.shape != (3, 3) or not np.all(np.isfinite(values)):
+        return float("nan")
+    scale = float(np.linalg.norm(values, ord=2))
+    if not np.isfinite(scale) or scale <= 0.0:
+        return float("nan")
+    return float(np.linalg.det(values / scale))
+
+
 def strain_displacement_from_gradients(gradients: np.ndarray) -> np.ndarray:
     """Build the 3D Voigt strain-displacement matrix from shape gradients."""
     values = np.asarray(gradients, dtype=float)

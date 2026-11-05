@@ -10,6 +10,7 @@ from solveur.core.errors import (
     InfrastructureError,
     InputValidationError,
     MeshValidationError,
+    ModalResidualValidationError,
     NumericalConvergenceError,
 )
 
@@ -96,6 +97,48 @@ def diagnostic_from_exception(
     message = str(error) or error.__class__.__name__
     lowered = message.lower()
     details = {"exception_type": error.__class__.__name__, **dict(context or {})}
+    if isinstance(error, ModalResidualValidationError):
+        modal_record = error.to_dict()
+        details["modal_validation"] = modal_record
+        if error.validation_status == "INCONCLUSIVE":
+            reasons = [str(error.diagnostics.get("reason", ""))]
+            checks = error.diagnostics.get("checks", [])
+            if isinstance(checks, list):
+                reasons.extend(
+                    str(check.get("reason", ""))
+                    for check in checks
+                    if isinstance(check, Mapping)
+                )
+            if any("unsupported" in reason for reason in reasons):
+                return Diagnostic(
+                    DiagnosticCode.UNSUPPORTED_CAPABILITY,
+                    DiagnosticCategory.UNSUPPORTED_CAPABILITY,
+                    message,
+                    details,
+                    recoverable=False,
+                )
+            if any("budget" in reason for reason in reasons):
+                return Diagnostic(
+                    DiagnosticCode.RESOURCE_LIMITATION,
+                    DiagnosticCategory.RESOURCE_LIMITATION,
+                    message,
+                    details,
+                    recoverable=True,
+                )
+            return Diagnostic(
+                DiagnosticCode.NUMERICAL_INVALIDITY,
+                DiagnosticCategory.NUMERICAL_INVALIDITY,
+                message,
+                details,
+                recoverable=False,
+            )
+        return Diagnostic(
+            DiagnosticCode.SOLVER_NON_CONVERGENCE,
+            DiagnosticCategory.SOLVER_NON_CONVERGENCE,
+            message,
+            details,
+            recoverable=True,
+        )
     if "checkpoint" in lowered:
         if any(token in lowered for token in ("corrupt", "invalid npz", "cannot read", "malformed")):
             return Diagnostic(
