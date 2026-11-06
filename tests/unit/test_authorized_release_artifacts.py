@@ -4,11 +4,13 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 import pytest
 
 from scripts.verify_authorized_release_artifacts import (
+    _validate_candidate_audit,
     validate_owner_artifact_scope,
     verify_artifact_set,
 )
@@ -251,6 +253,128 @@ def test_owner_permissions_cannot_promote_wp14_or_maturity(tmp_path: Path) -> No
     promoted = {**owner, "wp14_status": "PASS"}
     with pytest.raises(ValueError, match="preserved release boundary"):
         validate_owner_artifact_scope(contract, promoted)
+
+
+def test_explicit_pypi_only_channels_require_exactly_narrowed_permissions(tmp_path: Path) -> None:
+    _, contract, owner = _fixture(tmp_path)
+    pypi_only = {**AUTHORIZATION, "github_release_allowed": False,
+                 "zenodo_selected_artifact_publication_allowed": False}
+    contract = {**contract, "release_channels": ["pypi"], "authorization": pypi_only.copy()}
+    owner = {
+        **owner,
+        "release_channels": ["pypi"],
+        "authorization": pypi_only.copy(),
+        "github_release_allowed": False,
+        "zenodo_selected_artifact_publication_allowed": False,
+    }
+    validate_owner_artifact_scope(contract, owner)
+
+    with pytest.raises(ValueError, match="permissions broaden or weaken"):
+        validate_owner_artifact_scope(contract, {
+            **owner,
+            "authorization": AUTHORIZATION.copy(),
+            "github_release_allowed": True,
+            "zenodo_selected_artifact_publication_allowed": True,
+        })
+
+    with pytest.raises(ValueError, match="same release channels"):
+        validate_owner_artifact_scope(contract, {**owner, "release_channels": []})
+
+
+def test_explicit_pypi_only_contract_rejects_missing_channel_permissions(tmp_path: Path) -> None:
+    _, contract, owner = _fixture(tmp_path)
+    contract = {**contract, "release_channels": ["pypi"]}
+    pypi_only = {**AUTHORIZATION, "github_release_allowed": False,
+                 "zenodo_selected_artifact_publication_allowed": False}
+    owner = {
+        **owner,
+        "release_channels": ["pypi"],
+        "authorization": pypi_only,
+        "github_release_allowed": False,
+        "zenodo_selected_artifact_publication_allowed": False,
+    }
+    with pytest.raises(ValueError, match="release contract permissions"):
+        validate_owner_artifact_scope(contract, owner)
+
+
+def _git(root: Path, *args: str) -> str:
+    return subprocess.check_output(["git", *args], cwd=root, text=True).strip()
+
+
+def _candidate_audit_repo(root: Path, *, annotated: bool = True, candidate_value=None):
+    root.mkdir()
+    _git(root, "init", "-b", "main")
+    _git(root, "config", "user.email", "tests@example.invalid")
+    _git(root, "config", "user.name", "Release Validator Test")
+    (root / "source.txt").write_text("source\n", encoding="utf-8")
+    _git(root, "add", "source.txt")
+    _git(root, "commit", "-m", "source")
+    source_sha = _git(root, "rev-parse", "HEAD")
+    if annotated:
+        _git(root, "tag", "-a", "v0.2.12", "-m", "release", source_sha)
+    else:
+        _git(root, "tag", "v0.2.12", source_sha)
+    tag_object = _git(root, "rev-parse", "refs/tags/v0.2.12")
+    audit = {
+        "record_id": "QF-TEST-CANDIDATE",
+        "status": "READY_FOR_OWNER_RELEASE_AUTHORIZATION",
+        "candidate": candidate_value if candidate_value is not None else {
+            "package_version": "0.2.12",
+            "package_source_sha": source_sha,
+            "expected_tag": "v0.2.12",
+            "expected_tag_target_sha": source_sha,
+            "tag_created": True,
+            "tag_object_sha": tag_object,
+        },
+        "release_gates": {"ready_for_owner_release_authorization": True},
+    }
+    audit_bytes = json.dumps(audit, sort_keys=True).encode("utf-8")
+    audit_path = "candidate-audit.json"
+    (root / audit_path).write_bytes(audit_bytes)
+    _git(root, "add", audit_path)
+    _git(root, "commit", "-m", "candidate audit")
+    audit_commit = _git(root, "rev-parse", "HEAD")
+    (root / "head.txt").write_text("head\n", encoding="utf-8")
+    _git(root, "add", "head.txt")
+    _git(root, "commit", "-m", "release contract")
+    head = _git(root, "rev-parse", "HEAD")
+    contract = {
+        "release_channels": ["pypi"],
+        "tag_object_sha": tag_object,
+        "release_tag": "v0.2.12",
+        "package_version": "0.2.12",
+        "candidate_audit": {
+            "path": audit_path,
+            "commit_sha": audit_commit,
+            "sha256": _sha(audit_bytes),
+            "record_id": "QF-TEST-CANDIDATE",
+        },
+        "release_gates": {},
+    }
+    return source_sha, head, contract, tag_object
+
+
+def test_pypi_only_candidate_audit_requires_exact_annotated_tag_before_ci_gate(tmp_path: Path) -> None:
+    root = tmp_path / "annotated"
+    source, head, contract, _ = _candidate_audit_repo(root)
+    with pytest.raises(ValueError, match="successful exact-source Quality and Documentation CI"):
+        _validate_candidate_audit(root, head, source, contract)
+
+    lightweight = tmp_path / "lightweight"
+    source, head, contract, _ = _candidate_audit_repo(lightweight, annotated=False)
+    with pytest.raises(ValueError, match="exact annotated tag object"):
+        _validate_candidate_audit(lightweight, head, source, contract)
+
+    wrong_hash = tmp_path / "wrong-hash"
+    source, head, contract, _ = _candidate_audit_repo(wrong_hash)
+    contract["tag_object_sha"] = "0" * 40
+    with pytest.raises(ValueError, match="exact annotated tag object"):
+        _validate_candidate_audit(wrong_hash, head, source, contract)
+
+    malformed = tmp_path / "malformed"
+    source, head, contract, _ = _candidate_audit_repo(malformed, candidate_value=[])
+    with pytest.raises(ValueError, match="candidate audit record is malformed"):
+        _validate_candidate_audit(malformed, head, source, contract)
 
 
 def test_0211_owner_contract_requires_matching_scope_gates_and_prepublication_state(tmp_path: Path) -> None:

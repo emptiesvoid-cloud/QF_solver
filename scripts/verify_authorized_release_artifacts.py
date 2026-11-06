@@ -50,6 +50,14 @@ _scope_policy = cast(
 SUPPORTED_RELEASE_CONTRACT_SCHEMA_VERSIONS = {1, 2}
 
 
+def _release_channel_permissions(contract: dict[str, Any]) -> tuple[bool, bool]:
+    if "release_channels" not in contract:
+        return True, True
+    if contract["release_channels"] == ["pypi"]:
+        return False, False
+    raise ValueError("The release contract names an unsupported or malformed release channel set.")
+
+
 def _relative_path(value: str) -> str:
     if not isinstance(value, str) or not value or "\\" in value:
         raise ValueError("Contract paths must use non-empty canonical POSIX paths.")
@@ -103,7 +111,29 @@ def _validate_candidate_audit(
     if hashlib.sha256(committed).hexdigest() != expected_hash or hashlib.sha256(at_commit).hexdigest() != expected_hash:
         raise ValueError("The final candidate audit record bytes differ from their frozen hash.")
     audit = json.loads(committed)
-    candidate = audit.get("candidate", {})
+    candidate = audit.get("candidate")
+    if not isinstance(candidate, dict):
+        raise ValueError("The candidate audit record is malformed.")
+    github_allowed, zenodo_allowed = _release_channel_permissions(contract)
+    pypi_only = not github_allowed and not zenodo_allowed
+    if pypi_only:
+        tag_object = contract.get("tag_object_sha")
+        tag_ref = f"refs/tags/{contract.get('release_tag')}"
+        observed_tag = git_run(["rev-parse", "--verify", tag_ref], cwd=root, text=True)
+        tag_type = git_run(["cat-file", "-t", tag_ref], cwd=root, text=True)
+        tag_target = git_run(["rev-parse", f"{tag_ref}^{{commit}}"], cwd=root, text=True)
+        if (
+            not isinstance(tag_object, str)
+            or not re.fullmatch(r"[0-9a-f]{40}", tag_object)
+            or observed_tag.returncode != 0
+            or observed_tag.stdout.strip() != tag_object
+            or tag_type.returncode != 0
+            or tag_type.stdout.strip() != "tag"
+            or tag_target.returncode != 0
+            or tag_target.stdout.strip() != source_sha
+            or candidate.get("tag_object_sha") != tag_object
+        ):
+            raise ValueError("The PyPI-only release does not bind its exact annotated tag object and source target.")
     if (
         audit.get("record_id") != reference.get("record_id")
         or audit.get("status") != "READY_FOR_OWNER_RELEASE_AUTHORIZATION"
@@ -112,7 +142,7 @@ def _validate_candidate_audit(
         or candidate.get("package_source_sha") != source_sha
         or candidate.get("expected_tag") != contract.get("release_tag")
         or candidate.get("expected_tag_target_sha") != source_sha
-        or candidate.get("tag_created") is not False
+        or candidate.get("tag_created") is not pypi_only
         or not isinstance(audit.get("release_gates"), dict)
         or audit.get("release_gates", {}).get("ready_for_owner_release_authorization") is not True
     ):
@@ -347,12 +377,17 @@ def validate_owner_artifact_scope(contract: dict[str, Any], owner_record: dict[s
     ):
         raise ValueError("Selected artifact filenames do not identify the authorized package version.")
 
+    github_allowed, zenodo_allowed = _release_channel_permissions(contract)
+    if "release_channels" in contract:
+        if owner_record.get("release_channels") != contract["release_channels"]:
+            raise ValueError("The Owner record and release contract must name the same release channels.")
+
     required_authorization = {
         "selected_package_publication_allowed": True,
         "tag_creation_allowed": True,
         "pypi_publication_allowed": True,
-        "github_release_allowed": True,
-        "zenodo_selected_artifact_publication_allowed": True,
+        "github_release_allowed": github_allowed,
+        "zenodo_selected_artifact_publication_allowed": zenodo_allowed,
         "whole_repository_archive_cleared": False,
         "whole_repository_archive_publication_allowed": False,
         "ledger_update_allowed": False,
@@ -363,12 +398,14 @@ def validate_owner_artifact_scope(contract: dict[str, Any], owner_record: dict[s
     }
     if owner_record.get("authorization") != required_authorization:
         raise ValueError("The Owner authorization permissions broaden or weaken the selected-release boundary.")
+    if "release_channels" in contract and contract.get("authorization") != required_authorization:
+        raise ValueError("The release contract permissions do not match its explicit release channels.")
     required_top_level_flags = {
         "selected_package_publication_allowed": True,
         "tag_creation_allowed": True,
         "pypi_publication_allowed": True,
-        "github_release_allowed": True,
-        "zenodo_selected_artifact_publication_allowed": True,
+        "github_release_allowed": github_allowed,
+        "zenodo_selected_artifact_publication_allowed": zenodo_allowed,
         "whole_repository_archive_cleared": False,
         "whole_repository_archive_publication_allowed": False,
         "wp14_promotion_allowed": False,
@@ -600,12 +637,13 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
     ):
         raise ValueError("The release contract's Owner reauthorization resolution is stale or inconsistent.")
 
+    github_allowed, zenodo_allowed = _release_channel_permissions(release_contract)
     required_authority = {
         "selected_package_publication_allowed": True,
         "tag_creation_allowed": True,
         "pypi_publication_allowed": True,
-        "github_release_allowed": True,
-        "zenodo_selected_artifact_publication_allowed": True,
+        "github_release_allowed": github_allowed,
+        "zenodo_selected_artifact_publication_allowed": zenodo_allowed,
         "whole_repository_archive_cleared": False,
         "whole_repository_archive_publication_allowed": False,
         "ledger_update_allowed": False,

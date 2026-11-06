@@ -6,13 +6,18 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: "Annotated source tag to build (a source-only tag will fail metadata preflight)"
+        description: "Annotated source tag bound to the audited distributions"
         required: true
         type: string
       contract_path:
         description: "Prospectively committed frozen package/public-docs contract"
         required: true
         type: string
+      run_extended_validation:
+        description: "Run extended scientific validation after its separate authorization"
+        required: true
+        type: boolean
+        default: false
       confirm_publish:
         description: "Publish the audited wheel and sdist to PyPI after all gates pass"
         required: true
@@ -25,6 +30,10 @@ permissions:
 jobs:
   preflight:
     name: Tagged public metadata preflight
+    outputs:
+      asset_transport: ${{ steps.release_contract.outputs.asset_transport }}
+      asset_run_id: ${{ steps.release_contract.outputs.asset_run_id }}
+      asset_artifact_id: ${{ steps.release_contract.outputs.asset_artifact_id }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,15 +51,18 @@ jobs:
         with:
           python-version: "3.13"
       - name: Verify immutable tag and public release copy
+        id: release_contract
         env:
           RELEASE_TAG: ${{ inputs.release_tag }}
           CONFIRM_PUBLISH: ${{ inputs.confirm_publish }}
+          RUN_EXTENDED_VALIDATION: ${{ inputs.run_extended_validation }}
           CONTRACT_PATH: ${{ inputs.contract_path }}
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = "refs/heads/main"
           [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
           if [[ "$CONFIRM_PUBLISH" == "true" ]]; then
+            test "$RUN_EXTENDED_VALIDATION" = "true"
             for artifact_kind in wheel sdist; do
               artifact_hash="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["audited_artifacts"][sys.argv[2]]["sha256"])' "$CONTRACT_PATH" "$artifact_kind")"
               [[ "$artifact_hash" =~ ^[0-9a-f]{64}$ ]]
@@ -59,8 +71,10 @@ jobs:
           test "$(git -C tagged-source cat-file -t "refs/tags/$RELEASE_TAG")" = tag
           test "$(git -C tagged-source rev-parse HEAD)" = "$(git -C tagged-source rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
           git merge-base --is-ancestor "refs/tags/$RELEASE_TAG^{commit}" HEAD
-          python - "$CONTRACT_PATH" "$RELEASE_TAG" "$(git -C tagged-source rev-parse "refs/tags/$RELEASE_TAG^{commit}")" <<'PY'
+          python - "$CONTRACT_PATH" "$RELEASE_TAG" "$(git -C tagged-source rev-parse "refs/tags/$RELEASE_TAG^{commit}")" \
+            "$(git -C tagged-source rev-parse "refs/tags/$RELEASE_TAG")" <<'PY'
           import json
+          import os
           import sys
 
           contract = json.load(open(sys.argv[1], encoding="utf-8"))
@@ -81,6 +95,36 @@ jobs:
               raise SystemExit("Selected distribution authorization must not permit a whole-repository archive.")
           if authorization.get("selected_package_publication_allowed") is not True:
               raise SystemExit("The selected distribution is not explicitly authorized.")
+
+          if contract.get("release_channels") == ["pypi"]:
+              if contract.get("tag_object_sha") != sys.argv[4]:
+                  raise SystemExit("The PyPI contract does not bind the annotated tag object.")
+              if (
+                  authorization.get("pypi_publication_allowed") is not True
+                  or authorization.get("github_release_allowed") is not False
+                  or authorization.get("zenodo_selected_artifact_publication_allowed") is not False
+              ):
+                  raise SystemExit("The PyPI-only channel requires explicit, exclusive authorization.")
+              source = contract.get("pypi_artifact_source")
+              if (
+                  not isinstance(source, dict)
+                  or set(source) != {"run_id", "artifact_id"}
+                  or any(type(value) is not int or not 1 <= value < 2**53 for value in source.values())
+              ):
+                  raise SystemExit("Bind exactly one Actions run ID and artifact ID for PyPI.")
+              outputs = {
+                  "asset_transport": "actions",
+                  "asset_run_id": source["run_id"],
+                  "asset_artifact_id": source["artifact_id"],
+              }
+          elif "release_channels" not in contract and "pypi_artifact_source" not in contract:
+              outputs = {"asset_transport": "legacy-release"}
+          else:
+              raise SystemExit("Unsupported release channel or artifact transport.")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as stream:
+              for key, value in outputs.items():
+                  stream.write(f"{key}={value}\n")
           PY
           python scripts/check_publication_metadata.py \
             --root tagged-source \
@@ -89,7 +133,8 @@ jobs:
 
   quality:
     name: Tagged release quality gate
-    needs: preflight
+    needs: build
+    if: ${{ inputs.run_extended_validation == true }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -155,7 +200,10 @@ jobs:
 
   build:
     name: Frozen selected package and public-docs audit
-    needs: [quality, docs]
+    needs: [preflight, docs]
+    permissions:
+      actions: read
+      contents: read
     runs-on: ubuntu-latest
     outputs:
       release_verified: ${{ steps.verify_release.outputs.release_verified }}
@@ -186,7 +234,18 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements/baseline-standard.txt
           python -m pip install twine
-      - name: Download uploaded selected release assets
+      - name: Download the bound selected-distribution artifact
+        if: needs.preflight.outputs.asset_transport == 'actions'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          artifact-ids: ${{ needs.preflight.outputs.asset_artifact_id }}
+          merge-multiple: true
+          run-id: ${{ needs.preflight.outputs.asset_run_id }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          path: ${{ runner.temp }}/qf-release-assets
+      - name: Download legacy selected release assets
+        if: needs.preflight.outputs.asset_transport == 'legacy-release'
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ inputs.release_tag }}
@@ -268,6 +327,7 @@ jobs:
       needs.build.outputs.release_verified == 'true' &&
       github.event_name == 'workflow_dispatch' &&
       github.ref == 'refs/heads/main' &&
+      inputs.run_extended_validation == true &&
       inputs.confirm_publish == true
     runs-on: ubuntu-latest
     environment:
