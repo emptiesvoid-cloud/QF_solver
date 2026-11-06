@@ -1,4 +1,5 @@
 <div class="status-grid">
+  <section class="status-panel"><h3>Project version</h3><span class="value">0.2.11</span><span>latest published release</span></section>
   <section class="status-panel"><h3>Candidate package metadata version</h3><span class="value">0.2.12</span><span>unreleased candidate; the latest published release remains 0.2.11</span></section>
   <section class="status-panel"><h3>Evidence status</h3><span class="value">ROUTE-SPECIFIC</span><span>0.2.8 registry remains historical authority; inherited nonlinear evidence and 0.2.11 experimental rotating routes are separately scoped; WP14 HOLD_NOT_PROMOTED and G03 FAIL_PRESERVED</span></section>
   <section class="status-panel"><h3>Distribution scope</h3><span class="value">SELECTED</span><span>wheel and sdist only; whole-repository source archives are not cleared</span></section>

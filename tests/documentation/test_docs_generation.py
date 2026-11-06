@@ -195,6 +195,7 @@ def test_generated_status_matches_its_template_without_running_campaign(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     (tmp_path / "docs" / "generated").mkdir(parents=True)
+    (tmp_path / "CHANGELOG.md").write_text((ROOT / "CHANGELOG.md").read_text(encoding="utf-8"), encoding="utf-8")
     monkeypatch.setattr("scripts.docs_publication.collect_test_count", lambda _root: 0)
     publisher = DocumentationPublisher(
         tmp_path, profile="quick", records=[], scales={}, source_state={"revision": "uncommitted"}
@@ -202,7 +203,9 @@ def test_generated_status_matches_its_template_without_running_campaign(
     publisher._status({})
     generated = (tmp_path / "docs" / "generated" / "status.md").read_text(encoding="utf-8")
     assert generated == (DOCS / "generated" / "status.md").read_text(encoding="utf-8")
+    assert '<h3>Project version</h3><span class="value">0.2.11</span>' in generated
     assert "Candidate package metadata version" in generated
+    assert '<h3>Candidate package metadata version</h3><span class="value">0.2.12</span>' in generated
     assert "unreleased candidate; the latest published release remains 0.2.11" in generated
 
 
