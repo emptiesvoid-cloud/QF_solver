@@ -53,15 +53,21 @@ isotrope. L'etat contient la deformation plastique et la variable cumulee.
 La tangente algorithmique depend de la direction d'ecoulement. La campagne
 `VNV-J2-MATERIAL-CYCLIC-001` la verifie par differences finies, controle les
 invariants de plasticite et compare la traction monotone a la theorie
-bilineaire ainsi qu'a quatre points exacts publies par Abaqus. La loi reste
-neanmoins hors du scope stable : la correlation cyclique avec un logiciel
-independant compatible avec l'ecrouissage isotrope et la campagne structurelle
-multi-elements ne sont pas encore terminees.
+bilineaire ainsi qu'a quatre points exacts publies par Abaqus. Ce paragraphe
+decrit une preuve materiau historique, pas l'ensemble des decisions ulterieures
+sur les cas structurels J2. La loi reste une plasticite a petites deformations
+avec ecrouissage isotrope lineaire; les preuves et restrictions propres a
+chaque route restent distinctes. Les limites et etats exportes courants sont
+precises dans les [conventions de resultats](../conventions_resultats.md).
+Les certificats ponctuels ne valent pas qualification globale de la plasticite
+aux grandes deformations.
 
 ## Lamelle orthotrope composite
 
 Le socle experimental `OrthotropicLamina` implemente la loi reduite en
 contraintes planes et sa rotation entre axes elementaires et materiau. Les
 conventions, equations et demonstrations `0/90/+/-45 deg` sont detaillees dans
-[la page composite](../composites/lamelle_orthotrope.md). Aucun calcul MITC4
-multicouche n'est encore autorise.
+[la page composite](../composites/lamelle_orthotrope.md). Des routes MITC4
+stratifiees selectionnees et leurs resultantes sont disponibles dans des
+perimetres bornes; les indicateurs de rupture restent experimentaux et ne
+constituent pas une qualification generale des stratifies.

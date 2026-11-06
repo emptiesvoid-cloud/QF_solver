@@ -30,7 +30,13 @@ PHASE1_INSTRUMENTED_ROUTES = frozenset({"linear_static", "modal"})
 class AnalysisRouter:
     """Route one model to the solver matching its analysis settings."""
 
-    def solve(self, model: FiniteElementModel, *, telemetry: TelemetryEmitter | None = None) -> object:
+    def solve(
+        self,
+        model: FiniteElementModel,
+        *,
+        telemetry: TelemetryEmitter | None = None,
+        source_sha: str | None = None,
+    ) -> object:
         """Solve a model and preserve the original exception after failure telemetry."""
 
         if not isinstance(model.analysis, AnalysisSettings):
@@ -55,18 +61,46 @@ class AnalysisRouter:
                 metrics=start_metrics,
             )
         try:
-            return self._solve(model, telemetry=route_telemetry)
+            return self._solve(model, telemetry=route_telemetry, source_sha=source_sha)
         except BaseException as error:
             emit_analysis_failed_best_effort(route_telemetry, error)
             raise
 
-    def _solve(self, model: FiniteElementModel, *, telemetry: TelemetryHandle | None = None) -> object:
+    def _solve(
+        self,
+        model: FiniteElementModel,
+        *,
+        telemetry: TelemetryHandle | None = None,
+        source_sha: str | None = None,
+    ) -> object:
         if not isinstance(model.analysis, AnalysisSettings):
             model.analysis = AnalysisSettings.from_raw(model.analysis)
         model.analysis.validate()
+        source_sha_route = (model.analysis.type, model.analysis.method) in {
+            ("harmonic_response", "modal_superposition"),
+            ("transient_dynamic", "modal_newmark"),
+        }
+        if source_sha is not None and not source_sha_route:
+            raise InputValidationError(
+                "source_sha is accepted only for harmonic_response/modal_superposition "
+                "and transient_dynamic/modal_newmark."
+            )
+        if "uniform_base_acceleration" in model.analysis.parameters and (
+            (model.analysis.type, model.analysis.method)
+            not in {
+                ("harmonic_response", "modal_superposition"),
+                ("transient_dynamic", "modal_newmark"),
+            }
+        ):
+            raise InputValidationError(
+                "uniform_base_acceleration is supported only by harmonic_response/modal_superposition "
+                "and transient_dynamic/modal_newmark."
+            )
         has_rotating_disk = any(isinstance(item, RotatingDisk) for item in model.concentrated_masses)
         if model.analysis.type not in {"rotating_modal", "campbell"} and has_rotating_disk:
-            raise InputValidationError("RotatingDisk entities are only valid for analysis='rotating_modal' or 'campbell'.")
+            raise InputValidationError(
+                "RotatingDisk entities are only valid for analysis='rotating_modal' or 'campbell'."
+            )
         if model.analysis.type not in {"rotating_modal", "campbell"} and "rotation" in model.analysis.parameters:
             raise InputValidationError("analysis.parameters.rotation is only valid for rotating_modal or campbell.")
         compatibility = preflight_model(model)
@@ -105,9 +139,17 @@ class AnalysisRouter:
 
             return LinearBucklingSolver().solve(model)
         if model.analysis.type == "transient_dynamic":
+            if model.analysis.method == "modal_newmark":
+                from solveur.core.analyses.modal_newmark import ModalNewmarkTransientSolver
+
+                return ModalNewmarkTransientSolver().solve(model, source_sha=source_sha)
             from solveur.io.dynamic_checkpoint import NpzDynamicCheckpointStore
 
             return NewmarkDynamicSolver(checkpoint_store=NpzDynamicCheckpointStore()).solve(model)
         if model.analysis.type == "harmonic_response":
+            if model.analysis.method == "modal_superposition":
+                from solveur.core.analyses.reduced_harmonic import ReducedHarmonicResponseSolver
+
+                return ReducedHarmonicResponseSolver().solve(model, source_sha=source_sha)
             return HarmonicResponseSolver().solve(model)
         raise ValueError(f"Unsupported analysis type {model.analysis.type!r}.")

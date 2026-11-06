@@ -143,9 +143,10 @@ def _author_email_findings(root: Path) -> list[GitHistoryFinding]:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--output", type=Path, default=Path("git_history_audit.json"))
     args = parser.parse_args(argv)
-    report = audit_git_history_paths(ROOT)
+    report = audit_git_history_paths(args.root)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f"GIT HISTORY AUDIT: {report['status']} ({report['commit_count']} commits, {len(report['findings'])} findings)")

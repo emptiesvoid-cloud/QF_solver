@@ -8,6 +8,7 @@ from time import perf_counter
 import numpy as np
 
 from solveur.api import solve_model
+from solveur.core.errors import ModalResidualValidationError
 from solveur.core.model import FiniteElementModel
 from solveur.elements.solid.hex20 import Hex20Element
 from solveur.io.manifest import write_json_file
@@ -154,6 +155,10 @@ class Hex20InternalCampaign:
             "execution_seconds": perf_counter() - started,
             "kernel_verification": kernel,
             "common_analysis_paths": analyses,
+            "modal_certification": next(
+                (row.get("modal_validation_status", "NOT_REPORTED") for row in analyses if row["id"] == "modal"),
+                "NOT_REPORTED",
+            ),
             "load_cases": loads,
             "j2_case": j2,
             "tet_hex20_benchmark": benchmark,
@@ -184,7 +189,39 @@ class Hex20InternalCampaign:
         for name, analysis in cases:
             try:
                 result = solve_model(_model(analysis))
-                rows.append({"id": name, "status": "PASS" if result.status == "PASS" else "FAIL", "solver_status": result.status})
+                if name == "modal":
+                    solver = getattr(result, "solver", {})
+                    validation = solver.get("modal_residual_validation") if isinstance(solver, dict) else None
+                    validation_status = (
+                        validation.get("status", "NOT_REPORTED") if isinstance(validation, dict) else "NOT_REPORTED"
+                    )
+                    row = {
+                        "id": name,
+                        "status": "PASS"
+                        if result.status == "PASS" and validation_status == "PASS_CERTIFIED"
+                        else "FAIL",
+                        "solver_status": result.status,
+                        "modal_validation_status": validation_status,
+                    }
+                    if isinstance(validation, dict) and validation.get("reason") is not None:
+                        row["modal_validation_reason"] = validation["reason"]
+                else:
+                    row = {
+                        "id": name,
+                        "status": "PASS" if result.status == "PASS" else "FAIL",
+                        "solver_status": result.status,
+                    }
+                rows.append(row)
+            except ModalResidualValidationError as exc:
+                rows.append(
+                    {
+                        "id": name,
+                        "status": "FAIL",
+                        "error": str(exc),
+                        "modal_validation_status": exc.validation_status,
+                        "modal_validation_reason": exc.diagnostics.get("reason"),
+                    }
+                )
             except Exception as exc:  # pragma: no cover - campaign findings are data
                 rows.append({"id": name, "status": "FAIL", "error": str(exc)})
         return rows
@@ -224,6 +261,8 @@ class Hex20InternalCampaign:
         lines.extend(["", "## Analyses communes", "", "| Cas | Statut |", "| --- | --- |"])
         for row in summary["common_analysis_paths"]:
             lines.append(f"| {row['id']} | {row['status']} |")
+        if "modal_certification" in summary:
+            lines.extend(["", f"Certification modale : **{summary['modal_certification']}**"])
         lines.extend(["", "## Comparaison TET4/TET10/HEX8/HEX20", "", "| Modèle | Élément | DDL | Temps (s) | nnz | Résidu |", "| --- | --- | ---: | ---: | ---: | ---: |"])
         for row in summary["tet_hex20_benchmark"]["rows"]:
             lines.append(f"| {row['model']} | {row['element']} | {row['dofs']} | {row['solve_seconds']:.6e} | {row['nnz']} | {row['equilibrium_residual']:.6e} |")

@@ -49,3 +49,15 @@ def test_tet4_rejects_inverted_or_degenerate_element():
         element.stiffness(unit_tet_coords()[[0, 2, 1, 3]])
     with pytest.raises(ValueError):
         element.stiffness(np.zeros((4, 3)))
+
+
+@pytest.mark.parametrize("scale", [1.0e-5, 1.0, 1.0e5])
+def test_tet4_geometry_acceptance_is_independent_of_length_units(scale: float) -> None:
+    element = Tet4Element(SolidMaterial(E=210.0e9, nu=0.3, density=7800.0))
+    coords = unit_tet_coords() * scale
+
+    stiffness = element.stiffness(coords)
+    mass = element.mass(coords)
+
+    assert np.all(np.isfinite(stiffness))
+    assert np.all(np.isfinite(mass))

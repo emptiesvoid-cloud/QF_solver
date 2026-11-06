@@ -241,6 +241,12 @@ def test_common_penalty_rejects_invalid_penetration_limit_before_assembly() -> N
     data["analysis"]["method"] = "newton_raphson"
     data["analysis"]["contact_mode"] = "penalty"
     data["analysis"]["contact_max_penetration"] = 0.0
+    # Nonlinear static deliberately rejects discrete springs before mesh
+    # validation, and the JSON schema requires an element or spring. Provide a
+    # valid supported TET4 so this test reaches contact-parameter validation.
+    data["springs"] = []
+    data["elements"] = [{"type": "TET4", "nodes": [0, 1, 2, 3], "material": "elastic"}]
+    data["materials"] = {"elastic": {"type": "isotropic_3d", "E": 100000.0, "nu": 0.3}}
     model = JsonModelReader().from_dict(data)
 
     report = MeshValidator().validate(model)

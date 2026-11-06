@@ -169,7 +169,7 @@ def test_readiness_promotion_owner_and_qualification_commands(monkeypatch, tmp_p
         checks=[SimpleNamespace(status="FAIL", identifier="r1", detail="missing")],
     )
     monkeypatch.setattr(verification, "qualification_readiness", lambda *_: readiness)
-    monkeypatch.setattr(verification, "save_result", lambda *_: None)
+    monkeypatch.setattr(verification, "save_result", lambda *_, **__: None)
     assert verification.command_qualification_readiness(
         Namespace(scope="scope", registry="registry.json", json_report=tmp_path / "readiness.json")
     ) == int(ExitCode.ACCEPTED)
@@ -229,7 +229,7 @@ def test_release_vv_and_evidence_commands_cover_pass_warning_and_fail(monkeypatc
 
     evidence = SimpleNamespace(status="PASS", manifest_path="manifest.json", checked_file_count=3, errors=[], warnings=[])
     monkeypatch.setattr(verification, "verify_evidence", lambda _: evidence)
-    monkeypatch.setattr(verification, "save_result", lambda *_: None)
+    monkeypatch.setattr(verification, "save_result", lambda *_args, **_kwargs: None)
     assert verification.command_verify_evidence(
         Namespace(input="manifest.json", json_report=tmp_path / "evidence.json")
     ) == int(ExitCode.ACCEPTED)

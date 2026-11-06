@@ -1,19 +1,28 @@
 ---
 doc_id: DOC-REF-API-003
-revision: 1.0
+revision: 1.3
 status: controlled_candidate
-applicable_version: 0.2.11
-reviewer: ""
-approver: ""
+applicable_version: 0.2.12
+reviewer: "GPT-6 Luna — WP11 contract review (2026-10-25)"
+approver: "Owner — WP11 policy decision (2026-10-25; not release approval)"
 ---
 
 # `qf_solver` public API contract
 
-This page documents the public `qf_solver` API for release 0.2.11.
+This page documents the public `qf_solver` API for release 0.2.12.
 
 This page is the concise contract for the Python surface exported by
 `qf_solver`. New integrations should use this namespace. Implementation
 modules and private names under `solveur` are not public API.
+
+## Review and approval record
+
+Reviewed for the WP11 v0.2.12 acceptance scope by GPT-6 Luna on 2026-10-25.
+The Owner decision of 2026-10-25 approves heterogeneous documented result
+DTOs and keeps the scientific statuses at their existing bounded states. This
+approval covers the WP11 contract policy only; it does not approve package
+publication or close a scientific qualification. This page remains a
+`controlled_candidate` pending the separate release-document control process.
 
 The contract is additive for the 0.2.x line. A symbol marked `PROVISIONAL` is
 importable and supported for the current documented use, but its signature or
@@ -66,12 +75,21 @@ check_mesh(model: FiniteElementModel) -> MeshReport
 ### `solve_model`
 
 ```python
-solve_model(model: FiniteElementModel, *, enforce_policy: bool = True) -> object
+solve_model(model: FiniteElementModel, *, enforce_policy: bool = True,
+            telemetry: TelemetryEmitter | None = None,
+            source_sha: str | None = None) -> object
 ```
 
 - `model`: validated finite-element model.
 - `enforce_policy`: when `True` (the default), apply the model's documented
   verification profile before returning the result.
+- `telemetry`: optional telemetry emitter; instrumentation depends on the
+  selected route and does not change its qualification status.
+- `source_sha`: optional caller-declared full source revision for the
+  experimental `modal_superposition` and `modal_newmark` routes. Other routes
+  reject this argument. A caller or environment declaration is not proof that
+  the installed wheel or sdist was built from that revision; artifact binding
+  remains `NOT_VERIFIED` unless separately established by an artifact contract.
 - Returns the analysis result object. Its existing result methods, including
   `to_dict()`, are preserved by the 0.2.x API.
 - Raises `InputValidationError` or `MeshValidationError` for invalid input,
@@ -84,17 +102,73 @@ solve_model(model: FiniteElementModel, *, enforce_policy: bool = True) -> object
 ### `save_result`
 
 ```python
-save_result(result: object, path: str | Path) -> None
+save_result(result: object, path: str | Path, *, overwrite: bool = False) -> None
 ```
 
 - `result`: result object returned by `solve_model`.
 - `path`: JSON output path, as `str` or `pathlib.Path`.
-- Returns `None` after writing a finite JSON result.
+- Returns `None` after writing a finite JSON result. By default, it creates a
+  new path and refuses an existing path with `InputValidationError`.
+- `overwrite=True` explicitly replaces an existing JSON result. Existing
+  integrations that relied on the former implicit replacement behavior must
+  pass this keyword when reusing a path. Calls using two positional arguments
+  remain valid when the target is new.
 - Raises `InputValidationError` when a result exposing `to_dict()` cannot be
   serialized as finite JSON; an object without `to_dict()` is ordinary caller
-  misuse and raises `AttributeError`. Filesystem errors remain ordinary
+  misuse and raises `AttributeError`. Other filesystem errors remain ordinary
   `OSError` failures.
 - Stability: `STABLE`.
+
+## Modal validation policy for the 0.2.12 candidate
+
+This section documents an unreleased 0.2.12 candidate behavior; it does not
+change the latest published version (0.2.11) or establish scientific
+qualification.
+
+For a modal model, and for the reduced harmonic and modal Newmark routes, the
+optional setting is placed in `analysis.parameters`:
+
+```json
+{
+  "analysis": {
+    "type": "modal",
+    "method": "eigsh",
+    "parameters": {
+      "modal_validation_policy": "allow_inconclusive"
+    }
+  }
+}
+```
+
+Omit `modal_validation_policy` to use `strict` (the default). In strict mode,
+only a basis with `PASS_CERTIFIED` residual validation is usable by the route.
+If a candidate was calculated but validation is `INCONCLUSIVE`, the route
+refuses use and reports the validation diagnostic; a computed candidate may
+be retained in that diagnostic for inspection. `FAIL` and non-finite inputs
+or diagnostics are refused under every policy.
+
+`allow_inconclusive` is an explicit compatibility opt-in. It permits access
+only when the computed candidate's validation is `INCONCLUSIVE` solely because
+one of the bounded certification-work budgets was exceeded and the other
+fundamental checks passed. The calculation status remains `COMPUTED`; the
+validation status remains `INCONCLUSIVE`; derived results remain
+`NOT_ASSESSED` and `usable_as_certified_evidence=false`. It does not promote a
+candidate to `PASS_CERTIFIED`, relax a threshold, or establish response error
+or physical validity. An inconclusive result for any other reason and every
+`FAIL` remain refused.
+
+`PASS_CERTIFIED` refers only to the implemented residual criterion for the
+represented operators and candidate modes under its stated bounded contract.
+It is not a certificate of eigenvalue or eigenvector accuracy, continuum
+solution error, physical validity, or general model qualification.
+
+Modal Newmark checkpoints bind the run, source declaration, prepared
+operators, excitation, damping, modal basis and execution settings. A checkpoint
+with missing required identity metadata or an identity that does not match the
+current policy/basis is rejected. Older checkpoint compatibility is not
+promised and no automatic migration is performed; regenerate checkpoints for
+the current candidate and matching policy. Direct full-order Newmark uses a
+separate checkpoint contract.
 
 ## Stability categories
 
@@ -102,6 +176,26 @@ save_result(result: object, path: str | Path) -> None
 - `PROVISIONAL`: public and tested, but tied to benchmark, V&V, large-model,
   or campaign workflows whose result schemas may evolve.
 - `DEPRECATED`: retained for compatibility and not recommended for new code.
+
+## Version 0.2.12 bounded addition — WP-D02 stress recovery
+
+Version 0.2.12 adds three `PROVISIONAL` post-processing wrappers to the public
+facade: `recover_solid_stress_field`, `recover_harmonic_stress`, and
+`recover_modal_transient_stress`. They recover stress from an existing
+full-order displacement or from selected states in a prepared reduced dynamic
+result; they do not assemble or solve a model. Their returned dictionaries use
+the `qf-dynamic-solid-stress/v1` contract and carry stress convention,
+component order, units, element coverage, `maturity=EXPERIMENTAL`, and
+`qualification_decision=NOT_ASSESSED`.
+
+The bounded D02 scope is linear isotropic solid stress recovery for TET4,
+TET10, HEX8, and HEX20. Contact, BEAM2, nonlinear material recovery, and a
+general qualification claim are outside that scope. The relevant API symbol
+list and signatures appear in the provisional inventory below; the D02
+qualification report records the exact fixtures and evidence.
+
+The `Version 0.2.11` notes below describe routes introduced in that historical
+release and remain part of this current 0.2.12 reference.
 
 The legacy `solveur` top-level namespace, the `solveur-ef` console entry point,
 and the `main_solveur.py` launcher are compatibility paths. They are marked for
@@ -141,15 +235,15 @@ return annotation is the documented return type where one is available.
 - `save_audit_markdown(result_or_audit: object, path: str | Path) -> None` — write an audit report; `STABLE`.
 - `save_evidence(model: FiniteElementModel, result: object, directory: str | Path, *, input_path: str | Path | None = None) -> dict[str, Path]` — write a reproducible evidence bundle; `STABLE`.
 - `save_model(model: FiniteElementModel, path: str | Path) -> None` — write strict model JSON; `STABLE`.
-- `save_result(result: object, path: str | Path) -> None` — write result JSON; `STABLE`.
+- `save_result(result: object, path: str | Path, *, overwrite: bool = False) -> None` — write result JSON; `STABLE`.
 - `save_result_csv(result: object, directory: str | Path, model: FiniteElementModel | None = None) -> dict[str, Path]` — write result tables; `STABLE`.
 - `save_result_vtu(result: object, model: FiniteElementModel, path: str | Path) -> None` — write an ASCII VTU result; `STABLE`.
-- `solve_model(model: FiniteElementModel, *, enforce_policy: bool = True) -> object` — solve through the public router; `STABLE`.
+- `solve_model(model: FiniteElementModel, *, enforce_policy: bool = True, telemetry: TelemetryEmitter | None = None, source_sha: str | None = None) -> object` — solve through the public router; the `source_sha` extension is experimental and limited to reduced routes.
 - `verify_evidence(path: str | Path) -> EvidenceVerificationReport` — verify evidence fingerprints; `STABLE`.
 
 ### Experimental `rotating_modal`
 
-Version 0.2.11 adds a JSON analysis route consumed through the existing
+Version 0.2.11 added a JSON analysis route consumed through the existing
 `load_model`/`solve_model` API. It returns a distinct complex
 `RotatingModalResult`, but neither that result schema nor the numerical
 capability is declared stable or included in the immutable 0.2.10 contract.
@@ -160,7 +254,7 @@ is a separate experimental route documented below.
 
 ### Experimental `campbell`
 
-Version 0.2.11 adds an experimental JSON `campbell` route,
+Version 0.2.11 added an experimental JSON `campbell` route,
 consumed through the same `load_model`/`solve_model` workflow. The caller must
 provide finite, strictly increasing `spin_speeds_rad_s`, an explicit global
 axis/frame, a mode count, and the frozen WP05 QEP/WP06 tracking policy IDs.
@@ -201,6 +295,9 @@ tool or artifact is unavailable.
 - `postprocess_large_model(model_path: str | Path, displacement_path: str | Path, output_dir: str | Path, *, chunk_size: int = 65536, resume: bool = False, overwrite: bool = False, max_chunks: int | None = None) -> dict[str, object]` — post-process a large result; `PROVISIONAL`.
 - `qualify_large_tet4_pipeline(output_dir: str | Path, *, target_dofs: int = 1000000, nx: int | None = None, ny: int | None = None, nz: int | None = None, solver_backend: str = 'petsc', preconditioner: str | None = None, chunk_size: int = 4096, **kwargs: object) -> dict[str, object]` — run the large TET4 qualification pipeline; `PROVISIONAL`.
 - `qualification_readiness(scope: str, registry_path: str | Path | None = None) -> QualificationReadiness` — evaluate evidence readiness; `PROVISIONAL`.
+- `recover_harmonic_stress(model: FiniteElementModel, result: object, *, prepared: object, basis: object, selected_frequencies_hz: list[float] | tuple[float, ...], stress_convention: str = 'GLOBAL_SMALL_STRAIN_CAUCHY_VOIGT_XX_YY_ZZ_XY_YZ_ZX') -> dict[str, object]` — recover phase-preserving stress for selected reduced harmonic frequencies; `PROVISIONAL`.
+- `recover_modal_transient_stress(model: FiniteElementModel, result: object, *, prepared: object, basis: object, selected_times_s: list[float] | tuple[float, ...], stress_convention: str = 'GLOBAL_SMALL_STRAIN_CAUCHY_VOIGT_XX_YY_ZZ_XY_YZ_ZX') -> dict[str, object]` — recover stress at selected stored modal Newmark times; `PROVISIONAL`.
+- `recover_solid_stress_field(model: FiniteElementModel, displacement: object, *, stress_convention: str = 'GLOBAL_SMALL_STRAIN_CAUCHY_VOIGT_XX_YY_ZZ_XY_YZ_ZX') -> dict[str, object]` — recover a supported solid stress field from a full-order displacement vector; `PROVISIONAL`.
 - `recommended_large_block(target_dofs: int) -> tuple[int, int, int]` — recommend a large block shape; `PROVISIONAL`.
 - `run_large_scale_campaign(output_dir: str | Path, *, targets: tuple[int, ...] = (100000, 1000000, 3000000), solver_backend: str = 'petsc', preconditioner: str | None = None, chunk_size: int = 4096, memory_budget_bytes: int | None = None, execute: bool = False, stop_on_failure: bool = True) -> dict[str, object]` — execute or plan large-scale targets; `PROVISIONAL`.
 - `run_large_preconditioner_campaign(input_path: str | Path, output_dir: str | Path, *, preconditioners: tuple[str, ...] = ('gamg', 'hypre'), chunk_size: int = 4096, matrix_format: str = 'baij', displacement_tolerance: float = 1e-08, partition_strategy: str = 'contiguous', graph_partitioner: str = 'ptscotch') -> dict[str, object]` — compare large-model preconditioners; `PROVISIONAL`.

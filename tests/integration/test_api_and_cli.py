@@ -140,7 +140,7 @@ def test_rbe2_example_runs_through_api_cli_audit_and_vtu_export(tmp_path: Path) 
     save_result(result, result_path)
     save_audit_markdown(result, audit_path)
     save_result_vtu(result, model, vtu_path)
-    completed = run_solver_cli("solve", "--input", model_path, "--output", result_path)
+    completed = run_solver_cli("solve", "--input", model_path, "--output", result_path, "--overwrite")
 
     assert check_mesh(model).status == "WARNING"
     assert completed.returncode == 0, completed.stderr

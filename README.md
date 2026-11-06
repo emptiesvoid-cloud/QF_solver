@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/qf-solver.svg)](https://pypi.org/project/qf-solver/)
 [![PyPI](https://img.shields.io/pypi/v/qf-solver.svg)](https://pypi.org/project/qf-solver/)
 [![License](https://img.shields.io/github/license/emptiesvoid-cloud/QF_solver.svg)](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-2f80ed.svg)](https://emptiesvoid-cloud.github.io/QF_solver/)
+[![Documentation](https://img.shields.io/badge/docs-qfsolver.org-2f80ed.svg)](https://qfsolver.org/)
 [![CI](https://github.com/emptiesvoid-cloud/QF_solver/actions/workflows/quality.yml/badge.svg)](https://github.com/emptiesvoid-cloud/QF_solver/actions/workflows/quality.yml)
 
 QF Solver is an open-source Python finite-element solver for structural
@@ -18,6 +18,10 @@ QF Solver is intended for engineering-method development, research and
 reproducible studies. An implemented route or a converged example is not
 automatically qualified or physically validated. The project is not certified
 and is not a general-purpose replacement for industrial FEA software.
+
+**Release status:** 0.2.11 remains the latest published release. This branch
+contains an unreleased 0.2.12 candidate; its candidate notes and bounded
+scientific limits are documented in [What's new for 0.2.12](docs/whats-new/0.2.12-preparation.md).
 
 On this page: [Capabilities](#capabilities) · [Modeling](#elements-materials-and-modeling) ·
 [How it works](#how-qf-solver-works) · [Installation](#installation) ·
@@ -42,15 +46,15 @@ checks, assembly audits, solver diagnostics and result exports are part of the
 tool, rather than just benchmark infrastructure. The code is intended to be
 read and extended, but internal modules are not all stable public API.
 
-For model selection, read [when to use QF Solver](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/when-to-use-qf-solver/)
+For model selection, read [when to use QF Solver](docs/getting-started/when-to-use-qf-solver.md)
 and the scope of the specific route you intend to use.
 
 ## Capabilities
 
 The capabilities below are cumulative, but maturity belongs to a specific
 element, analysis, material, configuration and evidence record, not to the
-solver as a whole. Use the [capability index](https://emptiesvoid-cloud.github.io/QF_solver/capabilities/)
-and [element map](https://emptiesvoid-cloud.github.io/QF_solver/elements/)
+solver as a whole. Use the [capability index](docs/capabilities/index.md)
+and [element map](docs/elements/index.md)
 before relying on a particular combination.
 
 | Domain | Current capabilities | Evidence status and boundary |
@@ -63,7 +67,7 @@ before relying on a particular combination.
 | Stability | Linear buckling | Does not establish postbuckling or general nonlinear stability behavior. |
 | Material nonlinearity | Selected small-strain J2 plasticity routes | Bounded material/element evidence; this is not general finite-strain plasticity. |
 | Geometric nonlinearity | Selected Total-Lagrangian and corotational routes | Formulation and element scopes are narrow; corotational J2 assumes small local strains. |
-| Contact and constraints | RBE2-style constraints, frictionless contact, and bounded frictional stick/slip evidence | Contact search, sliding, mesh sensitivity and current-source requalification remain limited. |
+| Contact and constraints | RBE2-style constraints, frictionless contact, and bounded frictional stick/slip evidence | The 0.2.12 candidate records B* small-rotation transfer as an `EXPERIMENTAL_BOUNDED` sub-capability; parent WP-C01 remains `CLOSED_NEGATIVE` with remediation open. Contact search, sliding, mesh sensitivity and current-source requalification remain limited. |
 | Nonlinear solution | Newton methods, line search, adaptive increments, cutback/retry, and selected continuation/arc-length routes | Shared infrastructure does not imply convergence or qualification for arbitrary models. |
 | Larger models | Structured-TET4 workflows and selected PETSc/MPI linear-static cases | Optional dependencies and recorded configurations only; no general HPC or nonlinear distributed claim. |
 | Rotating dynamics | Experimental disk-gyroscopic `rotating_modal` and Campbell analysis in 0.2.11 | Linear BEAM2 shaft with centered rigid axisymmetric disks; serial dense QEP and explicit scope limits. |
@@ -91,7 +95,7 @@ evidence does not silently rewrite those decisions.
 | Discrete entities | Concentrated mass and rotary inertia, linear springs and rigid disks | These are distinct from finite elements; their compatibility and mass ownership must be checked for the chosen analysis. |
 
 WEDGE15 is unsupported. PYRAMID5 remains internal/research-only and is not a
-supported public element. See the [element map](https://emptiesvoid-cloud.github.io/QF_solver/elements/)
+supported public element. See the [element map](docs/elements/index.md)
 for formulations and evidence rather than assuming a Cartesian product of
 all elements, materials and analyses.
 
@@ -115,9 +119,9 @@ all elements, materials and analyses.
 
 Implementation, runtime maturity labels and historical bounded acceptance
 are separate. In particular, composite output is not a certification or a
-general composite-design allowable. Read the [composite overview](https://emptiesvoid-cloud.github.io/QF_solver/composites/),
-[orthotropic solid specification](https://emptiesvoid-cloud.github.io/QF_solver/composites/solides_orthotropes/)
-and [first-ply criteria](https://emptiesvoid-cloud.github.io/QF_solver/composites/criteres_rupture/)
+general composite-design allowable. Read the [composite overview](docs/composites/index.md),
+[orthotropic solid specification](docs/composites/solides_orthotropes.md)
+and [first-ply criteria](docs/composites/criteres_rupture.md)
 before interpreting those results. Plasticity is described under
 [nonlinear mechanics](#nonlinear-mechanics).
 
@@ -142,7 +146,7 @@ TET4/WEDGE6/HEX8 static and modal workflows, plus selected translational-MPC
 and multi-material cases. The recorded mixed Newmark/harmonic workflows
 remain `EXPERIMENTAL_BOUNDED` and serial. These records do not establish
 arbitrary mixed meshes, hanging-node/nonconforming interfaces, or distributed
-mixed solving. The [0.2.8 workflow summary](https://emptiesvoid-cloud.github.io/QF_solver/verification/0_2_8/)
+mixed solving. The [0.2.8 workflow summary](docs/verification/0_2_8/README.md)
 links the separate mixed-model decisions.
 
 ## How QF Solver works
@@ -171,8 +175,8 @@ Results · diagnostics · provenance
 Linear, dynamic, nonlinear and rotating analyses have distinct contracts and
 solver routes. SciPy provides the standard numerical stack; selected large
 linear workflows can use optional PETSc/MPI components. Optional packages do
-not expand the validated scope by themselves. See the [architecture](https://emptiesvoid-cloud.github.io/QF_solver/architecture/)
-and [API stability](https://emptiesvoid-cloud.github.io/QF_solver/reference/api_stability/)
+not expand the validated scope by themselves. See the [architecture](docs/architecture.md)
+and [API stability](docs/reference/api_stability.md)
 pages for implementation boundaries and compatibility status.
 
 ### Numerical methods and backends
@@ -195,7 +199,26 @@ Use `qf-solver methods` or the public `list_methods()` function to inspect
 analysis-method choices. Residual checks and diagnostics remain necessary
 even when an algorithm reports convergence. Optional PETSc/MPI and SLEPc
 integration does not imply that every analysis accepts those backends; see
-[solver/backend notes](https://emptiesvoid-cloud.github.io/QF_solver/solveurs/).
+[solver/backend notes](docs/solveurs/index.md).
+
+### Public interfaces and stability
+
+New applications should import from `qf_solver` and use the `qf-solver` CLI.
+The stable Python workflow is
+`load_model -> check_mesh -> solve_model -> save_result`; the public API
+contract lists each symbol, its stability category and its error behavior. The `solveur`
+namespace and legacy launchers remain for 0.2.x compatibility, while
+implementation modules are internal unless they are listed in that contract.
+
+| Surface | Boundary |
+| --- | --- |
+| `qf_solver` stable symbols and `qf-solver` commands | Documented 0.2.x compatibility contract; interface stability does not qualify every numerical route. |
+| Bounded `.inp` reading, mixed HDF5, large-model and campaign helpers | Public but `PROVISIONAL`; signatures, schemas or workflows may evolve. |
+| Rotating-modal/Campbell result schemas and 0.2.12 stress-recovery additions | Experimental or provisional routes with their own scope and evidence; package availability does not promote maturity. |
+| Other `solveur` implementation modules and root compatibility scripts | Internal or compatibility surfaces, not general stable API. |
+
+See [API stability](docs/reference/api_stability.md) and the [public API
+contract](docs/reference/qf_solver_api.md) before building integrations.
 
 ## Installation
 
@@ -221,7 +244,7 @@ For example, `python -m pip install "qf-solver[hdf5]==0.2.11"` adds the HDF5
 dependency. Native MPI/PETSc/SLEPc environments are platform-dependent;
 installing an extra does not make those runtimes universally available.
 Missing optional runtimes are reported rather than treated as successful
-backend evidence. See the [installation guide](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/installation/)
+backend evidence. See the [installation guide](docs/getting-started/installation.md)
 for environment setup.
 
 ## Quick start
@@ -248,7 +271,7 @@ save_result(result, "results/tet4.json")
 ```
 
 Inspect the result fields, residuals, reactions and route-specific diagnostics
-before relying on an output. The [first-calculation guide](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/quickstart/)
+before relying on an output. The [first-calculation guide](docs/getting-started/quickstart.md)
 explains the workflow. New integrations should use `qf_solver`; `solveur` and
 the legacy launchers remain 0.2.x compatibility paths.
 
@@ -260,9 +283,9 @@ the legacy launchers remain 0.2.x compatibility paths.
 | Beam or shell response | [`beam2_cantilever.json`](examples/beam2_cantilever.json), [`mitc4_shell_static.json`](examples/mitc4_shell_static.json) |
 | Orthotropy or laminates | [`tet4_orthotropic_static.json`](examples/tet4_orthotropic_static.json), [`mitc4_laminate_static.json`](examples/mitc4_laminate_static.json) |
 | Vibration and dynamics | [`tet4_modal_unit.json`](examples/tet4_modal_unit.json), [`tet4_dynamic_tabulated_load.json`](examples/tet4_dynamic_tabulated_load.json), [`tet4_harmonic_response.json`](examples/tet4_harmonic_response.json) |
-| Material/geometric nonlinearity | [`tet4_elastoplastic_static.json`](examples/tet4_elastoplastic_static.json), [small nonlinear tutorial](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/nonlinear-example/) |
+| Material/geometric nonlinearity | [`tet4_elastoplastic_static.json`](examples/tet4_elastoplastic_static.json), [small nonlinear tutorial](docs/getting-started/nonlinear-example.md) |
 | Connections and contact | [`rbe2_rigid_arm.json`](examples/rbe2_rigid_arm.json), [`frictionless_contact_surface.json`](examples/frictionless_contact_surface.json) |
-| Disk gyroscopy and speed sweeps | [Rotating-modal guide](https://emptiesvoid-cloud.github.io/QF_solver/mechanics/rotating-modal/) and [Campbell guide](https://emptiesvoid-cloud.github.io/QF_solver/mechanics/campbell/); see their structured verification fixtures rather than assuming a standalone example JSON is shipped. |
+| Disk gyroscopy and speed sweeps | [Rotating-modal guide](docs/mechanics/rotating-modal.md) and [Campbell guide](docs/mechanics/campbell.md); see their structured verification fixtures rather than assuming a standalone example JSON is shipped. |
 
 These inputs illustrate a workflow, not a qualification for all similar
 models. The nonlinear tutorial's engineering-profile `WARNING` is an
@@ -272,13 +295,42 @@ expected scope warning, not something to hide after numerical convergence.
 
 | Analysis | Orientation | Documentation |
 | --- | --- | --- |
-| Linear static | Small-strain structural equilibrium and reactions | [Analyses](https://emptiesvoid-cloud.github.io/QF_solver/analyses/) · [elements](https://emptiesvoid-cloud.github.io/QF_solver/elements/) |
-| Modal | Classical structural eigenvalue analysis | [Analyses](https://emptiesvoid-cloud.github.io/QF_solver/analyses/) · [capability index](https://emptiesvoid-cloud.github.io/QF_solver/capabilities/) |
-| Transient and harmonic | Newmark time integration and linear frequency response | [Analyses](https://emptiesvoid-cloud.github.io/QF_solver/analyses/) |
-| Buckling | Linearized eigenvalue buckling | [Analyses](https://emptiesvoid-cloud.github.io/QF_solver/analyses/) · [limitations](https://emptiesvoid-cloud.github.io/QF_solver/etat/limites/) |
-| Nonlinear mechanics | Material, geometric, continuation and contact routes | [Nonlinear overview](https://emptiesvoid-cloud.github.io/QF_solver/mechanics/nonlinear-overview/) |
-| Rotating modal | Experimental disk-gyroscopic eigenanalysis | [Model and limits](https://emptiesvoid-cloud.github.io/QF_solver/mechanics/rotating-modal/) |
-| Campbell | Experimental speed sweep and explicit modal tracking | [Tracking and limits](https://emptiesvoid-cloud.github.io/QF_solver/mechanics/campbell/) |
+| Linear static | Small-strain structural equilibrium and reactions | [Analyses](docs/analyses/index.md) · [elements](docs/elements/index.md) |
+| Modal | Classical structural eigenvalue analysis | [Analyses](docs/analyses/index.md) · [capability index](docs/capabilities/index.md) |
+| Transient and harmonic | Newmark time integration and linear frequency response | [Analyses](docs/analyses/index.md) |
+| Buckling | Linearized eigenvalue buckling | [Analyses](docs/analyses/index.md) · [limitations](docs/etat/limites.md) |
+| Nonlinear mechanics | Material, geometric, continuation and contact routes | [Nonlinear overview](docs/mechanics/nonlinear-overview.md) |
+| Rotating modal | Experimental disk-gyroscopic eigenanalysis | [Model and limits](docs/mechanics/rotating-modal.md) |
+| Campbell | Experimental speed sweep and explicit modal tracking | [Tracking and limits](docs/mechanics/campbell.md) |
+
+### Modal validation policy in the unreleased 0.2.12 candidate
+
+Classical modal analysis and the experimental reduced routes
+`harmonic_response/modal_superposition` and `transient_dynamic/modal_newmark`
+separate calculation availability from residual validation. The default
+`modal_validation_policy` is `strict`: only `PASS_CERTIFIED` modes are returned
+as usable modal bases. `FAIL` and non-finite diagnostics are always refused.
+
+An explicit `analysis.parameters.modal_validation_policy: "allow_inconclusive"`
+may expose a computed candidate only when validation is `INCONCLUSIVE` solely
+because a documented certification budget was exceeded. The result remains
+`INCONCLUSIVE`, carries no certified-evidence status, and is not a scientific
+validation. Other inconclusive reasons and every `FAIL` remain refused. This
+option does not change a tolerance or the certificate budget.
+
+`PASS_CERTIFIED` means the implemented residual criterion passed within its
+bounded arithmetic contract; it is not a bound on solution error, a physical
+validation, or a qualification of a general model family. Modal Newmark
+checkpoints are identity-bound to the run and basis, including the validation
+policy. Older checkpoints with missing or mismatched identities are rejected;
+backward compatibility or automatic migration is not promised.
+
+The candidate retains known scientific failures rather than relabelling them:
+the TET4-L3 energy result remains a failure, two HEX8-SRI cases remain failed,
+and the HEX20 QUAD8 R4 case remains failed with corrective FEM validation not
+acquired. See the unreleased [0.2.12 changelog](CHANGELOG.md) and [modal API
+contract](docs/reference/qf_solver_api.md) for the complete boundaries. The
+0.2.12 candidate remains unpublished; 0.2.11 is still the latest release.
 
 The [examples index](examples/README.md) groups maintained inputs by the
 mechanical problem they illustrate. It also identifies controlled verification
@@ -314,8 +366,8 @@ experimental and bounded; it does not establish general bifurcation or
 postbuckling tracking. A numerically converged increment is not by itself a
 physically valid or qualified result.
 
-Read the [mechanics overview](https://emptiesvoid-cloud.github.io/QF_solver/mechanics/nonlinear-overview/)
-for how the core works and the [0.2.10 V&V summary](https://emptiesvoid-cloud.github.io/QF_solver/verification/0_2_10/)
+Read the [mechanics overview](docs/mechanics/nonlinear-overview.md)
+for how the core works and the [0.2.10 V&V summary](docs/verification/0_2_10/README.md)
 for the separate material, geometric, coupled and contact evidence.
 
 ## Rotating dynamics
@@ -357,8 +409,8 @@ synthetic matrix pencils in a recorded environment. That measured bound is
 not a practical-size or timing guarantee for every rotor; cost grows steeply
 and larger domains were not characterized. See the
 [WP05 measurements](qualification/0_2_11/wp05_gyroscopic_report.md#dense-backend-characterization),
-[rotating-modal contract](https://emptiesvoid-cloud.github.io/QF_solver/mechanics/rotating-modal/)
-and [Campbell contract](https://emptiesvoid-cloud.github.io/QF_solver/mechanics/campbell/).
+[rotating-modal contract](docs/mechanics/rotating-modal.md)
+and [Campbell contract](docs/mechanics/campbell.md).
 
 ## Results, inspection and export
 
@@ -374,7 +426,7 @@ principal values and von Mises stress. For shells/laminates, outputs include
 membrane, bending and shear resultants, face/section values and ply stresses
 in the declared axes. Interface ply stresses are not artificially averaged
 across a discontinuity. Nodal averaging is not a superconvergent stress
-recovery or a global error estimator; see [result conventions](https://emptiesvoid-cloud.github.io/QF_solver/conventions_resultats/).
+recovery or a global error estimator; see [result conventions](docs/conventions_resultats.md).
 
 | Tool | Purpose | Scope |
 | --- | --- | --- |
@@ -394,8 +446,8 @@ qf-solver solve --input examples/tet4_static.json --output results/tet4.json \
   --csv-dir results/tet4_csv --vtu results/tet4.vtu --audit-md results/tet4_audit.md
 ```
 
-Use [audit detail modes](https://emptiesvoid-cloud.github.io/QF_solver/reference/audit_detail_modes/)
-and the [public API contract](https://emptiesvoid-cloud.github.io/QF_solver/reference/qf_solver_api/)
+Use [audit detail modes](docs/reference/audit_detail_modes.md)
+and the [public API contract](docs/reference/qf_solver_api.md)
 to choose the outputs you need. The `quick`, `engineering`, `strict` and
 `qualification` profiles are acceptance/evidence policies, not different
 physical formulations. Tightening a profile does not promote maturity.
@@ -411,7 +463,7 @@ Gmsh MSH 4.1 import uses physical groups and a companion setup to assign
 materials, boundary conditions and loads for supported cell families. The
 mesh alone is not a complete analysis definition. Coordinate scaling and
 orientation repair, where supported, must be explicit and reported.
-The [Gmsh guide](https://emptiesvoid-cloud.github.io/QF_solver/reference/import_gmsh/)
+The [Gmsh guide](docs/reference/import_gmsh.md)
 describes the workflow; later mixed-family evidence has separate contracts.
 The provisional `.inp` reader covers a bounded Abaqus/CalculiX subset, not
 general deck or solver compatibility. Large-model HDF5/NPZ storage is a
@@ -430,8 +482,8 @@ Historical evidence records structured-TET4 workloads at approximately
 count, hardware and acceptance limits are part of the evidence. They do not
 establish a hardware-independent speed or memory guarantee, nor general
 strong/weak scaling. The
-[historical large-model summary](https://emptiesvoid-cloud.github.io/QF_solver/verification/0_2_7/)
-and [bounded limitations](https://emptiesvoid-cloud.github.io/QF_solver/etat/limites/)
+[historical large-model summary](docs/verification/0_2_7/0_2_7_large_scale_readiness.md)
+and [bounded limitations](docs/etat/limites.md)
 provide the workload context.
 
 Separate two-rank PETSc/MPI evidence covers selected linear-static cases
@@ -444,8 +496,8 @@ rotating QEP is dense serial rather than part of these large-model routes.
 
 QF Solver distinguishes implementation, a passing test, numerical
 verification, external solver correlation, maturity decisions and physical
-validation. These are separate kinds of evidence. The [V&V and maturity guide](https://emptiesvoid-cloud.github.io/QF_solver/verification/evidence-and-maturity/)
-explains the labels; the [0.2.11 verification summary](https://emptiesvoid-cloud.github.io/QF_solver/verification/0_2_11/)
+validation. These are separate kinds of evidence. The [V&V and maturity guide](docs/verification/evidence-and-maturity.md)
+explains the labels; the [0.2.11 verification summary](docs/verification/0_2_11/README.md)
 links the gyro and Campbell records.
 
 Selected Code_Aster 18.1 results provide same-mesh **linear-static solver
@@ -475,9 +527,9 @@ preserved rather than rewritten by newer tooling.
 For method-development work, the public surface also exposes benchmark and
 demonstration catalogs, evidence verification and controlled V&V/campaign
 tools. These advanced interfaces are generally provisional. See
-[benchmarks](https://emptiesvoid-cloud.github.io/QF_solver/benchmarks/),
-[demonstration API](https://emptiesvoid-cloud.github.io/QF_solver/reference/demonstrations_api/)
-and the [public export inventory](https://emptiesvoid-cloud.github.io/QF_solver/reference/qf_solver_api/)
+[benchmarks](docs/benchmarks/index.md),
+[demonstration API](docs/reference/demonstrations_api.md)
+and the [public export inventory](docs/reference/qf_solver_api.md)
 for their contracts. A benchmark `PASS` is never an automatic qualification
 decision.
 
@@ -507,19 +559,21 @@ decision.
   visible.
 - QF Solver is not certified and has no universal physical-validation claim.
 
-See the detailed [technical limitations](https://emptiesvoid-cloud.github.io/QF_solver/etat/limites/)
+See the detailed [technical limitations](docs/etat/limites.md)
 and the controlling evidence record for the chosen analysis.
 
 ## Current release and citation
 
-The current QF Solver release is `0.2.11`, published on 2026-10-07. Cite this
-version with [DOI `10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
+The latest published QF Solver release is `0.2.11`, published on 2026-10-07.
+Cite that version with [DOI `10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
 The preceding 0.2.10 release has version DOI
 [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). Use the
 project concept DOI
 [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897) to cite
-QF Solver across versions. [`CITATION.cff`](CITATION.cff) provides
-machine-readable citation metadata. The preceding release used source tag
+QF Solver across versions. On this unreleased candidate branch,
+[`CITATION.cff`](CITATION.cff) identifies 0.2.12 and intentionally has no
+release date or version DOI; use the DOI above when citing published 0.2.11.
+The preceding release used source tag
 [`v0.2.10`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.10).
 The 0.2.11 selected wheel, sdist and checksum manifest are the audited
 distribution artifacts. GitHub's automatically generated source archives are
@@ -530,17 +584,18 @@ distribution checks do not change those states.
 
 ## Documentation and project
 
-- [Documentation home](https://emptiesvoid-cloud.github.io/QF_solver/)
-- [Capabilities](https://emptiesvoid-cloud.github.io/QF_solver/capabilities/),
-  [elements](https://emptiesvoid-cloud.github.io/QF_solver/elements/) and
-  [analyses](https://emptiesvoid-cloud.github.io/QF_solver/analyses/)
-- [Public API contract](https://emptiesvoid-cloud.github.io/QF_solver/reference/qf_solver_api/)
-  and [API stability](https://emptiesvoid-cloud.github.io/QF_solver/reference/api_stability/)
-- [Benchmarks](https://emptiesvoid-cloud.github.io/QF_solver/benchmarks/) and
-  [V&V evidence](https://emptiesvoid-cloud.github.io/QF_solver/verification/evidence-and-maturity/)
-- [Composite mechanics](https://emptiesvoid-cloud.github.io/QF_solver/composites/),
-  [nonlinear mechanics](https://emptiesvoid-cloud.github.io/QF_solver/mechanics/nonlinear-overview/)
-  and [solver/backend notes](https://emptiesvoid-cloud.github.io/QF_solver/solveurs/)
+- [Official project site](https://qfsolver.org/) · [Getting started](https://qfsolver.org/getting-started) · [Public capability matrix](https://qfsolver.org/capabilities)
+- [Project overview](https://qfsolver.org/project) · [Published versions](https://qfsolver.org/versions) · [Public roadmap](https://qfsolver.org/roadmap) · [Changelog](CHANGELOG.md)
+- [Capabilities](docs/capabilities/index.md),
+  [elements](docs/elements/index.md) and
+  [analyses](docs/analyses/index.md)
+- [Public API contract](docs/reference/qf_solver_api.md)
+  and [API stability](docs/reference/api_stability.md)
+- [Benchmarks](docs/benchmarks/index.md) and
+  [V&V evidence](docs/verification/evidence-and-maturity.md)
+- [Composite mechanics](docs/composites/index.md),
+  [nonlinear mechanics](docs/mechanics/nonlinear-overview.md)
+  and [solver/backend notes](docs/solveurs/index.md)
 - [Contributing](CONTRIBUTING.md) · [code license](LICENSE) ·
   [documentation/examples license](LICENSE-DOCS)
 
