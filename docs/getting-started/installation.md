@@ -2,36 +2,39 @@
 doc_id: DOC-START-PUB-001
 revision: 1.0
 status: controlled_candidate
-applicable_version: 0.2.11
+applicable_version: 0.2.12
 reviewer: ""
 approver: ""
 ---
 
 # Installation
 
-This guide applies to QF Solver `0.2.11`. Release availability is
-authoritative on [PyPI](https://pypi.org/project/qf-solver/) and
-[GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
-The selected QF Solver `0.2.11` wheel and sdist are the audited PyPI release
-artifacts. Their exact hashes are recorded in the selected-release contract
-and checksum manifest. GitHub's automatically generated source archives are
-not part of the audited selected distribution.
-See [What's New in 0.2.11](../whats-new/0.2.11.md) for the release
-scope and [the capability index](../capabilities/index.md) for maturity
-boundaries.
+This guide applies to QF Solver `0.2.12`, the version on `main`. Install it directly from the
+branch with the command below. The published PyPI release remains `0.2.11`;
+its wheel and sdist hashes are recorded in the selected release contract
+and checksum manifest. GitHub's automatically generated source archives
+are outside that audit. See
+[What's New in 0.2.11](../whats-new/0.2.11.md) for that published release and
+[the capability index](../capabilities/index.md) for maturity boundaries.
 
 ## User installation
 
-Install the published release from PyPI:
+Install version 0.2.12 from `main` (requires Git):
+
+```bash
+python -m pip install "git+https://github.com/emptiesvoid-cloud/QF_solver.git@main"
+qf-solver --version
+```
+
+For the published 0.2.11 version, install from PyPI:
 
 ```bash
 python -m pip install "qf-solver==0.2.11"
 qf-solver --version
 ```
 
-An unqualified clone follows the repository default branch; it is not a
-release selector. Select the immutable release tag explicitly when
-reproducibility matters:
+An unqualified clone follows `main`; for reproducibility, select a commit
+explicitly. The historical 0.2.11 release tag is available for that version:
 
 ```bash
 git clone --branch v0.2.11 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
@@ -40,8 +43,8 @@ python -m pip install .
 qf-solver --version
 ```
 
-The `v0.2.11` tag is immutable and identifies the source used for the release.
-The default branch may advance and is not a release selector.
+The `v0.2.11` tag identifies the source used for the published 0.2.11 release.
+The `main` branch advances and is not an immutable source selector.
 
 The published core package requires Python 3.10 or newer. The recommended
 public import is:

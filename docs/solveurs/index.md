@@ -2,7 +2,7 @@
 doc_id: DOC-SOL-000
 revision: 2.0
 status: controlled_candidate
-applicable_version: 0.2.11
+applicable_version: 0.2.12
 reviewer: ""
 approver: ""
 ---
@@ -12,12 +12,14 @@ approver: ""
 The route, element, formulation and evidence boundary determine which solver
 path is supported. Method names are not convergence guarantees; inspect the
 residual, conditioning, warnings and final diagnostics for every calculation.
-This page describes the bounded solver and backend scope of release 0.2.11.
+This overview describes the solver methods available in QF Solver 0.2.12 on `main`.
+Evidence and maturity remain specific to each route. Use `qf-solver methods`
+to list the choices available in your installation.
 
 | Analysis / backend | Status | Scope |
 | --- | --- | --- |
 | Linear static | `QUALIFIED_BOUNDED` | Direct and iterative sparse routes only within the recorded element-analysis matrix. |
-| Modal | Route-dependent | Sparse eigenvalue routes for recorded bounded cases; mass and family scope vary. |
+| Classical modal | `EXPERIMENTAL` | Mass and family scope vary. Strict validation is the default; a certification budget overrun is `INCONCLUSIVE`. See the [modal validation policy](../reference/qf_solver_api.md). |
 | Rotating modal | `EXPERIMENTAL` | Serial dense generalized QEP with `scipy.linalg.eig(A, B)`; explicit complex spectrum, mass normalization and original-polynomial residuals. Not interchangeable with classical `eigh`/`eigsh`. |
 | Campbell | `EXPERIMENTAL` | Multiple bounded rotating solves plus complex-MAC global assignment and subspace-aware tracking. Unresolved matches remain ambiguous, including the high-frequency pair at 100 rad/s. |
 | Newmark / harmonic | Route-dependent; selected mixed routes `EXPERIMENTAL_BOUNDED` | Linear analysis and documented timestep/frequency/damping limits only. |

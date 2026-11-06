@@ -2,12 +2,15 @@
 doc_id: DOC-START-PUB-002
 revision: 1.0
 status: controlled_candidate
-applicable_version: 0.2.11
+applicable_version: 0.2.12
 reviewer: ""
 approver: ""
 ---
 
 # First calculation
+
+These examples follow QF Solver 0.2.12 on `main`. Use the
+[installation guide](installation.md) to set up the matching source and examples.
 
 ## CLI
 

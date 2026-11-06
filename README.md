@@ -19,9 +19,10 @@ reproducible studies. An implemented route or a converged example is not
 automatically qualified or physically validated. The project is not certified
 and is not a general-purpose replacement for industrial FEA software.
 
-**Release status:** 0.2.11 remains the latest published release. This branch
-contains an unreleased 0.2.12 candidate; its candidate notes and bounded
-scientific limits are documented in [What's new for 0.2.12](docs/whats-new/0.2.12-preparation.md).
+**Main version:** QF Solver 0.2.12. Install this version from the `main`
+branch using the source command below. Publication is pending; see
+[What's new for 0.2.12](docs/whats-new/0.2.12-preparation.md). The latest
+published PyPI release is 0.2.11.
 
 On this page: [Capabilities](#capabilities) · [Modeling](#elements-materials-and-modeling) ·
 [How it works](#how-qf-solver-works) · [Installation](#installation) ·
@@ -228,8 +229,14 @@ The recorded CI matrix covers Linux and Windows with Python 3.10 and 3.13;
 it is not a claim that every Python/OS/backend combination has been tested.
 
 ```bash
-python -m pip install "qf-solver==0.2.11"
+python -m pip install "git+https://github.com/emptiesvoid-cloud/QF_solver.git@main"
 qf-solver --version
+```
+
+To install the published 0.2.11 release from PyPI instead:
+
+```bash
+python -m pip install "qf-solver==0.2.11"
 ```
 
 | Optional extra | Purpose | Boundary |
@@ -241,7 +248,7 @@ qf-solver --version
 | `docs` | MkDocs and controlled documentation tooling | For building documentation, not running standard analyses. |
 
 For example, `python -m pip install "qf-solver[hdf5]==0.2.11"` adds the HDF5
-dependency. Native MPI/PETSc/SLEPc environments are platform-dependent;
+dependency to published 0.2.11. Native MPI/PETSc/SLEPc environments are platform-dependent;
 installing an extra does not make those runtimes universally available.
 Missing optional runtimes are reported rather than treated as successful
 backend evidence. See the [installation guide](docs/getting-started/installation.md)
@@ -249,8 +256,8 @@ for environment setup.
 
 ## Quick start
 
-The current release is 0.2.11. With the maintained example inputs available
-from a matching source checkout, run a small linear static case:
+For the example inputs, [clone the `main` source](docs/getting-started/installation.md#development-installation).
+From that checkout, run a small linear static case:
 
 ```bash
 qf-solver check-mesh --input examples/tet4_static.json
@@ -572,15 +579,16 @@ and the controlling evidence record for the chosen analysis.
 
 ## Current release and citation
 
+The version on `main` is `0.2.12`, pending publication.
 The latest published QF Solver release is `0.2.11`, published on 2026-10-07.
 Cite that version with [DOI `10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
 The preceding 0.2.10 release has version DOI
 [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). Use the
 project concept DOI
 [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897) to cite
-QF Solver across versions. On this unreleased candidate branch,
-[`CITATION.cff`](CITATION.cff) identifies 0.2.12 and intentionally has no
-release date or version DOI; use the DOI above when citing published 0.2.11.
+QF Solver across versions. [`CITATION.cff`](CITATION.cff) identifies 0.2.12
+and has no release date or version DOI; use the DOI above when citing
+published 0.2.11.
 The preceding release used source tag
 [`v0.2.10`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.10).
 The 0.2.11 selected wheel, sdist and checksum manifest are the audited
