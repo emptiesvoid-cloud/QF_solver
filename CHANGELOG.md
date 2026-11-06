@@ -48,6 +48,11 @@ describes implemented routes and their evidence boundaries in more detail.
 
 ### Known limitations and compatibility
 
+- Classical modal analysis in the unreleased 0.2.12 candidate is EXPERIMENTAL.
+  Residual validation is bounded; strict mode keeps budget-exceeded cases
+  INCONCLUSIVE and refuses their use as certified bases. This maturity label
+  does not turn a failed CI test or a failed HEX20 campaign into PASS. See the
+  0.2.12 modal status report for the historical source and test outcomes.
 - Reduced harmonic response, modal Newmark, uniform base acceleration, and
   related dynamic result recovery remain experimental or provisional under
   their route-specific contracts. They do not add arbitrary shells, contact,

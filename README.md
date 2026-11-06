@@ -305,6 +305,14 @@ expected scope warning, not something to hide after numerical convergence.
 
 ### Modal validation policy in the unreleased 0.2.12 candidate
 
+The classical modal route in candidate 0.2.12 is classified as EXPERIMENTAL.
+The current residual-certification domain is bounded; when a case exceeds a
+dimension, stored-term, or work budget, strict mode reports INCONCLUSIVE and
+refuses to provide a certified usable basis. This is a limitation of the
+available certification evidence, not proof of a physical model failure. The
+classification and historical CI outcomes are recorded separately in the
+[0.2.12 modal status report](docs/verification/0_2_12_modal_candidate_status.md).
+
 Classical modal analysis and the experimental reduced routes
 `harmonic_response/modal_superposition` and `transient_dynamic/modal_newmark`
 separate calculation availability from residual validation. The default
