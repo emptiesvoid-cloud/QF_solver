@@ -6,9 +6,11 @@ For the internal 0.2.12 integration candidate, this B* sub-capability is
 classified `EXPERIMENTAL_BOUNDED`. This is a scoped maturity label, not a
 scientific certificate or a statement about the published 0.2.11 release. The
 mode is opt-in; omission of the transfer parameter continues to select the
-legacy behavior. The dedicated record at
-[`qualification/0_2_12/wp_c01_bstar_capability_record.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/emptiesvoids-cloud/0.2.12/qualification/0_2_12/wp_c01_bstar_capability_record.json)
-tracks the classification and the R13–R18 provenance.
+legacy behavior. The historical record at
+[`qualification/0_2_12/wp_c01_bstar_capability_record.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/06fce7a47d41223955755c34e7238376b3c4a7b5/qualification/0_2_12/wp_c01_bstar_capability_record.json)
+tracks the classification and R13–R18 provenance for source commit
+`06fce7a47d41223955755c34e7238376b3c4a7b5`. It is not included in the current
+`main` tree and does not qualify the current candidate.
 
 R13 supplies algebraic and exploratory stick evidence. R14 observed nine
 accepted steps with stick at 1–7 and slip at 8–9. R16 reproduced the fixture
@@ -102,7 +104,7 @@ kinematics within the small-rotation regime; reported rotations are diagnostics,
 not an automatic admissibility certificate.
 
 The bounded example and archived comparison notes are in
-[`examples/contact/frictional_bstar_small_rotation/`](https://github.com/emptiesvoid-cloud/QF_solver/blob/emptiesvoids-cloud/0.2.12/examples/contact/frictional_bstar_small_rotation/README.md).
+[`examples/contact/frictional_bstar_small_rotation/`](https://github.com/emptiesvoid-cloud/QF_solver/blob/58e707da328c46a8797246a7ca75cdf6ca967dc4/examples/contact/frictional_bstar_small_rotation/README.md).
 
 ## Verification
 

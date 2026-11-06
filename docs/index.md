@@ -83,8 +83,8 @@ For exact-version reproducibility, cite the published 0.2.11 version DOI
 preceding 0.2.10 release has version DOI
 [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). Use the
 project concept DOI [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
-to cite QF Solver across versions. This branch prepares unreleased candidate
-0.2.12; its [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/emptiesvoids-cloud/0.2.12/CITATION.cff)
+to cite QF Solver across versions. QF Solver 0.2.12 remains an unreleased
+candidate; its [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/58e707da328c46a8797246a7ca75cdf6ca967dc4/CITATION.cff)
 identifies the candidate without assigning a release date or version DOI. Use
 the DOI above when citing published 0.2.11. WP12 is closed only under the
 bounded Owner disposition `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`; this is not
