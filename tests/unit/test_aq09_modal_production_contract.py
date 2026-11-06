@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from fractions import Fraction
 from types import SimpleNamespace
@@ -638,6 +639,9 @@ def test_large_array_serialization_does_not_call_tobytes() -> None:
     serialized = error.to_dict()
 
     assert len(serialized["computed_result"]["modes"]["sha256"]) == 64
+    assert serialized["computed_result"]["modes"]["sha256"] == hashlib.sha256(
+        memoryview(modes).cast("B")
+    ).hexdigest()
 
 
 def test_noncontiguous_large_array_serialization_skips_hash_without_copy() -> None:
