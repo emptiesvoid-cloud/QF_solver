@@ -9,12 +9,6 @@ approver: ""
 
 # Analyses
 
-For the unreleased 0.2.12 candidate, classical modal analysis is classified
-EXPERIMENTAL because certification is bounded and some cases remain
-INCONCLUSIVE under the default strict policy. This does not change the
-historical scope of the published 0.2.11 evidence. See the
-[0.2.12 modal status report](../verification/0_2_12_modal_candidate_status.md).
-
 This page maps the cumulative QF Solver 0.2.11 analysis surface. The
 experimental rotating routes have their own evidence and are not part of
 the immutable 0.2.10 tag or distribution. The
@@ -25,8 +19,7 @@ evidence is linked separately and does not rewrite that registry.
 | Analysis | Maturity / evidence status | Scope boundary |
 | --- | --- | --- |
 | Linear static | `QUALIFIED_BOUNDED` | Only recorded element/material/load/mesh combinations. |
-| Modal, published 0.2.11 evidence | Route-dependent; see registry | Controlled linear eigenvalue cases; mass and family scope vary. |
-| Classical modal, 0.2.12 candidate | EXPERIMENTAL | Strict mode requires PASS_CERTIFIED; budget exceedance remains INCONCLUSIVE. |
+| Modal | Route-dependent; see registry | Controlled linear eigenvalue cases; mass and family scope vary. |
 | Newmark transient | Route-dependent; mixed route `EXPERIMENTAL_BOUNDED` | Linear dynamics only; recorded time-step, mass and damping assumptions apply. |
 | Harmonic | Route-dependent; mixed route `EXPERIMENTAL_BOUNDED` | Recorded linear frequency-domain cases only. |
 | Linear buckling | Route-dependent | Bounded first-factor cases; not postbuckling or bifurcation analysis. |
