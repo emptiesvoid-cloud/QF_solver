@@ -33,8 +33,8 @@ python -m pip install "qf-solver==0.2.11"
 qf-solver --version
 ```
 
-An unqualified clone follows `main`; for reproducibility, select a commit
-explicitly. The historical 0.2.11 release tag is available for that version:
+A clone without a branch selection follows the default branch (`main`).
+For reproducibility, select a commit explicitly. The historical 0.2.11 release tag is available for that version:
 
 ```bash
 git clone --branch v0.2.11 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
