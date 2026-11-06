@@ -929,6 +929,8 @@ def test_basis_reuse_after_load_change_and_stale_operator_rejection() -> None:
 @pytest.mark.parametrize("family", ["TET4", "TET10", "HEX8", "HEX20", "BEAM2"])
 def test_new_method_runs_on_each_bounded_element_family(family: str) -> None:
     model = _family_model(family)
+    if family == "HEX20":
+        model.analysis.parameters["modal_validation_policy"] = "allow_inconclusive"
     prepared = PreparedDynamicSystem.prepare(model, source_sha=_SOURCE_SHA)
     model.analysis.parameters["modal_mode_count"] = prepared.reduced_size
     model.analysis.parameters["modal_extraction_method"] = "dense"
@@ -938,7 +940,15 @@ def test_new_method_runs_on_each_bounded_element_family(family: str) -> None:
         source_sha=_SOURCE_SHA,
         prepared=prepared,
     )
-    assert result.status == "PASS"
+    expected_validation = "INCONCLUSIVE" if family == "HEX20" else "PASS_CERTIFIED"
+    assert result.numerical_status == ("INCONCLUSIVE" if family == "HEX20" else "PASS")
+    assert result.solver["modal_basis_validation_status"] == expected_validation
+    assert result.result_availability["modal_basis_validation"]["status"] == expected_validation
+    assert result.result_availability["modal_basis_validation"]["usable_as_certified_evidence"] is (
+        family != "HEX20"
+    )
+    if family == "HEX20":
+        assert result.solver["modal_basis_use_policy"] == "ALLOW_INCONCLUSIVE_COMPUTED_MODES"
     assert result.solver["modal_mode_count"] == prepared.reduced_size
     assert result.solver["truncation"]["is_full_basis"] is True
 

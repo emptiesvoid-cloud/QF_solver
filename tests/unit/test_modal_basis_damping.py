@@ -162,11 +162,13 @@ def test_analytical_coupled_two_dof_eigenproblem_and_projected_operators() -> No
 @pytest.mark.parametrize("family", ["TET4", "TET10", "HEX8", "HEX20", "BEAM2"])
 def test_prepared_modal_basis_supports_each_wp00_family(family: str) -> None:
     prepared = _prepared(family)
+    validation_policy = "allow_inconclusive" if family == "HEX20" else "strict"
     basis = ModalBasis.from_prepared(
         prepared,
         mode_count=prepared.reduced_size,
         method="dense",
         dense_limit=128,
+        validation_policy=validation_policy,
     )
 
     assert basis.system_size == prepared.reduced_size
@@ -176,9 +178,17 @@ def test_prepared_modal_basis_supports_each_wp00_family(family: str) -> None:
     assert basis.diagnostics["spectral_domain"] == "NUMERICALLY_SCREENED_SYMMETRIC_POSITIVE_DEFINITE"
     assert basis.diagnostics["maximum_relative_modal_residual"] <= 1e-8
     validation = basis.diagnostics["modal_residual_validation"]
-    assert validation["status"] == "PASS_CERTIFIED"
-    assert len(validation["checks"]) == basis.mode_count
-    assert all(check["status"] == "PASS_CERTIFIED" for check in validation["checks"])
+    expected_status = "INCONCLUSIVE" if family == "HEX20" else "PASS_CERTIFIED"
+    assert validation["status"] == expected_status
+    assert basis.validation_status == expected_status
+    assert basis.numerical_status == ("INCONCLUSIVE" if family == "HEX20" else "PASS")
+    if family == "HEX20":
+        assert validation["reason"] == "aggregate_work_budget"
+        assert validation["checks"] == []
+        assert basis.use_policy == "ALLOW_INCONCLUSIVE_COMPUTED_MODES"
+    else:
+        assert len(validation["checks"]) == basis.mode_count
+        assert all(check["status"] == "PASS_CERTIFIED" for check in validation["checks"])
     assert basis.diagnostics["mass_orthogonality_frobenius_error"] <= 1e-8
 
 

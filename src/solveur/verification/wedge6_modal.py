@@ -161,15 +161,29 @@ def mass_metrics() -> dict[str, Any]:
     }
 
 
-def modal_metrics(segments: int = 1, *, transform: np.ndarray | None = None) -> dict[str, Any]:
+def modal_metrics(
+    segments: int = 1,
+    *,
+    transform: np.ndarray | None = None,
+    validation_policy: str = "strict",
+) -> dict[str, Any]:
     """Solve one common-route model and return stable modal observables."""
 
-    result = _solve(modal_model(segments, transform=transform))
+    model = modal_model(segments, transform=transform)
+    model.analysis.parameters["modal_validation_policy"] = validation_policy
+    result = _solve(model)
     frequencies = np.asarray(result.frequencies_hz, dtype=float)
     modes = np.asarray(result.modes, dtype=float)
-    replay = _solve(modal_model(segments, transform=transform))
+    replay_model = modal_model(segments, transform=transform)
+    replay_model.analysis.parameters["modal_validation_policy"] = validation_policy
+    replay = _solve(replay_model)
+    validation = result.solver.get("modal_residual_validation", {})
     return {
         "status": result.status,
+        "calculation_status": result.solver.get("calculation_status", "NOT_REPORTED"),
+        "modal_validation_status": result.solver.get("modal_validation_status", "NOT_REPORTED"),
+        "modal_validation_reason": validation.get("reason") if isinstance(validation, dict) else None,
+        "modal_validation_policy": validation_policy,
         "frequency_count": int(frequencies.size),
         "frequencies_hz": frequencies.tolist(),
         "finite_frequencies": bool(np.isfinite(frequencies).all()),
@@ -185,13 +199,30 @@ def modal_metrics(segments: int = 1, *, transform: np.ndarray | None = None) -> 
     }
 
 
-def refinement_metrics() -> dict[str, Any]:
+def refinement_metrics(*, validation_policy: str = "strict") -> dict[str, Any]:
     rows = []
     for segments in (1, 2, 3, 4):
-        metrics = modal_metrics(segments)
-        rows.append({"segments": segments, "first_frequency_hz": metrics["frequencies_hz"][0]})
+        metrics = modal_metrics(segments, validation_policy=validation_policy)
+        rows.append(
+            {
+                "segments": segments,
+                "first_frequency_hz": metrics["frequencies_hz"][0],
+                "modal_validation_status": metrics["modal_validation_status"],
+                "modal_validation_reason": metrics["modal_validation_reason"],
+            }
+        )
     frequencies = np.asarray([row["first_frequency_hz"] for row in rows], dtype=float)
+    statuses = {str(row["modal_validation_status"]) for row in rows}
+    certification_status = (
+        "PASS_CERTIFIED"
+        if statuses == {"PASS_CERTIFIED"}
+        else "INCONCLUSIVE"
+        if statuses <= {"PASS_CERTIFIED", "INCONCLUSIVE"}
+        else "FAIL"
+    )
     return {
+        "status": certification_status,
+        "modal_validation_policy": validation_policy,
         "levels": rows,
         "finite": bool(np.isfinite(frequencies).all()),
         "final_relative_change": float(abs(frequencies[-1] - frequencies[-2]) / frequencies[-1]),

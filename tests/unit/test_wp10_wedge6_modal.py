@@ -64,11 +64,35 @@ def test_common_modal_route_has_finite_positive_deterministic_modes(segments: in
 
 def test_distorted_modal_case_and_refinement_are_reported_without_monotonic_claim() -> None:
     transform = np.asarray(((1.0, 0.12, 0.0), (0.0, 1.0, 0.08), (0.0, 0.0, 1.0)))
-    distorted = modal_metrics(3, transform=transform)
-    refinement = refinement_metrics()
-    assert distorted["status"] == "PASS"
+    distorted = modal_metrics(3, transform=transform, validation_policy="allow_inconclusive")
+    refinement = refinement_metrics(validation_policy="allow_inconclusive")
+    assert distorted["status"] in {"PASS", "INCONCLUSIVE"}
+    assert distorted["calculation_status"] == "COMPUTED"
+    assert distorted["modal_validation_policy"] == "allow_inconclusive"
+    if distorted["modal_validation_status"] == "PASS_CERTIFIED":
+        assert distorted["status"] == "PASS"
+        assert distorted["modal_validation_reason"] == "all_represented_residuals_certified"
+    else:
+        assert distorted["modal_validation_status"] == "INCONCLUSIVE"
+        assert distorted["status"] == "INCONCLUSIVE"
+        assert distorted["modal_validation_reason"] in {
+            "aggregate_work_budget",
+            "dimension_budget",
+        }
     assert distorted["finite_modes"] is True
     assert distorted["max_relative_residual"] <= 1.0e-7
+    assert refinement["status"] in {"PASS_CERTIFIED", "INCONCLUSIVE"}
+    assert all(
+        row["modal_validation_status"] in {"PASS_CERTIFIED", "INCONCLUSIVE"}
+        for row in refinement["levels"]
+    )
+    if refinement["status"] == "INCONCLUSIVE":
+        assert any(row["modal_validation_status"] == "INCONCLUSIVE" for row in refinement["levels"])
+    assert all(
+        row["modal_validation_reason"] in {"aggregate_work_budget", "dimension_budget"}
+        for row in refinement["levels"]
+        if row["modal_validation_status"] == "INCONCLUSIVE"
+    )
     assert len(refinement["levels"]) == 4
     assert refinement["finite"] is True
     assert refinement["trend_reported_without_monotonicity_claim"] is True

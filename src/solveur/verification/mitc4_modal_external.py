@@ -10,9 +10,10 @@ from typing import Any
 
 import numpy as np
 
-from solveur.elements.shell.mitc4.mesh import MeshFactory
 from solveur.api import solve_model
+from solveur.core.analyses.modal_residual_validation import BUDGET_INCONCLUSIVE_REASONS
 from solveur.core.model import FiniteElementModel
+from solveur.elements.shell.mitc4.mesh import MeshFactory
 from solveur.verification.mitc4_modal_plate import (
     TEN_MODE_ORDERS,
     Mitc4SimplySupportedPlateStudy,
@@ -70,8 +71,14 @@ class Mitc4CodeAsterModalStudy:
         if self.mesh_size < 4:
             raise ValueError("mesh_size must be at least 4")
 
-    def run(self, code_aster_raw: str | Path) -> dict[str, Any]:
+    def run(
+        self,
+        code_aster_raw: str | Path,
+        *,
+        modal_validation_policy: str = "strict",
+    ) -> dict[str, Any]:
         model, quads = build_modal_correlation_model(self.mesh_size)
+        model.analysis.parameters["modal_validation_policy"] = modal_validation_policy
         result = solve_model(model, enforce_policy=False)
         uz_indices = np.asarray(
             [result.dofs.index(node, "UZ") for node in range(model.node_count)], dtype=int
@@ -112,7 +119,10 @@ class Mitc4CodeAsterModalStudy:
             "qf_stiffness_orthogonality_error": float(
                 result.solver["stiffness_diagonal_error"]
             ),
+            "qf_modal_validation_status": result.solver["modal_validation_status"],
         }
+        validation = result.solver.get("modal_residual_validation", {})
+        validation_reason = validation.get("reason") if isinstance(validation, dict) else None
         checks = {
             "qf_navier_frequencies": max(metrics["qf_navier_frequency_errors"])
             <= self.navier_error_limit,
@@ -136,9 +146,28 @@ class Mitc4CodeAsterModalStudy:
             )
             <= 1.0e-7,
         }
+        validation_status = result.solver["modal_validation_status"]
+        calculation_status = result.solver.get("calculation_status", "COMPUTED")
+        if not all(checks.values()) or validation_status == "FAIL" or result.status == "FAIL":
+            status = "FAIL"
+        elif validation_status == "PASS_CERTIFIED" and result.status == "PASS":
+            status = "PASS"
+        elif (
+            validation_status == "INCONCLUSIVE"
+            and result.status == "INCONCLUSIVE"
+            and validation_reason in BUDGET_INCONCLUSIVE_REASONS
+            and calculation_status == "COMPUTED"
+        ):
+            status = "INCONCLUSIVE"
+        else:
+            status = "FAIL"
         return {
             "study_id": STUDY_ID,
-            "status": "PASS" if all(checks.values()) else "FAIL",
+            "status": status,
+            "modal_validation_status": validation_status,
+            "modal_validation_reason": validation_reason,
+            "calculation_status": calculation_status,
+            "solver_status": result.status,
             "model": {
                 "geometry": "simply-supported square plate 1 m x 1 m x 0.01 m",
                 "mesh": [self.mesh_size, self.mesh_size],

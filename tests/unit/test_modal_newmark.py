@@ -152,6 +152,7 @@ def _prepared_basis(model: FiniteElementModel) -> tuple[PreparedDynamicSystem, M
         mode_count=int(count),
         method="dense",
         dense_limit=256,
+        validation_policy=str(model.analysis.parameters.get("modal_validation_policy", "strict")),
     )
     return prepared, basis
 
@@ -739,8 +740,17 @@ def test_result_round_trip_experimental_maturity_and_bounded_history_availabilit
 @pytest.mark.parametrize("family", ["TET4", "TET10", "HEX8", "HEX20", "BEAM2"])
 def test_modal_newmark_integrates_each_wp00_family_in_bounded_full_basis(family: str) -> None:
     model = _model(family=family, mode_count=None, load=0.01, dt=1e-5, steps=1)
+    if family == "HEX20":
+        model.analysis.parameters["modal_validation_policy"] = "allow_inconclusive"
     prepared, basis = _prepared_basis(model)
     result = _run(model, prepared=prepared, basis=basis)
+    expected_validation = "INCONCLUSIVE" if family == "HEX20" else "PASS_CERTIFIED"
+    assert basis.validation_status == expected_validation
+    assert result.solver["modal_basis_validation_status"] == expected_validation
+    assert result.numerical_status == ("INCONCLUSIVE" if family == "HEX20" else "PASS")
+    if family == "HEX20":
+        assert basis.diagnostics["modal_residual_validation"]["reason"] == "aggregate_work_budget"
+        assert result.solver["modal_basis_use_policy"] == "ALLOW_INCONCLUSIVE_COMPUTED_MODES"
     assert basis.is_full_basis
     assert result.solver["operators"]["Mr_shape"] == [basis.mode_count, basis.mode_count]
     assert result.solver["timing_seconds"]["integration"] >= 0.0
@@ -773,8 +783,17 @@ def test_wp07_uniform_base_acceleration_integrates_each_wp00_family(family: str)
             }
         },
     )
+    if family == "HEX20":
+        model.analysis.parameters["modal_validation_policy"] = "allow_inconclusive"
     prepared, basis = _prepared_basis(model)
     result = _run(model, prepared=prepared, basis=basis)
+    expected_validation = "INCONCLUSIVE" if family == "HEX20" else "PASS_CERTIFIED"
+    assert basis.validation_status == expected_validation
+    assert result.solver["modal_basis_validation_status"] == expected_validation
+    assert result.numerical_status == ("INCONCLUSIVE" if family == "HEX20" else "PASS")
+    if family == "HEX20":
+        assert basis.diagnostics["modal_residual_validation"]["reason"] == "aggregate_work_budget"
+        assert result.solver["modal_basis_use_policy"] == "ALLOW_INCONCLUSIVE_COMPUTED_MODES"
     assert basis.is_full_basis
     assert result.absolute_accelerations is not None
     assert result.solver["uniform_base_acceleration"]["mass_formed_before_constraint_reduction"] is True

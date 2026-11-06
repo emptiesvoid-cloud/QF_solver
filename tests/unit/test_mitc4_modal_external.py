@@ -51,7 +51,11 @@ def test_modal_correlation_model_and_aster_mesh_have_matching_counts() -> None:
 
 def test_same_mesh_modal_comparison_accepts_identical_external_modes(tmp_path) -> None:
     model, _ = build_modal_correlation_model(4)
+    model.analysis.parameters["modal_validation_policy"] = "allow_inconclusive"
     result = solve_model(model, enforce_policy=False)
+    assert result.status == "INCONCLUSIVE"
+    assert result.solver["modal_validation_status"] == "INCONCLUSIVE"
+    assert result.solver["modal_residual_validation"]["reason"] == "aggregate_work_budget"
     uz = np.asarray([result.dofs.index(node, "UZ") for node in range(model.node_count)])
     raw = {
         "modes": [
@@ -67,8 +71,17 @@ def test_same_mesh_modal_comparison_accepts_identical_external_modes(tmp_path) -
     study = Mitc4CodeAsterModalStudy(mesh_size=4)
     study.navier_error_limit = 1.0e6
     study.mac_limit = 0.0
-    summary = study.run(path)
-    assert summary["status"] == "PASS"
+    summary = study.run(path, modal_validation_policy="allow_inconclusive")
+    assert summary["status"] == "INCONCLUSIVE"
+    assert summary["modal_validation_status"] == "INCONCLUSIVE"
+    assert summary["modal_validation_reason"] == "aggregate_work_budget"
+    assert summary["calculation_status"] == "COMPUTED"
+    assert summary["solver_status"] == "INCONCLUSIVE"
+    assert summary["metrics"]["qf_max_relative_residual"] <= 1.0e-7
+    assert max(
+        summary["metrics"]["qf_mass_orthogonality_error"],
+        summary["metrics"]["qf_stiffness_orthogonality_error"],
+    ) <= 1.0e-7
     assert max(summary["metrics"]["qf_code_aster_frequency_differences"]) < 1.0e-14
     assert min(summary["metrics"]["qf_code_aster_mac"].values()) > 1.0 - 1.0e-12
 

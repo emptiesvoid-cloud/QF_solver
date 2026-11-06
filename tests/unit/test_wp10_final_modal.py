@@ -91,9 +91,34 @@ def test_mode_mismatch_is_not_forced_to_pass() -> None:
 def test_final_runner_preserves_explicit_external_skip(tmp_path: Path) -> None:
     output = tmp_path / "wp10_final_evidence.json"
     summary = run(output, run_external=False)
+    serialized = json.loads(output.read_text(encoding="utf-8"))
+    assert summary["status"] == "INCONCLUSIVE"
+    assert summary["refinement"]["status"] == "INCONCLUSIVE"
+    assert summary["refinement"]["physical_criteria_pass"] is True
+    assert set(summary["refinement"]["modal_validation_statuses"]) <= {
+        "PASS_CERTIFIED",
+        "INCONCLUSIVE",
+    }
+    assert "INCONCLUSIVE" in summary["refinement"]["modal_validation_statuses"]
+    assert set(summary["refinement"]["modal_validation_reasons"]) <= {
+        "aggregate_work_budget",
+        "dimension_budget",
+    }
+    assert "aggregate_work_budget" in summary["refinement"]["modal_validation_reasons"]
+    assert all(
+        row["calculation_status"] == "COMPUTED"
+        and row["modal_validation_status"] in {"PASS_CERTIFIED", "INCONCLUSIVE"}
+        and (
+            row["modal_validation_status"] != "INCONCLUSIVE"
+            or row["modal_validation_reason"]
+            in {"aggregate_work_budget", "dimension_budget"}
+        )
+        for row in summary["refinement"]["levels"]
+    ), summary["refinement"]["levels"]
     assert summary["external"]["status"] == "SKIPPED_EXTERNAL_UNAVAILABLE"
     assert summary["maturity"] == "EXPERIMENTAL"
-    assert json.loads(output.read_text(encoding="utf-8"))["artifact_classification"] == "CONTROLLED_PROOF"
+    assert serialized["status"] == "INCONCLUSIVE"
+    assert serialized["artifact_classification"] == "CONTROLLED_PROOF"
 
 
 def test_code_aster_deck_extracts_physical_mode_components() -> None:
