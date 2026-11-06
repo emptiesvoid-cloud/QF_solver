@@ -105,6 +105,8 @@ def test_generated_status_avoids_fragile_test_count() -> None:
     assert "0.2.8-development" not in status
     assert ">0.2.11<" in status
     assert "<h3>Project version</h3>" in status
+    assert "<h3>Candidate package metadata version</h3>" in status
+    assert ">0.2.12<" in status
     assert "whole-repository source archives are not cleared" in status
     assert "G03 FAIL" in status
     assert "Mixed distributed PETSc/MPI" in status

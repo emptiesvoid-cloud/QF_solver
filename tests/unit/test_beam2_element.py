@@ -146,6 +146,10 @@ def test_beam2_modal_bending_and_torsion_match_slender_beam_references() -> None
     assert result.frequencies_hz[:2] == pytest.approx(expected_bending, rel=1.0e-2)
     assert result.frequencies_hz[4] == pytest.approx(expected_torsion, rel=1.0e-12)
     assert result.solver["max_relative_residual"] <= 1.0e-10
+    validation = result.solver["modal_residual_validation"]
+    assert validation["status"] == "PASS_CERTIFIED"
+    assert len(validation["checks"]) == len(result.eigenvalues)
+    assert all(check["status"] == "PASS_CERTIFIED" for check in validation["checks"])
 
 
 def test_beam2_postprocessing_reports_local_end_equilibrium() -> None:

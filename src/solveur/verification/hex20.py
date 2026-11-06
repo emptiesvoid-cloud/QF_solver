@@ -8,6 +8,8 @@ from time import perf_counter
 import numpy as np
 
 from solveur.api import solve_model
+from solveur.core.errors import ModalResidualValidationError
+from solveur.core.analyses.modal_residual_validation import BUDGET_INCONCLUSIVE_REASONS
 from solveur.core.model import FiniteElementModel
 from solveur.elements.solid.hex20 import Hex20Element
 from solveur.io.manifest import write_json_file
@@ -145,15 +147,23 @@ class Hex20InternalCampaign:
         benchmark_output = self.output_dir / "tet_hex20_multi_model" if self.output_dir is not None else None
         benchmark = run_hex20_multi_model_benchmark(benchmark_output)
         external = self._external_correlation()
-        internal_pass = kernel["status"] == "PASS" and all(row["status"] == "PASS" for row in analyses) and loads["status"] == "PASS" and j2["status"] == "PASS" and benchmark["status"] == "PASS_INTERNAL"
+        internal_status = self._internal_status(kernel, analyses, loads, j2, benchmark)
         open_gates = ["H20-G11", "H20-G12"] if external["status"] == "PASS_EXTERNAL_CORRELATION" else ["H20-G10", "H20-G11", "H20-G12"]
         summary: dict[str, object] = {
             "study_id": self.study_id,
-            "status": "PASS_INTERNAL" if internal_pass else "FAIL",
+            "status": internal_status,
             "maturity": "research",
             "execution_seconds": perf_counter() - started,
             "kernel_verification": kernel,
             "common_analysis_paths": analyses,
+            "modal_certification": next(
+                (row.get("modal_validation_status", "NOT_REPORTED") for row in analyses if row["id"] == "modal"),
+                "NOT_REPORTED",
+            ),
+            "modal_certification_reason": next(
+                (row.get("modal_validation_reason") for row in analyses if row["id"] == "modal"),
+                None,
+            ),
             "load_cases": loads,
             "j2_case": j2,
             "tet_hex20_benchmark": benchmark,
@@ -176,7 +186,14 @@ class Hex20InternalCampaign:
     def _common_analysis_paths(self) -> list[dict[str, object]]:
         cases = (
             ("static", "linear_static"),
-            ("modal", {"type": "modal", "modes": 5}),
+            (
+                "modal",
+                {
+                    "type": "modal",
+                    "modes": 5,
+                    "modal_validation_policy": "allow_inconclusive",
+                },
+            ),
             ("newmark", {"type": "transient_dynamic", "time_step": 0.01, "end_time": 0.02, "beta": 0.25, "gamma": 0.5}),
             ("harmonic", {"type": "harmonic_response", "frequencies": [1.0]}),
         )
@@ -184,10 +201,123 @@ class Hex20InternalCampaign:
         for name, analysis in cases:
             try:
                 result = solve_model(_model(analysis))
-                rows.append({"id": name, "status": "PASS" if result.status == "PASS" else "FAIL", "solver_status": result.status})
+                if name == "modal":
+                    solver = getattr(result, "solver", {})
+                    validation = solver.get("modal_residual_validation") if isinstance(solver, dict) else None
+                    validation_policy = (
+                        str(analysis.get("modal_validation_policy", "strict"))
+                        if isinstance(analysis, dict)
+                        else "strict"
+                    )
+                    validation_status = (
+                        validation.get("status", "NOT_REPORTED") if isinstance(validation, dict) else "NOT_REPORTED"
+                    )
+                    validation_reason = (
+                        validation.get("reason") if isinstance(validation, dict) else None
+                    )
+                    calculation_status = solver.get("calculation_status", "NOT_REPORTED")
+                    modal_status = (
+                        "PASS"
+                        if result.status == "PASS" and validation_status == "PASS_CERTIFIED"
+                        else "INCONCLUSIVE"
+                        if result.status == "INCONCLUSIVE"
+                        and validation_status == "INCONCLUSIVE"
+                        and validation_reason in BUDGET_INCONCLUSIVE_REASONS
+                        and calculation_status == "COMPUTED"
+                        else "FAIL"
+                    )
+                    row = {
+                        "id": name,
+                        "status": modal_status,
+                        "solver_status": result.status,
+                        "modal_validation_status": validation_status,
+                        "modal_validation_policy": validation_policy,
+                        "calculation_status": calculation_status,
+                    }
+                    if validation_reason is not None:
+                        row["modal_validation_reason"] = validation_reason
+                else:
+                    row = {
+                        "id": name,
+                        "status": "PASS" if result.status == "PASS" else "FAIL",
+                        "solver_status": result.status,
+                    }
+                rows.append(row)
+            except ModalResidualValidationError as exc:
+                computed = exc.computed_result if isinstance(exc.computed_result, dict) else {}
+                computed_solver = computed.get("solver", {})
+                calculation_status = (
+                    computed_solver.get("calculation_status", "NOT_REPORTED")
+                    if isinstance(computed_solver, dict)
+                    else "NOT_REPORTED"
+                )
+                if calculation_status == "NOT_REPORTED" and "modes" in computed:
+                    calculation_status = "COMPUTED"
+                validation_policy = (
+                    str(analysis.get("modal_validation_policy", "strict"))
+                    if isinstance(analysis, dict)
+                    else "strict"
+                )
+                inconclusive = (
+                    name == "modal"
+                    and exc.validation_status == "INCONCLUSIVE"
+                    and exc.diagnostics.get("reason") in BUDGET_INCONCLUSIVE_REASONS
+                    and calculation_status == "COMPUTED"
+                )
+                rows.append(
+                    {
+                        "id": name,
+                        "status": "INCONCLUSIVE" if inconclusive else "FAIL",
+                        "solver_status": exc.validation_status,
+                        "calculation_status": calculation_status,
+                        "modal_validation_policy": validation_policy,
+                        "error": str(exc),
+                        "modal_validation_status": exc.validation_status,
+                        "modal_validation_reason": exc.diagnostics.get("reason"),
+                    }
+                )
             except Exception as exc:  # pragma: no cover - campaign findings are data
                 rows.append({"id": name, "status": "FAIL", "error": str(exc)})
         return rows
+
+    @staticmethod
+    def _internal_status(
+        kernel: dict[str, object],
+        analyses: list[dict[str, object]],
+        loads: dict[str, object],
+        j2: dict[str, object],
+        benchmark: dict[str, object],
+    ) -> str:
+        """Keep a budget-limited modal certificate distinct from physical failure."""
+
+        modal_rows = [row for row in analyses if row.get("id") == "modal"]
+        non_modal_rows = [row for row in analyses if row.get("id") != "modal"]
+        if (
+            kernel.get("status") != "PASS"
+            or any(row.get("status") != "PASS" for row in non_modal_rows)
+            or loads.get("status") != "PASS"
+            or j2.get("status") != "PASS"
+            or benchmark.get("status") != "PASS_INTERNAL"
+            or len(modal_rows) != 1
+        ):
+            return "FAIL"
+        modal = modal_rows[0]
+        if modal.get("status") == "PASS":
+            return (
+                "PASS_INTERNAL"
+                if modal.get("solver_status") == "PASS"
+                and modal.get("modal_validation_status") == "PASS_CERTIFIED"
+                else "FAIL"
+            )
+        if (
+            modal.get("status") == "INCONCLUSIVE"
+            and modal.get("solver_status") == "INCONCLUSIVE"
+            and modal.get("modal_validation_status") == "INCONCLUSIVE"
+            and modal.get("modal_validation_reason") in BUDGET_INCONCLUSIVE_REASONS
+            and modal.get("calculation_status", "COMPUTED") == "COMPUTED"
+        ):
+            return "INCONCLUSIVE"
+        return "FAIL"
 
     @staticmethod
     def _load_checks() -> dict[str, object]:
@@ -224,6 +354,8 @@ class Hex20InternalCampaign:
         lines.extend(["", "## Analyses communes", "", "| Cas | Statut |", "| --- | --- |"])
         for row in summary["common_analysis_paths"]:
             lines.append(f"| {row['id']} | {row['status']} |")
+        if "modal_certification" in summary:
+            lines.extend(["", f"Certification modale : **{summary['modal_certification']}**"])
         lines.extend(["", "## Comparaison TET4/TET10/HEX8/HEX20", "", "| Modèle | Élément | DDL | Temps (s) | nnz | Résidu |", "| --- | --- | ---: | ---: | ---: | ---: |"])
         for row in summary["tet_hex20_benchmark"]["rows"]:
             lines.append(f"| {row['model']} | {row['element']} | {row['dofs']} | {row['solve_seconds']:.6e} | {row['nnz']} | {row['equilibrium_residual']:.6e} |")

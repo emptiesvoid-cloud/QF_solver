@@ -10,6 +10,7 @@ from solveur.elements.solid.common import (
     symmetrize,
     validate_coords_shape,
     von_mises_3d,
+    relative_determinant,
 )
 from solveur.materials.solid import SolidConstitutiveMaterial
 
@@ -134,15 +135,30 @@ class Hex20Element:
     def validate_geometry(cls, coords: np.ndarray) -> None:
         """Reject inverted, degenerate or locally folded HEX20 geometry."""
         coords = cls._validated_coords(coords)
-        span = max(float(np.max(np.ptp(coords, axis=0))), 1.0)
-        tolerance = 1.0e-14 * span**3
-        determinants = np.asarray(
-            [cls.jacobian_determinant(coords, point) for point in cls.integration_points],
-            dtype=float,
-        )
-        if not np.all(np.isfinite(determinants)) or np.any(determinants <= tolerance):
+        determinants: list[float] = []
+        scaled_determinants: list[float] = []
+        for point in cls.integration_points:
+            jacobian = cls.jacobian(coords, point)
+            with np.errstate(over="ignore", invalid="ignore", under="ignore"):
+                determinant = float(np.linalg.det(jacobian))
+            scaled_determinant = relative_determinant(jacobian)
+            determinants.append(determinant)
+            scaled_determinants.append(scaled_determinant)
+        if (
+            not np.all(np.isfinite(determinants))
+            or np.any(np.asarray(determinants) <= 0.0)
+            or not np.all(np.isfinite(scaled_determinants))
+            or np.any(np.asarray(scaled_determinants) <= 1.0e-14)
+        ):
             minimum = float(np.min(determinants))
             raise ValueError(f"Invalid HEX20 Jacobian determinant {minimum:.6e}.")
+        # Subnormal determinants have fixed absolute spacing, so their relative
+        # error can dominate the integration weight even when the sign is positive.
+        if np.any(np.asarray(determinants) < np.finfo(float).tiny):
+            minimum = float(np.min(determinants))
+            raise ValueError(
+                f"HEX20 Jacobian determinant {minimum:.6e} is subnormal and not representable with reliable precision."
+            )
 
     @classmethod
     def b_matrix(cls, coords: np.ndarray, point: tuple[float, float, float] | np.ndarray) -> tuple[np.ndarray, float]:
@@ -176,9 +192,13 @@ class Hex20Element:
 
     def stiffness(self, coords: np.ndarray) -> np.ndarray:
         stiffness = np.zeros((60, 60), dtype=float)
-        for _, weight, b_matrix, determinant in self.integration_data(coords):
-            stiffness += weight * determinant * (b_matrix.T @ self.material.elasticity_matrix @ b_matrix)
-        return symmetrize(stiffness)
+        with np.errstate(over="ignore", invalid="ignore"):
+            for _, weight, b_matrix, determinant in self.integration_data(coords):
+                stiffness += weight * determinant * (b_matrix.T @ self.material.elasticity_matrix @ b_matrix)
+            stiffness = symmetrize(stiffness)
+        if not np.all(np.isfinite(stiffness)):
+            raise ValueError("HEX20 stiffness contains non-finite values; numerical integration failed.")
+        return stiffness
 
     def internal_force_tangent_state(
         self,
@@ -217,10 +237,14 @@ class Hex20Element:
             raise ValueError("HEX20 modal analysis requires a positive material density.")
         mass = np.zeros((60, 60), dtype=float)
         identity = np.eye(3)
-        for point, weight, _, determinant in self.integration_data(coords):
-            shape = self.shape_functions(point)
-            mass += self.material.density * weight * determinant * np.kron(np.outer(shape, shape), identity)
-        return symmetrize(mass)
+        with np.errstate(over="ignore", invalid="ignore"):
+            for point, weight, _, determinant in self.integration_data(coords):
+                shape = self.shape_functions(point)
+                mass += self.material.density * weight * determinant * np.kron(np.outer(shape, shape), identity)
+            mass = symmetrize(mass)
+        if not np.all(np.isfinite(mass)):
+            raise ValueError("HEX20 mass contains non-finite values; numerical integration failed.")
+        return mass
 
     def mass_lumped(self, coords: np.ndarray) -> np.ndarray:
         """Return the row-sum lumped mass as a diagonal matrix."""

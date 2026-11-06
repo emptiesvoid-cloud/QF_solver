@@ -8,8 +8,14 @@ from scripts.audit_public_release import audit_public_release, public_source_fil
 from scripts.audit_release_archive import _scan_member, audit_release_archive
 
 
-def test_whole_repository_public_release_scan_preserves_unresolved_g03_findings() -> None:
-    report = audit_public_release()
+def test_whole_repository_public_release_scan_preserves_unresolved_g03_findings(
+    current_public_release_scan,
+) -> None:
+    if current_public_release_scan is None:
+        report = audit_public_release()
+    else:
+        current_public_release_scan.assert_current()
+        report = current_public_release_scan.report
     # The R1 scan deliberately covers the engineering repository. Its current
     # findings remain a separate G03 HOLD; the selected R3 package scan does
     # not waive or silently replace this broader gate.
@@ -38,6 +44,14 @@ def test_audit_reports_relative_path_for_private_workstation_marker(tmp_path) ->
             "excerpt": f"path {private_path}",
         }
     ]
+
+
+def test_audit_detects_both_legacy_employer_names(tmp_path) -> None:
+    (tmp_path / "README.md").write_text("saf" + "ran\nsnec" + "ma\n", encoding="utf-8")
+
+    findings = audit_public_release(tmp_path)["findings"]
+
+    assert [finding["identifier"] for finding in findings] == ["legacy_brand", "legacy_brand"]
 
 
 def test_audit_scans_generated_latex_sources(tmp_path) -> None:
@@ -85,6 +99,8 @@ def test_archive_rules_exclude_local_and_working_evidence_trees() -> None:
         "results",
         "results_large",
         "site",
+        "/AGENTS.md",
+        "docs/generated/results",
         "VNV-*",
         "qualification/vnv",
     ):

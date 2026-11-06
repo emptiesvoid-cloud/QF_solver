@@ -16,7 +16,11 @@ from solveur.core.nonlinear.checkpoint import (
     model_signature_v2,
 )
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
-from solveur.core.nonlinear.state import NonlinearState, deterministic_state_digest
+from solveur.core.nonlinear.state import (
+    NonlinearState,
+    deterministic_state_digest,
+    mark_checkpoint_state_accepted,
+)
 from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 
 
@@ -50,6 +54,10 @@ def _state(*, ordered: bool = True, contact: dict | None = None) -> NonlinearSta
 
 def _checkpoint(state: NonlinearState | None = None) -> NonlinearCheckpointV2:
     state = state or _state()
+    metadata = dict(state.accepted_increment_metadata)
+    metadata.setdefault("step", 2)
+    state.accepted_increment_metadata = metadata
+    mark_checkpoint_state_accepted(state)
     return NonlinearCheckpointV2.from_state(
         model_signature="v2-test-model",
         completed_step=2,
@@ -158,10 +166,11 @@ def test_t02b_06_continuation_state_round_trip(tmp_path) -> None:
 def test_t02b_07_accepted_metadata_round_trip(tmp_path) -> None:
     path = tmp_path / "state.npz"
     NpzNonlinearCheckpointStore().save(path, _checkpoint())
-    assert NpzNonlinearCheckpointStore().load(path).accepted_increment_metadata == {
-        "accepted_step": 2,
-        "attempt": 0,
-    }
+    loaded_metadata = NpzNonlinearCheckpointStore().load(path).accepted_increment_metadata
+    assert loaded_metadata["accepted_step"] == 2
+    assert loaded_metadata["attempt"] == 0
+    assert loaded_metadata["step"] == 2
+    assert loaded_metadata["__qf_checkpoint_acceptance_status"] == "ACCEPTED"
 
 
 def test_t02b_08_component_digests_identical_after_round_trip(tmp_path) -> None:
@@ -237,49 +246,44 @@ def test_t02b_16_wrong_material_topology_is_rejected(tmp_path) -> None:
     checkpoint = _checkpoint()
     NpzNonlinearCheckpointStore().save(path, checkpoint)
     expected = deepcopy(checkpoint.state_topology)
-    expected["material"]["entries"].append(
-        {"key_type": "int", "element_id": 99, "integration_point_count": 1}
-    )
+    expected["material"]["entries"].append({"key_type": "int", "element_id": 99, "integration_point_count": 1})
     with pytest.raises(InputValidationError, match="topology"):
         NpzNonlinearCheckpointStore().load(path, expected_topology=expected)
 
 
-def test_t02b_17_safe_contact_free_v1_loads_successfully(tmp_path) -> None:
+def test_t02b_17_v1_is_readable_but_not_resumable(tmp_path) -> None:
     path = tmp_path / "legacy.npz"
     _write_v1(path)
-    loaded = NpzNonlinearCheckpointStore().load(path)
-    assert loaded.schema_version == 2
-    assert loaded.migration_metadata["source_schema_version"] == 1
-    assert loaded.contact_state == {}
+    store = NpzNonlinearCheckpointStore()
+    loaded = store.read_legacy_v1(path)
+    assert loaded.schema_version == 1
+    with pytest.raises(InputValidationError, match="readable but not safe to resume.*UNPROVEN"):
+        store.load(path)
 
 
-def test_t02b_18_v1_migration_has_explicit_metadata(tmp_path) -> None:
+def test_t02b_18_v1_read_does_not_fabricate_migration_metadata(tmp_path) -> None:
     path = tmp_path / "legacy.npz"
     _write_v1(path, continuation={"radius": 0.25})
-    loaded = NpzNonlinearCheckpointStore().load(path)
-    assert loaded.migration_metadata == {
-        "source_schema_version": 1,
-        "bounded_contact_policy": "contact-free-or-stateless-only",
-    }
-    assert loaded.accepted_increment_metadata["historical_metadata_available"] is False
+    loaded = NpzNonlinearCheckpointStore().read_legacy_v1(path)
+    assert loaded.continuation_state == {"radius": 0.25}
 
 
 def test_t02b_19_stateful_contact_v1_is_rejected(tmp_path) -> None:
     path = tmp_path / "legacy.npz"
     _write_v1(path)
-    with pytest.raises(InputValidationError, match="stateful contact"):
+    with pytest.raises(InputValidationError, match="UNPROVEN"):
         NpzNonlinearCheckpointStore().load(path, model=_contact_model(0.3))
 
 
-def test_t02b_20_v1_loaded_state_writes_as_v2(tmp_path) -> None:
+def test_t02b_20_v1_cannot_be_promoted_or_rewritten(tmp_path) -> None:
     source = tmp_path / "legacy.npz"
     target = tmp_path / "v2.npz"
     _write_v1(source)
     store = NpzNonlinearCheckpointStore()
-    store.save(target, store.load(source))
-    with np.load(target, allow_pickle=False) as data:
-        metadata = json.loads(str(data["metadata_json"].item()))
-    assert metadata["schema_version"] == 2
+    legacy = store.read_legacy_v1(source)
+    with pytest.raises(InputValidationError, match="cannot be written or promoted"):
+        store.save(target, legacy)
+    assert not target.exists()
 
 
 def test_t02b_21_failed_temp_write_preserves_previous_canonical(tmp_path, monkeypatch) -> None:

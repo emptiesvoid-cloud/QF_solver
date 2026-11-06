@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "purpose": "WP13 non-scientific cross-platform and Python-version compatibility contracts",
+  "scope": "Exact API imports, CLI argument and path contracts, input rejection, file-output behavior, and serialization of synthetic values. No solver call, element assembly, mesh solve, benchmark, or evidence campaign is included.",
+  "selection_count": 15,
+  "nodeids": [
+    "tests/unit/test_cli_path_contract.py::test_mesh_import_default_report_path_preserves_output_stem",
+    "tests/unit/test_public_api_contract.py::test_02x_compatibility_imports_remain_available",
+    "tests/unit/test_public_api_contract.py::test_documented_input_and_serialization_exceptions",
+    "tests/unit/test_public_api_contract.py::test_public_save_result_refuses_to_overwrite_an_existing_path",
+    "tests/unit/test_public_api_contract.py::test_public_save_result_can_explicitly_overwrite_an_existing_path",
+    "tests/unit/test_save_result_cli_overwrite.py::test_solve_cli_overwrite_is_opt_in",
+    "tests/unit/test_save_result_cli_overwrite.py::test_all_json_result_cli_commands_expose_overwrite",
+    "tests/unit/test_save_result_cli_overwrite.py::test_solve_cli_forwards_explicit_overwrite_without_solving",
+    "tests/unit/test_result_serialization_contracts.py::test_nodal_and_modal_serialization_are_sorted_and_named",
+    "tests/unit/test_result_serialization_contracts.py::test_complex_serialization_exposes_real_imag_amplitude_and_phase",
+    "tests/unit/test_result_serialization_contracts.py::test_legacy_six_dof_vector_pads_missing_shell_dofs",
+    "tests/unit/test_result_serialization_contracts.py::test_versioned_experimental_result_dtos_round_trip_without_solver_execution",
+    "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata",
+    "tests/unit/test_result_serialization_contracts.py::test_harmonic_result_rejects_mismatched_frequency_and_response_counts",
+    "tests/unit/test_json_io.py::test_json_reader_reports_missing_required_fields"
+  ]
+}

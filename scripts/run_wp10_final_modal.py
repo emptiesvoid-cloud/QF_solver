@@ -10,6 +10,7 @@ from typing import Any
 
 import numpy as np
 
+from solveur.core.analyses.modal_residual_validation import BUDGET_INCONCLUSIVE_REASONS
 from solveur.io.manifest import sha256 as file_sha256
 from solveur.verification.code_aster_tl_structural import CODE_ASTER_IMAGE, run_code_aster
 from solveur.verification.modal_comparison import match_modes
@@ -40,30 +41,62 @@ def _relative_errors(values: np.ndarray, reference: np.ndarray) -> list[float]:
 def refinement_evidence() -> dict[str, Any]:
     rows = []
     for segments in REFINEMENT_LEVELS:
-        metrics = modal_metrics(segments)
+        metrics = modal_metrics(segments, validation_policy="allow_inconclusive")
         rows.append(
             {
                 "segments": segments,
                 "frequencies_hz": metrics["frequencies_hz"],
                 "max_relative_residual": metrics["max_relative_residual"],
                 "deterministic_modes": metrics["deterministic_modes"],
+                "calculation_status": metrics["calculation_status"],
+                "modal_validation_status": metrics["modal_validation_status"],
+                "modal_validation_reason": metrics["modal_validation_reason"],
             }
         )
     previous = np.asarray(rows[-2]["frequencies_hz"], dtype=float)
     final = np.asarray(rows[-1]["frequencies_hz"], dtype=float)
     final_changes = np.asarray(_relative_errors(final, previous), dtype=float)
     first_prefix_changes = final_changes[:QUALIFIED_MODE_PREFIX]
+    finite_positive = all(
+        np.isfinite(row["frequencies_hz"]).all()
+        and np.all(np.asarray(row["frequencies_hz"]) > 0.0)
+        and np.isfinite(row["max_relative_residual"])
+        for row in rows
+    )
+    residual_pass = all(row["max_relative_residual"] <= 1.0e-7 for row in rows)
+    deterministic_replay_pass = all(row["deterministic_modes"] for row in rows)
+    refinement_change_pass = bool(np.all(first_prefix_changes <= 1.0e-2))
+    physical_criteria_pass = (
+        finite_positive and residual_pass and deterministic_replay_pass and refinement_change_pass
+    )
+    validation_statuses = {str(row["modal_validation_status"]) for row in rows}
+    all_certified = validation_statuses == {"PASS_CERTIFIED"}
+    all_validation_in_range = validation_statuses <= {"PASS_CERTIFIED", "INCONCLUSIVE"}
+    validation_reasons = {
+        str(row["modal_validation_reason"])
+        for row in rows
+        if row["modal_validation_status"] == "INCONCLUSIVE"
+    }
+    if not physical_criteria_pass or not all_validation_in_range:
+        status = "FAIL"
+    elif all_certified:
+        status = "PASS_QUALIFIED"
+    elif validation_reasons and validation_reasons <= BUDGET_INCONCLUSIVE_REASONS:
+        status = "INCONCLUSIVE"
+    else:
+        status = "FAIL"
     return {
         "levels": rows,
         "qualified_mode_prefix": QUALIFIED_MODE_PREFIX,
         "final_relative_changes": final_changes.tolist(),
         "final_relative_change_qualified_prefix": first_prefix_changes.tolist(),
-        "finite_positive": all(
-            np.isfinite(row["frequencies_hz"]).all() and np.all(np.asarray(row["frequencies_hz"]) > 0.0)
-            for row in rows
-        ),
-        "residual_pass": all(row["max_relative_residual"] <= 1.0e-7 for row in rows),
-        "deterministic_replay_pass": all(row["deterministic_modes"] for row in rows),
+        "finite_positive": finite_positive,
+        "residual_pass": residual_pass,
+        "deterministic_replay_pass": deterministic_replay_pass,
+        "refinement_change_pass": refinement_change_pass,
+        "physical_criteria_pass": physical_criteria_pass,
+        "modal_validation_statuses": sorted(validation_statuses),
+        "modal_validation_reasons": sorted(validation_reasons),
         "policy": {
             "minimum_levels": 3,
             "levels_used": list(REFINEMENT_LEVELS),
@@ -73,11 +106,7 @@ def refinement_evidence() -> dict[str, Any]:
             "scope": "first three modes only; modes four to six remain diagnostic",
             "status": "predeclared_before_replay",
         },
-        "status": "PASS_QUALIFIED"
-        if np.all(first_prefix_changes <= 1.0e-2)
-        and all(row["max_relative_residual"] <= 1.0e-7 for row in rows)
-        and all(row["deterministic_modes"] for row in rows)
-        else "PARTIAL",
+        "status": status,
     }
 
 
@@ -244,6 +273,14 @@ def run(output: Path = OUTPUT, *, run_external: bool = True) -> dict[str, Any]:
             if all(item["status"] == "PASS_EXTERNAL_CORRELATION_BOUNDED" for item in external_cases)
             else "FAIL_EXTERNAL"
         )
+    if refinement["status"] == "FAIL" or external_status == "FAIL_EXTERNAL":
+        summary_status = "FAIL"
+    elif refinement["status"] == "INCONCLUSIVE":
+        summary_status = "INCONCLUSIVE"
+    elif refinement["status"] == "PASS_QUALIFIED":
+        summary_status = "PASS_WITH_LIMITATIONS"
+    else:
+        summary_status = "PARTIAL"
     summary = {
         "schema_version": 1,
         "work_package": "WP10-FINAL",
@@ -253,7 +290,7 @@ def run(output: Path = OUTPUT, *, run_external: bool = True) -> dict[str, Any]:
             "path": "qualification/0_2_7/vnv_v2/wp10_final_cases.json",
             "sha256": file_sha256(CASE_CATALOG),
         },
-        "status": "PASS_WITH_LIMITATIONS",
+        "status": summary_status,
         "maturity": "QUALIFIED_BOUNDED" if refinement["status"] == "PASS_QUALIFIED" and external_status == "PASS_EXTERNAL_CORRELATION_BOUNDED" else "EXPERIMENTAL",
         "owner_decision": "OWNER_APPROVED_BOUNDED" if refinement["status"] == "PASS_QUALIFIED" and external_status == "PASS_EXTERNAL_CORRELATION_BOUNDED" else "OWNER_REVIEW_REQUIRED",
         "policy": {

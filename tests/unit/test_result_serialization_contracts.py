@@ -1,14 +1,20 @@
 from __future__ import annotations
 
+import json
+
 import numpy as np
+import pytest
 
 from solveur.core.dofs import DofManager
+from solveur.core.results import HarmonicResult, ReducedHarmonicResult
+from solveur.core.analyses.modal_newmark import ModalNewmarkResult
 from solveur.core.result_serialization import (
     complex_nodal_state,
     legacy_six_dof_vector,
     modal_shape,
     nodal_state,
 )
+from solveur.mesh.validation import MeshReport
 
 
 def _dofs() -> DofManager:
@@ -45,3 +51,124 @@ def test_legacy_six_dof_vector_pads_missing_shell_dofs() -> None:
     assert vector[12 + 1] == 0.0
     assert vector[13] == 0.0
     assert vector[15:].tolist() == [0.0] * 3
+
+
+def test_versioned_experimental_result_dtos_round_trip_without_solver_execution() -> None:
+    dofs = DofManager.from_node_requirements({0: {"UX"}})
+    modal_newmark = ModalNewmarkResult(
+        numerical_status="PASS",
+        times=np.asarray([0.0, 1.0]),
+        displacements=np.asarray([0.1]),
+        velocities=np.asarray([0.2]),
+        accelerations=np.asarray([0.3]),
+        modal_displacements=np.asarray([0.4]),
+        modal_velocities=np.asarray([0.5]),
+        modal_accelerations=np.asarray([0.6]),
+        dofs=dofs,
+        node_count=1,
+        element_count=0,
+        solver={},
+        provenance={"source_sha": "test-fixture"},
+        result_availability={},
+        execution_identity={},
+        execution_key="synthetic-modal-newmark-result",
+        qualification_scope_id="TEST_ONLY",
+        mesh_report={},
+    )
+    restored_modal = ModalNewmarkResult.from_dict(modal_newmark.to_dict())
+    assert restored_modal.to_dict()["schema"] == "qf-modal-newmark-result/v1"
+    assert restored_modal.to_dict()["maturity"] == "EXPERIMENTAL"
+    assert restored_modal.to_dict()["qualification_decision"] == "NOT_ASSESSED"
+    np.testing.assert_array_equal(restored_modal.displacements, modal_newmark.displacements)
+    inconsistent_modal = modal_newmark.to_dict()
+    inconsistent_modal["run_verdict"] = "PASS"
+    with pytest.raises(ValueError, match="inconsistent 'run_verdict' metadata"):
+        ModalNewmarkResult.from_dict(inconsistent_modal)
+    unknown_modal_schema = modal_newmark.to_dict()
+    unknown_modal_schema["schema"] = "qf-modal-newmark-result/v99"
+    with pytest.raises(ValueError, match="Unsupported modal Newmark result schema"):
+        ModalNewmarkResult.from_dict(unknown_modal_schema)
+
+    reduced_harmonic = ReducedHarmonicResult(
+        numerical_status="PASS",
+        frequencies_hz=np.asarray([5.0]),
+        responses=(np.asarray([1.0 + 2.0j]),),
+        modal_coordinates=(np.asarray([0.5 - 0.25j]),),
+        dof_signature=((0, ("UX",)),),
+        full_dof_count=1,
+        node_count=1,
+        element_count=0,
+        solver={},
+        provenance={"source_sha": "test-fixture"},
+        result_availability={},
+        execution_identity={},
+        execution_key="synthetic-reduced-harmonic-result",
+        qualification_scope_id="TEST_ONLY",
+        mesh_report={},
+    )
+    restored_harmonic = ReducedHarmonicResult.from_dict(reduced_harmonic.to_dict())
+    encoded_harmonic = restored_harmonic.to_dict()
+    assert encoded_harmonic["schema"] == "qf-reduced-harmonic-result/v1"
+    assert encoded_harmonic["maturity"] == "EXPERIMENTAL"
+    assert encoded_harmonic["qualification_decision"] == "NOT_ASSESSED"
+    np.testing.assert_array_equal(restored_harmonic.responses[0], reduced_harmonic.responses[0])
+    inconsistent_harmonic = reduced_harmonic.to_dict()
+    inconsistent_harmonic["response_dof_count"] = 2
+    with pytest.raises(ValueError, match="inconsistent 'response_dof_count' metadata"):
+        ReducedHarmonicResult.from_dict(inconsistent_harmonic)
+    unknown_harmonic_schema = reduced_harmonic.to_dict()
+    unknown_harmonic_schema["schema"] = "qf-reduced-harmonic-result/v99"
+    with pytest.raises(ValueError, match="Unsupported reduced harmonic result schema"):
+        ReducedHarmonicResult.from_dict(unknown_harmonic_schema)
+
+
+def test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata() -> None:
+    response = np.empty(1, dtype=np.complex128)
+    response.real = -0.0
+    response.imag = 0.0
+    result = ReducedHarmonicResult(
+        numerical_status="PASS",
+        frequencies_hz=np.asarray([1.0]),
+        responses=(response,),
+        modal_coordinates=(np.asarray([0.0 + 0.0j]),),
+        dof_signature=((0, ("UX",)),),
+        full_dof_count=1,
+        node_count=1,
+        element_count=0,
+        solver={},
+        provenance={"source_sha": "test-fixture"},
+        result_availability={},
+        execution_identity={},
+        execution_key="synthetic-signed-zero-result",
+        qualification_scope_id="TEST_ONLY",
+        mesh_report={},
+    )
+
+    serialized = json.loads(json.dumps(result.to_dict()))
+    displacement = serialized["frequency_response"][0]["displacements"][0]["dofs"]["UX"]
+    assert displacement["amplitude"] == 0.0
+    assert displacement["phase_degrees"] == 180.0
+
+    restored = ReducedHarmonicResult.from_dict(serialized)
+    assert np.signbit(restored.responses[0].real[0])
+    assert serialized["frequency_response"] == restored.to_dict()["frequency_response"]
+
+    inconsistent = json.loads(json.dumps(serialized))
+    inconsistent["frequency_response"][0]["displacements"][0]["dofs"]["UX"]["phase_degrees"] = 0.0
+    with pytest.raises(ValueError, match="inconsistent 'frequency_response' metadata"):
+        ReducedHarmonicResult.from_dict(inconsistent)
+
+
+def test_harmonic_result_rejects_mismatched_frequency_and_response_counts() -> None:
+    result = HarmonicResult(
+        status="PASS",
+        frequencies_hz=np.asarray([1.0, 2.0]),
+        responses=[np.asarray([0.0 + 0.0j])],
+        dofs=DofManager.from_node_requirements({0: {"UX"}}),
+        mesh_report=MeshReport("PASS"),
+        node_count=1,
+        element_count=0,
+    )
+
+    with pytest.raises(ValueError, match="frequency and response counts must match"):
+        result.to_dict()

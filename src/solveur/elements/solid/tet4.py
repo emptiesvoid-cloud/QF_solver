@@ -9,6 +9,7 @@ from solveur.elements.solid.common import (
     symmetrize,
     validate_coords_shape,
     von_mises_3d,
+    relative_determinant,
 )
 from solveur.core.nonlinear.contracts import evaluate_constitutive
 from solveur.materials.solid import SolidConstitutiveMaterial
@@ -29,6 +30,23 @@ class Tet4Element:
         return float(np.linalg.det(matrix) / 6.0)
 
     @staticmethod
+    def _validated_volume(coords: np.ndarray) -> float:
+        values = validate_coords_shape(coords, (4, 3), "TET4")
+        matrix = np.column_stack(
+            (values[1] - values[0], values[2] - values[0], values[3] - values[0])
+        )
+        normalized_volume = relative_determinant(matrix) / 6.0
+        volume = float(np.linalg.det(matrix) / 6.0)
+        if (
+            not np.isfinite(normalized_volume)
+            or normalized_volume <= 1.0e-14
+            or not np.isfinite(volume)
+            or volume <= 0.0
+        ):
+            raise ValueError(f"Invalid TET4 volume {volume:.6e}.")
+        return volume
+
+    @staticmethod
     def shape_gradients(coords: np.ndarray) -> np.ndarray:
         coords = np.asarray(coords, dtype=float)
         interpolation = np.column_stack((np.ones(4), coords))
@@ -43,9 +61,7 @@ class Tet4Element:
 
     def stiffness(self, coords: np.ndarray) -> np.ndarray:
         coords = validate_coords_shape(coords, (4, 3), "TET4")
-        volume = self.signed_volume(coords)
-        if volume <= 1.0e-14:
-            raise ValueError(f"Invalid TET4 volume {volume:.6e}.")
+        volume = self._validated_volume(coords)
         b = self.strain_displacement_matrix(coords)
         ke = volume * (b.T @ self.material.elasticity_matrix @ b)
         return symmetrize(ke)
@@ -65,9 +81,7 @@ class Tet4Element:
         local_displacement: np.ndarray,
         states: list[dict[str, object]] | None = None,
     ) -> tuple[np.ndarray, np.ndarray, list[dict[str, object]]]:
-        volume = self.signed_volume(coords)
-        if volume <= 1.0e-14:
-            raise ValueError(f"Invalid TET4 volume {volume:.6e}.")
+        volume = self._validated_volume(coords)
         b = self.strain_displacement_matrix(coords)
         strain = b @ np.asarray(local_displacement, dtype=float)
         updated_states: list[dict[str, object]] = []
@@ -83,9 +97,7 @@ class Tet4Element:
     def mass(self, coords: np.ndarray) -> np.ndarray:
         if self.material.density <= 0.0:
             raise ValueError("TET4 modal analysis requires a positive material density.")
-        volume = self.signed_volume(coords)
-        if volume <= 1.0e-14:
-            raise ValueError(f"Invalid TET4 volume {volume:.6e}.")
+        volume = self._validated_volume(coords)
         scalar = self.material.density * volume / 20.0
         mass = np.zeros((12, 12), dtype=float)
         for i in range(4):

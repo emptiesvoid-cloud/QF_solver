@@ -20,6 +20,7 @@ from solveur.contact.support import (
     _ContactOperator,
     _FrictionIncrementState,
     _contact_convergence_diagnostics,
+    _contact_tangential_transfer_mode,
     _contact_force,
     _contact_load_path,
     _details,
@@ -123,6 +124,52 @@ def _penalty_contact_integration_weights(
     return np.asarray(weights, dtype=float)
 
 
+def _contact_operators(
+    model: FiniteElementModel,
+    contacts: list[FrictionlessContact],
+    dofs: DofManager,
+    reference: np.ndarray | None = None,
+) -> list[_ContactOperator]:
+    """Build operators after enforcing the experimental transfer's scope."""
+    mode = _contact_tangential_transfer_mode(model)
+    if mode == "small_rotation_work_conjugate":
+        if model.analysis.type != "linear_static":
+            raise InputValidationError(
+                "small_rotation_work_conjugate is restricted to the linear static active-set route."
+            )
+        if len(model.contacts) != 1 or len(contacts) != 1:
+            raise InputValidationError(
+                "small_rotation_work_conjugate is restricted to one frozen slave-master pair."
+            )
+        patch = model.contacts[0]
+        if len(patch.faces) != 1 or patch.slave_patch_nodes is not None:
+            raise InputValidationError(
+                "small_rotation_work_conjugate requires one slave node and one reference master triangle."
+            )
+        if not any(contact.friction_coefficient > 0.0 for contact in contacts):
+            raise InputValidationError("small_rotation_work_conjugate requires a frictional contact.")
+        if _finite_sliding(model):
+            raise InputValidationError("small_rotation_work_conjugate does not support finite sliding.")
+        if _search_mode(model) != "initial":
+            raise InputValidationError(
+                "small_rotation_work_conjugate requires the frozen initial contact projection."
+            )
+        if reference is not None:
+            raise InputValidationError(
+                "small_rotation_work_conjugate cannot rebuild its operator from a displaced reference."
+            )
+    return [
+        _operator(
+            contact,
+            model.nodes,
+            dofs,
+            reference,
+            tangential_transfer_mode=mode,
+        )
+        for contact in contacts
+    ]
+
+
 def assemble_penalty_contact(
     model: FiniteElementModel,
     dofs: DofManager,
@@ -140,6 +187,10 @@ def assemble_penalty_contact(
     """
     if penalty <= 0.0 or not np.isfinite(penalty):
         raise InputValidationError("Penalty contact stiffness must be finite and positive.")
+    if _contact_tangential_transfer_mode(model) != "legacy":
+        raise InputValidationError(
+            "small_rotation_work_conjugate is available only on the static node-to-triangle active-set route."
+        )
     if any(contact.friction_coefficient > 0.0 for contact in model.contacts):
         raise InputValidationError("The common penalty contact contribution is frictionless only.")
     values = np.asarray(displacement, dtype=float)
@@ -257,7 +308,7 @@ class FrictionlessActiveSetSolver:
         if model.linear_constraints():
             raise InputValidationError("Frictionless contact cannot yet be combined with MPC or RBE links.")
         contacts = _expanded_contacts(model.contacts)
-        operators = [_operator(contact, model.nodes, dofs) for contact in contacts]
+        operators = _contact_operators(model, contacts, dofs)
         if any(operator.has_friction for operator in operators):
             if _search_mode(model) == "updated":
                 raise InputValidationError("Updated contact search is not yet available with frictional contact.")
@@ -285,7 +336,7 @@ class FrictionlessActiveSetSolver:
         maximum = _positive_int(model.analysis.parameters.get("contact_search_max_iterations", 12), "contact_search_max_iterations")
         tolerance = _positive_float(model.analysis.parameters.get("contact_search_tolerance", 1.0e-10), "contact_search_tolerance")
         for iteration in range(1, maximum + 1):
-            operators = [_operator(contact, model.nodes, dofs, reference) for contact in contacts]
+            operators = _contact_operators(model, contacts, dofs, reference)
             state = self._solve_frictionless(model, dofs, stiffness, loads, reduction, operators, telemetry=telemetry)
             faces = tuple(operator.master_face_index for operator in operators)
             change = float(np.linalg.norm(state.displacement - reference))

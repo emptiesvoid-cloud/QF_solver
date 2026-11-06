@@ -51,13 +51,18 @@ def _model(analysis: str | dict[str, object], *, nonlinear: bool = False) -> Fin
 def test_hex20_uses_common_static_modal_newmark_and_harmonic_paths() -> None:
     cases = (
         "linear_static",
-        {"type": "modal", "modes": 2},
+        {"type": "modal", "modes": 2, "modal_validation_policy": "allow_inconclusive"},
         {"type": "transient_dynamic", "time_step": 0.01, "end_time": 0.02, "beta": 0.25, "gamma": 0.5},
         {"type": "harmonic_response", "frequencies": [1.0]},
     )
     for analysis in cases:
         result = solve_model(_model(analysis))
-        assert result.status == "PASS"
+        if isinstance(analysis, dict) and analysis.get("type") == "modal":
+            assert result.status == "INCONCLUSIVE"
+            assert result.solver["modal_validation_status"] == "INCONCLUSIVE"
+            assert result.solver["modal_residual_validation"]["reason"] == "aggregate_work_budget"
+        else:
+            assert result.status == "PASS"
 
 
 def test_hex20_static_postprocessing_recovers_quadratic_gauss_field() -> None:

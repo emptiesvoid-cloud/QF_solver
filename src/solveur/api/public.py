@@ -165,10 +165,72 @@ def solve_model(
     *,
     enforce_policy: bool = True,
     telemetry: TelemetryEmitter | None = None,
+    source_sha: str | None = None,
 ) -> object:
-    """Validate and solve a model, enforcing its verification profile by default."""
-    result = AnalysisRouter().solve(model, telemetry=telemetry)
+    """Validate and solve a model, enforcing its verification profile by default.
+
+    ``source_sha`` is an optional caller-declared source revision for the
+    experimental reduced harmonic and modal-Newmark routes. Supplying it does
+    not verify that an installed distribution was built from that revision.
+    """
+    result = AnalysisRouter().solve(model, telemetry=telemetry, source_sha=source_sha)
     return enforce_qualification_policy(result, model) if enforce_policy else result
+
+
+def recover_solid_stress_field(
+    model: FiniteElementModel,
+    displacement: object,
+    *,
+    stress_convention: str = "GLOBAL_SMALL_STRAIN_CAUCHY_VOIGT_XX_YY_ZZ_XY_YZ_ZX",
+) -> dict[str, object]:
+    """Recover a supported solid stress field from a full-order displacement vector."""
+    from solveur.post.dynamic_stress import recover_solid_stress_field as recover
+
+    return recover(model, displacement, stress_convention=stress_convention)
+
+
+def recover_harmonic_stress(
+    model: FiniteElementModel,
+    result: object,
+    *,
+    prepared: object,
+    basis: object,
+    selected_frequencies_hz: list[float] | tuple[float, ...],
+    stress_convention: str = "GLOBAL_SMALL_STRAIN_CAUCHY_VOIGT_XX_YY_ZZ_XY_YZ_ZX",
+) -> dict[str, object]:
+    """Recover phase-preserving stress for selected reduced harmonic frequencies."""
+    from solveur.post.dynamic_stress import recover_harmonic_stress as recover
+
+    return recover(
+        model,
+        result,
+        prepared=prepared,
+        basis=basis,
+        selected_frequencies_hz=selected_frequencies_hz,
+        stress_convention=stress_convention,
+    )
+
+
+def recover_modal_transient_stress(
+    model: FiniteElementModel,
+    result: object,
+    *,
+    prepared: object,
+    basis: object,
+    selected_times_s: list[float] | tuple[float, ...],
+    stress_convention: str = "GLOBAL_SMALL_STRAIN_CAUCHY_VOIGT_XX_YY_ZZ_XY_YZ_ZX",
+) -> dict[str, object]:
+    """Recover stress at selected stored modal Newmark times."""
+    from solveur.post.dynamic_stress import recover_modal_transient_stress as recover
+
+    return recover(
+        model,
+        result,
+        prepared=prepared,
+        basis=basis,
+        selected_times_s=selected_times_s,
+        stress_convention=stress_convention,
+    )
 
 
 def run_contact_verification(output_dir: str | Path) -> dict[str, object]:
@@ -202,9 +264,9 @@ def verify_evidence(path: str | Path) -> EvidenceVerificationReport:
     return EvidenceBundleVerifier().verify(path)
 
 
-def save_result(result: object, path: str | Path) -> None:
-    """Save a solve result as JSON."""
-    JsonResultWriter().write(result, path)
+def save_result(result: object, path: str | Path, *, overwrite: bool = False) -> None:
+    """Save a solve result as JSON, refusing an existing path unless opted in."""
+    JsonResultWriter().write(result, path, overwrite=overwrite)
 
 
 def save_model(model: FiniteElementModel, path: str | Path) -> None:

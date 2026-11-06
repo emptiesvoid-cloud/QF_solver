@@ -24,6 +24,9 @@ GENERATED_DOCUMENT_PREFIXES = ("verification/0_2_6/",)
 _OWNER_REVIEW_REQUIRED_EXACT_STATUSES = frozenset({"approved"})
 _OWNER_REVIEW_REQUIRED_STATUS_PREFIXES = ("accepted_for_release_", "owner_approved", "owner_accepted")
 _CONTROLLED_DOCUMENT_METADATA_BACKLOG_STATUSES = frozenset({"controlled", "controlled_release"})
+_RELEASED_CHANGELOG_VERSION = re.compile(
+    r"^##\s+(\d+(?:\.\d+)+)\s*[-–—]\s*Released\b", re.IGNORECASE | re.MULTILINE
+)
 
 
 def is_generated_document(relative_path: str) -> bool:
@@ -331,10 +334,12 @@ class DocumentationPublisher:
     def _status(self, campaign: dict[str, Any]) -> int:
         test_count = collect_test_count(self.root)
         version = solver_version()
+        published_version = latest_published_version(self.root)
         revision = str(self.source_state["revision"])
         panels = f"""
 <div class="status-grid">
-  <section class="status-panel"><h3>Project version</h3><span class="value">{version}</span><span>release status and citation identifiers are maintained in README and CITATION.cff</span></section>
+  <section class="status-panel"><h3>Project version</h3><span class="value">{published_version}</span><span>latest published release</span></section>
+  <section class="status-panel"><h3>Candidate package metadata version</h3><span class="value">{version}</span><span>unreleased candidate; the latest published release remains {published_version}</span></section>
   <section class="status-panel"><h3>Evidence status</h3><span class="value">ROUTE-SPECIFIC</span><span>0.2.8 registry remains historical authority; inherited nonlinear evidence and 0.2.11 experimental rotating routes are separately scoped; WP14 HOLD_NOT_PROMOTED and G03 FAIL_PRESERVED</span></section>
   <section class="status-panel"><h3>Distribution scope</h3><span class="value">SELECTED</span><span>wheel and sdist only; whole-repository source archives are not cleared</span></section>
 </div>
@@ -346,7 +351,8 @@ boundaries. The full-suite test inventory is recorded by the final Gate-E eviden
 | --- | --- | --- |
 | TET4 linear static | <span class="maturity stable">bounded</span> | Recorded elastic scope |
 | TET4/TET10/HEX8/HEX20 small-strain J2 | <span class="maturity reinforced">qualified bounded</span> | Declared material and analysis scope |
-| Modal, transient and harmonic | <span class="maturity route-dependent">route-dependent</span> | See the capability index for route-specific evidence |
+| Classical modal (0.2.12 candidate) | <span class="maturity experimental">experimental</span> | Bounded residual certification; strict mode keeps budget exceedance INCONCLUSIVE |
+| Transient and harmonic | <span class="maturity route-dependent">route-dependent</span> | See the capability index for route-specific evidence |
 | Frictionless contact | <span class="maturity experimental">experimental bounded</span> | Bounded node-to-triangle cases |
 | Corotational J2 | <span class="maturity stable">qualified bounded</span> | Owner-accepted HEX8 route; large rotations with small local strain |
 | Total-Lagrangian geometry | <span class="maturity route-dependent">audit with limitations</span> | Selected serial static TET4/HEX8; no maturity promotion |
@@ -684,3 +690,12 @@ def _cached_benchmark_records(root: Path) -> list[CachedDemoRecord]:
 
 def solver_version() -> str:
     return __version__
+
+
+def latest_published_version(root: Path) -> str:
+    """Return the highest release explicitly marked Released in CHANGELOG.md."""
+    changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
+    versions = _RELEASED_CHANGELOG_VERSION.findall(changelog)
+    if not versions:
+        raise ValueError("CHANGELOG.md contains no explicitly released version.")
+    return max(versions, key=lambda value: tuple(int(part) for part in value.split(".")))

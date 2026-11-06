@@ -28,7 +28,11 @@ def test_mitc3_dynamic_deck_declares_dkt_mass_modal_newmark_and_harmonic() -> No
 def test_mitc3_dynamic_qf_model_has_same_resultant_and_tip_mean_probe() -> None:
     campaign = CodeAsterMitc3DynamicsCampaign("unused", nx=4, ny=2)
     modal_model, _, _, tip = campaign._model(_modal_analysis())
+    modal_model.analysis.parameters["modal_validation_policy"] = "allow_inconclusive"
     modal = solve_model(modal_model, enforce_policy=False)
+    assert modal.status == "INCONCLUSIVE"
+    assert modal.solver["modal_validation_status"] == "INCONCLUSIVE"
+    assert modal.solver["modal_residual_validation"]["reason"] == "aggregate_work_budget"
     step = 1.0 / float(modal.frequencies_hz[0]) / 40.0
     model, _, _, tip = campaign._model(
         {

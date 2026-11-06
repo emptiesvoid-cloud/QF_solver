@@ -9,7 +9,17 @@ approver: ""
 
 # Analyse modale
 
-<span class="maturity reinforced">stable apres tests renforces</span>
+<span class="maturity reinforced">historical 0.2.0 scope</span>
+
+## Candidate 0.2.12 status
+
+Classical modal analysis in the unreleased 0.2.12 candidate is EXPERIMENTAL.
+The exact residual-validation domain is bounded. Under the default strict
+policy, a result that cannot be certified within those bounds remains
+INCONCLUSIVE and is not returned as a certified usable modal basis. Historical
+MITC4 and other verification records below retain their original scope and
+must not be read as general qualification of the 0.2.12 route. See the
+[candidate status and CI record](../verification/0_2_12_modal_candidate_status.md).
 
 Le probleme propre contraint est:
 

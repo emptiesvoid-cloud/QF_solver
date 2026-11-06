@@ -53,6 +53,18 @@ class SparseIntegratedLoad:
     details: dict[str, object]
 
 
+def _validated_element_index(element_index: object, element_count: int) -> int:
+    if (
+        isinstance(element_index, (bool, np.bool_))
+        or not isinstance(element_index, (int, np.integer))
+        or not 0 <= int(element_index) < element_count
+    ):
+        raise InputValidationError(
+            f"Distributed load target {element_index!r} is not an existing element index."
+        )
+    return int(element_index)
+
+
 class DistributedLoadIntegrator:
     """Integrate typed loads and scatter them through the global dof map."""
 
@@ -75,43 +87,64 @@ class DistributedLoadIntegrator:
         load: DistributedLoad,
         index: int,
     ) -> SparseIntegratedLoad:
-        """Integrate a load without allocating a global dense vector."""
+        """Integrate one load with finite contributions and valid target indices.
+
+        This direct interface does not replace full model or mesh validation.
+        An explicitly empty body-load target list remains an empty contribution.
+        """
         contributions: list[tuple[int, np.ndarray]] = []
         if isinstance(load, (GravityLoad, BodyLoad)):
             element_indices = load.elements if load.elements is not None else tuple(range(len(model.elements)))
             for element_index in element_indices:
+                element_index = _validated_element_index(element_index, len(model.elements))
                 local = self._body_vector(model, element_index, load)
                 contributions.append((element_index, local))
         elif isinstance(load, SurfaceLoad):
+            element_index = _validated_element_index(load.element, len(model.elements))
             local = self._surface_vector(model, load)
-            contributions.append((load.element, local))
-            element_indices = (load.element,)
+            contributions.append((element_index, local))
+            element_indices = (element_index,)
         elif isinstance(load, EdgeLoad):
+            element_index = _validated_element_index(load.element, len(model.elements))
             local = self._edge_vector(model, load)
-            contributions.append((load.element, local))
-            element_indices = (load.element,)
+            contributions.append((element_index, local))
+            element_indices = (element_index,)
         elif isinstance(load, LineLoad):
+            element_index = _validated_element_index(load.element, len(model.elements))
             local = self._line_vector(model, load)
-            contributions.append((load.element, local))
-            element_indices = (load.element,)
+            contributions.append((element_index, local))
+            element_indices = (element_index,)
         else:
             raise InputValidationError(f"Unsupported distributed load {type(load).__name__}.")
-        indices, values = self._merge_contributions(model, dofs, contributions)
+        for element_index, local in contributions:
+            if not np.all(np.isfinite(local)):
+                raise InputValidationError(
+                    f"Distributed load integration produced non-finite values for element {element_index}."
+                )
+        with np.errstate(over="ignore", invalid="ignore", under="ignore"):
+            indices, values = self._merge_contributions(model, dofs, contributions)
+        if not np.all(np.isfinite(values)):
+            raise InputValidationError("Distributed load assembly produced non-finite nodal values.")
         resultant = np.zeros(3, dtype=float)
         moment = np.zeros(3, dtype=float)
         for element_index, local in contributions:
             local_resultant, local_moment = self._local_balance(model, element_index, local)
             resultant += local_resultant
             moment += local_moment
+        vector_norm = float(np.hypot.reduce(np.abs(values)))
+        if not np.isfinite(vector_norm):
+            raise InputValidationError("Distributed load norm is not representable as a finite value.")
         details = {
             "index": index,
             "type": load.type,
             "element_indices": list(element_indices),
             "resultant": resultant.tolist(),
             "moment_about_origin": moment.tolist(),
-            "vector_norm": float(np.linalg.norm(values)),
+            "vector_norm": vector_norm,
             "nonzero_dof_count": _significant_entry_count(values),
         }
+        if not np.all(np.isfinite(resultant)) or not np.all(np.isfinite(moment)):
+            raise InputValidationError("Distributed load balance produced non-finite resultants or moments.")
         return SparseIntegratedLoad(indices, values, details)
 
     def _body_vector(
@@ -270,6 +303,8 @@ class DistributedLoadIntegrator:
         unique, inverse = np.unique(indices, return_inverse=True)
         values = np.zeros(unique.size, dtype=float)
         np.add.at(values, inverse, np.asarray(raw_values, dtype=float))
+        if not np.all(np.isfinite(values)):
+            raise InputValidationError("Distributed load accumulation produced non-finite nodal values.")
         significant = np.abs(values) > 1.0e-30
         return unique[significant], values[significant]
 
@@ -326,14 +361,24 @@ def _hex8_body_vector(coords: np.ndarray, force_density: np.ndarray) -> np.ndarr
 
 
 def _hex20_body_vector(coords: np.ndarray, force_density: np.ndarray) -> np.ndarray:
+    coords = np.asarray(coords, dtype=float)
+    force_density = np.asarray(force_density, dtype=float)
+    if coords.shape != (20, 3) or not np.all(np.isfinite(coords)):
+        raise InputValidationError("HEX20 body load requires twenty finite nodal coordinates.")
+    if force_density.shape != (3,) or not np.all(np.isfinite(force_density)):
+        raise InputValidationError("HEX20 body load requires three finite force-density components.")
     local = np.zeros(60, dtype=float)
     for point, weight in zip(Hex20Element.integration_points, Hex20Element.integration_weights):
         shape = Hex20Element.shape_functions(point)
-        determinant = Hex20Element.jacobian_determinant(coords, point)
-        if determinant <= 1.0e-14:
+        with np.errstate(over="ignore", invalid="ignore", under="ignore"):
+            determinant = Hex20Element.jacobian_determinant(coords, point)
+        if not np.isfinite(determinant) or determinant <= 1.0e-14:
             raise InputValidationError(f"Invalid HEX20 Jacobian {determinant:.6e} during body load integration.")
-        for node, value in enumerate(shape):
-            local[3 * node : 3 * node + 3] += weight * determinant * value * force_density
+        with np.errstate(over="ignore", invalid="ignore", under="ignore"):
+            for node, value in enumerate(shape):
+                local[3 * node : 3 * node + 3] += weight * determinant * value * force_density
+    if not np.all(np.isfinite(local)):
+        raise InputValidationError("HEX20 body load integration produced non-finite nodal values.")
     return local
 
 
@@ -355,6 +400,17 @@ def _pyramid5_body_vector(coords: np.ndarray, force_density: np.ndarray) -> np.n
     return local
 
 
+def _quadrilateral_face_gauss_rule(node_count: int) -> tuple[tuple[float, float], ...]:
+    """Return the one-dimensional Gauss rule used on a QUAD4 or QUAD8 face."""
+    if node_count == 4:
+        point = 1.0 / math.sqrt(3.0)
+        return ((-point, 1.0), (point, 1.0))
+    if node_count == 8:
+        point = math.sqrt(3.0 / 5.0)
+        return ((-point, 5.0 / 9.0), (0.0, 8.0 / 9.0), (point, 5.0 / 9.0))
+    raise ValueError("Quadrilateral face rule requires four or eight nodes.")
+
+
 def _solid_face_vector(
     coords: np.ndarray,
     face_nodes: tuple[int, ...],
@@ -365,14 +421,11 @@ def _solid_face_vector(
     local = np.zeros(coords.shape[0] * 3, dtype=float)
     face_coords = coords[list(face_nodes)]
     if len(face_nodes) in {4, 8}:
-        abscissa = 1.0 / math.sqrt(3.0)
-        points_1d = (-abscissa, 0.0, abscissa) if len(face_nodes) == 8 else (-abscissa, abscissa)
-        one_d_weights = {float(-abscissa): 5.0 / 9.0, 0.0: 8.0 / 9.0, float(abscissa): 5.0 / 9.0}
-        for xi in points_1d:
-            for eta in points_1d:
+        rule = _quadrilateral_face_gauss_rule(len(face_nodes))
+        for xi, weight_xi in rule:
+            for eta, weight_eta in rule:
                 if len(face_nodes) == 8:
                     shape, derivatives = _quad8_shape_data(xi, eta)
-                    quadrature_weight = one_d_weights[float(xi)] * one_d_weights[float(eta)]
                 else:
                     signs = np.asarray(((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)))
                     shape = 0.25 * (1.0 + signs[:, 0] * xi) * (1.0 + signs[:, 1] * eta)
@@ -382,7 +435,7 @@ def _solid_face_vector(
                             0.25 * signs[:, 1] * (1.0 + signs[:, 0] * xi),
                         )
                     )
-                    quadrature_weight = 1.0
+                quadrature_weight = weight_xi * weight_eta
                 tangent_u = derivatives[:, 0] @ face_coords
                 tangent_v = derivatives[:, 1] @ face_coords
                 area_vector = np.cross(tangent_u, tangent_v)

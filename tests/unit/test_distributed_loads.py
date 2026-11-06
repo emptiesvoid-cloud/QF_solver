@@ -14,8 +14,9 @@ from solveur.core.errors import InputValidationError
 from solveur.core.harmonic import HarmonicResponseSolver
 from solveur.core.model import FiniteElementModel
 from solveur.core.solver import LinearStaticSolver
+from solveur.elements.solid.hex20 import Hex20Element
 from solveur.io.json_reader import JsonModelReader
-from solveur.loads.entities import BodyLoad, GravityLoad, SurfaceLoad
+from solveur.loads.entities import BodyLoad, EdgeLoad, GravityLoad, LineLoad, SurfaceLoad
 from solveur.loads.integration import DistributedLoadIntegrator, load_balance
 from solveur.mesh.validation import MeshValidator
 
@@ -128,6 +129,165 @@ def test_sparse_distributed_load_contribution_matches_dense_contract():
     reconstructed[sparse.indices] = sparse.values
     assert reconstructed == pytest.approx(dense.vector)
     assert sparse.details == dense.details
+
+
+@pytest.mark.parametrize(
+    ("scale", "coordinate_mutation", "force_density", "message"),
+    [
+        (1.0, "nan", [1.0, 0.0, 0.0], "finite nodal coordinates"),
+        (1.0, None, [float("inf"), 0.0, 0.0], "finite force-density"),
+        (1.0e104, None, [1.0, 0.0, 0.0], "Invalid HEX20 Jacobian"),
+    ],
+)
+def test_direct_hex20_body_load_rejects_invalid_nonfinite_and_overflow_inputs(
+    scale, coordinate_mutation, force_density, message
+):
+    coords = _hex20_coordinates(scale)
+    if coordinate_mutation == "nan":
+        coords[0, 0] = np.nan
+    model = FiniteElementModel.from_raw(
+        nodes=coords.tolist(),
+        elements=[{"type": "HEX20", "nodes": list(range(20)), "material": "material"}],
+        materials={"material": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25}},
+        distributed_loads=[{"type": "body_force", "value": force_density}],
+    )
+
+    with pytest.raises(InputValidationError, match=message):
+        DistributedLoadIntegrator().integrate_sparse(
+            model, model.dof_manager(), model.distributed_loads[0], 0
+        )
+
+
+def test_direct_hex20_body_load_preserves_finite_regular_resultant():
+    model = FiniteElementModel.from_raw(
+        nodes=_hex20_coordinates(1.0).tolist(),
+        elements=[{"type": "HEX20", "nodes": list(range(20)), "material": "material"}],
+        materials={"material": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25}},
+        distributed_loads=[{"type": "body_force", "value": [2.0, -3.0, 4.0]}],
+    )
+
+    result = DistributedLoadIntegrator().integrate_sparse(
+        model, model.dof_manager(), model.distributed_loads[0], 0
+    )
+
+    np.testing.assert_allclose(result.details["resultant"], [16.0, -24.0, 32.0], rtol=0.0, atol=1.0e-12)
+    assert np.all(np.isfinite(result.values))
+
+
+@pytest.mark.parametrize("target", [-1, 1, True, "0"])
+def test_direct_hex20_body_load_rejects_invalid_element_targets(target):
+    model = FiniteElementModel.from_raw(
+        nodes=_hex20_coordinates(1.0).tolist(),
+        elements=[{"type": "HEX20", "nodes": list(range(20)), "material": "material"}],
+        materials={"material": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25}},
+    )
+    load = BodyLoad(value=(1.0, 0.0, 0.0), elements=(target,))  # type: ignore[arg-type]
+
+    with pytest.raises(InputValidationError, match="not an existing element index"):
+        DistributedLoadIntegrator().integrate_sparse(model, model.dof_manager(), load, 0)
+
+
+@pytest.mark.parametrize("target", [0.9, True, "0"])
+def test_raw_hex20_body_load_rejects_coerced_element_targets(target):
+    with pytest.raises(InputValidationError, match="element index must be an integer"):
+        FiniteElementModel.from_raw(
+            nodes=_hex20_coordinates(1.0).tolist(),
+            elements=[{"type": "HEX20", "nodes": list(range(20)), "material": "material"}],
+            materials={"material": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25}},
+            distributed_loads=[{"type": "body_force", "value": [1.0, 0.0, 0.0], "elements": [target]}],
+        )
+
+
+@pytest.mark.parametrize("target", [0.9, True, "0"])
+def test_raw_hex20_surface_load_rejects_coerced_element_target(target):
+    with pytest.raises(InputValidationError, match="element index must be an integer"):
+        FiniteElementModel.from_raw(
+            nodes=_hex20_coordinates(1.0).tolist(),
+            elements=[{"type": "HEX20", "nodes": list(range(20)), "material": "material"}],
+            materials={"material": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25}},
+            distributed_loads=[{"type": "pressure", "value": 1.0, "element": target, "face": 0}],
+        )
+
+
+def test_raw_hex20_body_load_accepts_numpy_integer_target():
+    model = FiniteElementModel.from_raw(
+        nodes=_hex20_coordinates(1.0).tolist(),
+        elements=[{"type": "HEX20", "nodes": list(range(20)), "material": "material"}],
+        materials={"material": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25}},
+        distributed_loads=[{"type": "body_force", "value": [1.0, 0.0, 0.0], "elements": [np.int64(0)]}],
+    )
+    assert model.distributed_loads[0].elements == (0,)
+
+
+@pytest.mark.parametrize(
+    "load",
+    [
+        SurfaceLoad(element=-1, kind="pressure", value=1.0, face=0),
+        EdgeLoad(element=-1, edge=0, value=(1.0, 0.0, 0.0)),
+        LineLoad(element=-1, value=(1.0, 0.0, 0.0)),
+    ],
+)
+def test_direct_element_loads_reject_negative_targets(load):
+    model = FiniteElementModel.from_raw(
+        nodes=_hex20_coordinates(1.0).tolist(),
+        elements=[{"type": "HEX20", "nodes": list(range(20)), "material": "material"}],
+        materials={"material": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25}},
+    )
+
+    with pytest.raises(InputValidationError, match="not an existing element index"):
+        DistributedLoadIntegrator().integrate_sparse(model, model.dof_manager(), load, 0)
+
+
+def test_direct_hex20_body_load_rejects_overflow_during_shared_dof_accumulation():
+    nodes = _hex20_coordinates(1.0).tolist()
+    definition = {"type": "HEX20", "nodes": list(range(20)), "material": "material"}
+    model = FiniteElementModel.from_raw(
+        nodes=nodes,
+        elements=[definition, definition],
+        materials={"material": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25}},
+        distributed_loads=[{"type": "body_force", "value": [1.0e308, 0.0, 0.0]}],
+    )
+    integrator = DistributedLoadIntegrator()
+    load = model.distributed_loads[0]
+    for element_index in (0, 1):
+        assert np.all(np.isfinite(integrator._body_vector(model, element_index, load)))
+
+    with pytest.raises(InputValidationError, match="accumulation produced non-finite"):
+        integrator.integrate_sparse(model, model.dof_manager(), load, 0)
+
+
+def test_direct_hex20_load_norm_is_stable_for_finite_large_values():
+    model = FiniteElementModel.from_raw(
+        nodes=_hex20_coordinates(1.0).tolist(),
+        elements=[{"type": "HEX20", "nodes": list(range(20)), "material": "material"}],
+        materials={"material": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25}},
+        distributed_loads=[{"type": "body_force", "value": [1.0e200, 0.0, 0.0]}],
+    )
+
+    result = DistributedLoadIntegrator().integrate_sparse(
+        model, model.dof_manager(), model.distributed_loads[0], 0
+    )
+
+    assert np.isfinite(result.details["vector_norm"])
+    scaled_reference = float(np.linalg.norm(result.values / 1.0e200) * 1.0e200)
+    assert result.details["vector_norm"] == pytest.approx(scaled_reference, rel=1.0e-14)
+    with np.errstate(over="ignore", invalid="ignore"):
+        assert np.isinf(np.linalg.norm(result.values))
+
+
+def test_direct_hex20_body_load_empty_target_list_remains_empty():
+    model = FiniteElementModel.from_raw(
+        nodes=_hex20_coordinates(1.0).tolist(),
+        elements=[{"type": "HEX20", "nodes": list(range(20)), "material": "material"}],
+        materials={"material": {"type": "isotropic_3d", "E": 1000.0, "nu": 0.25}},
+    )
+    load = BodyLoad(value=(1.0, 0.0, 0.0), elements=())
+
+    result = DistributedLoadIntegrator().integrate_sparse(model, model.dof_manager(), load, 0)
+
+    assert result.indices.size == 0
+    assert result.values.size == 0
+    assert result.details["element_indices"] == []
 
 
 def test_tet4_pressure_has_exact_consistent_nodal_forces_and_balance():
@@ -416,6 +576,15 @@ def _tet4_model(
         fixed_dofs=fixed_dofs,
         distributed_loads=distributed_loads,
     )
+
+
+def _hex20_coordinates(scale: float) -> np.ndarray:
+    coords = np.zeros((20, 3), dtype=float)
+    coords[:8] = Hex20Element.node_signs * scale
+    for node, (_, fixed_axes, fixed_signs) in enumerate(Hex20Element.edge_data, start=8):
+        for axis, sign in zip(fixed_axes, fixed_signs):
+            coords[node, axis] = sign * scale
+    return coords
 
 
 def _tet10_model(

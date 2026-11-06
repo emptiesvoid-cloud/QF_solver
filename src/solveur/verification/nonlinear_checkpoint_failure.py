@@ -9,11 +9,12 @@ import numpy as np
 
 from solveur.core.errors import InputValidationError
 from solveur.core.nonlinear.checkpoint import (
-    NonlinearCheckpoint,
     NonlinearCheckpointSession,
     NonlinearCheckpointSettings,
+    NonlinearCheckpointV2,
 )
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
+from solveur.core.nonlinear.state import NonlinearState, NonlinearStateTransaction
 from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 
 
@@ -61,14 +62,21 @@ def run_checkpoint_failure_cases() -> list[dict[str, object]]:
             corruption = _failed_checkpoint_record("checkpoint_corruption")
 
         valid_path = root / "valid.npz"
+        accepted_state = NonlinearStateTransaction(
+            NonlinearState(
+                displacement=np.zeros(1),
+                load_factor=1.0,
+                material_state={0: []},
+                continuation_state={"accepted_step": 1},
+                accepted_increment_metadata={"step": 1},
+            )
+        ).accepted_state
         store.save(
             valid_path,
-            NonlinearCheckpoint(
+            NonlinearCheckpointV2.from_state(
                 model_signature="actual-model-signature",
                 completed_step=1,
-                load_factor=1.0,
-                displacement=np.zeros(1),
-                material_states={0: []},
+                state=accepted_state,
             ),
         )
         session = NonlinearCheckpointSession(
