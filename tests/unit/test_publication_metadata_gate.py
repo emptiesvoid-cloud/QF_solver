@@ -266,6 +266,60 @@ def test_postpublication_requires_all_channels_and_exact_public_hashes(tmp_path:
     assert "Zenodo record, DOI, selected files or archive boundary do not match the contract" in failures
 
 
+def test_current_012_prepublication_semantics_accept_truthful_existing_pages() -> None:
+    assert check_publication_metadata(ROOT, "v0.2.12", "PRE_PUBLICATION") == []
+
+
+def test_pypi_only_postpublication_accepts_pypi_receipt_and_rejects_channel_or_doi_claim(tmp_path: Path) -> None:
+    _write_release_copy(tmp_path, "POST_PUBLICATION")
+    wheel = f"qf_solver-{VERSION}-py3-none-any.whl"
+    sdist = f"qf_solver-{VERSION}.tar.gz"
+    hashes = {wheel: "a" * 64, sdist: "b" * 64}
+    source = "d" * 40
+    contract = {
+        "package_version": VERSION, "release_tag": TAG, "release_channels": ["pypi"],
+        "publication_scope": "SELECTED_DISTRIBUTION",
+        "source_sha": source, "tag_target_sha": source,
+        "audited_artifacts": {"wheel": {"filename": wheel, "sha256": hashes[wheel]},
+                              "sdist": {"filename": sdist, "sha256": hashes[sdist]}},
+        "authorization": {"pypi_publication_allowed": True, "github_release_allowed": False,
+                          "zenodo_selected_artifact_publication_allowed": False,
+                          "whole_repository_archive_publication_allowed": False},
+    }
+    receipt = {
+        "schema_version": 1, "status": "PUBLICATION_VERIFIED", "publication_phase": "POST_PUBLICATION_PYPI",
+        "version": VERSION, "tag": TAG, "source_sha": source, "release_date": RELEASE_DATE,
+        "pypi": {"published": True, "version": VERSION, "install_probe": "PASS",
+                 "files": [{"filename": name, "sha256": digest} for name, digest in hashes.items()]},
+    }
+    contract_path, receipt_path = tmp_path / "contract.json", tmp_path / "receipt.json"
+    contract_path.write_text(json.dumps(contract), encoding="utf-8")
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+    args = (tmp_path, TAG, "POST_PUBLICATION_PYPI")
+    kwargs = dict(release_date=RELEASE_DATE, publication_record=receipt_path, release_contract=contract_path)
+    assert check_publication_metadata(*args, **kwargs) == []
+
+    contract["release_channels"] = ["pypi", "zenodo"]
+    receipt["version_doi"] = VERSION_DOI
+    contract_path.write_text(json.dumps(contract), encoding="utf-8")
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+    failures = check_publication_metadata(*args, **kwargs)
+    assert "PyPI-only contract must select exactly the pypi channel" in failures
+    assert "PyPI-only record must not claim a version DOI, GitHub Release or Zenodo publication" in failures
+
+    contract["release_channels"] = ["pypi"]
+    receipt.pop("version_doi")
+    receipt["pypi"]["files"].append(receipt["pypi"]["files"][0])
+    contract_path.write_text(json.dumps(contract), encoding="utf-8")
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+    assert "PyPI publication, install probe or exactly two selected file hashes do not match the contract" in check_publication_metadata(*args, **kwargs)
+
+    receipt["pypi"]["files"] = []
+    receipt["github_release"] = {"published": True}
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+    assert "PyPI-only record must not claim a version DOI, GitHub Release or Zenodo publication" in check_publication_metadata(*args, **kwargs)
+
+
 def test_unstable_or_mismatched_tag_is_rejected() -> None:
     assert check_publication_metadata(ROOT, "../../v0.2.9", "PRE_PUBLICATION") == [
         "release tag must be a stable vMAJOR.MINOR.PATCH tag"

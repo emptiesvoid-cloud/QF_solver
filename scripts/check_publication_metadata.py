@@ -68,14 +68,24 @@ def _phase_inputs(
     phase: str, version_doi: str | None, release_date: str | None, failures: list[str]
 ) -> tuple[str | None, str | None]:
     phase = phase.upper()
-    if phase not in {"PRE_PUBLICATION", "POST_PUBLICATION"}:
-        failures.append("publication phase must be PRE_PUBLICATION or POST_PUBLICATION")
+    if phase not in {"PRE_PUBLICATION", "POST_PUBLICATION", "POST_PUBLICATION_PYPI"}:
+        failures.append("publication phase must be PRE_PUBLICATION, POST_PUBLICATION or POST_PUBLICATION_PYPI")
         return None, None
     if phase == "PRE_PUBLICATION":
         _require(version_doi is None, "PRE_PUBLICATION must not claim a version DOI", failures)
         _require(release_date is None, "PRE_PUBLICATION must not claim a release date", failures)
         return None, None
 
+    if phase == "POST_PUBLICATION_PYPI":
+        _require(version_doi is None, "POST_PUBLICATION_PYPI must not claim a version DOI", failures)
+        valid_date = False
+        if release_date is not None:
+            try:
+                valid_date = date.fromisoformat(release_date).isoformat() == release_date
+            except ValueError:
+                valid_date = False
+        _require(valid_date, "POST_PUBLICATION_PYPI needs the factual ISO publication date", failures)
+        return None, release_date
     valid_doi = version_doi is not None and DOI_RE.fullmatch(version_doi) is not None
     _require(valid_doi, "POST_PUBLICATION needs a captured Zenodo version DOI", failures)
     valid_date = False
@@ -102,14 +112,13 @@ def _check_citation(
     _require(CONCEPT_DOI in citation, "CITATION.cff must preserve the project concept DOI", failures)
     citation_doi = _field(citation, "doi")
     citation_date = _field(citation, "date-released")
-    if phase == "PRE_PUBLICATION":
-        _require(citation_doi is None, "PRE_PUBLICATION CITATION.cff must not assert a version DOI", failures)
-        _require(citation_date is None, "PRE_PUBLICATION CITATION.cff must not assert a release date", failures)
-        _require(
-            "without asserting a release date or version doi" in citation.lower(),
-            "PRE_PUBLICATION CITATION.cff must state that release metadata is not yet asserted",
-            failures,
-        )
+    if phase in {"PRE_PUBLICATION", "POST_PUBLICATION_PYPI"}:
+        _require(citation_doi is None, f"{phase} CITATION.cff must not assert a version DOI", failures)
+        _require(citation_date is None, f"{phase} CITATION.cff must not assert a release date", failures)
+        if phase == "PRE_PUBLICATION":
+            _require("without asserting a release date or version doi" in citation.lower()
+                     or "unreleased candidate" in citation.lower(),
+                     "PRE_PUBLICATION CITATION.cff must state that release metadata is not yet asserted", failures)
         return
 
     _require(citation_doi == version_doi, "CITATION.cff DOI differs from the captured version DOI", failures)
@@ -125,11 +134,14 @@ def _check_current_publication_claims(contents: dict[str, str], version: str, ta
     capabilities = contents["docs/capabilities/index.md"]
     roadmap = " ".join(contents["docs/reference/feuille_de_route.md"].split())
 
-    _require(
-        re.search(rf"(?i)current QF Solver release is\s+`{re.escape(version)}`", readme) is not None,
-        "README.md must identify the requested current release semantically",
-        failures,
-    )
+    if phase == "PRE_PUBLICATION" and version == "0.2.12":
+        _require("The version on `main` is `0.2.12`, pending publication." in readme,
+                 "README.md must identify 0.2.12 as pending publication", failures)
+    else:
+        _require(
+            re.search(rf"(?i)current QF Solver release is\s+`{re.escape(version)}`", readme) is not None,
+            "README.md must identify the requested current release semantically", failures,
+        )
     _require(
         re.search(rf"(?mi)^\*\*Current release documentation:\*\*\s*`{re.escape(version)}`", index)
         is not None,
@@ -157,7 +169,26 @@ def _check_current_publication_claims(contents: dict[str, str], version: str, ta
         failures,
     )
 
-    if phase == "PRE_PUBLICATION":
+    if phase == "PRE_PUBLICATION" and version == "0.2.12":
+        _require("The latest published QF Solver release is `0.2.11`" in readme
+                 and "The version on `main` is `0.2.12`, pending publication." in readme,
+                 "README.md must distinguish latest published release from pending main version", failures)
+        _require(re.search(r"(?mi)^##\s+0\.2\.12\s+[—-]\s+Preparation\s*\(unreleased\)", changelog) is not None,
+                 "CHANGELOG.md must keep 0.2.12 explicitly marked as unreleased preparation", failures)
+        _require(not re.search(r"(?im)^\s*(?:date-released|doi):", contents["CITATION.cff"]),
+                 "prepublication citation must not assert a release date or version DOI", failures)
+        released = _released_versions(changelog)
+        _require(bool(released), "CHANGELOG.md must retain an explicit latest published entry", failures)
+        latest_published = released[0] if released else None
+        if latest_published is not None:
+            _require(f"QF Solver `{latest_published}` (`v{latest_published}`) is the current published release"
+                     in contents["CONTRIBUTING.md"],
+                     "CONTRIBUTING.md must distinguish latest published release from candidate", failures)
+            _require(f"currently `{latest_published}`" in contents["SUPPORT.md"],
+                     "SUPPORT.md must retain actual latest published release during prepublication", failures)
+            _require(f"Current release: `{latest_published}` / `v{latest_published}`" in contents["SECURITY.md"],
+                     "SECURITY.md must retain actual latest published release during prepublication", failures)
+    elif phase == "PRE_PUBLICATION":
         heading = re.search(rf"(?mi)^##\s+{re.escape(version)}\s+-\s+([^\n]+)", changelog)
         _require(heading is not None, "CHANGELOG.md must contain this version's entry", failures)
         if heading is not None:
@@ -186,7 +217,7 @@ def _check_current_publication_claims(contents: dict[str, str], version: str, ta
                 "SECURITY.md must retain the actual latest published release during prepublication",
                 failures,
             )
-    else:
+    elif phase == "POST_PUBLICATION":
         _require(
             re.search(rf"(?mi)^##\s+{re.escape(version)}\s+-\s+Released\b", changelog) is not None,
             "POST_PUBLICATION changelog must mark this version released",
@@ -224,10 +255,13 @@ def _check_current_publication_claims(contents: dict[str, str], version: str, ta
         )
 
 
-def _check_bounded_claims(contents: dict[str, str], failures: list[str]) -> None:
+def _check_forbidden_claims(contents: dict[str, str], failures: list[str]) -> None:
     combined = "\n".join(contents.values())
     for pattern in FORBIDDEN_PUBLIC_CLAIMS:
         _require(pattern.search(combined) is None, f"prohibited public claim detected: {pattern.pattern}", failures)
+
+
+def _check_bounded_claims(contents: dict[str, str], failures: list[str]) -> None:
 
     readme = " ".join(contents["README.md"].lower().split())
     whats_new = " ".join(contents.get("docs/whats-new/0.2.11.md", "").lower().split())
@@ -391,6 +425,67 @@ def _check_postpublication_record(
     )
 
 
+def _check_pypi_postpublication_record(
+    record_path: Path | None, contract_path: Path | None, version: str, tag: str,
+    release_date: str | None, failures: list[str],
+) -> None:
+    """PyPI-only receipt: schema 1, phase POST_PUBLICATION_PYPI, pypi.files exact hashes, no Zenodo fields."""
+    if record_path is None or contract_path is None:
+        failures.append("POST_PUBLICATION_PYPI requires a PyPI publication record and selected-release contract")
+        return
+    try:
+        record = json.loads(record_path.read_text(encoding="utf-8"))
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        failures.append(f"POST_PUBLICATION_PYPI evidence is unreadable: {type(exc).__name__}")
+        return
+    if not isinstance(record, dict) or not isinstance(contract, dict):
+        failures.append("POST_PUBLICATION_PYPI record and contract must be JSON objects")
+        return
+    _require(record.get("schema_version") == 1, "POST_PUBLICATION_PYPI record schema is unsupported", failures)
+    _require(record.get("status") == "PUBLICATION_VERIFIED", "POST_PUBLICATION_PYPI record is not verified", failures)
+    _require(record.get("publication_phase") == "POST_PUBLICATION_PYPI", "publication record phase is not POST_PUBLICATION_PYPI", failures)
+    _require(record.get("version") == version and record.get("tag") == tag,
+             "PyPI publication record version or tag differs from the release", failures)
+    _require(record.get("release_date") == release_date, "publication record date differs from the factual publication date", failures)
+    _require(record.get("version_doi") is None and "zenodo" not in record
+             and "github_release" not in record and "github" not in record,
+             "PyPI-only record must not claim a version DOI, GitHub Release or Zenodo publication", failures)
+    _require(contract.get("release_channels") == ["pypi"],
+             "PyPI-only contract must select exactly the pypi channel", failures)
+    source_sha = contract.get("source_sha")
+    _require(isinstance(source_sha, str) and re.fullmatch(r"[0-9a-f]{40}", source_sha) is not None
+             and contract.get("package_version") == version and contract.get("release_tag") == tag
+             and contract.get("tag_target_sha") == source_sha and record.get("source_sha") == source_sha,
+             "PyPI publication record and contract do not bind the same exact source", failures)
+    authorization = contract.get("authorization", {})
+    _require(contract.get("publication_scope") == "SELECTED_DISTRIBUTION"
+             and isinstance(authorization, dict) and authorization.get("pypi_publication_allowed") is True
+             and authorization.get("github_release_allowed") is False
+             and authorization.get("zenodo_selected_artifact_publication_allowed") is False
+             and authorization.get("whole_repository_archive_publication_allowed") is False,
+             "PyPI-only contract does not authorize PyPI publication", failures)
+    artifacts = contract.get("audited_artifacts", {})
+    if not isinstance(artifacts, dict) or not isinstance(artifacts.get("wheel"), dict) or not isinstance(artifacts.get("sdist"), dict):
+        failures.append("PyPI-only contract artifact bindings are malformed")
+        return
+    expected = {artifacts[kind].get("filename"): artifacts[kind].get("sha256") for kind in ("wheel", "sdist")}
+    if any(not isinstance(name, str) or not isinstance(digest, str)
+           or not re.fullmatch(r"[0-9a-f]{64}", digest) for name, digest in expected.items()) or len(expected) != 2:
+        failures.append("PyPI-only contract artifact bindings are malformed")
+        return
+    wheel_names = [name for name in expected if name.startswith(f"qf_solver-{version}-") and name.endswith(".whl")]
+    sdist_names = [name for name in expected if name == f"qf_solver-{version}.tar.gz"]
+    if len(wheel_names) != 1 or len(sdist_names) != 1:
+        failures.append("PyPI-only contract must bind one correctly versioned wheel and sdist")
+        return
+    pypi = record.get("pypi", {})
+    _require(isinstance(pypi, dict) and pypi.get("published") is True
+             and pypi.get("version") == version and pypi.get("install_probe") == "PASS"
+             and _artifact_hashes(pypi.get("files")) == expected,
+             "PyPI publication, install probe or exactly two selected file hashes do not match the contract", failures)
+
+
 def check_publication_metadata(
     root: Path,
     tag: str,
@@ -433,15 +528,21 @@ def check_publication_metadata(
 
     citation = contents["CITATION.cff"]
     _check_citation(citation, version, phase, version_doi, release_date, failures)
-    _check_current_publication_claims(contents, version, tag, phase, failures)
+    if phase != "POST_PUBLICATION_PYPI":
+        _check_current_publication_claims(contents, version, tag, phase, failures)
+    _check_forbidden_claims(contents, failures)
     if version == "0.2.11":
         _check_bounded_claims(contents, failures)
     if phase == "POST_PUBLICATION":
         _check_postpublication_record(
             publication_record, release_contract, version, tag, version_doi, release_date, failures
         )
+    elif phase == "POST_PUBLICATION_PYPI":
+        _check_pypi_postpublication_record(
+            publication_record, release_contract, version, tag, release_date, failures
+        )
     _require(
-        phase in {"PRE_PUBLICATION", "POST_PUBLICATION"},
+        phase in {"PRE_PUBLICATION", "POST_PUBLICATION", "POST_PUBLICATION_PYPI"},
         "publication phase is invalid",
         failures,
     )
@@ -452,7 +553,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--tag", required=True)
-    parser.add_argument("--phase", choices=("PRE_PUBLICATION", "POST_PUBLICATION"), required=True)
+    parser.add_argument("--phase", choices=("PRE_PUBLICATION", "POST_PUBLICATION", "POST_PUBLICATION_PYPI"), required=True)
     parser.add_argument("--version-doi")
     parser.add_argument("--release-date")
     parser.add_argument("--publication-record", type=Path)
