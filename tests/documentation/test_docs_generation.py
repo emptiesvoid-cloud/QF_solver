@@ -78,11 +78,12 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     )
 
     assert "The latest published QF Solver release is `0.2.11`" in readme
-    assert "This branch contains an unreleased 0.2.12 candidate" in normalized_readme
+    assert "**Main version:** QF Solver 0.2.12." in normalized_readme
+    assert "git+https://github.com/emptiesvoid-cloud/QF_solver.git@main" in readme
     assert "0.2.11 is a **candidate, not yet published**" not in readme
     assert "`0.2.8` — release candidate; not published" not in readme
     assert "source tag" in readme and "v0.2.10" in readme
-    assert "QF Solver 0.2.11 is the current documentation baseline" in normalized_roadmap
+    assert "QF Solver 0.2.12 is the current documentation baseline for `main`" in normalized_roadmap
     assert "latest published release" in normalized_roadmap
     assert "WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA" in normalized_roadmap
     assert "Version 0.2.9 was a development/source snapshot" in normalized_roadmap
@@ -141,7 +142,15 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
 )
 def test_current_public_surfaces_use_consistent_version_without_promotion(relative: str) -> None:
     content = (DOCS / relative).read_text(encoding="utf-8")
-    assert "applicable_version: 0.2.11" in content
+    main_pages = {
+        "index.md",
+        "capabilities/index.md",
+        "getting-started/installation.md",
+        "getting-started/quickstart.md",
+        "solveurs/index.md",
+    }
+    version = "0.2.12" if relative in main_pages else "0.2.11"
+    assert f"applicable_version: {version}" in content
     normalized = " ".join(content.split()).lower()
     for stale in (
         "current release:** qf solver `0.2.10`",
@@ -159,6 +168,8 @@ def test_current_public_surfaces_use_consistent_version_without_promotion(relati
         assert "0.2.12 integration candidate" in normalized
         assert "experimental_bounded" in normalized
         assert "closed_negative" in normalized and "remediation open" in normalized
+    elif relative in main_pages:
+        assert "0.2.12" in normalized and "`main`" in normalized
     else:
         assert "0.2.12" not in content
 
@@ -203,10 +214,8 @@ def test_generated_status_matches_its_template_without_running_campaign(
     publisher._status({})
     generated = (tmp_path / "docs" / "generated" / "status.md").read_text(encoding="utf-8")
     assert generated == (DOCS / "generated" / "status.md").read_text(encoding="utf-8")
-    assert '<h3>Project version</h3><span class="value">0.2.11</span>' in generated
-    assert "Candidate package metadata version" in generated
-    assert '<h3>Candidate package metadata version</h3><span class="value">0.2.12</span>' in generated
-    assert "unreleased candidate; the latest published release remains 0.2.11" in generated
+    assert '<h3>Source package version</h3><span class="value">0.2.12</span>' in generated
+    assert '<h3>Latest published release</h3><span class="value">0.2.11</span>' in generated
 
 
 def test_tetra_boundary_faces_remove_shared_face() -> None:

@@ -38,7 +38,7 @@ Issues = "https://github.com/emptiesvoid-cloud/QF_solver/issues"
 Documentation = "https://qfsolver.org/getting-started"
 DOI = "https://doi.org/10.5281/zenodo.22697897"
 Changelog = "https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHANGELOG.md"
-"Release Notes" = "https://github.com/emptiesvoid-cloud/QF_solver/blob/emptiesvoids-cloud/0.2.12/docs/whats-new/0.2.12-preparation.md"
+"Release Notes" = "https://github.com/emptiesvoid-cloud/QF_solver/blob/main/docs/whats-new/0.2.12-preparation.md"
 
 [project.optional-dependencies]
 hdf5 = [

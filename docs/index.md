@@ -2,16 +2,16 @@
 doc_id: DOC-STATE-001
 revision: 2.0
 status: controlled_candidate
-applicable_version: 0.2.11
+applicable_version: 0.2.12
 reviewer: ""
 approver: ""
 ---
 
 # QF Solver
 
-**Current release documentation:** `0.2.11`<br>
-**Published:** 2026-10-07<br>
-**Version DOI:** [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487)<br>
+**Current release documentation:** `0.2.12` (source on `main`; publication pending)<br>
+**Latest published release:** `0.2.11` (2026-10-07)<br>
+**Published 0.2.11 DOI:** [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487)<br>
 **Project concept DOI:** [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
 
 QF Solver is an inspectable Python finite-element solver for structural
@@ -50,7 +50,8 @@ See the [0.2.11 V&V summary](verification/0_2_11/README.md) and the separate
 - [Solvers and backends](solveurs/index.md), [model audits](reference/audit_detail_modes.md)
   and [public API](reference/qf_solver_api.md): calculation and inspection tools.
 
-Read [What's New in 0.2.11](whats-new/0.2.11.md) for changes in this version.
+Read [the 0.2.12 main version notes](whats-new/0.2.12-preparation.md) and
+[What's New in 0.2.11](whats-new/0.2.11.md) for the published release history.
 The historical [0.2.10 release notes](whats-new/0.2.10.md) describe the first
 public release after 0.2.8; the intervening 0.2.9 tag is a source snapshot,
 not a public package release.
