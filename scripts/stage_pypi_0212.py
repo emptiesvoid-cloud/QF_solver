@@ -16,12 +16,13 @@ from typing import Callable
 
 WHEEL_NAME = "qf_solver-0.2.12-py3-none-any.whl"
 SDIST_NAME = "qf_solver-0.2.12.tar.gz"
-CHECKSUM_NAME = "qf_solver-0.2.12-69d0718-normalized-SHA256SUMS.txt"
-WHEEL_SHA256 = "147cab65e5970dc740ebc08d6ba5f4f0f4b655a69ea4e8db5a9b8bbbf6d9dfba"
-SDIST_SHA256 = "ced24262abe4e31cd85d3c7adc0e0441f3e030513fceb0b55e82a8c97642ca6f"
-CHECKSUM_SHA256 = "ad01264dc7104a16df0db1c80de68b86c1bfa4fbf3c8d0b375c38200272639bc"
-WHEEL_BYTES = 1_709_907
-SDIST_BYTES = 1_318_330
+CHECKSUM_NAME = "qf_solver-0.2.12-f6f63eb-SHA256SUMS.txt"
+WHEEL_SHA256 = "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+SDIST_SHA256 = "1b6a980c4ecb3dce1ed5a885a69c9cc66d1efd62af85fba20bb0ed13daac1cd1"
+CHECKSUM_SHA256 = "bc20da5094e4d250dc33be7aa379e07a654e20b8ba787ad596cac9801c62c634"
+SOURCE_SHA = "f6f63eb8701e38b41aae0d735850e8cf50b07fa5"
+WHEEL_BYTES = 1_709_716
+SDIST_BYTES = 1_344_948
 MAX_ASSET_BYTES = max(WHEEL_BYTES, SDIST_BYTES)
 MAX_TOTAL_BYTES = WHEEL_BYTES + SDIST_BYTES + 190
 
@@ -124,7 +125,7 @@ def _write_selected_assets(
 
     return {
         "status": "PASS_EXACT_SELECTED_ASSETS_STAGED",
-        "source_sha": "69d0718c805ea410ce5148ca0d1d39eae12736a1",
+        "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
         "files": {
             name: {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()}
             for name, payload in files.items()

@@ -35,9 +35,9 @@ def test_workflow_freezes_tag_object_commit_and_tree_without_science_jobs() -> N
     workflow = _workflow()
     env = workflow["env"]
     assert env["SOURCE_TAG"] == "v0.2.12"
-    assert env["SOURCE_TAG_OBJECT"] == "7cf30876045d41af2e9f9fdf15034ff3dc3dcef5"
-    assert env["SOURCE_SHA"] == "69d0718c805ea410ce5148ca0d1d39eae12736a1"
-    assert env["SOURCE_TREE"] == "50cd5d2fd700a8d52485649f71181cdcd76bc722"
+    assert env["SOURCE_TAG_OBJECT"] == "dbf8314b861ac7f3a963d6036080e7a96ca4b17e"
+    assert env["SOURCE_SHA"] == "f6f63eb8701e38b41aae0d735850e8cf50b07fa5"
+    assert env["SOURCE_TREE"] == "aba6002504ce881abd9c0aed1fdb27a289e3dafd"
 
     jobs = workflow["jobs"]
     assert set(jobs) == {"identity-preflight", "preflight-receipt"}

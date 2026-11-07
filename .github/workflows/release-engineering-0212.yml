@@ -14,9 +14,9 @@ concurrency:
 
 env:
   SOURCE_TAG: v0.2.12
-  SOURCE_TAG_OBJECT: 7cf30876045d41af2e9f9fdf15034ff3dc3dcef5
-  SOURCE_SHA: 69d0718c805ea410ce5148ca0d1d39eae12736a1
-  SOURCE_TREE: 50cd5d2fd700a8d52485649f71181cdcd76bc722
+  SOURCE_TAG_OBJECT: dbf8314b861ac7f3a963d6036080e7a96ca4b17e
+  SOURCE_SHA: f6f63eb8701e38b41aae0d735850e8cf50b07fa5
+  SOURCE_TREE: aba6002504ce881abd9c0aed1fdb27a289e3dafd
   GOVERNANCE_REF: refs/heads/emptiesvoids-cloud/qf0212-pypi-qualification
 
 jobs:
