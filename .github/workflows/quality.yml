@@ -162,11 +162,16 @@ jobs:
           git fetch --no-tags origin 70e1bf953c8e6f37b8070e78ca97e58b21499291
           git cat-file -e 70e1bf953c8e6f37b8070e78ca97e58b21499291^{commit}
           git cat-file -e 70e1bf953c8e6f37b8070e78ca97e58b21499291:src/solveur/core/analyses/geometric_nonlinear.py
-      - name: Restore verified WP14 recovered evidence
-        uses: actions/download-artifact@v4
-        with:
-          name: wp14-r23-recovered-evidence
-          path: ${{ runner.temp }}/qf_solver_evidence_archive
+      - name: Download and verify recovered evidence archive
+        run: |
+          archive="$RUNNER_TEMP/wp14-r23-engineering-source-evidence.zip"
+          curl --fail --location --retry 3 \
+            "https://drive.google.com/uc?export=download&id=1ly_pVCeeyW7MfsHxgBKjL3DM0UeHawv9" \
+            --output "$archive"
+          python scripts/prepare_wp14_recovered_evidence.py \
+            --archive "$archive" \
+            --archive-root "$RUNNER_TEMP/qf_solver_evidence_archive"
+          echo "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT=$RUNNER_TEMP/qf_solver_evidence_archive" >> "$GITHUB_ENV"
       - name: Full MITC4 benchmarks
         run: python qf_solver.py verify
       - name: Engineering profile
@@ -227,13 +232,6 @@ jobs:
           tests/verification/test_wp04_f_final_closure.py::test_original_failure_and_wp04b_metrics_are_preserved
           tests/verification/test_wp04_f_final_closure.py::test_final_all_or_nothing_governance_decision
           tests/verification/test_wp09_tet4_consistent_traction_study.py::test_frozen_study_contract_binds_runner_and_preserves_history
-      - name: Upload verified recovered evidence for the full engineering job
-        uses: actions/upload-artifact@v4
-        with:
-          name: wp14-r23-recovered-evidence
-          path: ${{ runner.temp }}/qf_solver_evidence_archive
-          if-no-files-found: error
-          retention-days: 3
 
   documentation-evidence:
     name: Documentation evidence / ubuntu-latest

@@ -9,6 +9,7 @@ from pathlib import Path
 
 import pytest
 
+from scripts import verify_authorized_release_artifacts as release_verifier, verify_release_engineering_0212
 from scripts.verify_authorized_release_artifacts import (
     _validate_candidate_audit,
     validate_owner_artifact_scope,
@@ -375,6 +376,116 @@ def test_pypi_only_candidate_audit_requires_exact_annotated_tag_before_ci_gate(t
     source, head, contract, _ = _candidate_audit_repo(malformed, candidate_value=[])
     with pytest.raises(ValueError, match="candidate audit record is malformed"):
         _validate_candidate_audit(malformed, head, source, contract)
+
+
+def test_tagged_engineering_ci_requires_matching_lineage_and_authenticated_artifact(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    source, _, contract, _ = _candidate_audit_repo(root)
+    workflow = root / ".github/workflows/release-engineering-0212.yml"
+    workflow.parent.mkdir(parents=True)
+    workflow.write_bytes(b"name: test workflow\n")
+    _git(root, "add", workflow.relative_to(root).as_posix())
+    _git(root, "commit", "-m", "engineering workflow")
+    workflow_sha = _git(root, "rev-parse", "HEAD")
+    evidence = {
+        "workflow_sha": workflow_sha,
+        "workflow_sha256": _sha(workflow.read_bytes()),
+        "scope_manifest_sha256": _sha(b"approved scope"),
+        "run_id": 11,
+        "run_attempt": 1,
+        "artifact_id": 12,
+        "artifact_sha256": _sha(b"approved archive"),
+    }
+    contract["tagged_engineering_ci"] = evidence
+    calls = []
+    responses = {
+        "actions/runs/11": b"{}",
+        "actions/runs/11/attempts/1/jobs?per_page=100": b'{"total_count": 0, "jobs": []}',
+        "actions/artifacts/12": b'{"id": 12, "size_in_bytes": 16}',
+        "actions/artifacts/12/zip": b"different archive",
+    }
+
+    def fetch(endpoint: str) -> bytes:
+        calls.append(endpoint)
+        return responses[endpoint]
+
+    monkeypatch.setattr(release_verifier, "_github_release_evidence", fetch)
+    validate = release_verifier._validate_tagged_engineering_ci
+    with pytest.raises(ValueError, match="must bind the same tagged engineering run"):
+        validate(root, workflow_sha, source, contract, {})
+    with pytest.raises(ValueError, match="must belong to the release lineage"):
+        validate(root, source, source, contract, {"tagged_engineering_ci": evidence})
+    assert calls == []
+    with pytest.raises(ValueError, match="differs from the exact authorized bytes"):
+        validate(root, workflow_sha, source, contract, {"tagged_engineering_ci": evidence})
+    assert calls == list(responses)
+
+    checked = {}
+
+    def verify_attestation(**kwargs):
+        checked.update(kwargs)
+
+    monkeypatch.setattr(verify_release_engineering_0212, "validate_release_engineering_attestation", verify_attestation)
+    responses["actions/artifacts/12/zip"] = b"approved archive"
+    validate(root, workflow_sha, source, contract, {"tagged_engineering_ci": evidence})
+    assert checked["expected_workflow_sha"] == workflow_sha
+    assert checked["expected_source_sha"] == source
+    assert checked["expected_source_tree_sha"] == _git(root, "rev-parse", f"{source}^{{tree}}")
+    assert checked["expected_scope_manifest_sha256"] == evidence["scope_manifest_sha256"]
+    assert checked["artifact_bytes"] == b"approved archive"
+
+
+def test_pypi_staging_transport_rejects_wrong_run_job_and_artifact(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    source, _, contract, _ = _candidate_audit_repo(root)
+    workflow_path = ".github/workflows/stage-pypi-0212.yml"
+    workflow = root / workflow_path
+    workflow.parent.mkdir(parents=True)
+    workflow.write_bytes(b"name: stage\n")
+    helper = root / "scripts/stage_pypi_0212.py"
+    helper.parent.mkdir()
+    helper.write_bytes(b"# staging helper\n")
+    _git(root, "add", workflow_path, helper.relative_to(root).as_posix())
+    _git(root, "commit", "-m", "staging workflow")
+    head = _git(root, "rev-parse", "HEAD")
+    repository = {"id": 1329797607}
+    contract.update(source_sha=source, pypi_artifact_source={"run_id": 11, "artifact_id": 12})
+    run = {
+        "id": 11, "run_attempt": 1, "head_sha": head, "event": "workflow_dispatch", "path": workflow_path,
+        "head_branch": "main", "status": "completed", "conclusion": "success",
+        "repository": repository, "head_repository": repository,
+    }
+    job = {"name": "Stage exact selected PyPI inputs", "run_id": 11, "status": "completed", "conclusion": "success"}
+    artifact = {
+        "id": 12, "name": "qf0212-selected-pypi-inputs", "expired": False, "size_in_bytes": 3000000,
+        "digest": "sha256:" + "f" * 64,
+        "workflow_run": {"id": 11, "repository_id": repository["id"], "head_repository_id": repository["id"],
+                         "head_branch": "main", "head_sha": head},
+    }
+    responses = {
+        "actions/runs/11": run,
+        "actions/runs/11/attempts/1/jobs?per_page=100": {"total_count": 1, "jobs": [job]},
+        "actions/artifacts/12": artifact,
+    }
+    monkeypatch.setattr(release_verifier, "_github_release_evidence", lambda endpoint: json.dumps(responses[endpoint]))
+    validate = release_verifier.validate_pypi_staging_transport
+    validate(root, head, contract)
+    for record, key, value, message in (
+        (run, "run_attempt", 2, "release lineage"),
+        (run, "head_sha", source, "release lineage"),
+        (job, "conclusion", "skipped", "job did not succeed"),
+        (artifact, "expired", True, "missing, expired or from another run"),
+        (artifact, "size_in_bytes", 5 * 1024 * 1024, "missing, expired or from another run"),
+        (artifact["workflow_run"], "id", 999, "missing, expired or from another run"),
+    ):
+        original, record[key] = record[key], value
+        with pytest.raises(ValueError, match=message):
+            validate(root, head, contract)
+        record[key] = original
 
 
 def test_0211_owner_contract_requires_matching_scope_gates_and_prepublication_state(tmp_path: Path) -> None:

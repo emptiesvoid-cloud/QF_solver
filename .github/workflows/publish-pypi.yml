@@ -234,6 +234,22 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements/baseline-standard.txt
           python -m pip install twine
+      - name: Verify selected staging run and artifact provenance
+        if: needs.preflight.outputs.asset_transport == 'actions'
+        env:
+          CONTRACT_PATH: ${{ inputs.contract_path }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          from scripts.verify_authorized_release_artifacts import validate_pypi_staging_transport
+
+          root = Path.cwd()
+          contract = json.loads((root / os.environ["CONTRACT_PATH"]).read_bytes())
+          validate_pypi_staging_transport(root, os.environ["GITHUB_SHA"], contract)
+          PY
       - name: Download the bound selected-distribution artifact
         if: needs.preflight.outputs.asset_transport == 'actions'
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
@@ -266,6 +282,7 @@ jobs:
         env:
           CONTRACT_PATH: ${{ inputs.contract_path }}
           RELEASE_TAG: ${{ inputs.release_tag }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           SOURCE_CONTRACT_PATH="$(python -c 'import json, os; print(json.load(open(os.environ["CONTRACT_PATH"], encoding="utf-8"))["source_contract"]["path"])')"
           python scripts/verify_authorized_release_artifacts.py \

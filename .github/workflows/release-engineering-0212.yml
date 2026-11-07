@@ -1,0 +1,128 @@
+name: QF Solver 0.2.12 engineering source preflight
+
+# Identity-only preflight. This workflow intentionally contains no scientific
+# commands and cannot be used to authorize or execute the extended campaigns.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-engineering-0212-preflight-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  SOURCE_TAG: v0.2.12
+  SOURCE_TAG_OBJECT: 7cf30876045d41af2e9f9fdf15034ff3dc3dcef5
+  SOURCE_SHA: 69d0718c805ea410ce5148ca0d1d39eae12736a1
+  SOURCE_TREE: 50cd5d2fd700a8d52485649f71181cdcd76bc722
+  GOVERNANCE_REF: refs/heads/emptiesvoids-cloud/qf0212-pypi-qualification
+
+jobs:
+  identity-preflight:
+    name: identity-preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      workflow_sha: ${{ steps.verify.outputs.workflow_sha }}
+      workflow_file_sha256: ${{ steps.verify.outputs.workflow_file_sha256 }}
+      source_sha: ${{ steps.verify.outputs.source_sha }}
+      source_tree: ${{ steps.verify.outputs.source_tree }}
+      tag_object_sha: ${{ steps.verify.outputs.tag_object_sha }}
+    steps:
+      - name: Check out governance commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Verify governance and immutable tag identities
+        id: verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_EVENT_NAME" = "workflow_dispatch"
+          test "$GITHUB_REF" = "$GOVERNANCE_REF"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git cat-file -t "refs/tags/$SOURCE_TAG")" = "tag"
+          test "$(git rev-parse "refs/tags/$SOURCE_TAG")" = "$SOURCE_TAG_OBJECT"
+          test "$(git rev-parse "refs/tags/$SOURCE_TAG^{commit}")" = "$SOURCE_SHA"
+          test "$(git rev-parse "$SOURCE_SHA^{tree}")" = "$SOURCE_TREE"
+          workflow_file_sha256="$(sha256sum .github/workflows/release-engineering-0212.yml | cut -d' ' -f1)"
+          printf 'workflow_sha=%s\n' "$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+          printf 'workflow_file_sha256=%s\n' "$workflow_file_sha256" >> "$GITHUB_OUTPUT"
+          printf 'source_sha=%s\n' "$SOURCE_SHA" >> "$GITHUB_OUTPUT"
+          printf 'source_tree=%s\n' "$SOURCE_TREE" >> "$GITHUB_OUTPUT"
+          printf 'tag_object_sha=%s\n' "$SOURCE_TAG_OBJECT" >> "$GITHUB_OUTPUT"
+          echo "governance_sha=$GITHUB_SHA"
+          echo "workflow_file_sha256=$workflow_file_sha256"
+          echo "source_tag=$SOURCE_TAG"
+          echo "source_tag_object=$SOURCE_TAG_OBJECT"
+          echo "source_commit=$SOURCE_SHA"
+          echo "source_tree=$SOURCE_TREE"
+          echo "result=IDENTITY_PREFLIGHT_ONLY_NO_SCIENTIFIC_VALIDATION"
+
+  preflight-receipt:
+    name: preflight-receipt
+    if: always()
+    needs: identity-preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Write metadata-only identity receipt
+        env:
+          WORKFLOW_SHA: ${{ needs.identity-preflight.outputs.workflow_sha }}
+          WORKFLOW_FILE_SHA256: ${{ needs.identity-preflight.outputs.workflow_file_sha256 }}
+          SOURCE_SHA: ${{ needs.identity-preflight.outputs.source_sha }}
+          SOURCE_TREE: ${{ needs.identity-preflight.outputs.source_tree }}
+          TAG_OBJECT_SHA: ${{ needs.identity-preflight.outputs.tag_object_sha }}
+          PREFLIGHT_RESULT: ${{ needs.identity-preflight.result }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/qf0212-preflight"
+          python - "$RUNNER_TEMP/qf0212-preflight/release_engineering_0212_preflight.json" <<'PY'
+          import json
+          import os
+          import sys
+
+          payload = {
+              "schema_version": 1,
+              "kind": "identity_preflight_only",
+              "scientific_validation_performed": False,
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "workflow_path": ".github/workflows/release-engineering-0212.yml",
+              "workflow_sha": os.getenv("WORKFLOW_SHA") or os.environ["GITHUB_SHA"],
+              "workflow_file_sha256": os.getenv("WORKFLOW_FILE_SHA256") or None,
+              "run_id": int(os.environ["GITHUB_RUN_ID"]),
+              "run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+              "event": os.environ["GITHUB_EVENT_NAME"],
+              "ref": os.environ["GITHUB_REF"],
+              "preflight_job_result": os.environ["PREFLIGHT_RESULT"],
+              "source": {
+                  "tag": os.environ["SOURCE_TAG"],
+                  "tag_object_sha": os.getenv("TAG_OBJECT_SHA") or None,
+                  "source_sha": os.getenv("SOURCE_SHA") or None,
+                  "source_tree_sha": os.getenv("SOURCE_TREE") or None,
+              },
+              "limitations": [
+                  "This workflow verifies source identities only; it performs no tests or scientific validation.",
+                  "The governance workflow SHA and tagged source SHA are separate identities.",
+                  "A successful preflight receipt is not a release or scientific PASS.",
+                  "The full engineering, WP14, benchmark, and documentation-evidence jobs require a separate exact Owner-approved workflow and scope.",
+              ],
+          }
+          with open(sys.argv[1], "w", encoding="utf-8", newline="\n") as stream:
+              json.dump(payload, stream, indent=2, sort_keys=True)
+              stream.write("\n")
+          PY
+
+      - name: Upload metadata-only preflight receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-engineering-0212-preflight-${{ github.run_id }}-attempt-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/qf0212-preflight/release_engineering_0212_preflight.json
+          if-no-files-found: error
+          retention-days: 7

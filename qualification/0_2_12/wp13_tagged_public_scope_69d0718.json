@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_CANDIDATE_BUILD",
+  "package_version": "0.2.12",
+  "source_sha": "69d0718c805ea410ce5148ca0d1d39eae12736a1",
+  "source_date_epoch": 1793996998,
+  "selection": {
+    "include_exact": [
+      "CHANGELOG.md",
+      "CITATION.cff",
+      "LICENSE",
+      "LICENSE-DOCS",
+      "MANIFEST.in",
+      "NOTICE",
+      "README.md",
+      "THIRD_PARTY_LICENSES.md",
+      "pyproject.toml",
+      "qualification/benchmarks.json",
+      "qualification/campaign.json",
+      "qualification/demonstrations.json",
+      "qualification/element_analysis_matrix.json",
+      "qualification/formulas.json",
+      "qualification/requirements.json",
+      "qualification/release_vv_0_2_1.json",
+      "qualification/technical_content_coverage.json",
+      "qualification/0_2_7/capability_registry_v2.json",
+      "qualification/0_2_8/consolidated_registry.json",
+      "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",
+      "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+      "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+      "qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json",
+      "qualification/0_2_8/wp13_05_inp_import_capability_record.json",
+      "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json",
+      "qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json",
+      "qualification/0_2_8/wp13_07d_contact_capability_record.json",
+      "requirements/baseline-standard.txt",
+      "requirements/baseline-large-linux.txt"
+    ],
+    "include_prefixes": [
+      "examples/",
+      "src/qf_solver/",
+      "src/solveur/"
+    ],
+    "exclude_exact": [
+      "examples/README.md",
+      "src/solveur/verification/j2_multifamily_performance.py"
+    ],
+    "forbid_prefixes": [
+      "qualification/0_2_9/",
+      "docs/",
+      "scripts/",
+      "tests/"
+    ]
+  },
+  "tool_bindings": {
+    "scripts/audit_public_release.py": "dde179e41447904e5db56c79083b0b3ed0216884d88f181996cc1189a759f948",
+    "scripts/audit_release_archive.py": "f813fe3950dccf52dc8628a6c280564ae18a91a9aa4fc8503b1bd96fb7c48fbb",
+    "scripts/git_tools.py": "9192aef8e8610ee4f651cac11a18af189678f561d9c85c20c64c77be47a287fa",
+    "scripts/plan_public_package.py": "d1a734cb4a11d53abfa102507f531f9369bc70797adf23075dd5b03c10f8e1f8",
+    "scripts/probe_installed_package.py": "46576afa82a8285730c4afc67e41fd58f5a8deb753f054f5a35cc0442eb18675",
+    "scripts/review_vocabulary.py": "28af00eab2a09fdcb94bf3c4682230dcaaca9b519aeb0867d96b67d4589ad3aa",
+    "scripts/verify_public_package.py": "7e25532f5a8c2c80b0a8ab711c235fc45a34eb6219efdef0386543d00f1bc86c"
+  },
+  "package_build_allowed": true,
+  "publication_allowed": false,
+  "structural_solves_allowed": false,
+  "numeric_threshold_changes_allowed": false,
+  "whole_repository_gate_waivers_allowed": false,
+  "contract_id": "QF-0212-TAGGED-SELECTED-PUBLIC-SCOPE-69D0718",
+  "purpose": "Bind the prospective selected-source and documentation scan to the existing tag and historical package selection.",
+  "historical_build_contract": {
+    "path": "qualification/0_2_12/wp13_selected_distribution_frozen_build_69d0718_20261106.json",
+    "commit_sha": "f810597271b7be3cc78f17242796874e62dbf283",
+    "sha256": "efb907b9a145d561ae7243aeb3fb898b65821218fa9109366208fc3144c972fc"
+  },
+  "tag_identity": {
+    "name": "v0.2.12",
+    "tag_object_sha": "7cf30876045d41af2e9f9fdf15034ff3dc3dcef5"
+  },
+  "documentation_selection": {
+    "include_prefixes": [
+      "docs/"
+    ],
+    "exclude_prefixes": [
+      "docs/verification/0_2_9/",
+      "docs/ai/",
+      "docs/development/",
+      "docs/qualification/"
+    ],
+    "suffixes": [
+      ".cff",
+      ".cfg",
+      ".csv",
+      ".htm",
+      ".html",
+      ".ini",
+      ".json",
+      ".md",
+      ".pdf",
+      ".ps1",
+      ".py",
+      ".rst",
+      ".sh",
+      ".tex",
+      ".toml",
+      ".txt",
+      ".xml",
+      ".yaml",
+      ".yml"
+    ]
+  },
+  "documentation_publication_policy": {
+    "config_path": ".github/pages/mkdocs.yml",
+    "config_sha256": "8ef5e9d955c639442ff8ca10440e15a8795adb354479718a8a06b6048845590f",
+    "excluded_source_prefix": "docs/verification/0_2_9/",
+    "mkdocs_exclude_pattern": "verification/0_2_9/**"
+  },
+  "scope_scan_tool_sha256": "fa2a39d03b2f14bfcbbaf725c7c9f25fe84b117a2824f3355765c0fa8c26d616",
+  "limitations": [
+    "The scan includes the two individually excluded MkDocs pages conservatively because the scanner only excludes directory prefixes.",
+    "This contract does not replace the historical build contract, qualify any binary or authorize publication."
+  ]
+}

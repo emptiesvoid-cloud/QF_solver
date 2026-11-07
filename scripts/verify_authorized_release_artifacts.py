@@ -88,6 +88,165 @@ def _check_tool_bindings(root: Path, commit: str, bindings: Any) -> None:
             raise ValueError(f"Release tool binding mismatch: {relative}")
 
 
+def _github_release_evidence(endpoint: str) -> bytes:
+    result = subprocess.run(
+        ["gh", "api", "--hostname", "github.com", f"repos/emptiesvoid-cloud/QF_solver/{endpoint}"],
+        check=False,
+        capture_output=True,
+        timeout=45,
+    )
+    if result.returncode != 0:
+        raise ValueError("Could not read the exact release evidence from the GitHub API.")
+    return result.stdout
+
+
+def validate_pypi_staging_transport(root: Path, head: str, contract: dict[str, Any]) -> None:
+    """Verify the v0.2.12 Actions transport before downloading the package ZIP."""
+    if contract.get("package_version") != "0.2.12":
+        return
+    source = contract.get("pypi_artifact_source")
+    if (
+        contract.get("release_channels") != ["pypi"]
+        or not isinstance(source, dict)
+        or set(source) != {"run_id", "artifact_id"}
+        or any(type(value) is not int or not 1 <= value < 2**53 for value in source.values())
+    ):
+        raise ValueError("Bind one exact Actions staging run and artifact for the v0.2.12 PyPI-only release.")
+
+    run_id, artifact_id = source["run_id"], source["artifact_id"]
+    workflow_path = ".github/workflows/stage-pypi-0212.yml"
+    repository_id = 1329797607
+    run = json.loads(_github_release_evidence(f"actions/runs/{run_id}"))
+    workflow_sha = run.get("head_sha")
+    branch = run.get("head_branch")
+    source_sha = contract.get("source_sha")
+    if (
+        run.get("id") != run_id
+        or run.get("run_attempt") != 1
+        or run.get("event") != "workflow_dispatch"
+        or run.get("path") != workflow_path
+        or run.get("status") != "completed"
+        or run.get("conclusion") != "success"
+        or branch != "main"
+        or (run.get("repository") or {}).get("id") != repository_id
+        or (run.get("head_repository") or {}).get("id") != repository_id
+        or not isinstance(source_sha, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", source_sha)
+        or not isinstance(workflow_sha, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", workflow_sha)
+        or workflow_sha == source_sha
+        or git_run(["merge-base", "--is-ancestor", source_sha, workflow_sha], cwd=root).returncode
+        or git_run(["merge-base", "--is-ancestor", workflow_sha, head], cwd=root).returncode
+    ):
+        raise ValueError("The selected staging run is outside the exact successful release lineage.")
+    for path in (workflow_path, "scripts/stage_pypi_0212.py"):
+        staged = git_run(["show", f"{workflow_sha}:{path}"], cwd=root)
+        current = _committed_bytes(root, head, path)
+        if staged.returncode != 0 or staged.stdout != current:
+            raise ValueError("The selected staging run used different staging tool bytes.")
+
+    jobs = json.loads(_github_release_evidence(f"actions/runs/{run_id}/attempts/1/jobs?per_page=100"))
+    stage_jobs = jobs.get("jobs")
+    if not isinstance(stage_jobs, list) or jobs.get("total_count") != 1 or len(stage_jobs) != 1:
+        raise ValueError("The selected staging run must contain exactly one bounded staging job.")
+    stage_job = stage_jobs[0]
+    if (
+        stage_job.get("name") != "Stage exact selected PyPI inputs"
+        or stage_job.get("run_id") != run_id
+        or stage_job.get("status") != "completed"
+        or stage_job.get("conclusion") != "success"
+    ):
+        raise ValueError("The exact selected staging job did not succeed.")
+
+    artifact = json.loads(_github_release_evidence(f"actions/artifacts/{artifact_id}"))
+    if (
+        artifact.get("id") != artifact_id
+        or artifact.get("name") != "qf0212-selected-pypi-inputs"
+        or artifact.get("expired") is not False
+        or type(artifact.get("size_in_bytes")) is not int
+        or not 0 < artifact["size_in_bytes"] <= 4 * 1024 * 1024
+        or not isinstance(artifact.get("digest"), str)
+        or not re.fullmatch(r"sha256:[0-9a-f]{64}", artifact["digest"])
+        or artifact.get("workflow_run") != {
+            "id": run_id, "repository_id": repository_id, "head_repository_id": repository_id,
+            "head_branch": branch, "head_sha": workflow_sha,
+        }
+    ):
+        raise ValueError("The exact selected staging artifact is missing, expired or from another run.")
+
+
+def _validate_tagged_engineering_ci(
+    root: Path, head: str, source_sha: str, contract: dict[str, Any], ci: dict[str, Any],
+) -> None:
+    if __package__:
+        from scripts.verify_release_engineering_0212 import validate_release_engineering_attestation
+    else:
+        from verify_release_engineering_0212 import validate_release_engineering_attestation
+
+    evidence = contract.get("tagged_engineering_ci")
+    keys = {
+        "workflow_sha", "workflow_sha256", "scope_manifest_sha256",
+        "run_id", "run_attempt", "artifact_id", "artifact_sha256",
+    }
+    if not isinstance(evidence, dict) or set(evidence) != keys or evidence != ci.get("tagged_engineering_ci"):
+        raise ValueError("The candidate audit and release contract must bind the same tagged engineering run.")
+    workflow_sha = evidence["workflow_sha"]
+    if (
+        not isinstance(workflow_sha, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", workflow_sha)
+        or workflow_sha == source_sha
+        or git_run(["merge-base", "--is-ancestor", source_sha, workflow_sha], cwd=root).returncode
+        or git_run(["merge-base", "--is-ancestor", workflow_sha, head], cwd=root).returncode
+    ):
+        raise ValueError("The exact tagged engineering workflow commit must belong to the release lineage.")
+    _check_tool_bindings(root, workflow_sha, {
+        ".github/workflows/release-engineering-0212.yml": evidence["workflow_sha256"],
+    })
+    run_id, attempt, artifact_id = (evidence[key] for key in ("run_id", "run_attempt", "artifact_id"))
+    if (
+        any(type(value) is not int or not 1 <= value < 2**53 for value in (run_id, attempt, artifact_id))
+        or attempt != 1
+        or any(
+            not isinstance(evidence[key], str) or not re.fullmatch(r"[0-9a-f]{64}", evidence[key])
+            for key in ("artifact_sha256", "scope_manifest_sha256")
+        )
+    ):
+        raise ValueError("The tagged engineering run, first attempt or artifact binding is invalid.")
+    run = json.loads(_github_release_evidence(f"actions/runs/{run_id}"))
+    jobs = json.loads(_github_release_evidence(f"actions/runs/{run_id}/attempts/{attempt}/jobs?per_page=100"))
+    artifact = json.loads(_github_release_evidence(f"actions/artifacts/{artifact_id}"))
+    if (
+        not isinstance(artifact, dict)
+        or artifact.get("id") != artifact_id
+        or type(artifact.get("size_in_bytes")) is not int
+        or not 0 < artifact["size_in_bytes"] <= 65536
+    ):
+        raise ValueError("The GitHub engineering artifact identity or size differs from its allowed binding.")
+    if (
+        not isinstance(jobs, dict)
+        or not isinstance(jobs.get("jobs"), list)
+        or jobs.get("total_count") != len(jobs["jobs"])
+    ):
+        raise ValueError("The GitHub engineering job list is incomplete.")
+    archive = _github_release_evidence(f"actions/artifacts/{artifact_id}/zip")
+    if hashlib.sha256(archive).hexdigest() != evidence["artifact_sha256"]:
+        raise ValueError("The GitHub engineering artifact differs from the exact authorized bytes.")
+    tree = git_run(["rev-parse", f"{source_sha}^{{tree}}"], cwd=root, check=True, text=True).stdout.strip()
+    validate_release_engineering_attestation(
+        expected_workflow_sha=workflow_sha,
+        expected_run_id=run_id,
+        expected_run_attempt=attempt,
+        expected_source_sha=source_sha,
+        expected_source_tree_sha=tree,
+        expected_tag_object_sha=contract["tag_object_sha"],
+        expected_scope_manifest_sha256=evidence["scope_manifest_sha256"],
+        github_run=run,
+        github_jobs=jobs["jobs"],
+        artifact_api_record=artifact,
+        artifact_bytes=archive,
+    )
+
+
 def _validate_candidate_audit(
     root: Path, head: str, source_sha: str, contract: dict[str, Any],
 ) -> None:
@@ -177,6 +336,10 @@ def _validate_candidate_audit(
         ))
     ):
         raise ValueError("The candidate audit does not contain successful exact-source Quality and Documentation CI.")
+    if contract.get("package_version") == "0.2.12":
+        if not pypi_only:
+            raise ValueError("The v0.2.12 workflow requires an explicitly bounded PyPI-only contract.")
+        _validate_tagged_engineering_ci(root, head, source_sha, contract, ci)
 
     built = audit.get("build_and_artifacts", {})
     if not isinstance(built, dict):
@@ -616,6 +779,11 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
         raise ValueError("The contract does not identify the exact prospective Owner authorization.")
     _validate_superseded_owner_record(root, head, owner_record, release_contract)
     validate_owner_artifact_scope(release_contract, owner_record)
+    if release_contract.get("package_version") == "0.2.12" and (
+        owner_record.get("tagged_engineering_ci") != release_contract.get("tagged_engineering_ci")
+        or owner_record.get("pypi_artifact_source") != release_contract.get("pypi_artifact_source")
+    ):
+        raise ValueError("The Owner record must bind the same engineering evidence and PyPI artifact transport.")
     _validate_candidate_audit(root, head, source_sha, release_contract)
     resolution = release_contract.get("authorization_resolution", {})
     resolution_hashes = {
