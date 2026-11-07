@@ -583,7 +583,8 @@ This README documents QF Solver `0.2.12`. Use the project concept DOI
 QF Solver across versions, and consult [`CITATION.cff`](CITATION.cff) for
 citation details. A version-specific DOI for 0.2.12 has not been assigned.
 The earlier 0.2.11 release has DOI
-[`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
+[`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487), and
+0.2.10 has DOI [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744).
 GitHub's automatically generated source archives are distinct from the
 selected wheel and sdist distribution.
 The whole-repository G03 archive gate remains **FAIL**, the full repository
