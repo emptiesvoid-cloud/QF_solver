@@ -183,8 +183,9 @@ def test_candidate_metadata_stays_unpublished_while_public_docs_name_latest_rele
     assert citation.get("doi") is None
     assert citation.get("date-released") is None
     assert "## 0.2.12 — Preparation (unreleased)" in changelog
-    assert "The latest published QF Solver release is `0.2.11`" in readme
-    assert "The version on `main` is `0.2.12`, pending publication." in readme
+    assert "This source describes QF Solver 0.2.12." in readme
+    assert "when that version is available" in readme
+    assert "qf-solver==0.2.12" in readme
 
 
 def test_prepublication_rejects_a_doi_or_date_claim(tmp_path: Path) -> None:
