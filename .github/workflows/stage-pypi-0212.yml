@@ -1,0 +1,85 @@
+name: Stage exact selected PyPI inputs
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_exact_assets:
+        description: Stage only the SHA-verified v0.2.12 wheel, sdist and checksum manifest
+        type: boolean
+        required: true
+        default: false
+      expected_workflow_sha:
+        description: Exact main commit whose staging workflow has been reviewed
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qf0212-selected-pypi-inputs
+  cancel-in-progress: false
+
+jobs:
+  stage:
+    name: Stage exact selected PyPI inputs
+    if: ${{ inputs.confirm_exact_assets == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: qf0212-pypi-staging
+    steps:
+      - name: Check out the governed main commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          fetch-tags: true
+          persist-credentials: false
+
+      - name: Verify the tag, source and staging workflow context
+        shell: bash
+        env:
+          EXPECTED_REPOSITORY: emptiesvoid-cloud/QF_solver
+          EXPECTED_SOURCE_TAG_OBJECT: 7cf30876045d41af2e9f9fdf15034ff3dc3dcef5
+          EXPECTED_SOURCE_SHA: 69d0718c805ea410ce5148ca0d1d39eae12736a1
+          EXPECTED_SOURCE_TREE: 50cd5d2fd700a8d52485649f71181cdcd76bc722
+          EXPECTED_WORKFLOW_SHA: ${{ inputs.expected_workflow_sha }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = "$EXPECTED_REPOSITORY"
+          test "$GITHUB_EVENT_NAME" = "workflow_dispatch"
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          test "$GITHUB_SHA" = "$EXPECTED_WORKFLOW_SHA"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git cat-file -t refs/tags/v0.2.12)" = tag
+          test "$(git rev-parse refs/tags/v0.2.12)" = "$EXPECTED_SOURCE_TAG_OBJECT"
+          test "$(git rev-parse 'refs/tags/v0.2.12^{commit}')" = "$EXPECTED_SOURCE_SHA"
+          test "$(git rev-parse "$EXPECTED_SOURCE_SHA^{tree}")" = "$EXPECTED_SOURCE_TREE"
+          git merge-base --is-ancestor "$EXPECTED_SOURCE_SHA" "$GITHUB_SHA"
+
+      - name: Fetch and verify the exact selected assets
+        env:
+          QF0212_PYPI_WHEEL_URL: ${{ secrets.QF0212_PYPI_WHEEL_URL }}
+          QF0212_PYPI_SDIST_URL: ${{ secrets.QF0212_PYPI_SDIST_URL }}
+          EXPECTED_WORKFLOW_SHA: ${{ inputs.expected_workflow_sha }}
+        run: |
+          set -euo pipefail
+          python scripts/stage_pypi_0212.py \
+            --expected-workflow-sha "$EXPECTED_WORKFLOW_SHA" \
+            --confirm-stage-exact-assets \
+            --output "$RUNNER_TEMP/qf0212-selected-pypi-inputs"
+          test "$(find "$RUNNER_TEMP/qf0212-selected-pypi-inputs" -maxdepth 1 -type f | wc -l)" -eq 3
+          test "$(du -sb "$RUNNER_TEMP/qf0212-selected-pypi-inputs" | cut -f1)" -le 4194304
+
+      - name: Upload only the three verified selected files
+        uses: actions/upload-artifact@v4
+        with:
+          name: qf0212-selected-pypi-inputs
+          path: |
+            ${{ runner.temp }}/qf0212-selected-pypi-inputs/qf_solver-0.2.12-py3-none-any.whl
+            ${{ runner.temp }}/qf0212-selected-pypi-inputs/qf_solver-0.2.12.tar.gz
+            ${{ runner.temp }}/qf0212-selected-pypi-inputs/qf_solver-0.2.12-69d0718-normalized-SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 3

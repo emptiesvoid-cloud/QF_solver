@@ -437,6 +437,57 @@ def test_tagged_engineering_ci_requires_matching_lineage_and_authenticated_artif
     assert checked["artifact_bytes"] == b"approved archive"
 
 
+def test_pypi_staging_transport_rejects_wrong_run_job_and_artifact(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    source, _, contract, _ = _candidate_audit_repo(root)
+    workflow_path = ".github/workflows/stage-pypi-0212.yml"
+    workflow = root / workflow_path
+    workflow.parent.mkdir(parents=True)
+    workflow.write_bytes(b"name: stage\n")
+    helper = root / "scripts/stage_pypi_0212.py"
+    helper.parent.mkdir()
+    helper.write_bytes(b"# staging helper\n")
+    _git(root, "add", workflow_path, helper.relative_to(root).as_posix())
+    _git(root, "commit", "-m", "staging workflow")
+    head = _git(root, "rev-parse", "HEAD")
+    repository = {"id": 1329797607}
+    contract.update(source_sha=source, pypi_artifact_source={"run_id": 11, "artifact_id": 12})
+    run = {
+        "id": 11, "run_attempt": 1, "head_sha": head, "event": "workflow_dispatch", "path": workflow_path,
+        "head_branch": "main", "status": "completed", "conclusion": "success",
+        "repository": repository, "head_repository": repository,
+    }
+    job = {"name": "Stage exact selected PyPI inputs", "run_id": 11, "status": "completed", "conclusion": "success"}
+    artifact = {
+        "id": 12, "name": "qf0212-selected-pypi-inputs", "expired": False, "size_in_bytes": 3000000,
+        "digest": "sha256:" + "f" * 64,
+        "workflow_run": {"id": 11, "repository_id": repository["id"], "head_repository_id": repository["id"],
+                         "head_branch": "main", "head_sha": head},
+    }
+    responses = {
+        "actions/runs/11": run,
+        "actions/runs/11/attempts/1/jobs?per_page=100": {"total_count": 1, "jobs": [job]},
+        "actions/artifacts/12": artifact,
+    }
+    monkeypatch.setattr(release_verifier, "_github_release_evidence", lambda endpoint: json.dumps(responses[endpoint]))
+    validate = release_verifier.validate_pypi_staging_transport
+    validate(root, head, contract)
+    for record, key, value, message in (
+        (run, "run_attempt", 2, "release lineage"),
+        (run, "head_sha", source, "release lineage"),
+        (job, "conclusion", "skipped", "job did not succeed"),
+        (artifact, "expired", True, "missing, expired or from another run"),
+        (artifact, "size_in_bytes", 5 * 1024 * 1024, "missing, expired or from another run"),
+        (artifact["workflow_run"], "id", 999, "missing, expired or from another run"),
+    ):
+        original, record[key] = record[key], value
+        with pytest.raises(ValueError, match=message):
+            validate(root, head, contract)
+        record[key] = original
+
+
 def test_0211_owner_contract_requires_matching_scope_gates_and_prepublication_state(tmp_path: Path) -> None:
     _, contract, owner = _fixture(tmp_path)
     with pytest.raises(ValueError, match="gate decisions differ"):

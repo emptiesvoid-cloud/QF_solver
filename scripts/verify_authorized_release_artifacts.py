@@ -96,8 +96,83 @@ def _github_release_evidence(endpoint: str) -> bytes:
         timeout=45,
     )
     if result.returncode != 0:
-        raise ValueError("Could not read the exact engineering evidence from the GitHub API.")
+        raise ValueError("Could not read the exact release evidence from the GitHub API.")
     return result.stdout
+
+
+def validate_pypi_staging_transport(root: Path, head: str, contract: dict[str, Any]) -> None:
+    """Verify the v0.2.12 Actions transport before downloading the package ZIP."""
+    if contract.get("package_version") != "0.2.12":
+        return
+    source = contract.get("pypi_artifact_source")
+    if (
+        contract.get("release_channels") != ["pypi"]
+        or not isinstance(source, dict)
+        or set(source) != {"run_id", "artifact_id"}
+        or any(type(value) is not int or not 1 <= value < 2**53 for value in source.values())
+    ):
+        raise ValueError("Bind one exact Actions staging run and artifact for the v0.2.12 PyPI-only release.")
+
+    run_id, artifact_id = source["run_id"], source["artifact_id"]
+    workflow_path = ".github/workflows/stage-pypi-0212.yml"
+    repository_id = 1329797607
+    run = json.loads(_github_release_evidence(f"actions/runs/{run_id}"))
+    workflow_sha = run.get("head_sha")
+    branch = run.get("head_branch")
+    source_sha = contract.get("source_sha")
+    if (
+        run.get("id") != run_id
+        or run.get("run_attempt") != 1
+        or run.get("event") != "workflow_dispatch"
+        or run.get("path") != workflow_path
+        or run.get("status") != "completed"
+        or run.get("conclusion") != "success"
+        or branch != "main"
+        or (run.get("repository") or {}).get("id") != repository_id
+        or (run.get("head_repository") or {}).get("id") != repository_id
+        or not isinstance(source_sha, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", source_sha)
+        or not isinstance(workflow_sha, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", workflow_sha)
+        or workflow_sha == source_sha
+        or git_run(["merge-base", "--is-ancestor", source_sha, workflow_sha], cwd=root).returncode
+        or git_run(["merge-base", "--is-ancestor", workflow_sha, head], cwd=root).returncode
+    ):
+        raise ValueError("The selected staging run is outside the exact successful release lineage.")
+    for path in (workflow_path, "scripts/stage_pypi_0212.py"):
+        staged = git_run(["show", f"{workflow_sha}:{path}"], cwd=root)
+        current = _committed_bytes(root, head, path)
+        if staged.returncode != 0 or staged.stdout != current:
+            raise ValueError("The selected staging run used different staging tool bytes.")
+
+    jobs = json.loads(_github_release_evidence(f"actions/runs/{run_id}/attempts/1/jobs?per_page=100"))
+    stage_jobs = jobs.get("jobs")
+    if not isinstance(stage_jobs, list) or jobs.get("total_count") != 1 or len(stage_jobs) != 1:
+        raise ValueError("The selected staging run must contain exactly one bounded staging job.")
+    stage_job = stage_jobs[0]
+    if (
+        stage_job.get("name") != "Stage exact selected PyPI inputs"
+        or stage_job.get("run_id") != run_id
+        or stage_job.get("status") != "completed"
+        or stage_job.get("conclusion") != "success"
+    ):
+        raise ValueError("The exact selected staging job did not succeed.")
+
+    artifact = json.loads(_github_release_evidence(f"actions/artifacts/{artifact_id}"))
+    if (
+        artifact.get("id") != artifact_id
+        or artifact.get("name") != "qf0212-selected-pypi-inputs"
+        or artifact.get("expired") is not False
+        or type(artifact.get("size_in_bytes")) is not int
+        or not 0 < artifact["size_in_bytes"] <= 4 * 1024 * 1024
+        or not isinstance(artifact.get("digest"), str)
+        or not re.fullmatch(r"sha256:[0-9a-f]{64}", artifact["digest"])
+        or artifact.get("workflow_run") != {
+            "id": run_id, "repository_id": repository_id, "head_repository_id": repository_id,
+            "head_branch": branch, "head_sha": workflow_sha,
+        }
+    ):
+        raise ValueError("The exact selected staging artifact is missing, expired or from another run.")
 
 
 def _validate_tagged_engineering_ci(
