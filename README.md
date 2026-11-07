@@ -19,10 +19,8 @@ reproducible studies. An implemented route or a converged example is not
 automatically qualified or physically validated. The project is not certified
 and is not a general-purpose replacement for industrial FEA software.
 
-**Main version:** QF Solver 0.2.12. Install this version from the `main`
-branch using the source command below. Publication is pending; see
-[What's new for 0.2.12](docs/whats-new/0.2.12-preparation.md). The latest
-published PyPI release is 0.2.11.
+**This source describes QF Solver 0.2.12.** See [what's new in 0.2.12](docs/whats-new/0.2.12-preparation.md)
+and the official website, [qfsolver.org](https://qfsolver.org/).
 
 On this page: [Capabilities](#capabilities) · [Modeling](#elements-materials-and-modeling) ·
 [How it works](#how-qf-solver-works) · [Installation](#installation) ·
@@ -68,7 +66,7 @@ before relying on a particular combination.
 | Stability | Linear buckling | Does not establish postbuckling or general nonlinear stability behavior. |
 | Material nonlinearity | Selected small-strain J2 plasticity routes | Bounded material/element evidence; this is not general finite-strain plasticity. |
 | Geometric nonlinearity | Selected Total-Lagrangian and corotational routes | Formulation and element scopes are narrow; corotational J2 assumes small local strains. |
-| Contact and constraints | RBE2-style constraints, frictionless contact, and bounded frictional stick/slip evidence | The 0.2.12 candidate records B* small-rotation transfer as an `EXPERIMENTAL_BOUNDED` sub-capability; parent WP-C01 remains `CLOSED_NEGATIVE` with remediation open. Contact search, sliding, mesh sensitivity and current-source requalification remain limited. |
+| Contact and constraints | RBE2-style constraints, frictionless contact, and bounded frictional stick/slip evidence | Version 0.2.12 records B* small-rotation transfer as an `EXPERIMENTAL_BOUNDED` sub-capability; parent WP-C01 remains `CLOSED_NEGATIVE` with remediation open. Contact search, sliding, mesh sensitivity and current-source requalification remain limited. |
 | Nonlinear solution | Newton methods, line search, adaptive increments, cutback/retry, and selected continuation/arc-length routes | Shared infrastructure does not imply convergence or qualification for arbitrary models. |
 | Larger models | Structured-TET4 workflows and selected PETSc/MPI linear-static cases | Optional dependencies and recorded configurations only; no general HPC or nonlinear distributed claim. |
 | Rotating dynamics | Experimental disk-gyroscopic `rotating_modal` and Campbell analysis in 0.2.11 | Linear BEAM2 shaft with centered rigid axisymmetric disks; serial dense QEP and explicit scope limits. |
@@ -228,15 +226,17 @@ SciPy and Matplotlib and does not require Gmsh, HDF5, MPI, PETSc or SLEPc.
 The recorded CI matrix covers Linux and Windows with Python 3.10 and 3.13;
 it is not a claim that every Python/OS/backend combination has been tested.
 
+Install version 0.2.12 from PyPI when that version is available:
+
 ```bash
-python -m pip install "git+https://github.com/emptiesvoid-cloud/QF_solver.git@main"
+python -m pip install "qf-solver==0.2.12"
 qf-solver --version
 ```
 
-To install the published 0.2.11 release from PyPI instead:
+To install the 0.2.12 source from its Git tag:
 
 ```bash
-python -m pip install "qf-solver==0.2.11"
+python -m pip install "git+https://github.com/emptiesvoid-cloud/QF_solver.git@v0.2.12"
 ```
 
 | Optional extra | Purpose | Boundary |
@@ -247,8 +247,8 @@ python -m pip install "qf-solver==0.2.11"
 | `hpc` | MPI/PETSc/SLEPc bindings | Not general distributed or rotating-QEP support. |
 | `docs` | MkDocs and controlled documentation tooling | For building documentation, not running standard analyses. |
 
-For example, `python -m pip install "qf-solver[hdf5]==0.2.11"` adds the HDF5
-dependency to published 0.2.11. Native MPI/PETSc/SLEPc environments are platform-dependent;
+For example, `python -m pip install "qf-solver[hdf5]==0.2.12"` adds the HDF5
+dependency when 0.2.12 is available on PyPI. Native MPI/PETSc/SLEPc environments are platform-dependent;
 installing an extra does not make those runtimes universally available.
 Missing optional runtimes are reported rather than treated as successful
 backend evidence. See the [installation guide](docs/getting-started/installation.md)
@@ -310,9 +310,9 @@ expected scope warning, not something to hide after numerical convergence.
 | Rotating modal | Experimental disk-gyroscopic eigenanalysis | [Model and limits](docs/mechanics/rotating-modal.md) |
 | Campbell | Experimental speed sweep and explicit modal tracking | [Tracking and limits](docs/mechanics/campbell.md) |
 
-### Modal validation policy in the unreleased 0.2.12 candidate
+### Modal validation policy in 0.2.12
 
-The classical modal route in candidate 0.2.12 is classified as EXPERIMENTAL.
+The classical modal route in 0.2.12 is classified as EXPERIMENTAL.
 The current residual-certification domain is bounded; when a case exceeds a
 dimension, stored-term, or work budget, strict mode reports INCONCLUSIVE and
 refuses to provide a certified usable basis. This is a limitation of the
@@ -340,12 +340,11 @@ checkpoints are identity-bound to the run and basis, including the validation
 policy. Older checkpoints with missing or mismatched identities are rejected;
 backward compatibility or automatic migration is not promised.
 
-The candidate retains known scientific failures rather than relabelling them:
+Version 0.2.12 retains known scientific failures:
 the TET4-L3 energy result remains a failure, two HEX8-SRI cases remain failed,
 and the HEX20 QUAD8 R4 case remains failed with corrective FEM validation not
-acquired. See the unreleased [0.2.12 changelog](CHANGELOG.md) and [modal API
-contract](docs/reference/qf_solver_api.md) for the complete boundaries. The
-0.2.12 candidate remains unpublished; 0.2.11 is still the latest release.
+acquired. See the [0.2.12 changelog](CHANGELOG.md) and [modal API
+contract](docs/reference/qf_solver_api.md) for the complete boundaries.
 
 The [examples index](examples/README.md) groups maintained inputs by the
 mechanical problem they illustrate. It also identifies controlled verification
@@ -579,21 +578,15 @@ and the controlling evidence record for the chosen analysis.
 
 ## Current release and citation
 
-The version on `main` is `0.2.12`, pending publication.
-The latest published QF Solver release is `0.2.11`, published on 2026-10-07.
-Cite that version with [DOI `10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
-The preceding 0.2.10 release has version DOI
-[`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). Use the
-project concept DOI
+This README documents QF Solver `0.2.12`. Use the project concept DOI
 [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897) to cite
-QF Solver across versions. [`CITATION.cff`](CITATION.cff) identifies 0.2.12
-and has no release date or version DOI; use the DOI above when citing
-published 0.2.11.
-The preceding release used source tag
-[`v0.2.10`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.10).
-The 0.2.11 selected wheel, sdist and checksum manifest are the audited
-distribution artifacts. GitHub's automatically generated source archives are
-not part of that selected distribution.
+QF Solver across versions, and consult [`CITATION.cff`](CITATION.cff) for
+citation details. A version-specific DOI for 0.2.12 has not been assigned.
+The earlier 0.2.11 release has DOI
+[`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487), and
+0.2.10 has DOI [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744).
+GitHub's automatically generated source archives are distinct from the
+selected wheel and sdist distribution.
 The whole-repository G03 archive gate remains **FAIL**, the full repository
 archive is not cleared, and WP14 remains **HOLD_NOT_PROMOTED**. Selected
 distribution checks do not change those states.

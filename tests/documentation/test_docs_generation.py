@@ -77,12 +77,14 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
         comparison_snapshot.replace(">", "").split()
     )
 
-    assert "The latest published QF Solver release is `0.2.11`" in readme
-    assert "**Main version:** QF Solver 0.2.12." in normalized_readme
-    assert "git+https://github.com/emptiesvoid-cloud/QF_solver.git@main" in readme
+    assert "This source describes QF Solver 0.2.12." in normalized_readme
+    assert 'qf-solver==0.2.12' in readme
+    assert "git+https://github.com/emptiesvoid-cloud/QF_solver.git@v0.2.12" in readme
+    assert "https://qfsolver.org/" in readme
+    assert "0.2.12 candidate remains unpublished" not in readme
     assert "0.2.11 is a **candidate, not yet published**" not in readme
     assert "`0.2.8` — release candidate; not published" not in readme
-    assert "source tag" in readme and "v0.2.10" in readme
+    assert "Git tag" in readme and "v0.2.12" in readme
     assert "QF Solver 0.2.12 is the current documentation baseline for `main`" in normalized_roadmap
     assert "latest published release" in normalized_roadmap
     assert "WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA" in normalized_roadmap
@@ -92,13 +94,11 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     assert "first public release after 0.2.8" in normalized_index
     assert "0.2.10" in index
     assert "0.2.8 is the current development candidate" not in roadmap
-    assert "10.5281/zenodo.23106744" in readme
     assert "10.5281/zenodo.23106744" in index
     assert "10.5281/zenodo.23214487" in readme
     assert "10.5281/zenodo.23214487" in index
-    assert "2026-10-07" in readme
     assert "2026-10-07" in index
-    assert "version DOI" in readme
+    assert "version-specific DOI" in readme
     assert "Current release" in normalized_index
     assert "current documentation baseline is 0.2.11" in normalized_comparisons
     assert (

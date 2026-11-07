@@ -135,8 +135,8 @@ def _check_current_publication_claims(contents: dict[str, str], version: str, ta
     roadmap = " ".join(contents["docs/reference/feuille_de_route.md"].split())
 
     if phase == "PRE_PUBLICATION" and version == "0.2.12":
-        _require("The version on `main` is `0.2.12`, pending publication." in readme,
-                 "README.md must identify 0.2.12 as pending publication", failures)
+        _require("This source describes QF Solver 0.2.12." in readme,
+                 "README.md must identify the 0.2.12 source version", failures)
     else:
         _require(
             re.search(rf"(?i)current QF Solver release is\s+`{re.escape(version)}`", readme) is not None,
@@ -170,9 +170,9 @@ def _check_current_publication_claims(contents: dict[str, str], version: str, ta
     )
 
     if phase == "PRE_PUBLICATION" and version == "0.2.12":
-        _require("The latest published QF Solver release is `0.2.11`" in readme
-                 and "The version on `main` is `0.2.12`, pending publication." in readme,
-                 "README.md must distinguish latest published release from pending main version", failures)
+        _require("when that version is available" in readme
+                 and not re.search(r"(?i)0\.2\.12 (?:is (?:now )?published|has been published)", readme),
+                 "README.md must not claim PyPI availability before publication", failures)
         _require(re.search(r"(?mi)^##\s+0\.2\.12\s+[—-]\s+Preparation\s*\(unreleased\)", changelog) is not None,
                  "CHANGELOG.md must keep 0.2.12 explicitly marked as unreleased preparation", failures)
         _require(not re.search(r"(?im)^\s*(?:date-released|doi):", contents["CITATION.cff"]),
