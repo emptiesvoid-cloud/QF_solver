@@ -226,7 +226,7 @@ SciPy and Matplotlib and does not require Gmsh, HDF5, MPI, PETSc or SLEPc.
 The recorded CI matrix covers Linux and Windows with Python 3.10 and 3.13;
 it is not a claim that every Python/OS/backend combination has been tested.
 
-Install version 0.2.12 from PyPI when that version is available:
+Install version 0.2.12 from PyPI:
 
 ```bash
 python -m pip install "qf-solver==0.2.12"
@@ -248,7 +248,7 @@ python -m pip install "git+https://github.com/emptiesvoid-cloud/QF_solver.git@v0
 | `docs` | MkDocs and controlled documentation tooling | For building documentation, not running standard analyses. |
 
 For example, `python -m pip install "qf-solver[hdf5]==0.2.12"` adds the HDF5
-dependency when 0.2.12 is available on PyPI. Native MPI/PETSc/SLEPc environments are platform-dependent;
+dependency. Native MPI/PETSc/SLEPc environments are platform-dependent;
 installing an extra does not make those runtimes universally available.
 Missing optional runtimes are reported rather than treated as successful
 backend evidence. See the [installation guide](docs/getting-started/installation.md)

@@ -170,7 +170,7 @@ def _check_current_publication_claims(contents: dict[str, str], version: str, ta
     )
 
     if phase == "PRE_PUBLICATION" and version == "0.2.12":
-        _require("when that version is available" in readme
+        _require('qf-solver==0.2.12' in readme
                  and not re.search(r"(?i)0\.2\.12 (?:is (?:now )?published|has been published)", readme),
                  "README.md must not claim PyPI availability before publication", failures)
         _require(re.search(r"(?mi)^##\s+0\.2\.12\s+[—-]\s+Preparation\s*\(unreleased\)", changelog) is not None,

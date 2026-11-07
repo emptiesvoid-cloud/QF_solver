@@ -88,7 +88,7 @@ def test_candidate_citation_has_unreleased_version_without_release_metadata() ->
     assert "This source describes QF Solver 0.2.12." in _text("README.md")
     assert "10.5281/zenodo.23106744" in _text("README.md")
     assert "10.5281/zenodo.22697897" in _text("README.md")
-    assert "when that version is available" in _text("README.md")
+    assert "qf-solver==0.2.12" in _text("README.md")
 
 
 def test_public_release_policy_classifies_reviewed_evidence_and_exclusions() -> None:

@@ -88,7 +88,7 @@ def test_candidate_version_registry_and_public_docs_are_aligned() -> None:
     assert project["urls"]["DOI"] == "https://doi.org/10.5281/zenodo.22697897"
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "This source describes QF Solver 0.2.12." in readme
-    assert "when that version is available" in readme
+    assert "qf-solver==0.2.12" in readme
     assert "10.5281/zenodo.23214487" in readme
     assert "0.2.11 is a **candidate, not yet published**" not in readme
     registry = json.loads((ROOT / "qualification/0_2_8/consolidated_registry.json").read_text(encoding="utf-8"))
