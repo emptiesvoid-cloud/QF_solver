@@ -207,9 +207,12 @@ GitHub repository's automatically generated source archives. The Owner may
 authorize that channel separately only when the *tagged* source is covered by
 a prospectively committed contract, the strict selected-source and served-docs
 scan passes, the wheel/sdist content and installed-package probes pass, the
-engineering CI passes on that tag, and the package version, README, changelog,
-documentation and `CITATION.cff` consistently identify the published version
-and its assigned version DOI. The manual `confirm_publish` input and any PyPI
+engineering CI passes against that tag's source, and the package version,
+README, changelog, documentation and `CITATION.cff` agree under the
+`PRE_PUBLICATION` metadata check. Following a PyPI-only release, apply
+`POST_PUBLICATION_PYPI` with the verified publication date and asset hashes.
+Record a version DOI only after a separate deposit has assigned it and it
+resolves to the verified release. The manual `confirm_publish` input and any PyPI
 environment approval are the final publication decision; a candidate PASS
 alone is not.
 

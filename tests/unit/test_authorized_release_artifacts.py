@@ -9,6 +9,7 @@ from pathlib import Path
 
 import pytest
 
+from scripts import verify_authorized_release_artifacts as release_verifier, verify_release_engineering_0212
 from scripts.verify_authorized_release_artifacts import (
     _validate_candidate_audit,
     validate_owner_artifact_scope,
@@ -375,6 +376,65 @@ def test_pypi_only_candidate_audit_requires_exact_annotated_tag_before_ci_gate(t
     source, head, contract, _ = _candidate_audit_repo(malformed, candidate_value=[])
     with pytest.raises(ValueError, match="candidate audit record is malformed"):
         _validate_candidate_audit(malformed, head, source, contract)
+
+
+def test_tagged_engineering_ci_requires_matching_lineage_and_authenticated_artifact(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    source, _, contract, _ = _candidate_audit_repo(root)
+    workflow = root / ".github/workflows/release-engineering-0212.yml"
+    workflow.parent.mkdir(parents=True)
+    workflow.write_bytes(b"name: test workflow\n")
+    _git(root, "add", workflow.relative_to(root).as_posix())
+    _git(root, "commit", "-m", "engineering workflow")
+    workflow_sha = _git(root, "rev-parse", "HEAD")
+    evidence = {
+        "workflow_sha": workflow_sha,
+        "workflow_sha256": _sha(workflow.read_bytes()),
+        "scope_manifest_sha256": _sha(b"approved scope"),
+        "run_id": 11,
+        "run_attempt": 1,
+        "artifact_id": 12,
+        "artifact_sha256": _sha(b"approved archive"),
+    }
+    contract["tagged_engineering_ci"] = evidence
+    calls = []
+    responses = {
+        "actions/runs/11": b"{}",
+        "actions/runs/11/attempts/1/jobs?per_page=100": b'{"total_count": 0, "jobs": []}',
+        "actions/artifacts/12": b'{"id": 12, "size_in_bytes": 16}',
+        "actions/artifacts/12/zip": b"different archive",
+    }
+
+    def fetch(endpoint: str) -> bytes:
+        calls.append(endpoint)
+        return responses[endpoint]
+
+    monkeypatch.setattr(release_verifier, "_github_release_evidence", fetch)
+    validate = release_verifier._validate_tagged_engineering_ci
+    with pytest.raises(ValueError, match="must bind the same tagged engineering run"):
+        validate(root, workflow_sha, source, contract, {})
+    with pytest.raises(ValueError, match="must belong to the release lineage"):
+        validate(root, source, source, contract, {"tagged_engineering_ci": evidence})
+    assert calls == []
+    with pytest.raises(ValueError, match="differs from the exact authorized bytes"):
+        validate(root, workflow_sha, source, contract, {"tagged_engineering_ci": evidence})
+    assert calls == list(responses)
+
+    checked = {}
+
+    def verify_attestation(**kwargs):
+        checked.update(kwargs)
+
+    monkeypatch.setattr(verify_release_engineering_0212, "validate_release_engineering_attestation", verify_attestation)
+    responses["actions/artifacts/12/zip"] = b"approved archive"
+    validate(root, workflow_sha, source, contract, {"tagged_engineering_ci": evidence})
+    assert checked["expected_workflow_sha"] == workflow_sha
+    assert checked["expected_source_sha"] == source
+    assert checked["expected_source_tree_sha"] == _git(root, "rev-parse", f"{source}^{{tree}}")
+    assert checked["expected_scope_manifest_sha256"] == evidence["scope_manifest_sha256"]
+    assert checked["artifact_bytes"] == b"approved archive"
 
 
 def test_0211_owner_contract_requires_matching_scope_gates_and_prepublication_state(tmp_path: Path) -> None:
