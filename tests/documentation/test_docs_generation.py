@@ -164,7 +164,14 @@ def test_current_public_surfaces_use_consistent_version_without_promotion(relati
         assert "WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA" in content
         assert "general qualification" in normalized
     elif relative == "capabilities/index.md":
-        assert "0.2.12 integration candidate" in normalized
+        assert "status: controlled_candidate" in normalized
+        assert "**current release documentation:** `0.2.12`" in normalized
+        assert "**0.2.12:**" in normalized
+        release = (DOCS / "whats-new" / "0.2.12.md").read_text(encoding="utf-8").lower()
+        assert "published on **2026-11-08**" in release
+        assert "v0.2.12" in release
+        assert "does not update the published 0.2.11 capability matrix or certify" in normalized
+        assert "scoped contract" in normalized
         assert "experimental_bounded" in normalized
         assert "closed_negative" in normalized and "remediation open" in normalized
     elif relative in main_pages:
@@ -214,7 +221,7 @@ def test_generated_status_matches_its_template_without_running_campaign(
     generated = (tmp_path / "docs" / "generated" / "status.md").read_text(encoding="utf-8")
     assert generated == (DOCS / "generated" / "status.md").read_text(encoding="utf-8")
     assert '<h3>Source package version</h3><span class="value">0.2.12</span>' in generated
-    assert '<h3>Latest published release</h3><span class="value">0.2.11</span>' in generated
+    assert '<h3>Latest published release</h3><span class="value">0.2.12</span>' in generated
 
 
 def test_tetra_boundary_faces_remove_shared_face() -> None:
