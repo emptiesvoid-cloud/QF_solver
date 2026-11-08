@@ -1,0 +1,85 @@
+{
+  "approved_smoke_manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+  "approved_smoke_plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+  "authorization": {
+    "certification_or_universal_validation_claims_allowed": false,
+    "github_release_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "ledger_update_allowed": false,
+    "numeric_maturity_promotion_allowed": false,
+    "pypi_publication_allowed": true,
+    "selected_package_publication_allowed": true,
+    "tag_creation_allowed": true,
+    "whole_repository_archive_cleared": false,
+    "whole_repository_archive_publication_allowed": false,
+    "wp14_promotion_allowed": false,
+    "zenodo_selected_artifact_publication_allowed": false
+  },
+  "authorization_basis": "Owner explicitly authorized PyPI publication of the exact v0.2.12 tag and selected distributions, then approved the PYPI_0212_BOUNDED profile and corrected four-case smoke plan. Scope is limited to PyPI selected-distribution publication. This record does not authorize GitHub Release, Zenodo, whole-repository archives, ledger changes, maturity promotion, or historical reclassification.",
+  "authorized_artifacts": {
+    "manifest": {
+      "bytes": 190,
+      "filename": "qf_solver-0.2.12-f6f63eb-SHA256SUMS.txt",
+      "sha256": "bc20da5094e4d250dc33be7aa379e07a654e20b8ba787ad596cac9801c62c634"
+    },
+    "sdist": {
+      "bytes": 1344948,
+      "filename": "qf_solver-0.2.12.tar.gz",
+      "sha256": "1b6a980c4ecb3dce1ed5a885a69c9cc66d1efd62af85fba20bb0ed13daac1cd1"
+    },
+    "wheel": {
+      "bytes": 1709716,
+      "filename": "qf_solver-0.2.12-py3-none-any.whl",
+      "sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+    }
+  },
+  "authorized_manifest_sha256": "bc20da5094e4d250dc33be7aa379e07a654e20b8ba787ad596cac9801c62c634",
+  "authorized_sdist_sha256": "1b6a980c4ecb3dce1ed5a885a69c9cc66d1efd62af85fba20bb0ed13daac1cd1",
+  "authorized_source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+  "authorized_tag": "v0.2.12",
+  "authorized_tag_object_sha": "dbf8314b861ac7f3a963d6036080e7a96ca4b17e",
+  "authorized_tag_target_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+  "authorized_wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719",
+  "bounded_profile_approved": true,
+  "certification_or_universal_validation_claims_allowed": false,
+  "decision": "AUTHORIZE_V0_2_12_PUBLICATION",
+  "extended_validation": "NOT_RUN",
+  "g03_status": "FAIL_PRESERVED",
+  "github_release_allowed": false,
+  "historical_result_reclassification_allowed": false,
+  "ledger_update_allowed": false,
+  "legal_review_status": "NOT_ACQUIRED",
+  "numeric_maturity_promotion_allowed": false,
+  "preserved_gates": {
+    "g03_status": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14_status": "HOLD_NOT_PROMOTED"
+  },
+  "publication_note": "Authorization only; no upload or publication action is performed by this record.",
+  "publication_performed": false,
+  "publication_scope": "SELECTED_DISTRIBUTION",
+  "pypi_artifact_source": {
+    "artifact_id": 13611258554,
+    "run_id": 42465518619
+  },
+  "pypi_publication_allowed": true,
+  "record_id": "QF-0212-OWNER-PYPI-AUTHORIZATION-F6F63EB-2026-11-08",
+  "record_type": "OWNER_AUTHORIZATION_SELECTED_PACKAGE_PYPI_PUBLICATION",
+  "release_channels": [
+    "pypi"
+  ],
+  "release_gates": {},
+  "schema_version": 1,
+  "selected_package_publication_allowed": true,
+  "status": "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE",
+  "supersedes_for_release": null,
+  "tag_creation_allowed": true,
+  "validation_profile": "PYPI_0212_BOUNDED",
+  "version": "0.2.12",
+  "whole_repository_archive_cleared": false,
+  "whole_repository_archive_publication_allowed": false,
+  "wp14_promotion_allowed": false,
+  "wp14_status": "HOLD_NOT_PROMOTED",
+  "wp14_validation": "NOT_RUN",
+  "zenodo_selected_artifact_publication_allowed": false
+}
