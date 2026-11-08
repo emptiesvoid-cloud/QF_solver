@@ -1,0 +1,12 @@
+{
+  "attempts": 1,
+  "authorization_sha256": "a7a1384729501c674587b110adac483ff8c1bf023ad8edbc6776573b46ff2906",
+  "case_id": "static_tet4_single_free_dof",
+  "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+  "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+  "raw_result_sha256": "e247abc6016d12c60daab903bf712be516b1f4f6868ac03a5cfeaba979ae3596",
+  "reservation_sha256": "f6e625bca014f2866104aa3675ebe3521a9b103d71c84eb5f6b485f7ece2bc74",
+  "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+  "status": "PASS",
+  "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+}

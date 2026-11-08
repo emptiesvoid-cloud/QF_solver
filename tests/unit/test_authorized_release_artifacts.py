@@ -11,7 +11,10 @@ import pytest
 
 from scripts import verify_authorized_release_artifacts as release_verifier, verify_release_engineering_0212
 from scripts.verify_authorized_release_artifacts import (
+    BOUNDED_SMOKE_CASES,
+    STANDARD_QUALITY_JOBS,
     _validate_candidate_audit,
+    _validate_bounded_candidate_audit,
     validate_owner_artifact_scope,
     verify_artifact_set,
 )
@@ -376,6 +379,192 @@ def test_pypi_only_candidate_audit_requires_exact_annotated_tag_before_ci_gate(t
     source, head, contract, _ = _candidate_audit_repo(malformed, candidate_value=[])
     with pytest.raises(ValueError, match="candidate audit record is malformed"):
         _validate_candidate_audit(malformed, head, source, contract)
+
+
+def _bounded_audit_fixture():
+    manifest_sha = "c" * 64
+    receipts = {
+        case_id: {
+            "case_id": case_id,
+            "status": status,
+            "attempts": 1,
+            "evidence_sha256": "a" * 64,
+            "raw_result_sha256": "d" * 64,
+            "authorization_sha256": "b" * 64,
+            "evidence_path": f"qualification/0_2_12/smokes/{case_id}.json",
+            "evidence_commit_sha": "e" * 40,
+        }
+        for case_id, status in BOUNDED_SMOKE_CASES.items()
+    }
+    evidence = {
+        "documentation": {
+            "status": "PASS_STRICT_TAG_RENDER",
+            "source_sha": release_verifier.BOUNDED_SOURCE_SHA,
+            "rendered_html_pages": 526,
+            "scope_audit_status": "PASS_BOUNDED_PUBLIC_SURFACES",
+            "scope_audit_sha256": release_verifier.BOUNDED_DOC_SCOPE_SHA256,
+        },
+        "installed_smokes": {
+            "status": "PASS",
+            "manifest_sha256": manifest_sha,
+            "cases": dict(BOUNDED_SMOKE_CASES),
+            "receipts": receipts,
+        },
+        "extended_validation": "NOT_RUN",
+        "wp14": "NOT_RUN",
+    }
+    contract = {
+        "smoke_manifest_sha256": manifest_sha,
+        "smoke_plan_sha256": "f" * 64,
+        "documentation_scope_audit_sha256": release_verifier.BOUNDED_DOC_SCOPE_SHA256,
+        "bounded_profile_evidence": evidence,
+    }
+    audit = {
+        "ci": {
+            "quality_head_sha": release_verifier.BOUNDED_SOURCE_SHA,
+            "quality_run_id": release_verifier.BOUNDED_QUALITY_RUN_ID,
+            "quality_conclusion": "SUCCESS",
+            "quality_jobs": {name: "PASS" for name in STANDARD_QUALITY_JOBS},
+            "ci_sha_exact_match": True,
+        },
+        "bounded_profile_evidence": evidence,
+    }
+    return audit, contract
+
+
+def test_bounded_profile_accepts_only_exact_quality_docs_and_smoke_receipts() -> None:
+    audit, contract = _bounded_audit_fixture()
+    _validate_bounded_candidate_audit(audit, contract, release_verifier.BOUNDED_SOURCE_SHA)
+
+    changed = json.loads(json.dumps(audit))
+    changed["ci"]["quality_jobs"]["wp14_recovered_evidence_targeted"] = "PASS"
+    with pytest.raises(ValueError, match="exactly the four passing standard Quality cells"):
+        _validate_bounded_candidate_audit(changed, contract, release_verifier.BOUNDED_SOURCE_SHA)
+
+    changed = json.loads(json.dumps(audit))
+    changed_contract = json.loads(json.dumps(contract))
+    for target in (changed["bounded_profile_evidence"], changed_contract["bounded_profile_evidence"]):
+        target["installed_smokes"]["receipts"][
+        "static_tet4_single_free_dof"
+        ]["evidence_sha256"] = "not-a-digest"
+    with pytest.raises(ValueError, match="receipt is incomplete or invalid"):
+        _validate_bounded_candidate_audit(changed, changed_contract, release_verifier.BOUNDED_SOURCE_SHA)
+
+    changed = json.loads(json.dumps(audit))
+    changed_contract = json.loads(json.dumps(contract))
+    changed["bounded_profile_evidence"]["wp14"] = "PASS"
+    changed_contract["bounded_profile_evidence"]["wp14"] = "PASS"
+    with pytest.raises(ValueError, match="extended validation and WP14 as NOT_RUN"):
+        _validate_bounded_candidate_audit(changed, changed_contract, release_verifier.BOUNDED_SOURCE_SHA)
+
+
+def test_bounded_quality_uses_observed_actions_job_names(monkeypatch: pytest.MonkeyPatch) -> None:
+    run_id = 42394326907
+    source = release_verifier.BOUNDED_SOURCE_SHA
+    run = {"id": run_id, "run_attempt": 1, "head_sha": source, "status": "completed",
+           "conclusion": "success", "path": ".github/workflows/quality.yml", "repository": {"id": 1329797607}}
+    jobs = [
+        {"name": f"{os_name}-latest / Python {version}", "status": "completed", "conclusion": "success"}
+        for os_name in ("ubuntu", "windows") for version in ("3.10", "3.13")
+    ]
+    jobs.append({"name": "Full engineering campaign", "status": "completed", "conclusion": "skipped"})
+    responses = {f"actions/runs/{run_id}": run, f"actions/runs/{run_id}/jobs?per_page=100": {"jobs": jobs}}
+    monkeypatch.setattr(release_verifier, "_github_release_evidence", lambda endpoint: json.dumps(responses[endpoint]))
+    release_verifier._validate_bounded_quality_run(source)
+    jobs[-1]["conclusion"] = "success"
+    with pytest.raises(ValueError, match="exactly the four passing standard matrix cells"):
+        release_verifier._validate_bounded_quality_run(source)
+
+
+def test_bounded_smoke_receipts_are_verified_against_committed_case_bytes(tmp_path: Path) -> None:
+    root = tmp_path / "smoke-receipts"
+    root.mkdir()
+    _git(root, "init", "-b", "main")
+    _git(root, "config", "user.email", "tests@example.invalid")
+    _git(root, "config", "user.name", "Release Validator Test")
+    (root / "source.txt").write_text("source\n", encoding="utf-8")
+    _git(root, "add", "source.txt")
+    _git(root, "commit", "-m", "source")
+    source = _git(root, "rev-parse", "HEAD")
+    manifest_sha = "c" * 64
+    plan_sha = "f" * 64
+    wheel_sha = release_verifier.BOUNDED_ARTIFACTS["wheel"]["sha256"]
+    receipts = {}
+    for case_id, status in BOUNDED_SMOKE_CASES.items():
+        authorization_sha = "b" * 64
+        raw_sha = "d" * 64
+        payload = {
+            "case_id": case_id, "status": status, "attempts": 1,
+            "manifest_sha256": manifest_sha, "plan_sha256": plan_sha,
+            "source_sha": source, "wheel_sha256": wheel_sha,
+            "raw_result_sha256": raw_sha, "authorization_sha256": authorization_sha,
+        }
+        path = f"qualification/0_2_12/smokes/{case_id}.json"
+        target = root / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        raw = json.dumps(payload, sort_keys=True).encode("utf-8")
+        target.write_bytes(raw)
+        receipts[case_id] = {
+            **payload,
+            "evidence_sha256": _sha(raw),
+            "evidence_path": path,
+        }
+    _git(root, "add", "qualification")
+    _git(root, "commit", "-m", "smoke receipts")
+    receipt_commit = _git(root, "rev-parse", "HEAD")
+    for receipt in receipts.values():
+        receipt["evidence_commit_sha"] = receipt_commit
+    contract = {
+        "smoke_manifest_sha256": manifest_sha,
+        "smoke_plan_sha256": plan_sha,
+        "audited_artifacts": {"wheel": release_verifier.BOUNDED_ARTIFACTS["wheel"]},
+        "bounded_profile_evidence": {"installed_smokes": {"receipts": receipts}},
+    }
+    release_verifier._validate_bounded_smoke_receipts(root, receipt_commit, source, contract)
+
+    target = root / receipts["static_tet4_single_free_dof"]["evidence_path"]
+    target.write_text("tampered\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="differs from the committed receipt|Committed contract input differs"):
+        release_verifier._validate_bounded_smoke_receipts(root, receipt_commit, source, contract)
+
+
+def test_bounded_documentation_proof_is_verified_against_committed_bytes(tmp_path: Path) -> None:
+    root = tmp_path / "docs-proof"
+    root.mkdir()
+    _git(root, "init", "-b", "main")
+    _git(root, "config", "user.email", "tests@example.invalid")
+    _git(root, "config", "user.name", "Release Validator Test")
+    (root / "source.txt").write_text("source\n", encoding="utf-8")
+    _git(root, "add", "source.txt")
+    _git(root, "commit", "-m", "source")
+    source = _git(root, "rev-parse", "HEAD")
+    report = {
+        "status": "PASS_STRICT_TAG_RENDER",
+        "source_sha": source,
+        "rendered_html_pages": 526,
+        "scope_audit_status": "PASS_BOUNDED_PUBLIC_SURFACES",
+        "scope_audit_sha256": release_verifier.BOUNDED_DOC_SCOPE_SHA256,
+    }
+    path = "qualification/0_2_12/documentation-proof.json"
+    target = root / path
+    target.parent.mkdir(parents=True, exist_ok=True)
+    payload = json.dumps(report, sort_keys=True).encode("utf-8")
+    target.write_bytes(payload)
+    _git(root, "add", "qualification")
+    _git(root, "commit", "-m", "docs proof")
+    head = _git(root, "rev-parse", "HEAD")
+    documentation = {
+        **report,
+        "record_path": path,
+        "record_commit_sha": head,
+        "record_sha256": _sha(payload),
+    }
+    contract = {"source_sha": source, "bounded_profile_evidence": {"documentation": documentation}}
+    release_verifier._validate_bounded_documentation_record(root, head, contract)
+
+    target.write_text("tampered\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="Committed contract input differs"):
+        release_verifier._validate_bounded_documentation_record(root, head, contract)
 
 
 def test_tagged_engineering_ci_requires_matching_lineage_and_authenticated_artifact(

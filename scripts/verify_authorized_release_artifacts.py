@@ -47,7 +47,189 @@ _scope_policy = cast(
 )
 
 
-SUPPORTED_RELEASE_CONTRACT_SCHEMA_VERSIONS = {1, 2}
+SUPPORTED_RELEASE_CONTRACT_SCHEMA_VERSIONS = {1, 2, 3}
+BOUNDED_PROFILE = "PYPI_0212_BOUNDED"
+BOUNDED_SOURCE_SHA = "f6f63eb8701e38b41aae0d735850e8cf50b07fa5"
+BOUNDED_TAG_OBJECT_SHA = "dbf8314b861ac7f3a963d6036080e7a96ca4b17e"
+BOUNDED_DOC_SCOPE_SHA256 = "2545399b23658145f0b6f91309d8d358db41d7ebd6face8dfba703a9e3a93eef"
+BOUNDED_STAGING_RUN_ID = 42465518619
+BOUNDED_STAGING_ARTIFACT_ID = 13611258554
+BOUNDED_QUALITY_RUN_ID = 42394326907
+BOUNDED_ARTIFACTS = {
+    "wheel": {"filename": "qf_solver-0.2.12-py3-none-any.whl", "bytes": 1709716,
+              "sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"},
+    "sdist": {"filename": "qf_solver-0.2.12.tar.gz", "bytes": 1344948,
+              "sha256": "1b6a980c4ecb3dce1ed5a885a69c9cc66d1efd62af85fba20bb0ed13daac1cd1"},
+}
+BOUNDED_CHECKSUM_MANIFEST = {
+    "filename": "qf_solver-0.2.12-f6f63eb-SHA256SUMS.txt", "bytes": 190,
+    "sha256": "bc20da5094e4d250dc33be7aa379e07a654e20b8ba787ad596cac9801c62c634",
+}
+STANDARD_QUALITY_JOBS = {
+    "ubuntu_python_3_10", "ubuntu_python_3_13",
+    "windows_python_3_10", "windows_python_3_13",
+}
+BOUNDED_SMOKE_CASES = {
+    "static_tet4_single_free_dof": "PASS",
+    "modal_tet4_three_modes": "PASS",
+    "rotating_modal_beam2_disk_one_speed": "PASS_EXPERIMENTAL",
+    "campbell_beam2_disk_three_speeds": "PASS_EXPERIMENTAL",
+}
+
+
+def _validate_bounded_candidate_audit(audit: dict[str, Any], contract: dict[str, Any], source_sha: str) -> None:
+    """Validate evidence accepted by the narrowly scoped 0.2.12 PyPI profile."""
+    ci = audit.get("ci")
+    if not isinstance(ci, dict) or not isinstance(ci.get("quality_jobs"), dict):
+        raise ValueError("The bounded candidate audit has no standard Quality matrix.")
+    if (
+        ci.get("quality_head_sha") != source_sha
+        or ci.get("quality_run_id") != BOUNDED_QUALITY_RUN_ID
+        or ci.get("quality_conclusion") != "SUCCESS"
+        or ci.get("ci_sha_exact_match") is not True
+        or ci["quality_jobs"] != {name: "PASS" for name in STANDARD_QUALITY_JOBS}
+    ):
+        raise ValueError("Bounded profile requires exactly the four passing standard Quality cells on the source SHA.")
+
+    evidence = audit.get("bounded_profile_evidence")
+    approved = contract.get("bounded_profile_evidence")
+    if not isinstance(evidence, dict) or not isinstance(approved, dict) or evidence != approved:
+        raise ValueError("Bounded profile evidence must exactly match its frozen contract bindings.")
+    documentation = evidence.get("documentation")
+    if not isinstance(documentation, dict) or (
+        documentation.get("status") != "PASS_STRICT_TAG_RENDER"
+        or documentation.get("source_sha") != source_sha
+        or documentation.get("rendered_html_pages") != 526
+        or documentation.get("scope_audit_status") != "PASS_BOUNDED_PUBLIC_SURFACES"
+        or documentation.get("scope_audit_sha256") != BOUNDED_DOC_SCOPE_SHA256
+        or not isinstance(documentation.get("scope_audit_sha256"), str)
+        or not re.fullmatch(r"[0-9a-f]{64}", documentation["scope_audit_sha256"])
+    ):
+        raise ValueError("Bounded profile documentation render or selected-scope audit is incomplete.")
+    smokes = evidence.get("installed_smokes")
+    if not isinstance(smokes, dict) or (
+        smokes.get("status") != "PASS"
+        or smokes.get("manifest_sha256") != contract.get("smoke_manifest_sha256")
+        or not isinstance(smokes.get("manifest_sha256"), str)
+        or not re.fullmatch(r"[0-9a-f]{64}", smokes["manifest_sha256"])
+        or smokes.get("cases") != BOUNDED_SMOKE_CASES
+    ):
+        raise ValueError("Bounded profile requires all four installed smokes from the exact approved manifest.")
+    receipts = smokes.get("receipts")
+    if not isinstance(receipts, dict) or set(receipts) != set(BOUNDED_SMOKE_CASES):
+        raise ValueError("Bounded profile must bind one exact execution receipt for each approved installed smoke.")
+    for case_id, expected_status in BOUNDED_SMOKE_CASES.items():
+        receipt = receipts[case_id]
+        if not isinstance(receipt, dict) or (
+            receipt.get("status") != expected_status
+            or receipt.get("attempts") != 1
+            or receipt.get("case_id") != case_id
+            or any(not isinstance(receipt.get(key), str)
+                   or not re.fullmatch(r"[0-9a-f]{64}", receipt[key])
+                   for key in ("evidence_sha256", "raw_result_sha256", "authorization_sha256"))
+            or not isinstance(receipt.get("evidence_path"), str)
+            or not isinstance(receipt.get("evidence_commit_sha"), str)
+        ):
+            raise ValueError(f"The installed smoke receipt is incomplete or invalid: {case_id}")
+    if evidence.get("extended_validation") != "NOT_RUN" or evidence.get("wp14") != "NOT_RUN":
+        raise ValueError("Bounded profile must preserve extended validation and WP14 as NOT_RUN.")
+
+
+def _validate_bounded_quality_run(source_sha: str) -> None:
+    """Recheck the four standard Quality jobs against the exact Actions run."""
+    run_id = BOUNDED_QUALITY_RUN_ID
+    run = json.loads(_github_release_evidence(f"actions/runs/{run_id}"))
+    if (
+        run.get("id") != run_id
+        or run.get("run_attempt") != 1
+        or run.get("path") != ".github/workflows/quality.yml"
+        or run.get("head_sha") != source_sha
+        or run.get("status") != "completed"
+        or run.get("conclusion") != "success"
+        or (run.get("repository") or {}).get("id") != 1329797607
+    ):
+        raise ValueError("The bounded profile Quality run is not the exact successful source run.")
+    response = json.loads(_github_release_evidence(f"actions/runs/{run_id}/jobs?per_page=100"))
+    jobs = response.get("jobs") if isinstance(response, dict) else None
+    if not isinstance(jobs, list):
+        raise ValueError("The bounded profile Quality run has no readable job matrix.")
+    expected = {
+        "ubuntu-latest / Python 3.10", "ubuntu-latest / Python 3.13",
+        "windows-latest / Python 3.10", "windows-latest / Python 3.13",
+    }
+    passed = {
+        job.get("name") for job in jobs
+        if isinstance(job, dict) and job.get("status") == "completed" and job.get("conclusion") == "success"
+    }
+    if passed != expected:
+        raise ValueError("The exact-source Quality run does not have exactly the four passing standard matrix cells.")
+
+
+def _validate_bounded_smoke_receipts(
+    root: Path, head: str, source_sha: str, contract: dict[str, Any],
+) -> None:
+    """Verify smoke receipt digests against the committed case result records."""
+    evidence = contract.get("bounded_profile_evidence", {})
+    smokes = evidence.get("installed_smokes", {}) if isinstance(evidence, dict) else {}
+    receipts = smokes.get("receipts", {}) if isinstance(smokes, dict) else {}
+    wheel_sha = contract.get("audited_artifacts", {}).get("wheel", {}).get("sha256")
+    for case_id, expected_status in BOUNDED_SMOKE_CASES.items():
+        receipt = receipts[case_id]
+        path = _relative_path(receipt.get("evidence_path", ""))
+        commit = receipt.get("evidence_commit_sha")
+        if (
+            not isinstance(commit, str)
+            or not re.fullmatch(r"[0-9a-f]{40}", commit)
+            or git_run(["merge-base", "--is-ancestor", source_sha, commit], cwd=root).returncode
+            or git_run(["merge-base", "--is-ancestor", commit, head], cwd=root).returncode
+        ):
+            raise ValueError(f"Smoke evidence is not committed in the exact release lineage: {case_id}")
+        payload = _committed_bytes(root, head, path)
+        recorded_payload = git_run(["show", f"{commit}:{path}"], cwd=root, check=True).stdout
+        if (
+            hashlib.sha256(payload).hexdigest() != receipt.get("evidence_sha256")
+            or hashlib.sha256(recorded_payload).hexdigest() != receipt.get("evidence_sha256")
+        ):
+            raise ValueError(f"Smoke evidence bytes differ from the committed receipt: {case_id}")
+        record = json.loads(payload)
+        if not isinstance(record, dict) or (
+            record.get("case_id") != case_id
+            or record.get("status") != expected_status
+            or record.get("attempts") != 1
+            or record.get("manifest_sha256") != contract.get("smoke_manifest_sha256")
+            or record.get("plan_sha256") != contract.get("smoke_plan_sha256")
+            or record.get("source_sha") != source_sha
+            or record.get("wheel_sha256") != wheel_sha
+            or record.get("raw_result_sha256") != receipt.get("raw_result_sha256")
+            or record.get("authorization_sha256") != receipt.get("authorization_sha256")
+        ):
+            raise ValueError(f"Committed smoke result does not match the approved case identity: {case_id}")
+
+
+def _validate_bounded_documentation_record(root: Path, head: str, contract: dict[str, Any]) -> None:
+    evidence = contract.get("bounded_profile_evidence", {})
+    documentation = evidence.get("documentation", {}) if isinstance(evidence, dict) else {}
+    path = _relative_path(documentation.get("record_path", ""))
+    commit = documentation.get("record_commit_sha")
+    expected_sha = documentation.get("record_sha256")
+    source_sha = contract.get("source_sha")
+    if (
+        not isinstance(commit, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", commit)
+        or git_run(["merge-base", "--is-ancestor", source_sha, commit], cwd=root).returncode
+        or git_run(["merge-base", "--is-ancestor", commit, head], cwd=root).returncode
+    ):
+        raise ValueError("The strict documentation proof is not committed in the exact release lineage.")
+    payload = _committed_bytes(root, head, path)
+    recorded = git_run(["show", f"{commit}:{path}"], cwd=root, check=True).stdout
+    if hashlib.sha256(payload).hexdigest() != expected_sha or hashlib.sha256(recorded).hexdigest() != expected_sha:
+        raise ValueError("The committed strict documentation proof differs from its frozen digest.")
+    record = json.loads(payload)
+    if not isinstance(record, dict) or any(
+        record.get(key) != documentation.get(key)
+        for key in ("status", "source_sha", "rendered_html_pages", "scope_audit_status", "scope_audit_sha256")
+    ):
+        raise ValueError("The committed documentation proof does not match the bounded profile evidence.")
 
 
 def _release_channel_permissions(contract: dict[str, Any]) -> tuple[bool, bool]:
@@ -112,7 +294,11 @@ def validate_pypi_staging_transport(root: Path, head: str, contract: dict[str, A
         or any(type(value) is not int or not 1 <= value < 2**53 for value in source.values())
     ):
         raise ValueError("Bind one exact Actions staging run and artifact for the v0.2.12 PyPI-only release.")
-
+    if contract.get("validation_profile") == BOUNDED_PROFILE and source != {
+        "run_id": BOUNDED_STAGING_RUN_ID,
+        "artifact_id": BOUNDED_STAGING_ARTIFACT_ID,
+    }:
+        raise ValueError("The bounded profile must use the exact preverified PyPI staging run and artifact.")
     run_id, artifact_id = source["run_id"], source["artifact_id"]
     workflow_path = ".github/workflows/stage-pypi-0212.yml"
     repository_id = 1329797607
@@ -275,6 +461,7 @@ def _validate_candidate_audit(
         raise ValueError("The candidate audit record is malformed.")
     github_allowed, zenodo_allowed = _release_channel_permissions(contract)
     pypi_only = not github_allowed and not zenodo_allowed
+    bounded_profile = contract.get("validation_profile") == BOUNDED_PROFILE
     if pypi_only:
         tag_object = contract.get("tag_object_sha")
         tag_ref = f"refs/tags/{contract.get('release_tag')}"
@@ -307,11 +494,17 @@ def _validate_candidate_audit(
     ):
         raise ValueError("The candidate audit does not describe this exact frozen, untagged release candidate.")
 
-    expected_gate_keys = {f"QF0211_G0{number}" for number in range(1, 9)}
-    audit_gates = audit.get("release_gates", {})
-    contract_gates = contract.get("release_gates", {})
-    if any(audit_gates.get(key) != contract_gates.get(key) for key in expected_gate_keys):
-        raise ValueError("The final candidate audit and selected-release contract gate results differ.")
+    if bounded_profile:
+        _validate_bounded_candidate_audit(audit, contract, source_sha)
+        _validate_bounded_documentation_record(root, head, contract)
+        _validate_bounded_smoke_receipts(root, head, source_sha, contract)
+        _validate_bounded_quality_run(source_sha)
+    else:
+        expected_gate_keys = {f"QF0211_G0{number}" for number in range(1, 9)}
+        audit_gates = audit.get("release_gates", {})
+        contract_gates = contract.get("release_gates", {})
+        if any(audit_gates.get(key) != contract_gates.get(key) for key in expected_gate_keys):
+            raise ValueError("The final candidate audit and selected-release contract gate results differ.")
 
     ci = audit.get("ci", {})
     if not isinstance(ci, dict):
@@ -319,7 +512,7 @@ def _validate_candidate_audit(
     jobs = ci.get("quality_jobs", {})
     if not isinstance(jobs, dict):
         raise ValueError("The candidate audit CI job matrix is malformed.")
-    if (
+    if not bounded_profile and (
         ci.get("quality_head_sha") != source_sha
         or ci.get("quality_conclusion") != "SUCCESS"
         or ci.get("documentation_head_sha") != source_sha
@@ -336,7 +529,7 @@ def _validate_candidate_audit(
         ))
     ):
         raise ValueError("The candidate audit does not contain successful exact-source Quality and Documentation CI.")
-    if contract.get("package_version") == "0.2.12":
+    if contract.get("package_version") == "0.2.12" and not bounded_profile:
         if not pypi_only:
             raise ValueError("The v0.2.12 workflow requires an explicitly bounded PyPI-only contract.")
         _validate_tagged_engineering_ci(root, head, source_sha, contract, ci)
@@ -374,10 +567,10 @@ def _validate_candidate_audit(
         or probes.get("imports_outside_checkout_and_safe_path") != "PASS"
         or probes.get("installed_import_origins") != "PASS"
         or probes.get("version_and_cli_probes") != "PASS"
-        or probes.get("static_smoke") != "PASS"
-        or probes.get("modal_smoke") != "PASS"
-        or probes.get("rotating_modal_smoke") != "PASS_EXPERIMENTAL"
-        or probes.get("campbell_smoke") != "PASS_EXPERIMENTAL"
+        or (not bounded_profile and probes.get("static_smoke") != "PASS")
+        or (not bounded_profile and probes.get("modal_smoke") != "PASS")
+        or (not bounded_profile and probes.get("rotating_modal_smoke") != "PASS_EXPERIMENTAL")
+        or (not bounded_profile and probes.get("campbell_smoke") != "PASS_EXPERIMENTAL")
     ):
         raise ValueError("The candidate audit installed-package probes are incomplete or failing.")
 
@@ -480,6 +673,30 @@ def validate_owner_artifact_scope(contract: dict[str, Any], owner_record: dict[s
         raise ValueError("The selected-release contract has no stable package version.")
     if contract.get("status") != "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE":
         raise ValueError("The selected-release contract is not explicitly Owner-authorized.")
+    bounded_profile = contract.get("validation_profile") == BOUNDED_PROFILE
+    if schema_version == 3 or bounded_profile:
+        if not bounded_profile or schema_version != 3:
+            raise ValueError("The bounded profile requires its dedicated schema version and explicit opt-in.")
+        if (
+            version != "0.2.12"
+            or contract.get("source_sha") != BOUNDED_SOURCE_SHA
+            or contract.get("release_tag") != "v0.2.12"
+            or contract.get("tag_object_sha") != BOUNDED_TAG_OBJECT_SHA
+            or not isinstance(contract.get("smoke_manifest_sha256"), str)
+            or not re.fullmatch(r"[0-9a-f]{64}", contract["smoke_manifest_sha256"])
+            or not isinstance(contract.get("smoke_plan_sha256"), str)
+            or not re.fullmatch(r"[0-9a-f]{64}", contract["smoke_plan_sha256"])
+            or contract.get("documentation_scope_audit_sha256") != BOUNDED_DOC_SCOPE_SHA256
+            or contract.get("audited_artifacts") != BOUNDED_ARTIFACTS
+            or contract.get("sha256_manifest") != BOUNDED_CHECKSUM_MANIFEST
+            or contract.get("legal_review_status") != "NOT_ACQUIRED"
+            or owner_record.get("validation_profile") != BOUNDED_PROFILE
+            or owner_record.get("bounded_profile_approved") is not True
+            or owner_record.get("approved_smoke_manifest_sha256") != contract.get("smoke_manifest_sha256")
+            or owner_record.get("approved_smoke_plan_sha256") != contract.get("smoke_plan_sha256")
+            or owner_record.get("legal_review_status") != "NOT_ACQUIRED"
+        ):
+            raise ValueError("The bounded profile lacks explicit matching Owner approval for exact v0.2.12 inputs.")
     expected_decisions = {
         f"AUTHORIZE_V{version.replace('.', '_')}_PUBLICATION",
         "AUTHORIZE_SELECTED_PACKAGE_RELEASE",
@@ -616,7 +833,7 @@ def validate_owner_artifact_scope(contract: dict[str, Any], owner_record: dict[s
         scope = "SELECTED_DISTRIBUTION"
     if scope != "SELECTED_DISTRIBUTION":
         raise ValueError("This verifier authorizes only an explicit selected-distribution scope.")
-    if schema_version == 2 and owner_record.get("publication_scope") != scope:
+    if schema_version >= 2 and owner_record.get("publication_scope") != scope:
         raise ValueError("The Owner record and release contract must name the same selected scope.")
     g03_status = contract.get("g03_status")
     archive_cleared = contract.get("whole_repository_archive_cleared")
@@ -627,7 +844,10 @@ def validate_owner_artifact_scope(contract: dict[str, Any], owner_record: dict[s
 
     release_gates = contract.get("release_gates")
     owner_gates = owner_record.get("release_gates")
-    if schema_version == 2 or release_gates is not None or owner_gates is not None:
+    if schema_version == 3:
+        if contract.get("extended_validation") != "NOT_RUN" or contract.get("wp14_validation") != "NOT_RUN":
+            raise ValueError("The bounded profile must record extended validation and WP14 as NOT_RUN.")
+    elif schema_version == 2 or release_gates is not None or owner_gates is not None:
         if not isinstance(release_gates, dict) or not isinstance(owner_gates, dict) or release_gates != owner_gates:
             raise ValueError("Owner and release-contract gate decisions differ.")
         required = {f"QF0211_G0{number}" for number in range(1, 9)}
@@ -779,11 +999,15 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
         raise ValueError("The contract does not identify the exact prospective Owner authorization.")
     _validate_superseded_owner_record(root, head, owner_record, release_contract)
     validate_owner_artifact_scope(release_contract, owner_record)
-    if release_contract.get("package_version") == "0.2.12" and (
-        owner_record.get("tagged_engineering_ci") != release_contract.get("tagged_engineering_ci")
-        or owner_record.get("pypi_artifact_source") != release_contract.get("pypi_artifact_source")
-    ):
-        raise ValueError("The Owner record must bind the same engineering evidence and PyPI artifact transport.")
+    if release_contract.get("package_version") == "0.2.12":
+        if release_contract.get("validation_profile") == BOUNDED_PROFILE:
+            if owner_record.get("pypi_artifact_source") != release_contract.get("pypi_artifact_source"):
+                raise ValueError("The Owner record must bind the same exact PyPI staging run and artifact.")
+        elif (
+            owner_record.get("tagged_engineering_ci") != release_contract.get("tagged_engineering_ci")
+            or owner_record.get("pypi_artifact_source") != release_contract.get("pypi_artifact_source")
+        ):
+            raise ValueError("The Owner record must bind the same engineering evidence and PyPI artifact transport.")
     _validate_candidate_audit(root, head, source_sha, release_contract)
     resolution = release_contract.get("authorization_resolution", {})
     resolution_hashes = {

@@ -1,0 +1,270 @@
+{
+  "authorization_and_publication": {
+    "github_release_allowed": false,
+    "ledger_update_allowed": false,
+    "limitations": [
+      "Authorization applies only to the exact selected wheel and sdist for PyPI and the v0.2.12 tag source.",
+      "Legal review remains NOT_ACQUIRED; whole-repository G03 remains FAIL_PRESERVED and no whole-repository archive is cleared.",
+      "Extended validation remains NOT_RUN and WP14 remains HOLD_NOT_PROMOTED/NOT_RUN.",
+      "Rotating modal and Campbell outcomes remain bounded PASS_EXPERIMENTAL smoke evidence; they do not promote maturity or qualify a general feature domain.",
+      "No GitHub Release, Zenodo deposit, ledger update, version DOI, release date, certification claim, or universal validation claim is authorized or recorded.",
+      "No upload or other publication action has been performed in preparation of this audit."
+    ],
+    "owner_authorization_commit_sha": "1e5a3628dd9820dafcece49148edb730514aa882",
+    "owner_authorization_path": "qualification/0_2_12/owner_pypi_publication_authorization_f6f63eb.json",
+    "owner_authorization_sha256": "1cd922ed6f4528d009869ac9687b9b10cd61a613cf4d5a21d245ec43e9bf4d26",
+    "owner_release_authorization": "GRANTED_FOR_EXACT_PYPI_SELECTED_DISTRIBUTIONS",
+    "publication_allowed": true,
+    "publication_performed": false,
+    "pypi_upload_allowed": true,
+    "tag_creation_allowed": true,
+    "version_doi_or_release_date_may_be_claimed": false,
+    "zenodo_deposit_allowed": false
+  },
+  "bounded_profile_evidence": {
+    "documentation": {
+      "record_commit_sha": "cc7610e14dd200f2ac7a29d20119abd510b79e75",
+      "record_path": "qualification/0_2_12/pypi_bounded_docs_f6f63eb.json",
+      "record_sha256": "8e70bfc1963ae4dd1baf9302bc18de20b3584d1c731966364b3b13d63807493b",
+      "rendered_html_pages": 526,
+      "scope_audit_sha256": "2545399b23658145f0b6f91309d8d358db41d7ebd6face8dfba703a9e3a93eef",
+      "scope_audit_status": "PASS_BOUNDED_PUBLIC_SURFACES",
+      "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+      "status": "PASS_STRICT_TAG_RENDER"
+    },
+    "extended_validation": "NOT_RUN",
+    "installed_smokes": {
+      "cases": {
+        "campbell_beam2_disk_three_speeds": "PASS_EXPERIMENTAL",
+        "modal_tet4_three_modes": "PASS",
+        "rotating_modal_beam2_disk_one_speed": "PASS_EXPERIMENTAL",
+        "static_tet4_single_free_dof": "PASS"
+      },
+      "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+      "receipts": {
+        "campbell_beam2_disk_three_speeds": {
+          "attempts": 1,
+          "authorization_sha256": "e8b53c4f8eb74b9fa1c93296165d3e7e19583aab18674a099affa83cf67ee10a",
+          "case_id": "campbell_beam2_disk_three_speeds",
+          "evidence_commit_sha": "918613382414966a1b84d06efa6e3189cebe2b51",
+          "evidence_path": "qualification/0_2_12/smokes/campbell_beam2_disk_three_speeds.json",
+          "evidence_sha256": "12aca301030d39a463310cbe5e42b93cd104631ad6e1884874402ca4991d1432",
+          "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+          "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+          "raw_result_sha256": "e8e9b20fbbb970a242905a11dfe15a7f258c6b64592d60d74928533e5bb402c7",
+          "reservation_sha256": "7110941092909e9acdb524ec2452baf9f62471a74bd3f8ee46098890044863d9",
+          "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+          "status": "PASS_EXPERIMENTAL",
+          "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+        },
+        "modal_tet4_three_modes": {
+          "attempts": 1,
+          "authorization_sha256": "aabca4ca91ae90adc1e4331a6d48f91e7af2fad9ad11c6be48ecfb329a82d2c3",
+          "case_id": "modal_tet4_three_modes",
+          "evidence_commit_sha": "918613382414966a1b84d06efa6e3189cebe2b51",
+          "evidence_path": "qualification/0_2_12/smokes/modal_tet4_three_modes.json",
+          "evidence_sha256": "945f63b64e518d17ccb14f6409b52b5adeaa103f02c028bf194f039e4667522a",
+          "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+          "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+          "raw_result_sha256": "dc01b07f03f3ba05a9df519a2e7db9a67de24eabdebe51e1762c4dda3d574e85",
+          "reservation_sha256": "1da9988757d432d7443f5aa619386f20a46bac5b06363109e6b3a492b57b8bac",
+          "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+          "status": "PASS",
+          "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+        },
+        "rotating_modal_beam2_disk_one_speed": {
+          "attempts": 1,
+          "authorization_sha256": "488929b073caf38f8385bb0952f8399c195d1cc0ef093b95ade078aed8479282",
+          "case_id": "rotating_modal_beam2_disk_one_speed",
+          "evidence_commit_sha": "918613382414966a1b84d06efa6e3189cebe2b51",
+          "evidence_path": "qualification/0_2_12/smokes/rotating_modal_beam2_disk_one_speed.json",
+          "evidence_sha256": "7aacf6d963fb541d041d6cdb43144a8731d7aeb8721194b80228b3da6a452cdf",
+          "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+          "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+          "raw_result_sha256": "c624b2703eb8f6add6703bc6ded2cdfcc07386f6c468a8c6728b839944c0a883",
+          "reservation_sha256": "b03277f1614506ce7cea2e1bee7040182c652e11024bf498a8bfa0d271bb0347",
+          "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+          "status": "PASS_EXPERIMENTAL",
+          "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+        },
+        "static_tet4_single_free_dof": {
+          "attempts": 1,
+          "authorization_sha256": "a7a1384729501c674587b110adac483ff8c1bf023ad8edbc6776573b46ff2906",
+          "case_id": "static_tet4_single_free_dof",
+          "evidence_commit_sha": "918613382414966a1b84d06efa6e3189cebe2b51",
+          "evidence_path": "qualification/0_2_12/smokes/static_tet4_single_free_dof.json",
+          "evidence_sha256": "3793ebcdabc4ec6da90f71036edfeff7f50b71d90ff730f9df995b74cd100ef8",
+          "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+          "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+          "raw_result_sha256": "e247abc6016d12c60daab903bf712be516b1f4f6868ac03a5cfeaba979ae3596",
+          "reservation_sha256": "f6e625bca014f2866104aa3675ebe3521a9b103d71c84eb5f6b485f7ece2bc74",
+          "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+          "status": "PASS",
+          "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+        }
+      },
+      "status": "PASS"
+    },
+    "wp14": "NOT_RUN"
+  },
+  "build_and_artifacts": {
+    "archive_content_and_path_audit": "PASS",
+    "build_environment": {
+      "build": "1.5.0",
+      "pip": "24.3.1",
+      "python": "3.13.1",
+      "setuptools": "84.1.0",
+      "source_date_epoch": 1794070966,
+      "twine": "7.0.0",
+      "wheel": "0.47.0"
+    },
+    "build_policy": "Selected source blobs from the exact tag source; one frozen candidate build plus a separately authorized, same-environment non-FEM reproducibility confirmation. No cross-platform or independent-toolchain claim.",
+    "installed_package_probes": {
+      "campbell_smoke": "PASS_EXPERIMENTAL",
+      "imports_outside_checkout_and_safe_path": "PASS",
+      "installed_import_origins": "PASS",
+      "isolated_no_index_no_deps_install": "PASS",
+      "modal_smoke": "PASS",
+      "rotating_modal_smoke": "PASS_EXPERIMENTAL",
+      "static_smoke": "PASS",
+      "version_and_cli_probes": "PASS"
+    },
+    "manifest": {
+      "entries_match_exact_artifacts": true,
+      "filename": "qf_solver-0.2.12-f6f63eb-SHA256SUMS.txt",
+      "sha256": "bc20da5094e4d250dc33be7aa379e07a654e20b8ba787ad596cac9801c62c634",
+      "size_bytes": 190
+    },
+    "sdist": {
+      "file_count": 594,
+      "filename": "qf_solver-0.2.12.tar.gz",
+      "normalization_policy": "Independent confirmation normalized the sdist with the frozen source epoch and source-bound normalizer; both normalized archives were identical. The authorized staged artifact remains the exact raw candidate A bytes.",
+      "normalized_builds_byte_identical": true,
+      "raw_build_a_sha256": "1b6a980c4ecb3dce1ed5a885a69c9cc66d1efd62af85fba20bb0ed13daac1cd1",
+      "raw_build_b_sha256": "0e85586c70eaf8f455e0a0852c7a206f2f4f16081ca84798b7ef157e48560013",
+      "raw_builds_byte_identical": false,
+      "raw_difference": "Generated gzip metadata only; package payloads were preserved.",
+      "sha256": "1b6a980c4ecb3dce1ed5a885a69c9cc66d1efd62af85fba20bb0ed13daac1cd1",
+      "size_bytes": 1344948
+    },
+    "twine_check": "PASS",
+    "wheel": {
+      "archive_content_and_path_audit": "PASS",
+      "filename": "qf_solver-0.2.12-py3-none-any.whl",
+      "independent_builds_byte_identical": true,
+      "sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719",
+      "size_bytes": 1709716
+    }
+  },
+  "build_contract": {
+    "expected_findings_per_surface": 0,
+    "expected_tag_target_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+    "path": "qualification/0_2_12/wp13_selected_distribution_frozen_scope_f6f63eb_20261108.json",
+    "selected_package_file_count": 586,
+    "served_document_file_count": 757,
+    "sha256": "d00a27b08015006692557b76fb81bc6c8d5cb9e2291374039bea11e2821cbda1",
+    "source_date_epoch": 1794070966,
+    "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+    "status": "FROZEN_CANDIDATE_BUILD"
+  },
+  "candidate": {
+    "branch": "main",
+    "expected_tag": "v0.2.12",
+    "expected_tag_target_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+    "package_source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+    "package_source_tree_sha": "aba6002504ce881abd9c0aed1fdb27a289e3dafd",
+    "package_version": "0.2.12",
+    "pre_audit_governance_head_sha": "1e5a3628dd9820dafcece49148edb730514aa882",
+    "previous_package_candidate_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "tag_created": true,
+    "tag_object_sha": "dbf8314b861ac7f3a963d6036080e7a96ca4b17e",
+    "tag_state": "EXISTING_ANNOTATED_TAG_VERIFIED"
+  },
+  "ci": {
+    "ci_sha_exact_match": true,
+    "quality_conclusion": "SUCCESS",
+    "quality_head_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+    "quality_jobs": {
+      "ubuntu_python_3_10": "PASS",
+      "ubuntu_python_3_13": "PASS",
+      "windows_python_3_10": "PASS",
+      "windows_python_3_13": "PASS"
+    },
+    "quality_run_id": 42394326907,
+    "quality_run_url": "https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/42394326907"
+  },
+  "citation_and_public_claims": {
+    "campbell_maturity": "EXPERIMENTAL",
+    "citation_version": "0.2.12",
+    "historical_failures_reclassified": false,
+    "historical_g03": "FAIL_PRESERVED",
+    "historical_wp14": "HOLD_NOT_PROMOTED",
+    "maturity_promotions": "NONE",
+    "readme_current_release": "0.2.12",
+    "release_date_0_2_12": "NOT_SET",
+    "rotating_modal_maturity": "EXPERIMENTAL",
+    "version_doi_0_2_12": "NOT_ASSIGNED_NOT_CLAIMED",
+    "whole_repository_archive_cleared": false
+  },
+  "focused_validation": {
+    "approved_case_manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+    "approved_plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+    "attempts_per_case": 1,
+    "extended_validation": "NOT_RUN",
+    "installed_smokes": {
+      "campbell_beam2_disk_three_speeds": "PASS_EXPERIMENTAL",
+      "modal_tet4_three_modes": "PASS",
+      "rotating_modal_beam2_disk_one_speed": "PASS_EXPERIMENTAL",
+      "static_tet4_single_free_dof": "PASS"
+    },
+    "wp14": "NOT_RUN"
+  },
+  "record_id": "QF-0212-WP07-FINAL-CANDIDATE-AUDIT-F6F63EB-2026-11-08",
+  "record_type": "PROSPECTIVE_RELEASE_CANDIDATE_AUDIT",
+  "release_gates": {
+    "extended_validation": "NOT_RUN",
+    "four_installed_smokes": "PASS",
+    "g03_status": "FAIL_PRESERVED",
+    "legal_review": "NOT_ACQUIRED",
+    "ready_for_owner_release_authorization": true,
+    "selected_distribution": "PASS",
+    "strict_documentation": "PASS",
+    "whole_repository_archive_cleared": false,
+    "wp14_status": "HOLD_NOT_PROMOTED",
+    "wp14_validation": "NOT_RUN"
+  },
+  "schema_version": 1,
+  "selected_scope_audit": {
+    "historical_document_files_excluded": 208,
+    "selected_package_files": 586,
+    "selected_package_findings": 0,
+    "served_document_files": 757,
+    "served_document_findings": 0,
+    "source_materialization": "Exact selected Git blobs from f6f63eb8701e38b41aae0d735850e8cf50b07fa5.",
+    "status": "PASS_BOUNDED_PUBLIC_SURFACES",
+    "whole_repository_g03": "FAIL_PRESERVED",
+    "whole_repository_scanned": false
+  },
+  "source_change_review": {
+    "governance_records_excluded_from_selected_package": [
+      "qualification/0_2_12/owner_pypi_publication_authorization_f6f63eb.json",
+      "qualification/0_2_12/smokes/",
+      "qualification/0_2_12/wp07_final_candidate_audit_f6f63eb_bounded.json",
+      "qualification/0_2_12/authorized_selected_package_release_contract_f6f63eb_bounded.json"
+    ],
+    "historical_governance_contracts_rewritten": false,
+    "interpretation": "The existing annotated tag identifies exact merged source f6f63eb. Release governance records are committed afterward outside the selected package/documentation inputs; no tagged package source, public documentation, scientific contract, threshold, or maturity claim is changed.",
+    "maturity_or_historical_record_changed": false,
+    "numerical_defect": false,
+    "numerical_source_changed": false,
+    "packaging_defect": false,
+    "public_api_changed": false,
+    "qualification_input_changed": false,
+    "qualification_threshold_changed": false,
+    "scientific_qualification_contract_changed": false,
+    "scientific_test_changed": false,
+    "selected_package_source_changed_after_tag": false,
+    "served_documentation_changed_after_tag": false
+  },
+  "status": "READY_FOR_OWNER_RELEASE_AUTHORIZATION"
+}

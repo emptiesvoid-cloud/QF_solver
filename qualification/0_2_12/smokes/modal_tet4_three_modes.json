@@ -1,0 +1,12 @@
+{
+  "attempts": 1,
+  "authorization_sha256": "aabca4ca91ae90adc1e4331a6d48f91e7af2fad9ad11c6be48ecfb329a82d2c3",
+  "case_id": "modal_tet4_three_modes",
+  "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+  "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+  "raw_result_sha256": "dc01b07f03f3ba05a9df519a2e7db9a67de24eabdebe51e1762c4dda3d574e85",
+  "reservation_sha256": "1da9988757d432d7443f5aa619386f20a46bac5b06363109e6b3a492b57b8bac",
+  "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+  "status": "PASS",
+  "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+}

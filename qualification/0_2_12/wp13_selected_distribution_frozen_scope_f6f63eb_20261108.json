@@ -1,0 +1,363 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-0212-FROZEN-SELECTED-PUBLIC-SCOPE-F6F63EB-20261108",
+  "status": "FROZEN_CANDIDATE_BUILD",
+  "package_version": "0.2.12",
+  "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+  "expected_tag": "v0.2.12",
+  "expected_tag_target_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+  "source_date_epoch": 1794070966,
+  "integration": {
+    "strategy": "Build selected Python distributions from exact merged main source commit f6f63eb8701e38b41aae0d735850e8cf50b07fa5; the already existing annotated v0.2.12 tag targets this source. Qualification only; no publication.",
+    "release_branch_baseline_sha": "58e707da328c46a8797246a7ca75cdf6ca967dc4",
+    "source_commit_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+    "historical_tag_unchanged": false,
+    "tag_is_not_created_by_this_contract": true,
+    "tag_object_sha": "dbf8314b861ac7f3a963d6036080e7a96ca4b17e",
+    "tag_target_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+    "tag_state": "Existing annotated tag verified on GitHub before this prospective contract."
+  },
+  "change_scope": {
+    "source_commit_is_distinct_from_prior_selected_candidate": true,
+    "selected_package_source_changes_from_prior_candidate": [
+      "README.md",
+      "pyproject.toml"
+    ],
+    "selected_source_blobs_bound_to_source_sha": true,
+    "this_contract_commit_changes_selected_package_source": false,
+    "scientific_oracles_revalidated_by_this_contract": false,
+    "documentation_rendered_by_this_contract": false,
+    "interpretation": "The frozen source is f6f63eb8701e38b41aae0d735850e8cf50b07fa5; compared with the preceding selected-package baseline cfa5891d944aee67127277a2e14aecd120a7f741, the selected payload changed in README.md, pyproject.toml. All 586 selected source files and all seven verifier/tool bindings are bound to the exact source. A fresh build and checks are required; earlier package hashes do not transfer."
+  },
+  "selection": {
+    "include_exact": [
+      "CHANGELOG.md",
+      "CITATION.cff",
+      "LICENSE",
+      "LICENSE-DOCS",
+      "MANIFEST.in",
+      "NOTICE",
+      "README.md",
+      "THIRD_PARTY_LICENSES.md",
+      "pyproject.toml",
+      "qualification/benchmarks.json",
+      "qualification/campaign.json",
+      "qualification/demonstrations.json",
+      "qualification/element_analysis_matrix.json",
+      "qualification/formulas.json",
+      "qualification/requirements.json",
+      "qualification/release_vv_0_2_1.json",
+      "qualification/technical_content_coverage.json",
+      "qualification/0_2_7/capability_registry_v2.json",
+      "qualification/0_2_8/consolidated_registry.json",
+      "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",
+      "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+      "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+      "qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json",
+      "qualification/0_2_8/wp13_05_inp_import_capability_record.json",
+      "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json",
+      "qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json",
+      "qualification/0_2_8/wp13_07d_contact_capability_record.json",
+      "requirements/baseline-standard.txt",
+      "requirements/baseline-large-linux.txt"
+    ],
+    "include_prefixes": [
+      "examples/",
+      "src/qf_solver/",
+      "src/solveur/"
+    ],
+    "exclude_exact": [
+      "examples/README.md",
+      "src/solveur/verification/j2_multifamily_performance.py"
+    ],
+    "forbid_prefixes": [
+      "qualification/0_2_9/",
+      "docs/",
+      "scripts/",
+      "tests/"
+    ]
+  },
+  "tool_bindings": {
+    "scripts/audit_public_release.py": "dde179e41447904e5db56c79083b0b3ed0216884d88f181996cc1189a759f948",
+    "scripts/audit_release_archive.py": "f813fe3950dccf52dc8628a6c280564ae18a91a9aa4fc8503b1bd96fb7c48fbb",
+    "scripts/git_tools.py": "9192aef8e8610ee4f651cac11a18af189678f561d9c85c20c64c77be47a287fa",
+    "scripts/plan_public_package.py": "d1a734cb4a11d53abfa102507f531f9369bc70797adf23075dd5b03c10f8e1f8",
+    "scripts/probe_installed_package.py": "46576afa82a8285730c4afc67e41fd58f5a8deb753f054f5a35cc0442eb18675",
+    "scripts/review_vocabulary.py": "28af00eab2a09fdcb94bf3c4682230dcaaca9b519aeb0867d96b67d4589ad3aa",
+    "scripts/verify_public_package.py": "7e25532f5a8c2c80b0a8ab711c235fc45a34eb6219efdef0386543d00f1bc86c"
+  },
+  "scope_scan_tool_sha256": "fa2a39d03b2f14bfcbbaf725c7c9f25fe84b117a2824f3355765c0fa8c26d616",
+  "expected_preflight_counts": {
+    "selected_package_files": 586,
+    "strict_scan_findings": 0,
+    "unreconciled_sdist_payloads": 0,
+    "unreconciled_wheel_payloads": 0
+  },
+  "candidate_execution_profile": {
+    "source_materialization": "Only selected regular Git blobs from the exact frozen source_sha; no worktree source bytes.",
+    "build_command": "Set SOURCE_DATE_EPOCH to the frozen source commit timestamp 1794070966 and TEMP/TMP to a new task-specific directory on E:; invoke scripts/verify_public_package.py from this clean prospective contract checkout using the fingerprinted isolated build environment and a new external output directory.",
+    "build_environment": {
+      "python": "3.13.1",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "build": "1.5.0",
+      "setuptools": "84.1.0",
+      "wheel": "0.47.0",
+      "twine": "7.0.0",
+      "pip": "24.3.1",
+      "provisioning": "Dedicated isolated virtual environment; system-site-packages disabled; pip check passed; environment executable and distribution file-tree fingerprints reverified before contract freeze.",
+      "temporary_storage": "Immediately before execution create new task-specific TEMP/TMP and artifact output directories outside the source and contract checkouts, record free space at that time, and do not reuse a stale measurement."
+    },
+    "artifacts_expected": {
+      "wheel": "qf_solver-0.2.12-py3-none-any.whl",
+      "sdist": "qf_solver-0.2.12.tar.gz",
+      "raw_sha256": "computed and recorded by the execution manifest; not predeclared"
+    },
+    "reproducibility": "One candidate build only; no A/B build or normalized reproducibility claim.",
+    "archive_checks": [
+      "exact single wheel and sdist",
+      "selected byte equality against source Git blobs",
+      "strict seven-rule scan of archive payloads",
+      "no undeclared sdist/wheel payloads except declared generated metadata",
+      "regular files and safe portable paths only",
+      "version and metadata 0.2.12"
+    ],
+    "installed_probes": [
+      "install exact local wheel with --no-deps --no-index in the runner-created environment",
+      "verify installed Python source hashes and import origins",
+      "three console entrypoints --version",
+      "qf-solver --help",
+      "verify-all refusal inside and outside checkout without subprocess launch"
+    ],
+    "supplementary_metadata_check": "Run twine check against the exact wheel and raw sdist after the frozen runner; record argv, tool version, exit status and output hashes.",
+    "dependency_isolation": "The build-tool environment is isolated and pip check clean. The verifier-created installed-probe venv uses --system-site-packages by design; its dependency context is not hermetic and will be reported separately."
+  },
+  "candidate_status": {
+    "latest_published_version": "0.2.11",
+    "candidate_version": "0.2.12",
+    "whole_repository_g03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "legal_review": "NOT_ACQUIRED",
+    "release": "BLOCKED",
+    "aq09": "AQ09_CLOSED_SCIENTIFIC_BOUNDED_WITH_DEVIATIONS",
+    "modal_maturity": "EXPERIMENTAL"
+  },
+  "package_build_allowed": true,
+  "publication_allowed": false,
+  "structural_solves_allowed": false,
+  "numeric_threshold_changes_allowed": false,
+  "whole_repository_gate_waivers_allowed": false,
+  "release_permissions": {
+    "tag_creation_allowed": false,
+    "main_merge_allowed": false,
+    "github_release_allowed": false,
+    "pypi_upload_allowed": false,
+    "zenodo_deposit_allowed": false,
+    "site_synchronization_allowed": false,
+    "ledger_update_allowed": false,
+    "maturity_promotion_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "whole_repository_archive_publication_allowed": false
+  },
+  "limitations": [
+    "One selected wheel and sdist build for this exact source SHA; strict package payload scan and byte reconciliation; installed package/source probe; three CLI version checks; help and verify-all refusal. No publication.",
+    "No FEM, modal qualification, full CI, cross-platform test, A/B or normalized reproducibility claim.",
+    "The runner-created installed probe environment uses --system-site-packages and is not hermetic. The isolated build-tools environment is separately fingerprinted and pip-check clean.",
+    "The scan is limited to selected package sources/artifacts. It does not clear repository history, GitHub automatic source archives, Actions logs/artifacts, Pages, or the whole-repository G03 result.",
+    "Legal review remains NOT_ACQUIRED; scientific modal maturity remains EXPERIMENTAL; RELEASE remains BLOCKED. No tag, merge, upload, deployment or publication.",
+    "This prospective contract binds the exact f6 selected package sources, documentation selector, MkDocs exclusion policy, existing candidate-build evidence and staged artifact identities. It does not authorize a fresh package build or publication.",
+    "The legacy package_build_allowed compatibility field is retained because frozen_inputs and the bounded public-scope scanner require FROZEN_CANDIDATE_BUILD semantics. The sole recorded candidate build attempt is already complete; attempt_policy.next_attempts_max is 0. No build command is authorized by this contract.",
+    "The static scan does not render MkDocs, clear G03, acquire legal review, authorize release, or promote scientific/qualification status."
+  ],
+  "owner_authorization": "Owner authorized this prospective governance contract and static public-scope scan only. The earlier one-attempt package-build authorization is consumed by attempt-001; this contract authorizes no fresh build, publication, FEM, release, upload, deployment, tag mutation, or status promotion.",
+  "contract_revision": "R3-PROSPECTIVE-PUBLIC-SCOPE",
+  "supersedes_contract_id": "QF-0212-FROZEN-SELECTED-DISTRIBUTION-F6F63EB-20261107",
+  "supersession_reason": "Adds a documentation-scope binding for the exact f6f63eb tag and carries forward the already completed candidate build evidence. No selected package source or historical contract is modified.",
+  "environment_tool_bindings": {
+    "python_executable": {
+      "logical_path": "isolated build environment / Python 3.13.1 / python.exe",
+      "sha256": "cd15f17b5382c676fe857fd9e7effe0b787f95611538f4193c60a65f2637dd79",
+      "bytes": 254832
+    },
+    "python_runtime_dll": {
+      "logical_path": "Python 3.13.1 runtime DLL",
+      "sha256": "78b1dd211c0e66a0603df48da2c9b67a915ab3258701b9285d3faa255ed8dc25",
+      "bytes": 6093816
+    },
+    "distributions": {
+      "build": {
+        "version": "1.5.0",
+        "file_count": 35,
+        "missing_recorded_files": [],
+        "file_tree_sha256": "de425df1788ce4aaa9d6cd297a9080d0ebbe1b1f14c50db08418e4030cf72790",
+        "record_sha256": "4be2e98f0c2816729e64018079b989f6a0523fc189528bedfd88fe04736a3ca6"
+      },
+      "setuptools": {
+        "version": "84.1.0",
+        "file_count": 569,
+        "missing_recorded_files": [],
+        "file_tree_sha256": "3e832eac96be4d339de4aada759da69d8724100f21c75e94038b8bf0c66e4117",
+        "record_sha256": "2b2ac59e21e994ab8e11f84896237271b03d6b2742551283e3558d5e879ac439"
+      },
+      "wheel": {
+        "version": "0.47.0",
+        "file_count": 38,
+        "missing_recorded_files": [],
+        "file_tree_sha256": "de61d9f8538953ae929dd07b59800c9be013fe7fa880a25ad45347a7e677bf30",
+        "record_sha256": "07a7a0c8a797248ddced93a8f2f5755820a5d7f3e3e43af04d4717346cb3b37f"
+      },
+      "twine": {
+        "version": "7.0.0",
+        "file_count": 42,
+        "missing_recorded_files": [],
+        "file_tree_sha256": "57a19db1dc836fae7af1968acf0fc70d79e06cc312912f35f7b802986b9c075f",
+        "record_sha256": "6e19398e4a2ffe41cddf5c9d4293cec26b0b20b188bdbc58a8320d9deb8d3803"
+      },
+      "pip": {
+        "version": "24.3.1",
+        "file_count": 853,
+        "missing_recorded_files": [],
+        "file_tree_sha256": "8f06398053bdfee908d3607117a665540f29762ea3dcc2e64247b2e84d1bc01b",
+        "record_sha256": "8cb589d8b71257a1a94232fa9b3ba0b013ba9ac474f221b3850f0333533f5198"
+      }
+    },
+    "runtime_dependency_versions": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3"
+    },
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "system_site_packages": false,
+    "distribution_fingerprint_method": "For each build distribution, SHA-256 over sorted UTF-8 lines relative-posix-path<TAB>file-SHA256 with LF separators; separately SHA-256 of raw dist-info/RECORD bytes."
+  },
+  "attempt_policy": {
+    "prior_attempts": [
+      {
+        "attempt": "attempt-001",
+        "status": "PASS_CANDIDATE_PACKAGE_ONLY",
+        "result_sha256": "cdc4f39edbaabfe18458c958f512d680c53c7f3eb14b3ea465c9c7c8388603d7"
+      }
+    ],
+    "next_attempts_max": 0,
+    "new_output_directory_required": true,
+    "stop_after_any_failure": true
+  },
+  "audited_artifacts": null,
+  "documentation_selection": {
+    "include_prefixes": [
+      "docs/"
+    ],
+    "exclude_prefixes": [
+      "docs/verification/0_2_9/",
+      "docs/ai/",
+      "docs/development/",
+      "docs/qualification/"
+    ],
+    "suffixes": [
+      ".cff",
+      ".cfg",
+      ".csv",
+      ".htm",
+      ".html",
+      ".ini",
+      ".json",
+      ".md",
+      ".pdf",
+      ".ps1",
+      ".py",
+      ".rst",
+      ".sh",
+      ".tex",
+      ".toml",
+      ".txt",
+      ".xml",
+      ".yaml",
+      ".yml"
+    ]
+  },
+  "documentation_publication_policy": {
+    "config_path": ".github/pages/mkdocs.yml",
+    "config_sha256": "8ef5e9d955c639442ff8ca10440e15a8795adb354479718a8a06b6048845590f",
+    "excluded_source_prefix": "docs/verification/0_2_9/",
+    "mkdocs_exclude_pattern": "verification/0_2_9/**"
+  },
+  "evidence_binding": {
+    "tag_identity": {
+      "name": "v0.2.12",
+      "tag_object_sha": "dbf8314b861ac7f3a963d6036080e7a96ca4b17e",
+      "target_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+      "identity_source": "Existing annotated tag bound by the original f6 build contract."
+    },
+    "original_frozen_build_contract": {
+      "path": "qualification/0_2_12/wp13_selected_distribution_frozen_build_f6f63eb_20261107.json",
+      "sha256": "7e1582c800f1cc2045562ac8b9466ffc269607b664ad9808b7c32df4e60a59c0",
+      "status": "FROZEN_CANDIDATE_BUILD",
+      "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5"
+    },
+    "completed_candidate_build": {
+      "status": "PASS_CANDIDATE_PACKAGE_ONLY",
+      "attempt": "attempt-001",
+      "execution_sha": "cd2fbadef04e4d1eb3e3813bbd7d394668170c3f",
+      "contract_sha256": "7e1582c800f1cc2045562ac8b9466ffc269607b664ad9808b7c32df4e60a59c0",
+      "selected_package_source_files": 586,
+      "publication_performed": false,
+      "structural_solves_run": false,
+      "whole_repository_gates_changed": false,
+      "evidence_files": {
+        "result.json": {
+          "sha256": "cdc4f39edbaabfe18458c958f512d680c53c7f3eb14b3ea465c9c7c8388603d7",
+          "bytes": 15528,
+          "evidence_set": "qf0212-frozen-build-f6-output-20261107/attempt-001/artifacts"
+        },
+        "package_check.json": {
+          "sha256": "376873c86781ba9eafaadc64f8b9368abfbef39dc14dc3300a7ff8bc0f21f340",
+          "bytes": 717,
+          "evidence_set": "qf0212-frozen-build-f6-output-20261107/attempt-001/artifacts"
+        },
+        "source_mapping.json": {
+          "sha256": "5775b17071d5aa9180903b7a895d601f86b6adf4861d0f0fcdf40e813d540ff2",
+          "bytes": 145030,
+          "evidence_set": "qf0212-frozen-build-f6-output-20261107/attempt-001/artifacts"
+        },
+        "manifest.json": {
+          "sha256": "4151499c4032c130fe5dc5e3523e884dc3f79cf1efb943ff870f0cf514368ae3",
+          "bytes": 4114,
+          "evidence_set": "qf0212-frozen-build-f6-output-20261107/attempt-001/artifacts"
+        },
+        "commands.json": {
+          "sha256": "7c2e896c7c6e5ca93d47b30b63d73f1554a1f23cb7556e705978831c3f0f1430",
+          "bytes": 8656,
+          "evidence_set": "qf0212-frozen-build-f6-output-20261107/attempt-001/artifacts"
+        }
+      }
+    },
+    "staged_artifact": {
+      "workflow_run_id": "42465518619",
+      "artifact_id": "13611258554",
+      "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+      "files": {
+        "wheel": {
+          "filename": "qf_solver-0.2.12-py3-none-any.whl",
+          "bytes": 1709716,
+          "sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+        },
+        "sdist": {
+          "filename": "qf_solver-0.2.12.tar.gz",
+          "bytes": 1344948,
+          "sha256": "1b6a980c4ecb3dce1ed5a885a69c9cc66d1efd62af85fba20bb0ed13daac1cd1"
+        },
+        "checksum_manifest": {
+          "path": "qualification/0_2_12/qf_solver-0.2.12-f6f63eb-SHA256SUMS.txt",
+          "bytes": 190,
+          "sha256": "bc20da5094e4d250dc33be7aa379e07a654e20b8ba787ad596cac9801c62c634"
+        }
+      }
+    },
+    "authority_interpretation": {
+      "new_candidate_build_authorized": false,
+      "new_publication_authorized": false,
+      "existing_candidate_build_attempt": "attempt-001 completed; no further build attempts are authorized by this scope contract.",
+      "scope": "Prospective static selected-package and documentation source scan only."
+    }
+  }
+}

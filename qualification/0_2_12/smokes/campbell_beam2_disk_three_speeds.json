@@ -1,0 +1,12 @@
+{
+  "attempts": 1,
+  "authorization_sha256": "e8b53c4f8eb74b9fa1c93296165d3e7e19583aab18674a099affa83cf67ee10a",
+  "case_id": "campbell_beam2_disk_three_speeds",
+  "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+  "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+  "raw_result_sha256": "e8e9b20fbbb970a242905a11dfe15a7f258c6b64592d60d74928533e5bb402c7",
+  "reservation_sha256": "7110941092909e9acdb524ec2452baf9f62471a74bd3f8ee46098890044863d9",
+  "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+  "status": "PASS_EXPERIMENTAL",
+  "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+}
