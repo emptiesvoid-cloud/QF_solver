@@ -14,10 +14,14 @@ WORKFLOWS = (".github/workflows/quality.yml", ".github/workflows/docs-tests.yml"
 
 def check(root: Path, event: dict, manifest: dict, runtime: dict) -> None:
     def git(*args: str) -> str:
-        return subprocess.check_output(["git", *args], cwd=root, text=True).strip()
+        return subprocess.check_output(["git", "--no-replace-objects", *args], cwd=root, text=True).strip()
 
     if runtime.get("event") != "pull_request":
         raise ValueError("only pull_request is permitted")
+    for field in ("run_id", "run_attempt"):
+        approved = manifest[field]
+        if type(approved) is not int or approved <= 0 or runtime.get(field) != str(approved):
+            raise ValueError(f"GitHub {field} mismatch")
     pr = event["pull_request"]
     head, base = pr["head"]["sha"], pr["base"]["sha"]
     merge = git("rev-parse", "HEAD")
@@ -62,7 +66,8 @@ def main() -> int:
             os.environ["QF_MANIFEST_AUTH_SECRET"], os.environ["QF_MANIFEST_SIGNATURE"],
         )
         runtime = {"event": os.environ.get("GITHUB_EVENT_NAME"), "repository": os.environ.get("GITHUB_REPOSITORY"),
-                   "ref": os.environ.get("GITHUB_REF"), "sha": os.environ.get("GITHUB_SHA")}
+                   "ref": os.environ.get("GITHUB_REF"), "sha": os.environ.get("GITHUB_SHA"),
+                   "run_id": os.environ.get("GITHUB_RUN_ID"), "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT")}
         check(Path.cwd(), event, manifest, runtime)
     except (KeyError, OSError, ValueError, subprocess.CalledProcessError) as exc:
         print(f"CI identity rejected: {exc}", file=sys.stderr)
