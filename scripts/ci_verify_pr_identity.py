@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import hmac
 import json
 import os
 import subprocess
@@ -40,10 +41,26 @@ def check(root: Path, event: dict, manifest: dict, runtime: dict) -> None:
             raise ValueError(f"workflow mismatch: {path}")
 
 
+def authenticate_manifest(raw: bytes, secret: str, signature: str) -> dict:
+    """Authenticate exact manifest bytes using a separately provisioned secret."""
+    if len(secret) < 32:
+        raise ValueError("manifest authentication secret is missing or too short")
+    expected = hmac.new(secret.encode("utf-8"), raw, hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(expected, signature):
+        raise ValueError("manifest authentication failed")
+    result = json.loads(raw)
+    if not isinstance(result, dict):
+        raise ValueError("manifest must be a JSON object")
+    return result
+
+
 def main() -> int:
     try:
         event = json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text(encoding="utf-8"))
-        manifest = json.loads(Path(os.environ["QF_APPROVED_IDENTITY_MANIFEST"]).read_text(encoding="utf-8"))
+        manifest = authenticate_manifest(
+            Path(os.environ["QF_APPROVED_IDENTITY_MANIFEST"]).read_bytes(),
+            os.environ["QF_MANIFEST_AUTH_SECRET"], os.environ["QF_MANIFEST_SIGNATURE"],
+        )
         runtime = {"event": os.environ.get("GITHUB_EVENT_NAME"), "repository": os.environ.get("GITHUB_REPOSITORY"),
                    "ref": os.environ.get("GITHUB_REF"), "sha": os.environ.get("GITHUB_SHA")}
         check(Path.cwd(), event, manifest, runtime)
