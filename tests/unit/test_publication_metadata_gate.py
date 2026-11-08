@@ -171,7 +171,7 @@ def _write_postpublication_evidence(root: Path, *, doi: str = VERSION_DOI) -> tu
     return contract_path, record_path
 
 
-def test_candidate_metadata_stays_unpublished_while_public_docs_name_latest_release() -> None:
+def test_published_metadata_names_version_and_preserves_citation_identity() -> None:
     project = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
     citation = yaml.safe_load((ROOT / "CITATION.cff").read_text(encoding="utf-8"))
     changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
@@ -179,10 +179,10 @@ def test_candidate_metadata_stays_unpublished_while_public_docs_name_latest_rele
 
     assert 'version = "0.2.12"' in project
     assert citation["version"] == "0.2.12"
-    assert "unreleased candidate" in citation["message"].lower()
-    assert citation.get("doi") is None
-    assert citation.get("date-released") is None
-    assert "## 0.2.12 — Preparation (unreleased)" in changelog
+    assert "10.5281/zenodo.22697897" in citation["message"]
+    assert citation["doi"] == "10.5281/zenodo.24053923"
+    assert str(citation["date-released"]) == "2026-11-08"
+    assert "## 0.2.12 - Released (2026-11-08)" in changelog
     assert "This source describes QF Solver 0.2.12." in readme
     assert "qf-solver==0.2.12" in readme
     assert "when that version is available" not in readme
@@ -267,8 +267,10 @@ def test_postpublication_requires_all_channels_and_exact_public_hashes(tmp_path:
     assert "Zenodo record, DOI, selected files or archive boundary do not match the contract" in failures
 
 
-def test_current_012_prepublication_semantics_accept_truthful_existing_pages() -> None:
-    assert check_publication_metadata(ROOT, "v0.2.12", "PRE_PUBLICATION") == []
+def test_current_published_012_metadata_is_rejected_as_prepublication() -> None:
+    failures = check_publication_metadata(ROOT, "v0.2.12", "PRE_PUBLICATION")
+    assert "PRE_PUBLICATION CITATION.cff must not assert a version DOI" in failures
+    assert "PRE_PUBLICATION CITATION.cff must not assert a release date" in failures
 
 
 def test_pypi_only_postpublication_accepts_pypi_receipt_and_rejects_channel_or_doi_claim(tmp_path: Path) -> None:

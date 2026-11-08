@@ -78,12 +78,11 @@ def test_candidate_version_registry_and_public_docs_are_aligned() -> None:
 
     assert project["version"] == __version__ == "0.2.12"
     assert project["optional-dependencies"]["hdf5"] == ["h5py>=3.10"]
-    # Candidate citation metadata has no version DOI or release date; the
-    # project URL and citation message retain the concept DOI.
+    # Published version citation metadata retains the separate concept DOI.
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     assert 'version: "0.2.12"' in citation
-    assert "date-released:" not in citation
-    assert "doi:" not in citation
+    assert 'date-released: "2026-11-08"' in citation
+    assert 'doi: "10.5281/zenodo.24053923"' in citation
     assert "10.5281/zenodo.22697897" in citation
     assert project["urls"]["DOI"] == "https://doi.org/10.5281/zenodo.22697897"
     readme = (ROOT / "README.md").read_text(encoding="utf-8")

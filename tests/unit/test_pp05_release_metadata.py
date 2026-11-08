@@ -113,6 +113,6 @@ def test_release_registry_and_public_boundaries_remain_unchanged() -> None:
     }
     assert "no general HPC or nonlinear distributed claim" in _text("README.md")
     assert "`NOT_VALIDATED`" in _text("README.md")
-    assert "QF Solver `0.2.11` (`v0.2.11`) is the current published release" in _text("CONTRIBUTING.md")
+    assert "QF Solver `0.2.12` (`v0.2.12`) is the current published release" in _text("CONTRIBUTING.md")
     assert "10.5281/zenodo.23214487" in _text("SECURITY.md")
     assert "haven't had the time to put everything on GitHub" not in _text("CONTRIBUTING.md")
