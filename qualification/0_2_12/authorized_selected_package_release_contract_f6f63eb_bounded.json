@@ -123,10 +123,10 @@
     "wp14": "NOT_RUN"
   },
   "candidate_audit": {
-    "commit_sha": "075263f308ea8247731f56576efa04936824b417",
+    "commit_sha": "3bfa4c530e1bb78fb8bc779a4367a59bc3fafb78",
     "path": "qualification/0_2_12/wp07_final_candidate_audit_f6f63eb_bounded.json",
     "record_id": "QF-0212-WP07-FINAL-CANDIDATE-AUDIT-F6F63EB-2026-11-08",
-    "sha256": "12340f14adbfe66ae6d87bf23dc2f851fc1ac49b84d4c7f7daa1c0b3d371a510"
+    "sha256": "0aaa95c8b92feb67785f0eb37845315931c44da067fb8fac410c60703e3e7715"
   },
   "certification_or_universal_validation_claims_allowed": false,
   "contract_id": "QF-0212-PYPI-BOUNDED-RELEASE-F6F63EB-2026-11-08",
@@ -183,14 +183,14 @@
   "tag_object_sha": "dbf8314b861ac7f3a963d6036080e7a96ca4b17e",
   "tag_target_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
   "tool_bindings": {
-    "scripts/audit_public_release.py": "73bfb8521467e06b1687a078e7c9fafd027fb2c1514e2805002b0f3de2b5cb8b",
-    "scripts/audit_release_archive.py": "d8d5f1c246c035bf453d73e913f9828b438d38cc523175937f423ea16288e95d",
-    "scripts/git_tools.py": "9e34be9f133ee92e2e98d1cf61084f1b9526f4bfa735984ae84276c948109f2f",
-    "scripts/plan_public_package.py": "f95fb39e26f705b5c91bf0b41740155f7494e13c68d44344ff405b409f22bee8",
-    "scripts/probe_installed_package.py": "9dc866c175600553145ffcbf9ac734a4309ce332c1f8ccb901932ac65c5fde15",
-    "scripts/review_vocabulary.py": "02db702fa08b270de2a47ff40710f5ed1f6176184f4e239f0c54ba7b3e850691",
-    "scripts/verify_authorized_release_artifacts.py": "c76dd2097e5165757873d1ead4df8d5c4db5298280f7189d8c42cdab6e319e4f",
-    "scripts/verify_public_package.py": "e0085717039c36efa694a0944d5303cf58e8ff90a2955c3b7f92429ebd51d783"
+    "scripts/audit_public_release.py": "dde179e41447904e5db56c79083b0b3ed0216884d88f181996cc1189a759f948",
+    "scripts/audit_release_archive.py": "f813fe3950dccf52dc8628a6c280564ae18a91a9aa4fc8503b1bd96fb7c48fbb",
+    "scripts/git_tools.py": "9192aef8e8610ee4f651cac11a18af189678f561d9c85c20c64c77be47a287fa",
+    "scripts/plan_public_package.py": "d1a734cb4a11d53abfa102507f531f9369bc70797adf23075dd5b03c10f8e1f8",
+    "scripts/probe_installed_package.py": "46576afa82a8285730c4afc67e41fd58f5a8deb753f054f5a35cc0442eb18675",
+    "scripts/review_vocabulary.py": "28af00eab2a09fdcb94bf3c4682230dcaaca9b519aeb0867d96b67d4589ad3aa",
+    "scripts/verify_authorized_release_artifacts.py": "84344cb233b82021296ab048c70420af94dd150829715f58f45256a3adb4448b",
+    "scripts/verify_public_package.py": "7e25532f5a8c2c80b0a8ab711c235fc45a34eb6219efdef0386543d00f1bc86c"
   },
   "validation_profile": "PYPI_0212_BOUNDED",
   "whole_repository_archive_cleared": false,
