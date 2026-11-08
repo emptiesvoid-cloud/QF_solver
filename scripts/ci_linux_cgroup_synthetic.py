@@ -79,12 +79,26 @@ def _kill_and_remove(group: Path) -> None:
 
 
 def run(argv: list[str], memory_bytes: int, pids: int, cpu_quota_us: int,
-        cpu_period_us: int, seconds: float, *, delegated_parent: Path | None = None) -> dict:
+        cpu_period_us: int, seconds: float, *, delegated_parent: Path | None = None,
+        expected_cgroup: str | None = None, expected_uid: int | None = None,
+        expected_gid: int | None = None, enable_controllers: bool = False) -> dict:
     """Run one synthetic command under strict cgroup v2 resource limits."""
     if not argv or min(memory_bytes, pids, cpu_quota_us, cpu_period_us) <= 0 or seconds <= 0:
         raise ValueError("a command and positive limits are required")
 
     current = _cgroup2_dir()
+    if expected_cgroup is not None:
+        try:
+            actual_cgroup = next(line.split("::", 1)[1] for line in Path("/proc/self/cgroup").read_text().splitlines()
+                                 if "::" in line)
+        except (OSError, StopIteration, IndexError) as exc:
+            raise CgroupUnavailable("cannot validate service cgroup membership") from exc
+        if actual_cgroup != expected_cgroup:
+            raise CgroupUnavailable("process is outside the expected transient service cgroup")
+    if expected_uid is not None and os.geteuid() != expected_uid:
+        raise CgroupUnavailable("supervisor did not run as the original runner UID")
+    if expected_gid is not None and os.getegid() != expected_gid:
+        raise CgroupUnavailable("supervisor did not run as the original runner GID")
     parent = delegated_parent.resolve(strict=True) if delegated_parent else current
     if parent != current and parent not in current.parents:
         raise CgroupUnavailable("delegated parent must contain the supervisor's cgroup")
@@ -94,11 +108,28 @@ def run(argv: list[str], memory_bytes: int, pids: int, cpu_quota_us: int,
         available = set((parent / "cgroup.controllers").read_text().split())
     except OSError as exc:
         raise CgroupUnavailable("cannot inspect delegated cgroup controllers") from exc
-    missing = required - enabled
-    if missing:
-        raise CgroupUnavailable("controllers are not enabled in delegated subtree: " + ", ".join(sorted(missing)))
     if not required.issubset(available):
         raise CgroupUnavailable("required controllers are unavailable: " + ", ".join(sorted(required - available)))
+
+    if enable_controllers:
+        if parent != current:
+            raise CgroupUnavailable("controller setup is allowed only on the transient service cgroup")
+        # A delegated domain cgroup cannot enable domain controllers while it
+        # contains a process. Move the supervisor into its own leaf first; the
+        # systemd transient service owns and removes this leaf on service exit.
+        supervisor_leaf = parent / ("codex-supervisor-" + uuid.uuid4().hex)
+        try:
+            supervisor_leaf.mkdir()
+            _write(supervisor_leaf / "cgroup.procs", str(os.getpid()))
+            missing = required - enabled
+            if missing:
+                _write(parent / "cgroup.subtree_control", " ".join("+" + item for item in sorted(missing)))
+        except (OSError, CgroupUnavailable) as exc:
+            raise CgroupUnavailable("cannot prepare delegated service cgroup controllers") from exc
+    else:
+        missing = required - enabled
+        if missing:
+            raise CgroupUnavailable("controllers are not enabled in delegated subtree: " + ", ".join(sorted(missing)))
 
     group = parent / ("codex-synthetic-" + uuid.uuid4().hex)
     try:
@@ -199,12 +230,19 @@ def main() -> int:
     parser.add_argument("--cpu-period-us", type=int, default=100_000)
     parser.add_argument("--seconds", type=float, default=10)
     parser.add_argument("--delegated-parent", type=Path, help="delegated ancestor when the supervisor runs in a leaf")
+    parser.add_argument("--expected-cgroup", help=argparse.SUPPRESS)
+    parser.add_argument("--expected-uid", type=int, help=argparse.SUPPRESS)
+    parser.add_argument("--expected-gid", type=int, help=argparse.SUPPRESS)
+    parser.add_argument("--enable-controllers", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
     try:
         report = run(command or [sys.executable, "-c", "print('synthetic')"], args.memory_bytes,
-                     args.pids, args.cpu_quota_us, args.cpu_period_us, args.seconds, delegated_parent=args.delegated_parent)
+                     args.pids, args.cpu_quota_us, args.cpu_period_us, args.seconds,
+                     delegated_parent=args.delegated_parent, expected_cgroup=args.expected_cgroup,
+                     expected_uid=args.expected_uid, expected_gid=args.expected_gid,
+                     enable_controllers=args.enable_controllers)
     except (CgroupUnavailable, OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
         print(json.dumps({"status": "unavailable", "reason": str(exc)}))
         return 2

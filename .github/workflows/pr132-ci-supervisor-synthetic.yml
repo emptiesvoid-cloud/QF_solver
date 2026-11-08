@@ -33,3 +33,10 @@ jobs:
           persist-credentials: false
       - name: Run synthetic supervisor smoke probe
         run: python scripts/ci_supervisor_smoke.py
+      - name: Verify non-root Linux command launcher
+        if: runner.os == 'Linux'
+        run: >-
+          python -B scripts/ci_linux_bounded_step.py
+          --seconds 5 --memory-bytes 268435456 --pids 16
+          --cpu-quota-us 100000 --cpu-period-us 100000
+          -- python3 -c "import os; assert os.geteuid() != 0; assert not any(k.startswith('QF_MANIFEST_') for k in os.environ)"

@@ -61,10 +61,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
           cache: pip
+      - name: Verify approved pull request identity
+        if: ${{ matrix.validation == 'reference' }}
+        env:
+          QF_APPROVED_IDENTITY_MANIFEST_JSON: ${{ secrets.QF_CI_QUALITY_MANIFEST_JSON }}
+          QF_MANIFEST_AUTH_SECRET: ${{ secrets.QF_CI_QUALITY_MANIFEST_AUTH_SECRET }}
+          QF_MANIFEST_SIGNATURE: ${{ secrets.QF_CI_QUALITY_MANIFEST_SIGNATURE }}
+        run: python -B scripts/ci_verify_pr_identity.py
+
       - name: Install locked standard baseline
         run: |
           python -m pip install --upgrade pip
@@ -101,8 +110,12 @@ jobs:
       - name: Tests and branch coverage
         if: ${{ matrix.validation == 'reference' }}
         # Scientific/native nodes with registered execution controls need a separate exact scope.
+        env:
+          QF_APPROVED_IDENTITY_MANIFEST_JSON: ${{ secrets.QF_CI_QUALITY_MANIFEST_JSON }}
+          QF_MANIFEST_AUTH_SECRET: ${{ secrets.QF_CI_QUALITY_MANIFEST_AUTH_SECRET }}
+          QF_MANIFEST_SIGNATURE: ${{ secrets.QF_CI_QUALITY_MANIFEST_SIGNATURE }}
         run: >-
-          python -m pytest
+          python -B scripts/ci_run_bounded_step.py --profile quality-reference -- -m pytest
           tests/unit tests/integration
           -m "not benchmark and not large and not evidence and not scientific_vv and not native_vv"
           -k "not test_rbe2_example_runs_through_api_cli_audit_and_vtu_export and not test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables and not test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation and not test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization and not test_wp12_s_modal_discrete_001 and not test_wp12_s_modal_2dof_001 and not test_wp12_s_dyn_sdof_001 and not test_wp12_s_modal_2dof_poly_001 and not test_wp12_s_stat_beam_uy_001 and not test_wp12_s_stat_beam_uz_001 and not test_wp12_s_fem_tet4_h_001 and not test_prepared_fem_case and not test_prepared_adaptive_fem_case and not test_prepared_archived_postprocess_case and not test_wp12b_hex20_affine_patch_archives_residual and not test_wp19_adversarial_cases_fail_closed_and_replay and not test_wp19_hex8_diagnostic_is_bounded_and_deterministic and not test_wp19_replays_golden_set_without_rewriting_wp13_evidence"
@@ -118,8 +131,12 @@ jobs:
         run: python scripts/run_wp13_compatibility.py
       - name: P0 module coverage gate
         if: ${{ matrix.validation == 'reference' }}
+        env:
+          QF_APPROVED_IDENTITY_MANIFEST_JSON: ${{ secrets.QF_CI_QUALITY_MANIFEST_JSON }}
+          QF_MANIFEST_AUTH_SECRET: ${{ secrets.QF_CI_QUALITY_MANIFEST_AUTH_SECRET }}
+          QF_MANIFEST_SIGNATURE: ${{ secrets.QF_CI_QUALITY_MANIFEST_SIGNATURE }}
         run: |
-          python -m coverage run --rcfile=.coveragerc-p0 -m pytest tests/unit/test_traceability.py
+          python -B scripts/ci_run_bounded_step.py --profile quality-p0 -- -m coverage run --rcfile=.coveragerc-p0 -m pytest tests/unit/test_traceability.py
           python -m coverage json --rcfile=.coveragerc-p0 -o coverage-p0.json
           python scripts/check_p0_coverage.py coverage.json coverage-p0.json
       - name: Compile all Python sources

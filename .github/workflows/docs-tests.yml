@@ -33,11 +33,20 @@ jobs:
           exit 1
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Verify approved pull request identity
+        env:
+          QF_APPROVED_IDENTITY_MANIFEST_JSON: ${{ secrets.QF_CI_DOCS_MANIFEST_JSON }}
+          QF_MANIFEST_AUTH_SECRET: ${{ secrets.QF_CI_DOCS_MANIFEST_AUTH_SECRET }}
+          QF_MANIFEST_SIGNATURE: ${{ secrets.QF_CI_DOCS_MANIFEST_SIGNATURE }}
+        run: python -B scripts/ci_verify_pr_identity.py
 
       - name: Install test dependencies
         run: |
@@ -45,12 +54,20 @@ jobs:
           python -m pip install -e ".[test,dev,docs]"
 
       - name: Run documentation tests
+        env:
+          QF_APPROVED_IDENTITY_MANIFEST_JSON: ${{ secrets.QF_CI_DOCS_MANIFEST_JSON }}
+          QF_MANIFEST_AUTH_SECRET: ${{ secrets.QF_CI_DOCS_MANIFEST_AUTH_SECRET }}
+          QF_MANIFEST_SIGNATURE: ${{ secrets.QF_CI_DOCS_MANIFEST_SIGNATURE }}
         run: |
-          python -m pytest tests/documentation/test_docs_generation.py -q
+          python -B scripts/ci_run_bounded_step.py --profile docs-tests -- -m pytest tests/documentation/test_docs_generation.py -q
 
       - name: MkDocs strict build
         run: mkdocs build --strict -f .github/pages/mkdocs.yml
 
       - name: Run packaging tests
+        env:
+          QF_APPROVED_IDENTITY_MANIFEST_JSON: ${{ secrets.QF_CI_DOCS_MANIFEST_JSON }}
+          QF_MANIFEST_AUTH_SECRET: ${{ secrets.QF_CI_DOCS_MANIFEST_AUTH_SECRET }}
+          QF_MANIFEST_SIGNATURE: ${{ secrets.QF_CI_DOCS_MANIFEST_SIGNATURE }}
         run: |
-          python -m pytest tests/integration/test_packaging.py -q
+          python -B scripts/ci_run_bounded_step.py --profile docs-packaging -- -m pytest tests/integration/test_packaging.py -q
