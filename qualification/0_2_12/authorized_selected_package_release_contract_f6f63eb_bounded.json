@@ -1,0 +1,202 @@
+{
+  "audited_artifacts": {
+    "sdist": {
+      "bytes": 1344948,
+      "filename": "qf_solver-0.2.12.tar.gz",
+      "sha256": "1b6a980c4ecb3dce1ed5a885a69c9cc66d1efd62af85fba20bb0ed13daac1cd1"
+    },
+    "wheel": {
+      "bytes": 1709716,
+      "filename": "qf_solver-0.2.12-py3-none-any.whl",
+      "sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+    }
+  },
+  "authorization": {
+    "certification_or_universal_validation_claims_allowed": false,
+    "github_release_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "ledger_update_allowed": false,
+    "numeric_maturity_promotion_allowed": false,
+    "pypi_publication_allowed": true,
+    "selected_package_publication_allowed": true,
+    "tag_creation_allowed": true,
+    "whole_repository_archive_cleared": false,
+    "whole_repository_archive_publication_allowed": false,
+    "wp14_promotion_allowed": false,
+    "zenodo_selected_artifact_publication_allowed": false
+  },
+  "authorization_resolution": {
+    "candidate_manifest_sha256": "bc20da5094e4d250dc33be7aa379e07a654e20b8ba787ad596cac9801c62c634",
+    "candidate_sdist_sha256": "1b6a980c4ecb3dce1ed5a885a69c9cc66d1efd62af85fba20bb0ed13daac1cd1",
+    "candidate_source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+    "candidate_wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719",
+    "owner_approved_manifest_sha256": "bc20da5094e4d250dc33be7aa379e07a654e20b8ba787ad596cac9801c62c634",
+    "owner_approved_sdist_sha256": "1b6a980c4ecb3dce1ed5a885a69c9cc66d1efd62af85fba20bb0ed13daac1cd1",
+    "owner_approved_source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+    "owner_approved_wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719",
+    "status": "RESOLVED_BY_EXACT_OWNER_AUTHORIZATION"
+  },
+  "bounded_profile_evidence": {
+    "documentation": {
+      "record_commit_sha": "cc7610e14dd200f2ac7a29d20119abd510b79e75",
+      "record_path": "qualification/0_2_12/pypi_bounded_docs_f6f63eb.json",
+      "record_sha256": "8e70bfc1963ae4dd1baf9302bc18de20b3584d1c731966364b3b13d63807493b",
+      "rendered_html_pages": 526,
+      "scope_audit_sha256": "2545399b23658145f0b6f91309d8d358db41d7ebd6face8dfba703a9e3a93eef",
+      "scope_audit_status": "PASS_BOUNDED_PUBLIC_SURFACES",
+      "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+      "status": "PASS_STRICT_TAG_RENDER"
+    },
+    "extended_validation": "NOT_RUN",
+    "installed_smokes": {
+      "cases": {
+        "campbell_beam2_disk_three_speeds": "PASS_EXPERIMENTAL",
+        "modal_tet4_three_modes": "PASS",
+        "rotating_modal_beam2_disk_one_speed": "PASS_EXPERIMENTAL",
+        "static_tet4_single_free_dof": "PASS"
+      },
+      "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+      "receipts": {
+        "campbell_beam2_disk_three_speeds": {
+          "attempts": 1,
+          "authorization_sha256": "e8b53c4f8eb74b9fa1c93296165d3e7e19583aab18674a099affa83cf67ee10a",
+          "case_id": "campbell_beam2_disk_three_speeds",
+          "evidence_commit_sha": "918613382414966a1b84d06efa6e3189cebe2b51",
+          "evidence_path": "qualification/0_2_12/smokes/campbell_beam2_disk_three_speeds.json",
+          "evidence_sha256": "12aca301030d39a463310cbe5e42b93cd104631ad6e1884874402ca4991d1432",
+          "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+          "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+          "raw_result_sha256": "e8e9b20fbbb970a242905a11dfe15a7f258c6b64592d60d74928533e5bb402c7",
+          "reservation_sha256": "7110941092909e9acdb524ec2452baf9f62471a74bd3f8ee46098890044863d9",
+          "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+          "status": "PASS_EXPERIMENTAL",
+          "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+        },
+        "modal_tet4_three_modes": {
+          "attempts": 1,
+          "authorization_sha256": "aabca4ca91ae90adc1e4331a6d48f91e7af2fad9ad11c6be48ecfb329a82d2c3",
+          "case_id": "modal_tet4_three_modes",
+          "evidence_commit_sha": "918613382414966a1b84d06efa6e3189cebe2b51",
+          "evidence_path": "qualification/0_2_12/smokes/modal_tet4_three_modes.json",
+          "evidence_sha256": "945f63b64e518d17ccb14f6409b52b5adeaa103f02c028bf194f039e4667522a",
+          "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+          "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+          "raw_result_sha256": "dc01b07f03f3ba05a9df519a2e7db9a67de24eabdebe51e1762c4dda3d574e85",
+          "reservation_sha256": "1da9988757d432d7443f5aa619386f20a46bac5b06363109e6b3a492b57b8bac",
+          "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+          "status": "PASS",
+          "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+        },
+        "rotating_modal_beam2_disk_one_speed": {
+          "attempts": 1,
+          "authorization_sha256": "488929b073caf38f8385bb0952f8399c195d1cc0ef093b95ade078aed8479282",
+          "case_id": "rotating_modal_beam2_disk_one_speed",
+          "evidence_commit_sha": "918613382414966a1b84d06efa6e3189cebe2b51",
+          "evidence_path": "qualification/0_2_12/smokes/rotating_modal_beam2_disk_one_speed.json",
+          "evidence_sha256": "7aacf6d963fb541d041d6cdb43144a8731d7aeb8721194b80228b3da6a452cdf",
+          "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+          "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+          "raw_result_sha256": "c624b2703eb8f6add6703bc6ded2cdfcc07386f6c468a8c6728b839944c0a883",
+          "reservation_sha256": "b03277f1614506ce7cea2e1bee7040182c652e11024bf498a8bfa0d271bb0347",
+          "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+          "status": "PASS_EXPERIMENTAL",
+          "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+        },
+        "static_tet4_single_free_dof": {
+          "attempts": 1,
+          "authorization_sha256": "a7a1384729501c674587b110adac483ff8c1bf023ad8edbc6776573b46ff2906",
+          "case_id": "static_tet4_single_free_dof",
+          "evidence_commit_sha": "918613382414966a1b84d06efa6e3189cebe2b51",
+          "evidence_path": "qualification/0_2_12/smokes/static_tet4_single_free_dof.json",
+          "evidence_sha256": "3793ebcdabc4ec6da90f71036edfeff7f50b71d90ff730f9df995b74cd100ef8",
+          "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+          "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+          "raw_result_sha256": "e247abc6016d12c60daab903bf712be516b1f4f6868ac03a5cfeaba979ae3596",
+          "reservation_sha256": "f6e625bca014f2866104aa3675ebe3521a9b103d71c84eb5f6b485f7ece2bc74",
+          "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+          "status": "PASS",
+          "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+        }
+      },
+      "status": "PASS"
+    },
+    "wp14": "NOT_RUN"
+  },
+  "candidate_audit": {
+    "commit_sha": "075263f308ea8247731f56576efa04936824b417",
+    "path": "qualification/0_2_12/wp07_final_candidate_audit_f6f63eb_bounded.json",
+    "record_id": "QF-0212-WP07-FINAL-CANDIDATE-AUDIT-F6F63EB-2026-11-08",
+    "sha256": "12340f14adbfe66ae6d87bf23dc2f851fc1ac49b84d4c7f7daa1c0b3d371a510"
+  },
+  "certification_or_universal_validation_claims_allowed": false,
+  "contract_id": "QF-0212-PYPI-BOUNDED-RELEASE-F6F63EB-2026-11-08",
+  "documentation_scope_audit_sha256": "2545399b23658145f0b6f91309d8d358db41d7ebd6face8dfba703a9e3a93eef",
+  "extended_validation": "NOT_RUN",
+  "g03_status": "FAIL_PRESERVED",
+  "github_release_allowed": false,
+  "historical_result_reclassification_allowed": false,
+  "ledger_update_allowed": false,
+  "legal_review_status": "NOT_ACQUIRED",
+  "manifest_repository_path": "qualification/0_2_12/qf_solver-0.2.12-f6f63eb-SHA256SUMS.txt",
+  "numeric_maturity_promotion_allowed": false,
+  "owner_authorization": {
+    "commit_sha": "1e5a3628dd9820dafcece49148edb730514aa882",
+    "path": "qualification/0_2_12/owner_pypi_publication_authorization_f6f63eb.json",
+    "record_id": "QF-0212-OWNER-PYPI-AUTHORIZATION-F6F63EB-2026-11-08",
+    "sha256": "1cd922ed6f4528d009869ac9687b9b10cd61a613cf4d5a21d245ec43e9bf4d26",
+    "supersedes_for_release": null
+  },
+  "owner_authorization_summary": "Owner authorized publication to PyPI for only the exact selected 0.2.12 wheel/sdist and existing v0.2.12 source tag; no GitHub Release, Zenodo deposit, whole-repository archive, ledger update, maturity promotion, or historical reclassification.",
+  "package_version": "0.2.12",
+  "publication_performed": false,
+  "publication_scope": "SELECTED_DISTRIBUTION",
+  "pypi_artifact_source": {
+    "artifact_id": 13611258554,
+    "run_id": 42465518619
+  },
+  "pypi_publication_allowed": true,
+  "release_channels": [
+    "pypi"
+  ],
+  "release_tag": "v0.2.12",
+  "schema_version": 3,
+  "selected_package_publication_allowed": true,
+  "selected_scope": {
+    "package_source_files": 586,
+    "served_document_files": 757
+  },
+  "sha256_manifest": {
+    "bytes": 190,
+    "filename": "qf_solver-0.2.12-f6f63eb-SHA256SUMS.txt",
+    "sha256": "bc20da5094e4d250dc33be7aa379e07a654e20b8ba787ad596cac9801c62c634"
+  },
+  "smoke_manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+  "smoke_plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+  "source_contract": {
+    "commit_sha": "a30e85cfd6dba5b0603d69dd4702e0d7b575ca88",
+    "path": "qualification/0_2_12/wp13_selected_distribution_frozen_scope_f6f63eb_20261108.json",
+    "sha256": "d00a27b08015006692557b76fb81bc6c8d5cb9e2291374039bea11e2821cbda1"
+  },
+  "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+  "status": "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE",
+  "tag_creation_allowed": true,
+  "tag_object_sha": "dbf8314b861ac7f3a963d6036080e7a96ca4b17e",
+  "tag_target_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+  "tool_bindings": {
+    "scripts/audit_public_release.py": "73bfb8521467e06b1687a078e7c9fafd027fb2c1514e2805002b0f3de2b5cb8b",
+    "scripts/audit_release_archive.py": "d8d5f1c246c035bf453d73e913f9828b438d38cc523175937f423ea16288e95d",
+    "scripts/git_tools.py": "9e34be9f133ee92e2e98d1cf61084f1b9526f4bfa735984ae84276c948109f2f",
+    "scripts/plan_public_package.py": "f95fb39e26f705b5c91bf0b41740155f7494e13c68d44344ff405b409f22bee8",
+    "scripts/probe_installed_package.py": "9dc866c175600553145ffcbf9ac734a4309ce332c1f8ccb901932ac65c5fde15",
+    "scripts/review_vocabulary.py": "02db702fa08b270de2a47ff40710f5ed1f6176184f4e239f0c54ba7b3e850691",
+    "scripts/verify_authorized_release_artifacts.py": "c76dd2097e5165757873d1ead4df8d5c4db5298280f7189d8c42cdab6e319e4f",
+    "scripts/verify_public_package.py": "e0085717039c36efa694a0944d5303cf58e8ff90a2955c3b7f92429ebd51d783"
+  },
+  "validation_profile": "PYPI_0212_BOUNDED",
+  "whole_repository_archive_cleared": false,
+  "whole_repository_archive_publication_allowed": false,
+  "wp14_promotion_allowed": false,
+  "wp14_status": "HOLD_NOT_PROMOTED",
+  "wp14_validation": "NOT_RUN",
+  "zenodo_selected_artifact_publication_allowed": false
+}
