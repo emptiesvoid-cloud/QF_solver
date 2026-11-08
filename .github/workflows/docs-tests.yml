@@ -21,9 +21,16 @@ permissions:
 
 jobs:
   docs-tests:
+    environment: qf-fem-ci-approval
     runs-on: ubuntu-latest
 
     steps:
+      # Fail closed until a reviewed hard-limit supervisor and identity binding exist.
+      - name: Hold pending CI execution controls
+        shell: bash
+        run: |
+          echo "::error::CI numerical execution is blocked: hard limits and identity binding are not approved."
+          exit 1
       - name: Checkout
         uses: actions/checkout@v4
 

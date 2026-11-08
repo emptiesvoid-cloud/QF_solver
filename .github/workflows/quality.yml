@@ -31,6 +31,7 @@ concurrency:
 
 jobs:
   standard-baseline:
+    environment: qf-fem-ci-approval
     name: ${{ matrix.os }} / Python ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 180
@@ -51,6 +52,12 @@ jobs:
             python: "3.13"
             validation: compatibility
     steps:
+      # Fail closed until a reviewed hard-limit supervisor and identity binding exist.
+      - name: Hold pending CI execution controls
+        shell: bash
+        run: |
+          echo "::error::CI numerical execution is blocked: hard limits and identity binding are not approved."
+          exit 1
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -135,11 +142,18 @@ jobs:
             junit.xml
 
   engineering-campaign:
+    environment: qf-fem-ci-approval
     name: Full engineering campaign
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.include_extended_jobs }}
     runs-on: ubuntu-latest
     needs: [standard-baseline, wp14-recovered-evidence]
     steps:
+      # Fail closed until a reviewed hard-limit supervisor and identity binding exist.
+      - name: Hold pending CI execution controls
+        shell: bash
+        run: |
+          echo "::error::CI numerical execution is blocked: hard limits and identity binding are not approved."
+          exit 1
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -181,11 +195,18 @@ jobs:
         run: python qf_solver.py verify-all --profile engineering
 
   wp14-recovered-evidence:
+    environment: qf-fem-ci-approval
     name: WP14 recovered evidence / targeted checks
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.include_extended_jobs }}
     runs-on: ubuntu-latest
     needs: standard-baseline
     steps:
+      # Fail closed until a reviewed hard-limit supervisor and identity binding exist.
+      - name: Hold pending CI execution controls
+        shell: bash
+        run: |
+          echo "::error::CI numerical execution is blocked: hard limits and identity binding are not approved."
+          exit 1
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
@@ -234,11 +255,18 @@ jobs:
           tests/verification/test_wp09_tet4_consistent_traction_study.py::test_frozen_study_contract_binds_runner_and_preserves_history
 
   documentation-evidence:
+    environment: qf-fem-ci-approval
     name: Documentation evidence / ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.include_extended_jobs }}
     runs-on: ubuntu-latest
     needs: standard-baseline
     steps:
+      # Fail closed until a reviewed hard-limit supervisor and identity binding exist.
+      - name: Hold pending CI execution controls
+        shell: bash
+        run: |
+          echo "::error::CI numerical execution is blocked: hard limits and identity binding are not approved."
+          exit 1
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
