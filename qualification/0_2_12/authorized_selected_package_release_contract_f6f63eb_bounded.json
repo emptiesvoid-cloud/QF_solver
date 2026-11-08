@@ -122,6 +122,33 @@
     },
     "wp14": "NOT_RUN"
   },
+  "build_provenance": {
+    "build_environment": {
+      "build": "1.5.0",
+      "pip": "24.3.1",
+      "python": "3.13.1",
+      "setuptools": "84.1.0",
+      "twine": "7.0.0",
+      "wheel": "0.47.0"
+    },
+    "candidate_build_record": "qualification/0_2_12/wp13_selected_distribution_frozen_scope_f6f63eb_20261108.json",
+    "governance_remediation_rebuilt_candidate": false,
+    "independent_builds": 2,
+    "installed_probes": "PASS",
+    "normalization": "The source-bound normalizer uses the frozen source epoch and preserves package payloads. The authorized staged sdist is the exact raw candidate A artifact; normalized comparison output is not the staged or authorized upload byte set.",
+    "normalization_tool": "scripts/normalize_public_sdist.py",
+    "normalization_tool_sha256": "1c3594c61b46af5601fda7993644aa613fb1523edb4709526b0ee35a01213d2c",
+    "normalized_sdist_sha256": "a31b471f42c6be659c9f95207fa0ac32217a2465fc1ff9afe4ee27de0c7351a5",
+    "publication_uses_normalized_sdist_only": false,
+    "reproducibility_confirmation": "Supplemental non-FEM same-environment comparison recorded in the final candidate audit; no cross-platform or independent-toolchain claim.",
+    "sdist_normalized_byte_identical": true,
+    "sdist_raw_builds_byte_identical": false,
+    "sdist_raw_difference": "Raw sdist bytes differed; frozen normalization produced byte-identical comparison archives.",
+    "source_date_epoch": 1794070966,
+    "source_materialization": "Exact selected regular Git blobs from f6f63eb8701e38b41aae0d735850e8cf50b07fa5; no working-tree source bytes.",
+    "twine_check": "PASS",
+    "wheel_byte_identical": true
+  },
   "candidate_audit": {
     "commit_sha": "3bfa4c530e1bb78fb8bc779a4367a59bc3fafb78",
     "path": "qualification/0_2_12/wp07_final_candidate_audit_f6f63eb_bounded.json",
