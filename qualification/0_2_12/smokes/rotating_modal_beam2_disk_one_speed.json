@@ -1,0 +1,12 @@
+{
+  "attempts": 1,
+  "authorization_sha256": "488929b073caf38f8385bb0952f8399c195d1cc0ef093b95ade078aed8479282",
+  "case_id": "rotating_modal_beam2_disk_one_speed",
+  "manifest_sha256": "8d3fed81a12ed723d1ee12b77768d6e7b68d7fc8a5c73b243597b291fd95b162",
+  "plan_sha256": "a95ab289eb4bcb35bad6b58cecff5abbd350d84ab8993abc4039d42dca5e6938",
+  "raw_result_sha256": "c624b2703eb8f6add6703bc6ded2cdfcc07386f6c468a8c6728b839944c0a883",
+  "reservation_sha256": "b03277f1614506ce7cea2e1bee7040182c652e11024bf498a8bfa0d271bb0347",
+  "source_sha": "f6f63eb8701e38b41aae0d735850e8cf50b07fa5",
+  "status": "PASS_EXPERIMENTAL",
+  "wheel_sha256": "a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719"
+}
