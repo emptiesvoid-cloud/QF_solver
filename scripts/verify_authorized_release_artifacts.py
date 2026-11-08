@@ -299,11 +299,6 @@ def validate_pypi_staging_transport(root: Path, head: str, contract: dict[str, A
         "artifact_id": BOUNDED_STAGING_ARTIFACT_ID,
     }:
         raise ValueError("The bounded profile must use the exact preverified PyPI staging run and artifact.")
-    if contract.get("validation_profile") == BOUNDED_PROFILE and source != {
-        "run_id": BOUNDED_STAGING_RUN_ID, "artifact_id": BOUNDED_STAGING_ARTIFACT_ID,
-    }:
-        raise ValueError("The bounded profile must use the exact preverified PyPI staging run and artifact.")
-
     run_id, artifact_id = source["run_id"], source["artifact_id"]
     workflow_path = ".github/workflows/stage-pypi-0212.yml"
     repository_id = 1329797607
