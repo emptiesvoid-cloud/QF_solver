@@ -96,7 +96,8 @@ nav:
       - QF Solver vs scikit-fem: comparisons/qf-vs-scikit-fem.md
       - QF Solver vs SfePy: comparisons/qf-vs-sfepy.md
   - Project:
-      - What's New 0.2.12 Candidate: whats-new/0.2.12-preparation.md
+      - What's New 0.2.12: whats-new/0.2.12.md
+      - 0.2.12 Preparation (historical): whats-new/0.2.12-preparation.md
       - What's New 0.2.11: whats-new/0.2.11.md
       - What's New 0.2.10: whats-new/0.2.10.md
       - What's New 0.2.8: whats-new/0.2.8.md

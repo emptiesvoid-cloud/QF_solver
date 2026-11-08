@@ -9,12 +9,10 @@ approver: ""
 
 # Installation
 
-This guide applies to QF Solver `0.2.12`, the version on `main`. Install it directly from the
-branch with the command below. The published PyPI release remains `0.2.11`;
-its wheel and sdist hashes are recorded in the selected release contract
-and checksum manifest. GitHub's automatically generated source archives
-are outside that audit. See
-[What's New in 0.2.11](../whats-new/0.2.11.md) for that published release and
+This guide applies to QF Solver `0.2.12`, published on PyPI. The selected
+release contract and checksum manifest record its wheel and sdist hashes.
+GitHub's automatically generated source archives are outside that audit. See
+[What's New in 0.2.12](../whats-new/0.2.12.md) and
 [the capability index](../capabilities/index.md) for maturity boundaries.
 
 ## User installation
@@ -26,24 +24,24 @@ python -m pip install "git+https://github.com/emptiesvoid-cloud/QF_solver.git@ma
 qf-solver --version
 ```
 
-For the published 0.2.11 version, install from PyPI:
+For the published 0.2.12 version, install from PyPI:
 
 ```bash
-python -m pip install "qf-solver==0.2.11"
+python -m pip install "qf-solver==0.2.12"
 qf-solver --version
 ```
 
 A clone without a branch selection follows the default branch (`main`).
-For reproducibility, select a commit explicitly. The historical 0.2.11 release tag is available for that version:
+For reproducibility, select a commit explicitly. The 0.2.12 release tag selects the published source:
 
 ```bash
-git clone --branch v0.2.11 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
+git clone --branch v0.2.12 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
 cd QF_solver
 python -m pip install .
 qf-solver --version
 ```
 
-The `v0.2.11` tag identifies the source used for the published 0.2.11 release.
+The `v0.2.12` tag identifies the source used for the published 0.2.12 release.
 The `main` branch advances and is not an immutable source selector.
 
 The published core package requires Python 3.10 or newer. The recommended

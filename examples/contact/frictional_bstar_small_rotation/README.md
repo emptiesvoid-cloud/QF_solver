@@ -1,6 +1,6 @@
 # Experimental B* small-rotation frictional contact
 
-**Maturity: `EXPERIMENTAL_BOUNDED` (0.2.12 integration candidate; not a released capability).**
+**Maturity: `EXPERIMENTAL_BOUNDED` (0.2.12; released with bounded experimental scope).**
 
 This example uses the archived R14 nine-step, one-slave-node/one-master-triangle
 configuration. It demonstrates the opt-in API route and preserves the exact
@@ -62,5 +62,5 @@ consistency, gaps, reactions and the raw moment. Do not infer physical
 superiority over `legacy`, finite-sliding validity, or mesh convergence.
 
 Evidence and exclusions are tracked in
-[`WP-C01 R19 capability record`](../../../qualification/0_2_12/wp_c01_bstar_capability_record.json)
-and the [integration progress ledger](../../../qualification/0_2_12/v0_2_12_integration_progress_ledger.md).
+[`WP-C01 R19 capability record`](https://github.com/emptiesvoid-cloud/QF_solver/blob/06fce7a47d41223955755c34e7238376b3c4a7b5/qualification/0_2_12/wp_c01_bstar_capability_record.json)
+and the [integration progress ledger](https://github.com/emptiesvoid-cloud/QF_solver/blob/06fce7a47d41223955755c34e7238376b3c4a7b5/qualification/0_2_12/v0_2_12_integration_progress_ledger.md).

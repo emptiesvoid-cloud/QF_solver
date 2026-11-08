@@ -86,7 +86,7 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     assert "`0.2.8` — release candidate; not published" not in readme
     assert "Git tag" in readme and "v0.2.12" in readme
     assert "QF Solver 0.2.12 is the current documentation baseline for `main`" in normalized_roadmap
-    assert "latest published release" in normalized_roadmap
+    assert "current published release" in normalized_roadmap
     assert "WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA" in normalized_roadmap
     assert "Version 0.2.9 was a development/source snapshot" in normalized_roadmap
     assert "QF Solver 0.2.11 architecture" in normalized_architecture
@@ -97,10 +97,10 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     assert "10.5281/zenodo.23106744" in index
     assert "10.5281/zenodo.23214487" in readme
     assert "10.5281/zenodo.23214487" in index
-    assert "2026-10-07" in index
-    assert "version-specific DOI" in readme
+    assert "2026-11-08" in index
+    assert "10.5281/zenodo.24053923" in readme
     assert "Current release" in normalized_index
-    assert "current documentation baseline is 0.2.11" in normalized_comparisons
+    assert "comparison overview is based on 0.2.11" in normalized_comparisons
     assert (
         "not been refreshed against the 0.2.10 release"
         in normalized_comparison_snapshot
@@ -112,9 +112,8 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     project = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
     assert 'Homepage = "https://qfsolver.org/"' in project
     assert 'Documentation = "https://qfsolver.org/getting-started"' in project
-    assert "unreleased candidate" in citation
-    assert "date-released:" not in citation
-    assert "doi:" not in citation
+    assert 'date-released: "2026-11-08"' in citation
+    assert 'doi: "10.5281/zenodo.24053923"' in citation
 
 
 @pytest.mark.parametrize(

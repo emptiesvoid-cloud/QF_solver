@@ -9,11 +9,10 @@ approver: ""
 
 # QF Solver capability index
 
-**Current release documentation:** `0.2.12` (source on `main`; publication pending)<br>
-**Latest published release:** `0.2.11`<br>
+**Current release documentation:** `0.2.12`<br>
 **Rotating modal and Campbell:** `EXPERIMENTAL`, within their declared scope.
 
-**0.2.12 integration candidate on `main` (unreleased):** B* small-rotation
+**0.2.12:** B* small-rotation
 frictional contact is recorded as `EXPERIMENTAL_BOUNDED` in a dedicated C01
 record. This does not update the published 0.2.11 capability matrix or certify
 the route. See the [scoped contract](../contact_small_rotation_work_conjugate_transfer.md)

@@ -16,8 +16,10 @@ cases.
 
 ## Current release state
 
-QF Solver `0.2.11` (`v0.2.11`) is the current published release. Its version
-DOI is [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
+QF Solver `0.2.12` (`v0.2.12`) is the current published release. See the
+[release notes](docs/whats-new/0.2.12.md). The project concept DOI is
+[`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897);
+the historical 0.2.11 version DOI is [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
 New changes on the default branch do not change the published scope. The public
 [capability index](docs/capabilities/index.md) and [V&V/maturity guide](docs/verification/evidence-and-maturity.md)
 define the current bounded scope; historical 0.2.7 evidence must remain

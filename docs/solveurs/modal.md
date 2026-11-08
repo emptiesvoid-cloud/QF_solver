@@ -11,9 +11,9 @@ approver: ""
 
 <span class="maturity reinforced">historical 0.2.0 scope</span>
 
-## Candidate 0.2.12 status
+## 0.2.12 status
 
-Classical modal analysis in the unreleased 0.2.12 candidate is EXPERIMENTAL.
+Classical modal analysis in 0.2.12 is EXPERIMENTAL.
 The exact residual-validation domain is bounded. Under the default strict
 policy, a result that cannot be certified within those bounds remains
 INCONCLUSIVE and is not returned as a certified usable modal basis. Historical

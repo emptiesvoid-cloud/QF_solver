@@ -1,8 +1,10 @@
 cff-version: 1.2.0
-message: "QF Solver 0.2.12 is an unreleased candidate. No version DOI or release date has been assigned. Use concept DOI 10.5281/zenodo.22697897 to cite the project across versions."
+message: "Cite QF Solver 0.2.12 using its version DOI. Use concept DOI 10.5281/zenodo.22697897 to cite the project across versions."
 type: software
 title: "QF Solver"
 version: "0.2.12"
+date-released: "2026-11-08"
+doi: "10.5281/zenodo.24053923"
 license: "Apache-2.0"
 authors:
   - family-names: "Farinazzo"

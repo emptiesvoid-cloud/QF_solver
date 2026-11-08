@@ -19,7 +19,7 @@ reproducible studies. An implemented route or a converged example is not
 automatically qualified or physically validated. The project is not certified
 and is not a general-purpose replacement for industrial FEA software.
 
-**This source describes QF Solver 0.2.12.** See [what's new in 0.2.12](docs/whats-new/0.2.12-preparation.md)
+**This source describes QF Solver 0.2.12.** The current QF Solver release is `0.2.12`. See [what's new in 0.2.12](docs/whats-new/0.2.12.md)
 and the official website, [qfsolver.org](https://qfsolver.org/).
 
 On this page: [Capabilities](#capabilities) · [Modeling](#elements-materials-and-modeling) ·
@@ -581,7 +581,8 @@ and the controlling evidence record for the chosen analysis.
 This README documents QF Solver `0.2.12`. Use the project concept DOI
 [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897) to cite
 QF Solver across versions, and consult [`CITATION.cff`](CITATION.cff) for
-citation details. A version-specific DOI for 0.2.12 has not been assigned.
+citation details. The 0.2.12 version DOI is
+[`10.5281/zenodo.24053923`](https://doi.org/10.5281/zenodo.24053923).
 The earlier 0.2.11 release has DOI
 [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487), and
 0.2.10 has DOI [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744).
