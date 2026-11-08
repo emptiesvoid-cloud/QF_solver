@@ -1,0 +1,2 @@
+a09368d4d1d79f5b7fc10ff5c4c3a96dfa5d245a20bd9984704b8ab472d4c719  qf_solver-0.2.12-py3-none-any.whl
+1b6a980c4ecb3dce1ed5a885a69c9cc66d1efd62af85fba20bb0ed13daac1cd1  qf_solver-0.2.12.tar.gz
