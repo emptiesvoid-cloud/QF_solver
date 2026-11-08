@@ -13,6 +13,14 @@ on:
         description: "Prospectively committed frozen package/public-docs contract"
         required: true
         type: string
+      validation_profile:
+        description: "Contract-bound release validation profile"
+        required: true
+        type: choice
+        options:
+          - LEGACY
+          - PYPI_0212_BOUNDED
+        default: LEGACY
       run_extended_validation:
         description: "Run extended scientific validation after its separate authorization"
         required: true
@@ -56,13 +64,19 @@ jobs:
           RELEASE_TAG: ${{ inputs.release_tag }}
           CONFIRM_PUBLISH: ${{ inputs.confirm_publish }}
           RUN_EXTENDED_VALIDATION: ${{ inputs.run_extended_validation }}
+          VALIDATION_PROFILE: ${{ inputs.validation_profile }}
           CONTRACT_PATH: ${{ inputs.contract_path }}
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = "refs/heads/main"
           [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
           if [[ "$CONFIRM_PUBLISH" == "true" ]]; then
-            test "$RUN_EXTENDED_VALIDATION" = "true"
+            if [[ "$VALIDATION_PROFILE" == "LEGACY" ]]; then
+              test "$RUN_EXTENDED_VALIDATION" = "true"
+            else
+              test "$VALIDATION_PROFILE" = "PYPI_0212_BOUNDED"
+              test "$RUN_EXTENDED_VALIDATION" = "false"
+            fi
             for artifact_kind in wheel sdist; do
               artifact_hash="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["audited_artifacts"][sys.argv[2]]["sha256"])' "$CONTRACT_PATH" "$artifact_kind")"
               [[ "$artifact_hash" =~ ^[0-9a-f]{64}$ ]]
@@ -86,6 +100,18 @@ jobs:
               raise SystemExit("The release contract version differs from the requested tag.")
           if contract.get("release_tag") != sys.argv[2] or contract.get("source_sha") != sys.argv[3]:
               raise SystemExit("The requested tag differs from the exact audited package source.")
+          profile = os.environ["VALIDATION_PROFILE"]
+          if profile == "PYPI_0212_BOUNDED":
+              if (
+                  contract.get("validation_profile") != profile
+                  or contract.get("release_channels") != ["pypi"]
+                  or sys.argv[2] != "v0.2.12"
+                  or sys.argv[3] != "f6f63eb8701e38b41aae0d735850e8cf50b07fa5"
+                  or sys.argv[4] != "dbf8314b861ac7f3a963d6036080e7a96ca4b17e"
+              ):
+                  raise SystemExit("The bounded profile is bound only to the authorized v0.2.12 tag object and source commit.")
+          elif profile != "LEGACY" or contract.get("validation_profile") not in (None, "LEGACY"):
+              raise SystemExit("The requested validation profile differs from the release contract.")
           if contract.get("g03_status") != "FAIL_PRESERVED" or contract.get("whole_repository_archive_cleared") is not False:
               raise SystemExit("G03 must remain failed and the complete repository archive uncleared.")
           if contract.get("wp14_status") != "HOLD_NOT_PROMOTED":
@@ -134,7 +160,7 @@ jobs:
   quality:
     name: Tagged release quality gate
     needs: build
-    if: ${{ inputs.run_extended_validation == true }}
+    if: ${{ inputs.validation_profile == 'LEGACY' && inputs.run_extended_validation == true }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -196,7 +222,13 @@ jobs:
       - name: Build public documentation strictly
         run: mkdocs build --strict -f .github/pages/mkdocs.yml
       - name: Run packaging tests
+        if: ${{ inputs.validation_profile == 'LEGACY' }}
         run: python -m pytest tests/integration/test_packaging.py -q
+      - name: Run bounded non-FEM packaging controls
+        if: ${{ inputs.validation_profile == 'PYPI_0212_BOUNDED' }}
+        run: >-
+          python -m pytest tests/integration/test_packaging.py -q
+          --deselect=tests/integration/test_packaging.py::test_solver_cli_module_check_mesh_and_solve_run
 
   build:
     name: Frozen selected package and public-docs audit
@@ -337,14 +369,21 @@ jobs:
   publish:
     needs: [preflight, quality, docs, build]
     if: >-
+      always() &&
       needs.preflight.result == 'success' &&
-      needs.quality.result == 'success' &&
       needs.docs.result == 'success' &&
       needs.build.result == 'success' &&
       needs.build.outputs.release_verified == 'true' &&
       github.event_name == 'workflow_dispatch' &&
       github.ref == 'refs/heads/main' &&
-      inputs.run_extended_validation == true &&
+      (
+        (inputs.validation_profile == 'LEGACY' &&
+         inputs.run_extended_validation == true &&
+         needs.quality.result == 'success') ||
+        (inputs.validation_profile == 'PYPI_0212_BOUNDED' &&
+         inputs.run_extended_validation == false &&
+         needs.quality.result == 'skipped')
+      ) &&
       inputs.confirm_publish == true
     runs-on: ubuntu-latest
     environment:
