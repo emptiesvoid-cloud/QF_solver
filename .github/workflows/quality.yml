@@ -52,19 +52,20 @@ jobs:
             python: "3.13"
             validation: compatibility
     steps:
-      # Reject outside the single approved PR attempt before checking out code.
-      - name: Reject outside the PR 132 approval scope
+      # Reject unsupported events before checking out code.
+      - name: Reject outside the approved repository and base branch
         if: >-
-          github.event_name != 'pull_request' ||
-          github.event.number != 132 ||
+          (github.event_name != 'pull_request' && github.event_name != 'push' && github.event_name != 'workflow_dispatch') ||
           github.repository != 'emptiesvoid-cloud/QF_solver' ||
-          github.event.pull_request.head.repo.full_name != github.repository ||
-          github.event.pull_request.head.ref != 'docs/post-release-0212-consistency' ||
-          github.event.pull_request.base.ref != 'main' ||
-          github.run_attempt != 1
+          (github.event_name == 'pull_request' && (
+            github.event.pull_request.head.repo.full_name != github.repository ||
+            github.event.pull_request.base.ref != 'main'
+          )) ||
+          (github.event_name == 'push' && github.ref != 'refs/heads/main') ||
+          (github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main')
         shell: bash
         run: |
-          echo "::error::This CI activation candidate permits only attempt 1 of PR 132."
+          echo "::error::CI is limited to same-repository PRs targeting main, main pushes, and main dispatches."
           exit 1
       - uses: actions/checkout@v4
         with:
