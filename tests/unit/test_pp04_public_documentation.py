@@ -104,7 +104,7 @@ def test_generated_status_avoids_fragile_test_count() -> None:
     assert re.search(r"full-suite test\s+inventory is recorded by the final Gate-E evidence", status)
     assert "0.2.8-development" not in status
     assert '<h3>Source package version</h3><span class="value">0.2.12</span>' in status
-    assert '<h3>Latest published release</h3><span class="value">0.2.11</span>' in status
+    assert '<h3>Latest published release</h3><span class="value">0.2.12</span>' in status
     assert "whole-repository source archives are not cleared" in status
     assert "G03 FAIL" in status
     assert "Mixed distributed PETSc/MPI" in status
