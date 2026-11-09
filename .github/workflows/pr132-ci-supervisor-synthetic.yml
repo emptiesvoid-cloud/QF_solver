@@ -1,0 +1,42 @@
+name: PR 132 synthetic CI supervisor probe
+
+on:
+  pull_request:
+    types: [synchronize]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr132-ci-supervisor-synthetic-${{ github.event.pull_request.head.sha }}
+  cancel-in-progress: true
+
+jobs:
+  synthetic-probe:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.number == 132 &&
+      github.repository == 'emptiesvoid-cloud/QF_solver' &&
+      github.event.pull_request.base.ref == 'main' &&
+      github.event.pull_request.head.ref == 'docs/post-release-0212-consistency' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+      - name: Check out candidate without a write credential
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run synthetic supervisor smoke probe
+        run: python scripts/ci_supervisor_smoke.py
+      - name: Verify non-root Linux command launcher
+        if: runner.os == 'Linux'
+        run: >-
+          python -B scripts/ci_linux_bounded_step.py
+          --seconds 5 --memory-bytes 268435456 --pids 16
+          --cpu-quota-us 100000 --cpu-period-us 100000
+          -- python3 -c "import os; assert os.geteuid() != 0; assert not any(k.startswith('QF_MANIFEST_') for k in os.environ)"

@@ -48,13 +48,13 @@ def test_028_changelog_is_structured_released_and_bounded() -> None:
 def test_security_policy_identifies_current_and_older_release_channels() -> None:
     security = _text("SECURITY.md")
     assert "Latest published release" in security
-    assert "Current `0.2.11` release" in security
+    assert "Current `0.2.12` release" in security
     assert "Older releases" in security
     assert "0.2.7 = supported" not in security
     assert "best-effort basis" in security
 
 
-def test_candidate_citation_has_unreleased_version_without_release_metadata() -> None:
+def test_published_citation_has_verified_version_metadata() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     runtime = _text("src/solveur/version.py")
     citation = _text("CITATION.cff")
@@ -62,9 +62,8 @@ def test_candidate_citation_has_unreleased_version_without_release_metadata() ->
     assert '__version__ = "0.2.12"' in runtime
     assert 'title: "QF Solver"' in citation
     assert 'version: "0.2.12"' in citation
-    assert "date-released:" not in citation
-    assert "doi:" not in citation
-    assert "No version DOI or release date has been assigned." in citation
+    assert 'date-released: "2026-11-08"' in citation
+    assert 'doi: "10.5281/zenodo.24053923"' in citation
     assert "10.5281/zenodo.22697897" in citation
     assert 'license: "Apache-2.0"' in citation
     assert 'repository-code: "https://github.com/emptiesvoid-cloud/QF_solver"' in citation
@@ -114,6 +113,6 @@ def test_release_registry_and_public_boundaries_remain_unchanged() -> None:
     }
     assert "no general HPC or nonlinear distributed claim" in _text("README.md")
     assert "`NOT_VALIDATED`" in _text("README.md")
-    assert "QF Solver `0.2.11` (`v0.2.11`) is the current published release" in _text("CONTRIBUTING.md")
+    assert "QF Solver `0.2.12` (`v0.2.12`) is the current published release" in _text("CONTRIBUTING.md")
     assert "10.5281/zenodo.23214487" in _text("SECURITY.md")
     assert "haven't had the time to put everything on GitHub" not in _text("CONTRIBUTING.md")

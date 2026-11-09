@@ -14,9 +14,10 @@ contact details beyond the public repository profile.
 
 ## Release Metadata
 
-The latest published release is QF Solver `0.2.11`, tagged `v0.2.11` and
-bound to package source `afd2efa469a18e66581720ff4801f50de7d29eb4`. Its
-version DOI is [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
+The latest published release is QF Solver `0.2.12`, tagged `v0.2.12`
+([release notes](https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.12)).
+The previous `0.2.11` release was bound to package source
+`afd2efa469a18e66581720ff4801f50de7d29eb4`. Its version DOI is [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
 The previous `0.2.10` version DOI is
 [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). The
 published `0.2.8` version DOI is

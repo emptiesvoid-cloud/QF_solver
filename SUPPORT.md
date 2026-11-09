@@ -7,8 +7,8 @@ Support is best-effort. QF_solver is not certified software and does not
 replace an engineer's independent model review, boundary-condition review,
 mesh-quality assessment or validation against the intended application.
 
-The latest published release, currently `0.2.11`, is the normal support
-reference. Its tag is `v0.2.11` and its version DOI is
+The latest published release, currently `0.2.12`, is the normal support
+reference. Its tag is `v0.2.12`. The earlier 0.2.11 version DOI is
 [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487). Questions
 should include the exact release tag or source revision
 when reproducibility matters. Older releases are supported on a best-effort

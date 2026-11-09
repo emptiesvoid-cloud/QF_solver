@@ -119,11 +119,10 @@ save_result(result: object, path: str | Path, *, overwrite: bool = False) -> Non
   `OSError` failures.
 - Stability: `STABLE`.
 
-## Modal validation policy for the 0.2.12 candidate
+## Modal validation policy for 0.2.12
 
-This section documents an unreleased 0.2.12 candidate behavior; it does not
-change the latest published version (0.2.11) or establish scientific
-qualification.
+This section describes 0.2.12 behavior; publication does not establish
+scientific qualification.
 
 For a modal model, and for the reduced harmonic and modal Newmark routes, the
 optional setting is placed in `analysis.parameters`:

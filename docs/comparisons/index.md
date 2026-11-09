@@ -20,7 +20,7 @@ This section compares QF Solver with several open-source finite-element tools.
 > subsequent releases. They are not current capability or maturity records;
 > use the current capability index and V&V summary for current scope.
 
-The current documentation baseline is 0.2.11. The detailed comparison articles
+This comparison overview is based on 0.2.11. The detailed comparison articles
 retain their explicit 0.2.7 snapshots. For current maturity and
 limitations, use the sources linked below; in particular, mixed
 distributed PETSc/MPI remains `NOT_VALIDATED`.

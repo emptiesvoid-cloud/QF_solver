@@ -1,11 +1,11 @@
 # Changelog
 
-## 0.2.12 — Preparation (unreleased)
+## 0.2.12 - Released (2026-11-08)
 
-This section records the integration candidate only. The latest published
-release remains 0.2.11; 0.2.12 has no release date, version DOI, or publication
-authorization. The [candidate capability summary](docs/whats-new/0.2.12-preparation.md)
-describes implemented routes and their evidence boundaries in more detail.
+QF Solver 0.2.12 was published on 2026-11-08. The [release overview](docs/whats-new/0.2.12.md)
+and [official GitHub release](https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.12)
+describe the release and its evidence boundaries. The [preparation note](docs/whats-new/0.2.12-preparation.md)
+is retained as a historical candidate snapshot.
 
 ### Added
 
@@ -48,7 +48,7 @@ describes implemented routes and their evidence boundaries in more detail.
 
 ### Known limitations and compatibility
 
-- Classical modal analysis in the unreleased 0.2.12 candidate is EXPERIMENTAL.
+- Classical modal analysis in 0.2.12 is EXPERIMENTAL.
   Residual validation is bounded; strict mode keeps budget-exceeded cases
   INCONCLUSIVE and refuses their use as certified bases. This maturity label
   does not turn a failed CI test or a failed HEX20 campaign into PASS. See the

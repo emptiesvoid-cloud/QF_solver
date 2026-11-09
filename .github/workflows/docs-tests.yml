@@ -1,8 +1,6 @@
 name: Documentation tests
 
 on:
-  workflow_dispatch:
-
   push:
     branches:
       - main
@@ -21,16 +19,41 @@ permissions:
 
 jobs:
   docs-tests:
+    environment: qf-fem-ci-approval
     runs-on: ubuntu-latest
 
     steps:
+      # Reject unsupported events before checking out code.
+      - name: Reject outside the approved repository and base branch
+        if: >-
+          (github.event_name != 'pull_request' && github.event_name != 'push') ||
+          github.repository != 'emptiesvoid-cloud/QF_solver' ||
+          (github.event_name == 'pull_request' && (
+            github.event.pull_request.head.repo.full_name != github.repository ||
+            github.event.pull_request.base.ref != 'main'
+          )) ||
+          (github.event_name == 'push' && github.ref != 'refs/heads/main')
+        shell: bash
+        run: |
+          echo "::error::CI is limited to same-repository PRs targeting main and pushes to main."
+          exit 1
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Verify approved pull request identity
+        env:
+          QF_APPROVED_IDENTITY_MANIFEST_JSON: ${{ secrets.QF_CI_DOCS_MANIFEST_JSON }}
+          QF_MANIFEST_AUTH_SECRET: ${{ secrets.QF_CI_DOCS_MANIFEST_AUTH_SECRET }}
+          QF_MANIFEST_SIGNATURE: ${{ secrets.QF_CI_DOCS_MANIFEST_SIGNATURE }}
+        run: python -B scripts/ci_verify_pr_identity.py
 
       - name: Install test dependencies
         run: |
@@ -38,12 +61,20 @@ jobs:
           python -m pip install -e ".[test,dev,docs]"
 
       - name: Run documentation tests
+        env:
+          QF_APPROVED_IDENTITY_MANIFEST_JSON: ${{ secrets.QF_CI_DOCS_MANIFEST_JSON }}
+          QF_MANIFEST_AUTH_SECRET: ${{ secrets.QF_CI_DOCS_MANIFEST_AUTH_SECRET }}
+          QF_MANIFEST_SIGNATURE: ${{ secrets.QF_CI_DOCS_MANIFEST_SIGNATURE }}
         run: |
-          python -m pytest tests/documentation/test_docs_generation.py -q
+          python -B scripts/ci_run_bounded_step.py --profile docs-tests -- -m pytest tests/documentation/test_docs_generation.py -q
 
       - name: MkDocs strict build
         run: mkdocs build --strict -f .github/pages/mkdocs.yml
 
       - name: Run packaging tests
+        env:
+          QF_APPROVED_IDENTITY_MANIFEST_JSON: ${{ secrets.QF_CI_DOCS_MANIFEST_JSON }}
+          QF_MANIFEST_AUTH_SECRET: ${{ secrets.QF_CI_DOCS_MANIFEST_AUTH_SECRET }}
+          QF_MANIFEST_SIGNATURE: ${{ secrets.QF_CI_DOCS_MANIFEST_SIGNATURE }}
         run: |
-          python -m pytest tests/integration/test_packaging.py -q
+          python -B scripts/ci_run_bounded_step.py --profile docs-packaging -- -m pytest tests/integration/test_packaging.py -q

@@ -9,8 +9,7 @@ approver: ""
 
 # QF Solver
 
-**Current release documentation:** `0.2.12` (source on `main`; publication pending)<br>
-**Latest published release:** `0.2.11` (2026-10-07)<br>
+**Current release documentation:** `0.2.12` (2026-11-08)<br>
 **Published 0.2.11 DOI:** [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487)<br>
 **Project concept DOI:** [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
 
@@ -50,7 +49,7 @@ See the [0.2.11 V&V summary](verification/0_2_11/README.md) and the separate
 - [Solvers and backends](solveurs/index.md), [model audits](reference/audit_detail_modes.md)
   and [public API](reference/qf_solver_api.md): calculation and inspection tools.
 
-Read [the 0.2.12 main version notes](whats-new/0.2.12-preparation.md) and
+Read [the 0.2.12 main version notes](whats-new/0.2.12.md) and
 [What's New in 0.2.11](whats-new/0.2.11.md) for the published release history.
 The historical [0.2.10 release notes](whats-new/0.2.10.md) describe the first
 public release after 0.2.8; the intervening 0.2.9 tag is a source snapshot,
@@ -84,12 +83,12 @@ For exact-version reproducibility, cite the published 0.2.11 version DOI
 preceding 0.2.10 release has version DOI
 [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). Use the
 project concept DOI [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
-to cite QF Solver across versions. QF Solver 0.2.12 remains an unreleased
-candidate; its [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/58e707da328c46a8797246a7ca75cdf6ca967dc4/CITATION.cff)
-identifies the candidate without assigning a release date or version DOI. Use
-the DOI above when citing published 0.2.11. WP12 is closed only under the
+to cite QF Solver across versions. QF Solver 0.2.12 was published on 2026-11-08;
+its [citation metadata](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff)
+identifies the release. The [0.2.12 version DOI](https://doi.org/10.5281/zenodo.24053923)
+is recorded by Zenodo. WP12 is closed only under the
 bounded Owner disposition `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`; this is not
-general qualification. See the [0.2.12 candidate preparation note](whats-new/0.2.12-preparation.md).
+general qualification. See the [0.2.12 release overview](whats-new/0.2.12.md).
 Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solver/)
 and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
 

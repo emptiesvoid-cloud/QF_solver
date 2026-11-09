@@ -9,19 +9,18 @@ approver: ""
 
 # Public roadmap
 
-QF Solver 0.2.12 is the current documentation baseline for `main`. QF Solver 0.2.11 is
-the latest published release. It was published on 2026-10-07 with version DOI
+QF Solver 0.2.12 is the current documentation baseline for `main` and was
+published on 2026-11-08. QF Solver 0.2.12 is the current published release. The previous 0.2.11 release has version DOI
 [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487). Version
 0.2.9 was a development/source snapshot, not a PyPI package, GitHub Release,
 or version DOI. This roadmap is a product-level orientation; it is not a release gate,
 tag, publication decision, or promise that an unqualified route is ready for
 production.
 
-The `main` branch contains the 0.2.12 source, which is pending publication. Its Owner-approved WP12 state is
+The 0.2.12 release does not change the Owner-approved WP12 state
 `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`; bounded dispositions preserve the
 recorded FAIL, INCONCLUSIVE and NOT_ACQUIRED states and do not grant general
-qualification. WP13 release engineering remains open; publication is not
-authorized. See the [0.2.12 candidate preparation note](../whats-new/0.2.12-preparation.md).
+qualification. See the [0.2.12 release overview](../whats-new/0.2.12.md).
 
 ## Current direction
 
