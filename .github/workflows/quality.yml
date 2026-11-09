@@ -52,11 +52,19 @@ jobs:
             python: "3.13"
             validation: compatibility
     steps:
-      # Fail closed until a reviewed hard-limit supervisor and identity binding exist.
-      - name: Hold pending CI execution controls
+      # Reject outside the single approved PR attempt before checking out code.
+      - name: Reject outside the PR 132 approval scope
+        if: >-
+          github.event_name != 'pull_request' ||
+          github.event.number != 132 ||
+          github.repository != 'emptiesvoid-cloud/QF_solver' ||
+          github.event.pull_request.head.repo.full_name != github.repository ||
+          github.event.pull_request.head.ref != 'docs/post-release-0212-consistency' ||
+          github.event.pull_request.base.ref != 'main' ||
+          github.run_attempt != 1
         shell: bash
         run: |
-          echo "::error::CI numerical execution is blocked: hard limits and identity binding are not approved."
+          echo "::error::This CI activation candidate permits only attempt 1 of PR 132."
           exit 1
       - uses: actions/checkout@v4
         with:
@@ -67,7 +75,6 @@ jobs:
           python-version: ${{ matrix.python }}
           cache: pip
       - name: Verify approved pull request identity
-        if: ${{ matrix.validation == 'reference' }}
         env:
           QF_APPROVED_IDENTITY_MANIFEST_JSON: ${{ secrets.QF_CI_QUALITY_MANIFEST_JSON }}
           QF_MANIFEST_AUTH_SECRET: ${{ secrets.QF_CI_QUALITY_MANIFEST_AUTH_SECRET }}

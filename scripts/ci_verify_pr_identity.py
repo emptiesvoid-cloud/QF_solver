@@ -44,7 +44,10 @@ def check(
     if any(entry and entry not in permitted for entry in status.split("\0")):
         raise ValueError("checkout contains unexpected changes")
     for path in WORKFLOWS:
-        digest = hashlib.sha256((root / path).read_bytes()).hexdigest()
+        # Actions reads committed workflow bytes. The clean check above also
+        # rejects modified tracked files while allowing checkout line endings.
+        committed = subprocess.check_output(["git", "--no-replace-objects", "show", f"{merge}:{path}"], cwd=root)
+        digest = hashlib.sha256(committed).hexdigest()
         if digest != manifest["workflow_sha256"][path]:
             raise ValueError(f"workflow mismatch: {path}")
 
