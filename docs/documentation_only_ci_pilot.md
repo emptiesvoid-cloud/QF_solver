@@ -10,13 +10,14 @@ The diagnostic does not alter the existing workflows, the signed identity gate,
 the required status checks or Owner decisions. The output is not scientific
 validation or a merge approval. The diagnostic is not yet deployed.
 
-GitHub states that checks from pull_request_target cannot satisfy a required
-ruleset status check. Therefore this pilot alone cannot unblock PR 133. Before
-any required check is changed, a separately reviewed trusted status mechanism
-must bind the classification and the checks to the exact PR head and base. A
-workflow from the candidate PR must not be able to attest its own trust. The
-existing checks remain required until that mechanism and any ruleset change are
-reviewed and authorized by the Owner.
+GitHub lists pull_request_target among the events whose workflow checks can be
+evaluated by a ruleset. Required checks must apply to the appropriate current
+commit. This pilot has not been run on GitHub or shown to satisfy the existing
+ruleset, so it cannot yet unblock PR 133. Before any required check is changed,
+the trusted mechanism and its association with the exact PR head and base need
+independent review. A workflow from the candidate PR must not be able to attest
+its own trust. Existing checks remain required until the mechanism and any
+ruleset change are reviewed and authorized by the Owner.
 
 References:
 https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target
