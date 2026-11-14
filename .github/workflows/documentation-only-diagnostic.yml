@@ -1,0 +1,36 @@
+name: Documentation only diagnostic
+
+# Informational pilot. It does not replace any required check or Owner gate.
+# Runs trusted base code and reads PR Git objects only as data.
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  documentation-only-diagnostic:
+    name: Documentation only diagnostic (informational)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require a same-repository PR
+        env:
+          BASE_REPOSITORY: ${{ github.repository }}
+          HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+        run: test "$BASE_REPOSITORY" = "$HEAD_REPOSITORY"
+      - name: Checkout trusted base only
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Inspect PR objects without executing them
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git fetch --no-tags origin "$HEAD_SHA"
+          python -B scripts/check_documentation_only.py "$BASE_SHA" "$HEAD_SHA"
