@@ -592,6 +592,27 @@ The whole-repository G03 archive gate remains **FAIL**, the full repository
 archive is not cleared, and WP14 remains **HOLD_NOT_PROMOTED**. Selected
 distribution checks do not change those states.
 
+## Publications and Technical Reports
+
+**QF Solver 0.2.12: Numerical Verification Report: Discrete Spectral Comparison of a Weak-Bending Beam Model**
+Quentin Farinazzo. Technical Report, version 1.0, 14 November 2026. **Not peer-reviewed.**
+
+DOI: [10.5281/zenodo.24218291](https://doi.org/10.5281/zenodo.24218291). [Zenodo record and supplement](https://zenodo.org/records/24218291). A [BibTeX citation](CITATION_REPORTS.bib) is available.
+
+The report compares archived QF modal results with an independent reconstruction
+of the same discrete generalized eigenvalue problem. It considers six weak-bending
+branches on three BEAM2 meshes of 115, 230 and 460 elements, with reference and
+added-mass configurations. All 36 frequency comparisons and 18 frequency-shift
+comparisons meet the prescribed scalar thresholds, conditional on the reliability
+of the numerical spectral enclosures. Auxiliary vector residuals fail the
+admissibility criterion, and the overall verdict remains
+`THREE_MESH_DISCRETE_ACCURACY_INCONCLUSIVE`.
+
+The study does not establish complete eigenvector correspondence, continuous-model
+error, experimental validation, solver certification or general validation of QF
+Solver. The supplement reproduces archived postprocessing; it does not reproduce
+the original FEM assemblies and spectral solves.
+
 ## Documentation and project
 
 - [Official project site](https://qfsolver.org/) · [Getting started](https://qfsolver.org/getting-started) · [Public capability matrix](https://qfsolver.org/capabilities)
