@@ -40,7 +40,7 @@ Contrat : [`research/j10_modal/contracts/tet10_modal_route_smoke_corrective_cont
 
 Depuis un worktree J10 propre, avec l’enveloppe de développement locale J10 enregistrée et un thread numérique, utiliser le nodeid exact du contrat au moyen de `scripts/development_autonomous.py`. Les calculs ont utilisé Python `3.13.1`, NumPy `2.2.6`, SciPy `1.15.2` et Matplotlib `3.10.3`.
 
-Les contrôles logiciels ciblés passent via le runner de développement. Les tentatives HEX8 1/2 et modale 1 ont échoué au harnais; leurs statuts, empreintes et reçus assainis sont dans [`attempt_history/`](attempt_history/). Les journaux bruts restent dans le stockage local ignoré `.codex/development-runs/` pour éviter de diffuser des racines locales.
+Les contrôles logiciels ciblés passent via le runner de développement. Les tentatives HEX8 1/2 et modale 1 ont échoué au harnais; leurs statuts, empreintes et reçus assainis sont dans [`attempt_history/`](attempt_history/). Huit préflights collect-only ont passé; six ont été utilisés et deux sont explicitement marqués non consommés après changement de source dans [`preflight_usage.json`](attempt_history/preflight_usage.json). Les journaux bruts restent dans le stockage local ignoré `.codex/development-runs/` pour éviter de diffuser des racines locales.
 
 Les reçus de calcul et préflight assainis portent les SHA bruts des reçus privés, leurs empreintes de source, horaires, budgets et ressources observées. [`sha256_manifest.json`](sha256_manifest.json) donne l’empreinte de chaque fichier de cette archive. Le manifeste n’inclut pas sa propre empreinte.
 

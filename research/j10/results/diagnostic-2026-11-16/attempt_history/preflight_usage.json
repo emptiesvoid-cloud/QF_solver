@@ -1,0 +1,55 @@
+{
+  "schema": "qf-j10-preflight-usage-v1",
+  "preflights": [
+    {
+      "preflight_id": "pf-a31016160101",
+      "used_by": "dev-9fb7233cc845",
+      "state": "PREFLIGHT_PASS",
+      "usage": "consumed"
+    },
+    {
+      "preflight_id": "pf-a31016160102",
+      "used_by": "dev-d11d9e941cc3",
+      "state": "PREFLIGHT_PASS",
+      "usage": "consumed"
+    },
+    {
+      "preflight_id": "pf-a31016160103",
+      "used_by": null,
+      "state": "PREFLIGHT_PASS",
+      "usage": "not_used_stale_source",
+      "reason": "Modal source changed before execution; fresh preflight pf-c32016160102 was used."
+    },
+    {
+      "preflight_id": "pf-b21c2d161601",
+      "used_by": "dev-e5bbd006dd25",
+      "state": "PREFLIGHT_PASS",
+      "usage": "consumed"
+    },
+    {
+      "preflight_id": "pf-b21c2d161602",
+      "used_by": null,
+      "state": "PREFLIGHT_PASS",
+      "usage": "not_used_stale_source",
+      "reason": "Source fingerprint changed before a modal attempt; fresh preflight pf-c32016160102 was used."
+    },
+    {
+      "preflight_id": "pf-c32016160101",
+      "used_by": "dev-3eeee4cc7ddf",
+      "state": "PREFLIGHT_PASS",
+      "usage": "consumed"
+    },
+    {
+      "preflight_id": "pf-c32016160102",
+      "used_by": "dev-d8c67df75bca",
+      "state": "PREFLIGHT_PASS",
+      "usage": "consumed"
+    },
+    {
+      "preflight_id": "pf-d42016160101",
+      "used_by": "dev-eb46f96f8528",
+      "state": "PREFLIGHT_PASS",
+      "usage": "consumed"
+    }
+  ]
+}
