@@ -329,6 +329,18 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     os.replace(temp_path, path)
 
 
+def method_checkpoint_snapshot(
+    initial: dict[str, Any],
+    completed_methods: dict[str, dict[str, Any]],
+    execution_status: str,
+) -> dict[str, Any]:
+    """Build a durable checkpoint while retaining every earlier method record."""
+    checkpoint = dict(initial)
+    checkpoint["methods"] = dict(completed_methods)
+    checkpoint["execution_status"] = execution_status
+    return checkpoint
+
+
 def _write_solutions_atomic(path: Path, vectors: dict[str, np.ndarray]) -> str:
     buffer = __import__("io").BytesIO()
     np.savez_compressed(buffer, **vectors)
@@ -731,10 +743,11 @@ def run_case(case_key: str, nodeid: str) -> dict[str, Any]:
         )
 
     method_errors = []
+    completed_methods: dict[str, dict[str, Any]] = {}
     for name, (method, high_precision) in methods.items():
-        checkpoint = dict(initial)
-        checkpoint["execution_status"] = f"METHOD_{name.upper()}_STARTED"
-        checkpoint["methods"] = dict(initial["methods"])
+        checkpoint = method_checkpoint_snapshot(initial, completed_methods, f"METHOD_{name.upper()}_STARTED")
+        if solutions_path.exists():
+            checkpoint["solution_archive_sha256"] = sha256(solutions_path)
         _write_json_atomic(checkpoint_path, checkpoint)
         started = time.perf_counter()
         try:
@@ -756,20 +769,22 @@ def run_case(case_key: str, nodeid: str) -> dict[str, Any]:
                 raise FloatingPointError("method returned a nonfinite displacement")
             solution_vectors[name + "_displacement_m"] = full
             entry["solution_archive_sha256"] = _write_solutions_atomic(solutions_path, solution_vectors)
-            checkpoint["methods"][name] = entry
-            checkpoint["execution_status"] = f"METHOD_{name.upper()}_COMPLETE"
+            completed_methods[name] = entry
+            checkpoint = method_checkpoint_snapshot(initial, completed_methods, f"METHOD_{name.upper()}_COMPLETE")
             checkpoint["solution_archive_sha256"] = entry["solution_archive_sha256"]
             checkpoint["elapsed_method_call_seconds"] = float(time.perf_counter() - started)
             _write_json_atomic(checkpoint_path, checkpoint)
         except Exception as exc:  # preserve the phase checkpoint before surfacing a method failure
             method_errors.append(name)
-            checkpoint["methods"][name] = {
+            completed_methods[name] = {
                 "status": "FAILED",
                 "error_type": type(exc).__name__,
                 "error_message": str(exc),
                 "elapsed_method_call_seconds": float(time.perf_counter() - started),
             }
-            checkpoint["execution_status"] = f"METHOD_{name.upper()}_FAILED"
+            checkpoint = method_checkpoint_snapshot(initial, completed_methods, f"METHOD_{name.upper()}_FAILED")
+            if solutions_path.exists():
+                checkpoint["solution_archive_sha256"] = sha256(solutions_path)
             _write_json_atomic(checkpoint_path, checkpoint)
 
     final = json.loads(checkpoint_path.read_text(encoding="utf-8"))

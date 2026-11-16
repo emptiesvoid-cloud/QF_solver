@@ -90,7 +90,7 @@
     "budgets": {"timeout_seconds": 600, "rss_soft_limit_mib": 512, "process_tree_limit": 4, "output_total_limit_mib": 8, "output_stream_limit_mib": 4, "temporary_limit_mib": 128, "archive_size_limit_mib": 64},
     "thread_environment": {"OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "OMP_THREAD_LIMIT": "1", "MKL_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1", "VECLIB_MAXIMUM_THREADS": "1", "BLIS_NUM_THREADS": "1", "TBB_NUM_THREADS": "1"},
     "semantics": "Runner enforces wall-time and captured-output caps; RSS/process/temp/archive are sampled soft controls, not OS quotas.",
-    "checkpoint": "atomic checkpoint after independent reconstruction and after each solver method; checkpoints precede criteria evaluation",
+    "checkpoint": "atomic checkpoint after independent reconstruction and after each solver method; each checkpoint preserves all earlier method records and available solution vectors before criteria evaluation",
     "artifacts": ["diagnostic_result.json", "reconstructed_state.npz", "method_solutions.npz", "sanitized_runner_record.json", "sha256_manifest.json"]
   },
   "limitations": [
