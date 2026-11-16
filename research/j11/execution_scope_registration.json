@@ -1,0 +1,55 @@
+{
+  "allowed_nodeids": [
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation",
+    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction"
+  ],
+  "attempt_ledger": ".codex/development-runs/node-attempt-ledger-j11.json",
+  "attempt_limit_per_nodeid": 1,
+  "attempt_limits_per_nodeid": {
+    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction": 1,
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation": 1
+  },
+  "baseline_branch": "work/0.3.0-j10",
+  "baseline_commit": "0d6b6384c7b334d664e7645d75c8413499b9036f",
+  "budgets": {
+    "archive_size_limit_mib": 128,
+    "minimum_free_disk_mib": 1024,
+    "numeric_threads": 1,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 512,
+    "timeout_seconds": 1800
+  },
+  "classification": "DEVELOPMENT_EXPLORATORY_ONLY",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J11-2026-11-16-v1",
+  "execution_branch": "work/0.3.0-j11",
+  "family_contract_sha256_canonical": {
+    "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json": "9736e30818476c7c27aa6df7590cc0173fe74e75bd32156437e6ffb00b44027e",
+    "research/j11_transient/contracts/tet10_axial_bar_contract.json": "a342296a7df3f9d6fb7578c50bad45180000891e56908eddc7bfeebce19e8181"
+  },
+  "family_contracts": [
+    "research/j11_transient/contracts/tet10_axial_bar_contract.json",
+    "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json"
+  ],
+  "launcher": "scripts/development_autonomous.py with one exact nodeid per collect-only preflight and one attempt per node",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J11_OWNER_2026-11-16",
+  "preservation": {
+    "historical_ledgers_and_results_modified": false,
+    "publication_release_tag_or_merge_authorized": false,
+    "qualification_evidence_created": false
+  },
+  "schema": "qf-j11-execution-scope-registration-v1",
+  "thread_environment": {
+    "BLIS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "worktree_id": "j11"
+}
