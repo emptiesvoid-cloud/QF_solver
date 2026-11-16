@@ -23,7 +23,7 @@ from threadpoolctl import threadpool_info, threadpool_limits
 
 
 ROOT = Path(__file__).resolve().parents[2]
-CONTRACT_PATH = ROOT / "research/j9/hex8_work_method_postprocess_retry_contract.json"
+CONTRACT_PATH = ROOT / "research/j9/hex8_work_method_postprocess_attempt_03_contract.json"
 CONTRACT = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
 RESULT_DIR = ROOT / "research/j9/results/diagnostic-2026-11-16/hex8_constant_domain"
 STATE_PATH = RESULT_DIR / "hex8_distortion_states.npz"
@@ -47,7 +47,22 @@ def relative_norm(numerator: np.ndarray, denominator: np.ndarray) -> float:
 
 
 def main() -> None:
-    expected = {item["path"]: item["sha256"] for item in CONTRACT["source"]["inputs"]}
+    source = CONTRACT["source"]
+    required_source_fields = {
+        "source_head_for_archived_fem_data",
+        "postprocessor_sha256",
+        "inputs",
+    }
+    missing_source_fields = required_source_fields - source.keys()
+    if missing_source_fields:
+        raise RuntimeError(f"contract source fields are missing: {sorted(missing_source_fields)}")
+    actual_script_sha = sha256(Path(__file__))
+    if actual_script_sha != source["postprocessor_sha256"]:
+        raise RuntimeError(
+            f"postprocessor SHA-256 differs from contract: {actual_script_sha}"
+        )
+
+    expected = {item["path"]: item["sha256"] for item in source["inputs"]}
     for path in (STATE_PATH, RESULT_PATH):
         rel = path.relative_to(ROOT).as_posix()
         actual = sha256(path)
@@ -166,9 +181,12 @@ def main() -> None:
     elapsed = time.perf_counter() - started
     payload = {
         "schema": "qfsolver.j9.hex8-work-method-postprocess-result.v1",
+        "execution_id": CONTRACT["execution_id"],
         "classification": "DEVELOPMENT_EXPLORATORY_POSTPROCESS_NOT_QUALIFICATION",
         "status": "COMPLETED_EXPLORATORY_POSTPROCESS",
-        "source_head": CONTRACT["source"]["source_head"],
+        "source_head_for_archived_fem_data": source[
+            "source_head_for_archived_fem_data"
+        ],
         "contract_sha256": sha256(CONTRACT_PATH),
         "inputs": [
             {"path": item["path"], "sha256": sha256(ROOT / item["path"])}

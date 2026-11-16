@@ -1,0 +1,22 @@
+{
+  "schema": "qfsolver.j9.postprocess-attempt-error.v1",
+  "execution_id": "J9-HEX8-WORK-METHOD-POSTPROCESS-02",
+  "classification": "DEVELOPMENT_EXPLORATORY_POSTPROCESS_NOT_QUALIFICATION",
+  "status": "SERIALIZATION_ERROR_AFTER_LINEAR_SOLVES",
+  "contract_path": "research/j9/hex8_work_method_postprocess_retry_contract.json",
+  "contract_sha256": "4dc680604f84193dc48efba76d82e185b6be70315fbd0eaf14491394db3c0699",
+  "postprocessor_path": "research/j9/verify_hex8_work_method.py",
+  "postprocessor_sha256": "0efae22350be59f4bf031dc7460253f04a18af0b1d48a16352fe5102605a1879",
+  "input_sha256_verified_before_error": {
+    "hex8_distortion_states.npz": "82cf441c8c0ad84738114e826553abd18071493b9527b8e8aa0c4ce2bc62c1b3",
+    "result.json": "171bee39b3aa00062195a32c74517872f78a69f3d4e75d54643679599d6c2eab"
+  },
+  "error": "KeyError: 'source_head'",
+  "phase": "output payload construction after the NumPy and SciPy reduced solves completed for all four levels, before JSON serialization",
+  "linear_solves_completed": 8,
+  "numerical_result_archived": false,
+  "fem_or_reassembly_executed": false,
+  "wall_time_observed_by_command_seconds": 1.3,
+  "peak_rss_bytes": null,
+  "traceability_note": "The two solve results were process-local and are not recoverable from the failed execution. The raw FEM archive and its historical result remain unchanged."
+}
