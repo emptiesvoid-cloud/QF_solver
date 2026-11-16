@@ -1,17 +1,21 @@
 {
-  "analysis_source_commit": "f3432b7c379b172e5be9b15bbe13437e91e9e2d7",
+  "analysis_source_commit": "d82a0b9c99685814f10f93cc405618b87c2c9791",
   "analysis_source_files": [
     {
       "canonical_lf_sha256": "3f6a19ce2102d2c0a0430af758eefd03138fa70931077ce725b55fb8f11e63da",
       "path": "research/j8_hex8/__init__.py"
     },
     {
-      "canonical_lf_sha256": "68a80658813e60e84402b10019fbb89ca9e78fa73b9e05f1e431b5136b95ce7e",
+      "canonical_lf_sha256": "39c8bed7b9a378652eb3beab9c08ff455a235f7f2fdda975e13f02bc77070e57",
       "path": "research/j8_hex8/diagnostics.py"
     },
     {
       "canonical_lf_sha256": "10fd918f7e88887d21482b667fa1e735e48e70292d3b0bb6ae155e4275d64ffd",
       "path": "research/j8_hex8/geometry_contrast.py"
+    },
+    {
+      "canonical_lf_sha256": "570d7822e0811cc4397ef336d6781def47abf818b4dc5c6f152b803d66a1e87a",
+      "path": "research/j8_hex8/recovery.py"
     },
     {
       "canonical_lf_sha256": "7e26e127a1205be6c03317411ee8f930ba51d4e8328330c5c94a5c8f77c470e1",
@@ -22,11 +26,11 @@
       "path": "scripts/development_autonomous_pytest_plugin.py"
     },
     {
-      "canonical_lf_sha256": "dd90111fff6c2ba9cdee9db6aa30dde1131a421dfa7c75a656240c412bcc0498",
+      "canonical_lf_sha256": "8898ece8c264552a9fed7c139b4ea700574ca0006ca506cebaa2a4a641800ef1",
       "path": "tests/unit/test_j8_hex8_diagnostics_math.py"
     },
     {
-      "canonical_lf_sha256": "ffb9941206209995997c38e2b3a8a16811e368e1513b6510f7a18ceb4a88ebc1",
+      "canonical_lf_sha256": "f2e8ed55dfa67324b0d099080ef6eafa8b293e51915180b84d958825fe59a998",
       "path": "tests/verification/test_j8_hex8_conditioning.py"
     }
   ],
@@ -57,7 +61,7 @@
     }
   },
   "classification": "BOUNDED_DEVELOPMENT_DIAGNOSTIC_NOT_QUALIFICATION",
-  "contract_canonical_lf_sha256": "3b48ff4ad7aa57bb816bf5e1e98a3144362d066766c9200f2242de61dbb1b191",
+  "contract_canonical_lf_sha256": "44ad398532dec3f0552c6b804db0bf99615be8e7c241b90f0bd504254c2ecf44",
   "dependency_versions": {
     "mpmath": "1.3.0",
     "numpy": "2.2.6",
