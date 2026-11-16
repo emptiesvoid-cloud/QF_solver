@@ -209,4 +209,6 @@ public_release_audit.json
 .codex/wp12_runner_audit/
 development_autonomous_policy.json
 !research/j8_hex8/inputs/*.npz
-!research/j8_hex8/results/**/*.npz
+!research/j8_hex8/results/
+!research/j8_hex8/results/diagnostic-2026-11-16/
+!research/j8_hex8/results/diagnostic-2026-11-16/**

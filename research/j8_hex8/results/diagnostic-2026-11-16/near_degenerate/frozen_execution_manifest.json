@@ -1,0 +1,143 @@
+{
+  "analysis_source_commit": "d82a0b9c99685814f10f93cc405618b87c2c9791",
+  "analysis_source_files": [
+    {
+      "canonical_lf_sha256": "3f6a19ce2102d2c0a0430af758eefd03138fa70931077ce725b55fb8f11e63da",
+      "path": "research/j8_hex8/__init__.py"
+    },
+    {
+      "canonical_lf_sha256": "39c8bed7b9a378652eb3beab9c08ff455a235f7f2fdda975e13f02bc77070e57",
+      "path": "research/j8_hex8/diagnostics.py"
+    },
+    {
+      "canonical_lf_sha256": "10fd918f7e88887d21482b667fa1e735e48e70292d3b0bb6ae155e4275d64ffd",
+      "path": "research/j8_hex8/geometry_contrast.py"
+    },
+    {
+      "canonical_lf_sha256": "570d7822e0811cc4397ef336d6781def47abf818b4dc5c6f152b803d66a1e87a",
+      "path": "research/j8_hex8/recovery.py"
+    },
+    {
+      "canonical_lf_sha256": "7e26e127a1205be6c03317411ee8f930ba51d4e8328330c5c94a5c8f77c470e1",
+      "path": "scripts/development_autonomous.py"
+    },
+    {
+      "canonical_lf_sha256": "43f8e2c594b2a1bd955d127e64afc6ef5b0465626dbe18dfbc6c6858e4438bfc",
+      "path": "scripts/development_autonomous_pytest_plugin.py"
+    },
+    {
+      "canonical_lf_sha256": "8898ece8c264552a9fed7c139b4ea700574ca0006ca506cebaa2a4a641800ef1",
+      "path": "tests/unit/test_j8_hex8_diagnostics_math.py"
+    },
+    {
+      "canonical_lf_sha256": "f2e8ed55dfa67324b0d099080ef6eafa8b293e51915180b84d958825fe59a998",
+      "path": "tests/verification/test_j8_hex8_conditioning.py"
+    }
+  ],
+  "attempt_limit_per_nodeid": 1,
+  "baseline_main_head": "be455745f4a1c2cf81cb9448830223107dc39b66",
+  "branch": "work/0.3.0-j8",
+  "budgets": {
+    "archive_size_limit_mib": 64,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 512,
+    "temporary_limit_mib": 128,
+    "timeout_seconds": 600
+  },
+  "cases": {
+    "near_degenerate": {
+      "nodeid": "tests/verification/test_j8_hex8_conditioning.py::test_j8_near_degenerate_nu0495_recalculation_and_methods",
+      "result_sha256": "0707e78f0a4c077b7ecf02a492a9fec2c1f4baddb175a9105a2dc6cb5904ac22",
+      "series_id": "dev-j8-near-20261116",
+      "state_npz_sha256": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11"
+    },
+    "regular": {
+      "nodeid": "tests/verification/test_j8_hex8_conditioning.py::test_j8_regular_nu04999_recalculation_and_methods",
+      "result_sha256": "da3535abc603051001f4e5ab4a7d9350221660173fddf329c2bb4156067ef187",
+      "series_id": "dev-j8-regular-20261116",
+      "state_npz_sha256": "9b95ada05a6eb63c61babb0e2572995adaaa4db47750377ff38bbea2c6266259"
+    }
+  },
+  "classification": "BOUNDED_DEVELOPMENT_DIAGNOSTIC_NOT_QUALIFICATION",
+  "contract_canonical_lf_sha256": "44ad398532dec3f0552c6b804db0bf99615be8e7c241b90f0bd504254c2ecf44",
+  "dependency_versions": {
+    "mpmath": "1.3.0",
+    "numpy": "2.2.6",
+    "psutil": "7.2.2",
+    "pytest": "8.4.1",
+    "scipy": "1.15.2",
+    "threadpoolctl": "3.6.0"
+  },
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J8-2026-11-16-v1",
+  "geometry_case": {
+    "comparison_result_sha256": "0707e78f0a4c077b7ecf02a492a9fec2c1f4baddb175a9105a2dc6cb5904ac22",
+    "comparison_state_npz_sha256": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11",
+    "nodeid": "tests/verification/test_j8_hex8_conditioning.py::test_j8_geometry_only_regular_nu0495_nx4_contrast",
+    "series_id": "dev-j8-geometry-20261116"
+  },
+  "geometry_contract_canonical_lf_sha256": "f33cc68a2eeed8313b673a5d4a04a038d1438b00100d039d745da4471850cceb",
+  "input_files": [
+    {
+      "path": "research/j8_hex8/inputs/j7_report.md",
+      "sha256": "470631a3fb0d5d486fd3706f43a07ecd5fbd1d44fba7b2242f5055b271950426"
+    },
+    {
+      "path": "research/j8_hex8/inputs/j7_hex8_sri_postcorrection_contract.json",
+      "sha256": "849ff07e94ee7a1ac6eae321269dcac6e03567b91f4684c22a8da9c37b5116d2"
+    },
+    {
+      "path": "research/j8_hex8/inputs/j7_hex8_sri_global_cases.json",
+      "sha256": "66193d6d4411caf842544d9dc74c3252f10d4641a6ce1b5b1745d5dd29c19c74"
+    },
+    {
+      "path": "research/j8_hex8/inputs/j7_sha256_manifest.json",
+      "sha256": "4277054175fea7ff69462da95d3b2a4b83c9bd1a81b1b2928a63e38b88631065"
+    },
+    {
+      "path": "research/j8_hex8/inputs/j7_hex8_sri_replay_source.py",
+      "sha256": "4c668abd98a6171cfb7278d83216b18e6db11ceab87a137971c6591e0733ca55"
+    },
+    {
+      "path": "research/j8_hex8/inputs/regular_nu04999_nx16_result.json",
+      "sha256": "da3535abc603051001f4e5ab4a7d9350221660173fddf329c2bb4156067ef187"
+    },
+    {
+      "path": "research/j8_hex8/inputs/regular_nu04999_nx16_state.npz",
+      "sha256": "9b95ada05a6eb63c61babb0e2572995adaaa4db47750377ff38bbea2c6266259"
+    },
+    {
+      "path": "research/j8_hex8/inputs/near_degenerate_nu0495_nx4_result.json",
+      "sha256": "0707e78f0a4c077b7ecf02a492a9fec2c1f4baddb175a9105a2dc6cb5904ac22"
+    },
+    {
+      "path": "research/j8_hex8/inputs/near_degenerate_nu0495_nx4_state.npz",
+      "sha256": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11"
+    }
+  ],
+  "j7_calculation_source_head": "7b60400eeb34239e1cf639dc7e92f94118ca57bc",
+  "j7_final_head": "ba813afbe3f2448dab2d75f84771616762b4f538",
+  "manifest_does_not_hash_itself": true,
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J8_OWNER_2026-11-16",
+  "preflight_required": true,
+  "runtime": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1"
+  },
+  "schema": "qf-j8-hex8-execution-manifest-v1",
+  "scope": "fem_exploratory",
+  "scope_registration_canonical_lf_sha256": "47fadf0e46c3fe869a1084a511e72eeacfb47b505418713632cc1f526335432f",
+  "solver_source_tree_sha1": "908ef5684ec92854451325bbc3696218864eb9e7",
+  "thread_environment": {
+    "BLIS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "worktree_id": "j8_hex8"
+}
