@@ -22,8 +22,8 @@ from research.j8_hex8.diagnostics import (
 ROOT = Path(__file__).resolve().parents[2]
 INPUT_ROOT = ROOT / "research/j8_hex8/inputs"
 CASE_IDS = {
-    "regular": "j8_hex8_regular_nu04999_nx16",
-    "near_degenerate": "j8_hex8_near_degenerate_nu0495_nx4",
+    "regular": "J7-HEX8-SRI-REGULAR-NU04999-NX16",
+    "near_degenerate": "J7-HEX8-SRI-NEAR-DEGENERATE-NU0495-NX4",
 }
 COMMON_METHODS = {
     "numpy_direct",
@@ -175,7 +175,10 @@ def recover_method_archive(
             "j7_result_sha256": sha256(j7_result_path),
             "j7_state_sha256": sha256(j7_state_path),
             "method_solutions_sha256": sha256(method_solutions_path),
-            "incomplete_diagnostic_result_sha256": sha256(diagnostic_result_path),
+            "diagnostic_snapshot_sha256": sha256(diagnostic_result_path),
+            "original_raw_diagnostic_result_sha256": original.get("provenance", {}).get(
+                "original_raw_diagnostic_result_sha256", sha256(diagnostic_result_path)
+            ),
             "recovery_source_sha256": sha256(Path(__file__).resolve()),
         },
         "method_inventory_complete": sorted(observed_methods) == sorted(expected_methods),

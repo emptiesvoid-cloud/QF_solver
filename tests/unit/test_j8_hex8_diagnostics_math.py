@@ -7,7 +7,7 @@ from research.j8_hex8.diagnostics import (
     method_checkpoint_snapshot,
     partitioned_residuals,
 )
-from research.j8_hex8.recovery import recompute_one_method
+from research.j8_hex8.recovery import CASE_FILES, CASE_IDS, INPUT_ROOT, recompute_one_method
 
 
 def test_partitioned_residual_and_reaction_include_nonzero_prescribed_values():
@@ -89,3 +89,11 @@ def test_recovered_method_metrics_use_saved_displacement_without_solving():
     assert metrics["backward_error"]["backward_error_inf"] == pytest.approx(0.0)
     assert metrics["energy"]["energy_delta_j"] == pytest.approx(0.0)
     assert metrics["relative_displacement_change_from_archived"] == pytest.approx(0.0)
+
+
+def test_recovery_case_ids_match_the_frozen_j7_inputs():
+    import json
+
+    for case_key, (result_name, _) in CASE_FILES.items():
+        archived = json.loads((INPUT_ROOT / result_name).read_text(encoding="utf-8"))
+        assert archived["case_id"] == CASE_IDS[case_key]
