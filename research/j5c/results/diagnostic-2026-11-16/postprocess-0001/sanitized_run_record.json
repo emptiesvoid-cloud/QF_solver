@@ -33,7 +33,7 @@
     "modal_shapes.npz": "df063ae2fd42dd5f0f4cd9d7eebf3bd0a4cf39606f98d666ed44873d8131ffa0",
     "site_data.json": "bf3918544c970b8c8378cb75c2847aef6aa15b46bf4c2fcd4db72aa24753c3f9"
   },
-  "measured_resource_note": "Process RSS and elapsed time are recorded by the test/runner log; no OS quota is implied.",
+  "measured_resource_note": "RSS and elapsed time were sampled inside the J5C process with psutil; they are observations, not OS-enforced quotas.",
   "measured_resources": {
     "available_memory_at_start_bytes": 65242796032,
     "budget_targets": {
