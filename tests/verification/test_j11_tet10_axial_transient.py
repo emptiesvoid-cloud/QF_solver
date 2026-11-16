@@ -12,7 +12,7 @@ from research.j11_transient.tet10_axial_transient import (
 )
 
 
-def test_j11_tet10_axial_bar_time_mesh_and_animation() -> None:
+def _assert_j11_tet10_axial_bar_result() -> None:
     result = run_study()
     assert result["execution_status"] == "COMPLETED_EXPLORATORY"
     assert result["independent_reference"]["type"] == "continuum fixed-free axial-bar modal series"
@@ -38,3 +38,11 @@ def test_j11_tet10_axial_bar_time_mesh_and_animation() -> None:
     assert animation["displacement_amplification"] == 1.0e8
     assert "tet10_axial_bar_animation.gif" in result["artifacts"]
     assert "tet10_axial_bar_states.npz" in result["artifacts"]
+
+
+def test_j11_tet10_axial_bar_time_mesh_and_animation() -> None:
+    _assert_j11_tet10_axial_bar_result()
+
+
+def test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2() -> None:
+    _assert_j11_tet10_axial_bar_result()

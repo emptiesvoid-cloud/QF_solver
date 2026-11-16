@@ -1,13 +1,17 @@
 {
   "allowed_nodeids": [
     "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation",
-    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction"
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2",
+    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction",
+    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction_corrective_v2"
   ],
   "attempt_ledger": ".codex/development-runs/node-attempt-ledger-j11.json",
   "attempt_limit_per_nodeid": 1,
   "attempt_limits_per_nodeid": {
     "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction": 1,
-    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation": 1
+    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction_corrective_v2": 1,
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation": 1,
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2": 1
   },
   "baseline_branch": "work/0.3.0-j10",
   "baseline_commit": "0d6b6384c7b334d664e7645d75c8413499b9036f",
@@ -23,15 +27,53 @@
     "timeout_seconds": 1800
   },
   "classification": "DEVELOPMENT_EXPLORATORY_ONLY",
+  "corrective_attempts": [
+    {
+      "new_contract": "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json",
+      "new_nodeid": "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2",
+      "prior_contract": "research/j11_transient/contracts/tet10_axial_bar_contract.json",
+      "prior_elapsed_seconds": 6.555993600049987,
+      "prior_nodeid": "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation",
+      "prior_peak_rss_bytes": 163295232,
+      "prior_preflight_id": "pf-ae1b5c0dacb7",
+      "prior_preflight_receipt_sha256": "3a6a483f09231025c22239b129cc8d875d57961c27481289a17b2d691348e65b",
+      "prior_run_record_sha256_raw": "322b3640e999ade2a8565e801f23c47da79451bacd4f8b7e799af91e9810222a",
+      "prior_run_series_id": "dev-80a5113d9d85",
+      "prior_run_state": "PYTEST_FAILED",
+      "prior_source_head": "c23d43f1d13122a5412470fed1ab8c0d69eca25d",
+      "prior_stdout_sha256": "f31e779e6cd202ba5db3a225fd9ee1163d5ce82c8a1cc215723af5693dd04db9",
+      "source_change": "Pass the initial zero load factor at t=0 to PiecewiseLinearModalOracle; keep the pulse, meshes, time steps, metrics, thresholds and budgets unchanged."
+    },
+    {
+      "new_contract": "research/j11_hex8/contracts/hex8_j7_reconstruction_contract_corrective_v2.json",
+      "new_nodeid": "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction_corrective_v2",
+      "prior_contract": "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json",
+      "prior_elapsed_seconds": 4.781061100075021,
+      "prior_nodeid": "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction",
+      "prior_peak_rss_bytes": 160890880,
+      "prior_preflight_id": "pf-d31b4192ba1c",
+      "prior_preflight_receipt_sha256": "e15474502312da7edfe76e186e62f426f09b5e4021ce478c17d11b5a6914f816",
+      "prior_run_record_sha256_raw": "a7385cd7541eaea2ac13c19b745bba94d46d5ae9a312d5ef64a45fbb8bbd7f38",
+      "prior_run_series_id": "dev-b5cf2a8faabc",
+      "prior_run_state": "PYTEST_FAILED",
+      "prior_source_head": "c23d43f1d13122a5412470fed1ab8c0d69eca25d",
+      "prior_stdout_sha256": "a3e7fe6796adda849b2c5afa2374200e56248cc541ea236adccc96862f4a7903",
+      "source_change": "Use the actual research-only Hex8SRIElement kernel and J10 local-to-global stiffness scatter route; disclose that no public AnalysisRouter/GlobalAssembler route exists for HEX8-SRI. Keep alpha levels, inputs, indicators, thresholds and budgets unchanged."
+    }
+  ],
   "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J11-2026-11-16-v1",
   "execution_branch": "work/0.3.0-j11",
   "family_contract_sha256_canonical": {
     "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json": "9736e30818476c7c27aa6df7590cc0173fe74e75bd32156437e6ffb00b44027e",
-    "research/j11_transient/contracts/tet10_axial_bar_contract.json": "a342296a7df3f9d6fb7578c50bad45180000891e56908eddc7bfeebce19e8181"
+    "research/j11_hex8/contracts/hex8_j7_reconstruction_contract_corrective_v2.json": "d81b37710ac389c5bfdc23bc46a519f5492b9e24660a5d306db43698f844ec7b",
+    "research/j11_transient/contracts/tet10_axial_bar_contract.json": "a342296a7df3f9d6fb7578c50bad45180000891e56908eddc7bfeebce19e8181",
+    "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json": "56beaa455a1cfa54f730cdec83a1ff2069b43a76b87cf7f9ae0e077a5e6f3804"
   },
   "family_contracts": [
     "research/j11_transient/contracts/tet10_axial_bar_contract.json",
-    "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json"
+    "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json",
+    "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json",
+    "research/j11_hex8/contracts/hex8_j7_reconstruction_contract_corrective_v2.json"
   ],
   "launcher": "scripts/development_autonomous.py with one exact nodeid per collect-only preflight and one attempt per node",
   "owner_mandate_id": "QF_SOLVER_0.3.0_J11_OWNER_2026-11-16",

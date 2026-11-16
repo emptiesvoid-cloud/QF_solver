@@ -12,7 +12,7 @@ from scripts import development_autonomous as runner
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_j11_scope_is_bound_to_two_exact_nodes_one_thread_and_one_attempt() -> None:
+def test_j11_scope_is_bound_to_exact_nodes_one_thread_and_one_attempt_each() -> None:
     policy = runner.load_policy()
     entry = policy["worktrees"]["j11"]
     assert entry["branch"] == "work/0.3.0-j11"
@@ -33,6 +33,8 @@ def test_j11_scope_registration_binds_both_family_contracts() -> None:
     assert set(registration["family_contracts"]) == {
         "research/j11_transient/contracts/tet10_axial_bar_contract.json",
         "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json",
+        "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json",
+        "research/j11_hex8/contracts/hex8_j7_reconstruction_contract_corrective_v2.json",
     }
     for relative, expected_sha in registration["family_contract_sha256_canonical"].items():
         contract_bytes = (ROOT / relative).read_bytes().replace(b"\r\n", b"\n")
@@ -41,6 +43,11 @@ def test_j11_scope_registration_binds_both_family_contracts() -> None:
         assert contract["owner_mandate_id"] == registration["owner_mandate_id"]
         assert contract["development_mandate_id"] == registration["development_mandate_id"]
         assert contract["attempts"]["exact_node_attempt_limit"] == 1
+    assert [item["prior_run_state"] for item in registration["corrective_attempts"]] == [
+        "PYTEST_FAILED",
+        "PYTEST_FAILED",
+    ]
+    assert all("criteria" not in item for item in registration["corrective_attempts"])
 
 
 def test_j11_preflight_dispatches_to_its_exact_node_handler(monkeypatch) -> None:

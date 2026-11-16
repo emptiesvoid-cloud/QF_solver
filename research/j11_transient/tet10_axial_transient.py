@@ -38,8 +38,8 @@ from research.j11_transient.axial_bar_reference import (
 
 
 ROOT = Path(__file__).resolve().parents[2]
-CONTRACT_PATH = ROOT / "research/j11_transient/contracts/tet10_axial_bar_contract.json"
-NODEID = "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation"
+CONTRACT_PATH = ROOT / "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json"
+NODEID = "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2"
 LENGTH_M, WIDTH_M, HEIGHT_M = 2.0, 0.4, 0.4
 YOUNG_MODULUS_PA, POISSON_RATIO, DENSITY_KG_M3 = 70.0e9, 0.30, 2700.0
 CROSS_SECTION_M2 = WIDTH_M * HEIGHT_M
@@ -484,7 +484,10 @@ def run_study() -> dict[str, Any]:
             raise RuntimeError("The constrained TET10 model has no positive semidiscrete modes")
         steps = int(round(OBSERVATION_END_S / dt))
         times_expected = dt * np.arange(1, steps + 1, dtype=np.float64)
-        factors = np.asarray([_force_factor(float(time)) for time in times_expected], dtype=np.float64)
+        factors = np.asarray(
+            [0.0, *(_force_factor(float(time)) for time in times_expected)],
+            dtype=np.float64,
+        )
         semidiscrete = oracle.propagate(full_load, factors, dt, displacement_probe_index=probe_index)
         state_checkpoint = None
         if record_states:

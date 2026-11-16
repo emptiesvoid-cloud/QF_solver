@@ -1,0 +1,260 @@
+{
+  "artifacts": [
+    "result.json",
+    "hex8_global_reconstruction.csv",
+    "hex8_global_reconstruction_states.npz",
+    "runner attempt record, captured stdout/stderr and resource observations in the ignored local development run store",
+    "corrective v2 contract and distinct runner attempt record; prior v1 failed record retained separately"
+  ],
+  "attempts": {
+    "attempt_policy": "One attempt under this corrective contract, on its distinct exact nodeid. The prior v1 attempt remains immutable; any further attempt requires another classified source/instrumentation change or a separately defined hypothesis and contract.",
+    "exact_node_attempt_limit": 1
+  },
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "contract_id": "QF_SOLVER_0.3.0_J11_HEX8_J7_RECONSTRUCTION_CORRECTIVE_V2_2026-11-16",
+  "corrective_change": {
+    "change": "Instantiate Hex8SRIElement directly, validate its Gauss geometry, scatter each local stiffness matrix into a global dense matrix exactly as in the J10 diagnostic, and solve that frozen global system by NumPy, scaling, SciPy and mpmath.",
+    "classification": "SOURCE_FIX_MODEL_ROUTING_AND_SCOPE",
+    "demonstrated_cause": "FiniteElementModel.dof_manager rejects HEX8_SRI because the research-only Hex8SRIElement is intentionally absent from ElementRegistry.",
+    "historical_status": "The original attempt remains PYTEST_FAILED and is not reclassified.",
+    "prior_attempt": {
+      "attempt_number": 1,
+      "attempt_record_sha256_raw": "a7385cd7541eaea2ac13c19b745bba94d46d5ae9a312d5ef64a45fbb8bbd7f38",
+      "captured_stdout_sha256": "a3e7fe6796adda849b2c5afa2374200e56248cc541ea236adccc96862f4a7903",
+      "classification": "HARNESS_FAILURE_BEFORE_MECHANICAL_CONCLUSION",
+      "elapsed_seconds": 4.781061100075021,
+      "peak_rss_bytes": 160890880,
+      "return_code": 1,
+      "series_id": "dev-b5cf2a8faabc",
+      "source_head": "c23d43f1d13122a5412470fed1ab8c0d69eca25d",
+      "state": "PYTEST_FAILED"
+    }
+  },
+  "criteria": {
+    "archived_state_reproduction_bound": "Relative displacement difference <=1e-10 from the J10 alpha=0 archived state; this checks route reproduction only, not physical accuracy.",
+    "criteria": "No new pass threshold for physical correctness. Positive finite Gauss Jacobians and matrix reproduction are source/reproduction checks; residuals, conditioning and solver differences remain descriptive. Historical J7 FAIL and J10 exploratory status remain unchanged.",
+    "indicators": [
+      "relative Frobenius delta from each archived J10 global matrix",
+      "condition number before and after symmetric diagonal scaling",
+      "relative displacement differences among NumPy direct, scaled NumPy, SciPy and mpmath at alpha=0",
+      "free residual and backward error",
+      "reaction force and moment closure about the global origin",
+      "80-digit residual/reaction reconstruction for the mpmath same-matrix solution"
+    ],
+    "reassembly_bound": "Relative Frobenius difference <=1e-12 from the J10 archived matrix is a route-reproduction check, not a mechanical-accuracy criterion."
+  },
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J11-2026-11-16-v1",
+  "indicators_and_criteria": {
+    "criteria": "No new pass threshold for physical correctness. Solver result status, reproduction bounds and finite quantities are reported; historical J7 FAIL and J10 exploratory status remain unchanged.",
+    "indicators": [
+      "relative Frobenius matrix delta",
+      "condition number before/after diagonal scaling",
+      "relative displacement differences between same-matrix routes",
+      "free residual and backward error",
+      "reaction force/moment closure",
+      "80 digit residual/reaction reconstruction on exact float64 matrix/load/displacement inputs for alpha=0"
+    ],
+    "reassembly_bound": "Relative Frobenius difference <=1e-12 from the J10 archived matrix is a source-reproduction check, not a mechanical-accuracy criterion."
+  },
+  "inputs": {
+    "archive_expectations": {
+      "dofs": 135,
+      "element": "HEX8_SRI",
+      "elements": 16,
+      "fixed_dofs": 27,
+      "free_dofs": 108,
+      "load_resultant_n": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "material": {
+        "poisson_ratio": 0.495,
+        "young_modulus_pa": 1000000.0
+      },
+      "nodes": 45
+    },
+    "j10_result_json_path": "research/j10/results/diagnostic-2026-11-16/hex8_j7_distortion/result.json",
+    "j10_result_json_sha256_raw": "1ee61e973582dffe4876532a524f65f7d293ab7b7e48ab994a98dd019c92ee02",
+    "j10_state_npz_path": "research/j10/results/diagnostic-2026-11-16/hex8_j7_distortion/hex8_j7_distortion_states.npz",
+    "j10_state_npz_sha256_raw": "4ff54522deaa2d23d50a63f1f6380494615a0fc2d3435c9b4d40a043d6c38e8e"
+  },
+  "model_and_comparisons": {
+    "alpha_geometry_operation": "Move only the three archived interior nodes selected by the J10 definition in global z by alpha*0.04*sin(pi*x/20); reuse the archived load and fixed DOF arrays bit for bit.",
+    "alpha_levels": [
+      0.0,
+      0.05,
+      0.1,
+      0.15
+    ],
+    "equilibrium_definition": "Nodal force resultant and moment about the global origin from cross(r,f), with units N and N\u00b7m; also report free residual backward error and norms.",
+    "global_matrix_source": "Direct element-to-global scatter of QF Hex8SRIElement stiffnesses; alpha=0 and each deformed alpha matrix are checked against the corresponding J10 archived matrix with relative Frobenius bound 1e-12.",
+    "historical_comparison": "At alpha=0 compare QF GlobalAssembler matrix and solve state with bitwise-input archived J10 arrays and retain the J7 historical FAIL without edits.",
+    "historical_comparisons": "At alpha=0 compare reassembled matrix and solution to both the archived J10 alpha=0 state and the historical J7 source arrays; keep all J7/J10 statuses unchanged.",
+    "primary_routes": [
+      "QF research-only Hex8SRIElement local stiffness matrices scattered into a global matrix using the J10 route (no production AnalysisRouter/GlobalAssembler status claim)",
+      "NumPy direct solve, NumPy symmetric diagonal scaling, SciPy symmetric direct solve, and mpmath 80-digit solve on the same free-free matrix at alpha=0"
+    ],
+    "residual_definition": "K*u-f; free DOFs from archived fixed mask; constrained reactions are residual entries at fixed DOFs."
+  },
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J11_OWNER_2026-11-16",
+  "resources": {
+    "archive_limit_mib": 128,
+    "limits_semantics": "Runner watchdog, sampled process/RSS/temp/archive and free disk are procedural/soft observations except output byte caps; no OS memory quota is claimed.",
+    "minimum_free_disk_mib": 1024,
+    "numeric_threads": 1,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 512,
+    "wall_timeout_seconds": 1800
+  },
+  "schema": "qf-j11-hex8-reconstruction-execution-contract-v2",
+  "scope": {
+    "explicit_non_claim": "HEX8-SRI is not registered as a public QF element type, and GlobalAssembler/AnalysisRouter cannot route it as a production model. This diagnostic reproduces the prior J10 research-kernel global scatter and compares linear-system solution routes only; it is not a production solve or an independent mechanical reference.",
+    "hypothesis": "The J7 matrices can be independently reassembled from the actual QF research-only Hex8SRIElement kernel using the archived J10 element-to-global scatter route, then compared across numerical solvers on the identical global system.",
+    "input_source": "Immutable J10 archive of J7/J10 matrices, displacement states, original geometry/connectivity, load vector and fixed DOF mask; J10 script is also frozen as the reference for the research-only element-to-global scatter procedure.",
+    "nodeid": "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction_corrective_v2"
+  },
+  "source_baseline": {
+    "branch": "work/0.3.0-j10",
+    "commit": "0d6b6384c7b334d664e7645d75c8413499b9036f"
+  },
+  "source_identity": [
+    {
+      "canonical_sha256": "55e84cac4d9fffbc3bbdf463c1c8fd47655288fd9353d48490f26a9aa4bf4cb0",
+      "path": "research/j10_hex8/hex8_j7_diagnostic.py"
+    },
+    {
+      "canonical_sha256": "89be7c0f397006b3290a15ca441a57a6ca7fc341f1ae6545999732ef7a05ecd4",
+      "path": "research/j11_hex8/hex8_j7_reconstruction.py"
+    },
+    {
+      "canonical_sha256": "51f9c803d4d3991eaee2057e838a718df4b88c33affc6e6a054e4abd4d2dbbb7",
+      "path": "scripts/development_autonomous.py"
+    },
+    {
+      "canonical_sha256": "576f68494139ef8f56d5d3eedfe46f9f540efd6281f359b36b980408231a22b8",
+      "path": "src/solveur/api/public.py"
+    },
+    {
+      "canonical_sha256": "8923ce3402324fdd7c0be7a180fe2664070dd9a17c3066c27c67f2d5699fceb2",
+      "path": "src/solveur/compatibility/__init__.py"
+    },
+    {
+      "canonical_sha256": "46847d92b01d7c86dcedf88a3b03afb43d56e18cd8a0686dad17a2985c7bae43",
+      "path": "src/solveur/compatibility/descriptors.py"
+    },
+    {
+      "canonical_sha256": "cb4bf7397cdb1743d2c0c0d50412c1ce81ccdddc27aa15eb0e0a6e915a8d28ad",
+      "path": "src/solveur/compatibility/preflight.py"
+    },
+    {
+      "canonical_sha256": "61fb3d4185480170c5c2b863396286e02fa0e9aaf8d828c2c4f51da46af2491d",
+      "path": "src/solveur/core/analyses/settings.py"
+    },
+    {
+      "canonical_sha256": "e4e9710fe28822668d87e5a1d805aaf0f13369de01a094c585d17e5241910d41",
+      "path": "src/solveur/core/assembly/assembler.py"
+    },
+    {
+      "canonical_sha256": "b447ea8fb03070f1b087b819e133cc0c833b6cb68a30e5fabaf55ba87ab22230",
+      "path": "src/solveur/core/assembly/plan.py"
+    },
+    {
+      "canonical_sha256": "f28e7cea975fbb2266a4daac131c71d3dcefc86f12161acf4e454b226045cfe7",
+      "path": "src/solveur/core/assembly/sparse.py"
+    },
+    {
+      "canonical_sha256": "ec796f9a080d2c91f5ec1990e3edbc6a530ff199de4d499f36d493861da85824",
+      "path": "src/solveur/core/audit.py"
+    },
+    {
+      "canonical_sha256": "42f49ec1878193263ba8c6931f8ff9687186d28ea692dba280b5445cbaa86c49",
+      "path": "src/solveur/core/dofs.py"
+    },
+    {
+      "canonical_sha256": "cbe04fd1c35cfd98d326ab1c2287a97d05d5e7876c929bfe80d4805a7d387b8e",
+      "path": "src/solveur/core/model.py"
+    },
+    {
+      "canonical_sha256": "2682035ddab1a9adbb0e29785ec10f22fd19e896344c55b005ddadf1ea9afe3d",
+      "path": "src/solveur/core/nonlinear/contracts.py"
+    },
+    {
+      "canonical_sha256": "090cce8a48b95c3ea7cb51474d51f50a59ed67333b086aac9be26fd54cb11dae",
+      "path": "src/solveur/core/router.py"
+    },
+    {
+      "canonical_sha256": "37f103d784c93fac624244070ba8f0e54376c6275a3c5562cfc02f586a51077b",
+      "path": "src/solveur/core/solvers/backend.py"
+    },
+    {
+      "canonical_sha256": "fcab91e3acd564458a3801325391902379b449e874c14e8038e0d4363910bd91",
+      "path": "src/solveur/core/solvers/linear.py"
+    },
+    {
+      "canonical_sha256": "ace2cd7c8abec15f1399817d7c5a14b91f2d296f2fb69596502530d6511fa7c4",
+      "path": "src/solveur/core/solvers/policy.py"
+    },
+    {
+      "canonical_sha256": "58012c57e6b6094f6438ccc6070e0ba0fad5b90fb104196595b5126102a55d26",
+      "path": "src/solveur/core/solvers/static.py"
+    },
+    {
+      "canonical_sha256": "8569268351f08346e55cd859f18f8d9e042b69c60ca4b5d58e993647d51e300d",
+      "path": "src/solveur/elements/registry.py"
+    },
+    {
+      "canonical_sha256": "99fa6651da41859f5b82124b29433890eef22c2b75dd53d0f783a96b0d01a3a5",
+      "path": "src/solveur/elements/solid/common.py"
+    },
+    {
+      "canonical_sha256": "02e7a649bc585c8fd579e619592d5b2fd7a77eb04e861f78b4e3a63240f84bb9",
+      "path": "src/solveur/elements/solid/hex8.py"
+    },
+    {
+      "canonical_sha256": "e014652e9efc3912046891348d9dfa76adaa1f8ff084db58e84a9b3d151cf9e4",
+      "path": "src/solveur/elements/solid/hex8_sri.py"
+    },
+    {
+      "canonical_sha256": "10d0ff1ffd778147508df02032e032cdeeab9231d250be5298ca84b3b855bca9",
+      "path": "src/solveur/elements/solid/quadrature.py"
+    },
+    {
+      "canonical_sha256": "6db6720b4db9d8a23b816589eecba8ce97d2354cfb07f9c21af1d99241a1e40c",
+      "path": "src/solveur/materials/factory.py"
+    },
+    {
+      "canonical_sha256": "784d830c12354525918a1cfbc1a3cb81c7015d721b36533eeab115d4ec70b452",
+      "path": "src/solveur/materials/solid.py"
+    },
+    {
+      "canonical_sha256": "94ed16ec50fbc0fb4e45af7fcc20569ba7e57f0e2fa2c158a980c63b02502653",
+      "path": "src/solveur/mesh/validation.py"
+    },
+    {
+      "canonical_sha256": "7f6b20af0fddf81e5caca176611648a69b6595df4015aa407459624431eee4c5",
+      "path": "src/solveur/post/audit.py"
+    },
+    {
+      "canonical_sha256": "a6df2ec2d4be6bff83ae82efba29a3d6b0ba4153fdb94444abb9ca65b56b4c2a",
+      "path": "tests/unit/test_j11_hex8_reconstruction_math.py"
+    },
+    {
+      "canonical_sha256": "a6df2ec2d4be6bff83ae82efba29a3d6b0ba4153fdb94444abb9ca65b56b4c2a",
+      "path": "tests/unit/test_j11_hex8_reconstruction_math.py"
+    },
+    {
+      "canonical_sha256": "0fb4e072cf84d632baac3779c3a5265a3ae82393f5fc610987660906b177f371",
+      "path": "tests/verification/test_j11_hex8_j7_reconstruction.py"
+    }
+  ],
+  "status": "Exploratory only; no qualification or acceptance claim.",
+  "supersedes": {
+    "contract_path": "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json",
+    "contract_sha256_canonical": "9736e30818476c7c27aa6df7590cc0173fe74e75bd32156437e6ffb00b44027e",
+    "reason": "The original exact-node attempt PYTEST_FAILED before assembly because HEX8_SRI is not an accepted registered element type. Repository inspection confirms the supported route is the research-only Hex8SRIElement with J10-style local-to-global scatter."
+  }
+}
