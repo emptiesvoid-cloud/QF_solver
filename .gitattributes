@@ -13,6 +13,10 @@ research/j9/**/*.py text eol=lf
 research/j9/**/*.md text eol=lf
 research/j9/**/*.json text eol=crlf
 research/j9/**/*.csv text eol=crlf
+# Preserve contract byte digests embedded in the HEX8 post-processing receipts.
+research/j9/hex8_work_method_postprocess_contract.json text eol=lf
+research/j9/hex8_work_method_postprocess_retry_contract.json text eol=lf
+research/j9/hex8_work_method_postprocess_attempt_03_contract.json text eol=lf
 research/j9/execution_scope_registration.json text eol=lf
 research/j9/results/**/result.json text eol=lf
 research/j9/results/**/result.sha256.json text eol=lf

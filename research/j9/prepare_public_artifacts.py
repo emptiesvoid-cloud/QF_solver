@@ -434,8 +434,10 @@ def _build_site_data() -> None:
     hex_folder = RESULT_ROOT / "hex8_constant_domain"
     tet_folder = RESULT_ROOT / "tet10_newmark_direct"
     hex_result = _read_json(hex_folder / "result.json")
+    hex_work_method = _read_json(hex_folder / "work_method_postprocess.json")
     tet_result = _read_json(tet_folder / "result.json")
     hex_contract = ROOT / "research/j9_hex8/contracts/hex8_constant_domain_distortion_contract.json"
+    hex_postprocess_contract = ROOT / "research/j9/hex8_work_method_postprocess_attempt_03_contract.json"
     tet_contract = ROOT / "research/j9_transient/contracts/tet10_newmark_direct_contract.json"
     payload = {
         "schema": "qf-j9-gallery-data-v1",
@@ -461,6 +463,11 @@ def _build_site_data() -> None:
                     "limits": "does not exercise a non-affine field or validate the general HEX8-SRI formulation",
                 },
                 "measurements": hex_result["levels"],
+                "work_and_solver_postprocess": hex_work_method,
+                "work_and_solver_postprocess_contract": {
+                    "path": str(hex_postprocess_contract.relative_to(ROOT)).replace("\\", "/"),
+                    "sha256": _sha256(hex_postprocess_contract),
+                },
                 "figures": [
                     "hex8_constant_domain/site_hex8_distortion.png",
                     "hex8_constant_domain/hex8_distortion_study.png",
@@ -499,6 +506,7 @@ def _build_site_data() -> None:
         ],
         "contracts": [
             {"path": str(hex_contract.relative_to(ROOT)).replace("\\", "/"), "sha256": _sha256(hex_contract)},
+            {"path": str(hex_postprocess_contract.relative_to(ROOT)).replace("\\", "/"), "sha256": _sha256(hex_postprocess_contract)},
             {"path": str(tet_contract.relative_to(ROOT)).replace("\\", "/"), "sha256": _sha256(tet_contract)},
         ],
         "historical_status": "J7 HEX8-SRI FAIL verdicts are unchanged",

@@ -5,6 +5,7 @@ Statut : **développement exploratoire, non qualification**. Ces résultats ne c
 ## Contenu
 
 - `hex8_constant_domain/` : résultat HEX8-SRI, état NPZ, figure de calcul originale, figure site et reçu runner assaini.
+- `hex8_constant_domain/work_method_postprocess.json` : post-traitement contracté des matrices archivées, comparaison NumPy/SciPy et travail des déplacements imposés. Les erreurs logicielles des tentatives 01 et 02 restent archivées séparément; elles n'ont exécuté aucun nouveau calcul FEM.
 - `tet10_newmark_direct/` : historiques Newmark directs, oracle semi-discret, maillages, matrices réduites, courbes et figures.
 - `tet10_modal_route_failure/` : diagnostic assaini du refus de validation de la base modale complète. Le statut original reste `PYTEST_FAILED`.
 - `site_data.json` : résumé structuré prêt à alimenter une future fiche de galerie, sans publication ni statut de qualification.
@@ -15,6 +16,7 @@ Les reçus et préflights assainis conservent les nodeids, SHA source, contrats,
 ## Contrats et sources
 
 - HEX8 : [`hex8_constant_domain_distortion_contract.json`](../../../j9_hex8/contracts/hex8_constant_domain_distortion_contract.json), run à `a8f5a91653c50c51cb51e51b297ed9c2cd623362`.
+- HEX8 travail/méthodes : [`hex8_work_method_postprocess_attempt_03_contract.json`](../../../j9/hex8_work_method_postprocess_attempt_03_contract.json), post-traitement des données du run `a8f5a91653c50c51cb51e51b297ed9c2cd623362`.
 - TET10 Newmark direct + modal (tentative conservée `PYTEST_FAILED`) : [`tet10_newmark_transient_contract.json`](../../../j9_transient/contracts/tet10_newmark_transient_contract.json), run à `a8f5a91653c50c51cb51e51b297ed9c2cd623362`.
 - TET10 direct seul : [`tet10_newmark_direct_contract.json`](../../../j9_transient/contracts/tet10_newmark_direct_contract.json), run à `88cd0b1cd51d2eb708afd881c3f8130f59a31f1e`.
 - Rapport J9 : [`0.3.0-j9-resultats.md`](../../../../docs/planning/0.3.0-j9-resultats.md).
