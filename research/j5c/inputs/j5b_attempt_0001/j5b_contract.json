@@ -1,0 +1,194 @@
+{
+  "schema": "qf-j5b-mitc4-modal-contract-v1",
+  "contract_id": "J5B-MITC4-MODAL-PLATE-01",
+  "owner_mandate_id": "QF_SOLVER_0_3_0_J5B",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J5B-MITC4-MODAL-2026-11-16-v1",
+  "classification": "DEVELOPMENT_DIAGNOSTIC_ONLY",
+  "execution_authorized": true,
+  "qualification_authorized": false,
+  "publication_authorized": false,
+  "maximum_attempts_per_nodeid": 1,
+  "nodeid": "tests/verification/test_j5b_modal_plate.py::test_j5b_modal_plate_campaign",
+  "owner_authorization": {
+    "source": "explicit Owner instruction in the active session",
+    "record_path": "research/j5b/contracts/owner_authorization.md",
+    "record_sha256": "110d76a25d22e1258e85a12072aac24ddeafd05b419e7ad635f6289221eb755f"
+  },
+  "baseline": {
+    "branch": "work/0.3.0-j5a",
+    "commit": "75a0fd2d40036831f855cd6320571b792623cb15"
+  },
+  "baseline_note": "Source worktree J5A was cumulative and did not descend from the current main; this J5B worktree starts from its final commit without rewriting that lineage.",
+  "primary_input": {
+    "path": "research/j5b/inputs/modal_plate.json",
+    "sha256": "3afc57624dda39c11f0759e6efd0b533ecfb0759deabc9a21a038cbe1611d5c0"
+  },
+  "diagnosis": {
+    "j5a_execution_status": "PYTEST_FAILED",
+    "j5a_validation_status": "INCONCLUSIVE",
+    "j5a_validation_reason": "aggregate_work_budget",
+    "j5a_failing_mesh": "not identifiable from retained trace",
+    "validator_preflight_scope": "per mesh validation call; aggregate of reduced stiffness and mass sparse terms and the requested eigenpairs for that mesh",
+    "validator_limits": {
+      "max_dimension": 128,
+      "max_eigenpairs": 128,
+      "max_stored_terms": 1024,
+      "max_operations": 65536,
+      "operation_formula": "n_eigenpairs * (2*(nnz(K_reduced)+nnz(M_reduced)) + 8*dimension + 3)"
+    },
+    "allow_inconclusive_behavior": "keeps computed frequencies and modes available and reports float residual and mass-orthogonality diagnostics; it does not certify the budget-limited modal residual"
+  },
+  "comparison_reference": {
+    "type": "independent analytical Kirchhoff thin-plate Navier solution",
+    "primary_source": {
+      "title": "NASA SP-160: Vibration of Plates",
+      "url": "https://ntrs.nasa.gov/api/citations/19700009156/downloads/19700009156.pdf?attachment=true",
+      "author": "A. W. Leissa",
+      "year": 1969
+    },
+    "formulation_background": {
+      "title": "Influence of Rotatory Inertia and Shear on Flexural Motions of Isotropic, Elastic Plates",
+      "author": "R. D. Mindlin",
+      "year": 1951,
+      "doi": "https://doi.org/10.1115/1.4010217"
+    },
+    "equations": {
+      "flexural_rigidity_n_m": "D=E*t^3/[12*(1-nu^2)]",
+      "frequency_hz": "f_mn=pi/(2*a^2)*sqrt(D/(rho*t))*(m^2+n^2)",
+      "mode_shape": "sin(m*pi*x/a)*sin(n*pi*y/a)"
+    },
+    "mode_orders": [
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    "hypotheses": [
+      "flat homogeneous isotropic linearly elastic square plate",
+      "small-amplitude free vibration with transverse displacement zero on all edges",
+      "Kirchhoff thin-plate continuum; no transverse-shear deformation or rotary inertia"
+    ],
+    "compatibility_limit": "The QF model uses Reissner-Mindlin MITC4 with shear_factor=5/6 and consistent rotary mass. At t/a=0.01 Navier is a thin-plate reference, not an exact discrete or Mindlin solution; theory and discretization effects remain combined."
+  },
+  "model": {
+    "input_file": "research/j5b/inputs/modal_plate.json",
+    "geometry": "1.0 m x 1.0 m square flat mid-surface; thickness 0.01 m; normal +Z",
+    "material": "E=70 GPa, nu=0.3, density=2700 kg/m^3, SI, isotropic shell",
+    "element": "MITC4 quadrilateral shell",
+    "meshes_per_edge": [
+      4,
+      6,
+      8,
+      12,
+      16
+    ],
+    "orientation": "counter-clockwise viewed from +Z",
+    "supports": "UZ=0 on all four perimeter edges; rotations free; UX=UY=0 at node 0 and UY=0 at node n*(n+1) to remove in-plane rigid modes",
+    "analysis": "linear free vibration; six lowest generalized modes; dense eigh; consistent mass with translational and tangential rotary inertia; no preload or damping",
+    "validation_policy": "allow_inconclusive; no validator threshold or algorithm is changed"
+  },
+  "resources": {
+    "timeout_seconds": 900,
+    "rss_soft_limit_mib": 2048,
+    "process_tree_limit": 1,
+    "output_total_limit_mib": 16,
+    "output_stream_limit_mib": 8,
+    "temporary_limit_mib": 256,
+    "archive_size_limit_mib": 128,
+    "minimum_free_disk_mib": 2048
+  },
+  "resource_assessment": "Retains the J5A envelope; five small dense mesh solves are bounded to one process/thread. Before freezing J5B, the observed environment had approximately 43 GiB free disk, 60 GiB available RAM, Python 3.13.1, NumPy 2.2.6, SciPy 1.15.2, and Matplotlib 3.10.3.",
+  "indicators_and_existing_route_checks": {
+    "frequency": "report first four computed candidate frequencies and absolute relative errors to the same four Navier references at every mesh",
+    "mode_shape": "unweighted nodal MAC for modes 11 and 22; minimum principal-angle squared (subspace MAC) for repeated 12/21 pair",
+    "solver_quality": "report maximum relative residual and mass-orthogonality diagnostics at every mesh; identify their floating diagnostic status",
+    "mesh_trend": "report whether first frequency error improves from coarsest to finest; do not fit a convergence order",
+    "route_thresholds": {
+      "source": "unchanged constants in Mitc4SimplySupportedPlateStudy, inherited from J5A",
+      "final_max_frequency_error": 0.05,
+      "minimum_first_mode_mac": 0.995,
+      "minimum_repeated_pair_subspace_mac": 0.995,
+      "minimum_fourth_mode_mac": 0.995,
+      "maximum_relative_residual": 1e-07,
+      "maximum_mass_orthogonality_error": 1e-07,
+      "first_mode_error_improves_coarse_to_fine": true
+    },
+    "campaign_status_rule": "if any mesh validation is INCONCLUSIVE, campaign status remains INCONCLUSIVE regardless of frequency, MAC, residual, or orthogonality diagnostics; only PASS_CERTIFIED at every mesh and all inherited route checks can yield PASS"
+  },
+  "attempts": {
+    "maximum": 1,
+    "retry_policy": "one J5B campaign attempt; any timeout or diagnostic failure consumes it",
+    "meshes": [
+      4,
+      6,
+      8,
+      12,
+      16
+    ]
+  },
+  "artifacts": [
+    "runner preflight, stdout/stderr, run record, and distinct durable J5B attempt ledger",
+    "atomic JSON and NPZ checkpoint per mesh with source/input provenance, phase, candidate vectors, frequencies, diagnostics, and exact validation state when available",
+    "summary.json, site_data.json, frequency CSV, and finest-mesh candidate modes",
+    "mesh/support, frequency comparison, and four-mode figures with visual normalization stated",
+    "README with interpretation, limitations, and reproducibility route",
+    "SHA-256 artifact manifest"
+  ],
+  "limitations": [
+    "Any INCONCLUSIVE validation remains an exploratory candidate, not a certified modal result.",
+    "J5A did not retain serialized frequencies or modes; its PYTEST_FAILED status remains unchanged.",
+    "Navier is Kirchhoff thin-plate theory; MITC4 is Reissner-Mindlin and includes shear correction and rotary inertia.",
+    "The repeated (1,2)/(2,1) eigenspace is non-unique; individual candidate vectors can rotate or swap.",
+    "Visual mode amplitudes are normalized and scaled and do not represent a forced-response displacement.",
+    "This run does not qualify the modal route or the solver in general."
+  ],
+  "source_hash_mode": "utf8-text-lf-v1",
+  "execution_environment": {
+    "threadpool_max_threads": 1,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OMP_THREAD_LIMIT": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "BLIS_NUM_THREADS": "1",
+      "TBB_NUM_THREADS": "1"
+    },
+    "budget_semantics": "wall timeout and captured-output caps are enforced by the development runner; RSS, process count, temporary/archive size, and free-disk readings are sampled soft observations, not OS quotas"
+  },
+  "source_sha256": {
+    "research/j5b/checkpoints.py": "d9bdb864ac673b8804c8fbb9ff58141bc45a5b2b4f074e9f092eafab0b4c7760",
+    "research/j5b/modal_plate.py": "65c3b53be3a97c029e19caaf72c88da62b9e4b911cb4eeaa77eb9381aedb141b",
+    "tests/verification/test_j5b_modal_plate.py": "3d21754bdeb108c58b1c79719a2f20b468e85dcf305de770128751ca10298e24",
+    "tests/unit/test_j5b_checkpoints.py": "80f48dd936bc0396ffcdce6f87f76ef323d35a7139e1a01e39ed27b11f0024d6",
+    "scripts/development_autonomous.py": "35a27b4f925c5e56c01ca4cae9dd10f493171ca7fc4f5a269cb56cdfd3015de5",
+    "research/j5a/modal_plate.py": "ffabc315e6b6cb3929e4f39b277b55974a7bad8321f61b2445ac49a1a9104ded",
+    "src/solveur/verification/mitc4_modal_plate.py": "d346421b6f2dfd0cf126227cfa258f95e711ff9f7096f155826e916def865281",
+    "src/solveur/elements/shell/mitc4/mesh.py": "2ac2b7e03f17e703fa1be46adc030ebfc52f1b015e829461f08d66f8e56788c8",
+    "src/solveur/elements/shell/mitc4/material.py": "d33f34f4ff313a016b3650eaade408152fa8ccab82ed1b71b6e1fb23e355987d",
+    "src/solveur/elements/shell/mitc4/element.py": "82e08fe9bfb199951de3b404a27fb476ab0b78f4078278c9d4b10948112e57de",
+    "src/solveur/elements/shell/mitc4/model.py": "188416304a7311a7f1c4cd6fdd1a79bc797c940543eab87b9eec26c0fec6fab6",
+    "src/solveur/core/model.py": "cbe04fd1c35cfd98d326ab1c2287a97d05d5e7876c929bfe80d4805a7d387b8e",
+    "src/solveur/core/constraints.py": "86c2c061fc6c378bc321c8b752725bc44163010ded07c6aa9f8a1800fbe6fcd1",
+    "src/solveur/core/analysis.py": "9bba600b13eefd326c9ffdbbb6046d567c5b4ee12ded4c95458ad7679969c476",
+    "src/solveur/core/router.py": "090cce8a48b95c3ea7cb51474d51f50a59ed67333b086aac9be26fd54cb11dae",
+    "src/solveur/core/analyses/modal.py": "119c163e0dcb1a6f72cb7b09de3d2cd78b84eb126dbccf9806ce19b557564aa9",
+    "src/solveur/core/analyses/modal_dense.py": "3c30a96f76e2016a04c71b8bc960bee60e532cc1150948e7d9ca4db084980b38",
+    "src/solveur/core/analyses/modal_residual_validation.py": "84f3d0c4f54b0f31db9823de96767751d8cea93770bfad0f488791c05f14760a",
+    "src/solveur/api/public.py": "576f68494139ef8f56d5d3eedfe46f9f540efd6281f359b36b980408231a22b8",
+    "research/j5b/__init__.py": "02829516184888318593271dd9e32575d3695b08ad708e3660f1a7ec18a59d86"
+  }
+}
