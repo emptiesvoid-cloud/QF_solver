@@ -1,0 +1,297 @@
+{
+  "attempt_id": "J10-HEX8-J7-DISTORTION-ATTEMPT-003",
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "contract_id": "J10-HEX8-J7-DOMAIN-PRESERVING-DISTORTION-CORRECTIVE-003",
+  "contract_sha256": "e0744f9ac4260459ba04cbe02fb83fe71306987a02ab5578edca8898ee414019",
+  "criteria": {
+    "completion_invariants": "positive finite Gauss Jacobians; unchanged exterior coordinates and archived load/support vectors; finite matrices/solutions; alpha=0 matrix and state reproducibility",
+    "formal_acceptance_thresholds": "none; residuals, force/moment closure, energy, conditioning and displacement differences are descriptive"
+  },
+  "development_attempt_number": 3,
+  "environment": {
+    "matplotlib": "3.10.3",
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "scipy": "1.15.2",
+    "threadpools": [
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "user_api": "blas",
+        "version": "0.3.29"
+      },
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "user_api": "blas",
+        "version": "0.3.28"
+      }
+    ]
+  },
+  "execution_status": "COMPLETED_EXPLORATORY",
+  "figures": {
+    "hex8_j7_distortion_indicators.png": "e1c2ac66753d07efeb254d14a26ed0d6fb2b2fec398403c502be3258057c0890",
+    "site_hex8_j7_distortion.png": "744a6dc76d7211f694b661907717012d80230fd881a12f6c51f57e0279218ada"
+  },
+  "historical_j7_status": "FAIL",
+  "input_sha256": {
+    "geometry_preflight_result": "57b2221406f1cf23870772acb13f2883c1db4fb15b406361921066d1452d150c",
+    "j7_case_spec_canonical": "66193d6d4411caf842544d9dc74c3252f10d4641a6ce1b5b1745d5dd29c19c74",
+    "j7_result": "558b2f121fc3b6ace890e9bd7e2b92e6e08033eba213db8747454a0331c4f0dd",
+    "j7_state_npz": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11"
+  },
+  "interpretation": "The one-factor sweep changes only interior mesh coordinates on the same near-degenerate J7 body. It measures sensitivity for this discretized linear model; it cannot attribute the historical J7 global closure FAIL to geometry alone or establish physical accuracy.",
+  "levels": [
+    {
+      "alpha": 0.0,
+      "condition_number_2_estimate": 15108377395.457052,
+      "energy_identity_relative_symmetric_scale": 1.1729222279954342e-08,
+      "exterior_node_coordinates_unchanged": true,
+      "external_moment_about_origin_nm": [
+        -0.49999999999999994,
+        19.999999999999996,
+        0.0
+      ],
+      "external_work_j": 0.047828171660353955,
+      "force_closure_relative": 1.2174665814353464e-07,
+      "force_closure_residual_n": [
+        3.4921754377137404e-10,
+        -6.4039600289333976e-09,
+        1.2157761353215335e-07
+      ],
+      "force_resultant_n": [
+        0.0,
+        0.0,
+        -1.0000000000000002
+      ],
+      "free_residual_backward_error": 5.903688212901599e-17,
+      "free_residual_l2_n": 2.5805264682623953e-07,
+      "free_residual_relative_to_force": 2.5805264682623953e-07,
+      "historical_energy_metric_relative_to_max_work_1j": 5.609872566481044e-10,
+      "integrated_volume_m3": 0.8,
+      "matrix_symmetry_relative_frobenius": 0.0,
+      "maximum_displacement_m": 0.09565948915636675,
+      "maximum_gauss_jacobian_m3": 0.006250000000000002,
+      "maximum_interior_shift_m": 0.0,
+      "minimum_gauss_jacobian_m3": 0.006249999999999997,
+      "moment_closure_relative_to_force_length": 2.223823388017095e-07,
+      "moment_closure_residual_nm": [
+        -1.0972944275433605e-08,
+        -1.4824996874551744e-06,
+        5.058382157585584e-09
+      ],
+      "reaction_moment_about_origin_nm": [
+        0.49999998902705567,
+        -20.000001482499684,
+        5.058382157585584e-09
+      ],
+      "reaction_resultant_n": [
+        3.4921754377137404e-10,
+        -6.4039600289333976e-09,
+        1.0000001215776138
+      ],
+      "relative_displacement_difference_from_archived_j7_alpha0": 0.0,
+      "relative_matrix_difference_from_archived_j7_alpha0": 0.0,
+      "second_symmetric_solver_displacement_relative_difference": 1.4982939936975855e-07,
+      "strain_energy_j": 0.0478281710993667,
+      "tip_face_center_uz_m": -0.0956503012335114
+    },
+    {
+      "alpha": 0.05,
+      "condition_number_2_estimate": 14639157152.48704,
+      "energy_identity_relative_symmetric_scale": 7.341525188384537e-08,
+      "exterior_node_coordinates_unchanged": true,
+      "external_moment_about_origin_nm": [
+        -0.49999999999999994,
+        19.999999999999996,
+        0.0
+      ],
+      "external_work_j": 0.047821136020741985,
+      "force_closure_relative": 4.083494633227216e-08,
+      "force_closure_residual_n": [
+        5.745164344261866e-10,
+        -2.3119421932449313e-08,
+        3.365494172236083e-08
+      ],
+      "force_resultant_n": [
+        0.0,
+        0.0,
+        -1.0000000000000002
+      ],
+      "free_residual_backward_error": 5.2397959317643195e-17,
+      "free_residual_l2_n": 2.293357545064809e-07,
+      "free_residual_relative_to_force": 2.293357545064809e-07,
+      "historical_energy_metric_relative_to_max_work_1j": 3.5108010040807436e-09,
+      "integrated_volume_m3": 0.7999999999999998,
+      "matrix_symmetry_relative_frobenius": 0.0,
+      "maximum_displacement_m": 0.09564558316593154,
+      "maximum_gauss_jacobian_m3": 0.006712412248828689,
+      "maximum_interior_shift_m": 0.0019999999999999983,
+      "minimum_gauss_jacobian_m3": 0.005787587751171308,
+      "moment_closure_relative_to_force_length": 6.300086687473173e-08,
+      "moment_closure_residual_nm": [
+        -6.311972611250383e-10,
+        -3.0421373153899367e-07,
+        -2.895832551530475e-07
+      ],
+      "reaction_moment_about_origin_nm": [
+        0.4999999993688027,
+        -20.000000304213728,
+        -2.895832551530475e-07
+      ],
+      "reaction_resultant_n": [
+        5.745164344261866e-10,
+        -2.3119421932449313e-08,
+        1.000000033654942
+      ],
+      "relative_displacement_difference_from_archived_j7_alpha0": 0.00016371910975478577,
+      "relative_matrix_difference_from_archived_j7_alpha0": 0.025615053897218396,
+      "second_symmetric_solver_displacement_relative_difference": 9.619172310615704e-08,
+      "strain_energy_j": 0.04782113953154299,
+      "tip_face_center_uz_m": -0.09563622924079872
+    },
+    {
+      "alpha": 0.1,
+      "condition_number_2_estimate": 13391248691.555891,
+      "energy_identity_relative_symmetric_scale": 1.342152765031463e-07,
+      "exterior_node_coordinates_unchanged": true,
+      "external_moment_about_origin_nm": [
+        -0.49999999999999994,
+        19.999999999999996,
+        0.0
+      ],
+      "external_work_j": 0.04779996648350286,
+      "force_closure_relative": 7.8155489624126e-08,
+      "force_closure_residual_n": [
+        -2.5860344976536e-09,
+        3.366814382843586e-09,
+        7.804010215828328e-08
+      ],
+      "force_resultant_n": [
+        0.0,
+        0.0,
+        -1.0000000000000002
+      ],
+      "free_residual_backward_error": 5.0185878713874914e-17,
+      "free_residual_l2_n": 2.2052838468137238e-07,
+      "free_residual_relative_to_force": 2.2052838468137238e-07,
+      "historical_energy_metric_relative_to_max_work_1j": 6.415486579480767e-09,
+      "integrated_volume_m3": 0.7999999999999998,
+      "matrix_symmetry_relative_frobenius": 0.0,
+      "maximum_displacement_m": 0.09560340692260372,
+      "maximum_gauss_jacobian_m3": 0.0071748244976573795,
+      "maximum_interior_shift_m": 0.004,
+      "minimum_gauss_jacobian_m3": 0.005325175502342619,
+      "moment_closure_relative_to_force_length": 1.9908875026634502e-07,
+      "moment_closure_residual_nm": [
+        4.048335944251136e-09,
+        -1.3272496417471302e-06,
+        2.5860344976536e-09
+      ],
+      "reaction_moment_about_origin_nm": [
+        0.5000000040483359,
+        -20.000001327249638,
+        2.5860344976536e-09
+      ],
+      "reaction_resultant_n": [
+        -2.5860344976536e-09,
+        3.366814382843586e-09,
+        1.0000000780401024
+      ],
+      "relative_displacement_difference_from_archived_j7_alpha0": 0.0006404191224127952,
+      "relative_matrix_difference_from_archived_j7_alpha0": 0.051677904756514535,
+      "second_symmetric_solver_displacement_relative_difference": 9.960088558822354e-08,
+      "strain_energy_j": 0.04779997289898944,
+      "tip_face_center_uz_m": -0.09559388803353298
+    },
+    {
+      "alpha": 0.15,
+      "condition_number_2_estimate": 11722185647.50298,
+      "energy_identity_relative_symmetric_scale": 1.0844819118127979e-07,
+      "exterior_node_coordinates_unchanged": true,
+      "external_moment_about_origin_nm": [
+        -0.49999999999999994,
+        19.999999999999996,
+        0.0
+      ],
+      "external_work_j": 0.04776442727759074,
+      "force_closure_relative": 9.20298169744561e-08,
+      "force_closure_residual_n": [
+        -1.5991759028111119e-09,
+        -6.31543728424333e-09,
+        -9.179893845079334e-08
+      ],
+      "force_resultant_n": [
+        0.0,
+        0.0,
+        -1.0000000000000002
+      ],
+      "free_residual_backward_error": 9.097318168397269e-17,
+      "free_residual_l2_n": 4.0243827805263023e-07,
+      "free_residual_relative_to_force": 4.0243827805263023e-07,
+      "historical_energy_metric_relative_to_max_work_1j": 5.179965741064496e-09,
+      "integrated_volume_m3": 0.7999999999999998,
+      "matrix_symmetry_relative_frobenius": 0.0,
+      "maximum_displacement_m": 0.09553248379991842,
+      "maximum_gauss_jacobian_m3": 0.0076372367464860695,
+      "maximum_interior_shift_m": 0.006000000000000002,
+      "minimum_gauss_jacobian_m3": 0.004862763253513929,
+      "moment_closure_relative_to_force_length": 1.4776238639668082e-07,
+      "moment_closure_residual_nm": [
+        2.529211334811876e-08,
+        9.845386621520902e-07,
+        -2.0775303255504696e-08
+      ],
+      "reaction_moment_about_origin_nm": [
+        0.5000000252921133,
+        -19.999999015461334,
+        -2.0775303255504696e-08
+      ],
+      "reaction_resultant_n": [
+        -1.5991759028111119e-09,
+        -6.31543728424333e-09,
+        0.9999999082010618
+      ],
+      "relative_displacement_difference_from_archived_j7_alpha0": 0.0014404246316394556,
+      "relative_matrix_difference_from_archived_j7_alpha0": 0.07865190204819901,
+      "second_symmetric_solver_displacement_relative_difference": 1.545864818267692e-07,
+      "strain_energy_j": 0.047764422097625,
+      "tip_face_center_uz_m": -0.09552280606946546
+    }
+  ],
+  "limits": [
+    "No continuum/external displacement reference exists for this exact J7 model.",
+    "Linear small-strain response is a diagnostic; the archived displacement is large relative to the 0.04 m local thickness scale.",
+    "The distortion levels test this 4\u00d72\u00d72 mesh only and do not generalize to all HEX8-SRI meshes."
+  ],
+  "metrics_csv": {
+    "path": "hex8_j7_distortion_metrics.csv",
+    "sha256": "37803d935a3b655ac8cca63188cbbe2d26e9e03c2e223125901c1f0d6d2115d5"
+  },
+  "model": {
+    "element": "HEX8-SRI; current corrected element source matches J7 canonical source e014652e\u2026",
+    "geometry": "archived J7 near-degenerate 4\u00d72\u00d72 mesh; x=20 m, y nominal 1 m, transformed z extent [-0.003, 0.043] m; exterior node coordinates held fixed",
+    "loads": "archived J7 nodal force vector reused bit-for-bit; total (0,0,-1) N on x=L face nodes",
+    "material": {
+      "poisson_ratio": 0.495,
+      "young_modulus_pa": 1000000.0
+    },
+    "mesh_distortion": "z shift of only the three interior nodes: delta_z = alpha * 0.04 m * sin(pi*x/20 m)",
+    "supports": "archived J7 fixed-DOF mask reused bit-for-bit; all translations fixed on x=0 face",
+    "thickness_scaling_note": "0.04 m is the vertical top-to-bottom difference at fixed x,y; 0.046 m is the overall z bounding-box extent due to boundary skew."
+  },
+  "nodeid": "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion",
+  "reference": {
+    "J7_historical_failures": "preserved unchanged; new criteria below are indicators only",
+    "limits": "The alpha=0 replay is not an independent continuum oracle. The second solver uses the same assembled K and force vector. No external or continuum displacement reference is available for the J7 near-degenerate cantilever.",
+    "type": "archived J7 alpha=0 state plus linear-system equilibrium and a second symmetric direct solver"
+  },
+  "schema": "qf-j10-hex8-j7-distortion-result-v1",
+  "source_fingerprint": "bf0b1676db91112cec07bd976a3ee7efdf8e4b6c503a9ecbb8bc4a0193ae16f8",
+  "source_head": "2999fb980ccfd3b7fe97cb724b1be43330507879",
+  "state_npz": {
+    "path": "hex8_j7_distortion_states.npz",
+    "sha256": "4ff54522deaa2d23d50a63f1f6380494615a0fc2d3435c9b4d40a043d6c38e8e"
+  }
+}

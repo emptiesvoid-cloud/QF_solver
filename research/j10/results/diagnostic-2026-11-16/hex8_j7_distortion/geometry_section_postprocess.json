@@ -1,0 +1,14 @@
+{
+  "schema": "qf-j10-geometry-section-postprocess-v1",
+  "classification": "PLOTTING_ONLY_NO_FEM",
+  "input_state_npz": "hex8_j7_distortion_states.npz",
+  "input_state_npz_sha256": "4ff54522deaa2d23d50a63f1f6380494615a0fc2d3435c9b4d40a043d6c38e8e",
+  "input_result_sha256": "639c4254b201d29902ba676036b6cf930bb0d54727074038573bd84e5cb3575b",
+  "postprocessor": "research/j10_hex8/plot_distortion_section.py",
+  "postprocessor_sha256": "e825d31dc5d19b994548b99f71ba342ebbd93dabaf659b645ca22d367370ed19",
+  "output_figure": "site_hex8_j7_geometry_section.png",
+  "output_figure_sha256": "85e53df3d27e9a5899ffa9806a24c1dbcb0a99b48ff703df2edb1673a2823f4e",
+  "section_y_m": 0.5,
+  "vertical_display_scale": 200.0,
+  "interpretation": "Geometry-only x-z section. The z-axis display is enlarged 200x; tick labels remain physical metres. The arrows show only the applied resultant, not elementwise pressure."
+}

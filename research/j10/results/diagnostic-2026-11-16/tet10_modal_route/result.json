@@ -1,0 +1,163 @@
+{
+  "attempt_id": "J10-TET10-MODAL-ROUTE-SMOKE-ATTEMPT-002",
+  "classification": "DEVELOPMENT_ROUTE_SMOKE_NOT_QUALIFICATION",
+  "contract_id": "J10-TET10-MODAL-ROUTE-SMOKE-CORRECTIVE-002",
+  "contract_sha256": "9c1a5e80973f85ba01ae954469edb68efe565bab77cda62812192b62ee3e74b6",
+  "criteria": {
+    "completion_invariants": "four finite positive frequencies, finite mode vectors, 12 free DOFs, solver validation status recorded without promoting INCONCLUSIVE",
+    "formal_acceptance_thresholds": "none"
+  },
+  "development_attempt_number": 2,
+  "environment": {
+    "matplotlib": "3.10.3",
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "scipy": "1.15.2",
+    "threadpools": [
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "user_api": "blas",
+        "version": "0.3.29"
+      },
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "user_api": "blas",
+        "version": "0.3.28"
+      }
+    ]
+  },
+  "execution_status": "COMPLETED_EXPLORATORY",
+  "frequencies_csv": {
+    "path": "tet10_modal_smoke_frequencies.csv",
+    "sha256": "d572e7fe40b09fb30d9001bed6a5feddadc0c2b2ad3f7afbd17a593a856dfc1a"
+  },
+  "interpretation": "This is a deliberately small route smoke with a same-operator numerical cross-check. It does not retry or replace the historical J9 full-basis failure at 108 free DOFs.",
+  "model": {
+    "element_count": 1,
+    "family": "one TET10 tetrahedron",
+    "fixed_face_nodes": [
+      0,
+      2,
+      3,
+      6,
+      7,
+      9
+    ],
+    "free_dof_count": 12,
+    "geometry_m": "unit right tetrahedron",
+    "material": {
+      "density_kg_m3": 2700.0,
+      "poisson_ratio": 0.3,
+      "young_modulus_pa": 70000000000.0
+    },
+    "node_count": 10,
+    "requested_modes": 4,
+    "total_dof_count": 30,
+    "units": "SI"
+  },
+  "nodeid": "tests/verification/test_j10_tet10_modal_smoke.py::test_j10_tet10_modal_route_smoke",
+  "reference": {
+    "does_not_validate": "TET10 spatial accuracy, the J9 cantilever response, continuum frequency accuracy, or a modal transient route",
+    "frequencies_hz": [
+      1003.4875186475314,
+      1186.0276100598203,
+      2340.7476657344487,
+      2444.2556106656843
+    ],
+    "maximum_relative_frequency_difference": 4.2176259787904985e-15,
+    "mode_count_compared": 4,
+    "relative_frequency_differences": [
+      3.738627113040434e-15,
+      4.2176259787904985e-15,
+      0.0,
+      9.302368968739224e-16
+    ],
+    "type": "dense scipy.linalg.eigh generalized eigenproblem on the same QF-assembled Kff and Mff",
+    "validates": "the modal route/eigenpair output for this 12-DOF one-element system against a separate dense eigensolver"
+  },
+  "route": {
+    "frequencies_hz": [
+      1003.4875186475351,
+      1186.0276100598153,
+      2340.7476657344487,
+      2444.255610665682
+    ],
+    "frequency_payload_valid": true,
+    "method": "QF Solver modal eigsh route with strict modal residual validation policy",
+    "modal_residual_validation": {
+      "checks": [
+        {
+          "arithmetic": "exact rational arithmetic on represented inputs",
+          "coefficients": 158,
+          "criterion": "||K phi - lambda M phi||_2^2 <= tolerance^2 * max(||K phi||_2^2, ||lambda M phi||_2^2)",
+          "dimension": 12,
+          "max_integer_bits": 426,
+          "operation_count": 415,
+          "reason": "exact_represented_input_comparison",
+          "residual_ratio_squared": "1133347926679181899524856552630568967966445097252793797687905130510489/135118104733379247301978782533118512982331302589512670191394452102405799101966414801024419651254425",
+          "status": "PASS_CERTIFIED"
+        },
+        {
+          "arithmetic": "exact rational arithmetic on represented inputs",
+          "coefficients": 158,
+          "criterion": "||K phi - lambda M phi||_2^2 <= tolerance^2 * max(||K phi||_2^2, ||lambda M phi||_2^2)",
+          "dimension": 12,
+          "max_integer_bits": 326,
+          "operation_count": 415,
+          "reason": "exact_represented_input_comparison",
+          "residual_ratio_squared": "2257422282571406003125331427466595076624751055054426762175683725516069/69320702704337418023808276890222480783425682110669455245655147589294871590387135622180134923010048",
+          "status": "PASS_CERTIFIED"
+        },
+        {
+          "arithmetic": "exact rational arithmetic on represented inputs",
+          "coefficients": 158,
+          "criterion": "||K phi - lambda M phi||_2^2 <= tolerance^2 * max(||K phi||_2^2, ||lambda M phi||_2^2)",
+          "dimension": 12,
+          "max_integer_bits": 324,
+          "operation_count": 415,
+          "reason": "exact_represented_input_comparison",
+          "residual_ratio_squared": "32913964620293326175708854625461002215462512085809197348192635720741/18523850292752458780204816154416545824567596029093594414898626936777838549079097559170072606408704",
+          "status": "PASS_CERTIFIED"
+        },
+        {
+          "arithmetic": "exact rational arithmetic on represented inputs",
+          "coefficients": 158,
+          "criterion": "||K phi - lambda M phi||_2^2 <= tolerance^2 * max(||K phi||_2^2, ||lambda M phi||_2^2)",
+          "dimension": 12,
+          "max_integer_bits": 421,
+          "operation_count": 415,
+          "reason": "exact_represented_input_comparison",
+          "residual_ratio_squared": "104636118233747133821779599882522103352515529709463460151800673397/29519916663657364093205843928010947834466924531084409648307077609865300928702815346583577867381",
+          "status": "PASS_CERTIFIED"
+        }
+      ],
+      "exact_fallback": false,
+      "max_dimension": 128,
+      "max_eigenpairs": 128,
+      "max_estimated_memory_bytes": 2000000,
+      "max_integer_bits": 8192,
+      "max_operations": 65536,
+      "max_stored_terms": 1024,
+      "operation_count": 1660,
+      "reason": "all_represented_residuals_certified",
+      "status": "PASS_CERTIFIED"
+    },
+    "mode_payload_valid": true,
+    "numerical_status": "PASS",
+    "returned_frequency_count": 4,
+    "returned_mode_shape": [
+      30,
+      4
+    ]
+  },
+  "schema": "qf-j10-tet10-modal-smoke-result-v1",
+  "source_fingerprint": "b564ba91a7cefa693191514a5b6842c442d2a187e03d380fe71ac9e6c3615899",
+  "source_head": "1b3e7d365ccfc8675fba9c796a2fdfebc579c4b7",
+  "state_npz": {
+    "path": "tet10_modal_smoke_state.npz",
+    "sha256": "c336f8993bad40d028a14ab48131fef03eb4673fccb105f2503c0f8fe1a2001d"
+  }
+}

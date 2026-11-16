@@ -1,0 +1,45 @@
+{
+  "schema": "qfsolver-development-j10-preflight-v1",
+  "preflight_id": "pf-a31016160101",
+  "state": "PREFLIGHT_PASS",
+  "bodies_executed": false,
+  "worktree_id": "j10",
+  "target": "tests/verification/test_j10_tet10_fixed_excitation.py::test_j10_tet10_same_physical_excitation_time_mesh_study",
+  "source_head": "62ab1f57079510e7877cb0fb8f8ce8e9e3c4d26a",
+  "source_fingerprint": "656270d39dcb8daab3c21259189f38af99ec71e2a1191f14be5d9f1dafec4129",
+  "started_at_utc": "2026-11-16T20:19:34.743543+00:00",
+  "finished_at_utc": "2026-11-16T20:19:42.309612+00:00",
+  "elapsed_seconds": 4.157455899985507,
+  "peak_rss_bytes": 155095040,
+  "peak_process_count": 1,
+  "archive_bytes": 586,
+  "temporary_bytes": 0,
+  "free_disk_before_bytes": 35552055296,
+  "free_disk_after_bytes": 35552043008,
+  "return_code": 0,
+  "thread_environment": {
+    "BLIS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "threadpools": [
+    {
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "user_api": "blas",
+      "version": "0.3.29"
+    }
+  ],
+  "solver_origin_verified": true,
+  "collected_nodeids": [
+    "tests/verification/test_j10_tet10_fixed_excitation.py::test_j10_tet10_same_physical_excitation_time_mesh_study"
+  ],
+  "stdout_sha256": "f14703db2f97ab3b1aa38ce42b3aceccbe9a78c6e88298872f3efd2ef3c31e57",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "raw_receipt_sha256": "6ee49a87377aba108f13a5bcf9c938458a274d20d869e8faf8788d0def185ca1"
+}

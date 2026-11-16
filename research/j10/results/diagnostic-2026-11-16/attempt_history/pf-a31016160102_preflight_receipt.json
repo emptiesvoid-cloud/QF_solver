@@ -1,0 +1,45 @@
+{
+  "schema": "qfsolver-development-j10-preflight-v1",
+  "preflight_id": "pf-a31016160102",
+  "state": "PREFLIGHT_PASS",
+  "bodies_executed": false,
+  "worktree_id": "j10",
+  "target": "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion",
+  "source_head": "62ab1f57079510e7877cb0fb8f8ce8e9e3c4d26a",
+  "source_fingerprint": "e90061fcc75e654dcff43dd79d9102d7f30c9a876b85f802ac2b1f3fcd56e32c",
+  "started_at_utc": "2026-11-16T20:20:06.162431+00:00",
+  "finished_at_utc": "2026-11-16T20:20:13.736756+00:00",
+  "elapsed_seconds": 3.950761300045997,
+  "peak_rss_bytes": 128278528,
+  "peak_process_count": 1,
+  "archive_bytes": 570,
+  "temporary_bytes": 0,
+  "free_disk_before_bytes": 35552022528,
+  "free_disk_after_bytes": 35552022528,
+  "return_code": 0,
+  "thread_environment": {
+    "BLIS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "threadpools": [
+    {
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "user_api": "blas",
+      "version": "0.3.29"
+    }
+  ],
+  "solver_origin_verified": true,
+  "collected_nodeids": [
+    "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion"
+  ],
+  "stdout_sha256": "feda9d6f610da82b01a3d70c803b000689528ae1aff1eb9c8db71c890b5ef11c",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "raw_receipt_sha256": "4f998f3efe11061703eeadd7bc1674c404f76ddffba4ec2c2f33641c35298384"
+}

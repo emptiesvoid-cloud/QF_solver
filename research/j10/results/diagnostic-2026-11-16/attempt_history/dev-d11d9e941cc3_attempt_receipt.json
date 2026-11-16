@@ -1,0 +1,53 @@
+{
+  "schema": "qfsolver-development-attempt-v2",
+  "development_series_id": "dev-d11d9e941cc3",
+  "attempt_number": 1,
+  "state": "PYTEST_FAILED",
+  "scope": "fem_exploratory",
+  "worktree_id": "j10",
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-J10-2026-11-16-v1",
+  "target": [
+    "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion"
+  ],
+  "branch": "work/0.3.0-j10",
+  "source_head": "62ab1f57079510e7877cb0fb8f8ce8e9e3c4d26a",
+  "source_fingerprint": "e90061fcc75e654dcff43dd79d9102d7f30c9a876b85f802ac2b1f3fcd56e32c",
+  "reason": "Sweep one interior-node distortion parameter on the archived J7 near-degenerate HEX8-SRI model while preserving its boundary, force, supports and material.",
+  "started_at_utc": "2026-11-16T20:23:21.456325+00:00",
+  "finished_at_utc": "2026-11-16T20:23:25.664737+00:00",
+  "elapsed_seconds": 4.1973937000148,
+  "peak_rss_bytes": 128229376,
+  "peak_process_count": 1,
+  "archive_bytes": 1847,
+  "temporary_bytes": 0,
+  "free_disk_before_bytes": 35548901376,
+  "free_disk_after_bytes": 35550875648,
+  "budgets": {
+    "archive_size_limit_mib": 128,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 512,
+    "timeout_seconds": 1800
+  },
+  "preflight_id": "pf-a31016160102",
+  "preflight_receipt_sha256": "4f998f3efe11061703eeadd7bc1674c404f76ddffba4ec2c2f33641c35298384",
+  "return_code": 1,
+  "stdout_sha256": "4d61e87f8a1573c24eaf0ae33d737ff6c713c40372da49805ae2dbe09bed19ae",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "output_inventory": [
+    {
+      "path": "stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.log",
+      "bytes": 1847,
+      "sha256": "4d61e87f8a1573c24eaf0ae33d737ff6c713c40372da49805ae2dbe09bed19ae"
+    }
+  ],
+  "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+  "qualification_promotion": "PROHIBITED"
+}
