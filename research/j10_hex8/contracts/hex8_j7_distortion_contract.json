@@ -1,0 +1,106 @@
+{
+  "schema": "qf-j10-hex8-j7-distortion-contract-v1",
+  "contract_id": "J10-HEX8-J7-DOMAIN-PRESERVING-DISTORTION-001",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J10_OWNER_2026-11-16",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J10-2026-11-16-v1",
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "baseline": {
+    "branch": "work/0.3.0-j10",
+    "base_commit": "8183d4eb74c6ad56ffb03fad62642ffd7cd6b0c9",
+    "J7_near_degenerate_source_commit": "7b60400eeb34239e1cf639dc7e92f94118ca57bc",
+    "historical_result": "J7 near-degenerate global case FAIL; preserved without mutation"
+  },
+  "hypothesis": "Varying only the coordinates of the three strictly interior nodes may change HEX8-SRI conditioning and equilibrium metrics on the archived J7 near-degenerate model while the complete exterior boundary, loads and supports remain exactly fixed.",
+  "source_identity": [
+    {"path": "research/j10_hex8/hex8_j7_diagnostic.py", "canonical_sha256": "8135dc2cb897a46d70ca255c5c119e0a5b835b8bd4344b96f5b571ccc781b1a4"},
+    {"path": "tests/verification/test_j10_hex8_j7_geometry.py", "canonical_sha256": "32bec71fd59b073be7205a77a8d7e991c492356ec08420db98f9e59f81f0613e"},
+    {"path": "scripts/development_autonomous.py", "canonical_sha256": "52c7dbc6728c835a78072ab68b6b17784a682cb5de6707d3b2a4be6dce89804d"},
+    {"path": "src/solveur/elements/solid/hex8.py", "canonical_sha256": "02e7a649bc585c8fd579e619592d5b2fd7a77eb04e861f78b4e3a63240f84bb9"},
+    {"path": "src/solveur/elements/solid/hex8_sri.py", "canonical_sha256": "e014652e9efc3912046891348d9dfa76adaa1f8ff084db58e84a9b3d151cf9e4"},
+    {"path": "src/solveur/elements/solid/common.py", "canonical_sha256": "99fa6651da41859f5b82124b29433890eef22c2b75dd53d0f783a96b0d01a3a5"},
+    {"path": "src/solveur/materials/solid.py", "canonical_sha256": "784d830c12354525918a1cfbc1a3cb81c7015d721b36533eeab115d4ec70b452"}
+  ],
+  "inputs": {
+    "j7_state_path": "research/j8_hex8/inputs/near_degenerate_nu0495_nx4_state.npz",
+    "j7_state_sha256_raw": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11",
+    "j7_case_spec_path": "research/j8_hex8/inputs/j7_hex8_sri_global_cases.json",
+    "j7_case_spec_sha256_canonical": "66193d6d4411caf842544d9dc74c3252f10d4641a6ce1b5b1745d5dd29c19c74",
+    "historical_result_path": "research/j8_hex8/inputs/near_degenerate_nu0495_nx4_result.json",
+    "historical_result_sha256_raw": "0707e78f0a4c077b7ecf02a492a9fec2c1f4baddb175a9105a2dc6cb5904ac22",
+    "geometry_preflight_contract_path": "research/j10_hex8/contracts/geometry_preflight_contract.json",
+    "geometry_preflight_contract_sha256_canonical": "e1f606d0673475345f120b6ee03055b3c3439bf8a988ecd7f61f1157bbbee92c",
+    "geometry_preflight_result_path": "research/j10_hex8/geometry_preflight_result.json",
+    "geometry_preflight_result_sha256_raw": "57b2221406f1cf23870772acb13f2883c1db4fb15b406361921066d1452d150c",
+    "corrected_hex8_sri_source_sha256_canonical": "e014652e9efc3912046891348d9dfa76adaa1f8ff084db58e84a9b3d151cf9e4"
+  },
+  "model": {
+    "element": "HEX8-SRI with the same corrected source used in J7",
+    "geometry": {
+      "input": "coordinates and connectivity loaded directly from the archived J7 state NPZ",
+      "mesh": "4 x 2 x 2, 45 nodes, 16 elements, 135 total DOFs, 27 fixed and 108 free DOFs",
+      "outer_length_m": 20.0,
+      "nominal_width_m": 1.0,
+      "local_vertical_thickness_m": 0.04,
+      "outer_z_bounding_box_m": [-0.003, 0.043],
+      "boundary_condition": "all three translations fixed on the archived x=0 face"
+    },
+    "material": {"young_modulus_pa": 1000000.0, "poisson_ratio": 0.495, "units": "SI"},
+    "load": "the archived J7 force vector reused bit-for-bit; equal negative-Z forces on the nine nodes at x=L; resultant (0,0,-1) N",
+    "one_factor_transformation": {
+      "strictly_interior_nodes": [21, 22, 23],
+      "only_changed_parameter": "z coordinates of these three interior nodes",
+      "formula": "delta_z = alpha * 0.04 m * sin(pi*x/20 m)",
+      "alpha_levels": [0.0, 0.05, 0.1, 0.15],
+      "maximum_shift_at_alpha_0_15_m": 0.006,
+      "preserved": ["all exterior node coordinates", "connectivity", "material", "force vector", "fixed-DOF mask", "load/support node locations"]
+    },
+    "thickness_note": "0.04 m is the top-to-bottom coordinate separation at fixed x,y. The 0.046 m z bounding-box range includes the existing skew of the exterior surfaces."
+  },
+  "pre_execution_geometry_check": {
+    "contract": "research/j10_hex8/contracts/geometry_preflight_contract.json",
+    "result": "research/j10_hex8/geometry_preflight_result.json",
+    "status": "PASS_GEOMETRY_ONLY",
+    "requirements": "all Gauss Jacobians finite/positive; exterior coordinates bitwise unchanged; outer bounding box unchanged",
+    "no_fem_was_run": true
+  },
+  "indicators": {
+    "condition_number": "2-norm estimate of Kff",
+    "free_residual": "r_f = (K u - F)_f; report ||r_f||, ||r_f||/max(||F||,1), and backward error ||r_f||/(||K||_F ||u|| + ||F||)",
+    "reactions": "R is set to the constrained components of K u - F; force and moment residuals are then recomputed from nodal vectors",
+    "force_closure": "||sum(F)+sum(R)||/max(||F||,1)",
+    "moment_closure": "||sum(x×F)+sum(x×R)||/max(||F||*20 m,1)",
+    "energy": "report U=0.5 uᵀKu and W=0.5 uᵀF with both |U-W|/max(|U|,|W|) and the historical J7 denominator max(|W|,1 J)",
+    "second_solver": "scipy.linalg.solve(assume_a='sym') on the same Kff and Ff, compared to numpy.linalg.solve; this is a solver-method check, not an independent formulation",
+    "alpha_zero_replay": "compare reassembled K and solution against the archived J7 state; relative reproducibility bounds 1e-12 and 1e-10 respectively"
+  },
+  "reference_and_claim_limits": {
+    "available_reference": "archived J7 alpha=0 matrix and displacement for reproducibility; force, moment and energy identities for internal equilibrium",
+    "independent_continuum_reference": "not established for this near-degenerate global cantilever",
+    "external_solver": "Code_Aster and CalculiX are unavailable in the current environment",
+    "interpretation": "The α sweep isolates the effect of this interior-node mapping on the same discretized linear model. It cannot by itself explain J7 failures or prove physical accuracy."
+  },
+  "criteria": {
+    "formal_acceptance_thresholds": "none; residual, closure, energy, condition number and displacement trends are descriptive indicators",
+    "completion_invariants": ["positive finite Gauss Jacobians", "unchanged exterior geometry and archived force/support vectors", "finite matrices and solutions", "alpha=0 reproduces the archived J7 matrix/state within its frozen replay bounds"],
+    "historical_status": "J7 FAIL remains unchanged"
+  },
+  "execution": {
+    "nodeid": "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion",
+    "attempts": 1,
+    "budgets": {
+      "timeout_seconds": 1800,
+      "rss_soft_limit_mib": 2048,
+      "process_tree_limit": 4,
+      "output_total_limit_mib": 8,
+      "output_stream_limit_mib": 4,
+      "temporary_limit_mib": 512,
+      "archive_size_limit_mib": 128,
+      "numeric_threads": 1,
+      "minimum_free_disk_mib": 1024
+    },
+    "budget_semantics": "timeout and captured-output caps are enforced by the launcher; RSS/process/temp/archive/free-space are sampled or soft controls, not OS quotas",
+    "preflight": "one exact-node pytest collect-only receipt required before the attempt"
+  },
+  "preservation": {"J7_result_and_FAIL": "unchanged", "J8_results": "unchanged", "qualification_promotion": false, "site_publication_release_tag_or_merge": false},
+  "artifacts": ["result.json", "result.sha256.json", "hex8_j7_distortion_states.npz", "hex8_j7_distortion_metrics.csv", "site_hex8_j7_distortion.png", "hex8_j7_distortion_indicators.png"]
+}

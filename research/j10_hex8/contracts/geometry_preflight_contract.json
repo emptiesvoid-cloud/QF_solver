@@ -1,0 +1,58 @@
+{
+  "schema": "qf-j10-hex8-geometry-preflight-contract-v1",
+  "contract_id": "J10-HEX8-J7-GEOMETRY-PREFLIGHT-001",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J10_OWNER_2026-11-16",
+  "classification": "GEOMETRY_ONLY_PRECHECK_NOT_FEM",
+  "baseline": {
+    "branch": "work/0.3.0-j10",
+    "base_commit": "8183d4eb74c6ad56ffb03fad62642ffd7cd6b0c9",
+    "historical_case_source_commit": "7b60400eeb34239e1cf639dc7e92f94118ca57bc",
+    "historical_status": "J7 near-degenerate global case remains FAIL; this preflight does not edit or reinterpret its result"
+  },
+  "input": {
+    "state_path": "research/j8_hex8/inputs/near_degenerate_nu0495_nx4_state.npz",
+    "sha256": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11",
+    "case_spec_path": "research/j8_hex8/inputs/j7_hex8_sri_global_cases.json",
+    "case_spec_canonical_sha256": "66193d6d4411caf842544d9dc74c3252f10d4641a6ce1b5b1745d5dd29c19c74",
+    "source_sha_convention": "SHA-256 over Git-canonical UTF-8 LF source bytes; binary input uses raw bytes"
+  },
+  "source_identity": [
+    {
+      "path": "research/j10_hex8/geometry_preflight.py",
+      "sha256": "5de559c2b7af5f270d6496d771dc64c0c1f7c0f1b126329195544e13fb399838"
+    },
+    {
+      "path": "src/solveur/elements/solid/hex8.py",
+      "sha256": "02e7a649bc585c8fd579e619592d5b2fd7a77eb04e861f78b4e3a63240f84bb9"
+    }
+  ],
+  "hypothesis": "A smooth vertical bubble displacement of only the three strictly interior logical nodes can vary element Jacobians while leaving every exterior node coordinate, support node, load node, and physical boundary coordinate unchanged.",
+  "geometry": {
+    "source": "archived J7 near-degenerate HEX8 state; coordinates and connectivity are read directly from the immutable J8 input NPZ",
+    "mesh": "4 x 2 x 2 HEX8 cells, 45 nodes, 16 elements",
+    "interior_nodes": "the three nodes at x in {5,10,15} m, y=0.5 m, z=0.02 m",
+    "local_thickness_scale_m": 0.04,
+    "transformation": "z_i(alpha) = z_i(0) + alpha * 0.04 m * sin(pi*x_i/20 m) for the three strictly interior nodes; all other nodes are unchanged",
+    "alpha_levels": [0.0, 0.05, 0.1, 0.15],
+    "maximum_shift_at_alpha_0_15_m": 0.006,
+    "bounding_box_note": "The archived z bounding-box extent is 0.046 m because the outer face is also skewed; 0.04 m is the top-to-bottom coordinate difference at fixed x,y."
+  },
+  "scope": {
+    "operations": ["read archived coordinates/connectivity", "modify candidate interior coordinates in memory", "evaluate all HEX8 Gauss Jacobian determinants", "verify exterior node coordinates are bitwise unchanged"],
+    "explicitly_excluded": ["stiffness assembly", "load application", "linear solve", "post-processing of mechanical observables"],
+    "criteria": {
+      "gauss_determinants": "all finite and strictly positive at all eight Gauss points of every element",
+      "exterior_geometry": "every non-interior node coordinate is bitwise identical to the archived J7 geometry",
+      "boundary_envelope": "the physical coordinate bounding box is unchanged"
+    },
+    "decision": "If a candidate fails, reduce the candidate alpha set and freeze a revised contract before any FEM execution."
+  },
+  "resources": {
+    "attempts": 1,
+    "wall_time_limit_seconds": 30,
+    "memory_limit_mib": 256,
+    "storage_limit_mib": 2,
+    "semantics": "local geometry-only script; no monitored FEM attempt is reserved"
+  },
+  "artifacts": ["research/j10_hex8/geometry_preflight_result.json"]
+}

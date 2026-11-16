@@ -1,0 +1,118 @@
+{
+  "schema": "qf-j10-tet10-fixed-excitation-contract-v1",
+  "contract_id": "J10-TET10-NEWmark-COMMON-EXCITATION-001",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J10_OWNER_2026-11-16",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J10-2026-11-16-v1",
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "baseline": {
+    "branch": "work/0.3.0-j10",
+    "base_branch": "work/0.3.0-j9",
+    "base_commit": "8183d4eb74c6ad56ffb03fad62642ffd7cd6b0c9",
+    "historical_j9_attempt": "the modal full-basis route failed at 108 free DOFs with aggregate_work_budget; the separate direct-only result remains unchanged"
+  },
+  "hypothesis": "Newmark temporal error can be measured consistently across four TET10 meshes when the same force-time function, observation horizon, physical load point, physical measurement point and time grids are used on every mesh.",
+  "source_identity": [
+    {"path": "research/j10_transient/tet10_fixed_excitation.py", "canonical_sha256": "35aed79635e7a629cc1ffd76d1b9d73f42c36eeb912a75128715a185e0378595"},
+    {"path": "tests/verification/test_j10_tet10_fixed_excitation.py", "canonical_sha256": "c3d88bedae6153b24e0368ed88a0cd7848906305dcb33c10bf89a22e2bf04871"},
+    {"path": "scripts/development_autonomous.py", "canonical_sha256": "52c7dbc6728c835a78072ab68b6b17784a682cb5de6707d3b2a4be6dce89804d"},
+    {"path": "src/solveur/elements/solid/tet10.py", "canonical_sha256": "7a445696d284a14e5166c47cfd22171affe00e2729ab103aaf785802a976ced6"},
+    {"path": "src/solveur/core/analyses/dynamic.py", "canonical_sha256": "9df703904abdf471ba9a4ee4d5c49573e53616ff7ac4d4037198e58e325c356d"},
+    {"path": "src/solveur/core/assembly/assembler.py", "canonical_sha256": "e4e9710fe28822668d87e5a1d805aaf0f13369de01a094c585d17e5241910d41"},
+    {"path": "src/solveur/core/model.py", "canonical_sha256": "cbe04fd1c35cfd98d326ab1c2287a97d05d5e7876c929bfe80d4805a7d387b8e"},
+    {"path": "src/solveur/verification/transient_modal_oracle.py", "canonical_sha256": "cde25b24443f0ca75d0a7ed656ea99dcd2f2bc79be84e6e5d39fcc0e9214053c"},
+    {"path": "src/solveur/core/analyses/dynamic_reduction.py", "canonical_sha256": "da2fd904583723fd8706b5f41795b003d2bc6b2136696ebec03598f2a25c519b"}
+  ],
+  "model": {
+    "geometry_m": {"length_x": 2.0, "width_y": 0.4, "height_z": 0.4},
+    "material": {"young_modulus_pa": 70000000000.0, "poisson_ratio": 0.3, "density_kg_m3": 2700.0, "units": "SI"},
+    "element": "quadratic TET10, consistent mass",
+    "mesh_generation": "structured rectangular cells split into six conforming tetrahedra per cell; shared midside nodes by unordered corner-edge pair",
+    "mesh_cells_xyz": [[2, 1, 1], [4, 1, 1], [4, 2, 1], [4, 2, 2]],
+    "boundary_conditions": "all UX, UY, UZ fixed on the complete x=0 face",
+    "initial_conditions": "zero displacement and velocity",
+    "load": {
+      "type": "1 N negative-Z nodal force at the exact x=L face center (2,0.2,0.2) m",
+      "time_function": "f(t)=0 at t=0; linear to -1 N at 1 ms; linear to zero at 2 ms; zero afterward",
+      "same_physical_load_all_meshes": true
+    },
+    "primary_probe": {"position_m": [1.0, 0.2, 0.2], "component": "UZ", "units": "m", "reason": "fixed physical midspan center, away from the point load"},
+    "secondary_probe": {"position_m": [2.0, 0.2, 0.2], "component": "UZ", "use": "external-work indicator at the loaded node; spatially singular and not the primary mesh comparison"}
+  },
+  "time_study": {
+    "time_steps_s": [0.0005, 0.00025, 0.000125],
+    "common_observation_end_time_s": 0.024,
+    "step_counts": [48, 96, 192],
+    "knots_align_with_all_time_grids": true,
+    "newmark": {"beta": 0.25, "gamma": 0.5, "rayleigh_alpha_s_inv": 0.0, "rayleigh_beta_s": 0.0},
+    "comparison_times": "identical physical grid points for each time step and all meshes; no interpolation expected"
+  },
+  "references": {
+    "temporal": {
+      "type": "PiecewiseLinearModalOracle full-order semidiscrete state-space propagation",
+      "operator": "same per-mesh M and K assembled by GlobalAssembler from the same TET10 model",
+      "method": "generalized symmetric eigendecomposition plus exact state transitions over affine force intervals; independent of the Newmark recurrence",
+      "scope": "checks temporal integration only; does not verify spatial assembly against a continuum or an external solver"
+    },
+    "spatial": {
+      "type": "same-time response of each selected mesh compared against the finest selected mesh oracle",
+      "scope": "descriptive mesh sensitivity only; not continuum error or a convergence qualification"
+    },
+    "external": "Code_Aster and CalculiX are unavailable in the execution environment; no external correlation will be claimed"
+  },
+  "observables_and_indicators": [
+    "midspan UZ history at a fixed physical coordinate",
+    "RMS and peak absolute difference from that mesh's semidiscrete oracle",
+    "RMS and peak differences normalized by one shared global oracle peak over all meshes at the finest time step",
+    "observed time-step refinement order, descriptive only",
+    "first semidiscrete frequency and mesh-to-mesh increments",
+    "assembled force resultant and positive TET10 corner volumes",
+    "maximum dynamic residual norm",
+    "post-pulse total-energy relative range and trapezoidal load-work versus final energy indicator"
+  ],
+  "normalization": {
+    "formula": "RMS or peak absolute error divided by max absolute oracle midspan displacement across all four meshes at dt=0.000125 s",
+    "near_zero_handling": "common nonzero global scale avoids local relative error blow-up at response zero crossings",
+    "thresholds": "no formal acceptance threshold; values remain descriptive"
+  },
+  "execution": {
+    "nodeid": "tests/verification/test_j10_tet10_fixed_excitation.py::test_j10_tet10_same_physical_excitation_time_mesh_study",
+    "attempts": 1,
+    "budgets": {
+      "timeout_seconds": 1800,
+      "rss_soft_limit_mib": 2048,
+      "process_tree_limit": 4,
+      "output_total_limit_mib": 8,
+      "output_stream_limit_mib": 4,
+      "temporary_limit_mib": 512,
+      "archive_size_limit_mib": 128,
+      "numeric_threads": 1,
+      "minimum_free_disk_mib": 1024
+    },
+    "budget_semantics": "timeout and captured-output caps are enforced by the launcher; RSS/process/temp/archive/free-space are sampled or soft controls, not OS quotas",
+    "preflight": "one exact-node pytest collect-only receipt required before the attempt",
+    "external_tool_status": {"as_run": "NOT_FOUND", "calculix_ccx": "NOT_FOUND", "docker_daemon": "UNAVAILABLE"}
+  },
+  "completion_invariants": [
+    "positive TET10 corner volumes on every mesh",
+    "load point and midspan probe represented exactly on every mesh",
+    "same assembled force resultant (0,0,-1) N",
+    "same force-time function and 24 ms observation horizon",
+    "all direct histories finite and returned by the Newmark route",
+    "record the oracle and all differences without a numerical acceptance gate"
+  ],
+  "preservation": {
+    "J9_modal_route_failure": "unchanged as PYTEST_FAILED / aggregate_work_budget",
+    "J9_direct_result": "unchanged",
+    "qualification_promotion": false,
+    "site_publication_release_tag_or_merge": false
+  },
+  "artifacts": [
+    "result.json",
+    "result.sha256.json",
+    "tet10_fixed_excitation_states.npz",
+    "tet10_fixed_excitation_history.csv",
+    "tet10_fixed_excitation_meshes.png",
+    "tet10_fixed_excitation_time_refinement.png",
+    "tet10_fixed_excitation_mesh_sensitivity.png"
+  ]
+}
