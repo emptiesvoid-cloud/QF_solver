@@ -1,0 +1,20 @@
+{
+  "schema": "qfsolver.j9.postprocess-attempt-error.v1",
+  "execution_id": "J9-HEX8-WORK-METHOD-POSTPROCESS-01",
+  "classification": "DEVELOPMENT_EXPLORATORY_POSTPROCESS_NOT_QUALIFICATION",
+  "status": "SCRIPT_ERROR_BEFORE_LINEAR_SOLVES",
+  "contract_path": "research/j9/hex8_work_method_postprocess_contract.json",
+  "contract_sha256": "01ac19e2676eb10c53d38f86eae638dca43333c54acf96726305179112b3ea02",
+  "input_sha256_verified_before_error": {
+    "hex8_distortion_states.npz": "82cf441c8c0ad84738114e826553abd18071493b9527b8e8aa0c4ce2bc62c1b3",
+    "result.json": "171bee39b3aa00062195a32c74517872f78a69f3d4e75d54643679599d6c2eab"
+  },
+  "error": "KeyError: 'mesh_divisions'",
+  "phase": "contract-field lookup after input loading; before Kff construction or either solver",
+  "numerical_solutions_produced": false,
+  "fem_or_reassembly_executed": false,
+  "wall_time_observed_by_command_seconds": 1.3,
+  "peak_rss_bytes": null,
+  "postprocessor_sha256_at_attempt": null,
+  "traceability_note": "The transient script revision was edited after this pre-solve error and its bytes were not hashed at the time. The committed follow-up contract pins the corrected revision by SHA-256. No numerical result depends on the failed revision."
+}
