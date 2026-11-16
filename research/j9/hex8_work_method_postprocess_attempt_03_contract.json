@@ -1,0 +1,85 @@
+{
+  "schema": "qfsolver.j9.hex8-work-method-postprocess.v3",
+  "execution_id": "J9-HEX8-WORK-METHOD-POSTPROCESS-03",
+  "classification": "DEVELOPMENT_EXPLORATORY_POSTPROCESS_NOT_QUALIFICATION",
+  "retry_reason": {
+    "previous_execution_id": "J9-HEX8-WORK-METHOD-POSTPROCESS-02",
+    "previous_status": "SERIALIZATION_ERROR_AFTER_LINEAR_SOLVES",
+    "cause": "The second script revision completed both reduced solves for all four levels, then looked up source.source_head although the contract field was named source_head_for_archived_fem_data. Payload construction failed before any output was written.",
+    "classified_change": "Map the archived source field explicitly, add an upfront contract-schema check and verify the postprocessor SHA-256 before loading or solving.",
+    "previous_contract_sha256": "4dc680604f84193dc48efba76d82e185b6be70315fbd0eaf14491394db3c0699",
+    "previous_postprocessor_sha256": "0efae22350be59f4bf031dc7460253f04a18af0b1d48a16352fe5102605a1879"
+  },
+  "hypothesis": "The archived affine HEX8-SRI patch can be reconstructed from its stored global stiffness and prescribed boundary state, and two direct dense solvers produce equivalent free-DOF solutions; boundary work from the linearly ramped prescribed displacement matches strain energy.",
+  "source": {
+    "source_head_for_archived_fem_data": "a8f5a91653c50c51cb51e51b297ed9c2cd623362",
+    "postprocessor_path": "research/j9/verify_hex8_work_method.py",
+    "postprocessor_sha256": "9a5e09edb8a4da9ef3ffecd383dcef1c1b61180507acae1495d68b850e626afa",
+    "solver_source_modified": false,
+    "inputs": [
+      {
+        "path": "research/j9/results/diagnostic-2026-11-16/hex8_constant_domain/hex8_distortion_states.npz",
+        "sha256": "82cf441c8c0ad84738114e826553abd18071493b9527b8e8aa0c4ce2bc62c1b3"
+      },
+      {
+        "path": "research/j9/results/diagnostic-2026-11-16/hex8_constant_domain/result.json",
+        "sha256": "171bee39b3aa00062195a32c74517872f78a69f3d4e75d54643679599d6c2eab"
+      }
+    ]
+  },
+  "model_scope": {
+    "description": "Four stored HEX8-SRI systems, each with 135 total DOFs and 9 interior free DOFs; the external affine displacement field and outer geometry are unchanged.",
+    "mesh_divisions": [4, 2, 2],
+    "distortion_amplitudes": [0.0, 0.05, 0.1, 0.15],
+    "interior_node_rule": "ijk is strictly interior to divisions [4,2,2] in all three coordinates.",
+    "no_fem_execution": true,
+    "no_reassembly": true
+  },
+  "methods": [
+    {
+      "name": "numpy.linalg.solve",
+      "system": "Kff * uf = -(Kfc * uc)"
+    },
+    {
+      "name": "scipy.linalg.cho_factor + cho_solve",
+      "system": "the same Kff and right-hand side; lower-triangular Cholesky factorization"
+    }
+  ],
+  "observables": {
+    "linear_residual": "norm(Kff*uf-rhs,2), also reported relative to max(norm(rhs,2), tiny)",
+    "method_difference": "relative L2 difference between the two computed free displacement vectors",
+    "archived_solution_difference": "relative L2 difference between each new free solution and the archived displacement",
+    "strain_energy_j": "0.5 * u.T @ K @ u using archived full stiffness and the reconstructed full displacement",
+    "boundary_control_work_j": "0.5 * ub.T @ (K @ u)b; work for linearly ramping the archived prescribed displacements from zero, using the internal force on the constrained boundary",
+    "energy_work_indicator": "abs(strain_energy_j-boundary_control_work_j) / max(abs(strain_energy_j),abs(boundary_control_work_j),tiny)",
+    "continuum_reference": "0.1 J strain energy and +/-100 N axial end resultants for the homogeneous uniaxial field"
+  },
+  "prospective_checks": [
+    "Verify the postprocessor SHA-256 and both input SHA-256 digests before loading or solving.",
+    "Require finite stored stiffness, relative infinity-norm asymmetry <= 100 * float64 epsilon, and positive-definite Kff for Cholesky factorization.",
+    "Require finite reconstructed displacements, reactions, energies and residuals.",
+    "Report all numerical differences descriptively; do not assign an acceptance PASS threshold or change historical status."
+  ],
+  "resource_limits": {
+    "wall_time_seconds": 30,
+    "rss_mib_soft": 512,
+    "process_count": 1,
+    "numeric_threads": 1,
+    "attempts": 1,
+    "temporary_bytes": 16777216,
+    "archive_bytes": 16777216
+  },
+  "artifacts": [
+    "research/j9/verify_hex8_work_method.py",
+    "research/j9/results/diagnostic-2026-11-16/hex8_constant_domain/work_method_postprocess.json",
+    "research/j9/results/diagnostic-2026-11-16/hex8_constant_domain/work_method_attempt_01_error.json",
+    "research/j9/results/diagnostic-2026-11-16/hex8_constant_domain/work_method_attempt_02_error.json",
+    "updated research/j9/results/diagnostic-2026-11-16/sha256_manifest.json",
+    "updated docs/planning/0.3.0-j9-resultats.md"
+  ],
+  "limitations": [
+    "This is a post-processing reconstruction of a tiny stored linear system, not a new FEM execution.",
+    "Both methods use the same archived matrix, so agreement only checks the reduced solve and does not independently verify HEX8-SRI formulation or global-solver behavior.",
+    "The control-work identity applies to the archived linear elastic displacement ramp and does not define a general dynamic or nonlinear acceptance criterion."
+  ]
+}

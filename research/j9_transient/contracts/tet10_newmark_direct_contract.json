@@ -1,0 +1,167 @@
+{
+  "schema": "qf-j9-tet10-newmark-direct-contract-v1",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J9_OWNER_2026-11-16",
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "follow_up_to": {
+    "prior_contract": "research/j9_transient/contracts/tet10_newmark_transient_contract.json",
+    "prior_source_commit": "a8f5a91653c50c51cb51e51b297ed9c2cd623362",
+    "prior_series": "dev-j9-tet10-newmark-20261116-01",
+    "prior_attempt_status": "PYTEST_FAILED",
+    "prior_diagnostic": "Three coarse-mesh direct Newmark histories completed in memory; the subsequent full-order modal route was refused by the supported aggregate validation-work budget at 108 free DOFs. The fine-mesh direct histories did not run and no direct-history artifacts were serialized."
+  },
+  "hypothesis": "The requested time-step and axial mesh indicators can be reported reproducibly by running the direct Newmark route alone; omitting the unsupported full-basis modal comparison avoids the identified validation-work-budget refusal without changing the transient mechanical model or direct integration method.",
+  "baseline": {
+    "branch": "work/0.3.0-j9",
+    "head": "a8f5a91653c50c51cb51e51b297ed9c2cd623362",
+    "j8_base": "737538d8a72e2a5d55d1bfc7a37b09d3e8a44776",
+    "main_at_j8": "be455745f4a1c2cf81cb9448830223107dc39b66"
+  },
+  "source_identity": {
+    "files": [
+      {
+        "path": "src/solveur/elements/solid/tet10.py",
+        "sha256": "a29b8bb118c20ce4b78406b07829a3017357f467af4318b8b6e0ffa72c89bbc5"
+      },
+      {
+        "path": "src/solveur/core/analyses/dynamic.py",
+        "sha256": "4206ce4f6e9f00ad8857eaa004177e9fa193bc3a52b709e558a8eae03b2a8f44"
+      },
+      {
+        "path": "src/solveur/core/analyses/modal_newmark.py",
+        "sha256": "c1db93fd7b0e903afcf63054afce61807bf8bcc2b20ea4ce7e36b3eb6bb6f015"
+      },
+      {
+        "path": "src/solveur/verification/transient_modal_oracle.py",
+        "sha256": "8c998b6a0ceabd5d0428b0296b45b60705eef3279138e4e7faf7565222e5387f"
+      },
+      {
+        "path": "src/solveur/core/analyses/settings.py",
+        "sha256": "5e1720bfb918774e2b38119d2ff6613c4896e07fc2ca0a1a36d18f3fd1bc36a0"
+      }
+    ],
+    "analysis_files": [
+      {
+        "path": "research/j9_transient/tet10_newmark.py",
+        "sha256": "5ff23110cf15ab2b9ba5d7cb40c529852caa51f7eec691a38f29ebbb947cf68f"
+      },
+      {
+        "path": "tests/verification/test_j9_tet10_newmark.py",
+        "sha256": "db72ab769e70158dc947866928a0e41c10611b15cc79ff2e1650f5561ec49d38"
+      }
+    ],
+    "route_evidence": [
+      "src/solveur/core/analyses/dynamic.py::NewmarkDynamicSolver",
+      "tests/unit/test_modal_newmark.py::test_modal_newmark_integrates_each_wp00_family_in_bounded_full_basis[TET10]"
+    ]
+  },
+  "model": {
+    "geometry_m": {
+      "length_x": 2.0,
+      "width_y": 0.4,
+      "height_z": 0.4
+    },
+    "material": {
+      "young_modulus_pa": 70000000000.0,
+      "poisson_ratio": 0.3,
+      "density_kg_m3": 2700.0,
+      "units": "SI"
+    },
+    "mesh": {
+      "family": "TET10",
+      "generation": "structured boxes split into six conforming linear tetrahedra per cube; shared midside nodes by unordered endpoint pair",
+      "levels_cubes": [
+        [
+          2,
+          1,
+          1
+        ],
+        [
+          4,
+          1,
+          1
+        ]
+      ],
+      "refinement_scope": "longitudinal x only; one cube across each transverse direction is retained"
+    },
+    "mass": "consistent TET10 mass assembled by GlobalAssembler",
+    "boundary_conditions": "all UX, UY, UZ fixed on the complete x=0 face",
+    "initial_conditions": "zero displacement and velocity",
+    "load": {
+      "type": "nodal force at the center node of the x=L face",
+      "direction": "negative global Z",
+      "resultant_n": -1.0,
+      "time_function": "piecewise-linear triangular pulse, zero at t=0, peak at T1/8, returns to zero at T1/4, then remains zero"
+    },
+    "newmark": {
+      "beta": 0.25,
+      "gamma": 0.5,
+      "rayleigh_alpha_s_inv": 0.0,
+      "rayleigh_beta_s": 0.0
+    },
+    "observable": {
+      "position": [
+        2.0,
+        0.2,
+        0.2
+      ],
+      "component": "UZ",
+      "unit": "m"
+    }
+  },
+  "reference": {
+    "type": "PiecewiseLinearModalOracle full-order exact state-space propagation",
+    "spatial_operator": "same M and K assembled by GlobalAssembler from the same TET10 model",
+    "method": "generalized symmetric eigen-decomposition and matrix-exponential propagation on each affine load segment; no Newmark recurrence",
+    "steps_per_first_period": [
+      16,
+      32,
+      64
+    ],
+    "duration": "two first-mode periods for each mesh",
+    "limitations": "verifies temporal integration against the semidiscrete model, not TET10 spatial accuracy against a continuum or external solver"
+  },
+  "observables_and_indicators": [
+    "tip UZ history at a fixed physical coordinate",
+    "RMS and peak absolute error against the full-order semidiscrete oracle",
+    "RMS error normalized by oracle peak amplitude",
+    "observed time-step refinement orders, descriptive only",
+    "maximum dynamic residual norm",
+    "post-pulse total-energy range, descriptive only",
+    "first semidiscrete frequency and two-level relative mesh increment",
+    "assembled pulse resultant and positive TET corner volumes"
+  ],
+  "criteria": {
+    "formal_acceptance_thresholds": "none; temporal errors, energy variation, frequency increments, and mesh effects are reported descriptively",
+    "structural_invariants": [
+      "positive tetra corner volumes",
+      "assembled load resultant equals (0,0,-1) N",
+      "finite direct response histories",
+      "the measurement remains at the fixed physical tip-face center",
+      "direct solver result status is PASS"
+    ],
+    "modal_route": "not executed in this follow-up; the prior distinct attempt retains its PYTEST_FAILED status"
+  },
+  "execution": {
+    "nodeid": "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study",
+    "attempts": 1,
+    "budgets": {
+      "timeout_seconds": 1200,
+      "rss_soft_limit_mib": 2048,
+      "process_tree_limit": 4,
+      "output_total_limit_mib": 8,
+      "output_stream_limit_mib": 4,
+      "temporary_limit_mib": 256,
+      "archive_size_limit_mib": 128,
+      "numeric_threads": 1
+    },
+    "semantics": "wall/output limits are enforced by the runner; RSS/process/temp/archive are sampled monitors and not OS quotas"
+  },
+  "artifacts": [
+    "result.json",
+    "result.sha256.json",
+    "tet10_newmark_states.npz",
+    "tet10_newmark_history.csv",
+    "tet10_newmark_mesh.png",
+    "tet10_newmark_history.png"
+  ]
+}

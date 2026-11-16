@@ -1,0 +1,47 @@
+{
+  "schema": "qf-j9-development-scope-registration-v1",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J9_OWNER_2026-11-16",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J9-2026-11-16-v1",
+  "baseline_head": "737538d8a72e2a5d55d1bfc7a37b09d3e8a44776",
+  "main_at_baseline": "be455745f4a1c2cf81cb9448830223107dc39b66",
+  "branch": "work/0.3.0-j9",
+  "worktree_id": "j9",
+  "scope": "fem_exploratory",
+  "source_root": "src",
+  "pytest_root": "tests/verification",
+  "allowed_nodeids": [
+    "tests/verification/test_j9_hex8_controlled_distortion.py::test_j9_hex8_constant_domain_distortion_sweep",
+    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_and_modal_newmark_time_mesh_study",
+    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study"
+  ],
+  "attempt_limit_per_nodeid": 1,
+  "budgets": {
+    "timeout_seconds": 1200,
+    "rss_soft_limit_mib": 2048,
+    "process_tree_limit": 4,
+    "output_total_limit_mib": 8,
+    "output_stream_limit_mib": 4,
+    "temporary_limit_mib": 256,
+    "archive_size_limit_mib": 128
+  },
+  "thread_environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "BLIS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1"
+  },
+  "family_contracts": [
+    "research/j9_hex8/contracts/hex8_constant_domain_distortion_contract.json",
+    "research/j9_transient/contracts/tet10_newmark_transient_contract.json",
+    "research/j9_transient/contracts/tet10_newmark_direct_contract.json"
+  ],
+  "local_policy_path": "development_autonomous_policy.json (ignored local file; absolute worktree path excluded)",
+  "attempt_ledger": ".codex/development-runs/node-attempt-ledger-j9.json",
+  "preflight_required": true,
+  "preflight_consumes_attempt": false,
+  "owner_authorization": "explicit J9 mandate provided in the task; no per-run prompt is required by the registered local development procedure"
+}

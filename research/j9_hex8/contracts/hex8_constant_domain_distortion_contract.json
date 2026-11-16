@@ -1,0 +1,118 @@
+{
+  "schema": "qf-j9-hex8-constant-domain-contract-v1",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J9_OWNER_2026-11-16",
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "baseline": {
+    "branch": "work/0.3.0-j8",
+    "head": "737538d8a72e2a5d55d1bfc7a37b09d3e8a44776",
+    "main_at_j8": "be455745f4a1c2cf81cb9448830223107dc39b66"
+  },
+  "source_identity": {
+    "element": "src/solveur/elements/solid/hex8_sri.py",
+    "hex8_sri_canonical_sha256": "e014652e9efc3912046891348d9dfa76adaa1f8ff084db58e84a9b3d151cf9e4",
+    "formulation_note": "J7 post-correction w0=8; this diagnostic does not change that implementation",
+    "analysis_files": [
+      {
+        "path": "research/j9_hex8/controlled_distortion.py",
+        "sha256": "1a2504094263ecde7dd8d08eebd0455431b3a6838aa741be996b10e7282e49ce"
+      },
+      {
+        "path": "tests/verification/test_j9_hex8_controlled_distortion.py",
+        "sha256": "d8acff9aa120303a3ec5171ff1541996555347ec7451128335bc2a98be9b0431"
+      }
+    ]
+  },
+  "model": {
+    "geometry_m": {
+      "length_x": 20.0,
+      "width_y": 1.0,
+      "height_z": 1.0
+    },
+    "mesh": {
+      "family": "HEX8-SRI",
+      "structured_divisions": [
+        4,
+        2,
+        2
+      ],
+      "nodes": 45,
+      "elements": 16
+    },
+    "material": {
+      "young_modulus_pa": 1000000.0,
+      "poisson_ratio": 0.495,
+      "units": "SI"
+    },
+    "loading_and_boundary": {
+      "type": "prescribed affine displacement on every outer-boundary node; no external nodal traction",
+      "field": [
+        "UX=epsilon*x",
+        "UY=-nu*epsilon*y",
+        "UZ=-nu*epsilon*z"
+      ],
+      "epsilon_x": 0.0001,
+      "free_dofs": "all displacement components on strictly interior mesh nodes"
+    },
+    "distortion": {
+      "mapping": "y_new=y+alpha*height*64*xi*(1-xi)*eta*(1-eta)*zeta*(1-zeta)",
+      "xi_eta_zeta": "normalized coordinates in [0,1]^3",
+      "levels_alpha": [
+        0.0,
+        0.05,
+        0.1,
+        0.15
+      ],
+      "invariant": "bubble vanishes on every exterior face; outer coordinates, boundary mesh, topology, material and prescribed physical field remain fixed"
+    }
+  },
+  "reference": {
+    "type": "independent homogeneous 3D elasticity solution for uniaxial extension with zero lateral stress",
+    "stress_pa": [
+      100.0,
+      0.0,
+      0.0
+    ],
+    "end_force_n": 100.0,
+    "strain_energy_j": 0.1,
+    "limitations": "affine constant-strain patch benchmark; does not exercise non-affine field accuracy or validate the general HEX8-SRI formulation"
+  },
+  "observables": [
+    "minimum and maximum 2x2x2 Gauss Jacobian determinants",
+    "free stiffness condition estimate and free residual",
+    "interior displacement error against the affine field",
+    "left/right axial reaction resultants",
+    "strain energy against the continuum value",
+    "assembled volume and exterior coordinate invariance"
+  ],
+  "criteria": {
+    "mechanical_acceptance_thresholds": "none; errors and condition estimates are descriptive",
+    "structural_invariants": [
+      "all Gauss Jacobians positive",
+      "finite assembled state",
+      "unchanged exterior coordinates/connectivity",
+      "prescribed boundary values exact"
+    ],
+    "verdict_scope": "exploratory only; J7 historical FAIL verdicts remain unchanged"
+  },
+  "execution": {
+    "nodeid": "tests/verification/test_j9_hex8_controlled_distortion.py::test_j9_hex8_constant_domain_distortion_sweep",
+    "attempts": 1,
+    "budgets": {
+      "timeout_seconds": 1200,
+      "rss_soft_limit_mib": 2048,
+      "process_tree_limit": 4,
+      "output_total_limit_mib": 8,
+      "output_stream_limit_mib": 4,
+      "temporary_limit_mib": 256,
+      "archive_size_limit_mib": 128,
+      "numeric_threads": 1
+    },
+    "semantics": "wall/output limits are enforced by the runner; RSS/process/temp/archive are sampled monitors and not OS quotas"
+  },
+  "artifacts": [
+    "result.json",
+    "result.sha256.json",
+    "hex8_distortion_states.npz",
+    "hex8_distortion_study.png"
+  ]
+}

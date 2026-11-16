@@ -1,0 +1,182 @@
+{
+  "schema": "qfsolver.j9.hex8-work-method-postprocess-result.v1",
+  "execution_id": "J9-HEX8-WORK-METHOD-POSTPROCESS-03",
+  "classification": "DEVELOPMENT_EXPLORATORY_POSTPROCESS_NOT_QUALIFICATION",
+  "status": "COMPLETED_EXPLORATORY_POSTPROCESS",
+  "source_head_for_archived_fem_data": "a8f5a91653c50c51cb51e51b297ed9c2cd623362",
+  "contract_sha256": "1049472a4e0bbb27b271653b56f18dc47699c7bd6a4a9dadedd0fb69b9dcd617",
+  "inputs": [
+    {
+      "path": "research/j9/results/diagnostic-2026-11-16/hex8_constant_domain/hex8_distortion_states.npz",
+      "sha256": "82cf441c8c0ad84738114e826553abd18071493b9527b8e8aa0c4ce2bc62c1b3"
+    },
+    {
+      "path": "research/j9/results/diagnostic-2026-11-16/hex8_constant_domain/result.json",
+      "sha256": "171bee39b3aa00062195a32c74517872f78a69f3d4e75d54643679599d6c2eab"
+    }
+  ],
+  "environment": {
+    "python": "3.13.1",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "threadpools": [
+      {
+        "user_api": "blas",
+        "internal_api": "openblas",
+        "num_threads": 12,
+        "prefix": "libscipy_openblas",
+        "filepath": "C:\\Users\\fari\\AppData\\Roaming\\Python\\Python313\\site-packages\\numpy.libs\\libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+        "version": "0.3.29",
+        "threading_layer": "pthreads",
+        "architecture": "Haswell"
+      },
+      {
+        "user_api": "blas",
+        "internal_api": "openblas",
+        "num_threads": 12,
+        "prefix": "libscipy_openblas",
+        "filepath": "C:\\Users\\fari\\AppData\\Roaming\\Python\\Python313\\site-packages\\scipy.libs\\libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+        "version": "0.3.28",
+        "threading_layer": "pthreads",
+        "architecture": "Haswell"
+      }
+    ]
+  },
+  "execution": {
+    "wall_time_seconds": 0.021609399933367968,
+    "peak_rss_sampled_bytes": 60628992,
+    "process_count": 1,
+    "temporary_bytes": 0,
+    "archive_bytes": 0,
+    "solver_source_modified": false
+  },
+  "work_definition": "0.5 * ub.T @ (K @ u)b; work for linearly ramping the archived prescribed displacements from zero, using the internal force on the constrained boundary",
+  "interpretation": "Agreement is limited to two direct solves of each same archived 9-DOF system and an energy/work identity for the archived linear displacement ramp; no new FEM solve or general HEX8-SRI qualification is performed.",
+  "levels": [
+    {
+      "distortion_amplitude_fraction_of_height": 0.0,
+      "interior_free_dof_count": 9,
+      "archived_condition_2_estimate": 43.50148897273195,
+      "relative_stiffness_symmetry_indicator": 0.0,
+      "numpy_vs_scipy_relative_solution_difference": 1.2991046562985886e-16,
+      "methods": [
+        {
+          "method": "numpy.linalg.solve",
+          "free_residual_norm_n": 1.2862197421537486e-12,
+          "free_residual_relative_to_rhs": 1.0921023442488945e-16,
+          "free_displacement_relative_difference_from_archived": 0.0,
+          "energy_j": 0.09999999999999958,
+          "boundary_control_work_j": 0.09999999999999834,
+          "energy_work_relative_difference": 1.2351231148954919e-14,
+          "energy_relative_difference_from_continuum_reference": -4.3021142204224816e-15,
+          "max_reaction_difference_from_archived_n": 1.5916157281026244e-12
+        },
+        {
+          "method": "scipy.linalg.cho_solve",
+          "free_residual_norm_n": 1.4380373887290168e-12,
+          "free_residual_relative_to_rhs": 1.2210075400637024e-16,
+          "free_displacement_relative_difference_from_archived": 1.2991046562985883e-16,
+          "energy_j": 0.09999999999999927,
+          "boundary_control_work_j": 0.09999999999999849,
+          "energy_work_relative_difference": 7.771561172376153e-15,
+          "energy_relative_difference_from_continuum_reference": -7.355227538141662e-15,
+          "max_reaction_difference_from_archived_n": 1.5916157281026244e-12
+        }
+      ]
+    },
+    {
+      "distortion_amplitude_fraction_of_height": 0.05,
+      "interior_free_dof_count": 9,
+      "archived_condition_2_estimate": 43.50359503852652,
+      "relative_stiffness_symmetry_indicator": 0.0,
+      "numpy_vs_scipy_relative_solution_difference": 1.639124652546745e-16,
+      "methods": [
+        {
+          "method": "numpy.linalg.solve",
+          "free_residual_norm_n": 1.3642420526593924e-12,
+          "free_residual_relative_to_rhs": 1.1320120302077138e-16,
+          "free_displacement_relative_difference_from_archived": 0.0,
+          "energy_j": 0.10000000000000195,
+          "boundary_control_work_j": 0.10000000000000123,
+          "energy_work_relative_difference": 7.216449660063377e-15,
+          "energy_relative_difference_from_continuum_reference": 1.942890293094024e-14,
+          "max_reaction_difference_from_archived_n": 1.4210854715202004e-12
+        },
+        {
+          "method": "scipy.linalg.cho_solve",
+          "free_residual_norm_n": 1.5082263372984925e-12,
+          "free_residual_relative_to_rhs": 1.2514863874558166e-16,
+          "free_displacement_relative_difference_from_archived": 1.6391246525467453e-16,
+          "energy_j": 0.10000000000000246,
+          "boundary_control_work_j": 0.10000000000000116,
+          "energy_work_relative_difference": 1.3045120539345267e-14,
+          "energy_relative_difference_from_continuum_reference": 2.456368441983159e-14,
+          "max_reaction_difference_from_archived_n": 2.3305801732931286e-12
+        }
+      ]
+    },
+    {
+      "distortion_amplitude_fraction_of_height": 0.1,
+      "interior_free_dof_count": 9,
+      "archived_condition_2_estimate": 43.50891363798355,
+      "relative_stiffness_symmetry_indicator": 0.0,
+      "numpy_vs_scipy_relative_solution_difference": 1.7382683540438044e-16,
+      "methods": [
+        {
+          "method": "numpy.linalg.solve",
+          "free_residual_norm_n": 6.431098710768743e-13,
+          "free_residual_relative_to_rhs": 5.1885935383772364e-17,
+          "free_displacement_relative_difference_from_archived": 0.0,
+          "energy_j": 0.09999999999999806,
+          "boundary_control_work_j": 0.09999999999999852,
+          "energy_work_relative_difference": 4.5796699765788386e-15,
+          "energy_relative_difference_from_continuum_reference": -1.942890293094024e-14,
+          "max_reaction_difference_from_archived_n": 1.8189894035458565e-12
+        },
+        {
+          "method": "scipy.linalg.cho_solve",
+          "free_residual_norm_n": 1.7015087845602199e-12,
+          "free_residual_relative_to_rhs": 1.3727728156742836e-16,
+          "free_displacement_relative_difference_from_archived": 1.7382683540438044e-16,
+          "energy_j": 0.0999999999999979,
+          "boundary_control_work_j": 0.0999999999999985,
+          "energy_work_relative_difference": 6.1062266354384525e-15,
+          "energy_relative_difference_from_continuum_reference": -2.1094237467877974e-14,
+          "max_reaction_difference_from_archived_n": 1.8189894035458565e-12
+        }
+      ]
+    },
+    {
+      "distortion_amplitude_fraction_of_height": 0.15,
+      "interior_free_dof_count": 9,
+      "archived_condition_2_estimate": 43.51427945353118,
+      "relative_stiffness_symmetry_indicator": 0.0,
+      "numpy_vs_scipy_relative_solution_difference": 2.3906689299947214e-16,
+      "methods": [
+        {
+          "method": "numpy.linalg.solve",
+          "free_residual_norm_n": 1.016845989170083e-12,
+          "free_residual_relative_to_rhs": 7.93667924655101e-17,
+          "free_displacement_relative_difference_from_archived": 0.0,
+          "energy_j": 0.09999999999999833,
+          "boundary_control_work_j": 0.099999999999999,
+          "energy_work_relative_difference": 6.800116025829152e-15,
+          "energy_relative_difference_from_continuum_reference": -1.6792123247455493e-14,
+          "max_reaction_difference_from_archived_n": 2.7284841053187847e-12
+        },
+        {
+          "method": "scipy.linalg.cho_solve",
+          "free_residual_norm_n": 2.9819777975271792e-12,
+          "free_residual_relative_to_rhs": 2.327491237746445e-16,
+          "free_displacement_relative_difference_from_archived": 2.3906689299947214e-16,
+          "energy_j": 0.09999999999999803,
+          "boundary_control_work_j": 0.09999999999999745,
+          "energy_work_relative_difference": 5.828670879282186e-15,
+          "energy_relative_difference_from_continuum_reference": -1.970645868709653e-14,
+          "max_reaction_difference_from_archived_n": 3.637978807091713e-12
+        }
+      ]
+    }
+  ]
+}

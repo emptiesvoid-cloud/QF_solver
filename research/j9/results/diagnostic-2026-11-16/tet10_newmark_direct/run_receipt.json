@@ -1,0 +1,110 @@
+{
+  "attempt": 1,
+  "branch": "work/0.3.0-j9",
+  "budgets": {
+    "archive_size_limit_mib": 128,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 256,
+    "timeout_seconds": 1200
+  },
+  "command_root_relative": [
+    "python",
+    "scripts/development_autonomous.py",
+    "test",
+    "--scope",
+    "fem_exploratory",
+    "--worktree",
+    "j9",
+    "--target",
+    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study",
+    "--preflight-id",
+    "pf-b8257c4b620e",
+    "--series",
+    "dev-j9-tet10-direct-only-20261116-01",
+    "--reason",
+    "Follow-up hypothesis: run the independently contracted direct Newmark time/mesh study without the full-basis modal extraction that exceeded the solver's supported validation-work budget"
+  ],
+  "contract_sha256": "7b0e47c29ec71164fc9d8fcf2ad6b6a5dae436bcce6fa479fc980754f2b331ab",
+  "elapsed_seconds": 16.493795699905604,
+  "execution_state": "PASS",
+  "finished_at_utc": "2026-11-16T18:25:28.083058+00:00",
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-J9-2026-11-16-v1",
+  "nodeid": "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study",
+  "outputs": [
+    {
+      "bytes": 9389,
+      "path": "result.json",
+      "sha256": "e84942c11a7f5ecb400b0e83dfabc71755842121233d587968b9500cd78f53a0"
+    },
+    {
+      "bytes": 83,
+      "path": "result.sha256.json",
+      "sha256": "08b2735fe2cd82ba2568839e4b17b28a21bf03000098cbedc9894a548900b5b4"
+    },
+    {
+      "bytes": 52802,
+      "path": "tet10_newmark_history.csv",
+      "sha256": "4bb29a1a5a48a5c51371df90416aff47d72d6ffebb3950dd7da0f63e99d9f267"
+    },
+    {
+      "bytes": 152378,
+      "path": "tet10_newmark_history.png",
+      "sha256": "f2362db1e43cf3e730301fbc10f438d9e2a9903c2771cc15c936cd65836b9b52"
+    },
+    {
+      "bytes": 192532,
+      "path": "tet10_newmark_mesh.png",
+      "sha256": "17fe6d6dc24fe29278cce1a00cf744676f5e5f9173ff16c9637594bb7a64ccbe"
+    },
+    {
+      "bytes": 77905,
+      "path": "tet10_newmark_states.npz",
+      "sha256": "6163471e3d3e954cd03e6c41344de92c844f721529668d0e624d7d12c2571ca8"
+    }
+  ],
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J9_OWNER_2026-11-16",
+  "preflight": {
+    "preflight_id": "pf-b8257c4b620e",
+    "receipt_sha256": "ffec3537703f42330a88e8ce73a79a20bdba85e297a9e59c947791199a9ac8e1",
+    "state": "PREFLIGHT_PASS"
+  },
+  "raw_runner_record": "retained only in the ignored local development-run store; it contains local paths",
+  "reason": "Follow-up hypothesis: run the independently contracted direct Newmark time/mesh study without the full-basis modal extraction that exceeded the solver's supported validation-work budget",
+  "resources_observed": {
+    "archive_bytes": 485634,
+    "peak_process_count": 1,
+    "peak_rss_bytes": 178814976,
+    "peak_rss_mib": 170.53125,
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 545,
+    "stdout_sha256": "02077bef243e3bc89728342f961d6ec8de524e7dabaec5bf36ffb7673dc819e4",
+    "temporary_bytes": 0
+  },
+  "return_code": 0,
+  "runtime": {
+    "local_policy_sha256": "830ae7000f86d2effdff50e1643ef5a78238c046ea0466e6fe5f99f5ac9e6051",
+    "psutil_version": "7.2.2",
+    "pytest_plugin_sha256": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
+    "pytest_version": "8.4.1",
+    "python_version": "3.13.1",
+    "runner_sha256": "d04153a9fe0e89d625d3cf9643820b554c417ba1d526dd975c4569fe08140c11",
+    "threadpools": [
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "user_api": "blas",
+        "version": "0.3.29"
+      }
+    ]
+  },
+  "schema": "qf-j9-sanitized-run-receipt-v1",
+  "series_id": "dev-j9-tet10-direct-only-20261116-01",
+  "source_fingerprint": "57cea083477f77595269dad8aa21cce1f601a0c2935fd9c59e4f13a33b9339ad",
+  "source_head": "88cd0b1cd51d2eb708afd881c3f8130f59a31f1e",
+  "started_at_utc": "2026-11-16T18:25:11.576539+00:00"
+}

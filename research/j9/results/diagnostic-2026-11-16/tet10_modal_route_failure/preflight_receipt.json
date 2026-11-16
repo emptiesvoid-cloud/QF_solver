@@ -1,0 +1,52 @@
+{
+  "archive_bytes": 574,
+  "command_root_relative": [
+    "python",
+    "scripts/development_autonomous.py",
+    "preflight",
+    "--worktree",
+    "j9",
+    "--target",
+    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_and_modal_newmark_time_mesh_study",
+    "--preflight-id",
+    "pf-7c21a48ef3d0"
+  ],
+  "elapsed_seconds": 5.165863299975172,
+  "finished_at_utc": "2026-11-16T18:18:26.054467+00:00",
+  "free_disk_after_bytes": 37561442304,
+  "free_disk_before_bytes": 37576384512,
+  "nodeid": "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_and_modal_newmark_time_mesh_study",
+  "peak_process_count": 1,
+  "peak_rss_bytes": 159305728,
+  "preflight_id": "pf-7c21a48ef3d0",
+  "receipt_sha256": "82df285ec80dcbaebf7a4651d55e3f733b34a6641363489614fdb34db6a593d2",
+  "schema": "qf-j9-sanitized-preflight-v1",
+  "source_fingerprint": "1851125239bb9f06434ae98119a5f6fc27a6e890a27bc28d47576f4b8c50a7a3",
+  "source_head": "a8f5a91653c50c51cb51e51b297ed9c2cd623362",
+  "started_at_utc": "2026-11-16T18:18:17.054152+00:00",
+  "state": "PREFLIGHT_PASS",
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_bytes": 574,
+  "stdout_sha256": "65720a7cf6e697482eaf8912deffdc9e2942a88425f04b489f097e08bbdeec5d",
+  "temporary_bytes": 0,
+  "thread_environment": {
+    "BLIS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "threadpools": [
+    {
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "user_api": "blas",
+      "version": "0.3.29"
+    }
+  ]
+}

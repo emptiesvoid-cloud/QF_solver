@@ -8,6 +8,25 @@ tests/unit/test_wpc02_ar_native_manifest_contract.py whitespace=cr-at-eol
 # WP-E01 reviewed numerical test modules are SHA-256-bound by tests/unit/conftest.py.
 tests/unit/test_wp_e01m_hencky_material_point.py text eol=lf
 tests/unit/test_wp_e01q_hencky_tangent.py text eol=lf
+# J9 source identities and result manifests pin byte-level SHA-256 digests.
+research/j9/**/*.py text eol=lf
+research/j9/**/*.md text eol=lf
+research/j9/**/*.json text eol=crlf
+research/j9/**/*.csv text eol=crlf
+# Preserve contract byte digests embedded in the HEX8 post-processing receipts.
+research/j9/hex8_work_method_postprocess_contract.json text eol=lf
+research/j9/hex8_work_method_postprocess_retry_contract.json text eol=lf
+research/j9/hex8_work_method_postprocess_attempt_03_contract.json text eol=lf
+research/j9/execution_scope_registration.json text eol=lf
+research/j9/results/**/result.json text eol=lf
+research/j9/results/**/result.sha256.json text eol=lf
+research/j9_hex8/**/*.py text eol=lf
+research/j9_hex8/**/*.json text eol=crlf
+research/j9_transient/**/*.py text eol=lf
+research/j9_transient/**/*.json text eol=crlf
+tests/verification/test_j9_hex8_controlled_distortion.py text eol=lf
+tests/verification/test_j9_tet10_newmark.py text eol=lf
+tests/unit/test_development_autonomous_j9_registration.py text eol=lf
 # The WP06F migration audit verifies this document's exact historical byte delta.
 docs/verification/0_2_9/wp06f-closure-contract.md text eol=lf
 qualification/0_2_9/wp08d_phase1/M2/** -text

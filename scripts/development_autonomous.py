@@ -136,6 +136,21 @@ J8_HEX8_THREAD_ENVIRONMENT = {
     "BLIS_NUM_THREADS": "1",
     "TBB_NUM_THREADS": "1",
 }
+J9_NODEIDS = (
+    "tests/verification/test_j9_hex8_controlled_distortion.py::test_j9_hex8_constant_domain_distortion_sweep",
+    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_and_modal_newmark_time_mesh_study",
+    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study",
+)
+J9_BUDGETS = {
+    "timeout_seconds": 1200,
+    "rss_soft_limit_mib": 2048,
+    "process_tree_limit": 4,
+    "output_total_limit_mib": 8,
+    "output_stream_limit_mib": 4,
+    "temporary_limit_mib": 256,
+    "archive_size_limit_mib": 128,
+}
+J9_THREAD_ENVIRONMENT = dict(J8_HEX8_THREAD_ENVIRONMENT)
 
 
 class PolicyError(ValueError):
@@ -285,8 +300,8 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         if scope["output_total_limit_mib"] > 2 * scope["output_stream_limit_mib"]:
             raise PolicyError(f"scope {name} total output limit exceeds its two stream limits")
     worktrees = policy.get("worktrees")
-    if not isinstance(worktrees, dict) or set(worktrees) != {"d01", "c01", "e01", "j7_static", "j8_hex8"}:
-        raise PolicyError("the authorized worktree registry must contain exactly d01, c01, e01, j7_static, and j8_hex8")
+    if not isinstance(worktrees, dict) or set(worktrees) != {"d01", "c01", "e01", "j7_static", "j8_hex8", "j9"}:
+        raise PolicyError("the authorized worktree registry must contain exactly d01, c01, e01, j7_static, j8_hex8, and j9")
     required_budget_fields = (
         "timeout_seconds",
         "rss_soft_limit_mib",
@@ -413,6 +428,26 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         raise PolicyError("J8 numerical/time/storage limits must match the frozen contract")
     if j8.get("thread_environment") != J8_HEX8_THREAD_ENVIRONMENT:
         raise PolicyError("J8 numerical libraries must be restricted to one thread")
+    j9 = worktrees["j9"]
+    if j9.get("owner_mandate_id") != "QF_SOLVER_0.3.0_J9_OWNER_2026-11-16":
+        raise PolicyError("J9 requires its distinct Owner mandate identity")
+    if j9.get("development_mandate_id") != "DEVELOPMENT_AUTONOMOUS-J9-2026-11-16-v1":
+        raise PolicyError("J9 requires its distinct development attempt namespace")
+    if j9.get("allowed_nodeids") != list(J9_NODEIDS):
+        raise PolicyError("J9 allowlist must contain only its exact HEX8 and TET10 diagnostic nodes")
+    if j9.get("attempt_limits_per_nodeid") != {nodeid: 1 for nodeid in J9_NODEIDS}:
+        raise PolicyError("J9 permits one attempt per exact registered nodeid")
+    if j9.get("require_clean_worktree") is not True:
+        raise PolicyError("J9 requires a clean isolated source worktree")
+    if j9.get("node_attempt_ledger") != {
+        "path": "node-attempt-ledger-j9.json",
+        "mandate_id": "DEVELOPMENT_AUTONOMOUS-J9-2026-11-16-v1",
+    }:
+        raise PolicyError("J9 requires its own persistent attempt ledger")
+    if j9.get("budgets") != J9_BUDGETS:
+        raise PolicyError("J9 resource limits must match the frozen family contracts")
+    if j9.get("thread_environment") != J9_THREAD_ENVIRONMENT:
+        raise PolicyError("J9 numerical libraries must be restricted to one thread")
     return policy
 
 
@@ -597,6 +632,7 @@ def build_child_environment(
         if dict(thread_environment) not in (
             STATIC_PILOT_01_THREAD_ENVIRONMENT,
             J8_HEX8_THREAD_ENVIRONMENT,
+            J9_THREAD_ENVIRONMENT,
         ):
             raise PolicyError("registered numerical thread environment differs from an approved fixed one-thread setting")
         environment.update(thread_environment)
@@ -1804,7 +1840,7 @@ def _node_ledger_context(
 
 def _series_root(store: Path, scope_name: str, worktree_id: str | None) -> Path:
     if worktree_id is not None:
-        if worktree_id not in {"d01", "c01", "e01", "j7_static", "j8_hex8"}:
+        if worktree_id not in {"d01", "c01", "e01", "j7_static", "j8_hex8", "j9"}:
             raise PolicyError("unknown worktree output namespace")
         return store / "worktrees" / worktree_id
     if scope_name not in STANDARD_SCOPES:
@@ -1849,6 +1885,8 @@ def preflight_pytest(
         return _preflight_static_pilot_pytest(target, preflight_id)
     if worktree_id == "j8_hex8":
         return _preflight_j8_hex8_pytest(target, preflight_id)
+    if worktree_id == "j9":
+        return _preflight_j9_pytest(target, preflight_id)
     policy = load_policy()
     if worktree_id != "d01":
         raise PolicyError("collect-only preflight is currently enabled only for the D01 native nodes")
@@ -2434,6 +2472,212 @@ def _validate_j8_hex8_preflight_receipt(
     return record_path, actual_hash
 
 
+def _preflight_j9_pytest(target: str, preflight_id: str | None = None) -> dict[str, Any]:
+    """Collect one exact J9 node and verify the isolated one-thread environment."""
+    policy = load_policy()
+    worktree_id = "j9"
+    targets = resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
+    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
+        worktree_id, target, policy
+    )
+    store = _run_root(policy)
+    _ledger_path, _ledger_lock, mandate_id, predecessor = _node_ledger_context(policy, store, worktree_id)
+    if predecessor is not None or mandate_id != entry["development_mandate_id"]:
+        raise PolicyError("J9 preflight is not bound to its distinct development envelope")
+    if psutil is None:
+        raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
+    free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free)
+    minimum_free = int(policy["minimum_free_disk_mib"] * 1024 * 1024)
+    if free_bytes < minimum_free:
+        raise PolicyError(f"insufficient free disk for J9 preflight: {free_bytes} bytes; requires {minimum_free}")
+
+    preflight_id = preflight_id or f"pf-{uuid.uuid4().hex[:12]}"
+    receipt_dir = _preflight_directory(store, worktree_id, preflight_id)
+    if receipt_dir.exists():
+        raise PolicyError("preflight ID already exists; refusing to overwrite a prior receipt")
+    temporary_dir = receipt_dir / "tmp"
+    output_dir = receipt_dir / "output"
+    temporary_dir.mkdir(parents=True)
+    output_dir.mkdir()
+    command = build_pytest_command(
+        "fem_exploratory",
+        targets,
+        temporary_dir,
+        repository_root=execution_root,
+        source_root=source_root,
+        controller_root=ROOT,
+        allow_native_skip_override=False,
+        collect_only=True,
+        threadpool_max_threads=1,
+    )
+    if "--collect-only" not in command:
+        raise PolicyError("J9 readiness preflight must be pytest collect-only")
+    environment = build_child_environment(
+        temporary_dir,
+        source_root=source_root,
+        thread_environment=entry["thread_environment"],
+    )
+    limits = dict(entry["budgets"])
+    limits["minimum_free_disk_mib"] = policy["minimum_free_disk_mib"]
+    started = datetime.now(timezone.utc).isoformat()
+    record_path = receipt_dir / "preflight.json"
+    initial = {
+        "schema": "qfsolver-development-j9-preflight-v1",
+        "mode": "DEVELOPMENT_AUTONOMOUS",
+        "owner_mandate_id": entry["owner_mandate_id"],
+        "mandate_id": mandate_id,
+        "worktree_id": worktree_id,
+        "target": target,
+        "preflight_id": preflight_id,
+        "phase": "PYTEST_COLLECT_ONLY",
+        "bodies_executed": False,
+        "identity": identity,
+        "source_fingerprint": source_fingerprint,
+        "solver_origin_expected": str((source_root / "solveur" / "__init__.py").resolve()),
+        "controller_provenance": _controller_provenance(),
+        "thread_environment": dict(entry["thread_environment"]),
+        "command": command,
+        "budgets": limits,
+        "budget_semantics": {
+            "wall_timeout": "watchdog-triggered process-tree termination; best-effort OS control",
+            "rss": "sampled soft monitor; not a hard memory/commit limit",
+            "process_count": "sampled process-tree monitor; not a job-object boundary",
+            "captured_output": "application-enforced byte caps on captured stdout/stderr",
+            "temporary_and_archive_size": "sampled size monitoring; not an NTFS quota",
+            "numerical_threads": "fixed environment plus threadpoolctl verification before pytest collection",
+        },
+        "free_disk_before_bytes": free_bytes,
+    }
+    with _exclusive_file_lock(store / "locks" / "fem-exploratory.lock"):
+        try:
+            result = run_supervised_command(
+                command,
+                cwd=execution_root,
+                environment=environment,
+                output_dir=output_dir,
+                temporary_dir=temporary_dir,
+                limits=limits,
+                poll_interval=float(policy["poll_interval_seconds"]),
+            )
+        except OSError as exc:
+            _atomic_json(record_path, {
+                **initial,
+                "state": "PREFLIGHT_LAUNCH_FAILED",
+                "started_at_utc": started,
+                "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+                "launch_error": f"{type(exc).__name__}: {exc}",
+            })
+            raise PolicyError(f"J9 collect-only preflight could not launch: {exc}") from exc
+
+    stdout_path = output_dir / "stdout.log"
+    stderr_path = output_dir / "stderr.log"
+    stdout = stdout_path.read_text(encoding="utf-8", errors="replace") if stdout_path.is_file() else ""
+    stderr = stderr_path.read_text(encoding="utf-8", errors="replace") if stderr_path.is_file() else ""
+    combined = stdout + "\n" + stderr
+    origin_line = f"QF_DEV_SOLVER_ORIGIN={initial['solver_origin_expected']}"
+    threadpool_info = _static_pilot_threadpool_info(combined)
+    collected = target in combined.splitlines()
+    pools_limited = bool(threadpool_info) and all(pool.get("num_threads") == 1 for pool in threadpool_info)
+    after_entry, _after_root, _after_source, after_identity, after_fingerprint = _registered_worktree(
+        worktree_id, target, policy
+    )
+    if after_identity != identity or after_fingerprint != source_fingerprint or after_entry != entry:
+        state = "PREFLIGHT_SOURCE_CHANGED"
+    elif result.status != "PASS":
+        state = "PREFLIGHT_FAILED"
+    elif origin_line not in combined:
+        state = "PREFLIGHT_WRONG_SOLVER_ORIGIN"
+    elif not pools_limited:
+        state = "PREFLIGHT_THREAD_LIMIT_NOT_CONFIRMED"
+    elif not collected:
+        state = "PREFLIGHT_NODEID_NOT_CONFIRMED"
+    else:
+        state = "PREFLIGHT_PASS"
+    final = {
+        **initial,
+        "state": state,
+        "started_at_utc": started,
+        "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+        "collected_nodeids": [target] if collected else [],
+        "solver_origin_observed": origin_line if origin_line in combined else None,
+        "threadpool_info": threadpool_info,
+        "return_code": result.return_code,
+        "elapsed_seconds": result.elapsed_seconds,
+        "peak_rss_bytes": result.peak_rss_bytes,
+        "peak_process_count": result.peak_process_count,
+        "stdout_bytes": result.stdout_bytes,
+        "stderr_bytes": result.stderr_bytes,
+        "stdout_sha256": _sha256(stdout_path),
+        "stderr_sha256": _sha256(stderr_path),
+        "archive_bytes": result.archive_bytes,
+        "temporary_bytes": result.temporary_bytes,
+        "stop_reason": result.stop_reason,
+        "identity_after": after_identity,
+        "source_fingerprint_after": after_fingerprint,
+        "free_disk_after_bytes": min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free),
+    }
+    _atomic_json(record_path, final)
+    receipt_sha256 = _sha256(record_path)
+    _atomic_json(receipt_dir / "preflight.sha256.json", {"sha256": receipt_sha256})
+    return {
+        "preflight_id": preflight_id,
+        "state": state,
+        "bodies_executed": False,
+        "nodeid": target if collected else None,
+        "receipt": str(record_path),
+        "receipt_sha256": receipt_sha256,
+        "metrics": final,
+    }
+
+
+def _validate_j9_preflight_receipt(
+    store: Path,
+    preflight_id: str,
+    *,
+    target: str,
+    identity: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+    thread_environment: Mapping[str, str],
+) -> tuple[Path, str]:
+    receipt_dir = _preflight_directory(store, "j9", preflight_id)
+    record_path = receipt_dir / "preflight.json"
+    sha_path = receipt_dir / "preflight.sha256.json"
+    if not record_path.is_file() or not sha_path.is_file():
+        raise PolicyError("a successful exact-node J9 collect-only preflight is required before reserving FEM")
+    try:
+        receipt = json.loads(record_path.read_text(encoding="utf-8"))
+        sidecar = json.loads(sha_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"J9 preflight receipt is unreadable: {exc}") from exc
+    actual_hash = _sha256(record_path)
+    threadpools = receipt.get("threadpool_info")
+    if (
+        sidecar.get("sha256") != actual_hash
+        or receipt.get("schema") != "qfsolver-development-j9-preflight-v1"
+        or receipt.get("state") != "PREFLIGHT_PASS"
+        or receipt.get("bodies_executed") is not False
+        or receipt.get("owner_mandate_id") != "QF_SOLVER_0.3.0_J9_OWNER_2026-11-16"
+        or receipt.get("mandate_id") != "DEVELOPMENT_AUTONOMOUS-J9-2026-11-16-v1"
+        or receipt.get("worktree_id") != "j9"
+        or receipt.get("target") != target
+        or receipt.get("preflight_id") != preflight_id
+        or receipt.get("identity") != dict(identity)
+        or receipt.get("source_fingerprint") != source_fingerprint
+        or receipt.get("controller_provenance") != dict(controller_provenance)
+        or receipt.get("thread_environment") != dict(thread_environment)
+        or receipt.get("solver_origin_observed") != (
+            "QF_DEV_SOLVER_ORIGIN=" + str(receipt.get("solver_origin_expected"))
+        )
+        or receipt.get("collected_nodeids") != [target]
+        or not isinstance(threadpools, list)
+        or not threadpools
+        or any(pool.get("num_threads") != 1 for pool in threadpools)
+    ):
+        raise PolicyError("J9 preflight does not match this exact source, controller, thread environment or nodeid")
+    return record_path, actual_hash
+
+
 def _validate_static_pilot_preflight_receipt(
     store: Path,
     preflight_id: str,
@@ -2597,12 +2841,12 @@ def run_pytest(
             if attempt_basis not in D01_ATTEMPT_BASES:
                 raise PolicyError("D01 FEM attempts require a classified attempt basis")
             ledger_context = _node_ledger_context(policy, _run_root(policy), worktree_id)
-        elif worktree_id == "j8_hex8":
+        elif worktree_id in {"j8_hex8", "j9"}:
             if preflight_id is None:
-                raise PolicyError("J8 FEM attempts require a successful exact-node collect-only preflight first")
+                raise PolicyError(f"{worktree_id.upper()} FEM attempts require a successful exact-node collect-only preflight first")
             ledger_context = _node_ledger_context(policy, _run_root(policy), worktree_id)
         elif preflight_id is not None:
-            raise PolicyError("preflight receipt IDs are supported only for the D01, J8, and static-pilot envelopes")
+            raise PolicyError("preflight receipt IDs are supported only for the D01, J8, J9, and static-pilot envelopes")
         if owner_approval_id is not None and worktree_id != "static_pilot_01":
             raise PolicyError("Owner approval receipt IDs are valid only for the static pilot")
         if worktree_id == "static_pilot_01" and (attempt_basis is not None or hypothesis_id is not None):
@@ -2661,6 +2905,17 @@ def run_pytest(
     elif worktree_id == "j8_hex8":
         assert preflight_id is not None and target is not None and source_fingerprint is not None and entry is not None
         preflight_receipt = _validate_j8_hex8_preflight_receipt(
+            store,
+            preflight_id,
+            target=target,
+            identity=identity,
+            source_fingerprint=source_fingerprint,
+            controller_provenance=controller_provenance,
+            thread_environment=entry["thread_environment"],
+        )
+    elif worktree_id == "j9":
+        assert preflight_id is not None and target is not None and source_fingerprint is not None and entry is not None
+        preflight_receipt = _validate_j9_preflight_receipt(
             store,
             preflight_id,
             target=target,
@@ -2751,7 +3006,7 @@ def run_pytest(
             controller_root=ROOT,
             allow_native_skip_override=bool(entry and entry["allow_native_vv_skip_override"]),
             junit_xml_path=(output_dir / "pytest-results.xml") if worktree_id in {"d01", "static_pilot_01"} else None,
-            threadpool_max_threads=1 if worktree_id in {"static_pilot_01", "j8_hex8"} else None,
+            threadpool_max_threads=1 if worktree_id in {"static_pilot_01", "j8_hex8", "j9"} else None,
         )
         static_context = None
         if worktree_id == "static_pilot_01":
@@ -2767,7 +3022,7 @@ def run_pytest(
             base=inherited_environment,
             source_root=source_root,
             d01_source_sha=identity["head"] if worktree_id == "d01" else None,
-            thread_environment=entry["thread_environment"] if worktree_id in {"static_pilot_01", "j8_hex8"} else None,
+            thread_environment=entry["thread_environment"] if worktree_id in {"static_pilot_01", "j8_hex8", "j9"} else None,
             static_pilot_context=static_context,
         )
         child_native_guard = _validate_native_guard_environment(inherited_environment, environment)
@@ -2957,7 +3212,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "preflight",
         help="collect one exact registered node without running its test body or consuming an attempt",
     )
-    preflight_parser.add_argument("--worktree", choices=("d01", "j8_hex8", "static_pilot_01"), required=True)
+    preflight_parser.add_argument("--worktree", choices=("d01", "j8_hex8", "j9", "static_pilot_01"), required=True)
     preflight_parser.add_argument("--target", required=True)
     preflight_parser.add_argument("--preflight-id", help="optional unused pf-<12 lowercase hex> ID")
     test_parser = subparsers.add_parser("test", help="run one fixed development pytest scope")
@@ -2966,7 +3221,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     test_parser.add_argument("--series", help="development-only dev-* series ID for bounded follow-up attempts")
     test_parser.add_argument("--worktree", help="registered worktree ID for an exact development nodeid")
     test_parser.add_argument("--reason", help="short documented development hypothesis/reason for a registered nodeid attempt")
-    test_parser.add_argument("--preflight-id", help="successful exact-node D01 or J8 collect-only receipt ID")
+    test_parser.add_argument("--preflight-id", help="successful exact-node D01, J8, or J9 collect-only receipt ID")
     test_parser.add_argument("--attempt-basis", choices=D01_ATTEMPT_BASES, help="D01 baseline/change/hypothesis classification")
     test_parser.add_argument("--hypothesis-id", help="unique ID required for a same-input new diagnostic hypothesis")
     test_parser.add_argument("--owner-approval-id", help="final Owner approval receipt ID required by the static pilot")

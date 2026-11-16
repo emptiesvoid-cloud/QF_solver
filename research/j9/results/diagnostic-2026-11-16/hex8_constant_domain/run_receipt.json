@@ -1,0 +1,100 @@
+{
+  "attempt": 1,
+  "branch": "work/0.3.0-j9",
+  "budgets": {
+    "archive_size_limit_mib": 128,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 256,
+    "timeout_seconds": 1200
+  },
+  "command_root_relative": [
+    "python",
+    "scripts/development_autonomous.py",
+    "test",
+    "--scope",
+    "fem_exploratory",
+    "--worktree",
+    "j9",
+    "--target",
+    "tests/verification/test_j9_hex8_controlled_distortion.py::test_j9_hex8_constant_domain_distortion_sweep",
+    "--preflight-id",
+    "pf-f4b9d0310d27",
+    "--series",
+    "dev-j9-hex8-distortion-20261116-01",
+    "--reason",
+    "Isolate interior HEX8 mesh distortion while preserving the same outer physical block, material, prescribed affine field, and boundary topology"
+  ],
+  "contract_sha256": "82168c14176dea137a0b3188ee625d84989b47fc22f44309382dc6433441fbb1",
+  "elapsed_seconds": 5.169987800065428,
+  "execution_state": "PASS",
+  "finished_at_utc": "2026-11-16T18:18:08.035882+00:00",
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-J9-2026-11-16-v1",
+  "nodeid": "tests/verification/test_j9_hex8_controlled_distortion.py::test_j9_hex8_constant_domain_distortion_sweep",
+  "outputs": [
+    {
+      "bytes": 66913,
+      "path": "hex8_distortion_states.npz",
+      "sha256": "82cf441c8c0ad84738114e826553abd18071493b9527b8e8aa0c4ce2bc62c1b3"
+    },
+    {
+      "bytes": 146453,
+      "path": "hex8_distortion_study.png",
+      "sha256": "39abdb335252b41d45252e80721e40bb737e10664191ff56d2273304be129375"
+    },
+    {
+      "bytes": 7868,
+      "path": "result.json",
+      "sha256": "171bee39b3aa00062195a32c74517872f78a69f3d4e75d54643679599d6c2eab"
+    },
+    {
+      "bytes": 83,
+      "path": "result.sha256.json",
+      "sha256": "13efe6a3ab2cca46f10271d2685a04a0d31bb10ef9b5ed7f2da9b8221fcccb2c"
+    }
+  ],
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J9_OWNER_2026-11-16",
+  "preflight": {
+    "preflight_id": "pf-f4b9d0310d27",
+    "receipt_sha256": "70addabe8c607d2f7aa87e4c72ff32e9608a4af77f1bf07e3c47136cdc167474",
+    "state": "PREFLIGHT_PASS"
+  },
+  "raw_runner_record": "retained only in the ignored local development-run store; it contains local paths",
+  "reason": "Isolate interior HEX8 mesh distortion while preserving the same outer physical block, material, prescribed affine field, and boundary topology",
+  "resources_observed": {
+    "archive_bytes": 221861,
+    "peak_process_count": 1,
+    "peak_rss_bytes": 127782912,
+    "peak_rss_mib": 121.86328125,
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 544,
+    "stdout_sha256": "4b9b9dc9324af16ffcd2d2fbdee3c1d345c0349c4a86167a052b587fd1c50342",
+    "temporary_bytes": 0
+  },
+  "return_code": 0,
+  "runtime": {
+    "local_policy_sha256": "2a7b262f75770a0a11fe5dec47e8f403d97a68f3bb678eed4060bb2aff9f01e4",
+    "psutil_version": "7.2.2",
+    "pytest_plugin_sha256": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
+    "pytest_version": "8.4.1",
+    "python_version": "3.13.1",
+    "runner_sha256": "b22a961747b3219c24968c705145f4d16d7eaeb7bda92d6cb503a6fa31eb4e00",
+    "threadpools": [
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "user_api": "blas",
+        "version": "0.3.29"
+      }
+    ]
+  },
+  "schema": "qf-j9-sanitized-run-receipt-v1",
+  "series_id": "dev-j9-hex8-distortion-20261116-01",
+  "source_fingerprint": "0b24d30bd90926815f9b87c203f29a8e180f73b73b583968ff6073dd67e5a74c",
+  "source_head": "a8f5a91653c50c51cb51e51b297ed9c2cd623362",
+  "started_at_utc": "2026-11-16T18:18:02.852315+00:00"
+}

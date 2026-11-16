@@ -1,0 +1,189 @@
+{
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "contract_sha256": "82168c14176dea137a0b3188ee625d84989b47fc22f44309382dc6433441fbb1",
+  "environment": {
+    "matplotlib": "3.10.3",
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "threadpools": [
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "user_api": "blas",
+        "version": "0.3.29"
+      }
+    ]
+  },
+  "execution_status": "COMPLETED_EXPLORATORY",
+  "figure": {
+    "path": "hex8_distortion_study.png",
+    "sha256": "39abdb335252b41d45252e80721e40bb737e10664191ff56d2273304be129375"
+  },
+  "interpretation": "Errors and condition estimates are descriptive. The affine patch is a local constant-strain check and does not validate general HEX8-SRI behavior or retroactively alter J7 FAILs.",
+  "levels": [
+    {
+      "condition_2_free_stiffness_estimate": 43.50148897273195,
+      "continuum_axial_force_reference_n": 100.0,
+      "distortion_amplitude_fraction_of_height": 0.0,
+      "element_count": 16,
+      "energy_j": 0.09999999999999958,
+      "energy_reference_j": 0.1,
+      "energy_relative_difference": -4.3021142204224816e-15,
+      "finite": true,
+      "free_displacement_error_l2_m": 2.304676877359995e-19,
+      "free_displacement_error_relative_to_exact_l2": 1.2312553035336505e-16,
+      "free_dof_count": 9,
+      "free_residual_norm_n": 2.465350359213561e-12,
+      "free_residual_relative_indicator": 2.0932775469482302e-16,
+      "left_end_reaction_x_n": -99.99999999999967,
+      "left_reaction_relative_difference": 3.268496584496461e-15,
+      "maximum_gauss_jacobian_m3": 0.15625000000000003,
+      "maximum_node_shift_m": 0.0,
+      "maximum_prescribed_boundary_difference_m": 0.0,
+      "minimum_gauss_jacobian_m3": 0.15624999999999992,
+      "node_count": 45,
+      "right_end_reaction_x_n": 99.99999999999798,
+      "right_reaction_relative_difference": -2.0179413695586844e-14,
+      "same_connectivity": true,
+      "same_outer_boundary_coordinates": true,
+      "total_gauss_volume_m3": 20.0
+    },
+    {
+      "condition_2_free_stiffness_estimate": 43.50359503852652,
+      "continuum_axial_force_reference_n": 100.0,
+      "distortion_amplitude_fraction_of_height": 0.05,
+      "element_count": 16,
+      "energy_j": 0.10000000000000195,
+      "energy_reference_j": 0.1,
+      "energy_relative_difference": 1.942890293094024e-14,
+      "finite": true,
+      "free_displacement_error_l2_m": 2.43710088302025e-19,
+      "free_displacement_error_relative_to_exact_l2": 1.3019424528236236e-16,
+      "free_dof_count": 9,
+      "free_residual_norm_n": 2.5414495666860953e-12,
+      "free_residual_relative_indicator": 2.1088277392172753e-16,
+      "left_end_reaction_x_n": -100.00000000000026,
+      "left_reaction_relative_difference": -2.5579538487363606e-15,
+      "maximum_gauss_jacobian_m3": 0.16792200731137727,
+      "maximum_node_shift_m": 0.050000000000000044,
+      "maximum_prescribed_boundary_difference_m": 0.0,
+      "minimum_gauss_jacobian_m3": 0.14457799268862265,
+      "node_count": 45,
+      "right_end_reaction_x_n": 100.00000000000001,
+      "right_reaction_relative_difference": 1.4210854715202004e-16,
+      "same_connectivity": true,
+      "same_outer_boundary_coordinates": true,
+      "total_gauss_volume_m3": 20.0
+    },
+    {
+      "condition_2_free_stiffness_estimate": 43.50891363798355,
+      "continuum_axial_force_reference_n": 100.0,
+      "distortion_amplitude_fraction_of_height": 0.1,
+      "element_count": 16,
+      "energy_j": 0.09999999999999806,
+      "energy_reference_j": 0.1,
+      "energy_relative_difference": -1.942890293094024e-14,
+      "finite": true,
+      "free_displacement_error_l2_m": 5.036706053557532e-19,
+      "free_displacement_error_relative_to_exact_l2": 2.6905649945121665e-16,
+      "free_dof_count": 9,
+      "free_residual_norm_n": 2.6577337898612654e-12,
+      "free_residual_relative_indicator": 2.1442526369110306e-16,
+      "left_end_reaction_x_n": -100.0000000000002,
+      "left_reaction_relative_difference": -1.9895196601282807e-15,
+      "maximum_gauss_jacobian_m3": 0.17959401462275457,
+      "maximum_node_shift_m": 0.09999999999999998,
+      "maximum_prescribed_boundary_difference_m": 0.0,
+      "minimum_gauss_jacobian_m3": 0.13290598537724538,
+      "node_count": 45,
+      "right_end_reaction_x_n": 99.99999999999852,
+      "right_reaction_relative_difference": -1.4779288903810084e-14,
+      "same_connectivity": true,
+      "same_outer_boundary_coordinates": true,
+      "total_gauss_volume_m3": 20.0
+    },
+    {
+      "condition_2_free_stiffness_estimate": 43.51427945353118,
+      "continuum_axial_force_reference_n": 100.0,
+      "distortion_amplitude_fraction_of_height": 0.15,
+      "element_count": 16,
+      "energy_j": 0.09999999999999833,
+      "energy_reference_j": 0.1,
+      "energy_relative_difference": -1.6792123247455493e-14,
+      "finite": true,
+      "free_displacement_error_l2_m": 3.409241848636697e-19,
+      "free_displacement_error_relative_to_exact_l2": 1.8210911421511703e-16,
+      "free_dof_count": 9,
+      "free_residual_norm_n": 3.5775244617888263e-12,
+      "free_residual_relative_indicator": 2.792326906170121e-16,
+      "left_end_reaction_x_n": -100.0,
+      "left_reaction_relative_difference": 0.0,
+      "maximum_gauss_jacobian_m3": 0.19126602193413184,
+      "maximum_node_shift_m": 0.15000000000000002,
+      "maximum_prescribed_boundary_difference_m": 0.0,
+      "minimum_gauss_jacobian_m3": 0.12123397806586811,
+      "node_count": 45,
+      "right_end_reaction_x_n": 99.99999999999906,
+      "right_reaction_relative_difference": -9.379164112033323e-15,
+      "same_connectivity": true,
+      "same_outer_boundary_coordinates": true,
+      "total_gauss_volume_m3": 20.0
+    }
+  ],
+  "model": {
+    "affine_strain": [
+      0.0001,
+      -4.9500000000000004e-05,
+      -4.9500000000000004e-05
+    ],
+    "boundary_condition": "all outer-boundary nodes prescribed the exact affine uniaxial-strain field; interior nodes free",
+    "continuum_reference": "homogeneous uniaxial stress, sigma_xx=E*epsilon_x, sigma_yy=sigma_zz=0",
+    "external_nodal_load": "none; loading is prescribed displacement on the external boundary",
+    "geometry_m": [
+      20.0,
+      1.0,
+      1.0
+    ],
+    "material": {
+      "poisson_ratio": 0.495,
+      "young_modulus_pa": 1000000.0
+    },
+    "mesh_divisions": [
+      4,
+      2,
+      2
+    ]
+  },
+  "nodeid": "tests/verification/test_j9_hex8_controlled_distortion.py::test_j9_hex8_constant_domain_distortion_sweep",
+  "schema": "qf-j9-hex8-controlled-distortion-result-v1",
+  "source_fingerprint": "0b24d30bd90926815f9b87c203f29a8e180f73b73b583968ff6073dd67e5a74c",
+  "source_head": "a8f5a91653c50c51cb51e51b297ed9c2cd623362",
+  "source_identity": {
+    "analysis_files": [
+      {
+        "path": "research/j9_hex8/controlled_distortion.py",
+        "sha256": "1a2504094263ecde7dd8d08eebd0455431b3a6838aa741be996b10e7282e49ce"
+      },
+      {
+        "path": "tests/verification/test_j9_hex8_controlled_distortion.py",
+        "sha256": "d8acff9aa120303a3ec5171ff1541996555347ec7451128335bc2a98be9b0431"
+      }
+    ],
+    "element": "src/solveur/elements/solid/hex8_sri.py",
+    "formulation_note": "J7 post-correction w0=8; this diagnostic does not change that implementation",
+    "hex8_sri_canonical_sha256": "e014652e9efc3912046891348d9dfa76adaa1f8ff084db58e84a9b3d151cf9e4"
+  },
+  "state_npz": {
+    "path": "hex8_distortion_states.npz",
+    "sha256": "82cf441c8c0ad84738114e826553abd18071493b9527b8e8aa0c4ce2bc62c1b3"
+  },
+  "structural_checks": {
+    "all_finite": true,
+    "all_gauss_jacobians_positive": true,
+    "all_levels_have_interior_free_dofs": true,
+    "boundary_values_prescribed_exactly": true,
+    "outer_boundary_and_topology_unchanged": true
+  }
+}

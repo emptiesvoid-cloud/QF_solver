@@ -1,0 +1,52 @@
+{
+  "archive_bytes": 578,
+  "command_root_relative": [
+    "python",
+    "scripts/development_autonomous.py",
+    "preflight",
+    "--worktree",
+    "j9",
+    "--target",
+    "tests/verification/test_j9_hex8_controlled_distortion.py::test_j9_hex8_constant_domain_distortion_sweep",
+    "--preflight-id",
+    "pf-f4b9d0310d27"
+  ],
+  "elapsed_seconds": 3.976562900003046,
+  "finished_at_utc": "2026-11-16T18:17:52.331485+00:00",
+  "free_disk_after_bytes": 37597798400,
+  "free_disk_before_bytes": 37605527552,
+  "nodeid": "tests/verification/test_j9_hex8_controlled_distortion.py::test_j9_hex8_constant_domain_distortion_sweep",
+  "peak_process_count": 1,
+  "peak_rss_bytes": 110227456,
+  "preflight_id": "pf-f4b9d0310d27",
+  "receipt_sha256": "70addabe8c607d2f7aa87e4c72ff32e9608a4af77f1bf07e3c47136cdc167474",
+  "schema": "qf-j9-sanitized-preflight-v1",
+  "source_fingerprint": "0b24d30bd90926815f9b87c203f29a8e180f73b73b583968ff6073dd67e5a74c",
+  "source_head": "a8f5a91653c50c51cb51e51b297ed9c2cd623362",
+  "started_at_utc": "2026-11-16T18:17:44.508955+00:00",
+  "state": "PREFLIGHT_PASS",
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_bytes": 578,
+  "stdout_sha256": "fbac9d66d56d3ef549c65a305692979cf02d4e852c87038ce179518dc76becb2",
+  "temporary_bytes": 0,
+  "thread_environment": {
+    "BLIS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "threadpools": [
+    {
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "user_api": "blas",
+      "version": "0.3.29"
+    }
+  ]
+}
