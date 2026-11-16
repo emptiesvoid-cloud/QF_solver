@@ -11,7 +11,8 @@
   "pytest_root": "tests/verification",
   "allowed_nodeids": [
     "tests/verification/test_j9_hex8_controlled_distortion.py::test_j9_hex8_constant_domain_distortion_sweep",
-    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_and_modal_newmark_time_mesh_study"
+    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_and_modal_newmark_time_mesh_study",
+    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study"
   ],
   "attempt_limit_per_nodeid": 1,
   "budgets": {
@@ -35,7 +36,8 @@
   },
   "family_contracts": [
     "research/j9_hex8/contracts/hex8_constant_domain_distortion_contract.json",
-    "research/j9_transient/contracts/tet10_newmark_transient_contract.json"
+    "research/j9_transient/contracts/tet10_newmark_transient_contract.json",
+    "research/j9_transient/contracts/tet10_newmark_direct_contract.json"
   ],
   "local_policy_path": "development_autonomous_policy.json (ignored local file; absolute worktree path excluded)",
   "attempt_ledger": ".codex/development-runs/node-attempt-ledger-j9.json",

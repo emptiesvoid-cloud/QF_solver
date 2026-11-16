@@ -34,6 +34,8 @@ from solveur.verification.transient_modal_oracle import PiecewiseLinearModalOrac
 ROOT = Path(__file__).resolve().parents[2]
 CONTRACT_PATH = ROOT / "research/j9_transient/contracts/tet10_newmark_transient_contract.json"
 NODEID = "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_and_modal_newmark_time_mesh_study"
+DIRECT_CONTRACT_PATH = ROOT / "research/j9_transient/contracts/tet10_newmark_direct_contract.json"
+DIRECT_NODEID = "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study"
 LENGTH_M, WIDTH_M, HEIGHT_M = 2.0, 0.4, 0.4
 YOUNG_MODULUS_PA, POISSON_RATIO, DENSITY_KG_M3 = 70.0e9, 0.30, 2700.0
 MESH_LEVELS = ((2, 1, 1), (4, 1, 1))
@@ -201,7 +203,7 @@ def _error_metrics(actual: np.ndarray, reference: np.ndarray) -> dict[str, float
     }
 
 
-def _attempt_output_dir() -> tuple[Path, dict[str, Any]]:
+def _attempt_output_dir(nodeid: str) -> tuple[Path, dict[str, Any]]:
     if os.environ.get("QF_DEVELOPMENT_AUTONOMOUS") != "1":
         raise RuntimeError("J9 mechanics outputs require the registered development launcher")
     temp = Path(os.environ["TMP"]).resolve(strict=True)
@@ -210,7 +212,7 @@ def _attempt_output_dir() -> tuple[Path, dict[str, Any]]:
     if not run_path.is_file():
         raise RuntimeError("The development runner attempt record is missing")
     run = json.loads(run_path.read_text(encoding="utf-8"))
-    if run.get("state") != "RUNNING" or run.get("worktree_id") != "j9" or run.get("target") != [NODEID]:
+    if run.get("state") != "RUNNING" or run.get("worktree_id") != "j9" or run.get("target") != [nodeid]:
         raise RuntimeError("The development runner does not identify this exact J9 TET10 node")
     output = attempt_dir / "output" / "j9_tet10_newmark"
     output.mkdir(parents=True, exist_ok=False)
@@ -230,10 +232,15 @@ def _draw_mesh(axis: Any, coordinates: np.ndarray, connectivity: np.ndarray, *, 
     axis.quiver(LENGTH_M, WIDTH_M / 2, HEIGHT_M / 2, 0.0, 0.0, -0.12, color="#ba3e2d", arrow_length_ratio=0.2, label="Fz(t)")
 
 
-def run_transient_study() -> dict[str, Any]:
-    output_dir, run = _attempt_output_dir()
-    contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
-    contract_hash = _file_sha256(CONTRACT_PATH)
+def run_transient_study(
+    *,
+    contract_path: Path = CONTRACT_PATH,
+    nodeid: str = NODEID,
+    include_modal: bool = True,
+) -> dict[str, Any]:
+    output_dir, run = _attempt_output_dir(nodeid)
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    contract_hash = _file_sha256(contract_path)
     for source in contract["source_identity"]["files"]:
         if _file_sha256(ROOT / source["path"]) != source["sha256"]:
             raise RuntimeError(f"TET10/Newmark source differs from the frozen J9 contract: {source['path']}")
@@ -355,7 +362,7 @@ def run_transient_study() -> dict[str, Any]:
         ]
         levels.append(mesh_row)
 
-        if mesh_index == 0:
+        if mesh_index == 0 and include_modal:
             steps_per_period = 32
             dt, steps, table, factors = _pulse_table(period, steps_per_period)
             free_dofs = int(mesh_row["free_dof_count"])
@@ -397,7 +404,7 @@ def run_transient_study() -> dict[str, Any]:
         "schema": "qf-j9-tet10-newmark-result-v1",
         "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
         "execution_status": "COMPLETED_EXPLORATORY",
-        "nodeid": NODEID,
+        "nodeid": nodeid,
         "source_head": run["identity"]["head"],
         "source_fingerprint": run["source_fingerprint"],
         "contract_sha256": contract_hash,

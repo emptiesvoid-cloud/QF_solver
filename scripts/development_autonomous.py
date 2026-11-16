@@ -139,6 +139,7 @@ J8_HEX8_THREAD_ENVIRONMENT = {
 J9_NODEIDS = (
     "tests/verification/test_j9_hex8_controlled_distortion.py::test_j9_hex8_constant_domain_distortion_sweep",
     "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_and_modal_newmark_time_mesh_study",
+    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study",
 )
 J9_BUDGETS = {
     "timeout_seconds": 1200,
@@ -433,7 +434,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
     if j9.get("development_mandate_id") != "DEVELOPMENT_AUTONOMOUS-J9-2026-11-16-v1":
         raise PolicyError("J9 requires its distinct development attempt namespace")
     if j9.get("allowed_nodeids") != list(J9_NODEIDS):
-        raise PolicyError("J9 allowlist must contain only its exact HEX8 and TET10 nodes")
+        raise PolicyError("J9 allowlist must contain only its exact HEX8 and TET10 diagnostic nodes")
     if j9.get("attempt_limits_per_nodeid") != {nodeid: 1 for nodeid in J9_NODEIDS}:
         raise PolicyError("J9 permits one attempt per exact registered nodeid")
     if j9.get("require_clean_worktree") is not True:

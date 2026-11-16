@@ -13,6 +13,7 @@ def test_j9_scope_is_bound_to_exact_nodes_one_thread_and_private_namespace(tmp_p
     assert registration == (
         "tests/verification/test_j9_hex8_controlled_distortion.py::test_j9_hex8_constant_domain_distortion_sweep",
         "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_and_modal_newmark_time_mesh_study",
+        "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study",
     )
     assert runner.J9_BUDGETS["timeout_seconds"] == 1200
     assert runner.J9_BUDGETS["archive_size_limit_mib"] == 128
