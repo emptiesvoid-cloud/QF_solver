@@ -1,0 +1,84 @@
+{
+  "classification": "GEOMETRY_ONLY_PRECHECK_NOT_FEM",
+  "contract_sha256": "e1f606d0673475345f120b6ee03055b3c3439bf8a988ecd7f61f1157bbbee92c",
+  "criteria": {
+    "all_exterior_node_coordinates_bitwise_unchanged": "required for every candidate",
+    "no_matrix_assembly_or_solve": true,
+    "positive_finite_gauss_jacobians": "required for every candidate"
+  },
+  "input_path": "research/j8_hex8/inputs/near_degenerate_nu0495_nx4_state.npz",
+  "input_sha256": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11",
+  "levels": [
+    {
+      "all_gauss_jacobians_positive": true,
+      "alpha": 0.0,
+      "exterior_node_coordinates_unchanged": true,
+      "maximum_gauss_jacobian_m3": 0.006250000000000002,
+      "maximum_interior_shift_m": 0.0,
+      "minimum_gauss_jacobian_m3": 0.006249999999999997,
+      "z_bounding_box_m": [
+        -0.003,
+        0.043000000000000003
+      ],
+      "z_bounding_box_unchanged": true
+    },
+    {
+      "all_gauss_jacobians_positive": true,
+      "alpha": 0.05,
+      "exterior_node_coordinates_unchanged": true,
+      "maximum_gauss_jacobian_m3": 0.006712412248828689,
+      "maximum_interior_shift_m": 0.0019999999999999983,
+      "minimum_gauss_jacobian_m3": 0.005787587751171308,
+      "z_bounding_box_m": [
+        -0.003,
+        0.043000000000000003
+      ],
+      "z_bounding_box_unchanged": true
+    },
+    {
+      "all_gauss_jacobians_positive": true,
+      "alpha": 0.1,
+      "exterior_node_coordinates_unchanged": true,
+      "maximum_gauss_jacobian_m3": 0.0071748244976573795,
+      "maximum_interior_shift_m": 0.004,
+      "minimum_gauss_jacobian_m3": 0.005325175502342619,
+      "z_bounding_box_m": [
+        -0.003,
+        0.043000000000000003
+      ],
+      "z_bounding_box_unchanged": true
+    },
+    {
+      "all_gauss_jacobians_positive": true,
+      "alpha": 0.15,
+      "exterior_node_coordinates_unchanged": true,
+      "maximum_gauss_jacobian_m3": 0.0076372367464860695,
+      "maximum_interior_shift_m": 0.006000000000000002,
+      "minimum_gauss_jacobian_m3": 0.004862763253513929,
+      "z_bounding_box_m": [
+        -0.003,
+        0.043000000000000003
+      ],
+      "z_bounding_box_unchanged": true
+    }
+  ],
+  "mesh": {
+    "element_count": 16,
+    "interior_node_ids": [
+      21,
+      22,
+      23
+    ],
+    "node_count": 45
+  },
+  "normalization": {
+    "interpretation": "top-to-bottom coordinate difference at fixed x,y; the J7 bounding-box z extent is 0.046 m because the outer surface is also skewed",
+    "local_thickness_scale_m": 0.04,
+    "z_bounding_box_m": [
+      -0.003,
+      0.043000000000000003
+    ]
+  },
+  "preflight_status": "PASS_GEOMETRY_ONLY",
+  "schema": "qf-j10-hex8-geometry-preflight-v1"
+}

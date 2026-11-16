@@ -1,0 +1,73 @@
+{
+  "schema": "qfsolver-development-attempt-v2",
+  "development_series_id": "dev-eb46f96f8528",
+  "attempt_number": 2,
+  "state": "PASS",
+  "scope": "fem_exploratory",
+  "worktree_id": "j10",
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-J10-2026-11-16-v1",
+  "target": [
+    "tests/verification/test_j10_tet10_modal_smoke.py::test_j10_tet10_modal_route_smoke"
+  ],
+  "branch": "work/0.3.0-j10",
+  "source_head": "1b3e7d365ccfc8675fba9c796a2fdfebc579c4b7",
+  "source_fingerprint": "b564ba91a7cefa693191514a5b6842c442d2a187e03d380fe71ac9e6c3615899",
+  "reason": "Correct ModalResult.status interface and verify exact full-mode dimensions under the distinct corrective contract.",
+  "started_at_utc": "2026-11-16T20:47:45.310099+00:00",
+  "finished_at_utc": "2026-11-16T20:47:50.122871+00:00",
+  "elapsed_seconds": 4.802713299868628,
+  "peak_rss_bytes": 156962816,
+  "peak_process_count": 1,
+  "archive_bytes": 10475,
+  "temporary_bytes": 0,
+  "free_disk_before_bytes": 35530289152,
+  "free_disk_after_bytes": 35530260480,
+  "budgets": {
+    "archive_size_limit_mib": 128,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 512,
+    "timeout_seconds": 1800
+  },
+  "preflight_id": "pf-d42016160101",
+  "preflight_receipt_sha256": "2ef26867094542e0c6039d99fc864e6d3082ee956b63f9d34758adab385aa8f0",
+  "return_code": 0,
+  "stdout_sha256": "40018bfd68ad805752dffe709c9e87b7155772401f810fbced6afef451dc1a88",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "output_inventory": [
+    {
+      "path": "j10_tet10_modal_smoke/result.json",
+      "bytes": 6463,
+      "sha256": "b10a86d3544378816ce3a0ebdc754fe83d8365c350c9f02fe9f041cd195cc73f"
+    },
+    {
+      "path": "j10_tet10_modal_smoke/result.sha256.json",
+      "bytes": 83,
+      "sha256": "ee8446a842546781e197d3515ba14b9862f0ed45f50c27a2a0e62f25685c926e"
+    },
+    {
+      "path": "j10_tet10_modal_smoke/tet10_modal_smoke_frequencies.csv",
+      "bytes": 309,
+      "sha256": "d572e7fe40b09fb30d9001bed6a5feddadc0c2b2ad3f7afbd17a593a856dfc1a"
+    },
+    {
+      "path": "j10_tet10_modal_smoke/tet10_modal_smoke_state.npz",
+      "bytes": 3075,
+      "sha256": "c336f8993bad40d028a14ab48131fef03eb4673fccb105f2503c0f8fe1a2001d"
+    },
+    {
+      "path": "stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.log",
+      "bytes": 545,
+      "sha256": "40018bfd68ad805752dffe709c9e87b7155772401f810fbced6afef451dc1a88"
+    }
+  ],
+  "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+  "qualification_promotion": "PROHIBITED"
+}

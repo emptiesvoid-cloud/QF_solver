@@ -1,0 +1,70 @@
+{
+  "schema": "qf-j10-tet10-modal-route-smoke-contract-v1",
+  "contract_id": "J10-TET10-MODAL-ROUTE-SMOKE-001",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J10_OWNER_2026-11-16",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J10-2026-11-16-v1",
+  "classification": "DEVELOPMENT_ROUTE_DIAGNOSTIC_NOT_QUALIFICATION",
+  "source_identity": [
+    {"path": "research/j10_modal/tet10_modal_smoke.py", "canonical_sha256": "5f3222402564f04162983e1c46f011e787b2ac5508a996320f40440aa5a18eca"},
+    {"path": "tests/verification/test_j10_tet10_modal_smoke.py", "canonical_sha256": "de228df1a976315d8b9359c4d418ecd0fba38e99e84930754caa75719a19cddc"},
+    {"path": "scripts/development_autonomous.py", "canonical_sha256": "15afbd9ded8a8204941583756d933e1be32c7239bc1444af45b0da5d7a3934d8"},
+    {"path": "src/solveur/api/public.py", "canonical_sha256": "576f68494139ef8f56d5d3eedfe46f9f540efd6281f359b36b980408231a22b8"},
+    {"path": "src/solveur/core/analyses/modal.py", "canonical_sha256": "119c163e0dcb1a6f72cb7b09de3d2cd78b84eb126dbccf9806ce19b557564aa9"},
+    {"path": "src/solveur/core/analyses/modal_options.py", "canonical_sha256": "028d26096f164f60a030544ce24b05db4b35f701fd5cb2f57711ce23d1361f5c"},
+    {"path": "src/solveur/core/analyses/modal_residual_validation.py", "canonical_sha256": "84f3d0c4f54b0f31db9823de96767751d8cea93770bfad0f488791c05f14760a"},
+    {"path": "src/solveur/core/assembly/assembler.py", "canonical_sha256": "e4e9710fe28822668d87e5a1d805aaf0f13369de01a094c585d17e5241910d41"},
+    {"path": "src/solveur/core/model.py", "canonical_sha256": "cbe04fd1c35cfd98d326ab1c2287a97d05d5e7876c929bfe80d4805a7d387b8e"},
+    {"path": "src/solveur/elements/solid/tet10.py", "canonical_sha256": "7a445696d284a14e5166c47cfd22171affe00e2729ab103aaf785802a976ced6"}
+  ],
+  "hypothesis": "The QF TET10 modal route can compute and report the first four modes of a one-element, one-face-fixed model; an independent dense eigensolver on the same assembled reduced K/M can check returned eigenfrequencies without validating TET10 spatial accuracy.",
+  "model": {
+    "geometry": "unit right tetrahedron with standard ten-node midside placement",
+    "element": "one quadratic TET10 with the default linear-elastic stiffness and consistent mass",
+    "material": {"young_modulus_pa": 70000000000.0, "poisson_ratio": 0.3, "density_kg_m3": 2700.0, "units": "SI"},
+    "boundary_conditions": "UX, UY, UZ fixed at the six TET10 nodes on the x=0 face; 12 free DOFs remain",
+    "analysis": {"method": "eigsh", "requested_modes": 4, "arpack_tolerance": 1e-11, "modal_validation_policy": "strict"},
+    "initial_or_forcing_conditions": "not applicable to an undamped free-vibration eigenproblem"
+  },
+  "reference": {
+    "method": "scipy.linalg.eigh generalized symmetric eigenproblem on the same QF-assembled Kff and Mff",
+    "scope": "numerical cross-check of this route on the same discrete operators",
+    "not_established": ["independent stiffness or mass assembly", "TET10 continuum accuracy", "the J9 cantilever modes", "a modal transient basis for J9"]
+  },
+  "observables": [
+    "QF route numerical status and modal residual-validation payload",
+    "returned frequency count, payload validity, and any finite positive frequencies",
+    "relative frequency differences for returned modes in ascending order when present",
+    "dense-reference frequencies, reduced K/M, and modal vectors in the state archive"
+  ],
+  "status_rules": {
+    "PASS": "must include exactly four finite positive frequencies and finite four-mode vectors; report comparison against dense same-operator frequencies",
+    "INCONCLUSIVE": "must remain INCONCLUSIVE; serialize any usable outputs and the exact validation reason, or serialize empty modal outputs with validity diagnostics",
+    "FAIL": "must remain FAIL if returned by QF; serialize available diagnostics without relabeling it as a numerical PASS",
+    "thresholds": "no formal frequency-accuracy threshold; this route smoke is diagnostic only"
+  },
+  "execution": {
+    "nodeid": "tests/verification/test_j10_tet10_modal_smoke.py::test_j10_tet10_modal_route_smoke",
+    "attempts": 1,
+    "budgets": {
+      "timeout_seconds": 1800,
+      "rss_soft_limit_mib": 2048,
+      "process_tree_limit": 4,
+      "output_total_limit_mib": 8,
+      "output_stream_limit_mib": 4,
+      "temporary_limit_mib": 512,
+      "archive_size_limit_mib": 128,
+      "numeric_threads": 1,
+      "minimum_free_disk_mib": 1024
+    },
+    "budget_semantics": "timeout and captured-output caps are launcher-controlled; RSS, process, temporary/archive size, and free-disk limits are sampled/soft controls, not OS quotas",
+    "preflight": "one exact-node pytest collect-only receipt is required before the single attempt",
+    "external_solver": "not used; this small route comparison uses SciPy on the same QF assembled operators"
+  },
+  "preservation": {
+    "j9_full_basis_failure": "historical PYTEST_FAILED / aggregate_work_budget remains unchanged",
+    "j9_direct_transient_result": "unchanged",
+    "qualification_promotion": false,
+    "site_publication_release_tag_or_merge": false
+  },
+  "artifacts": ["result.json", "result.sha256.json", "tet10_modal_smoke_state.npz", "tet10_modal_smoke_frequencies.csv"]
+}

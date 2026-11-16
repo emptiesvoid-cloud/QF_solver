@@ -1,0 +1,88 @@
+{
+  "schema": "qfsolver-development-attempt-v2",
+  "development_series_id": "dev-9fb7233cc845",
+  "attempt_number": 1,
+  "state": "PASS",
+  "scope": "fem_exploratory",
+  "worktree_id": "j10",
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-J10-2026-11-16-v1",
+  "target": [
+    "tests/verification/test_j10_tet10_fixed_excitation.py::test_j10_tet10_same_physical_excitation_time_mesh_study"
+  ],
+  "branch": "work/0.3.0-j10",
+  "source_head": "62ab1f57079510e7877cb0fb8f8ce8e9e3c4d26a",
+  "source_fingerprint": "656270d39dcb8daab3c21259189f38af99ec71e2a1191f14be5d9f1dafec4129",
+  "reason": "Measure Newmark time-step error and mesh sensitivity under one frozen physical pulse and common observation grid.",
+  "started_at_utc": "2026-11-16T20:21:20.764692+00:00",
+  "finished_at_utc": "2026-11-16T20:22:19.857345+00:00",
+  "elapsed_seconds": 59.08197250007652,
+  "peak_rss_bytes": 254148608,
+  "peak_process_count": 1,
+  "archive_bytes": 1482055,
+  "temporary_bytes": 0,
+  "free_disk_before_bytes": 35551576064,
+  "free_disk_after_bytes": 35549085696,
+  "budgets": {
+    "archive_size_limit_mib": 128,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 512,
+    "timeout_seconds": 1800
+  },
+  "preflight_id": "pf-a31016160101",
+  "preflight_receipt_sha256": "6ee49a87377aba108f13a5bcf9c938458a274d20d869e8faf8788d0def185ca1",
+  "return_code": 0,
+  "stdout_sha256": "2760f483847da0a23fc857ef8d3b594880f99c4d8282805510c378c1fddf3fd4",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "output_inventory": [
+    {
+      "path": "j10_tet10_same_excitation/result.json",
+      "bytes": 22979,
+      "sha256": "7e76187141a8936ec6e9324927ab72d048dcc07d97c0acf9820b1b1ceb0f00d3"
+    },
+    {
+      "path": "j10_tet10_same_excitation/result.sha256.json",
+      "bytes": 83,
+      "sha256": "8c35285e9755fea1f5f3dc898304f737f1d6e2c2845071807e37f7bdd8635cbd"
+    },
+    {
+      "path": "j10_tet10_same_excitation/tet10_fixed_excitation_history.csv",
+      "bytes": 130426,
+      "sha256": "a655d760594a9673c7fe83e878a0d50d92ea04949edf1baf992a50e9fa2470c7"
+    },
+    {
+      "path": "j10_tet10_same_excitation/tet10_fixed_excitation_mesh_sensitivity.png",
+      "bytes": 131929,
+      "sha256": "80b40691b59fdcf302ab0b041b73a6ac7e17dae40bcec43d7facdae94c384107"
+    },
+    {
+      "path": "j10_tet10_same_excitation/tet10_fixed_excitation_meshes.png",
+      "bytes": 413429,
+      "sha256": "0f01ad95cd61db17dde65f81b0d6d57344280b5f3b01de5aafaa9c4a747b7bbd"
+    },
+    {
+      "path": "j10_tet10_same_excitation/tet10_fixed_excitation_states.npz",
+      "bytes": 411243,
+      "sha256": "cb4b31eb040413ff6559c1c3129726e2f30973a2226479c8b16d5fb31e6e354c"
+    },
+    {
+      "path": "j10_tet10_same_excitation/tet10_fixed_excitation_time_refinement.png",
+      "bytes": 371420,
+      "sha256": "27a5047e6aafccbf62e3326d131883c7394a0f2d4f78f2e653240a41e47733cb"
+    },
+    {
+      "path": "stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.log",
+      "bytes": 546,
+      "sha256": "2760f483847da0a23fc857ef8d3b594880f99c4d8282805510c378c1fddf3fd4"
+    }
+  ],
+  "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+  "qualification_promotion": "PROHIBITED"
+}

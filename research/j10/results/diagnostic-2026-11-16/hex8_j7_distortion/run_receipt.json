@@ -1,0 +1,83 @@
+{
+  "schema": "qfsolver-development-attempt-v2",
+  "development_series_id": "dev-3eeee4cc7ddf",
+  "attempt_number": 3,
+  "state": "PASS",
+  "scope": "fem_exploratory",
+  "worktree_id": "j10",
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-J10-2026-11-16-v1",
+  "target": [
+    "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion"
+  ],
+  "branch": "work/0.3.0-j10",
+  "source_head": "2999fb980ccfd3b7fe97cb724b1be43330507879",
+  "source_fingerprint": "bf0b1676db91112cec07bd976a3ee7efdf8e4b6c503a9ecbb8bc4a0193ae16f8",
+  "reason": "Final attempt 3 under contract J10-HEX8-J7-DOMAIN-PRESERVING-DISTORTION-CORRECTIVE-003; prior attempt 1/2 remained pre-FEM, raw/canonical digests were independently reconciled, integrity unit test and fresh preflight passed.",
+  "started_at_utc": "2026-11-16T20:38:28.327888+00:00",
+  "finished_at_utc": "2026-11-16T20:38:34.405753+00:00",
+  "elapsed_seconds": 6.067231999943033,
+  "peak_rss_bytes": 162172928,
+  "peak_process_count": 1,
+  "archive_bytes": 351241,
+  "temporary_bytes": 0,
+  "free_disk_before_bytes": 35536199680,
+  "free_disk_after_bytes": 35535785984,
+  "budgets": {
+    "archive_size_limit_mib": 128,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 512,
+    "timeout_seconds": 1800
+  },
+  "preflight_id": "pf-c32016160101",
+  "preflight_receipt_sha256": "4106a00732f903f7b27d9731ae5b475318fe751f17cd0816e6056aabccbb1352",
+  "return_code": 0,
+  "stdout_sha256": "b55eecdb5c2e9c7a6c551072d59ce8d376bcdf9c6b7ed01faa58e9df07f664d6",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "output_inventory": [
+    {
+      "path": "j10_hex8_j7_geometry/hex8_j7_distortion_indicators.png",
+      "bytes": 73061,
+      "sha256": "e1c2ac66753d07efeb254d14a26ed0d6fb2b2fec398403c502be3258057c0890"
+    },
+    {
+      "path": "j10_hex8_j7_geometry/hex8_j7_distortion_metrics.csv",
+      "bytes": 3905,
+      "sha256": "37803d935a3b655ac8cca63188cbbe2d26e9e03c2e223125901c1f0d6d2115d5"
+    },
+    {
+      "path": "j10_hex8_j7_geometry/hex8_j7_distortion_states.npz",
+      "bytes": 150435,
+      "sha256": "4ff54522deaa2d23d50a63f1f6380494615a0fc2d3435c9b4d40a043d6c38e8e"
+    },
+    {
+      "path": "j10_hex8_j7_geometry/result.json",
+      "bytes": 12721,
+      "sha256": "639c4254b201d29902ba676036b6cf930bb0d54727074038573bd84e5cb3575b"
+    },
+    {
+      "path": "j10_hex8_j7_geometry/result.sha256.json",
+      "bytes": 83,
+      "sha256": "cea44ed097196993719ab45c44cd47250cf9e1ee62f71d1a698eef5888140084"
+    },
+    {
+      "path": "j10_hex8_j7_geometry/site_hex8_j7_distortion.png",
+      "bytes": 110491,
+      "sha256": "744a6dc76d7211f694b661907717012d80230fd881a12f6c51f57e0279218ada"
+    },
+    {
+      "path": "stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.log",
+      "bytes": 545,
+      "sha256": "b55eecdb5c2e9c7a6c551072d59ce8d376bcdf9c6b7ed01faa58e9df07f664d6"
+    }
+  ],
+  "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+  "qualification_promotion": "PROHIBITED"
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "qf-j10-execution-scope-registration-v1",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J10_OWNER_2026-11-16",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J10-2026-11-16-v1",
+  "classification": "DEVELOPMENT_EXPLORATORY_ONLY",
+  "baseline_branch": "work/0.3.0-j9",
+  "baseline_commit": "8183d4eb74c6ad56ffb03fad62642ffd7cd6b0c9",
+  "execution_branch": "work/0.3.0-j10",
+  "worktree_id": "j10",
+  "attempt_ledger": ".codex/development-runs/node-attempt-ledger-j10.json",
+  "attempt_limit_per_nodeid": 1,
+  "attempt_limits_per_nodeid": {
+    "tests/verification/test_j10_tet10_fixed_excitation.py::test_j10_tet10_same_physical_excitation_time_mesh_study": 1,
+    "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion": 3,
+    "tests/verification/test_j10_tet10_modal_smoke.py::test_j10_tet10_modal_route_smoke": 2
+  },
+  "corrective_attempt_rationale": "HEX8 attempts 1 and 2 failed before FEM on source/contract and raw/canonical digest mismatches; one final HEX8 attempt 3 uses a separately contracted hash fix. The first modal attempt reached ModalResult but its harness failed by reading nonexistent `numerical_status` instead of the result's `status`; one corrective modal attempt is allowed under a distinct contract after that source-interface fix. All prior attempt records remain unchanged.",
+  "allowed_nodeids": [
+    "tests/verification/test_j10_tet10_fixed_excitation.py::test_j10_tet10_same_physical_excitation_time_mesh_study",
+    "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion",
+    "tests/verification/test_j10_tet10_modal_smoke.py::test_j10_tet10_modal_route_smoke"
+  ],
+  "family_contracts": [
+    "research/j10_transient/contracts/tet10_fixed_excitation_contract.json",
+    "research/j10_hex8/contracts/hex8_j7_distortion_contract.json",
+    "research/j10_hex8/contracts/hex8_j7_distortion_corrective_contract.json",
+    "research/j10_hex8/contracts/hex8_j7_distortion_corrective_contract_003.json",
+    "research/j10_modal/contracts/tet10_modal_route_smoke_contract.json",
+    "research/j10_modal/contracts/tet10_modal_route_smoke_corrective_contract.json"
+  ],
+  "budgets": {
+    "timeout_seconds": 1800,
+    "rss_soft_limit_mib": 2048,
+    "process_tree_limit": 4,
+    "output_total_limit_mib": 8,
+    "output_stream_limit_mib": 4,
+    "temporary_limit_mib": 512,
+    "archive_size_limit_mib": 128,
+    "minimum_free_disk_mib": 1024,
+    "numeric_threads": 1
+  },
+  "thread_environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "BLIS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1"
+  },
+  "launcher": "scripts/development_autonomous.py with one exact nodeid per collect-only preflight and one execution per nodeid",
+  "preservation": {
+    "historical_ledgers_and_results_modified": false,
+    "qualification_evidence_created": false,
+    "publication_release_tag_or_merge_authorized": false
+  }
+}

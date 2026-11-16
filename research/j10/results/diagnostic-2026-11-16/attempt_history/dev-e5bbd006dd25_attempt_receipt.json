@@ -1,0 +1,53 @@
+{
+  "schema": "qfsolver-development-attempt-v2",
+  "development_series_id": "dev-e5bbd006dd25",
+  "attempt_number": 2,
+  "state": "PYTEST_FAILED",
+  "scope": "fem_exploratory",
+  "worktree_id": "j10",
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-J10-2026-11-16-v1",
+  "target": [
+    "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion"
+  ],
+  "branch": "work/0.3.0-j10",
+  "source_head": "599427ecc5708981e0cf5f0077091b4449b65cac",
+  "source_fingerprint": "17c02a148f3205a791f08ddac052cdc62394cecf685ba0fc9922b928562d44ec",
+  "reason": "Corrective attempt 2 under contract J10-HEX8-J7-DOMAIN-PRESERVING-DISTORTION-CORRECTIVE-002 after attempt 1 failed before FEM on a classified contract/schema interface mismatch; source key mapping fixed and fresh exact-node preflight passed.",
+  "started_at_utc": "2026-11-16T20:31:48.205668+00:00",
+  "finished_at_utc": "2026-11-16T20:31:52.111049+00:00",
+  "elapsed_seconds": 3.894690299872309,
+  "peak_rss_bytes": 127754240,
+  "peak_process_count": 1,
+  "archive_bytes": 2386,
+  "temporary_bytes": 0,
+  "free_disk_before_bytes": 35533463552,
+  "free_disk_after_bytes": 35533447168,
+  "budgets": {
+    "archive_size_limit_mib": 128,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 512,
+    "timeout_seconds": 1800
+  },
+  "preflight_id": "pf-b21c2d161601",
+  "preflight_receipt_sha256": "098c1a73baa80cd22f1b1dedd6c037122109a375ab5271ab095453d59edb938f",
+  "return_code": 1,
+  "stdout_sha256": "ede6a7f17615f3acd48e183b6e924545509ebd230967d48211aafec068be6a63",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "output_inventory": [
+    {
+      "path": "stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.log",
+      "bytes": 2386,
+      "sha256": "ede6a7f17615f3acd48e183b6e924545509ebd230967d48211aafec068be6a63"
+    }
+  ],
+  "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+  "qualification_promotion": "PROHIBITED"
+}
