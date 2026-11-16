@@ -10,6 +10,9 @@ from research.j10_modal.tet10_modal_smoke import MODE_COUNT, run_modal_route_smo
 def test_j10_tet10_modal_route_smoke() -> None:
     result = run_modal_route_smoke()
     assert result["execution_status"] == "COMPLETED_EXPLORATORY"
+    assert result["contract_id"] == "J10-TET10-MODAL-ROUTE-SMOKE-CORRECTIVE-002"
+    assert result["attempt_id"] == "J10-TET10-MODAL-ROUTE-SMOKE-ATTEMPT-002"
+    assert result["development_attempt_number"] == 2
     assert result["model"]["free_dof_count"] == 12
     assert result["model"]["requested_modes"] == MODE_COUNT
     assert result["route"]["numerical_status"] in {"PASS", "INCONCLUSIVE", "FAIL"}

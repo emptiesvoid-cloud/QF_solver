@@ -1,0 +1,153 @@
+{
+  "schema": "qf-j10-tet10-modal-route-smoke-contract-v1",
+  "contract_id": "J10-TET10-MODAL-ROUTE-SMOKE-CORRECTIVE-002",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J10_OWNER_2026-11-16",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J10-2026-11-16-v1",
+  "classification": "DEVELOPMENT_ROUTE_DIAGNOSTIC_NOT_QUALIFICATION",
+  "supersedes": {
+    "contract_path": "research/j10_modal/contracts/tet10_modal_route_smoke_contract.json",
+    "contract_canonical_sha256": "1c8b98a61db819cd8b6e61c8f3103a7a24ea18ce0fcead3ee191f58e2f767abe",
+    "attempt_id": "J10-TET10-MODAL-ROUTE-SMOKE-ATTEMPT-001",
+    "execution_status": "PYTEST_FAILED",
+    "source_head": "2999fb980ccfd3b7fe97cb724b1be43330507879",
+    "development_series_id": "dev-d8c67df75bca",
+    "development_attempt_number": 1,
+    "attempt_record_sha256_raw": "66f4fddef3676df84a772ff99e3eba27014f8ea406e956a2f85acf354ba8576c",
+    "stdout_sha256_raw": "785ef429a5a6447bd8aab32c541428fe0a03aa21d3e9276c6dfb00b79411487c",
+    "preflight_receipt_sha256_raw": "263a424693aa9eca75b4149f5c300a5b16b9c0b663d56b8da6ec062d7eefa905",
+    "elapsed_seconds": 4.796009999932721,
+    "peak_rss_bytes": 157974528,
+    "failure": "ModalResult exposes status; the original harness read nonexistent numerical_status.",
+    "calculation_reached_solver": true,
+    "final_observables_serialized": false
+  },
+  "source_change": {
+    "classification": "HARNESS_INTERFACE_CORRECTION",
+    "changes": [
+      "Read ModalResult.status as the numerical route status.",
+      "For a PASS result, require exactly four finite frequency values and a finite full mode matrix with shape (30, 4)."
+    ],
+    "scientific_thresholds_changed": false,
+    "model_or_solver_source_changed": false
+  },
+  "source_identity": [
+    {
+      "path": "research/j10_modal/tet10_modal_smoke.py",
+      "canonical_sha256": "0d9ecf93124c92dfba127eb7d1709efcefd6c9a37e6a97fe11bb50a747b0d492"
+    },
+    {
+      "path": "tests/verification/test_j10_tet10_modal_smoke.py",
+      "canonical_sha256": "ada25aa41dc2f5e628c974c0e2c03e61e6ea4e8ad69a9df4c76c277d0fdae831"
+    },
+    {
+      "path": "scripts/development_autonomous.py",
+      "canonical_sha256": "ff63819e8246bfddb6fe635680b1f426d6e6f297498baf3d11f5b3cf6dbc3b97"
+    },
+    {
+      "path": "src/solveur/api/public.py",
+      "canonical_sha256": "576f68494139ef8f56d5d3eedfe46f9f540efd6281f359b36b980408231a22b8"
+    },
+    {
+      "path": "src/solveur/core/analyses/modal.py",
+      "canonical_sha256": "119c163e0dcb1a6f72cb7b09de3d2cd78b84eb126dbccf9806ce19b557564aa9"
+    },
+    {
+      "path": "src/solveur/core/analyses/modal_options.py",
+      "canonical_sha256": "028d26096f164f60a030544ce24b05db4b35f701fd5cb2f57711ce23d1361f5c"
+    },
+    {
+      "path": "src/solveur/core/analyses/modal_residual_validation.py",
+      "canonical_sha256": "84f3d0c4f54b0f31db9823de96767751d8cea93770bfad0f488791c05f14760a"
+    },
+    {
+      "path": "src/solveur/core/assembly/assembler.py",
+      "canonical_sha256": "e4e9710fe28822668d87e5a1d805aaf0f13369de01a094c585d17e5241910d41"
+    },
+    {
+      "path": "src/solveur/core/model.py",
+      "canonical_sha256": "cbe04fd1c35cfd98d326ab1c2287a97d05d5e7876c929bfe80d4805a7d387b8e"
+    },
+    {
+      "path": "src/solveur/elements/solid/tet10.py",
+      "canonical_sha256": "7a445696d284a14e5166c47cfd22171affe00e2729ab103aaf785802a976ced6"
+    }
+  ],
+  "hypothesis": "The QF TET10 modal route can compute and report the first four modes of a one-element, one-face-fixed model; a dense eigenproblem on the same QF-assembled reduced K/M provides a numerical cross-check without validating TET10 spatial accuracy.",
+  "model": {
+    "geometry": "unit right tetrahedron with standard ten-node midside placement",
+    "element": "one quadratic TET10 with default linear-elastic stiffness and consistent mass",
+    "material": {
+      "young_modulus_pa": 70000000000.0,
+      "poisson_ratio": 0.3,
+      "density_kg_m3": 2700.0,
+      "units": "SI"
+    },
+    "boundary_conditions": "UX, UY, UZ fixed at the six TET10 nodes on x=0; 12 free DOFs and 30 total DOFs",
+    "analysis": {
+      "method": "eigsh",
+      "requested_modes": 4,
+      "arpack_tolerance": 1e-11,
+      "modal_validation_policy": "strict"
+    },
+    "initial_or_forcing_conditions": "not applicable to undamped free vibration",
+    "inputs": "Model geometry, connectivity, material, and supports are defined explicitly in the source file bound above; there are no external model files."
+  },
+  "reference": {
+    "method": "scipy.linalg.eigh generalized symmetric eigenproblem on the same QF-assembled Kff and Mff",
+    "scope": "same-operator numerical comparison for this route smoke",
+    "not_established": [
+      "independent stiffness or mass assembly",
+      "TET10 continuum accuracy",
+      "J9 cantilever modal accuracy",
+      "modal transient basis adequacy"
+    ]
+  },
+  "observables": [
+    "QF ModalResult.status",
+    "modal residual-validation payload",
+    "frequency count and finite positive values",
+    "mode matrix shape and finite values",
+    "relative frequency differences to the dense same-operator solution",
+    "Kff, Mff, reference modes, returned frequencies and modes in the state archive"
+  ],
+  "status_rules": {
+    "PASS": "QF status must remain PASS and include exactly four finite positive frequencies and four finite mode vectors arranged as a full matrix of shape (30, 4); report the dense same-operator comparison.",
+    "INCONCLUSIVE": "Preserve INCONCLUSIVE, the exact QF validation payload and any usable outputs; do not relabel as PASS.",
+    "FAIL": "Preserve FAIL and serialize available diagnostics without relabeling it as numerical PASS.",
+    "no_numeric_acceptance_threshold": "Frequency differences are descriptive; no formal frequency accuracy threshold or qualification claim is made."
+  },
+  "execution": {
+    "nodeid": "tests/verification/test_j10_tet10_modal_smoke.py::test_j10_tet10_modal_route_smoke",
+    "attempt_id": "J10-TET10-MODAL-ROUTE-SMOKE-ATTEMPT-002",
+    "attempt_number": 2,
+    "attempts": 1,
+    "preflight_id": "pf-d42016160101",
+    "budgets": {
+      "timeout_seconds": 1800,
+      "rss_soft_limit_mib": 2048,
+      "process_tree_limit": 4,
+      "output_total_limit_mib": 8,
+      "output_stream_limit_mib": 4,
+      "temporary_limit_mib": 512,
+      "archive_size_limit_mib": 128,
+      "numeric_threads": 1,
+      "minimum_free_disk_mib": 1024
+    },
+    "budget_semantics": "Timeout and output caps are launcher controlled; RSS, process count, temporary/archive size, and free disk are sampled/soft observations, not OS quotas.",
+    "preflight": "A fresh exact-node collect-only receipt on this committed source is required before the single corrective attempt.",
+    "external_solver": "Not used; SciPy compares the same QF-assembled operators."
+  },
+  "preservation": {
+    "j10_modal_attempt_001": "PYTEST_FAILED retained unchanged; no results inferred from its solver return.",
+    "j9_full_basis_failure": "PYTEST_FAILED / aggregate_work_budget retained unchanged.",
+    "qualification_promotion": false,
+    "site_publication_release_tag_or_merge": false
+  },
+  "artifacts": [
+    "result.json",
+    "result.sha256.json",
+    "tet10_modal_smoke_state.npz",
+    "tet10_modal_smoke_frequencies.csv",
+    "runner stdout/stderr and attempt record"
+  ]
+}

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 from scripts import development_autonomous as runner
@@ -19,7 +20,7 @@ def test_j10_scope_is_bound_to_exact_nodes_one_thread_and_private_namespace(tmp_
     assert runner.J10_ATTEMPT_LIMITS == {
         expected[0]: 1,
         expected[1]: 3,
-        expected[2]: 1,
+        expected[2]: 2,
     }
     assert runner.J10_BUDGETS == {
         "timeout_seconds": 1800,
@@ -44,6 +45,7 @@ def test_j10_scope_is_bound_to_exact_nodes_one_thread_and_private_namespace(tmp_
         "research/j10_hex8/contracts/hex8_j7_distortion_corrective_contract.json",
         "research/j10_hex8/contracts/hex8_j7_distortion_corrective_contract_003.json",
         "research/j10_modal/contracts/tet10_modal_route_smoke_contract.json",
+        "research/j10_modal/contracts/tet10_modal_route_smoke_corrective_contract.json",
     }
     for relative in registration["family_contracts"]:
         contract = json.loads((root / relative).read_text(encoding="utf-8"))
@@ -55,10 +57,11 @@ def test_j10_hex8_corrective_contract_binds_sources_and_archived_inputs() -> Non
     root = Path(__file__).resolve().parents[2]
     relative = "research/j10_hex8/contracts/hex8_j7_distortion_corrective_contract_003.json"
     contract = json.loads((root / relative).read_text(encoding="utf-8"))
+    contract_source_commit = "2999fb980ccfd3b7fe97cb724b1be43330507879"
     assert contract["contract_id"] == "J10-HEX8-J7-DOMAIN-PRESERVING-DISTORTION-CORRECTIVE-003"
     assert contract["execution"]["attempt_id"] == "J10-HEX8-J7-DISTORTION-ATTEMPT-003"
     for item in contract["source_identity"]:
-        source = (root / item["path"]).read_bytes().replace(b"\r\n", b"\n")
+        source = subprocess.check_output(["git", "show", f"{contract_source_commit}:{item['path']}"], cwd=root)
         assert hashlib.sha256(source).hexdigest() == item["canonical_sha256"]
 
     inputs = contract["inputs"]
@@ -73,6 +76,29 @@ def test_j10_hex8_corrective_contract_binds_sources_and_archived_inputs() -> Non
     result_payload = json.loads(historical_result.decode("utf-8"))
     assert result_payload["scientific_criteria_status"] == "FAIL"
     assert result_payload["source"]["repository_head"] == "7b60400eeb34239e1cf639dc7e92f94118ca57bc"
+
+
+def test_j10_modal_corrective_contract_binds_the_fixed_result_interface() -> None:
+    root = Path(__file__).resolve().parents[2]
+    relative = "research/j10_modal/contracts/tet10_modal_route_smoke_corrective_contract.json"
+    contract = json.loads((root / relative).read_text(encoding="utf-8"))
+    assert contract["contract_id"] == "J10-TET10-MODAL-ROUTE-SMOKE-CORRECTIVE-002"
+    assert contract["supersedes"]["attempt_id"] == "J10-TET10-MODAL-ROUTE-SMOKE-ATTEMPT-001"
+    assert contract["supersedes"]["execution_status"] == "PYTEST_FAILED"
+    assert contract["supersedes"]["failure"] == "ModalResult exposes status; the original harness read nonexistent numerical_status."
+    assert contract["execution"]["attempt_id"] == "J10-TET10-MODAL-ROUTE-SMOKE-ATTEMPT-002"
+    assert contract["execution"]["attempt_number"] == 2
+    assert contract["status_rules"]["PASS"].find("(30, 4)") >= 0
+    assert contract["status_rules"]["INCONCLUSIVE"].find("INCONCLUSIVE") >= 0
+    assert contract["status_rules"]["FAIL"].find("FAIL") >= 0
+    prior_contract = subprocess.check_output(
+        ["git", "show", f"2999fb980ccfd3b7fe97cb724b1be43330507879:{contract['supersedes']['contract_path']}"],
+        cwd=root,
+    )
+    assert hashlib.sha256(prior_contract.replace(b"\r\n", b"\n")).hexdigest() == contract["supersedes"]["contract_canonical_sha256"]
+    for item in contract["source_identity"]:
+        actual = hashlib.sha256((root / item["path"]).read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+        assert actual == item["canonical_sha256"]
 
 
 def test_j10_preflight_dispatches_to_its_own_exact_node_handler(monkeypatch) -> None:

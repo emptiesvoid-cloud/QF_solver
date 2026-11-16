@@ -159,7 +159,7 @@ J10_NODEIDS = (
 J10_ATTEMPT_LIMITS = {
     J10_NODEIDS[0]: 1,
     J10_NODEIDS[1]: 3,
-    J10_NODEIDS[2]: 1,
+    J10_NODEIDS[2]: 2,
 }
 J10_BUDGETS = {
     "timeout_seconds": 1800,

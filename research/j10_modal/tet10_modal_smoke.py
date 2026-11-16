@@ -29,7 +29,7 @@ from solveur.api import solve_model  # noqa: E402
 from solveur.core.assembly.assembler import GlobalAssembler  # noqa: E402
 from solveur.core.model import FiniteElementModel  # noqa: E402
 
-CONTRACT_PATH = ROOT / "research/j10_modal/contracts/tet10_modal_route_smoke_contract.json"
+CONTRACT_PATH = ROOT / "research/j10_modal/contracts/tet10_modal_route_smoke_corrective_contract.json"
 NODEID = "tests/verification/test_j10_tet10_modal_smoke.py::test_j10_tet10_modal_route_smoke"
 MODE_COUNT = 4
 
@@ -153,15 +153,14 @@ def run_modal_route_smoke() -> dict[str, Any]:
     )
     mode_payload_valid = bool(qf_modes.ndim == 2 and qf_modes.size > 0 and np.isfinite(qf_modes).all())
     modal_validation = (result.solver or {}).get("modal_residual_validation", {})
-    route_status = str(result.numerical_status)
+    route_status = str(result.status)
     if route_status not in {"PASS", "INCONCLUSIVE", "FAIL"}:
         raise RuntimeError(f"Unexpected modal route status {route_status!r}")
     if route_status == "PASS" and (
         not frequency_payload_valid
         or qf_frequencies.shape != (MODE_COUNT,)
         or not mode_payload_valid
-        or len(free) not in qf_modes.shape
-        or MODE_COUNT not in qf_modes.shape
+        or qf_modes.shape != (dofs.ndof, MODE_COUNT)
     ):
         raise RuntimeError("The modal route reported PASS without four finite frequencies and mode vectors")
     if not frequency_payload_valid:
@@ -179,6 +178,9 @@ def run_modal_route_smoke() -> dict[str, Any]:
         "schema": "qf-j10-tet10-modal-smoke-result-v1",
         "classification": "DEVELOPMENT_ROUTE_SMOKE_NOT_QUALIFICATION",
         "execution_status": "COMPLETED_EXPLORATORY",
+        "contract_id": contract["contract_id"],
+        "attempt_id": contract["execution"]["attempt_id"],
+        "development_attempt_number": run["attempt"],
         "nodeid": NODEID,
         "source_head": run["identity"]["head"],
         "source_fingerprint": run["source_fingerprint"],
@@ -199,6 +201,7 @@ def run_modal_route_smoke() -> dict[str, Any]:
             "geometry_m": "unit right tetrahedron",
             "element_count": 1,
             "node_count": 10,
+            "total_dof_count": int(dofs.ndof),
             "free_dof_count": int(len(free)),
             "fixed_face_nodes": FIXED_NODES.tolist(),
             "material": {"young_modulus_pa": 70.0e9, "poisson_ratio": 0.30, "density_kg_m3": 2700.0},
