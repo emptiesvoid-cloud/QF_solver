@@ -1,0 +1,259 @@
+{
+  "checkpoint_count": 41,
+  "checkpoints": [
+    {
+      "bytes": 6800,
+      "completed_step": 8,
+      "file": "tet10_nx16_state.step00000008.npz",
+      "sha256": "2c4a477e93b160d1955eac9475c1c68f1fea34998a980621ef88e5353c1ad892"
+    },
+    {
+      "bytes": 6708,
+      "completed_step": 16,
+      "file": "tet10_nx16_state.step00000016.npz",
+      "sha256": "5ce114d0227f2458dab4b70092c93da52acf9724f49d20f1dd699d9016e971ad"
+    },
+    {
+      "bytes": 6827,
+      "completed_step": 24,
+      "file": "tet10_nx16_state.step00000024.npz",
+      "sha256": "c92430e4416f330a3a29354cad8fb998c8af3e8428709e15ddeff88daeea20b8"
+    },
+    {
+      "bytes": 6867,
+      "completed_step": 32,
+      "file": "tet10_nx16_state.step00000032.npz",
+      "sha256": "7ef118c90f3133f8c7a08025ed1038e37d8efe3003649f1ea82afd0b0b48f71c"
+    },
+    {
+      "bytes": 6841,
+      "completed_step": 40,
+      "file": "tet10_nx16_state.step00000040.npz",
+      "sha256": "63841bf44d3731f14ad9e264ab1c5c9675b67848b225aa069d9e80966f77e506"
+    },
+    {
+      "bytes": 6938,
+      "completed_step": 48,
+      "file": "tet10_nx16_state.step00000048.npz",
+      "sha256": "b29cee29464864ebf7f190222631127e7e0e569839787231442937e36d751e8b"
+    },
+    {
+      "bytes": 6850,
+      "completed_step": 56,
+      "file": "tet10_nx16_state.step00000056.npz",
+      "sha256": "0be49963cd12dbd3ed5469a05a90a700d868d8357679c27ef1486d88406846f0"
+    },
+    {
+      "bytes": 6963,
+      "completed_step": 64,
+      "file": "tet10_nx16_state.step00000064.npz",
+      "sha256": "c9a1d0cf86e4e95fcf1c7320bc24e12e37aca65d458abcd3d0d8a7b4d42baa7a"
+    },
+    {
+      "bytes": 6985,
+      "completed_step": 72,
+      "file": "tet10_nx16_state.step00000072.npz",
+      "sha256": "86ae60522cded8cdcd8b1870716031fde2bf01fa0a46cdd839dfa1e158babf61"
+    },
+    {
+      "bytes": 6973,
+      "completed_step": 80,
+      "file": "tet10_nx16_state.step00000080.npz",
+      "sha256": "38894b3b28eabce2a4b67b3459e140916bc1fe867443c52a7e9bda2c2f90f61b"
+    },
+    {
+      "bytes": 6971,
+      "completed_step": 88,
+      "file": "tet10_nx16_state.step00000088.npz",
+      "sha256": "cb841f804f7c05755090aac92ee1f42a55ce79367a7920e11c2e2026713df0ad"
+    },
+    {
+      "bytes": 7092,
+      "completed_step": 96,
+      "file": "tet10_nx16_state.step00000096.npz",
+      "sha256": "f9bad6444dc39a5ed1cb5334f420e994461b087ccdc66e623cb6551975f672d7"
+    },
+    {
+      "bytes": 6954,
+      "completed_step": 104,
+      "file": "tet10_nx16_state.step00000104.npz",
+      "sha256": "c96bbee7839adbbffa9fde48945094e6db336ed1cae352a19f840d1849dc885e"
+    },
+    {
+      "bytes": 6939,
+      "completed_step": 112,
+      "file": "tet10_nx16_state.step00000112.npz",
+      "sha256": "196879e5c9c4789f87d7112918f7ade606708632d2ce542bf29a6e5047b8ee0c"
+    },
+    {
+      "bytes": 7086,
+      "completed_step": 120,
+      "file": "tet10_nx16_state.step00000120.npz",
+      "sha256": "b2c7311c90ed393031d6113a5280d15ad7c073cae07a45d42db4e2e335e846a8"
+    },
+    {
+      "bytes": 6966,
+      "completed_step": 128,
+      "file": "tet10_nx16_state.step00000128.npz",
+      "sha256": "55accc09a9dcbff381039e0568e7db5f93ac46cbfcca3da6f6ac44cfcba63b40"
+    },
+    {
+      "bytes": 6997,
+      "completed_step": 136,
+      "file": "tet10_nx16_state.step00000136.npz",
+      "sha256": "a748e392e71458938304317fa231843b3dab59601bda8ee9e6ebad626755597d"
+    },
+    {
+      "bytes": 7024,
+      "completed_step": 144,
+      "file": "tet10_nx16_state.step00000144.npz",
+      "sha256": "ce4d722a1f4f7171314e4e58b9c5e6cd8c69fdbd7e611a32c741994ea7e2d46d"
+    },
+    {
+      "bytes": 7061,
+      "completed_step": 152,
+      "file": "tet10_nx16_state.step00000152.npz",
+      "sha256": "7084cffe91c618db28a83d2556a9c0153098515de57f5e84b08eda54ee83a906"
+    },
+    {
+      "bytes": 6967,
+      "completed_step": 160,
+      "file": "tet10_nx16_state.step00000160.npz",
+      "sha256": "12d5df1e4c4cdeabfbcd0a5560f91f831aa7501893c38ddec17a13844d5467ea"
+    },
+    {
+      "bytes": 6974,
+      "completed_step": 168,
+      "file": "tet10_nx16_state.step00000168.npz",
+      "sha256": "cc8af68998cf92a75f6eee515e1f06e1de29e9eeeabfbd3aff9cb33e2433a0fe"
+    },
+    {
+      "bytes": 7166,
+      "completed_step": 176,
+      "file": "tet10_nx16_state.step00000176.npz",
+      "sha256": "ef10551984d9bb933734aac2deb6737c0942f8bedd2cdbdec9685eecbf766634"
+    },
+    {
+      "bytes": 6978,
+      "completed_step": 184,
+      "file": "tet10_nx16_state.step00000184.npz",
+      "sha256": "71f2e6676cfd57f53159fb555775ff3edd4e67f95412d3daf27e9eed5c18f8b9"
+    },
+    {
+      "bytes": 6968,
+      "completed_step": 192,
+      "file": "tet10_nx16_state.step00000192.npz",
+      "sha256": "c67fdbfdc997dc949da6561bc0c480742e40ee9bc3fefa9d273e5a2a6206ad8c"
+    },
+    {
+      "bytes": 7073,
+      "completed_step": 200,
+      "file": "tet10_nx16_state.step00000200.npz",
+      "sha256": "a6bf8c4f1371e9f9c7ecd33ddb53e47cfa46d1f94cf08b9c31aa9cb0d10b6a58"
+    },
+    {
+      "bytes": 7070,
+      "completed_step": 208,
+      "file": "tet10_nx16_state.step00000208.npz",
+      "sha256": "b26449e7c006a4372b07712d15794e7a9c21164308a6c3a282acaea3fd59eafc"
+    },
+    {
+      "bytes": 7077,
+      "completed_step": 216,
+      "file": "tet10_nx16_state.step00000216.npz",
+      "sha256": "42d6f5845c542b22a63fbd52fd83089aaffe18f8cc3207a270b25a7f76313e60"
+    },
+    {
+      "bytes": 7019,
+      "completed_step": 224,
+      "file": "tet10_nx16_state.step00000224.npz",
+      "sha256": "68cfefd161ca98b810de30a91e60d8e8a9ac39a07963e1b84747d14d03eb44b6"
+    },
+    {
+      "bytes": 7117,
+      "completed_step": 232,
+      "file": "tet10_nx16_state.step00000232.npz",
+      "sha256": "c1fe39b17fc2dff095e813353685388de41a1fdce127e58b47464bb382055997"
+    },
+    {
+      "bytes": 7003,
+      "completed_step": 240,
+      "file": "tet10_nx16_state.step00000240.npz",
+      "sha256": "164e3e737ece9580aafd8d233fb273c132caca9f4f2bba0094a491358ddca8a6"
+    },
+    {
+      "bytes": 6993,
+      "completed_step": 248,
+      "file": "tet10_nx16_state.step00000248.npz",
+      "sha256": "0b355577034a73b32713c9bf481ce561d39780e49837d3ea706569750ecb7872"
+    },
+    {
+      "bytes": 7128,
+      "completed_step": 256,
+      "file": "tet10_nx16_state.step00000256.npz",
+      "sha256": "e39b69561e3ebd69d0e9c7cf259c23ae1f0a616ea48505562199f6cddf5330c1"
+    },
+    {
+      "bytes": 7028,
+      "completed_step": 264,
+      "file": "tet10_nx16_state.step00000264.npz",
+      "sha256": "03cb1d1ee60cd34484155afa47609ab85eeccc6055e114583064ca58a607c96d"
+    },
+    {
+      "bytes": 7074,
+      "completed_step": 272,
+      "file": "tet10_nx16_state.step00000272.npz",
+      "sha256": "c22e8b7738912dfb56ca639ef4d53dd4458632c732b9391751f32794482d2b96"
+    },
+    {
+      "bytes": 7077,
+      "completed_step": 280,
+      "file": "tet10_nx16_state.step00000280.npz",
+      "sha256": "686b190b9dd04ae9d4572f3ed0251c480cfa7e2a06a6fad482f96e456c26578f"
+    },
+    {
+      "bytes": 7045,
+      "completed_step": 288,
+      "file": "tet10_nx16_state.step00000288.npz",
+      "sha256": "f97cdefec7f4e197df3b4710f397d0cdf6a6788fb21c59da109b11b5f72f218f"
+    },
+    {
+      "bytes": 7024,
+      "completed_step": 296,
+      "file": "tet10_nx16_state.step00000296.npz",
+      "sha256": "06b36d2465eec5508feb64f4aea1e6735bb907676e31e6d33d4ae100cbd588dd"
+    },
+    {
+      "bytes": 6972,
+      "completed_step": 304,
+      "file": "tet10_nx16_state.step00000304.npz",
+      "sha256": "2e35e8a4723aa322f2fecc72912bda286396a75635406a7ea76d30964d345e77"
+    },
+    {
+      "bytes": 7130,
+      "completed_step": 312,
+      "file": "tet10_nx16_state.step00000312.npz",
+      "sha256": "c8a1342b69e7207b96e818c0b650893a3d88e0d9354bb64bec822689cf44ccdf"
+    },
+    {
+      "bytes": 7009,
+      "completed_step": 320,
+      "file": "tet10_nx16_state.npz",
+      "sha256": "f6151b6f4cd65b214cd32dac125dab78f89d0a4af6c12f08b7a69a9c3c0f02f9"
+    },
+    {
+      "bytes": 7009,
+      "completed_step": 320,
+      "file": "tet10_nx16_state.step00000320.npz",
+      "sha256": "f6151b6f4cd65b214cd32dac125dab78f89d0a4af6c12f08b7a69a9c3c0f02f9"
+    }
+  ],
+  "failure": "The v2 harness compared an 80-sample continuum history to a 320-sample cached reference grid before final serialization. The recorded NPZ checkpoints are preserved as partial states, not promoted to a completed study.",
+  "schema": "qf-j11-transient-partial-checkpoint-archive-v1",
+  "source_execution_state": "PYTEST_FAILED",
+  "source_head": "50ad6fa506f478f9e2e5c2b97ecf205721dfef7c",
+  "source_nodeid": "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2",
+  "source_run_record_sha256_raw": "f1405586337b23b5d857cf4275e192511bfabd7733c769d6def906c7b953e4ed",
+  "source_series_id": "dev-0365c7f9b305",
+  "source_stdout_sha256_raw": "278f3ebfb583f101c4aaa2194f8ae40277492b19bdf7d93336681b645d7e25f1"
+}

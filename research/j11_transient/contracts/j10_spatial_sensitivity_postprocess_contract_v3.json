@@ -1,0 +1,124 @@
+{
+  "classification": "DETERMINISTIC_POSTPROCESSING_OF_ARCHIVED_EXPLORATORY_DATA",
+  "comparison": {
+    "changed_axes": [
+      "axial x refinement",
+      "transverse y refinement",
+      "transverse z refinement"
+    ],
+    "dt_s": 0.000125,
+    "expected_observation_count": 192,
+    "mesh_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "normalization": "One common archived global oracle peak across all meshes and time steps; RMS and peak pairwise history differences are divided by this value.",
+    "physical_load": {
+      "location_m": [
+        2.0,
+        0.2,
+        0.2
+      ],
+      "resultant_n": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "type": "single-node negative-Z point force"
+    },
+    "physical_probe": {
+      "component": "UZ",
+      "location_m": [
+        1.0,
+        0.2,
+        0.2
+      ]
+    },
+    "time_interval_s": [
+      0.000125,
+      0.024
+    ]
+  },
+  "contract_id": "QF_SOLVER_0.3.0_J11_J10_PAIRWISE_MESH_POSTPROCESS_CORRECTIVE_V3_2026-11-16",
+  "inputs": {
+    "result_json_path": "research/j10/results/diagnostic-2026-11-16/tet10_fixed_excitation/result.json",
+    "result_json_sha256_raw": "29d72af104728513ea932c4d0474fbeb73306010351c1ebc1e4d6d608b336457",
+    "states_npz_path": "research/j10/results/diagnostic-2026-11-16/tet10_fixed_excitation/tet10_fixed_excitation_states.npz",
+    "states_npz_sha256_raw": "cb4b31eb040413ff6559c1c3129726e2f30973a2226479c8b16d5fb31e6e354c"
+  },
+  "operation": {
+    "correction": "Corrected the pre-run contracted time-grid endpoints from [0, 0.023875] to the observed archive endpoints [0.000125, 0.024]; count and time step remain 192 and 125 microseconds.",
+    "execution_route": "python -m research.j11_transient.j10_spatial_pairwise_v3 --output research/j11/results/diagnostic-2026-11-16/j10_mesh_postprocess_v3.json",
+    "historical_status": "The v1 time-grid contract failure and v2 direct-script import failure are preserved as separate attempt records. This corrective contract uses the exact archived 192-sample grid and module invocation verified by --help.",
+    "method": "At dt=125 microseconds, subtract the adjacent full-order semidiscrete modal-oracle UZ histories on the common archived physical time grid. Normalize the differences by the archived common global oracle peak.",
+    "non_operations": [
+      "no FEM assembly",
+      "no solve",
+      "no reference or status promotion",
+      "no change to historical J10 metrics"
+    ],
+    "prior_attempts": [
+      {
+        "attempt_record_path": "research/j11/results/diagnostic-2026-11-16/j10_mesh_postprocess_v1_failure.json",
+        "contract_path": "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract.json",
+        "contract_sha256_canonical": "fd1607b384fd496d1cdb3ba4f972ac932ff361005648097eb35e821e6fda5f55",
+        "status": "POSTPROCESS_FAILED_BEFORE_METRIC_OUTPUT"
+      },
+      {
+        "attempt_record_path": "research/j11/results/diagnostic-2026-11-16/j10_mesh_postprocess_v2_failure.json",
+        "contract_path": "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract_v2.json",
+        "contract_sha256_canonical": "abcbfc34f2bc22907f8875432a9d181a34a4f74325d619c5461cdefc9d354c8a",
+        "status": "LAUNCHER_FAILED_BEFORE_POSTPROCESSING"
+      }
+    ],
+    "scope": "Pairwise sensitivity to adding one structured mesh direction at a time. This is not a continuum error, a spatial convergence proof, or an independent mechanics reference.",
+    "type": "ARCHIVED_HISTORY_PAIRWISE_COMPARISON"
+  },
+  "outputs": [
+    "research/j11/results/diagnostic-2026-11-16/j10_mesh_postprocess_v3.json",
+    "research/j11/results/diagnostic-2026-11-16/j10_mesh_postprocess_v3_observation.json"
+  ],
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J11_OWNER_2026-11-16",
+  "resources": {
+    "attempt_limit": 1,
+    "fem_execution": false,
+    "output_limit_mib": 1,
+    "rss_soft_limit_mib": 512,
+    "wall_timeout_seconds": 120
+  },
+  "schema": "qf-j11-j10-pairwise-mesh-postprocess-contract-v1",
+  "source_identity": [
+    {
+      "canonical_sha256": "95c54e8d6b92e973a33b681cb8242351c7c4b7f3d8e11bea06ccc1dfa207e1a0",
+      "path": "research/j11_transient/j10_spatial_pairwise.py"
+    },
+    {
+      "canonical_sha256": "ca4b60dcb8193f39fcf44e70d63dd9666ef015c31fc9fa2fed6bf26df31961af",
+      "path": "research/j11_transient/j10_spatial_pairwise_v3.py"
+    },
+    {
+      "canonical_sha256": "e575da469b7c6ebc72e3170fba0c2928c49c3dd680a36a6c4ccfc928d1f17e31",
+      "path": "tests/unit/test_j11_j10_spatial_pairwise.py"
+    }
+  ],
+  "source_run": {
+    "contract_sha256": "259bf55a010bf94048c6b51edb1d4705056f1f9600a0e6300757e6a63bdfcdf3",
+    "execution_status": "COMPLETED_EXPLORATORY",
+    "nodeid": "tests/verification/test_j10_tet10_fixed_excitation.py::test_j10_tet10_same_physical_excitation_time_mesh_study",
+    "source_fingerprint": "656270d39dcb8daab3c21259189f38af99ec71e2a1191f14be5d9f1dafec4129",
+    "source_head": "62ab1f57079510e7877cb0fb8f8ce8e9e3c4d26a"
+  },
+  "verification": {
+    "formal_acceptance_thresholds": "none; descriptive post-processing only",
+    "preservation_checks": [
+      "exact raw SHA-256 for archived J10 result and state files",
+      "exact J10 source head, nodeid, and exploratory status",
+      "exact physical probe coordinate represented by the recorded node on each mesh",
+      "one-node -1 N point load at the same physical location on each mesh",
+      "identical recorded physical time step, time count, and probe coordinates",
+      "finite arrays with matching shapes and shared normalization scale"
+    ]
+  }
+}

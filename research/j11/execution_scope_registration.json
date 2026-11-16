@@ -1,0 +1,142 @@
+{
+  "allowed_nodeids": [
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation",
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2",
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v3",
+    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction",
+    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction_corrective_v2"
+  ],
+  "attempt_ledger": ".codex/development-runs/node-attempt-ledger-j11.json",
+  "attempt_limit_per_nodeid": 1,
+  "attempt_limits_per_nodeid": {
+    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction": 1,
+    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction_corrective_v2": 1,
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation": 1,
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2": 1,
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v3": 1
+  },
+  "baseline_branch": "work/0.3.0-j10",
+  "baseline_commit": "0d6b6384c7b334d664e7645d75c8413499b9036f",
+  "budgets": {
+    "archive_size_limit_mib": 128,
+    "minimum_free_disk_mib": 1024,
+    "numeric_threads": 1,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 512,
+    "timeout_seconds": 1800
+  },
+  "classification": "DEVELOPMENT_EXPLORATORY_ONLY",
+  "corrective_attempts": [
+    {
+      "new_contract": "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json",
+      "new_nodeid": "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2",
+      "prior_contract": "research/j11_transient/contracts/tet10_axial_bar_contract.json",
+      "prior_elapsed_seconds": 6.555993600049987,
+      "prior_nodeid": "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation",
+      "prior_peak_rss_bytes": 163295232,
+      "prior_preflight_id": "pf-ae1b5c0dacb7",
+      "prior_preflight_receipt_sha256": "3a6a483f09231025c22239b129cc8d875d57961c27481289a17b2d691348e65b",
+      "prior_run_record_sha256_raw": "322b3640e999ade2a8565e801f23c47da79451bacd4f8b7e799af91e9810222a",
+      "prior_run_series_id": "dev-80a5113d9d85",
+      "prior_run_state": "PYTEST_FAILED",
+      "prior_source_head": "c23d43f1d13122a5412470fed1ab8c0d69eca25d",
+      "prior_stdout_sha256": "f31e779e6cd202ba5db3a225fd9ee1163d5ce82c8a1cc215723af5693dd04db9",
+      "source_change": "Pass the initial zero load factor at t=0 to PiecewiseLinearModalOracle; keep the pulse, meshes, time steps, metrics, thresholds and budgets unchanged."
+    },
+    {
+      "new_contract": "research/j11_hex8/contracts/hex8_j7_reconstruction_contract_corrective_v2.json",
+      "new_nodeid": "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction_corrective_v2",
+      "prior_contract": "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json",
+      "prior_elapsed_seconds": 4.781061100075021,
+      "prior_nodeid": "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction",
+      "prior_peak_rss_bytes": 160890880,
+      "prior_preflight_id": "pf-d31b4192ba1c",
+      "prior_preflight_receipt_sha256": "e15474502312da7edfe76e186e62f426f09b5e4021ce478c17d11b5a6914f816",
+      "prior_run_record_sha256_raw": "a7385cd7541eaea2ac13c19b745bba94d46d5ae9a312d5ef64a45fbb8bbd7f38",
+      "prior_run_series_id": "dev-b5cf2a8faabc",
+      "prior_run_state": "PYTEST_FAILED",
+      "prior_source_head": "c23d43f1d13122a5412470fed1ab8c0d69eca25d",
+      "prior_stdout_sha256": "a3e7fe6796adda849b2c5afa2374200e56248cc541ea236adccc96862f4a7903",
+      "source_change": "Use the actual research-only Hex8SRIElement kernel and J10 local-to-global stiffness scatter route; disclose that no public AnalysisRouter/GlobalAssembler route exists for HEX8-SRI. Keep alpha levels, inputs, indicators, thresholds and budgets unchanged."
+    },
+    {
+      "new_contract": "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v3.json",
+      "new_nodeid": "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v3",
+      "prior_contract": "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json",
+      "prior_elapsed_seconds": 27.47151970001869,
+      "prior_peak_rss_bytes": 226336768,
+      "prior_preflight_id": "pf-065537790048",
+      "prior_preflight_receipt_sha256": "d8683dc24ba79cef8f7202a85d3dc6b4f407c381af943c5399d2a6c846fe3297",
+      "prior_run_record_sha256_raw": "f1405586337b23b5d857cf4275e192511bfabd7733c769d6def906c7b953e4ed",
+      "prior_run_series_id": "dev-0365c7f9b305",
+      "prior_run_state": "PYTEST_FAILED",
+      "prior_source_head": "50ad6fa506f478f9e2e5c2b97ecf205721dfef7c",
+      "prior_stdout_sha256": "278f3ebfb583f101c4aaa2194f8ae40277492b19bdf7d93336681b645d7e25f1",
+      "source_change": "Restrict the cached-reference equality guard to exactly equal physical time arrays; preserve computation on all coarse and fine grids."
+    }
+  ],
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J11-2026-11-16-v1",
+  "execution_branch": "work/0.3.0-j11",
+  "family_contract_sha256_canonical": {
+    "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json": "9736e30818476c7c27aa6df7590cc0173fe74e75bd32156437e6ffb00b44027e",
+    "research/j11_hex8/contracts/hex8_j7_reconstruction_contract_corrective_v2.json": "d81b37710ac389c5bfdc23bc46a519f5492b9e24660a5d306db43698f844ec7b",
+    "research/j11_transient/contracts/tet10_axial_bar_contract.json": "a342296a7df3f9d6fb7578c50bad45180000891e56908eddc7bfeebce19e8181",
+    "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json": "56beaa455a1cfa54f730cdec83a1ff2069b43a76b87cf7f9ae0e077a5e6f3804",
+    "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v3.json": "396b5a5672759efaf36edfbd60bece558ab09f9d928a2b80d8196990da8ffa94"
+  },
+  "family_contracts": [
+    "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json",
+    "research/j11_hex8/contracts/hex8_j7_reconstruction_contract_corrective_v2.json",
+    "research/j11_transient/contracts/tet10_axial_bar_contract.json",
+    "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json",
+    "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v3.json"
+  ],
+  "historical_postprocess_contracts": [
+    {
+      "attempt_record_path": "research/j11/results/diagnostic-2026-11-16/j10_mesh_postprocess_v1_failure.json",
+      "canonical_sha256": "fd1607b384fd496d1cdb3ba4f972ac932ff361005648097eb35e821e6fda5f55",
+      "path": "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract.json",
+      "status": "POSTPROCESS_FAILED_BEFORE_METRIC_OUTPUT",
+      "test_snapshot_path": "research/j11_transient/attempt_sources/test_j11_j10_spatial_pairwise_v1.py"
+    },
+    {
+      "attempt_record_path": "research/j11/results/diagnostic-2026-11-16/j10_mesh_postprocess_v2_failure.json",
+      "canonical_sha256": "abcbfc34f2bc22907f8875432a9d181a34a4f74325d619c5461cdefc9d354c8a",
+      "path": "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract_v2.json",
+      "status": "LAUNCHER_FAILED_BEFORE_POSTPROCESSING",
+      "test_snapshot_path": "research/j11_transient/attempt_sources/test_j11_j10_spatial_pairwise_v2.py"
+    }
+  ],
+  "launcher": "scripts/development_autonomous.py with one exact nodeid per collect-only preflight and one attempt per node",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J11_OWNER_2026-11-16",
+  "postprocess_contract_sha256_canonical": {
+    "research/j11_hex8/contracts/hex8_archive_postprocess_contract.json": "6b2247e810d70a361cabf44c7f2937c094d2703ce22faeee8103937ab8528088",
+    "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract.json": "fd1607b384fd496d1cdb3ba4f972ac932ff361005648097eb35e821e6fda5f55",
+    "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract_v2.json": "abcbfc34f2bc22907f8875432a9d181a34a4f74325d619c5461cdefc9d354c8a",
+    "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract_v3.json": "dce346e6b1bd35a2ad145c84d1f2bd4176c04236b6fa382eceeadefe2ac8c30b"
+  },
+  "postprocess_contracts": [
+    "research/j11_hex8/contracts/hex8_archive_postprocess_contract.json",
+    "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract_v3.json"
+  ],
+  "preservation": {
+    "historical_ledgers_and_results_modified": false,
+    "publication_release_tag_or_merge_authorized": false,
+    "qualification_evidence_created": false
+  },
+  "schema": "qf-j11-execution-scope-registration-v1",
+  "thread_environment": {
+    "BLIS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "worktree_id": "j11"
+}

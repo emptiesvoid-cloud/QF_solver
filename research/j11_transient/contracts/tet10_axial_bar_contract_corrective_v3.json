@@ -1,0 +1,320 @@
+{
+  "artifacts": [
+    "result.json",
+    "result.sha256",
+    "tet10_axial_bar_history.csv",
+    "tet10_axial_bar_states.npz",
+    "tet10_axial_bar_mesh.png",
+    "tet10_axial_bar_history.png",
+    "tet10_axial_bar_time_refinement.png",
+    "tet10_axial_bar_animation.gif",
+    "runner attempt record, captured stdout/stderr and resource observations in the ignored local development run store",
+    "corrective v2 contract and distinct runner attempt record; prior v1 failed record retained separately"
+  ],
+  "attempts": {
+    "attempt_policy": "One attempt under this corrective contract on its distinct exact nodeid. The v1 and v2 attempt records and their statuses remain immutable; any further attempt requires another classified source/instrumentation change or a separately defined hypothesis and contract.",
+    "exact_node_attempt_limit": 1
+  },
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "contract_id": "QF_SOLVER_0.3.0_J11_TRANSIENT_GUIDED_TET10_CORRECTIVE_V3_2026-11-16",
+  "corrective_change": {
+    "change": "Apply the cached-reference consistency assertion only when the physical time arrays are exactly identical; retain continuum evaluation and error metrics on every run's own contracted physical grid. No mesh, forcing, model, reference, normalization, acceptance indicator, or budget changed.",
+    "classification": "HARNESS_TIME_GRID_GUARD",
+    "demonstrated_cause": "The v2 runner compared continuum samples for dt=100 microseconds (80 observations) elementwise with the cached 25 microsecond reference grid (320 observations), before reaching final metrics serialization. The values were computed on the requested grids; the shape mismatch was in a consistency guard, not the mechanical model.",
+    "historical_status": "The v2 attempt remains PYTEST_FAILED and its durable checkpoints are preserved. The v1 timeout/failure statuses are unchanged.",
+    "prior_attempt": {
+      "attempt_number": 1,
+      "attempt_record_sha256_raw": "f1405586337b23b5d857cf4275e192511bfabd7733c769d6def906c7b953e4ed",
+      "captured_stdout_sha256": "278f3ebfb583f101c4aaa2194f8ae40277492b19bdf7d93336681b645d7e25f1",
+      "classification": "HARNESS_FAILURE_AFTER_ALL_CONTRACTED_SOLVES_AND_DURABLE_CHECKPOINTS_BEFORE_FINAL_SERIALIZATION",
+      "elapsed_seconds": 27.47151970001869,
+      "peak_rss_bytes": 226336768,
+      "return_code": 1,
+      "series_id": "dev-0365c7f9b305",
+      "source_head": "50ad6fa506f478f9e2e5c2b97ecf205721dfef7c",
+      "state": "PYTEST_FAILED"
+    }
+  },
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J11-2026-11-16-v1",
+  "independent_reference": {
+    "axial_modulus": "lambda+2*mu = E(1-nu)/((1+nu)(1-2nu)) for zero transverse strain; independently calculated from material constants, no QF M or K used.",
+    "equation": "rho*A*u_tt=(lambda+2*mu)*A*u_xx; u(0,t)=0; (lambda+2*mu)*A*u_x(L,t)=F(t)",
+    "initial_conditions": "u(x,0)=0 and u_t(x,0)=0",
+    "limitations": "This guided-bar benchmark has transverse constraints at every node and is not the free-sided cantilever model of J10. Its reference cannot be transferred to J10 results.",
+    "modes": 1024,
+    "truncation_indicator": "compare 512- and 1024-mode displacement histories using the shared continuum peak scale; report, do not qualify.",
+    "type": "continuum fixed-free axial bar modal series, analytically evaluated convolution for the contracted piecewise-linear force"
+  },
+  "model": {
+    "animation": {
+      "checkpoint_keep_steps": true,
+      "checkpoint_stride_steps": 8,
+      "displacement_amplification": 100000000.0,
+      "full_state_vectors": true,
+      "initial_zero_frame_included": true,
+      "mesh_nx": 16
+    },
+    "boundary_conditions": "UX=0 on x=0; UY=UZ=0 at every mesh node (transverse guidance).",
+    "cross_section_area_m2": 0.16,
+    "element": "TET10, QF consistent mass",
+    "end_time_s": 0.008,
+    "excitation": "Uniform axial traction-equivalent force on the x=L face; total +1 N, linear ramp 0\u21921 N over 1 ms, ramp 1\u21920 N over the next 1 ms, then zero through 8 ms. Same physical pulse for all runs.",
+    "geometry_m": {
+      "height_z": 0.4,
+      "length_x": 2.0,
+      "width_y": 0.4
+    },
+    "initial_conditions": "zero displacement and velocity",
+    "load_integration": "Quadratic TET10 face integration: vertex shape-function integrals are zero for constant face traction and each of the three midside functions receives one third of the triangular face contribution; verify resultant and first moments.",
+    "material": {
+      "density_kg_m3": 2700.0,
+      "poisson_ratio": 0.3,
+      "young_modulus_pa": 70000000000.0
+    },
+    "mesh_levels_cells_x_y_z": [
+      [
+        2,
+        1,
+        1
+      ],
+      [
+        4,
+        1,
+        1
+      ],
+      [
+        8,
+        1,
+        1
+      ],
+      [
+        16,
+        1,
+        1
+      ]
+    ],
+    "newmark": {
+      "beta": 0.25,
+      "gamma": 0.5,
+      "rayleigh_alpha_s_inv": 0.0,
+      "rayleigh_beta_s": 0.0
+    },
+    "primary_probe": {
+      "component": "UX",
+      "position_m": [
+        1.0,
+        0.2,
+        0.2
+      ]
+    },
+    "spatial_time_step_s": 2.5e-05,
+    "temporal_mesh_nx": 8,
+    "time_steps_s": [
+      0.0001,
+      5e-05,
+      2.5e-05
+    ]
+  },
+  "observables_and_indicators": {
+    "criteria": "No formal mechanical correlation or mesh-convergence threshold is set in this exploratory study. Required execution checks are finite histories, PASS Newmark solve status, positive element orientation, exact physical probe, correct 1 N resultant/first moments, and durable checkpoint readback.",
+    "error_metrics": "RMS and peak absolute displacement difference, additionally divided by one shared global peak absolute continuum displacement over the fixed fine physical time grid.",
+    "mesh_comparison": "Compare the full-order semidiscrete QF modal oracle against the continuum reference on the common 25 microsecond grid; report Newmark-to-continuum separately because it includes temporal error.",
+    "time_comparison": "Compare QF Newmark and same-QF-M/K oracle at identical physical times on each contracted step grid; pulse knots are grid points."
+  },
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J11_OWNER_2026-11-16",
+  "resources": {
+    "archive_limit_mib": 128,
+    "limits_semantics": "Runner watchdog, sampled process/RSS/temp/archive and free disk are procedural/soft observations except output byte caps; no OS memory quota is claimed.",
+    "minimum_free_disk_mib": 1024,
+    "numeric_threads": 1,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 512,
+    "wall_timeout_seconds": 1800
+  },
+  "schema": "qf-j11-transient-execution-contract-v3",
+  "scope": {
+    "explicit_non_claim": "The same-QF-M/K modal oracle is used only to isolate Newmark integration error and is not independent verification of QF assembly or element mechanics.",
+    "hypothesis": "The guided axial TET10 Newmark histories can be compared to the full-order same-QF-M/K oracle and an independent continuum fixed-free bar solution after reference self-consistency is limited to exactly matching physical time grids.",
+    "nodeid": "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v3",
+    "route": "QF Newmark full-order transient with consistent mass; a distinct QF-assembled M/K modal propagation is used as a time-integration diagnostic."
+  },
+  "source_baseline": {
+    "branch": "work/0.3.0-j10",
+    "commit": "0d6b6384c7b334d664e7645d75c8413499b9036f"
+  },
+  "source_identity": [
+    {
+      "canonical_sha256": "fbc5daea56ea41f2bad80014998d804d592bb9f1a8788f7ee1f367f2d268ecbd",
+      "path": "research/j11_transient/axial_bar_reference.py"
+    },
+    {
+      "canonical_sha256": "8bd9b399bde75a27d9ed346b020e907f24f3b3419177eac4086c13211ae3f454",
+      "path": "research/j11_transient/tet10_axial_transient.py"
+    },
+    {
+      "canonical_sha256": "d0bef367ea0b7f8acbfc8cc16e4505d1282826daebb8998519f21e1bb8ac893f",
+      "path": "scripts/development_autonomous.py"
+    },
+    {
+      "canonical_sha256": "576f68494139ef8f56d5d3eedfe46f9f540efd6281f359b36b980408231a22b8",
+      "path": "src/solveur/api/public.py"
+    },
+    {
+      "canonical_sha256": "8923ce3402324fdd7c0be7a180fe2664070dd9a17c3066c27c67f2d5699fceb2",
+      "path": "src/solveur/compatibility/__init__.py"
+    },
+    {
+      "canonical_sha256": "46847d92b01d7c86dcedf88a3b03afb43d56e18cd8a0686dad17a2985c7bae43",
+      "path": "src/solveur/compatibility/descriptors.py"
+    },
+    {
+      "canonical_sha256": "cb4bf7397cdb1743d2c0c0d50412c1ce81ccdddc27aa15eb0e0a6e915a8d28ad",
+      "path": "src/solveur/compatibility/preflight.py"
+    },
+    {
+      "canonical_sha256": "9df703904abdf471ba9a4ee4d5c49573e53616ff7ac4d4037198e58e325c356d",
+      "path": "src/solveur/core/analyses/dynamic.py"
+    },
+    {
+      "canonical_sha256": "c07a408c0b449417d2cad87995653f3b7a34eee394c62a01f1f5c9fea2051264",
+      "path": "src/solveur/core/analyses/dynamic_checkpoint.py"
+    },
+    {
+      "canonical_sha256": "8f26cacf5caea18fd38c5b9f568aa58a1cf9976745951ba3109bf0ca50f95de0",
+      "path": "src/solveur/core/analyses/dynamic_controls.py"
+    },
+    {
+      "canonical_sha256": "a991b3c1be6e99955fd736309a7b46c5b9adc7417461ae7d4999b05ac0cd6e28",
+      "path": "src/solveur/core/analyses/dynamic_history.py"
+    },
+    {
+      "canonical_sha256": "da2fd904583723fd8706b5f41795b003d2bc6b2136696ebec03598f2a25c519b",
+      "path": "src/solveur/core/analyses/dynamic_reduction.py"
+    },
+    {
+      "canonical_sha256": "61fb3d4185480170c5c2b863396286e02fa0e9aaf8d828c2c4f51da46af2491d",
+      "path": "src/solveur/core/analyses/settings.py"
+    },
+    {
+      "canonical_sha256": "e4e9710fe28822668d87e5a1d805aaf0f13369de01a094c585d17e5241910d41",
+      "path": "src/solveur/core/assembly/assembler.py"
+    },
+    {
+      "canonical_sha256": "b447ea8fb03070f1b087b819e133cc0c833b6cb68a30e5fabaf55ba87ab22230",
+      "path": "src/solveur/core/assembly/plan.py"
+    },
+    {
+      "canonical_sha256": "f28e7cea975fbb2266a4daac131c71d3dcefc86f12161acf4e454b226045cfe7",
+      "path": "src/solveur/core/assembly/sparse.py"
+    },
+    {
+      "canonical_sha256": "ec796f9a080d2c91f5ec1990e3edbc6a530ff199de4d499f36d493861da85824",
+      "path": "src/solveur/core/audit.py"
+    },
+    {
+      "canonical_sha256": "42f49ec1878193263ba8c6931f8ff9687186d28ea692dba280b5445cbaa86c49",
+      "path": "src/solveur/core/dofs.py"
+    },
+    {
+      "canonical_sha256": "cbe04fd1c35cfd98d326ab1c2287a97d05d5e7876c929bfe80d4805a7d387b8e",
+      "path": "src/solveur/core/model.py"
+    },
+    {
+      "canonical_sha256": "2682035ddab1a9adbb0e29785ec10f22fd19e896344c55b005ddadf1ea9afe3d",
+      "path": "src/solveur/core/nonlinear/contracts.py"
+    },
+    {
+      "canonical_sha256": "34f3c319671051e057d237f81b567aabd6d465dd8953a01721f0354e642dfac0",
+      "path": "src/solveur/core/results.py"
+    },
+    {
+      "canonical_sha256": "090cce8a48b95c3ea7cb51474d51f50a59ed67333b086aac9be26fd54cb11dae",
+      "path": "src/solveur/core/router.py"
+    },
+    {
+      "canonical_sha256": "37f103d784c93fac624244070ba8f0e54376c6275a3c5562cfc02f586a51077b",
+      "path": "src/solveur/core/solvers/backend.py"
+    },
+    {
+      "canonical_sha256": "fcab91e3acd564458a3801325391902379b449e874c14e8038e0d4363910bd91",
+      "path": "src/solveur/core/solvers/linear.py"
+    },
+    {
+      "canonical_sha256": "ace2cd7c8abec15f1399817d7c5a14b91f2d296f2fb69596502530d6511fa7c4",
+      "path": "src/solveur/core/solvers/policy.py"
+    },
+    {
+      "canonical_sha256": "58012c57e6b6094f6438ccc6070e0ba0fad5b90fb104196595b5126102a55d26",
+      "path": "src/solveur/core/solvers/static.py"
+    },
+    {
+      "canonical_sha256": "8569268351f08346e55cd859f18f8d9e042b69c60ca4b5d58e993647d51e300d",
+      "path": "src/solveur/elements/registry.py"
+    },
+    {
+      "canonical_sha256": "99fa6651da41859f5b82124b29433890eef22c2b75dd53d0f783a96b0d01a3a5",
+      "path": "src/solveur/elements/solid/common.py"
+    },
+    {
+      "canonical_sha256": "10d0ff1ffd778147508df02032e032cdeeab9231d250be5298ca84b3b855bca9",
+      "path": "src/solveur/elements/solid/quadrature.py"
+    },
+    {
+      "canonical_sha256": "7a445696d284a14e5166c47cfd22171affe00e2729ab103aaf785802a976ced6",
+      "path": "src/solveur/elements/solid/tet10.py"
+    },
+    {
+      "canonical_sha256": "6c8059a704951e711ab63bed9e55a8f556554c05541f7086a37cca622570a097",
+      "path": "src/solveur/io/checkpoint_common.py"
+    },
+    {
+      "canonical_sha256": "fa35729efbc0b862698017a2f4c674509259314708f2011a99d7ee3903ab05cf",
+      "path": "src/solveur/io/dynamic_checkpoint.py"
+    },
+    {
+      "canonical_sha256": "c68ec8a62474616a08162a3165edf40369f9739c9a4d4a9b758c04fbee13bd63",
+      "path": "src/solveur/loads/integration.py"
+    },
+    {
+      "canonical_sha256": "6db6720b4db9d8a23b816589eecba8ce97d2354cfb07f9c21af1d99241a1e40c",
+      "path": "src/solveur/materials/factory.py"
+    },
+    {
+      "canonical_sha256": "784d830c12354525918a1cfbc1a3cb81c7015d721b36533eeab115d4ec70b452",
+      "path": "src/solveur/materials/solid.py"
+    },
+    {
+      "canonical_sha256": "94ed16ec50fbc0fb4e45af7fcc20569ba7e57f0e2fa2c158a980c63b02502653",
+      "path": "src/solveur/mesh/validation.py"
+    },
+    {
+      "canonical_sha256": "7f6b20af0fddf81e5caca176611648a69b6595df4015aa407459624431eee4c5",
+      "path": "src/solveur/post/audit.py"
+    },
+    {
+      "canonical_sha256": "cde25b24443f0ca75d0a7ed656ea99dcd2f2bc79be84e6e5d39fcc0e9214053c",
+      "path": "src/solveur/verification/transient_modal_oracle.py"
+    },
+    {
+      "canonical_sha256": "119d86327b6d69b30f2775b50a0a9bc9657485f32a6a5e9590e7fb3f625490e9",
+      "path": "tests/unit/test_j11_axial_bar_reference.py"
+    },
+    {
+      "canonical_sha256": "338e9184ec0d6a6cf76fcf8774ae04d7bdb208b389fe6413f4a45a28c4527e56",
+      "path": "tests/unit/test_j11_transient_reference_grid_guard.py"
+    },
+    {
+      "canonical_sha256": "d3bfab2e76b5ceb1c555e67ed7970f28341f2e407b6a9ff8750b076c9e580f60",
+      "path": "tests/verification/test_j11_tet10_axial_transient.py"
+    }
+  ],
+  "status": "Exploratory only; no qualification or acceptance claim.",
+  "supersedes": {
+    "contract_path": "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json",
+    "contract_sha256_canonical": "56beaa455a1cfa54f730cdec83a1ff2069b43a76b87cf7f9ae0e077a5e6f3804",
+    "reason": "The v2 solve reached all contracted mesh/time computations and emitted checkpoints, then the harness compared 80-point and 320-point vectors in a guard intended only for identical physical time grids. V3 changes only the guard and uses a separate one-attempt node and ledger entry."
+  }
+}

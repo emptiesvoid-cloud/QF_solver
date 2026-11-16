@@ -1,0 +1,517 @@
+{
+  "animation": {
+    "animation_gif": "tet10_axial_bar_animation.gif",
+    "checkpoint_stride_steps": 8,
+    "deformation_source": "actual full nodal Newmark displacements read from atomic NPZ checkpoints; only centerline nodes are plotted",
+    "displacement_amplification": 100000000.0,
+    "frame_count_including_initial_zero_state": 41,
+    "mesh_nx": 16,
+    "status": "GENERATED_FROM_DURABLE_QF_CHECKPOINTS",
+    "time_range_s": [
+      0.0,
+      0.008
+    ],
+    "time_step_s": 2.5e-05
+  },
+  "artifacts": {
+    "tet10_axial_bar_animation.gif": "e763ab6d338418e03b770181bc6525cbed861b8c900e511eaced0b4226c8e712",
+    "tet10_axial_bar_history.csv": "ec4001c1c8c5697f00858532300bfb021636361229eb89ef3feb3d1df074af7e",
+    "tet10_axial_bar_history.png": "683cbdf15e7fd33a3db0e51d83f63ee437d2b5fedadddc8ac1c05187e57b6a04",
+    "tet10_axial_bar_mesh.png": "e840f7610eaa72c7b2e709275c73e688a22edd34f434e90fdcd0084f838c6ebc",
+    "tet10_axial_bar_states.npz": "7494a014a7b4870468d7459a5e11d19e5caff4a17244b9c6d230093b197bbfa1",
+    "tet10_axial_bar_time_refinement.png": "47d57ba802d7a2065190de62a65927036a560f329b1d46c6080287cc857b4854"
+  },
+  "checks": {
+    "all_dynamic_residuals_finite": true,
+    "all_meshes_positive_corner_volumes": true,
+    "all_newmark_statuses": "PASS",
+    "formal_pass_thresholds": "none for continuum correlation or spatial convergence",
+    "uniform_end_load_resultant_and_first_moments": "1 N at the physical face center on every mesh"
+  },
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "contract_id": "QF_SOLVER_0.3.0_J11_TRANSIENT_GUIDED_TET10_CORRECTIVE_V3_2026-11-16",
+  "contract_sha256": "396b5a5672759efaf36edfbd60bece558ab09f9d928a2b80d8196990da8ffa94",
+  "environment": {
+    "matplotlib": "3.10.3",
+    "numpy": "2.2.6",
+    "pillow": "11.2.1",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "scipy": "1.15.2",
+    "threadpools": [
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "user_api": "blas",
+        "version": "0.3.29"
+      },
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "user_api": "blas",
+        "version": "0.3.28"
+      }
+    ]
+  },
+  "execution_status": "COMPLETED_EXPLORATORY",
+  "independent_reference": {
+    "boundary_conditions": "u(0,t)=0; (lambda+2 mu) A u_x(L,t)=F(t)",
+    "equation": "rho A u_tt = (lambda + 2 mu) A u_xx",
+    "initial_conditions": "u(x,0)=0 and u_t(x,0)=0",
+    "limitation": "this guided-bar configuration is not the free-sided J10 cantilever; its reference is not transferable to J10 cantilever results",
+    "modal_count": 1024,
+    "scope": "independent of QF M/K assembly; exact continuum solution for the stated transverse-guidance constraints and uniform axial end force",
+    "truncation_comparison_512_vs_1024": {
+      "peak_absolute_error_m": 1.0891753341933638e-18,
+      "peak_normalized_to_shared_continuum_peak": 1.2130819587791572e-08,
+      "rms_absolute_error_m": 1.4611098714634876e-19,
+      "rms_normalized_to_shared_continuum_peak": 1.6273284651448264e-09
+    },
+    "type": "continuum fixed-free axial-bar modal series",
+    "wave_speed_m_s": 5907.646307988055
+  },
+  "mesh_study": {
+    "mesh_levels": [
+      {
+        "cells_x": 2,
+        "checkpoint_names": [],
+        "consistent_nodal_force_sum_n": 1.0,
+        "dt_s": 2.5e-05,
+        "element_count": 12,
+        "first_semidiscrete_frequency_hz": 738.5927266669744,
+        "force_first_moments_n_m": [
+          0.2,
+          0.2
+        ],
+        "free_dof_count": 36,
+        "integrated_area_m2": 0.16000000000000003,
+        "maximum_dynamic_residual_n": 3.958321112212157e-14,
+        "minimum_corner_volume_m3": 0.026666666666666672,
+        "newmark_status": "PASS",
+        "newmark_to_continuum": {
+          "peak_absolute_error_m": 1.3306480248951277e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.014820250347303844,
+          "rms_absolute_error_m": 5.039481335237799e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.005612782164139573
+        },
+        "newmark_to_semidiscrete": {
+          "peak_absolute_error_m": 1.6971246764008528e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.0189019275603178,
+          "rms_absolute_error_m": 6.583603365336452e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.0073325664064565945
+        },
+        "node_count": 45,
+        "nx": 2,
+        "probe_node": 16,
+        "probe_position_m": [
+          1.0,
+          0.2,
+          0.2
+        ],
+        "semidiscrete_to_continuum": {
+          "peak_absolute_error_m": 1.3940201759618877e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.015526065203137387,
+          "rms_absolute_error_m": 5.199736540546891e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.005791268301548186
+        },
+        "steps": 320,
+        "tip_center_node": 35
+      },
+      {
+        "cells_x": 4,
+        "checkpoint_names": [],
+        "consistent_nodal_force_sum_n": 1.0,
+        "dt_s": 2.5e-05,
+        "element_count": 24,
+        "first_semidiscrete_frequency_hz": 738.4629758035804,
+        "force_first_moments_n_m": [
+          0.2,
+          0.2
+        ],
+        "free_dof_count": 72,
+        "integrated_area_m2": 0.16000000000000003,
+        "maximum_dynamic_residual_n": 3.048585552375404e-14,
+        "minimum_corner_volume_m3": 0.013333333333333336,
+        "newmark_status": "PASS",
+        "newmark_to_continuum": {
+          "peak_absolute_error_m": 2.0229159331744433e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.022530466359470112,
+          "rms_absolute_error_m": 7.230452899301754e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.008053002754089406
+        },
+        "newmark_to_semidiscrete": {
+          "peak_absolute_error_m": 1.9503050432882133e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.02172175395324289,
+          "rms_absolute_error_m": 7.362101640910375e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.008199628102945356
+        },
+        "node_count": 81,
+        "nx": 4,
+        "probe_node": 43,
+        "probe_position_m": [
+          1.0,
+          0.2,
+          0.2
+        ],
+        "semidiscrete_to_continuum": {
+          "peak_absolute_error_m": 5.262703743797246e-13,
+          "peak_normalized_to_shared_continuum_peak": 0.0058613987716936156,
+          "rms_absolute_error_m": 1.3805214826926733e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.0015375721904332287
+        },
+        "steps": 320,
+        "tip_center_node": 71
+      },
+      {
+        "cells_x": 8,
+        "checkpoint_names": [],
+        "consistent_nodal_force_sum_n": 1.0,
+        "dt_s": 2.5e-05,
+        "element_count": 48,
+        "first_semidiscrete_frequency_hz": 738.4562049574696,
+        "force_first_moments_n_m": [
+          0.2,
+          0.2
+        ],
+        "free_dof_count": 144,
+        "integrated_area_m2": 0.16000000000000003,
+        "maximum_dynamic_residual_n": 2.0067903845973146e-14,
+        "minimum_corner_volume_m3": 0.006666666666666668,
+        "newmark_status": "PASS",
+        "newmark_to_continuum": {
+          "peak_absolute_error_m": 1.843337670236789e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.0205303921370778,
+          "rms_absolute_error_m": 7.433282025424356e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.00827890610122726
+        },
+        "newmark_to_semidiscrete": {
+          "peak_absolute_error_m": 1.836259273653757e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.020451555654810973,
+          "rms_absolute_error_m": 7.436421994510399e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.00828240327907349
+        },
+        "node_count": 153,
+        "nx": 8,
+        "probe_node": 87,
+        "probe_position_m": [
+          1.0,
+          0.2,
+          0.2
+        ],
+        "semidiscrete_to_continuum": {
+          "peak_absolute_error_m": 1.334905631717793e-13,
+          "peak_normalized_to_shared_continuum_peak": 0.0014867669948739966,
+          "rms_absolute_error_m": 3.6774775303449e-14,
+          "rms_normalized_to_shared_continuum_peak": 0.00040958342571914525
+        },
+        "steps": 320,
+        "tip_center_node": 143
+      },
+      {
+        "cells_x": 16,
+        "checkpoint_names": [
+          "tet10_nx16_state.step00000008.npz",
+          "tet10_nx16_state.step00000016.npz",
+          "tet10_nx16_state.step00000024.npz",
+          "tet10_nx16_state.step00000032.npz",
+          "tet10_nx16_state.step00000040.npz",
+          "tet10_nx16_state.step00000048.npz",
+          "tet10_nx16_state.step00000056.npz",
+          "tet10_nx16_state.step00000064.npz",
+          "tet10_nx16_state.step00000072.npz",
+          "tet10_nx16_state.step00000080.npz",
+          "tet10_nx16_state.step00000088.npz",
+          "tet10_nx16_state.step00000096.npz",
+          "tet10_nx16_state.step00000104.npz",
+          "tet10_nx16_state.step00000112.npz",
+          "tet10_nx16_state.step00000120.npz",
+          "tet10_nx16_state.step00000128.npz",
+          "tet10_nx16_state.step00000136.npz",
+          "tet10_nx16_state.step00000144.npz",
+          "tet10_nx16_state.step00000152.npz",
+          "tet10_nx16_state.step00000160.npz",
+          "tet10_nx16_state.step00000168.npz",
+          "tet10_nx16_state.step00000176.npz",
+          "tet10_nx16_state.step00000184.npz",
+          "tet10_nx16_state.step00000192.npz",
+          "tet10_nx16_state.step00000200.npz",
+          "tet10_nx16_state.step00000208.npz",
+          "tet10_nx16_state.step00000216.npz",
+          "tet10_nx16_state.step00000224.npz",
+          "tet10_nx16_state.step00000232.npz",
+          "tet10_nx16_state.step00000240.npz",
+          "tet10_nx16_state.step00000248.npz",
+          "tet10_nx16_state.step00000256.npz",
+          "tet10_nx16_state.step00000264.npz",
+          "tet10_nx16_state.step00000272.npz",
+          "tet10_nx16_state.step00000280.npz",
+          "tet10_nx16_state.step00000288.npz",
+          "tet10_nx16_state.step00000296.npz",
+          "tet10_nx16_state.step00000304.npz",
+          "tet10_nx16_state.step00000312.npz",
+          "tet10_nx16_state.step00000320.npz"
+        ],
+        "consistent_nodal_force_sum_n": 1.0,
+        "dt_s": 2.5e-05,
+        "element_count": 96,
+        "first_semidiscrete_frequency_hz": 738.4558139596592,
+        "force_first_moments_n_m": [
+          0.2,
+          0.2
+        ],
+        "free_dof_count": 288,
+        "integrated_area_m2": 0.16000000000000003,
+        "maximum_dynamic_residual_n": 3.366703528728353e-14,
+        "minimum_corner_volume_m3": 0.0033333333333333335,
+        "newmark_status": "PASS",
+        "newmark_to_continuum": {
+          "peak_absolute_error_m": 1.8519107190793537e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.020625875486325235,
+          "rms_absolute_error_m": 7.449199460026294e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.008296634332981568
+        },
+        "newmark_to_semidiscrete": {
+          "peak_absolute_error_m": 1.8521232815676693e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.02062824292627355,
+          "rms_absolute_error_m": 7.447662732571919e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.00829492278453575
+        },
+        "node_count": 297,
+        "nx": 16,
+        "probe_node": 175,
+        "probe_position_m": [
+          1.0,
+          0.2,
+          0.2
+        ],
+        "semidiscrete_to_continuum": {
+          "peak_absolute_error_m": 3.75800922857972e-14,
+          "peak_normalized_to_shared_continuum_peak": 0.00041855273921455755,
+          "rms_absolute_error_m": 8.966156899324455e-15,
+          "rms_normalized_to_shared_continuum_peak": 9.986163689805705e-05
+        },
+        "steps": 320,
+        "tip_center_node": 287
+      }
+    ],
+    "spatial_indicator": "QF semi-discrete oracle against the independent continuum series; direct Newmark-to-continuum is also reported and includes its residual time error",
+    "time_step_s": 2.5e-05,
+    "transverse_resolution": "one cell across each transverse direction; exact continuum field is constant over the cross-section under the contracted transverse guidance"
+  },
+  "model": {
+    "boundary_conditions": "UX fixed at x=0; UY and UZ fixed at every node (transversely guided bar)",
+    "constitutive_axial_modulus_pa": 94230769230.76923,
+    "element": "quadratic TET10, consistent mass",
+    "geometry_m": {
+      "height_z": 0.4,
+      "length_x": 2.0,
+      "width_y": 0.4
+    },
+    "initial_conditions": "zero displacement and velocity",
+    "load": "uniform axial traction-equivalent nodal load on x=L, 1 N total, quadratic triangle consistent integration",
+    "load_time_function": "0 N at 0 ms, linear to +1 N at 1 ms, linear to 0 N at 2 ms, zero afterward",
+    "mass_matrix": "consistent mass assembled by QF GlobalAssembler",
+    "material": {
+      "density_kg_m3": 2700.0,
+      "poisson_ratio": 0.3,
+      "young_modulus_pa": 70000000000.0
+    },
+    "mesh_levels_cells_x_y_z": [
+      [
+        2,
+        1,
+        1
+      ],
+      [
+        4,
+        1,
+        1
+      ],
+      [
+        8,
+        1,
+        1
+      ],
+      [
+        16,
+        1,
+        1
+      ]
+    ],
+    "newmark": {
+      "beta": 0.25,
+      "gamma": 0.5,
+      "rayleigh_alpha_s_inv": 0.0,
+      "rayleigh_beta_s": 0.0
+    },
+    "one_dimensional_wave_speed_m_s": 5907.646307988055,
+    "primary_probe": {
+      "component": "UX",
+      "position_m": [
+        1.0,
+        0.2,
+        0.2
+      ],
+      "units": "m"
+    }
+  },
+  "nodeid": "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v3",
+  "normalization": {
+    "formal_acceptance_thresholds": "none; all reference differences and refinement trends are descriptive",
+    "formula": "RMS and peak absolute difference divided by the global peak absolute continuum displacement on the fixed physical comparison grid",
+    "global_continuum_peak_m": 8.978579941041307e-11,
+    "near_zero_handling": "one shared nonzero physical scale avoids division by response values near zero crossings"
+  },
+  "schema": "qf-j11-tet10-guided-axial-transient-v1",
+  "source_fingerprint": "7f8471cc061b31b64bab3a9c6ad5131ee5f4d9cd3857b3ebbf7d995bc18ff2fb",
+  "source_head": "3da76b8d8a5bd119db4da36bd3b069d1c985b054",
+  "time_study": {
+    "comparison_times": "identical physical grid points for each time step; all pulse knots divide each time grid exactly",
+    "mesh_nx": 8,
+    "observation_end_s": 0.008,
+    "observed_orders_vs_qf_semidiscrete_oracle": [
+      1.9098838783259584,
+      1.5568549957705116
+    ],
+    "oracle_scope": "full-order propagation of the same QF-assembled M/K; used only for time-integration separation, not as the independent mechanical reference",
+    "results": [
+      {
+        "checkpoint_names": [],
+        "consistent_nodal_force_sum_n": 1.0,
+        "dt_s": 0.0001,
+        "element_count": 48,
+        "first_semidiscrete_frequency_hz": 738.4562049574696,
+        "force_first_moments_n_m": [
+          0.2,
+          0.2
+        ],
+        "free_dof_count": 144,
+        "integrated_area_m2": 0.16000000000000003,
+        "maximum_dynamic_residual_n": 8.985573507731959e-15,
+        "minimum_corner_volume_m3": 0.006666666666666668,
+        "newmark_status": "PASS",
+        "newmark_to_continuum": {
+          "peak_absolute_error_m": 1.9200588978204156e-11,
+          "peak_normalized_to_shared_continuum_peak": 0.2138488391737517,
+          "rms_absolute_error_m": 8.21730131043987e-12,
+          "rms_normalized_to_shared_continuum_peak": 0.0915211688752515
+        },
+        "newmark_to_semidiscrete": {
+          "peak_absolute_error_m": 1.9242608670186643e-11,
+          "peak_normalized_to_shared_continuum_peak": 0.2143168384816424,
+          "rms_absolute_error_m": 8.221601352016258e-12,
+          "rms_normalized_to_shared_continuum_peak": 0.0915690610987949
+        },
+        "node_count": 153,
+        "nx": 8,
+        "probe_node": 87,
+        "probe_position_m": [
+          1.0,
+          0.2,
+          0.2
+        ],
+        "semidiscrete_to_continuum": {
+          "peak_absolute_error_m": 1.3349056317162097e-13,
+          "peak_normalized_to_shared_continuum_peak": 0.0014867669948722332,
+          "rms_absolute_error_m": 3.8792996508239745e-14,
+          "rms_normalized_to_shared_continuum_peak": 0.00043206160398389965
+        },
+        "steps": 80,
+        "tip_center_node": 143
+      },
+      {
+        "checkpoint_names": [],
+        "consistent_nodal_force_sum_n": 1.0,
+        "dt_s": 5e-05,
+        "element_count": 48,
+        "first_semidiscrete_frequency_hz": 738.4562049574696,
+        "force_first_moments_n_m": [
+          0.2,
+          0.2
+        ],
+        "free_dof_count": 144,
+        "integrated_area_m2": 0.16000000000000003,
+        "maximum_dynamic_residual_n": 1.2458005414153213e-14,
+        "minimum_corner_volume_m3": 0.006666666666666668,
+        "newmark_status": "PASS",
+        "newmark_to_continuum": {
+          "peak_absolute_error_m": 6.354919287889075e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.07077866800339533,
+          "rms_absolute_error_m": 2.1868954064038425e-12,
+          "rms_normalized_to_shared_continuum_peak": 0.024356807209651166
+        },
+        "newmark_to_semidiscrete": {
+          "peak_absolute_error_m": 6.3695294365904324e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.07094139026902416,
+          "rms_absolute_error_m": 2.1878829270971846e-12,
+          "rms_normalized_to_shared_continuum_peak": 0.02436780583860838
+        },
+        "node_count": 153,
+        "nx": 8,
+        "probe_node": 87,
+        "probe_position_m": [
+          1.0,
+          0.2,
+          0.2
+        ],
+        "semidiscrete_to_continuum": {
+          "peak_absolute_error_m": 1.3349056317155958e-13,
+          "peak_normalized_to_shared_continuum_peak": 0.0014867669948715493,
+          "rms_absolute_error_m": 3.709589133017345e-14,
+          "rms_normalized_to_shared_continuum_peak": 0.0004131598935885978
+        },
+        "steps": 160,
+        "tip_center_node": 143
+      },
+      {
+        "checkpoint_names": [],
+        "consistent_nodal_force_sum_n": 1.0,
+        "dt_s": 2.5e-05,
+        "element_count": 48,
+        "first_semidiscrete_frequency_hz": 738.4562049574696,
+        "force_first_moments_n_m": [
+          0.2,
+          0.2
+        ],
+        "free_dof_count": 144,
+        "integrated_area_m2": 0.16000000000000003,
+        "maximum_dynamic_residual_n": 2.0067903845973146e-14,
+        "minimum_corner_volume_m3": 0.006666666666666668,
+        "newmark_status": "PASS",
+        "newmark_to_continuum": {
+          "peak_absolute_error_m": 1.843337670236789e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.0205303921370778,
+          "rms_absolute_error_m": 7.433282025424356e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.00827890610122726
+        },
+        "newmark_to_semidiscrete": {
+          "peak_absolute_error_m": 1.836259273653757e-12,
+          "peak_normalized_to_shared_continuum_peak": 0.020451555654810973,
+          "rms_absolute_error_m": 7.436421994510399e-13,
+          "rms_normalized_to_shared_continuum_peak": 0.00828240327907349
+        },
+        "node_count": 153,
+        "nx": 8,
+        "probe_node": 87,
+        "probe_position_m": [
+          1.0,
+          0.2,
+          0.2
+        ],
+        "semidiscrete_to_continuum": {
+          "peak_absolute_error_m": 1.334905631717793e-13,
+          "peak_normalized_to_shared_continuum_peak": 0.0014867669948739966,
+          "rms_absolute_error_m": 3.6774775303449e-14,
+          "rms_normalized_to_shared_continuum_peak": 0.00040958342571914525
+        },
+        "steps": 320,
+        "tip_center_node": 143
+      }
+    ],
+    "time_steps_s": [
+      0.0001,
+      5e-05,
+      2.5e-05
+    ]
+  }
+}

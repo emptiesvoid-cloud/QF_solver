@@ -1,0 +1,23 @@
+{
+  "contract_id": "QF_SOLVER_0.3.0_J11_J10_PAIRWISE_MESH_POSTPROCESS_CORRECTIVE_V3_2026-11-16",
+  "environment": {
+    "numpy": "2.2.6",
+    "psutil": "7.2.2",
+    "python": "3.13.1"
+  },
+  "exit_code": 0,
+  "output_bytes": 5397,
+  "output_sha256_raw": "931812b165565fc0be0d5594b8bc869c132807d5a19871d30ab643fd49dba9c4",
+  "peak_rss_bytes_observed": 29618176,
+  "process_cpu_seconds_observed": 0.140625,
+  "resource_limits": {
+    "output_limit_mib": 1,
+    "rss_soft_limit_mib": 512,
+    "wall_timeout_seconds": 120
+  },
+  "route": "python -m research.j11_transient.j10_spatial_pairwise_v3 --output research/j11/results/diagnostic-2026-11-16/j10_mesh_postprocess_v3.json",
+  "schema": "qf-j11-postprocess-observation-v1",
+  "scope": "No FEM assembly, solve, or metric/status promotion.",
+  "status": "COMPLETED_POSTPROCESSING",
+  "wall_seconds": 0.2464749999344349
+}

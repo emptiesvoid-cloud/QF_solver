@@ -171,6 +171,24 @@ J10_BUDGETS = {
     "archive_size_limit_mib": 128,
 }
 J10_THREAD_ENVIRONMENT = dict(J8_HEX8_THREAD_ENVIRONMENT)
+J11_NODEIDS = (
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation",
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2",
+    "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v3",
+    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction",
+    "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction_corrective_v2",
+)
+J11_ATTEMPT_LIMITS = {nodeid: 1 for nodeid in J11_NODEIDS}
+J11_BUDGETS = {
+    "timeout_seconds": 1800,
+    "rss_soft_limit_mib": 2048,
+    "process_tree_limit": 4,
+    "output_total_limit_mib": 8,
+    "output_stream_limit_mib": 4,
+    "temporary_limit_mib": 512,
+    "archive_size_limit_mib": 128,
+}
+J11_THREAD_ENVIRONMENT = dict(J8_HEX8_THREAD_ENVIRONMENT)
 
 
 class PolicyError(ValueError):
@@ -321,7 +339,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             raise PolicyError(f"scope {name} total output limit exceeds its two stream limits")
     worktrees = policy.get("worktrees")
     required_worktrees = {"d01", "c01", "e01", "j7_static", "j8_hex8", "j9"}
-    optional_worktrees = {"j10"}
+    optional_worktrees = {"j10", "j11"}
     if (
         not isinstance(worktrees, dict)
         or not required_worktrees.issubset(worktrees)
@@ -499,6 +517,31 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             raise PolicyError("J10 resource limits must match its frozen family contracts")
         if j10.get("thread_environment") != J10_THREAD_ENVIRONMENT:
             raise PolicyError("J10 numerical libraries must be restricted to one thread")
+    if "j11" in worktrees:
+        j11 = worktrees["j11"]
+        if j11.get("branch") != "work/0.3.0-j11" or j11.get("baseline_commit") != "0d6b6384c7b334d664e7645d75c8413499b9036f":
+            raise PolicyError("J11 is bound to the verified J10 base and its dedicated branch")
+        if Path(j11["root"]).resolve() != ROOT.resolve():
+            raise PolicyError("J11 development execution must be controlled from its registered isolated worktree")
+        if j11.get("owner_mandate_id") != "QF_SOLVER_0.3.0_J11_OWNER_2026-11-16":
+            raise PolicyError("J11 requires its distinct Owner mandate identity")
+        if j11.get("development_mandate_id") != "DEVELOPMENT_AUTONOMOUS-J11-2026-11-16-v1":
+            raise PolicyError("J11 requires its distinct development attempt namespace")
+        if j11.get("allowed_nodeids") != list(J11_NODEIDS):
+            raise PolicyError("J11 allowlist must contain only its exact transient and HEX8 diagnostic nodes")
+        if j11.get("attempt_limits_per_nodeid") != J11_ATTEMPT_LIMITS:
+            raise PolicyError("J11 permits one attempt for each exact registered nodeid")
+        if j11.get("require_clean_worktree") is not True:
+            raise PolicyError("J11 requires a clean isolated source worktree")
+        if j11.get("node_attempt_ledger") != {
+            "path": "node-attempt-ledger-j11.json",
+            "mandate_id": "DEVELOPMENT_AUTONOMOUS-J11-2026-11-16-v1",
+        }:
+            raise PolicyError("J11 requires its own persistent attempt ledger")
+        if j11.get("budgets") != J11_BUDGETS:
+            raise PolicyError("J11 resource limits must match its frozen family contracts")
+        if j11.get("thread_environment") != J11_THREAD_ENVIRONMENT:
+            raise PolicyError("J11 numerical libraries must be restricted to one thread")
     return policy
 
 
@@ -1892,7 +1935,7 @@ def _node_ledger_context(
 
 def _series_root(store: Path, scope_name: str, worktree_id: str | None) -> Path:
     if worktree_id is not None:
-        if worktree_id not in {"d01", "c01", "e01", "j7_static", "j8_hex8", "j9", "j10"}:
+        if worktree_id not in {"d01", "c01", "e01", "j7_static", "j8_hex8", "j9", "j10", "j11"}:
             raise PolicyError("unknown worktree output namespace")
         return store / "worktrees" / worktree_id
     if scope_name not in STANDARD_SCOPES:
@@ -1941,6 +1984,8 @@ def preflight_pytest(
         return _preflight_j9_pytest(target, preflight_id)
     if worktree_id == "j10":
         return _preflight_j10_pytest(target, preflight_id)
+    if worktree_id == "j11":
+        return _preflight_j11_pytest(target, preflight_id)
     policy = load_policy()
     if worktree_id != "d01":
         raise PolicyError("collect-only preflight is currently enabled only for the D01 native nodes")
@@ -2734,8 +2779,22 @@ def _validate_j9_preflight_receipt(
 
 def _preflight_j10_pytest(target: str, preflight_id: str | None = None) -> dict[str, Any]:
     """Collect one exact J10 node and verify the isolated one-thread environment."""
+    return _preflight_registered_one_thread_pytest("j10", target, preflight_id)
+
+
+def _preflight_j11_pytest(target: str, preflight_id: str | None = None) -> dict[str, Any]:
+    """Collect one exact J11 node and verify the isolated one-thread environment."""
+    return _preflight_registered_one_thread_pytest("j11", target, preflight_id)
+
+
+def _preflight_registered_one_thread_pytest(
+    worktree_id: str,
+    target: str,
+    preflight_id: str | None = None,
+) -> dict[str, Any]:
+    """Collect one exact registered J10/J11 node without executing its body."""
+    worktree_label = worktree_id.upper()
     policy = load_policy()
-    worktree_id = "j10"
     targets = resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
     entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
         worktree_id, target, policy
@@ -2743,13 +2802,13 @@ def _preflight_j10_pytest(target: str, preflight_id: str | None = None) -> dict[
     store = _run_root(policy)
     _ledger_path, _ledger_lock, mandate_id, predecessor = _node_ledger_context(policy, store, worktree_id)
     if predecessor is not None or mandate_id != entry["development_mandate_id"]:
-        raise PolicyError("J10 preflight is not bound to its distinct development envelope")
+        raise PolicyError(f"{worktree_label} preflight is not bound to its distinct development envelope")
     if psutil is None:
         raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
     free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free)
     minimum_free = int(policy["minimum_free_disk_mib"] * 1024 * 1024)
     if free_bytes < minimum_free:
-        raise PolicyError(f"insufficient free disk for J10 preflight: {free_bytes} bytes; requires {minimum_free}")
+        raise PolicyError(f"insufficient free disk for {worktree_label} preflight: {free_bytes} bytes; requires {minimum_free}")
 
     preflight_id = preflight_id or f"pf-{uuid.uuid4().hex[:12]}"
     receipt_dir = _preflight_directory(store, worktree_id, preflight_id)
@@ -2771,7 +2830,7 @@ def _preflight_j10_pytest(target: str, preflight_id: str | None = None) -> dict[
         threadpool_max_threads=1,
     )
     if "--collect-only" not in command:
-        raise PolicyError("J10 readiness preflight must be pytest collect-only")
+        raise PolicyError(f"{worktree_label} readiness preflight must be pytest collect-only")
     environment = build_child_environment(
         temporary_dir,
         source_root=source_root,
@@ -2782,7 +2841,7 @@ def _preflight_j10_pytest(target: str, preflight_id: str | None = None) -> dict[
     started = datetime.now(timezone.utc).isoformat()
     record_path = receipt_dir / "preflight.json"
     initial = {
-        "schema": "qfsolver-development-j10-preflight-v1",
+        "schema": f"qfsolver-development-{worktree_id}-preflight-v1",
         "mode": "DEVELOPMENT_AUTONOMOUS",
         "owner_mandate_id": entry["owner_mandate_id"],
         "mandate_id": mandate_id,
@@ -2827,7 +2886,7 @@ def _preflight_j10_pytest(target: str, preflight_id: str | None = None) -> dict[
                 "finished_at_utc": datetime.now(timezone.utc).isoformat(),
                 "launch_error": f"{type(exc).__name__}: {exc}",
             })
-            raise PolicyError(f"J10 collect-only preflight could not launch: {exc}") from exc
+            raise PolicyError(f"{worktree_label} collect-only preflight could not launch: {exc}") from exc
 
     stdout_path = output_dir / "stdout.log"
     stderr_path = output_dir / "stderr.log"
@@ -2900,26 +2959,74 @@ def _validate_j10_preflight_receipt(
     controller_provenance: Mapping[str, Any],
     thread_environment: Mapping[str, str],
 ) -> tuple[Path, str]:
-    receipt_dir = _preflight_directory(store, "j10", preflight_id)
+    """Keep the historic J10 receipt contract stable."""
+    return _validate_registered_one_thread_preflight_receipt(
+        "j10",
+        store,
+        preflight_id,
+        target=target,
+        identity=identity,
+        source_fingerprint=source_fingerprint,
+        controller_provenance=controller_provenance,
+        thread_environment=thread_environment,
+    )
+
+
+def _validate_j11_preflight_receipt(
+    store: Path,
+    preflight_id: str,
+    *,
+    target: str,
+    identity: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+    thread_environment: Mapping[str, str],
+) -> tuple[Path, str]:
+    """Validate a J11 preflight bound to its source and exact nodeid."""
+    return _validate_registered_one_thread_preflight_receipt(
+        "j11",
+        store,
+        preflight_id,
+        target=target,
+        identity=identity,
+        source_fingerprint=source_fingerprint,
+        controller_provenance=controller_provenance,
+        thread_environment=thread_environment,
+    )
+
+
+def _validate_registered_one_thread_preflight_receipt(
+    worktree_id: str,
+    store: Path,
+    preflight_id: str,
+    *,
+    target: str,
+    identity: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+    thread_environment: Mapping[str, str],
+) -> tuple[Path, str]:
+    worktree_label = worktree_id.upper()
+    receipt_dir = _preflight_directory(store, worktree_id, preflight_id)
     record_path = receipt_dir / "preflight.json"
     sha_path = receipt_dir / "preflight.sha256.json"
     if not record_path.is_file() or not sha_path.is_file():
-        raise PolicyError("a successful exact-node J10 collect-only preflight is required before reserving FEM")
+        raise PolicyError(f"a successful exact-node {worktree_label} collect-only preflight is required before reserving FEM")
     try:
         receipt = json.loads(record_path.read_text(encoding="utf-8"))
         sidecar = json.loads(sha_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
-        raise PolicyError(f"J10 preflight receipt is unreadable: {exc}") from exc
+        raise PolicyError(f"{worktree_label} preflight receipt is unreadable: {exc}") from exc
     actual_hash = _sha256(record_path)
     threadpools = receipt.get("threadpool_info")
     if (
         sidecar.get("sha256") != actual_hash
-        or receipt.get("schema") != "qfsolver-development-j10-preflight-v1"
+        or receipt.get("schema") != f"qfsolver-development-{worktree_id}-preflight-v1"
         or receipt.get("state") != "PREFLIGHT_PASS"
         or receipt.get("bodies_executed") is not False
-        or receipt.get("owner_mandate_id") != "QF_SOLVER_0.3.0_J10_OWNER_2026-11-16"
-        or receipt.get("mandate_id") != "DEVELOPMENT_AUTONOMOUS-J10-2026-11-16-v1"
-        or receipt.get("worktree_id") != "j10"
+        or receipt.get("owner_mandate_id") != f"QF_SOLVER_0.3.0_{worktree_label}_OWNER_2026-11-16"
+        or receipt.get("mandate_id") != f"DEVELOPMENT_AUTONOMOUS-{worktree_label}-2026-11-16-v1"
+        or receipt.get("worktree_id") != worktree_id
         or receipt.get("target") != target
         or receipt.get("preflight_id") != preflight_id
         or receipt.get("identity") != dict(identity)
@@ -2934,7 +3041,7 @@ def _validate_j10_preflight_receipt(
         or not threadpools
         or any(pool.get("num_threads") != 1 for pool in threadpools)
     ):
-        raise PolicyError("J10 preflight does not match this exact source, controller, thread environment or nodeid")
+        raise PolicyError(f"{worktree_label} preflight does not match this exact source, controller, thread environment or nodeid")
     return record_path, actual_hash
 
 
@@ -3101,12 +3208,12 @@ def run_pytest(
             if attempt_basis not in D01_ATTEMPT_BASES:
                 raise PolicyError("D01 FEM attempts require a classified attempt basis")
             ledger_context = _node_ledger_context(policy, _run_root(policy), worktree_id)
-        elif worktree_id in {"j8_hex8", "j9", "j10"}:
+        elif worktree_id in {"j8_hex8", "j9", "j10", "j11"}:
             if preflight_id is None:
                 raise PolicyError(f"{worktree_id.upper()} FEM attempts require a successful exact-node collect-only preflight first")
             ledger_context = _node_ledger_context(policy, _run_root(policy), worktree_id)
         elif preflight_id is not None:
-            raise PolicyError("preflight receipt IDs are supported only for the D01, J8, J9, J10, and static-pilot envelopes")
+            raise PolicyError("preflight receipt IDs are supported only for registered FEM envelopes and the static pilot")
         if owner_approval_id is not None and worktree_id != "static_pilot_01":
             raise PolicyError("Owner approval receipt IDs are valid only for the static pilot")
         if worktree_id == "static_pilot_01" and (attempt_basis is not None or hypothesis_id is not None):
@@ -3187,6 +3294,17 @@ def run_pytest(
     elif worktree_id == "j10":
         assert preflight_id is not None and target is not None and source_fingerprint is not None and entry is not None
         preflight_receipt = _validate_j10_preflight_receipt(
+            store,
+            preflight_id,
+            target=target,
+            identity=identity,
+            source_fingerprint=source_fingerprint,
+            controller_provenance=controller_provenance,
+            thread_environment=entry["thread_environment"],
+        )
+    elif worktree_id == "j11":
+        assert preflight_id is not None and target is not None and source_fingerprint is not None and entry is not None
+        preflight_receipt = _validate_j11_preflight_receipt(
             store,
             preflight_id,
             target=target,
@@ -3277,7 +3395,7 @@ def run_pytest(
             controller_root=ROOT,
             allow_native_skip_override=bool(entry and entry["allow_native_vv_skip_override"]),
             junit_xml_path=(output_dir / "pytest-results.xml") if worktree_id in {"d01", "static_pilot_01"} else None,
-            threadpool_max_threads=1 if worktree_id in {"static_pilot_01", "j8_hex8", "j9", "j10"} else None,
+            threadpool_max_threads=1 if worktree_id in {"static_pilot_01", "j8_hex8", "j9", "j10", "j11"} else None,
         )
         static_context = None
         if worktree_id == "static_pilot_01":
@@ -3293,7 +3411,7 @@ def run_pytest(
             base=inherited_environment,
             source_root=source_root,
             d01_source_sha=identity["head"] if worktree_id == "d01" else None,
-            thread_environment=entry["thread_environment"] if worktree_id in {"static_pilot_01", "j8_hex8", "j9", "j10"} else None,
+            thread_environment=entry["thread_environment"] if worktree_id in {"static_pilot_01", "j8_hex8", "j9", "j10", "j11"} else None,
             static_pilot_context=static_context,
         )
         child_native_guard = _validate_native_guard_environment(inherited_environment, environment)
@@ -3483,7 +3601,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "preflight",
         help="collect one exact registered node without running its test body or consuming an attempt",
     )
-    preflight_parser.add_argument("--worktree", choices=("d01", "j8_hex8", "j9", "j10", "static_pilot_01"), required=True)
+    preflight_parser.add_argument("--worktree", choices=("d01", "j8_hex8", "j9", "j10", "j11", "static_pilot_01"), required=True)
     preflight_parser.add_argument("--target", required=True)
     preflight_parser.add_argument("--preflight-id", help="optional unused pf-<12 lowercase hex> ID")
     test_parser = subparsers.add_parser("test", help="run one fixed development pytest scope")
@@ -3492,7 +3610,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     test_parser.add_argument("--series", help="development-only dev-* series ID for bounded follow-up attempts")
     test_parser.add_argument("--worktree", help="registered worktree ID for an exact development nodeid")
     test_parser.add_argument("--reason", help="short documented development hypothesis/reason for a registered nodeid attempt")
-    test_parser.add_argument("--preflight-id", help="successful exact-node D01, J8, J9, or J10 collect-only receipt ID")
+    test_parser.add_argument("--preflight-id", help="successful exact-node registered FEM collect-only receipt ID")
     test_parser.add_argument("--attempt-basis", choices=D01_ATTEMPT_BASES, help="D01 baseline/change/hypothesis classification")
     test_parser.add_argument("--hypothesis-id", help="unique ID required for a same-input new diagnostic hypothesis")
     test_parser.add_argument("--owner-approval-id", help="final Owner approval receipt ID required by the static pilot")

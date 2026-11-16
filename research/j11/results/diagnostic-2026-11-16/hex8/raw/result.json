@@ -1,0 +1,607 @@
+{
+  "artifacts": {
+    "hex8_global_reconstruction.csv": "0aed1fc454dc647df2e8a77329bb3148a402906654ff4464c168a63103d37a17",
+    "hex8_global_reconstruction_states.npz": "457b95f3b1223e228d3f57389ec85a60b7fc728b71de3b1c1879f00d69af34df"
+  },
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "contract_id": "QF_SOLVER_0.3.0_J11_HEX8_J7_RECONSTRUCTION_CORRECTIVE_V2_2026-11-16",
+  "contract_sha256": "d81b37710ac389c5bfdc23bc46a519f5492b9e24660a5d306db43698f844ec7b",
+  "environment": {
+    "mpmath": "1.3.0",
+    "numpy": "2.2.6",
+    "python": "3.13.1",
+    "scipy": "1.15.2"
+  },
+  "execution_status": "COMPLETED_EXPLORATORY",
+  "input_sha256": {
+    "archive_expectations": {
+      "dofs": 135,
+      "element": "HEX8_SRI",
+      "elements": 16,
+      "fixed_dofs": 27,
+      "free_dofs": 108,
+      "load_resultant_n": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "material": {
+        "poisson_ratio": 0.495,
+        "young_modulus_pa": 1000000.0
+      },
+      "nodes": 45
+    },
+    "j10_result_json_path": "research/j10/results/diagnostic-2026-11-16/hex8_j7_distortion/result.json",
+    "j10_result_json_sha256_raw": "1ee61e973582dffe4876532a524f65f7d293ab7b7e48ab994a98dd019c92ee02",
+    "j10_state_npz_path": "research/j10/results/diagnostic-2026-11-16/hex8_j7_distortion/hex8_j7_distortion_states.npz",
+    "j10_state_npz_sha256_raw": "4ff54522deaa2d23d50a63f1f6380494615a0fc2d3435c9b4d40a043d6c38e8e"
+  },
+  "interpretation": {
+    "classification": "diagnostic only",
+    "historical_status": "J7 regular and near-degenerate FAIL results remain unchanged; J10 alpha-sweep verdicts remain unchanged",
+    "mechanical_reference": "none; a second solve of the same matrix is not an independent continuum or formulation reference",
+    "production_route": "None: Hex8SRIElement remains research-only and unregistered; this diagnostic reproduces the J10 local-kernel-to-global-matrix route.",
+    "same_matrix_solvers": "NumPy direct, diagonal scaling, SciPy symmetric solve and mpmath act on identical QF research-kernel global matrices; this isolates algebraic route/precision only for this finite system."
+  },
+  "nodeid": "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction_corrective_v2",
+  "results": [
+    {
+      "alpha": 0.0,
+      "archived_j7_alpha0_displacement_reproduction_relative": 0.0,
+      "archived_j7_alpha0_matrix_reproduction_relative": 0.0,
+      "condition_number_2_diagonally_scaled": 6811220501.6694975,
+      "condition_number_2_raw": 15108377395.457052,
+      "condition_number_reduction_factor": 2.2181600774418975,
+      "element_count": 16,
+      "free_dof_count": 108,
+      "global_vs_archived_j10_matrix_relative_frobenius": 0.0,
+      "j10_alpha0_displacement_reproduction_relative": 0.0,
+      "maximum_absolute_displacement_m": 0.09565948915636675,
+      "maximum_displacement_to_local_thickness_ratio": 2.3914872289091686,
+      "mpmath_80_digit_same_matrix_solve_alpha0": {
+        "force_closure_relative": 1.9652767419392488e-08,
+        "force_closure_residual_n": [
+          9.91500652095898e-13,
+          -5.984249903753011e-10,
+          1.9643654288053323e-08
+        ],
+        "free_residual_l2_n": 1.5721226414722145e-72,
+        "free_residual_relative_to_force": 1.5721226414722145e-72,
+        "input_numbers": "Archived float64 matrix, load, coordinates and state are converted to multiprecision; an mpmath solution remains at the declared precision.",
+        "moment_closure_relative": 2.8213012652942355e-08,
+        "moment_closure_residual_nm": [
+          1.9560533208500117e-08,
+          -5.640733279855125e-07,
+          -5.22426059079803e-09
+        ],
+        "precision_decimal_digits": 80,
+        "relative_displacement_difference_to_numpy_direct": 1.4359878957703258e-07
+      },
+      "node_count": 45,
+      "numpy_diagonally_scaled_same_global_matrix": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 1.8074339095037957e-07,
+        "force_closure_residual_n": [
+          -3.324434061369175e-10,
+          2.8739233215446802e-09,
+          -1.8072023522108793e-07
+        ],
+        "free_residual_backward_error": 4.221892417420205e-17,
+        "free_residual_l2_n": 1.7157557142646468e-07,
+        "free_residual_relative_to_force": 1.7157557142646468e-07,
+        "moment_closure_relative": 1.3181858414917237e-07,
+        "moment_closure_residual_nm": [
+          -5.51128360171127e-08,
+          2.635515414795009e-06,
+          3.8428173532167875e-08
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.499999944887164,
+          -19.999997364484585,
+          3.8428173532167875e-08
+        ],
+        "reaction_resultant_n": [
+          -3.324434061369175e-10,
+          2.8739233215446802e-09,
+          0.9999998192797648
+        ]
+      },
+      "positive_gauss_jacobian_count": 128,
+      "qf_sri_global_matrix_numpy_direct": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 1.2174665836941088e-07,
+        "force_closure_residual_n": [
+          3.4921898706130605e-10,
+          -6.4039600289333976e-09,
+          1.2157761375419796e-07
+        ],
+        "free_residual_backward_error": 6.349798614529505e-17,
+        "free_residual_l2_n": 2.5805264682623953e-07,
+        "free_residual_relative_to_force": 2.5805264682623953e-07,
+        "moment_closure_relative": 7.412744609108607e-08,
+        "moment_closure_residual_nm": [
+          -1.0972945330145478e-08,
+          -1.4824996839024607e-06,
+          5.058388541367975e-09
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.49999998902705467,
+          -20.000001482499684,
+          5.058388541367975e-09
+        ],
+        "reaction_resultant_n": [
+          3.4921898706130605e-10,
+          -6.4039600289333976e-09,
+          1.0000001215776138
+        ]
+      },
+      "qf_sri_kernel_global_assembly_status": "COMPLETED",
+      "same_matrix_solve_status": "COMPLETED",
+      "scaled_vs_numpy_relative_displacement": 2.500341022437896e-07,
+      "scipy_symmetric_same_global_matrix": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 2.5651535187382638e-08,
+        "force_closure_residual_n": [
+          1.3180911917487492e-10,
+          -4.778925699611136e-09,
+          -2.520209818612784e-08
+        ],
+        "free_residual_backward_error": 1.6084735101501197e-17,
+        "free_residual_l2_n": 6.536755762388324e-08,
+        "free_residual_relative_to_force": 6.536755762388324e-08,
+        "moment_closure_relative": 3.94948420204731e-09,
+        "moment_closure_residual_nm": [
+          3.235351653252394e-09,
+          -7.68793384509081e-09,
+          -7.85480639975411e-08
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.5000000032353517,
+          -20.000000007687934,
+          -7.85480639975411e-08
+        ],
+        "reaction_resultant_n": [
+          1.3180911917487492e-10,
+          -4.778925699611136e-09,
+          0.9999999747979018
+        ]
+      },
+      "scipy_vs_numpy_relative_displacement": 1.4982939936975855e-07
+    },
+    {
+      "alpha": 0.05,
+      "archived_j7_alpha0_displacement_reproduction_relative": null,
+      "archived_j7_alpha0_matrix_reproduction_relative": null,
+      "condition_number_2_diagonally_scaled": 6594820330.95855,
+      "condition_number_2_raw": 14639157152.48704,
+      "condition_number_reduction_factor": 2.219796206390243,
+      "element_count": 16,
+      "free_dof_count": 108,
+      "global_vs_archived_j10_matrix_relative_frobenius": 0.0,
+      "j10_alpha0_displacement_reproduction_relative": null,
+      "maximum_absolute_displacement_m": 0.09564558316593154,
+      "maximum_displacement_to_local_thickness_ratio": 2.3911395791482883,
+      "mpmath_80_digit_same_matrix_solve_alpha0": null,
+      "node_count": 45,
+      "numpy_diagonally_scaled_same_global_matrix": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 1.1014510411629067e-08,
+        "force_closure_residual_n": [
+          -4.1448799947829684e-10,
+          9.325873406851315e-12,
+          -1.1006704880855978e-08
+        ],
+        "free_residual_backward_error": 4.056419364055008e-17,
+        "free_residual_l2_n": 1.6509593587643e-07,
+        "free_residual_relative_to_force": 1.6509593587643e-07,
+        "moment_closure_relative": 1.953601796393264e-08,
+        "moment_closure_residual_nm": [
+          -4.6179956192382576e-08,
+          3.8773623600718565e-07,
+          1.37993509952139e-08
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.4999999538200438,
+          -19.999999612263764,
+          1.37993509952139e-08
+        ],
+        "reaction_resultant_n": [
+          -4.1448799947829684e-10,
+          9.325873406851315e-12,
+          0.9999999889932951
+        ]
+      },
+      "positive_gauss_jacobian_count": 128,
+      "qf_sri_global_matrix_numpy_direct": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 4.083494631534132e-08,
+        "force_closure_residual_n": [
+          5.745022235714714e-10,
+          -2.3119421932449313e-08,
+          3.3654941944405437e-08
+        ],
+        "free_residual_backward_error": 5.634796295243849e-17,
+        "free_residual_l2_n": 2.293357545064809e-07,
+        "free_residual_relative_to_force": 2.293357545064809e-07,
+        "moment_closure_relative": 2.1000289319452758e-08,
+        "moment_closure_residual_nm": [
+          -6.311968725469796e-10,
+          -3.0421372798628e-07,
+          -2.895832693639022e-07
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.4999999993688031,
+          -20.000000304213728,
+          -2.895832693639022e-07
+        ],
+        "reaction_resultant_n": [
+          5.745022235714714e-10,
+          -2.3119421932449313e-08,
+          1.000000033654942
+        ]
+      },
+      "qf_sri_kernel_global_assembly_status": "COMPLETED",
+      "same_matrix_solve_status": "COMPLETED",
+      "scaled_vs_numpy_relative_displacement": 9.389821726155991e-08,
+      "scipy_symmetric_same_global_matrix": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 9.626839102375401e-08,
+        "force_closure_residual_n": [
+          -2.0031620806548744e-10,
+          -1.0238228043135678e-09,
+          -9.626273822505027e-08
+        ],
+        "free_residual_backward_error": 1.72394536215537e-17,
+        "free_residual_l2_n": 7.01644304628627e-08,
+        "free_residual_relative_to_force": 7.01644304628627e-08,
+        "moment_closure_relative": 9.079541859264851e-08,
+        "moment_closure_residual_nm": [
+          -4.106622175648056e-08,
+          1.8152841647633977e-06,
+          -2.4086958205771225e-08
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.49999995893377824,
+          -19.999998184715835,
+          -2.4086958205771225e-08
+        ],
+        "reaction_resultant_n": [
+          -2.0031620806548744e-10,
+          -1.0238228043135678e-09,
+          0.9999999037372618
+        ]
+      },
+      "scipy_vs_numpy_relative_displacement": 9.619172310615704e-08
+    },
+    {
+      "alpha": 0.1,
+      "archived_j7_alpha0_displacement_reproduction_relative": null,
+      "archived_j7_alpha0_matrix_reproduction_relative": null,
+      "condition_number_2_diagonally_scaled": 6571569497.400004,
+      "condition_number_2_raw": 13391248691.555891,
+      "condition_number_reduction_factor": 2.0377550137534186,
+      "element_count": 16,
+      "free_dof_count": 108,
+      "global_vs_archived_j10_matrix_relative_frobenius": 0.0,
+      "j10_alpha0_displacement_reproduction_relative": null,
+      "maximum_absolute_displacement_m": 0.09560340692260372,
+      "maximum_displacement_to_local_thickness_ratio": 2.390085173065093,
+      "mpmath_80_digit_same_matrix_solve_alpha0": null,
+      "node_count": 45,
+      "numpy_diagonally_scaled_same_global_matrix": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 5.84527958123283e-08,
+        "force_closure_residual_n": [
+          6.063203272788087e-10,
+          -4.299074873870268e-09,
+          -5.8291334426030517e-08
+        ],
+        "free_residual_backward_error": 4.7067878425746385e-17,
+        "free_residual_l2_n": 1.9242522714929838e-07,
+        "free_residual_relative_to_force": 1.9242522714929838e-07,
+        "moment_closure_relative": 5.942840960138942e-08,
+        "moment_closure_residual_nm": [
+          -5.5653726738214004e-08,
+          1.1855231782931241e-06,
+          -6.427910648199031e-08
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.49999994434627326,
+          -19.99999881447682,
+          -6.427910648199031e-08
+        ],
+        "reaction_resultant_n": [
+          6.063203272788087e-10,
+          -4.299074873870268e-09,
+          0.9999999417086656
+        ]
+      },
+      "positive_gauss_jacobian_count": 128,
+      "qf_sri_global_matrix_numpy_direct": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 7.815549219694217e-08,
+        "force_closure_residual_n": [
+          -2.586105551927176e-09,
+          3.366814382843586e-09,
+          7.804010238032788e-08
+        ],
+        "free_residual_backward_error": 5.3942001810945953e-17,
+        "free_residual_l2_n": 2.2052838468137238e-07,
+        "free_residual_relative_to_force": 2.2052838468137238e-07,
+        "moment_closure_relative": 6.636291657912205e-08,
+        "moment_closure_residual_nm": [
+          4.048335444650775e-09,
+          -1.3272496381944165e-06,
+          2.586048708508315e-09
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.5000000040483354,
+          -20.000001327249638,
+          2.586048708508315e-09
+        ],
+        "reaction_resultant_n": [
+          -2.586105551927176e-09,
+          3.366814382843586e-09,
+          1.0000000780401024
+        ]
+      },
+      "qf_sri_kernel_global_assembly_status": "COMPLETED",
+      "same_matrix_solve_status": "COMPLETED",
+      "scaled_vs_numpy_relative_displacement": 1.2357338929402843e-07,
+      "scipy_symmetric_same_global_matrix": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 8.57249959983052e-08,
+        "force_closure_residual_n": [
+          1.4200907116901362e-10,
+          1.7436914134805193e-09,
+          -8.570714271627367e-08
+        ],
+        "free_residual_backward_error": 2.0523826774950398e-17,
+        "free_residual_l2_n": 8.390652559898416e-08,
+        "free_residual_relative_to_force": 8.390652559898416e-08,
+        "moment_closure_relative": 4.297367219628268e-08,
+        "moment_closure_residual_nm": [
+          -3.907970219652057e-08,
+          8.58177024554152e-07,
+          2.6449427537045267e-08
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.4999999609202978,
+          -19.999999141822975,
+          2.6449427537045267e-08
+        ],
+        "reaction_resultant_n": [
+          1.4200907116901362e-10,
+          1.7436914134805193e-09,
+          0.9999999142928573
+        ]
+      },
+      "scipy_vs_numpy_relative_displacement": 9.960088558822354e-08
+    },
+    {
+      "alpha": 0.15,
+      "archived_j7_alpha0_displacement_reproduction_relative": null,
+      "archived_j7_alpha0_matrix_reproduction_relative": null,
+      "condition_number_2_diagonally_scaled": 6593915210.915124,
+      "condition_number_2_raw": 11722185647.50298,
+      "condition_number_reduction_factor": 1.7777276887180564,
+      "element_count": 16,
+      "free_dof_count": 108,
+      "global_vs_archived_j10_matrix_relative_frobenius": 0.0,
+      "j10_alpha0_displacement_reproduction_relative": null,
+      "maximum_absolute_displacement_m": 0.09553248379991842,
+      "maximum_displacement_to_local_thickness_ratio": 2.3883120949979606,
+      "mpmath_80_digit_same_matrix_solve_alpha0": null,
+      "node_count": 45,
+      "numpy_diagonally_scaled_same_global_matrix": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 9.583694207646602e-08,
+        "force_closure_residual_n": [
+          7.434266535710776e-10,
+          -4.546823362261421e-09,
+          -9.572613635100424e-08
+        ],
+        "free_residual_backward_error": 6.387957329000915e-17,
+        "free_residual_l2_n": 2.631279995618667e-07,
+        "free_residual_relative_to_force": 2.631279995618667e-07,
+        "moment_closure_relative": 5.176743638155623e-08,
+        "moment_closure_residual_nm": [
+          -6.904882643432586e-08,
+          1.0306076063670844e-06,
+          -7.09028142864554e-08
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.49999993095117357,
+          -19.999998969392394,
+          -7.09028142864554e-08
+        ],
+        "reaction_resultant_n": [
+          7.434266535710776e-10,
+          -4.546823362261421e-09,
+          0.9999999042738636
+        ]
+      },
+      "positive_gauss_jacobian_count": 128,
+      "qf_sri_global_matrix_numpy_direct": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 9.202981625909698e-08,
+        "force_closure_residual_n": [
+          -1.5991474811016815e-09,
+          -6.31543728424333e-09,
+          -9.179893822874874e-08
+        ],
+        "free_residual_backward_error": 9.769992333461118e-17,
+        "free_residual_l2_n": 4.0243827805263023e-07,
+        "free_residual_relative_to_force": 4.0243827805263023e-07,
+        "moment_closure_relative": 4.925412876999199e-08,
+        "moment_closure_residual_nm": [
+          2.529211418078603e-08,
+          9.845386621520902e-07,
+          -2.0775274833795265e-08
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.5000000252921142,
+          -19.999999015461338,
+          -2.0775274833795265e-08
+        ],
+        "reaction_resultant_n": [
+          -1.5991474811016815e-09,
+          -6.31543728424333e-09,
+          0.9999999082010618
+        ]
+      },
+      "qf_sri_kernel_global_assembly_status": "COMPLETED",
+      "same_matrix_solve_status": "COMPLETED",
+      "scaled_vs_numpy_relative_displacement": 1.8010329361221327e-07,
+      "scipy_symmetric_same_global_matrix": {
+        "external_moment_about_origin_nm": [
+          -0.5,
+          20.0,
+          0.0
+        ],
+        "external_resultant_n": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_closure_relative": 6.624723270417542e-08,
+        "force_closure_residual_n": [
+          -1.98525640371372e-10,
+          -2.119115993792775e-09,
+          -6.621303327847272e-08
+        ],
+        "free_residual_backward_error": 2.304041117901981e-17,
+        "free_residual_l2_n": 9.490635080136857e-08,
+        "free_residual_relative_to_force": 9.490635080136857e-08,
+        "moment_closure_relative": 5.771303407130454e-08,
+        "moment_closure_residual_nm": [
+          -4.432717826130528e-08,
+          1.1530361980760517e-06,
+          -2.9331687301237253e-08
+        ],
+        "reaction_moment_about_origin_nm": [
+          0.49999995567282174,
+          -19.999998846963802,
+          -2.9331687301237253e-08
+        ],
+        "reaction_resultant_n": [
+          -1.98525640371372e-10,
+          -2.119115993792775e-09,
+          0.9999999337869667
+        ]
+      },
+      "scipy_vs_numpy_relative_displacement": 1.545864818267692e-07
+    }
+  ],
+  "same_system_definition": {
+    "element": "research-only QF Hex8SRIElement; HEX8-SRI is not registered as a public/global element type",
+    "force_and_fixed_dof_inputs": "archived J7 arrays reused bit-for-bit",
+    "geometry": "archived J7 near-degenerate 4x2x2 HEX8-SRI case; alpha only moves the same three interior nodes as J10",
+    "global_assembly": "each research-only QF HEX8-SRI local stiffness is scattered into a dense global matrix using the J10 assembly route; no production AnalysisRouter/GlobalAssembler claim is made",
+    "poisson_ratio": 0.495,
+    "reference_basis": "NumPy direct, scaled NumPy, SciPy symmetric direct and alpha=0 mpmath use the exact same QF-kernel global matrix, archived force vector and fixed/free map",
+    "young_modulus_pa": 1000000.0
+  },
+  "schema": "qf-j11-hex8-sri-global-reconstruction-v2",
+  "source_fingerprint": "5037085d25761b3923a5c692fc76e05db570276d4e75c1744b0a786fa84e1958",
+  "source_head": "50ad6fa506f478f9e2e5c2b97ecf205721dfef7c"
+}
