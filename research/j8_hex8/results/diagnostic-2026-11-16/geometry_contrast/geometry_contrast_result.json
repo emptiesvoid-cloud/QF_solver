@@ -1,0 +1,195 @@
+{
+  "classification": "DEVELOPMENT_DIAGNOSTIC_NOT_QUALIFICATION",
+  "comparison_scope": {
+    "archived_near_degenerate_geometry": {
+      "condition_2_estimate": 15108377582.938025,
+      "coordinate_max_m": [
+        20.0,
+        1.0,
+        0.043000000000000003
+      ],
+      "coordinate_min_m": [
+        0.0,
+        0.0,
+        -0.003
+      ],
+      "jacobian_max_m3": 0.006250000000000002,
+      "jacobian_min_m3": 0.006249999999999997,
+      "z_extent_m": 0.046000000000000006
+    },
+    "new_regular_geometry": {
+      "coordinate_max_m": [
+        20.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_min_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "z_extent_m": 1.0
+    },
+    "only_declared_coordinate_map_changes": true,
+    "same_nu_mesh_counts_material_load_distribution_and_fixed_dofs": true
+  },
+  "execution_status": "COMPLETED_EXPLORATORY",
+  "geometry_conditioning_comparison": {
+    "condition_ratio_near_over_regular": 871.9474777165447,
+    "interpretation_limit": "difference supports a geometry-map contribution for this matched mesh/material/load, but not a pure element-distortion effect or a general formulation conclusion",
+    "near_degenerate_condition_2_estimate": 15108377582.938025,
+    "regular_condition_2_estimate": 17327164.73072877
+  },
+  "limits": [
+    "the contrast changes the represented cross-section height and warp, so it does not isolate element aspect ratio independently of physical geometry",
+    "only one new regular control is solved; the archived J7 case is reused as the distorted comparison",
+    "the comparison reuses the same HEX8-SRI formulation in both cases and cannot establish its physical accuracy or exclude a common formulation defect",
+    "no historical J7 metric, verdict, or attempt ledger is changed"
+  ],
+  "output": {
+    "matrix_assembled_state_npz": "matrix_assembled_state.npz",
+    "matrix_assembled_state_sha256": "44dfe2c6ef3a4a7e5cb8bad176de47506fbc1318e6beb3b1d252c541a25af93e",
+    "state_npz": "geometry_contrast_state.npz",
+    "state_sha256": "1c63fed81e79565095986c86edf67a6d5c519de28b74d36771d4fd26b3113d10"
+  },
+  "regular_case": {
+    "applied_load_resultant_relative": 2.220446049250313e-16,
+    "backward_error": {
+      "backward_error_inf": 9.972169605106954e-17,
+      "indicator_limit": 2.4202861936828705e-13,
+      "residual_inf": 2.918038422741444e-10,
+      "within_backward_error_indicator": true
+    },
+    "case_id": "J8-HEX8-SRI-GEOMETRY-ONLY-CONTROL-NU0495-NX4",
+    "condition_2_estimate": 17327164.73072877,
+    "displacement_difference_interpretation": "descriptive only; corresponding node indices have different physical coordinates",
+    "energy": {
+      "energy_delta_from_residual_identity_j": 2.95250763936746e-13,
+      "energy_delta_j": 2.9525080297299056e-13,
+      "energy_identity_evaluation_bound_j": 8.815864569623874e-10,
+      "external_work_evaluation_bound_j": 1.035202286991942e-16,
+      "external_work_j": 0.0017015097204196806,
+      "external_work_nmm": 1.7015097204196807,
+      "legacy_metric_nmm": 1.7352284234977297e-10,
+      "legacy_metric_nmm_to_si_ratio": 587.7133630205462,
+      "legacy_metric_si": 2.9525080297299056e-13,
+      "prospective_unit_covariant_indicator": 1.7352284231966282e-10,
+      "strain_energy_evaluation_bound_j": 8.815863534421587e-10,
+      "strain_energy_j": 0.0017015097207149314,
+      "strain_energy_nmm": 1.7015097207149315
+    },
+    "finite": true,
+    "force_balance": {
+      "centroid_m": [
+        10.0,
+        0.5,
+        0.5
+      ],
+      "external_resultant_n": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "force_closure_n": [
+        -7.049083883774996e-11,
+        2.136796956854755e-10,
+        2.815809807543701e-10
+      ],
+      "force_closure_norm_n": 3.604383711966305e-10,
+      "j7_force_closure_relative": 3.604383711966305e-10,
+      "j7_moment_force_length_relative": 9.004259690310768e-10,
+      "moment_centroid_external_nm": [
+        0.0,
+        10.0,
+        0.0
+      ],
+      "moment_centroid_reaction_nm": [
+        -7.121650754223842e-11,
+        -10.000000001891241,
+        1.5080841506039772e-09
+      ],
+      "moment_closure_centroid_nm": [
+        -7.121650754223842e-11,
+        -1.8912409416316223e-09,
+        1.5080841506039772e-09
+      ],
+      "moment_closure_centroid_norm_nm": 2.419954936678181e-09,
+      "moment_closure_origin_nm": [
+        -3.72659125780217e-11,
+        -4.742293668869024e-09,
+        3.6801287473236565e-09
+      ],
+      "moment_closure_origin_norm_nm": 6.002839793540511e-09,
+      "moment_contribution_scale_centroid_nm": 570.5650556697053,
+      "moment_contribution_scaled_indicator": 4.241330436610317e-12,
+      "moment_origin_external_nm": [
+        -0.5,
+        20.0,
+        0.0
+      ],
+      "moment_origin_reaction_nm": [
+        0.4999999999627341,
+        -20.000000004742294,
+        3.6801287473236565e-09
+      ],
+      "origin_transport_residual_nm": [
+        4.757023058563856e-17,
+        -2.4997251741743105e-15,
+        -2.220446049250313e-15
+      ],
+      "reaction_resultant_n": [
+        -7.049083883774996e-11,
+        2.136796956854755e-10,
+        1.000000000281581
+      ]
+    },
+    "free_matrix_positive_definite": true,
+    "free_residual_norm_n": 6.934168148136062e-10,
+    "free_residual_relative_to_force_norm": 6.934168148136062e-10,
+    "gauss_jacobian_max_m3": 0.15625000000000003,
+    "gauss_jacobian_min_m3": 0.15624999999999992,
+    "index_corresponding_displacement_difference_norm_m": 0.33958670967609705,
+    "index_corresponding_displacement_difference_relative": 0.9644521287251221,
+    "lambda_max_n_per_m": 372216806.63488823,
+    "lambda_min_n_per_m": 21.481691460737498,
+    "max_displacement_m": 0.003404390722182338,
+    "model": {
+      "elements": 16,
+      "fixed_dofs": 27,
+      "height_input_m": 1.0,
+      "length_m": 20.0,
+      "load_total_n": [
+        0.0,
+        0.0,
+        -1.0000000000000002
+      ],
+      "loaded_end_nodes": 9,
+      "nodes": 45,
+      "nx": 4,
+      "ny": 2,
+      "nz": 2,
+      "poisson_ratio": 0.495,
+      "width_input_m": 1.0,
+      "young_modulus_pa": 1000000.0
+    },
+    "stiffness_symmetry_relative": 0.0
+  },
+  "schema": "qf-j8-hex8-geometry-contrast-result-v1",
+  "scientific_status": "NO_ACCEPTANCE_THRESHOLD_FOR_RESIDUAL_ENERGY_OR_MOMENT",
+  "source": {
+    "analysis_source_commit": "d82a0b9c99685814f10f93cc405618b87c2c9791",
+    "case_input_sha256": "66193d6d4411caf842544d9dc74c3252f10d4641a6ce1b5b1745d5dd29c19c74",
+    "geometry_contract_canonical_lf_sha256": "f33cc68a2eeed8313b673a5d4a04a038d1438b00100d039d745da4471850cceb",
+    "j7_near_result_sha256": "0707e78f0a4c077b7ecf02a492a9fec2c1f4baddb175a9105a2dc6cb5904ac22",
+    "j7_near_state_sha256": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11",
+    "repository_head": "1cd9cb48d6b329737e96316cd80e5f6e16635e8f",
+    "solver_source_tree_sha1": "908ef5684ec92854451325bbc3696218864eb9e7"
+  },
+  "structural_checks": {
+    "all_finite": true,
+    "all_gauss_jacobians_positive": true,
+    "applied_load_relative_le_1e_minus_14": true,
+    "free_matrix_positive_definite": true,
+    "matrix_symmetry_le_1e_minus_12": true
+  }
+}

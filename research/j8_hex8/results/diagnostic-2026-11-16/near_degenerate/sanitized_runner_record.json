@@ -1,0 +1,121 @@
+{
+  "attempt": 1,
+  "budget_semantics": {
+    "attempt_limit": "persistent procedural ledger under the development run store",
+    "captured_output": "application-enforced byte caps on captured stdout/stderr",
+    "free_disk": "preflight and sampled floor check",
+    "numerical_threads": "per-case environment caps and a threadpoolctl pre-launch check; numerical libraries must report one thread",
+    "process_count": "sampled process-tree monitor; not a job-object boundary",
+    "rss": "sampled soft monitor; not a hard memory/commit limit",
+    "temporary_and_archive_size": "sampled size monitoring; not an NTFS quota",
+    "wall_timeout": "watchdog-triggered process-tree termination; best-effort OS control"
+  },
+  "budgets": {
+    "archive_size_limit_mib": 64,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 512,
+    "temporary_limit_mib": 128,
+    "timeout_seconds": 600
+  },
+  "elapsed_seconds": 8.941572800045833,
+  "finished_at_utc": "2026-11-16T17:08:44.246737+00:00",
+  "interpretation": "Runner PASS means the registered diagnostic node completed; it is not a scientific acceptance PASS.",
+  "nodeid": "tests/verification/test_j8_hex8_conditioning.py::test_j8_near_degenerate_nu0495_recalculation_and_methods",
+  "observed_resources": {
+    "archive_bytes": 65381,
+    "free_disk_after_bytes": 40971554816,
+    "free_disk_before_bytes": 40984416256,
+    "peak_process_count": 3,
+    "peak_rss_bytes": 114900992,
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 544,
+    "stdout_sha256": "ac6d28b47de22417b065dff5c5f0bee1ba64079e628f51cf51295c3187cd00b7",
+    "temporary_bytes": 0
+  },
+  "original_output_inventory": [
+    {
+      "bytes": 25112,
+      "path": "j8_hex8_near_degenerate_nu0495_nx4/checkpoint.json",
+      "sha256": "f47eb4913ec776b4357df219c03c426d2a056c8a47a0ac38574a479131f8e7c6"
+    },
+    {
+      "bytes": 25657,
+      "path": "j8_hex8_near_degenerate_nu0495_nx4/diagnostic_result.json",
+      "sha256": "e5682c7b7de542030b636e85017bf7193487458b52fbe87596cf3d2408a2a008"
+    },
+    {
+      "bytes": 9901,
+      "path": "j8_hex8_near_degenerate_nu0495_nx4/method_solutions.npz",
+      "sha256": "8f93e8da71c74096e44a22d3f9ef328d33a94d8e9dbb816a8d54b77da317e7b1"
+    },
+    {
+      "bytes": 4167,
+      "path": "j8_hex8_near_degenerate_nu0495_nx4/reconstructed_state.npz",
+      "sha256": "7d698dda156f650deee7adf09831116b0145f7ea39366ae53931c32d763c767f"
+    },
+    {
+      "bytes": 0,
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 544,
+      "path": "stdout.log",
+      "sha256": "ac6d28b47de22417b065dff5c5f0bee1ba64079e628f51cf51295c3187cd00b7"
+    }
+  ],
+  "preflight": {
+    "bodies_executed": false,
+    "budgets": {
+      "archive_size_limit_mib": 64,
+      "minimum_free_disk_mib": 1024,
+      "output_stream_limit_mib": 4,
+      "output_total_limit_mib": 8,
+      "process_tree_limit": 4,
+      "rss_soft_limit_mib": 512,
+      "temporary_limit_mib": 128,
+      "timeout_seconds": 600
+    },
+    "elapsed_seconds": 3.680687699932605,
+    "id": "pf-d984779a71ab",
+    "peak_process_count": 1,
+    "peak_rss_bytes": 106721280,
+    "phase": "PYTEST_COLLECT_ONLY",
+    "raw_record_sha256": "e348670ff6d5448b262680539ef06d92f7165e59f77a6ca2291784ab56863ebd",
+    "source_fingerprint": "4536c77ca36a64d533488019a4dae49e7760a1daeb9f122c0a59dd71246a8888",
+    "source_fingerprint_after": "4536c77ca36a64d533488019a4dae49e7760a1daeb9f122c0a59dd71246a8888",
+    "state": "PREFLIGHT_PASS",
+    "target": "tests/verification/test_j8_hex8_conditioning.py::test_j8_near_degenerate_nu0495_recalculation_and_methods"
+  },
+  "preflight_receipt_sha256": "e348670ff6d5448b262680539ef06d92f7165e59f77a6ca2291784ab56863ebd",
+  "raw_run_record_sha256": "3b5d7f4d0a6668515ab0625f36f0255a9474ed3a1c2cf7f8f05df938ff65a4d7",
+  "reason": "Independent J7 near-degenerate state reconstruction and same-matrix direct, scaled, refined, high-precision, and unit-conversion comparisons; no element reassembly.",
+  "return_code": 0,
+  "runner_state": "PASS",
+  "runtime_versions": {
+    "psutil": "7.2.2",
+    "pytest": "8.4.1",
+    "python": "3.13.1"
+  },
+  "schema": "qf-j8-sanitized-development-run-v1",
+  "scope": "fem_exploratory",
+  "series_id": "dev-j8-near-20261116",
+  "source": {
+    "branch": "work/0.3.0-j8",
+    "controller_sha256": {
+      "policy": "cc42f44f62a0d1f6414d1611a022ea8191c5c71c90cd060ebfb55700684292fc",
+      "pytest_plugin": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
+      "runner": "399e0e46a0573b6bd5b8c7a4a67e413df1fc3cd3e715021b3c934ed94876b4a4"
+    },
+    "mandate_id": "DEVELOPMENT_AUTONOMOUS-J8-2026-11-16-v1",
+    "post_source_fingerprint": "4536c77ca36a64d533488019a4dae49e7760a1daeb9f122c0a59dd71246a8888",
+    "repository_head": "1cd9cb48d6b329737e96316cd80e5f6e16635e8f",
+    "source_fingerprint": "4536c77ca36a64d533488019a4dae49e7760a1daeb9f122c0a59dd71246a8888",
+    "tree": "fc29da087213c29507f8638268676f16f8a2b635"
+  },
+  "started_at_utc": "2026-11-16T17:08:35.292309+00:00",
+  "worktree_id": "j8_hex8"
+}

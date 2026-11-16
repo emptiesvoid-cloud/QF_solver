@@ -1,0 +1,106 @@
+{
+  "classification": "development diagnostics; no qualification status",
+  "files": [
+    {
+      "bytes": 5429,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/geometry_contrast/frozen_contract.json",
+      "sha256": "f33cc68a2eeed8313b673a5d4a04a038d1438b00100d039d745da4471850cceb"
+    },
+    {
+      "bytes": 7191,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/geometry_contrast/geometry_contrast_result.json",
+      "sha256": "178468eb93bb80edd644eca275363f25c037e4dfa7a1c15a60d93ab6cfdd96af"
+    },
+    {
+      "bytes": 10247,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/geometry_contrast/geometry_contrast_state.npz",
+      "sha256": "1c63fed81e79565095986c86edf67a6d5c519de28b74d36771d4fd26b3113d10"
+    },
+    {
+      "bytes": 6523,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/geometry_contrast/matrix_assembled_state.npz",
+      "sha256": "44dfe2c6ef3a4a7e5cb8bad176de47506fbc1318e6beb3b1d252c541a25af93e"
+    },
+    {
+      "bytes": 5278,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/geometry_contrast/sanitized_runner_record.json",
+      "sha256": "7a2f7fc08eeb3d8197faeedb6778b154d7f79989bd5a4b375bd9c817f615b64d"
+    },
+    {
+      "bytes": 10581,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/near_degenerate/frozen_contract.json",
+      "sha256": "44ad398532dec3f0552c6b804db0bf99615be8e7c241b90f0bd504254c2ecf44"
+    },
+    {
+      "bytes": 5936,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/near_degenerate/frozen_execution_manifest.json",
+      "sha256": "c10e84a97e53ea6a08a8fc84cbf47d89a2d0abd23616477780fdbca8744d5c9b"
+    },
+    {
+      "bytes": 9901,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/near_degenerate/method_solutions.npz",
+      "sha256": "8f93e8da71c74096e44a22d3f9ef328d33a94d8e9dbb816a8d54b77da317e7b1"
+    },
+    {
+      "bytes": 25582,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/near_degenerate/original_diagnostic_snapshot.json",
+      "sha256": "dc544b7599af8a947af98b72d466470aed3062b0afb79fd7d6fb68c5f1ec0097"
+    },
+    {
+      "bytes": 3626,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/near_degenerate/posthoc_rigid_mode_audit.json",
+      "sha256": "075c25edd336b5332919558e144fdc51fa149bd328aca8b62706e53911ea3243"
+    },
+    {
+      "bytes": 23555,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/near_degenerate/recovered_method_metrics.json",
+      "sha256": "be5d037032431703ca5a39c96cf6e8adcc4efa91ed201330078d62515e096453"
+    },
+    {
+      "bytes": 5239,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/near_degenerate/sanitized_runner_record.json",
+      "sha256": "4e3a3d57e6dbace8793df92c9d7563fe77e5530eebfc6139ea1ebee1f22fd8be"
+    },
+    {
+      "bytes": 2403,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/README.md",
+      "sha256": "066e92d5b89cc7e8da385fa5aab441dd6fe383bdb3703112b74bb1fea0b72a5a"
+    },
+    {
+      "bytes": 10510,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/regular/frozen_contract.json",
+      "sha256": "3b48ff4ad7aa57bb816bf5e1e98a3144362d066766c9200f2242de61dbb1b191"
+    },
+    {
+      "bytes": 5781,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/regular/frozen_execution_manifest.json",
+      "sha256": "835d738d597c1b78c7a381cb1bb038f95652a890f0a3423b44601c6cbed70507"
+    },
+    {
+      "bytes": 26555,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/regular/method_solutions.npz",
+      "sha256": "b3e7312b57bb68e6060dad9e01167598146bfe91668ce617f2a170bd6511bdcd"
+    },
+    {
+      "bytes": 11847,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/regular/original_diagnostic_snapshot.json",
+      "sha256": "0d0795e0407b488c68639cf391139ccb7f2af7269096a90965df8befd9295cd9"
+    },
+    {
+      "bytes": 3547,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/regular/posthoc_rigid_mode_audit.json",
+      "sha256": "aa18f4477d17b8dd6fe7be0fe4f0c1c61ff86d7772ad15b04e9978e05d8d3a46"
+    },
+    {
+      "bytes": 20428,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/regular/recovered_method_metrics.json",
+      "sha256": "59eec1ae074e9d320387f5bf114f69df8f4e4e0a88a17fc74e7cce2dc440e51e"
+    },
+    {
+      "bytes": 5188,
+      "path": "research/j8_hex8/results/diagnostic-2026-11-16/regular/sanitized_runner_record.json",
+      "sha256": "4841a2eee289f5c5361e28bc1a4f174a0f9f255439204bcaa3dc6ae8d9c864ef"
+    }
+  ],
+  "schema": "qf-j8-result-artifact-sha256-manifest-v1"
+}

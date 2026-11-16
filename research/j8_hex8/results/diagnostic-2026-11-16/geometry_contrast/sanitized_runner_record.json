@@ -1,0 +1,121 @@
+{
+  "attempt": 1,
+  "budget_semantics": {
+    "attempt_limit": "persistent procedural ledger under the development run store",
+    "captured_output": "application-enforced byte caps on captured stdout/stderr",
+    "free_disk": "preflight and sampled floor check",
+    "numerical_threads": "per-case environment caps and a threadpoolctl pre-launch check; numerical libraries must report one thread",
+    "process_count": "sampled process-tree monitor; not a job-object boundary",
+    "rss": "sampled soft monitor; not a hard memory/commit limit",
+    "temporary_and_archive_size": "sampled size monitoring; not an NTFS quota",
+    "wall_timeout": "watchdog-triggered process-tree termination; best-effort OS control"
+  },
+  "budgets": {
+    "archive_size_limit_mib": 64,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 512,
+    "temporary_limit_mib": 128,
+    "timeout_seconds": 600
+  },
+  "elapsed_seconds": 6.1557136999908835,
+  "finished_at_utc": "2026-11-16T17:10:57.454390+00:00",
+  "interpretation": "Runner PASS means the registered diagnostic node completed; it is not a scientific acceptance PASS.",
+  "nodeid": "tests/verification/test_j8_hex8_conditioning.py::test_j8_geometry_only_regular_nu0495_nx4_contrast",
+  "observed_resources": {
+    "archive_bytes": 28157,
+    "free_disk_after_bytes": 40881766400,
+    "free_disk_before_bytes": 40887701504,
+    "peak_process_count": 3,
+    "peak_rss_bytes": 114720768,
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 544,
+    "stdout_sha256": "f0fc8bfa6dca6d0bf12ae328e49f6392aee843dbce20eba507cc82c0e95e9646",
+    "temporary_bytes": 0
+  },
+  "original_output_inventory": [
+    {
+      "bytes": 3652,
+      "path": "j8_geometry_only_regular_nu0495_nx4/checkpoint.json",
+      "sha256": "fd4c4d9b8b0aa49464b3901a7db581ad43372dba4d38875eea1d6a04510611d5"
+    },
+    {
+      "bytes": 7191,
+      "path": "j8_geometry_only_regular_nu0495_nx4/geometry_contrast_result.json",
+      "sha256": "178468eb93bb80edd644eca275363f25c037e4dfa7a1c15a60d93ab6cfdd96af"
+    },
+    {
+      "bytes": 10247,
+      "path": "j8_geometry_only_regular_nu0495_nx4/geometry_contrast_state.npz",
+      "sha256": "1c63fed81e79565095986c86edf67a6d5c519de28b74d36771d4fd26b3113d10"
+    },
+    {
+      "bytes": 6523,
+      "path": "j8_geometry_only_regular_nu0495_nx4/matrix_assembled_state.npz",
+      "sha256": "44dfe2c6ef3a4a7e5cb8bad176de47506fbc1318e6beb3b1d252c541a25af93e"
+    },
+    {
+      "bytes": 0,
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 544,
+      "path": "stdout.log",
+      "sha256": "f0fc8bfa6dca6d0bf12ae328e49f6392aee843dbce20eba507cc82c0e95e9646"
+    }
+  ],
+  "preflight": {
+    "bodies_executed": false,
+    "budgets": {
+      "archive_size_limit_mib": 64,
+      "minimum_free_disk_mib": 1024,
+      "output_stream_limit_mib": 4,
+      "output_total_limit_mib": 8,
+      "process_tree_limit": 4,
+      "rss_soft_limit_mib": 512,
+      "temporary_limit_mib": 128,
+      "timeout_seconds": 600
+    },
+    "elapsed_seconds": 3.683729900047183,
+    "id": "pf-e7f05c11d63f",
+    "peak_process_count": 1,
+    "peak_rss_bytes": 106008576,
+    "phase": "PYTEST_COLLECT_ONLY",
+    "raw_record_sha256": "816f409d6f1b97addd8d7cc44a259efafed598634397004c08b80ec79e0016a5",
+    "source_fingerprint": "4536c77ca36a64d533488019a4dae49e7760a1daeb9f122c0a59dd71246a8888",
+    "source_fingerprint_after": "4536c77ca36a64d533488019a4dae49e7760a1daeb9f122c0a59dd71246a8888",
+    "state": "PREFLIGHT_PASS",
+    "target": "tests/verification/test_j8_hex8_conditioning.py::test_j8_geometry_only_regular_nu0495_nx4_contrast"
+  },
+  "preflight_receipt_sha256": "816f409d6f1b97addd8d7cc44a259efafed598634397004c08b80ec79e0016a5",
+  "raw_run_record_sha256": "b8b090fd9db88841e52e4ca54bff653fc04f5a45eb216163f47f4a9071557408",
+  "reason": "Controlled geometry-map contrast against J7 near-degenerate case with identical material, mesh counts, load, and constraints; one bounded exploratory FEM attempt, no historical status changes.",
+  "return_code": 0,
+  "runner_state": "PASS",
+  "runtime_versions": {
+    "psutil": "7.2.2",
+    "pytest": "8.4.1",
+    "python": "3.13.1"
+  },
+  "schema": "qf-j8-sanitized-development-run-v1",
+  "scope": "fem_exploratory",
+  "series_id": "dev-j8-geometry-20261116",
+  "source": {
+    "branch": "work/0.3.0-j8",
+    "controller_sha256": {
+      "policy": "cc42f44f62a0d1f6414d1611a022ea8191c5c71c90cd060ebfb55700684292fc",
+      "pytest_plugin": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
+      "runner": "399e0e46a0573b6bd5b8c7a4a67e413df1fc3cd3e715021b3c934ed94876b4a4"
+    },
+    "mandate_id": "DEVELOPMENT_AUTONOMOUS-J8-2026-11-16-v1",
+    "post_source_fingerprint": "4536c77ca36a64d533488019a4dae49e7760a1daeb9f122c0a59dd71246a8888",
+    "repository_head": "1cd9cb48d6b329737e96316cd80e5f6e16635e8f",
+    "source_fingerprint": "4536c77ca36a64d533488019a4dae49e7760a1daeb9f122c0a59dd71246a8888",
+    "tree": "fc29da087213c29507f8638268676f16f8a2b635"
+  },
+  "started_at_utc": "2026-11-16T17:10:51.286543+00:00",
+  "worktree_id": "j8_hex8"
+}

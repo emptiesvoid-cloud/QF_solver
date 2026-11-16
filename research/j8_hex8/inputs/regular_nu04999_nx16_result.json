@@ -1,0 +1,135 @@
+{
+  "archive": {
+    "bytes": 22001,
+    "filename": "numerical_state.npz",
+    "sha256": "9b95ada05a6eb63c61babb0e2572995adaaa4db47750377ff38bbea2c6266259"
+  },
+  "case_id": "J7-HEX8-SRI-REGULAR-NU04999-NX16",
+  "classification": "DEVELOPMENT_GLOBAL_REPLAY_NOT_QUALIFICATION",
+  "criteria": {
+    "applied_load_resultant_relative": {
+      "limit": 1e-14,
+      "status": "PASS",
+      "value": 2.220446049250313e-16
+    },
+    "dof_equilibrium_residual_relative": {
+      "limit": 1e-10,
+      "status": "FAIL",
+      "value": 1.0930307395884133e-07
+    },
+    "energy_identity_relative": {
+      "limit": 1e-10,
+      "status": "FAIL",
+      "value": 3.2270469282891234e-10
+    },
+    "finite": {
+      "expected": true,
+      "status": "PASS",
+      "value": true
+    },
+    "force_resultant_closure_relative": {
+      "limit": 1e-10,
+      "status": "FAIL",
+      "value": 5.3534981437762496e-08
+    },
+    "jacobian_positive": {
+      "expected": true,
+      "status": "PASS",
+      "value": true
+    },
+    "matrix_symmetry_relative": {
+      "limit": 1e-12,
+      "status": "PASS",
+      "value": 0.0
+    },
+    "moment_balance_force_length_relative": {
+      "limit": 1e-10,
+      "status": "FAIL",
+      "value": 1.1647168785998414e-07
+    }
+  },
+  "environment": {
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "requested_thread_environment": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "threadpools": [
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "user_api": "blas",
+        "version": "0.3.29"
+      }
+    ]
+  },
+  "execution_status": "COMPLETED",
+  "historical_status_policy": "Pre-correction WP12/WP13-12 FAILs remain unchanged; this execution is not a general HEX8-SRI qualification.",
+  "metrics": {
+    "applied_load_resultant_n": [
+      0.0,
+      0.0,
+      -1.0000000000000002
+    ],
+    "applied_load_resultant_relative": 2.220446049250313e-16,
+    "dof_equilibrium_residual_relative": 1.0930307395884133e-07,
+    "energy_identity_relative": 3.2270469282891234e-10,
+    "external_work_j": 0.010725777718133007,
+    "force_resultant_closure_relative": 5.3534981437762496e-08,
+    "force_resultant_residual_n": [
+      1.6526445989484273e-08,
+      5.5570126278325915e-09,
+      5.061610841572417e-08
+    ],
+    "matrix_symmetry_relative": 0.0,
+    "max_displacement_m": 0.021451810682168324,
+    "max_gauss_jacobian_m3": 0.039062500000000035,
+    "min_gauss_jacobian_m3": 0.039062499999999944,
+    "moment_balance_force_length_relative": 1.1647168785998414e-07,
+    "moment_residual_about_origin_nm": [
+      2.7775058752954607e-08,
+      -7.615898240942442e-07,
+      1.487529655008757e-07
+    ],
+    "strain_energy_j": 0.0107257780408377
+  },
+  "model": {
+    "distortion": "regular",
+    "elements": 64,
+    "end_face_load_nodes": 9,
+    "family": "HEX8-SRI linear small-strain isotropic elasticity",
+    "fixed_dofs": 27,
+    "fixed_nodes": 9,
+    "height_m": 1.0,
+    "length_m": 20.0,
+    "nodes": 153,
+    "nx": 16,
+    "ny": 2,
+    "nz": 2,
+    "poisson_ratio": 0.4999,
+    "total_dofs": 459,
+    "total_load_n": [
+      0.0,
+      0.0,
+      -1.0
+    ],
+    "width_m": 1.0,
+    "young_modulus_pa": 1000000.0
+  },
+  "reference_limit": "No independent displacement reference is established for these exact global configurations.",
+  "schema": "qf-j7-hex8-sri-global-result-v1",
+  "scientific_criteria_status": "FAIL",
+  "source": {
+    "contract_canonical_sha256": "849ff07e94ee7a1ac6eae321269dcac6e03567b91f4684c22a8da9c37b5116d2",
+    "input_sha256": "66193d6d4411caf842544d9dc74c3252f10d4641a6ce1b5b1745d5dd29c19c74",
+    "nodeid": "tests/verification/test_j7_hex8_sri_postcorrection.py::test_j7_hex8_sri_nu04999_nx16_regular",
+    "repository_head": "7b60400eeb34239e1cf639dc7e92f94118ca57bc",
+    "solver_source_sha256": "e014652e9efc3912046891348d9dfa76adaa1f8ff084db58e84a9b3d151cf9e4",
+    "solver_source_worktree_sha256": "bb8e8093e73f1d31744e5777e0f0e30de9c1aeffe709bed9b960aa366bbab4e9"
+  }
+}

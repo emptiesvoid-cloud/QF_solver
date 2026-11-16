@@ -1,0 +1,102 @@
+{
+  "schema": "qf-j8-hex8-condition-diagnostic-contract-v1",
+  "contract_id": "J8-HEX8-SRI-ARCHIVED-MATRIX-DIAGNOSTIC-001",
+  "classification": "BOUNDED_DEVELOPMENT_DIAGNOSTIC_NOT_QUALIFICATION",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J8_OWNER_2026-11-16",
+  "authorization": "Explicit Owner authorization in the J8 instruction, 2026-11-16, for independent post-processing and bounded matrix-resolution diagnostics.",
+  "baseline": {
+    "main_head": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "j7_calculation_head": "7b60400eeb34239e1cf639dc7e92f94118ca57bc",
+    "j7_final_head": "ba813afbe3f2448dab2d75f84771616762b4f538",
+    "src_solveur_tree_sha1": "908ef5684ec92854451325bbc3696218864eb9e7",
+    "relation": "J7 and current main have identical src/solveur Git trees. Diagnostics solve only the archived J7 global matrix; no element stiffness or load is reassembled."
+  },
+  "inputs": {
+    "j7_report_sha256": "470631a3fb0d5d486fd3706f43a07ecd5fbd1d44fba7b2242f5055b271950426",
+    "j7_contract_sha256": "849ff07e94ee7a1ac6eae321269dcac6e03567b91f4684c22a8da9c37b5116d2",
+    "j7_case_input_sha256": "66193d6d4411caf842544d9dc74c3252f10d4641a6ce1b5b1745d5dd29c19c74",
+    "j7_archive_manifest_sha256": "4277054175fea7ff69462da95d3b2a4b83c9bd1a81b1b2928a63e38b88631065",
+    "j7_replay_source_sha256": "4c668abd98a6171cfb7278d83216b18e6db11ceab87a137971c6591e0733ca55",
+    "hex8_sri_source_canonical_sha256": "e014652e9efc3912046891348d9dfa76adaa1f8ff084db58e84a9b3d151cf9e4",
+    "regular": {
+      "result_sha256": "da3535abc603051001f4e5ab4a7d9350221660173fddf329c2bb4156067ef187",
+      "npz_sha256": "9b95ada05a6eb63c61babb0e2572995adaaa4db47750377ff38bbea2c6266259",
+      "dimensions": {"dofs": 459, "free_dofs": 432, "nodes": 153, "elements": 64}
+    },
+    "near_degenerate": {
+      "result_sha256": "0707e78f0a4c077b7ecf02a492a9fec2c1f4baddb175a9105a2dc6cb5904ac22",
+      "npz_sha256": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11",
+      "dimensions": {"dofs": 135, "free_dofs": 108, "nodes": 45, "elements": 16}
+    }
+  },
+  "model_scope": {
+    "family": "HEX8-SRI linear small-strain isotropic elasticity",
+    "units": {"length": "m", "force": "N", "stiffness": "N/m", "energy": "J", "moment": "N m", "dof_order": "node-major x,y,z translations"},
+    "regular": {"length_m": 20.0, "width_m": 1.0, "height_m": 1.0, "young_modulus_pa": 1000000.0, "poisson_ratio": 0.4999, "mesh": [16, 2, 2], "distortion": "regular"},
+    "near_degenerate": {"length_m": 20.0, "width_m": 1.0, "height_m": 1.0, "young_modulus_pa": 1000000.0, "poisson_ratio": 0.495, "mesh": [4, 2, 2], "distortion": "near_degenerate_valid"},
+    "loading": "total nodal force (0, 0, -1) N, distributed over the frozen nine end-face nodes",
+    "constraints": "all three translations fixed at the x=0 nodes; archived prescribed values are read from the displacement vector and used in the general partitioned equations"
+  },
+  "objectives": [
+    "independently reconstruct free residuals, constrained reactions, global resultants, moments, and energy terms from the frozen J7 state",
+    "separate algebraic backward error from forward solution variation under solver and scaling changes",
+    "measure effects of stable direct solve, symmetric diagonal equilibration, and bounded iterative refinement on the same matrix and right-hand side",
+    "use an 80-decimal-digit mpmath solve for the 108-free-DOF case only; Windows longdouble was confirmed to have binary64 precision",
+    "measure the unit dependence of the historical energy normalization without changing the historical criterion",
+    "compare equation scaling with a physically consistent m-to-mm variable and stiffness-unit conversion"
+  ],
+  "predeclared_formulas": {
+    "partitioned_equilibrium": "A = K_ff; b = f_f - K_fc u_c; r_f = K_ff u_f + K_fc u_c - f_f; reactions r_c = K_cf u_f + K_cc u_c - f_c",
+    "roundoff_envelope": "For each dot-product residual component, 4*gamma_(n+2) * (sum_j |K_ij u_j| + |f_i|), with u=2^-53 and gamma_k=k*u/(1-k*u); the factor 4 envelopes two different finite-precision reductions and the final subtraction. Compare the independent compensated sum and archived BLAS result to this envelope, reporting any exceedance rather than relaxing it.",
+    "energy_reconstruction_envelope": "For U and W separately, use four times the standard binary64 dot-product envelope. For U include both rowwise K*u dot-product rounding and the outer u dot product; for W use the outer u dot product. Compare compensated reconstructions to stored J7 values against these computed joule bounds.",
+    "energy": "J7 uses U = 0.5*u^T*K*u and W = 0.5*u^T*f for this zero-prescribed-displacement, proportionally loaded linear case. Units are joules. If prescribed support displacement is nonzero, this U/W identity is not used without including support-reaction work.",
+    "legacy_energy_metric": "abs(U-W)/max(abs(W), 1.0); reproduce exactly in SI and after numerical J-to-N-mm scaling. The literal 1.0 is a 1 J floor in the SI computation and is not unit covariant.",
+    "prospective_energy_indicator": "eta_E = abs(U-W)/max(abs(U),abs(W)); dimensionless and invariant under consistent energy-unit conversion when the denominator is nonzero. Report as a diagnostic; no acceptance threshold is introduced in J8.",
+    "length_unit_conversion": "If x_mm=1000*x_m, then K_N_per_mm=K_N_per_m/1000, f_N is unchanged, and the solved displacement is converted back by x_m=x_mm/1000 before physical metrics are evaluated.",
+    "force_closure": "F_ext = sum_i f_i; R = sum_i r_c,i; closure = F_ext + R. Use math.fsum by component and compare with the J7 reduction order.",
+    "moment_closure": "M_o = sum_i (x_i-o) x f_i + sum_i (x_i-o) x r_c,i in N m; compute at the origin and centroid, verify origin transport with the total force closure. Reproduce the frozen J7 metric ||M_0||/max(||f_nodal||_2*L_ref, 1 N m), where f_nodal is the full assembled nodal force vector (not the resultant), and report a contribution-scaled diagnostic.",
+    "backward_error": "eta_inf = ||A*x-b||_inf / (||A||_inf*||x||_inf + ||b||_inf), with residual evaluated by compensated row dot products; method indicator limit is 20*gamma_(n+1), not a physical accuracy criterion.",
+    "iterative_refinement": "Use the Cholesky factor of A; at most three corrections. Stop if eta_inf <= 20*gamma_(n+1), if the residual fails to improve by 10%, or after the third correction. Record every iterate.",
+    "positive_definiteness": "Before using positive-definite direct solvers, require the symmetric free matrix to have a positive minimum eigenvalue; if not, atomically record the reconstruction and abort the declared solver comparison."
+  },
+  "methods": [
+    "repeat numpy.linalg.solve on A,b",
+    "scipy.linalg.solve with assume_a='pos' on A,b",
+    "symmetric diagonal congruence scaling D*A*D*y=D*b with D_ii=1/sqrt(A_ii), then u=D*y",
+    "up to three Cholesky-based iterative-refinement corrections using compensated residuals",
+    "solve (alpha*A)x=alpha*b for alpha in {1e-6,1e6}; algebraic scaling only, not a physical change of units",
+    "solve in N/mm and mm after the exact conversion K_N_per_mm=K_N_per_m/1000, f_N unchanged, then convert displacement back to m",
+    "mpmath LU solve at 80 decimal digits for the 108-free-DOF near-degenerate matrix only"
+  ],
+  "predeclared_criteria": {
+    "input_sha256": "must equal all frozen digests above before opening NPZ arrays",
+    "finite_and_shape_checks": "all expected arrays finite and dimensions match frozen node/DOF counts",
+    "applied_load_resultant": "recompute the nodal force sum and compare it with J7's frozen total force using its existing 1e-14 load-indicator limit; this does not alter the J7 result or verdict",
+    "free_matrix_positive_definite": "must be observed before invoking any positive-definite solve method; this is a precondition check, not a physical accuracy criterion",
+    "zero_or_general_support_values": "report max absolute prescribed displacement; always use the partitioned formula, and only report J7 energy comparability if it is zero",
+    "residual_reconstruction": "compare against the gamma roundoff envelope; never alter it after observing results",
+    "method_completion": "all declared methods must return finite vectors; if a method fails, atomically preserve the latest checkpoint and mark that method FAILED",
+    "method_quality": "report eta_inf and compare only with 20*gamma_(n+1); forward solution differences and physical metrics remain descriptive",
+    "no_retroactive_gate": "J7 scientific FAIL statuses and thresholds are immutable; J8 introduces no numerical pass/fail threshold for energy or moment"
+  },
+  "execution": {
+    "scope": "fem_exploratory",
+    "worktree_id": "j8_hex8",
+    "allowed_nodeids": [
+      "tests/verification/test_j8_hex8_conditioning.py::test_j8_regular_nu04999_recalculation_and_methods",
+      "tests/verification/test_j8_hex8_conditioning.py::test_j8_near_degenerate_nu0495_recalculation_and_methods"
+    ],
+    "attempt_limit_per_nodeid": 1,
+    "budgets": {"timeout_seconds": 600, "rss_soft_limit_mib": 512, "process_tree_limit": 4, "output_total_limit_mib": 8, "output_stream_limit_mib": 4, "temporary_limit_mib": 128, "archive_size_limit_mib": 64},
+    "thread_environment": {"OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "OMP_THREAD_LIMIT": "1", "MKL_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1", "VECLIB_MAXIMUM_THREADS": "1", "BLIS_NUM_THREADS": "1", "TBB_NUM_THREADS": "1"},
+    "semantics": "Runner enforces wall-time and captured-output caps; RSS/process/temp/archive are sampled soft controls, not OS quotas.",
+    "checkpoint": "atomic checkpoint after independent reconstruction and after each solver method; each checkpoint preserves all earlier method records and available solution vectors before criteria evaluation",
+    "artifacts": ["diagnostic_result.json", "reconstructed_state.npz", "method_solutions.npz", "sanitized_runner_record.json", "sha256_manifest.json"]
+  },
+  "limitations": [
+    "no element assembly or load integration is rerun; all method comparisons solve only the frozen J7 global matrices, so this experiment cannot rule out a common assembly or formulation error",
+    "high-precision comparison covers only the 108-free-DOF case; the 432-free-DOF case is compared with double-precision algorithms",
+    "solver-method agreement on one assembled matrix does not demonstrate physical accuracy or validate the HEX8-SRI family",
+    "no historical J7 criteria, result files, or verdicts are edited"
+  ]
+}

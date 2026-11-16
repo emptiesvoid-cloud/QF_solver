@@ -1,0 +1,64 @@
+{
+  "schema": "qf-j7-hex8-sri-postcorrection-contract-v1",
+  "contract_id": "J7-HEX8-SRI-POSTCORRECTION-001",
+  "classification": "BOUNDED_DEVELOPMENT_REPLAY",
+  "authorization": "Owner J7 instruction supplied in-session on 2026-11-16",
+  "input_path": "research/j7_static_debt/inputs/hex8_sri_global_cases.json",
+  "input_sha256": "66193d6d4411caf842544d9dc74c3252f10d4641a6ce1b5b1745d5dd29c19c74",
+  "source": {
+    "worktree_baseline_head": "873d681cb0a993183e827896902bd321b11810c2",
+    "solver_source_hash_convention": "SHA-256 over Git-canonical UTF-8 source bytes with LF line endings; the result also records the raw worktree file digest",
+    "registered_solver_source_sha256": "e014652e9efc3912046891348d9dfa76adaa1f8ff084db58e84a9b3d151cf9e4",
+    "historical_pre_correction_solver_source_sha256": "688defa6a6e93c6cebd3cf45cc972b2c7035fe77163db1612ae34bef78aedbf3",
+    "historical_wp13_12_contract_sha256": "f1df42b4dc74704097ce30705d7f3b69f2b9272a745f71c2e7f08c7c38ae9d51"
+  },
+  "campaign": {
+    "attempts_per_case": 1,
+    "cases": [
+      "tests/verification/test_j7_hex8_sri_postcorrection.py::test_j7_hex8_sri_nu04999_nx16_regular",
+      "tests/verification/test_j7_hex8_sri_postcorrection.py::test_j7_hex8_sri_nu0495_nx4_near_degenerate"
+    ],
+    "one_case_per_nodeid": true,
+    "algorithm_retries": 0
+  },
+  "criteria": {
+    "energy_identity_relative": {"operator": "LE", "limit": 1e-10, "definition": "|0.5*u^T*K*u - 0.5*u^T*F| / max(|0.5*u^T*F|,1)"},
+    "dof_equilibrium_residual_relative": {"operator": "LE", "limit": 1e-10, "definition": "||K*u-F-R||_2/max(||F||_2,1)"},
+    "force_resultant_closure_relative": {"operator": "LE", "limit": 1e-10, "definition": "||sum(F)+sum(R)||_2/max(||F||_2,1)"},
+    "moment_balance_force_length_relative": {"operator": "LE", "limit": 1e-10, "definition": "||sum(x×F)+sum(x×R)||_2/max(||F||_2*L,1)"},
+    "applied_load_resultant_relative": {"operator": "LE", "limit": 1e-14, "definition": "||sum(F)-F_expected||_2/max(||F_expected||_2,1)"},
+    "matrix_symmetry_relative": {"operator": "LE", "limit": 1e-12, "definition": "||K-K^T||_F/max(||K||_F,1)"},
+    "positive_gauss_jacobians": "all finite and strictly positive",
+    "finite_quantities": "stiffness, displacement, applied force, reaction, residual and Gauss Jacobians are finite",
+    "criteria_vs_execution": "pytest success indicates completed solve and durable archive; scientific gate outcomes are recorded independently and may be FAIL"
+  },
+  "reference": {
+    "independent_displacement_oracle": "not established for these exact global configurations",
+    "historical_comparison": "pre-correction WP12/WP13-12 results and source blob; preserve all recorded statuses",
+    "claim_limit": "two bounded global configurations do not qualify the full HEX8-SRI route"
+  },
+  "resources": {
+    "timeout_seconds": 300,
+    "rss_soft_limit_mib": 512,
+    "process_tree_limit": 4,
+    "output_total_limit_mib": 8,
+    "output_stream_limit_mib": 4,
+    "temporary_limit_mib": 128,
+    "archive_size_limit_mib": 64,
+    "thread_environment": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "semantics": "wall timeout and captured output caps are enforced by the runner; RSS, process count, temporary and archive sizes are sampled soft controls"
+  },
+  "preservation": {
+    "wp12_pre_correction_failures": "unchanged",
+    "wp13_12_keep_experimental": "unchanged",
+    "qualification_promotion": false,
+    "publication_merge_release_tag": false
+  },
+  "artifacts": ["result.json", "numerical_state.npz", "runner_record.json", "sha256_manifest.json"]
+}

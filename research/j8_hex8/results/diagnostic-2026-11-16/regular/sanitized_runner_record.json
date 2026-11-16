@@ -1,0 +1,121 @@
+{
+  "attempt": 1,
+  "budget_semantics": {
+    "attempt_limit": "persistent procedural ledger under the development run store",
+    "captured_output": "application-enforced byte caps on captured stdout/stderr",
+    "free_disk": "preflight and sampled floor check",
+    "numerical_threads": "per-case environment caps and a threadpoolctl pre-launch check; numerical libraries must report one thread",
+    "process_count": "sampled process-tree monitor; not a job-object boundary",
+    "rss": "sampled soft monitor; not a hard memory/commit limit",
+    "temporary_and_archive_size": "sampled size monitoring; not an NTFS quota",
+    "wall_timeout": "watchdog-triggered process-tree termination; best-effort OS control"
+  },
+  "budgets": {
+    "archive_size_limit_mib": 64,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 512,
+    "temporary_limit_mib": 128,
+    "timeout_seconds": 600
+  },
+  "elapsed_seconds": 7.582375800004229,
+  "finished_at_utc": "2026-11-16T16:58:38.897857+00:00",
+  "interpretation": "Runner PASS means the registered diagnostic node completed; it is not a scientific acceptance PASS.",
+  "nodeid": "tests/verification/test_j8_hex8_conditioning.py::test_j8_regular_nu04999_recalculation_and_methods",
+  "observed_resources": {
+    "archive_bytes": 60928,
+    "free_disk_after_bytes": 41433333760,
+    "free_disk_before_bytes": 41437151232,
+    "peak_process_count": 3,
+    "peak_rss_bytes": 114794496,
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 544,
+    "stdout_sha256": "b904a88c5f3f3a88dbbf53ebbad3c51c72cccbe9bd4546b0e329e3bdaccee3ef",
+    "temporary_bytes": 0
+  },
+  "original_output_inventory": [
+    {
+      "bytes": 11373,
+      "path": "j8_hex8_regular_nu04999_nx16/checkpoint.json",
+      "sha256": "b542252e43b40797bbe6618e1042f7bbecd5713c36efdecaa4aa151040e9d088"
+    },
+    {
+      "bytes": 11922,
+      "path": "j8_hex8_regular_nu04999_nx16/diagnostic_result.json",
+      "sha256": "ff7d54995df00e0f45ff6a7774195c88cc6587bbffd29cc34c02e37c9a3aa2a2"
+    },
+    {
+      "bytes": 26555,
+      "path": "j8_hex8_regular_nu04999_nx16/method_solutions.npz",
+      "sha256": "b3e7312b57bb68e6060dad9e01167598146bfe91668ce617f2a170bd6511bdcd"
+    },
+    {
+      "bytes": 10534,
+      "path": "j8_hex8_regular_nu04999_nx16/reconstructed_state.npz",
+      "sha256": "9879661e6ccbc452b256286380c2aea896e00ec7a3a46a8e4ab41bc01d683d34"
+    },
+    {
+      "bytes": 0,
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 544,
+      "path": "stdout.log",
+      "sha256": "b904a88c5f3f3a88dbbf53ebbad3c51c72cccbe9bd4546b0e329e3bdaccee3ef"
+    }
+  ],
+  "preflight": {
+    "bodies_executed": false,
+    "budgets": {
+      "archive_size_limit_mib": 64,
+      "minimum_free_disk_mib": 1024,
+      "output_stream_limit_mib": 4,
+      "output_total_limit_mib": 8,
+      "process_tree_limit": 4,
+      "rss_soft_limit_mib": 512,
+      "temporary_limit_mib": 128,
+      "timeout_seconds": 600
+    },
+    "elapsed_seconds": 4.024895899929106,
+    "id": "pf-2c1da45152e6",
+    "peak_process_count": 1,
+    "peak_rss_bytes": 106504192,
+    "phase": "PYTEST_COLLECT_ONLY",
+    "raw_record_sha256": "9d632a84b9e2a8edaacb25cfa1d3cbe5623d801f8d9ca8d2aae6ee9f46293011",
+    "source_fingerprint": "9342f03728128d266b404b798a2aa2879ff42d942c8ae2251281f03914b105f5",
+    "source_fingerprint_after": "9342f03728128d266b404b798a2aa2879ff42d942c8ae2251281f03914b105f5",
+    "state": "PREFLIGHT_PASS",
+    "target": "tests/verification/test_j8_hex8_conditioning.py::test_j8_regular_nu04999_recalculation_and_methods"
+  },
+  "preflight_receipt_sha256": "9d632a84b9e2a8edaacb25cfa1d3cbe5623d801f8d9ca8d2aae6ee9f46293011",
+  "raw_run_record_sha256": "5602df984f8b1138c15d67d7309d6f4d24172db25917799c2439d6fb4e099778",
+  "reason": "Independent J7 regular-state reconstruction and same-matrix direct, scaled, refined, and unit-conversion solve comparisons; no element reassembly.",
+  "return_code": 0,
+  "runner_state": "PASS",
+  "runtime_versions": {
+    "psutil": "7.2.2",
+    "pytest": "8.4.1",
+    "python": "3.13.1"
+  },
+  "schema": "qf-j8-sanitized-development-run-v1",
+  "scope": "fem_exploratory",
+  "series_id": "dev-j8-regular-20261116",
+  "source": {
+    "branch": "work/0.3.0-j8",
+    "controller_sha256": {
+      "policy": "cc42f44f62a0d1f6414d1611a022ea8191c5c71c90cd060ebfb55700684292fc",
+      "pytest_plugin": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
+      "runner": "399e0e46a0573b6bd5b8c7a4a67e413df1fc3cd3e715021b3c934ed94876b4a4"
+    },
+    "mandate_id": "DEVELOPMENT_AUTONOMOUS-J8-2026-11-16-v1",
+    "post_source_fingerprint": "9342f03728128d266b404b798a2aa2879ff42d942c8ae2251281f03914b105f5",
+    "repository_head": "63898925d17130cb822f32f8cf408c45009d2e0f",
+    "source_fingerprint": "9342f03728128d266b404b798a2aa2879ff42d942c8ae2251281f03914b105f5",
+    "tree": "5a3aa3789ceccedc7ca68adb0d90bd9d8fb8b8d8"
+  },
+  "started_at_utc": "2026-11-16T16:58:31.304396+00:00",
+  "worktree_id": "j8_hex8"
+}

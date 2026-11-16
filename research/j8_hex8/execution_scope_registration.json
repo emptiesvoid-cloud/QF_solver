@@ -1,0 +1,57 @@
+{
+  "schema": "qf-j8-development-scope-registration-v1",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J8_OWNER_2026-11-16",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J8-2026-11-16-v1",
+  "baseline_head": "be455745f4a1c2cf81cb9448830223107dc39b66",
+  "branch": "work/0.3.0-j8",
+  "worktree_id": "j8_hex8",
+  "scope": "fem_exploratory",
+  "source_root": "src",
+  "pytest_root": "tests/verification",
+  "allowed_nodeids": [
+    "tests/verification/test_j8_hex8_conditioning.py::test_j8_regular_nu04999_recalculation_and_methods",
+    "tests/verification/test_j8_hex8_conditioning.py::test_j8_near_degenerate_nu0495_recalculation_and_methods",
+    "tests/verification/test_j8_hex8_conditioning.py::test_j8_geometry_only_regular_nu0495_nx4_contrast"
+  ],
+  "attempt_limit_per_nodeid": 1,
+  "budgets": {
+    "timeout_seconds": 600,
+    "rss_soft_limit_mib": 512,
+    "process_tree_limit": 4,
+    "output_total_limit_mib": 8,
+    "output_stream_limit_mib": 4,
+    "temporary_limit_mib": 128,
+    "archive_size_limit_mib": 64
+  },
+  "thread_environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "BLIS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1"
+  },
+  "budget_semantics": "The registered runner enforces wall timeout and captured-output caps and samples RSS/process/temp/archive; soft observations are not hard OS quotas.",
+  "scope_status": "REGISTERED_LOCALLY_AFTER_POLICY_VALIDATION",
+  "family_contracts": [
+    {
+      "contract_path": "research/j8_hex8/contracts/j8_hex8_conditioning_contract.json",
+      "nodeids": [
+        "tests/verification/test_j8_hex8_conditioning.py::test_j8_regular_nu04999_recalculation_and_methods",
+        "tests/verification/test_j8_hex8_conditioning.py::test_j8_near_degenerate_nu0495_recalculation_and_methods"
+      ]
+    },
+    {
+      "contract_path": "research/j8_hex8/contracts/j8_hex8_geometry_contrast_contract.json",
+      "nodeids": [
+        "tests/verification/test_j8_hex8_conditioning.py::test_j8_geometry_only_regular_nu0495_nx4_contrast"
+      ]
+    }
+  ],
+  "local_policy_path": "development_autonomous_policy.json (ignored local file; absolute root not versioned)",
+  "attempt_ledger": ".codex/development-runs/node-attempt-ledger-j8-hex8.json",
+  "preflight_required": true,
+  "preflight_consumes_attempt": false
+}

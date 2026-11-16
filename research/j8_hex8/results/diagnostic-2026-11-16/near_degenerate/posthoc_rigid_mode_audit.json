@@ -1,0 +1,115 @@
+{
+  "case_key": "near_degenerate",
+  "classification": "POST_HOC_READ_ONLY_EXPLORATORY_NO_ACCEPTANCE_CRITERION",
+  "force": {
+    "closure_n": [
+      3.459663960962215e-10,
+      -6.45727154732767e-09,
+      1.2537400539969212e-07
+    ],
+    "closure_plus_free_residual_sum_n": [
+      2.0605181692836733e-11,
+      -2.0363485888552346e-09,
+      -3.725313604173208e-09
+    ],
+    "external_resultant_n": [
+      0.0,
+      0.0,
+      -1.0
+    ],
+    "free_residual_sum_n": [
+      -3.2536121440338475e-10,
+      4.420922958472435e-09,
+      -1.2909931900386533e-07
+    ],
+    "reaction_resultant_n": [
+      3.459663960962215e-10,
+      -6.45727154732767e-09,
+      1.0000001253740054
+    ],
+    "sum_internal_Ku_n": [
+      2.0605181692836753e-11,
+      -2.0363485888552346e-09,
+      -3.725313548662046e-09
+    ],
+    "translation_modes": [
+      {
+        "axis": "x",
+        "max_abs_row_sum_n_per_m": 1.0477378964424133e-08,
+        "relative_max_row_sum": 6.265339854258284e-17,
+        "u_dot_K_translation_n": 9.914991500513279e-13
+      },
+      {
+        "axis": "y",
+        "max_abs_row_sum_n_per_m": 9.313225746154785e-09,
+        "relative_max_row_sum": 4.163580223306656e-17,
+        "u_dot_K_translation_n": -5.984250972879554e-10
+      },
+      {
+        "axis": "z",
+        "max_abs_row_sum_n_per_m": 2.086162567138672e-07,
+        "relative_max_row_sum": 1.2351732280674549e-17,
+        "u_dot_K_translation_n": 1.9643650947503686e-08
+      }
+    ]
+  },
+  "limits": [
+    "post-hoc exploratory calculation on archived binary64 matrices; no FEM was rerun",
+    "no threshold or acceptance status is inferred",
+    "relative rigid-mode residual measures matrix-level arithmetic and cannot establish physical accuracy"
+  ],
+  "method": {
+    "mode_dot": "math.fsum from archived binary64 K and coordinates",
+    "purpose": "check whether aggregate equilibrium closures can be interpreted independently from free residuals and rigid-mode cancellation",
+    "rotation_relative_indicator": "||K r||_inf/(||K||_inf ||r||_inf), r_n = omega x x_n",
+    "row_dot": "math.fsum of binary64 K_ij*u_j products",
+    "translation_relative_indicator": "max_i |sum_j(K_ij over axis translation DOFs)| / max_i sum_j |K_ij over axis translation DOFs|"
+  },
+  "moment_about_origin": {
+    "closure_nm": [
+      -9.951723500822851e-09,
+      -1.4824996554807512e-06,
+      5.061203538765196e-09
+    ],
+    "closure_plus_free_residual_first_moment_nm": [
+      3.4292787128663477e-09,
+      -1.653339953099354e-07,
+      -2.564257353607184e-08
+    ],
+    "free_residual_first_moment_nm": [
+      1.3381002213689199e-08,
+      1.3171656601708159e-06,
+      -3.0703777074837035e-08
+    ],
+    "rotation_modes": [
+      {
+        "axis": "x",
+        "max_abs_Kr": 1.4674333215225488e-07,
+        "relative_inf_residual": 8.566197019425712e-18,
+        "u_dot_K_rotation_nm": 1.9546729815734242e-08
+      },
+      {
+        "axis": "y",
+        "max_abs_Kr": 6.675717758639621e-06,
+        "relative_inf_residual": 1.9484876323802118e-17,
+        "u_dot_K_rotation_nm": -8.11134006741667e-07
+      },
+      {
+        "axis": "z",
+        "max_abs_Kr": 9.965879144147038e-08,
+        "relative_inf_residual": 2.9088096531695604e-19,
+        "u_dot_K_rotation_nm": 2.0342860689588204e-08
+      }
+    ],
+    "sum_internal_position_cross_Ku_nm": [
+      3.4292787300987094e-09,
+      -1.6533399604401448e-07,
+      -2.5642573536071842e-08
+    ]
+  },
+  "schema": "qf-j8-posthoc-rigid-mode-audit-v1",
+  "source": {
+    "dimensions": 135,
+    "j7_state_sha256": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11"
+  }
+}

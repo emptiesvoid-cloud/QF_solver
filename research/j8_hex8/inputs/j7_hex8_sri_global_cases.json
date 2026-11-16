@@ -1,0 +1,89 @@
+{
+  "schema": "qf-j7-hex8-sri-global-input-v1",
+  "case_family": "pre-correction WP12/WP13-12 global failure reproductions on corrected HEX8-SRI",
+  "material": {
+    "young_modulus_pa": 1000000.0,
+    "poisson_ratio_case_specific": true
+  },
+  "geometry": {
+    "length_m": 20.0,
+    "width_m": 1.0,
+    "height_m": 1.0,
+    "ny": 2,
+    "nz": 2,
+    "node_order": "k outer, j middle, i inner",
+    "element_node_order": "standard HEX8 [000,100,110,010,001,101,111,011]"
+  },
+  "loading": {
+    "type": "equal nodal forces on x=length end face",
+    "total_force_n": [0.0, 0.0, -1.0],
+    "end_face_node_count": 9
+  },
+  "boundary_conditions": {
+    "face": "x=0",
+    "fixed_dofs": ["UX", "UY", "UZ"]
+  },
+  "element": "HEX8-SRI",
+  "cases": [
+    {
+      "case_id": "J7-HEX8-SRI-REGULAR-NU04999-NX16",
+      "nodeid": "tests/verification/test_j7_hex8_sri_postcorrection.py::test_j7_hex8_sri_nu04999_nx16_regular",
+      "poisson_ratio": 0.4999,
+      "nx": 16,
+      "distortion": "regular",
+      "expected_nodes": 153,
+      "expected_elements": 64,
+      "expected_fixed_nodes": 9,
+      "expected_fixed_dofs": 27,
+      "expected_free_dofs": 432,
+      "expected_total_dofs": 459
+    },
+    {
+      "case_id": "J7-HEX8-SRI-NEAR-DEGENERATE-NU0495-NX4",
+      "nodeid": "tests/verification/test_j7_hex8_sri_postcorrection.py::test_j7_hex8_sri_nu0495_nx4_near_degenerate",
+      "poisson_ratio": 0.495,
+      "nx": 4,
+      "distortion": "near_degenerate_valid",
+      "expected_nodes": 45,
+      "expected_elements": 16,
+      "expected_fixed_nodes": 9,
+      "expected_fixed_dofs": 27,
+      "expected_free_dofs": 108,
+      "expected_total_dofs": 135,
+      "coordinate_transform": "z := 0.04*z + 0.006*(x/length)*(y - width/2)"
+    }
+  ],
+  "source": {
+    "baseline_head": "873d681cb0a993183e827896902bd321b11810c2",
+    "corrected_hex8_sri_source_sha256": "e014652e9efc3912046891348d9dfa76adaa1f8ff084db58e84a9b3d151cf9e4",
+    "pre_correction_hex8_sri_source_sha256": "688defa6a6e93c6cebd3cf45cc972b2c7035fe77163db1612ae34bef78aedbf3",
+    "historical_test_commit": "fa889f480766506787941617fa0db4124381c63b"
+  },
+  "reference_and_criteria": {
+    "historical_contract_id": "WP13-12-HEX8-SRI-MATURATION-001",
+    "historical_contract_sha256": "f1df42b4dc74704097ce30705d7f3b69f2b9272a745f71c2e7f08c7c38ae9d51",
+    "energy_identity_relative_max": 1e-10,
+    "dof_equilibrium_residual_relative_max": 1e-10,
+    "force_resultant_closure_relative_max": 1e-10,
+    "moment_closure_force_length_relative_max": 1e-10,
+    "jacobian_determinants": "all finite and strictly positive",
+    "displacement_reference": "none for these exact global configurations; results are diagnostics, not accuracy PASS",
+    "criterion_evaluation": "record each historical gate independently; the pytest process reports completed execution and does not fail solely because a scientific gate remains FAIL"
+  },
+  "resources": {
+    "attempts_per_nodeid": 1,
+    "timeout_seconds": 300,
+    "rss_soft_limit_mib": 512,
+    "process_tree_limit": 4,
+    "output_total_limit_mib": 16,
+    "output_stream_limit_mib": 8,
+    "temporary_limit_mib": 128,
+    "archive_size_limit_mib": 64,
+    "control_semantics": "runner wall/output controls; RSS, process count, temporary and archive sizes are sampled soft monitors, not OS quotas"
+  },
+  "preservation": {
+    "historical_wp12_wp13_12_failures_modified": false,
+    "qualification_status_promoted": false,
+    "release_or_publication_authorized": false
+  }
+}

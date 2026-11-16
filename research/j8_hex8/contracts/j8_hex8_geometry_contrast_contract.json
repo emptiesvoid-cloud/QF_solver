@@ -1,0 +1,58 @@
+{
+  "schema": "qf-j8-hex8-geometry-contrast-contract-v1",
+  "contract_id": "J8-HEX8-SRI-CONTROLLED-GEOMETRY-CONTRAST-001",
+  "classification": "BOUNDED_DEVELOPMENT_DIAGNOSTIC_NOT_QUALIFICATION",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J8_OWNER_2026-11-16",
+  "authorization": "Explicit Owner authorization in the J8 instruction, 2026-11-16, for bounded FEM diagnostic calculations.",
+  "baseline": {
+    "main_head": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "solver_source_tree_sha1": "908ef5684ec92854451325bbc3696218864eb9e7",
+    "hex8_sri_canonical_sha256": "e014652e9efc3912046891348d9dfa76adaa1f8ff084db58e84a9b3d151cf9e4",
+    "j7_comparison_case": "J7-HEX8-SRI-NEAR-DEGENERATE-NU0495-NX4",
+    "j7_comparison_result_sha256": "0707e78f0a4c077b7ecf02a492a9fec2c1f4baddb175a9105a2dc6cb5904ac22",
+    "j7_comparison_state_sha256": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11",
+    "j7_replay_source_sha256": "4c668abd98a6171cfb7278d83216b18e6db11ceab87a137971c6591e0733ca55"
+  },
+  "input": {
+    "case_input_sha256": "66193d6d4411caf842544d9dc74c3252f10d4641a6ce1b5b1745d5dd29c19c74",
+    "geometry_material_load_source": "research/j8_hex8/inputs/j7_hex8_sri_global_cases.json",
+    "solver": "Hex8SRIElement from the frozen main solver source tree"
+  },
+  "controlled_contrast": {
+    "shared": ["E=1e6 Pa", "nu=0.495", "L=20 m", "nominal width=1 m", "nominal height=1 m", "nx=4", "ny=2", "nz=2", "total end-face force=(0,0,-1) N", "nine end-face nodes receive equal z force", "all translations fixed at x=0"],
+    "single_changed_factor": "coordinate mapping distortion: regular structured coordinates in the new case versus the exact J7 near_degenerate_valid mapping in the archived comparison case",
+    "important_geometry_note": "This changes the represented physical cross-section as well as element shape: the near-degenerate coordinate map uses z=0.04*z_nominal+0.006*(x/L)*(y-0.5*width), while the control spans the nominal 1 m height. Interpret the contrast as a geometry-map effect, not as pure mesh-quality variation on an identical body."
+  },
+  "objectives": [
+    "hold material, nominal dimensions, mesh counts, force distribution, and fixed DOFs constant while changing only the coordinate map",
+    "compare actual geometric extents, Gauss Jacobians, positive definiteness, eigenvalue condition estimate, backward residual, reactions, force and moment closure, and energy terms",
+    "determine whether geometry mapping can explain part of the condition-number difference between the J7 cases without claiming formulation correctness"
+  ],
+  "predeclared_metrics": {
+    "actual_geometry": "report coordinate min/max and extents from generated regular coordinates and archived near-degenerate coordinates; do not infer physical dimensions only from nominal input fields",
+    "jacobian": "report min/max of all 2x2x2 HEX8 Gauss-point determinants in m^3; require finite and strictly positive",
+    "matrix": "report relative Frobenius symmetry, min/max eigenvalues of Kff, and kappa2 estimate when lambda_min>0; require symmetry <= 1e-12 and positive definiteness before solve",
+    "solution": "one binary64 numpy.linalg.solve of the free partition; report free residual, normwise backward error, displacement difference from archived near-degenerate case only as descriptive because the geometry differs",
+    "equilibrium": "compute reactions from K*u-f on constrained DOFs, then report force closure in N and moment closure at the origin in N m",
+    "energy": "report U=0.5*u^T*K*u, W=0.5*u^T*f in J, historical SI normalization, and unit-covariant eta_E; no acceptance threshold",
+    "load": "check summed nodal force against (0,0,-1) N with the frozen applied-load tolerance 1e-14"
+  },
+  "execution": {
+    "scope": "fem_exploratory",
+    "worktree_id": "j8_hex8",
+    "nodeid": "tests/verification/test_j8_hex8_conditioning.py::test_j8_geometry_only_regular_nu0495_nx4_contrast",
+    "series_id": "dev-j8-geometry-20261116",
+    "attempt_limit": 1,
+    "budgets": {"timeout_seconds": 600, "rss_soft_limit_mib": 512, "process_tree_limit": 4, "output_total_limit_mib": 8, "output_stream_limit_mib": 4, "temporary_limit_mib": 128, "archive_size_limit_mib": 64},
+    "thread_environment": {"OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "OMP_THREAD_LIMIT": "1", "MKL_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1", "VECLIB_MAXIMUM_THREADS": "1", "BLIS_NUM_THREADS": "1", "TBB_NUM_THREADS": "1"},
+    "semantics": "The runner enforces timeout/output caps and samples RSS/process/temp/archive as soft controls; it is not an OS resource quota.",
+    "durable_phases": ["validated_inputs", "mesh_generated", "matrix_load_assembled", "solve_completed", "artifacts_written"],
+    "artifacts": ["geometry_contrast_result.json", "matrix_assembled_state.npz", "geometry_contrast_state.npz", "checkpoint.json", "sanitized_runner_record.json", "sha256_manifest.json"]
+  },
+  "limits": [
+    "the contrast changes the represented cross-section height and warp, so it does not isolate element aspect ratio independently of physical geometry",
+    "only one new regular control is solved; the archived J7 case is reused as the distorted comparison",
+    "the comparison reuses the same HEX8-SRI formulation in both cases and cannot establish its physical accuracy or exclude a common formulation defect",
+    "no historical J7 metric, verdict, or attempt ledger is changed"
+  ]
+}

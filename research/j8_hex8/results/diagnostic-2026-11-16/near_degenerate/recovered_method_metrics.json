@@ -1,0 +1,557 @@
+{
+  "archived_state_reconstruction": {
+    "archived_raw_residual_vs_compensated_sums": {
+      "applied_load_resultant_n": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "applied_load_resultant_relative": 0.0,
+      "applied_load_within_frozen_1e_minus_14_indicator": true,
+      "archived_equilibrium_residual_difference_norm_n": 6.170607363265015e-08,
+      "archived_equilibrium_residual_within_roundoff_envelope": true,
+      "archived_raw_residual_within_envelope": true,
+      "archived_reaction_difference_norm_n": 2.156633949136229e-09,
+      "archived_reactions_within_roundoff_envelope": true,
+      "compensated_Ku_norm_n": 433.91193247311145,
+      "expected_load_resultant_n": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "gamma_factor": 4,
+      "gamma_k": 137,
+      "max_component_error_to_envelope_ratio": 0.002503819183137706,
+      "max_componentwise_archived_equilibrium_residual_difference_n": 4.0958625087956966e-08,
+      "max_componentwise_archived_raw_residual_difference_n": 4.0958625087956966e-08,
+      "max_componentwise_archived_reaction_difference_n": 1.8419665792634987e-09,
+      "max_componentwise_roundoff_envelope_n": 6.334688442978981e-05,
+      "runner_energy_delta_difference_j": 2.610138459535616e-09,
+      "runner_external_work_difference_j": 0.0,
+      "runner_external_work_evaluation_bound_j": 2.9098765696871493e-15,
+      "runner_external_work_within_roundoff_envelope": true,
+      "runner_force_closure_difference_n": [
+        -3.251147675152556e-12,
+        -5.3311518394272284e-11,
+        3.796391867538773e-09
+      ],
+      "runner_moment_closure_origin_difference_nm": [
+        1.0212207746107538e-09,
+        3.197442310920451e-14,
+        2.8213811796122263e-12
+      ],
+      "runner_strain_energy_difference_j": 2.610138459535616e-09,
+      "runner_strain_energy_evaluation_bound_j": 1.7393433037918764e-05,
+      "runner_strain_energy_within_roundoff_envelope": true
+    },
+    "balances": {
+      "centroid_m": [
+        10.0,
+        0.5,
+        0.02
+      ],
+      "external_resultant_n": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "force_closure_n": [
+        3.459663960962215e-10,
+        -6.45727154732767e-09,
+        1.2537400539969212e-07
+      ],
+      "force_closure_norm_n": 1.2554065986183594e-07,
+      "j7_force_closure_relative": 1.2554065986183594e-07,
+      "j7_moment_force_length_relative": 2.2238125443560883e-07,
+      "moment_centroid_external_nm": [
+        0.0,
+        10.0,
+        0.0
+      ],
+      "moment_centroid_reaction_nm": [
+        -7.276787180441236e-08,
+        -10.000000228766524,
+        6.980689744306989e-08
+      ],
+      "moment_closure_centroid_nm": [
+        -7.276787180441236e-08,
+        -2.2876652394643315e-07,
+        6.980689744306989e-08
+      ],
+      "moment_closure_centroid_norm_nm": 2.500045771103094e-07,
+      "moment_closure_origin_nm": [
+        -9.951723500822851e-09,
+        -1.4824996554807512e-06,
+        5.061203538765196e-09
+      ],
+      "moment_closure_origin_norm_nm": 1.482541696237392e-06,
+      "moment_contribution_scale_centroid_nm": 10389.377353601276,
+      "moment_contribution_scaled_indicator": 2.4063480283893063e-11,
+      "moment_origin_external_nm": [
+        -0.5,
+        20.0,
+        0.0
+      ],
+      "moment_origin_reaction_nm": [
+        0.4999999900482765,
+        -20.000001482499655,
+        5.061203538765196e-09
+      ],
+      "origin_transport_residual_nm": [
+        -1.727968917618046e-16,
+        -3.1346813199903487e-15,
+        -4.767020111984266e-15
+      ],
+      "reaction_resultant_n": [
+        3.459663960962215e-10,
+        -6.45727154732767e-09,
+        1.0000001253740054
+      ]
+    },
+    "condition_2_estimate": 15108377582.938025,
+    "energy": {
+      "energy_delta_from_residual_identity_j": 2.049151204547678e-09,
+      "energy_delta_j": 2.0491512028875114e-09,
+      "energy_identity_evaluation_bound_j": 1.739343304082864e-05,
+      "external_work_evaluation_bound_j": 2.9098765696871493e-15,
+      "external_work_j": 0.047828171660353955,
+      "external_work_nmm": 47.82817166035395,
+      "legacy_metric_nmm": 4.2844021248382935e-08,
+      "legacy_metric_nmm_to_si_ratio": 20.908179536976252,
+      "legacy_metric_si": 2.0491512028875114e-09,
+      "prescribed_support_values_are_zero": true,
+      "prospective_unit_covariant_indicator": 4.284401941277286e-08,
+      "strain_energy_evaluation_bound_j": 1.7393433037918764e-05,
+      "strain_energy_j": 0.04782817370950516,
+      "strain_energy_nmm": 47.82817370950516
+    },
+    "fixed_dofs": 27,
+    "free_dofs": 108,
+    "free_matrix_positive_definite": true,
+    "free_residual_norm_n": 2.3782044374479754e-07,
+    "free_residual_relative_to_force_norm": 2.3782044374479754e-07,
+    "lambda_max_n_per_m": 8398699275.222729,
+    "lambda_min_n_per_m": 0.5558968346612827,
+    "max_prescribed_displacement_m": 0.0,
+    "stiffness_symmetry_relative": 0.0
+  },
+  "case_id": "J7-HEX8-SRI-NEAR-DEGENERATE-NU0495-NX4",
+  "case_key": "near_degenerate",
+  "classification": "POSTPROCESSING_OF_COMPLETED_RUN_NOT_A_NEW_SOLVE",
+  "limits": [
+    "no matrix solve or finite-element assembly was repeated during this recovery",
+    "historical J7 criteria and verdicts are unchanged",
+    "recovery confirms arithmetic from saved vectors, not physical accuracy of the common HEX8-SRI model"
+  ],
+  "method_inventory_complete": true,
+  "methods": {
+    "iterative_refinement": {
+      "backward_error": {
+        "backward_error_inf": 1.3853879175643866e-17,
+        "indicator_limit": 2.4202861936828705e-13,
+        "residual_inf": 2.270229167798854e-08,
+        "within_backward_error_indicator": true
+      },
+      "elapsed_seconds": 0.00915200007148087,
+      "elapsed_time_provenance": "ORIGINAL_RUN_CHECKPOINT",
+      "energy": {
+        "energy_delta_from_residual_identity_j": -1.8410422719516328e-09,
+        "energy_delta_j": -1.841042270023241e-09,
+        "energy_identity_evaluation_bound_j": 1.7393430774345903e-05,
+        "external_work_evaluation_bound_j": 2.909876391487155e-15,
+        "external_work_j": 0.04782816873137065,
+        "external_work_nmm": 47.828168731370646,
+        "legacy_metric_nmm": 3.849284467409883e-08,
+        "legacy_metric_nmm_to_si_ratio": 20.908180817387155,
+        "legacy_metric_si": 1.841042270023241e-09,
+        "prescribed_support_values_are_zero": true,
+        "prospective_unit_covariant_indicator": 3.849284467409883e-08,
+        "strain_energy_evaluation_bound_j": 1.7393430771436026e-05,
+        "strain_energy_j": 0.04782816689032838,
+        "strain_energy_nmm": 47.828166890328376
+      },
+      "force_closure_n": [
+        1.0067183540170892e-11,
+        -1.7173258266833802e-09,
+        -2.771133278400839e-08
+      ],
+      "force_closure_norm_n": 2.7764496646062872e-08,
+      "free_residual_norm_n": 5.5700880865369224e-08,
+      "moment_closure_origin_nm": [
+        5.406061820423247e-09,
+        2.2226764073707272e-07,
+        -3.673705199092494e-08
+      ],
+      "moment_closure_origin_norm_nm": 2.253480432846369e-07,
+      "moment_contribution_scaled_indicator": 5.902315339618829e-12,
+      "original_checkpoint_metadata": {
+        "maximum_corrections": 3,
+        "refinement_steps": [
+          {
+            "backward_error_inf": 1.3853879175643866e-17,
+            "indicator_limit": 2.4202861936828705e-13,
+            "iteration": 0,
+            "residual_inf": 2.270229167798854e-08,
+            "within_backward_error_indicator": true
+          },
+          {
+            "backward_error_inf": 1.3853879175643866e-17,
+            "indicator_limit": 2.4202861936828705e-13,
+            "iteration": 1,
+            "residual_inf": 2.270229167798854e-08,
+            "within_backward_error_indicator": true
+          }
+        ]
+      },
+      "relative_displacement_change_from_archived": 1.6994486498649604e-07,
+      "status": "METRICS_RECOVERED_FROM_SAVED_VECTOR"
+    },
+    "mpmath_80_decimal_digits": {
+      "backward_error": {
+        "backward_error_inf": 1.2810338499361051e-17,
+        "indicator_limit": 2.4202861936828705e-13,
+        "residual_inf": 2.0992246441142726e-08,
+        "within_backward_error_indicator": true
+      },
+      "elapsed_seconds": 2.610174700152129,
+      "elapsed_time_provenance": "ORIGINAL_RUN_CHECKPOINT",
+      "energy": {
+        "energy_delta_from_residual_identity_j": 3.8823816658271805e-12,
+        "energy_delta_j": 3.882380528175133e-12,
+        "energy_identity_evaluation_bound_j": 1.7393432036592754e-05,
+        "external_work_evaluation_bound_j": 2.9098764948383554e-15,
+        "external_work_j": 0.04782817043010213,
+        "external_work_nmm": 47.82817043010213,
+        "legacy_metric_nmm": 8.117351120191788e-11,
+        "legacy_metric_nmm_to_si_ratio": 20.908180074783274,
+        "legacy_metric_si": 3.882380528175133e-12,
+        "prescribed_support_values_are_zero": true,
+        "prospective_unit_covariant_indicator": 8.117351119532876e-11,
+        "strain_energy_evaluation_bound_j": 1.7393432033682878e-05,
+        "strain_energy_j": 0.04782817043398451,
+        "strain_energy_nmm": 47.82817043398451
+      },
+      "force_closure_n": [
+        1.0374940015292418e-11,
+        -6.04337082113493e-10,
+        1.872220511955902e-08
+      ],
+      "force_closure_norm_n": 1.873195920044243e-08,
+      "free_residual_norm_n": 3.9129689435181855e-08,
+      "moment_closure_origin_nm": [
+        1.954674766491138e-08,
+        -5.640731473022242e-07,
+        -5.229142821637429e-09
+      ],
+      "moment_closure_origin_norm_nm": 5.644359439177856e-07,
+      "moment_contribution_scaled_indicator": 3.6286054271522445e-11,
+      "original_checkpoint_metadata": {
+        "high_precision_reference": {
+          "backward_error_inf_as_mp": "1.0332321277657517513e-82",
+          "decimal_digits": 80,
+          "relative_change_from_archived_is_computed_after_float_conversion": true,
+          "residual_inf_as_mp": "1.6931530308935058898e-73"
+        }
+      },
+      "relative_displacement_change_from_archived": 1.4359878561209086e-07,
+      "status": "METRICS_RECOVERED_FROM_SAVED_VECTOR"
+    },
+    "numpy_direct": {
+      "backward_error": {
+        "backward_error_inf": 7.078516088865112e-17,
+        "indicator_limit": 2.4202861936828705e-13,
+        "residual_inf": 1.1599535505616864e-07,
+        "within_backward_error_indicator": true
+      },
+      "elapsed_seconds": 0.0002957000397145748,
+      "elapsed_time_provenance": "ORIGINAL_RUN_CHECKPOINT",
+      "energy": {
+        "energy_delta_from_residual_identity_j": 2.049151204547678e-09,
+        "energy_delta_j": 2.0491512028875114e-09,
+        "energy_identity_evaluation_bound_j": 1.739343304082864e-05,
+        "external_work_evaluation_bound_j": 2.9098765696871493e-15,
+        "external_work_j": 0.047828171660353955,
+        "external_work_nmm": 47.82817166035395,
+        "legacy_metric_nmm": 4.2844021248382935e-08,
+        "legacy_metric_nmm_to_si_ratio": 20.908179536976252,
+        "legacy_metric_si": 2.0491512028875114e-09,
+        "prescribed_support_values_are_zero": true,
+        "prospective_unit_covariant_indicator": 4.284401941277286e-08,
+        "strain_energy_evaluation_bound_j": 1.7393433037918764e-05,
+        "strain_energy_j": 0.04782817370950516,
+        "strain_energy_nmm": 47.82817370950516
+      },
+      "force_closure_n": [
+        3.459663960962215e-10,
+        -6.45727154732767e-09,
+        1.2537400539969212e-07
+      ],
+      "force_closure_norm_n": 1.2554065986183594e-07,
+      "free_residual_norm_n": 2.3782044374479754e-07,
+      "moment_closure_origin_nm": [
+        -9.951723500822851e-09,
+        -1.4824996554807512e-06,
+        5.061203538765196e-09
+      ],
+      "moment_closure_origin_norm_nm": 1.482541696237392e-06,
+      "moment_contribution_scaled_indicator": 2.4063480283893063e-11,
+      "original_checkpoint_metadata": {},
+      "relative_displacement_change_from_archived": 0.0,
+      "status": "METRICS_RECOVERED_FROM_SAVED_VECTOR"
+    },
+    "physical_length_unit_m_to_mm": {
+      "backward_error": {
+        "backward_error_inf": 2.0677280990146688e-17,
+        "indicator_limit": 2.4202861936828705e-13,
+        "residual_inf": 3.388376971974396e-08,
+        "within_backward_error_indicator": true
+      },
+      "elapsed_seconds": 0.00029159989207983017,
+      "elapsed_time_provenance": "ORIGINAL_RUN_CHECKPOINT",
+      "energy": {
+        "energy_delta_from_residual_identity_j": -2.9981339992281217e-09,
+        "energy_delta_j": -2.9981339980111876e-09,
+        "energy_identity_evaluation_bound_j": 1.7393429238908327e-05,
+        "external_work_evaluation_bound_j": 2.909876268762138e-15,
+        "external_work_j": 0.047828166714201516,
+        "external_work_nmm": 47.828166714201515,
+        "legacy_metric_nmm": 6.268553038895714e-08,
+        "legacy_metric_nmm_to_si_ratio": 20.908181699196767,
+        "legacy_metric_si": 2.9981339980111876e-09,
+        "prescribed_support_values_are_zero": true,
+        "prospective_unit_covariant_indicator": 6.268553038895714e-08,
+        "strain_energy_evaluation_bound_j": 1.739342923599845e-05,
+        "strain_energy_j": 0.04782816371606752,
+        "strain_energy_nmm": 47.828163716067515
+      },
+      "force_closure_n": [
+        -6.590025046677226e-11,
+        3.4731189538922402e-09,
+        -1.0430706254282995e-07
+      ],
+      "force_closure_norm_n": 1.0436488966326145e-07,
+      "free_residual_norm_n": 6.619647943618211e-08,
+      "moment_closure_origin_nm": [
+        -6.356298082321743e-08,
+        1.271227432653177e-06,
+        5.768114799336541e-08
+      ],
+      "moment_closure_origin_norm_nm": 1.2741218752124747e-06,
+      "moment_contribution_scaled_indicator": 2.20981899530732e-11,
+      "original_checkpoint_metadata": {
+        "converted_displacement_unit": "m",
+        "load_unit": "N",
+        "solved_displacement_unit": "mm",
+        "stiffness_unit": "N/mm"
+      },
+      "relative_displacement_change_from_archived": 1.3296130526730167e-07,
+      "status": "METRICS_RECOVERED_FROM_SAVED_VECTOR"
+    },
+    "scalar_equation_scale_1e-6": {
+      "backward_error": {
+        "backward_error_inf": 3.8114261348778834e-17,
+        "indicator_limit": 2.4202861936828705e-13,
+        "residual_inf": 6.245767934703378e-08,
+        "within_backward_error_indicator": true
+      },
+      "elapsed_seconds": 0.0003037999849766493,
+      "elapsed_time_provenance": "ORIGINAL_RUN_CHECKPOINT",
+      "energy": {
+        "energy_delta_from_residual_identity_j": -2.3811872223879717e-09,
+        "energy_delta_j": -2.3811872265633305e-09,
+        "energy_identity_evaluation_bound_j": 1.7393430335126204e-05,
+        "external_work_evaluation_bound_j": 2.9098763593845387e-15,
+        "external_work_j": 0.04782816820371615,
+        "external_work_nmm": 47.82816820371615,
+        "legacy_metric_nmm": 4.9786293642295857e-08,
+        "legacy_metric_nmm_to_si_ratio": 20.908181048052388,
+        "legacy_metric_si": 2.3811872265633305e-09,
+        "prescribed_support_values_are_zero": true,
+        "prospective_unit_covariant_indicator": 4.978629364229586e-08,
+        "strain_energy_evaluation_bound_j": 1.7393430332216328e-05,
+        "strain_energy_j": 0.047828165822528926,
+        "strain_energy_nmm": 47.82816582252892
+      },
+      "force_closure_n": [
+        -2.0106975493926535e-10,
+        -2.4606204140215082e-09,
+        -7.972868321104443e-08
+      ],
+      "force_closure_norm_n": 7.976689794918271e-08,
+      "free_residual_norm_n": 9.406977891738949e-08,
+      "moment_closure_origin_nm": [
+        5.8810458725133685e-09,
+        6.527815337165066e-07,
+        -4.168495822982399e-08
+      ],
+      "moment_closure_origin_norm_nm": 6.54137564434616e-07,
+      "moment_contribution_scaled_indicator": 1.4680869803254008e-11,
+      "original_checkpoint_metadata": {
+        "equation_scale_alpha": 1e-06
+      },
+      "relative_displacement_change_from_archived": 2.4119674737589064e-07,
+      "status": "METRICS_RECOVERED_FROM_SAVED_VECTOR"
+    },
+    "scalar_equation_scale_1e6": {
+      "backward_error": {
+        "backward_error_inf": 1.578173102808009e-17,
+        "indicator_limit": 2.4202861936828705e-13,
+        "residual_inf": 2.5861456166322975e-08,
+        "within_backward_error_indicator": true
+      },
+      "elapsed_seconds": 0.00027740001678466797,
+      "elapsed_time_provenance": "ORIGINAL_RUN_CHECKPOINT",
+      "energy": {
+        "energy_delta_from_residual_identity_j": 1.4025709517960018e-09,
+        "energy_delta_j": 1.4025709482723414e-09,
+        "energy_identity_evaluation_bound_j": 1.7393433230157187e-05,
+        "external_work_evaluation_bound_j": 2.9098765939215685e-15,
+        "external_work_j": 0.047828172058682866,
+        "external_work_nmm": 47.82817205868287,
+        "legacy_metric_nmm": 2.932520495559509e-08,
+        "legacy_metric_nmm_to_si_ratio": 20.908179362845985,
+        "legacy_metric_si": 1.4025709482723414e-09,
+        "prescribed_support_values_are_zero": true,
+        "prospective_unit_covariant_indicator": 2.932520409562747e-08,
+        "strain_energy_evaluation_bound_j": 1.739343322724731e-05,
+        "strain_energy_j": 0.047828173461253815,
+        "strain_energy_nmm": 47.82817346125381
+      },
+      "force_closure_n": [
+        -1.4663026524473026e-10,
+        1.5075842258599481e-09,
+        7.171829352614623e-08
+      ],
+      "force_closure_norm_n": 7.173428703859275e-08,
+      "free_residual_norm_n": 5.383631399984259e-08,
+      "moment_closure_origin_nm": [
+        2.5988777463403778e-08,
+        -1.3173459123549947e-06,
+        3.0246432748173e-08
+      ],
+      "moment_closure_origin_norm_nm": 1.3179493601980484e-06,
+      "moment_contribution_scaled_indicator": 5.7792734916959394e-11,
+      "original_checkpoint_metadata": {
+        "equation_scale_alpha": 1000000.0
+      },
+      "relative_displacement_change_from_archived": 8.437080247538938e-08,
+      "status": "METRICS_RECOVERED_FROM_SAVED_VECTOR"
+    },
+    "scipy_positive_definite": {
+      "backward_error": {
+        "backward_error_inf": 1.3853879175643866e-17,
+        "indicator_limit": 2.4202861936828705e-13,
+        "residual_inf": 2.270229167798854e-08,
+        "within_backward_error_indicator": true
+      },
+      "elapsed_seconds": 0.0005875001661479473,
+      "elapsed_time_provenance": "ORIGINAL_RUN_CHECKPOINT",
+      "energy": {
+        "energy_delta_from_residual_identity_j": -1.8410422719516328e-09,
+        "energy_delta_j": -1.841042270023241e-09,
+        "energy_identity_evaluation_bound_j": 1.7393430774345903e-05,
+        "external_work_evaluation_bound_j": 2.909876391487155e-15,
+        "external_work_j": 0.04782816873137065,
+        "external_work_nmm": 47.828168731370646,
+        "legacy_metric_nmm": 3.849284467409883e-08,
+        "legacy_metric_nmm_to_si_ratio": 20.908180817387155,
+        "legacy_metric_si": 1.841042270023241e-09,
+        "prescribed_support_values_are_zero": true,
+        "prospective_unit_covariant_indicator": 3.849284467409883e-08,
+        "strain_energy_evaluation_bound_j": 1.7393430771436026e-05,
+        "strain_energy_j": 0.04782816689032838,
+        "strain_energy_nmm": 47.828166890328376
+      },
+      "force_closure_n": [
+        1.0067183540170892e-11,
+        -1.7173258266833802e-09,
+        -2.771133278400839e-08
+      ],
+      "force_closure_norm_n": 2.7764496646062872e-08,
+      "free_residual_norm_n": 5.5700880865369224e-08,
+      "moment_closure_origin_nm": [
+        5.406061820423247e-09,
+        2.2226764073707272e-07,
+        -3.673705199092494e-08
+      ],
+      "moment_closure_origin_norm_nm": 2.253480432846369e-07,
+      "moment_contribution_scaled_indicator": 5.902315339618829e-12,
+      "original_checkpoint_metadata": {},
+      "relative_displacement_change_from_archived": 1.6994486498649604e-07,
+      "status": "METRICS_RECOVERED_FROM_SAVED_VECTOR"
+    },
+    "symmetric_diagonal_scaling": {
+      "backward_error": {
+        "backward_error_inf": 2.1593351991899677e-17,
+        "indicator_limit": 2.4202861936828705e-13,
+        "residual_inf": 3.5384933664568634e-08,
+        "within_backward_error_indicator": true
+      },
+      "elapsed_seconds": 0.0007897999603301287,
+      "elapsed_time_provenance": "ORIGINAL_RUN_CHECKPOINT",
+      "energy": {
+        "energy_delta_from_residual_identity_j": 1.7440395259026993e-09,
+        "energy_delta_j": 1.7440395308487844e-09,
+        "energy_identity_evaluation_bound_j": 1.7393433388941875e-05,
+        "external_work_evaluation_bound_j": 2.909876605374952e-15,
+        "external_work_j": 0.04782817224693635,
+        "external_work_nmm": 47.82817224693635,
+        "legacy_metric_nmm": 3.646469118335375e-08,
+        "legacy_metric_nmm_to_si_ratio": 20.908179280550602,
+        "legacy_metric_si": 1.7440395308487844e-09,
+        "prescribed_support_values_are_zero": true,
+        "prospective_unit_covariant_indicator": 3.64646898536801e-08,
+        "strain_energy_evaluation_bound_j": 1.7393433386032e-05,
+        "strain_energy_j": 0.04782817399097588,
+        "strain_energy_nmm": 47.82817399097588
+      },
+      "force_closure_n": [
+        -2.3583337168449533e-11,
+        5.304367575384439e-09,
+        8.408755025612891e-08
+      ],
+      "force_closure_norm_n": 8.425469114313806e-08,
+      "free_residual_norm_n": 7.592766110311044e-08,
+      "moment_closure_origin_nm": [
+        5.685520243492448e-08,
+        -1.4538311674527904e-06,
+        8.934412260391644e-08
+      ],
+      "moment_closure_origin_norm_nm": 1.4576830758930156e-06,
+      "moment_contribution_scaled_indicator": 5.911900536418336e-11,
+      "original_checkpoint_metadata": {
+        "scale_max": 0.000463478231838545,
+        "scale_min": 2.1652621032786884e-05,
+        "scaled_condition_2": 6811221005.416335
+      },
+      "relative_displacement_change_from_archived": 1.323560354632088e-07,
+      "status": "METRICS_RECOVERED_FROM_SAVED_VECTOR"
+    }
+  },
+  "metrics_source": "saved full displacement vectors from the original J8 run; K, f, mask, coordinates, and contract-bound J7 state",
+  "original_checkpoint_method_inventory": [
+    "iterative_refinement",
+    "mpmath_80_decimal_digits",
+    "numpy_direct",
+    "physical_length_unit_m_to_mm",
+    "scalar_equation_scale_1e-6",
+    "scalar_equation_scale_1e6",
+    "scipy_positive_definite",
+    "symmetric_diagonal_scaling"
+  ],
+  "original_execution_status": "COMPLETED",
+  "schema": "qf-j8-hex8-recovered-method-metrics-v1",
+  "source": {
+    "diagnostic_snapshot_sha256": "dc544b7599af8a947af98b72d466470aed3062b0afb79fd7d6fb68c5f1ec0097",
+    "frozen_manifest_sha256": "c10e84a97e53ea6a08a8fc84cbf47d89a2d0abd23616477780fdbca8744d5c9b",
+    "j7_result_sha256": "0707e78f0a4c077b7ecf02a492a9fec2c1f4baddb175a9105a2dc6cb5904ac22",
+    "j7_state_sha256": "971f6c4565340f7677867ef3abf4ea6a98bed4ca7c6249b0be340f8afad37b11",
+    "method_solutions_sha256": "8f93e8da71c74096e44a22d3f9ef328d33a94d8e9dbb816a8d54b77da317e7b1",
+    "original_contract_canonical_lf_sha256": "44ad398532dec3f0552c6b804db0bf99615be8e7c241b90f0bd504254c2ecf44",
+    "original_j8_repository_head": "1cd9cb48d6b329737e96316cd80e5f6e16635e8f",
+    "original_j8_source_commit": "d82a0b9c99685814f10f93cc405618b87c2c9791",
+    "original_raw_diagnostic_result_sha256": "e5682c7b7de542030b636e85017bf7193487458b52fbe87596cf3d2408a2a008",
+    "recovery_source_sha256": "f5bce1bc12ba0d5f637034a3ea3aa94935f169843c056055f31fc572a33c35ae"
+  },
+  "timing_limit": "per-method elapsed time is retained only where present in the original checkpoint; recovered metrics do not infer or invent timings"
+}
