@@ -10,9 +10,9 @@ from research.j10_hex8.hex8_j7_diagnostic import ALPHA_LEVELS, run_diagnostic
 def test_j10_hex8_j7_domain_preserving_distortion() -> None:
     result = run_diagnostic()
     assert result["execution_status"] == "COMPLETED_EXPLORATORY"
-    assert result["contract_id"] == "J10-HEX8-J7-DOMAIN-PRESERVING-DISTORTION-CORRECTIVE-002"
-    assert result["attempt_id"] == "J10-HEX8-J7-DISTORTION-ATTEMPT-002"
-    assert result["development_attempt_number"] == 2
+    assert result["contract_id"] == "J10-HEX8-J7-DOMAIN-PRESERVING-DISTORTION-CORRECTIVE-003"
+    assert result["attempt_id"] == "J10-HEX8-J7-DISTORTION-ATTEMPT-003"
+    assert result["development_attempt_number"] == 3
     assert result["historical_j7_status"] == "FAIL"
     assert [row["alpha"] for row in result["levels"]] == list(ALPHA_LEVELS)
     assert all(row["exterior_node_coordinates_unchanged"] for row in result["levels"])

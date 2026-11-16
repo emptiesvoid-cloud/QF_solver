@@ -158,7 +158,7 @@ J10_NODEIDS = (
 )
 J10_ATTEMPT_LIMITS = {
     J10_NODEIDS[0]: 1,
-    J10_NODEIDS[1]: 2,
+    J10_NODEIDS[1]: 3,
     J10_NODEIDS[2]: 1,
 }
 J10_BUDGETS = {
@@ -487,7 +487,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         if j10.get("allowed_nodeids") != list(J10_NODEIDS):
             raise PolicyError("J10 allowlist must contain only its exact transitory, HEX8 and modal diagnostic nodes")
         if j10.get("attempt_limits_per_nodeid") != J10_ATTEMPT_LIMITS:
-            raise PolicyError("J10 limits attempts to one per node except the separately contracted HEX8 corrective replay")
+            raise PolicyError("J10 limits attempts to one per node except the separately contracted HEX8 correction sequence")
         if j10.get("require_clean_worktree") is not True:
             raise PolicyError("J10 requires a clean isolated source worktree")
         if j10.get("node_attempt_ledger") != {

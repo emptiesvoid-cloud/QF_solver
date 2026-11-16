@@ -33,7 +33,7 @@ from solveur.elements.solid.hex8 import Hex8Element  # noqa: E402
 from solveur.elements.solid.hex8_sri import Hex8SRIElement  # noqa: E402
 from solveur.materials.solid import SolidMaterial  # noqa: E402
 
-CONTRACT_PATH = ROOT / "research/j10_hex8/contracts/hex8_j7_distortion_corrective_contract.json"
+CONTRACT_PATH = ROOT / "research/j10_hex8/contracts/hex8_j7_distortion_corrective_contract_003.json"
 INPUT_STATE_PATH = ROOT / "research/j8_hex8/inputs/near_degenerate_nu0495_nx4_state.npz"
 CASE_SPEC_PATH = ROOT / "research/j8_hex8/inputs/j7_hex8_sri_global_cases.json"
 HISTORICAL_RESULT_PATH = ROOT / "research/j8_hex8/inputs/near_degenerate_nu0495_nx4_result.json"
