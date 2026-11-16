@@ -12,6 +12,9 @@ approver: ""
 These examples follow QF Solver 0.2.12 on `main`. Use the
 [installation guide](installation.md) to set up the matching source and examples.
 
+For the maintained current installation and first-run flow, see the [official
+getting-started guide](https://qfsolver.org/getting-started).
+
 ## CLI
 
 From a checkout containing the maintained example:
