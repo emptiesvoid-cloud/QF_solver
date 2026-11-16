@@ -1,0 +1,45 @@
+{
+  "artifacts": {
+    "README.md": {
+      "bytes": 3812,
+      "sha256": "14698b0773abdb87f3942ca776825d0b909ab18f0888c372f9b4b5b5881e7055"
+    },
+    "frequency_comparison.png": {
+      "bytes": 144620,
+      "sha256": "94da717d24416bc25d257a26eae60b8e2e7b157833c980062a2a45f515d11f11"
+    },
+    "independent_check.json": {
+      "bytes": 21727,
+      "sha256": "39436d71795c8db938942657758b6fc3ae1c9e4ed07d910d972099428bb66fb3"
+    },
+    "modal_comparison.csv": {
+      "bytes": 2943,
+      "sha256": "b0c6532b10ae79c8d88b31d3a417b51b9b7254c877103b66e404d766da63dd6f"
+    },
+    "mode_shape_comparison.png": {
+      "bytes": 181626,
+      "sha256": "d6ee771f6ab1f20e2faf60ae2bc80f7727074c6556ab5734eb70a296d26b05ba"
+    },
+    "ritz_convergence.csv": {
+      "bytes": 1021,
+      "sha256": "ae5fc0a7f1113ad90215fd33c685ef45510b72ff7f2926f798a4af8c663ba10c"
+    }
+  },
+  "classification": "DEVELOPMENT_DIAGNOSTIC_ONLY",
+  "contract_sha256": "465a5a6a7ef0a5c3909d9de15f52bf686ac1fd8b33f521d1fe78228be327c3f6",
+  "execution_manifest_sha256": "95de3b854519bda19383675f80e011a9d5e6a21f08763a373af3d61b0f2fd3b9",
+  "input_sha256": {
+    "attempt-0001.json": "60ec9466b2dfb82dd02c8f6212dfc54176db3bc2a0d200258f7b166836baf49f",
+    "checkpoints/mesh-0004.npz": "3602f14b0a7f805b7315f0f9530b8640b6a6bcf4a33f660d6bc590c0c385d1ac",
+    "checkpoints/mesh-0006.npz": "5a2f508614f57c9395342bbbf00540c55ffcf74790ad8cc2c0e0724bbead947e",
+    "checkpoints/mesh-0008.npz": "e83177a81b8732b5b006d53a1db9d613f927d309923c7d71d48625a73878d401",
+    "checkpoints/mesh-0012.npz": "22c08deba1ea8a95e18ad8f1808317e3e8ed8468132e84fc64dd8520f2c8568c",
+    "checkpoints/mesh-0016.npz": "df063ae2fd42dd5f0f4cd9d7eebf3bd0a4cf39606f98d666ed44873d8131ffa0",
+    "j5b_contract.json": "131e5daf6f4c96ff9bc42ff45ce3b101281c367f5b2da3bec666e3c4d4f379ab",
+    "j5b_model_input.json": "3afc57624dda39c11f0759e6efd0b533ecfb0759deabc9a21a038cbe1611d5c0",
+    "modal_shapes.npz": "df063ae2fd42dd5f0f4cd9d7eebf3bd0a4cf39606f98d666ed44873d8131ffa0",
+    "site_data.json": "bf3918544c970b8c8378cb75c2847aef6aa15b46bf4c2fcd4db72aa24753c3f9"
+  },
+  "schema": "qf-j5c-artifact-manifest-v1",
+  "source_commit": "2e640cefaf75559a4fbeaaffb9cd805fee8f8702"
+}
