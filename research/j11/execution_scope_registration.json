@@ -94,13 +94,33 @@
     "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json",
     "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v3.json"
   ],
+  "historical_postprocess_contracts": [
+    {
+      "attempt_record_path": "research/j11/results/diagnostic-2026-11-16/j10_mesh_postprocess_v1_failure.json",
+      "canonical_sha256": "fd1607b384fd496d1cdb3ba4f972ac932ff361005648097eb35e821e6fda5f55",
+      "path": "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract.json",
+      "status": "POSTPROCESS_FAILED_BEFORE_METRIC_OUTPUT",
+      "test_snapshot_path": "research/j11_transient/attempt_sources/test_j11_j10_spatial_pairwise_v1.py"
+    },
+    {
+      "attempt_record_path": "research/j11/results/diagnostic-2026-11-16/j10_mesh_postprocess_v2_failure.json",
+      "canonical_sha256": "abcbfc34f2bc22907f8875432a9d181a34a4f74325d619c5461cdefc9d354c8a",
+      "path": "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract_v2.json",
+      "status": "LAUNCHER_FAILED_BEFORE_POSTPROCESSING",
+      "test_snapshot_path": "research/j11_transient/attempt_sources/test_j11_j10_spatial_pairwise_v2.py"
+    }
+  ],
   "launcher": "scripts/development_autonomous.py with one exact nodeid per collect-only preflight and one attempt per node",
   "owner_mandate_id": "QF_SOLVER_0.3.0_J11_OWNER_2026-11-16",
   "postprocess_contract_sha256_canonical": {
-    "research/j11_hex8/contracts/hex8_archive_postprocess_contract.json": "6b2247e810d70a361cabf44c7f2937c094d2703ce22faeee8103937ab8528088"
+    "research/j11_hex8/contracts/hex8_archive_postprocess_contract.json": "6b2247e810d70a361cabf44c7f2937c094d2703ce22faeee8103937ab8528088",
+    "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract.json": "fd1607b384fd496d1cdb3ba4f972ac932ff361005648097eb35e821e6fda5f55",
+    "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract_v2.json": "abcbfc34f2bc22907f8875432a9d181a34a4f74325d619c5461cdefc9d354c8a",
+    "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract_v3.json": "dce346e6b1bd35a2ad145c84d1f2bd4176c04236b6fa382eceeadefe2ac8c30b"
   },
   "postprocess_contracts": [
-    "research/j11_hex8/contracts/hex8_archive_postprocess_contract.json"
+    "research/j11_hex8/contracts/hex8_archive_postprocess_contract.json",
+    "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract_v3.json"
   ],
   "preservation": {
     "historical_ledgers_and_results_modified": false,

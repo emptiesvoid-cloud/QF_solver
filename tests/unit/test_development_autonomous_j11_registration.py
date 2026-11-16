@@ -46,16 +46,40 @@ def test_j11_scope_registration_binds_all_family_contracts() -> None:
         assert contract["attempts"]["exact_node_attempt_limit"] == 1
     assert [item["prior_run_state"] for item in registration["corrective_attempts"]] == ["PYTEST_FAILED"] * 3
     assert all("criteria" not in item for item in registration["corrective_attempts"])
-    assert registration["postprocess_contracts"] == [
-        "research/j11_hex8/contracts/hex8_archive_postprocess_contract.json"
-    ]
-    postprocess_path = registration["postprocess_contracts"][0]
-    postprocess_bytes = (ROOT / postprocess_path).read_bytes().replace(b"\r\n", b"\n")
-    assert hashlib.sha256(postprocess_bytes).hexdigest() == registration["postprocess_contract_sha256_canonical"][postprocess_path]
-    postprocess_contract = json.loads((ROOT / postprocess_path).read_text(encoding="utf-8"))
-    for item in postprocess_contract["source_identity"]:
-        source = (ROOT / item["path"]).read_bytes().replace(b"\r\n", b"\n")
-        assert hashlib.sha256(source).hexdigest() == item["canonical_sha256"]
+    assert set(registration["postprocess_contracts"]) == {
+        "research/j11_hex8/contracts/hex8_archive_postprocess_contract.json",
+        "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract_v3.json",
+    }
+    for postprocess_path in registration["postprocess_contracts"]:
+        postprocess_bytes = (ROOT / postprocess_path).read_bytes().replace(b"\r\n", b"\n")
+        assert hashlib.sha256(postprocess_bytes).hexdigest() == registration["postprocess_contract_sha256_canonical"][postprocess_path]
+        postprocess_contract = json.loads((ROOT / postprocess_path).read_text(encoding="utf-8"))
+        assert postprocess_contract["owner_mandate_id"] == registration["owner_mandate_id"]
+        for item in postprocess_contract["source_identity"]:
+            source = (ROOT / item["path"]).read_bytes().replace(b"\r\n", b"\n")
+            assert hashlib.sha256(source).hexdigest() == item["canonical_sha256"]
+    historical = registration["historical_postprocess_contracts"]
+    assert len(historical) == 2
+    for failed in historical:
+        failed_path = failed["path"]
+        failed_bytes = (ROOT / failed_path).read_bytes()
+        assert hashlib.sha256(failed_bytes.replace(b"\r\n", b"\n")).hexdigest() == failed["canonical_sha256"]
+        failed_contract = json.loads(failed_bytes.decode("utf-8"))
+        failure_record = json.loads((ROOT / failed["attempt_record_path"]).read_text(encoding="utf-8"))
+        assert failure_record["status"] == failed["status"]
+        assert failure_record["contract_sha256_raw"] == hashlib.sha256(failed_bytes).hexdigest()
+        test_snapshot = ROOT / failed["test_snapshot_path"]
+        snapshot_sha = hashlib.sha256(test_snapshot.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+        historical_test_sha = next(
+            item["canonical_sha256"]
+            for item in failed_contract["source_identity"]
+            if item["path"] == "tests/unit/test_j11_j10_spatial_pairwise.py"
+        )
+        assert snapshot_sha == historical_test_sha
+        for item in failed_contract["source_identity"]:
+            if item["path"] != "tests/unit/test_j11_j10_spatial_pairwise.py":
+                source = (ROOT / item["path"]).read_bytes().replace(b"\r\n", b"\n")
+                assert hashlib.sha256(source).hexdigest() == item["canonical_sha256"]
 
 
 def test_j11_preflight_dispatches_to_its_exact_node_handler(monkeypatch) -> None:

@@ -1,0 +1,37 @@
+{
+  "contract_id": "QF_SOLVER_0.3.0_J11_HEX8_ARCHIVE_KEY_NORMALIZATION_2026-11-16",
+  "contract_sha256_canonical": "6b2247e810d70a361cabf44c7f2937c094d2703ce22faeee8103937ab8528088",
+  "fem_or_metrics_recomputed": false,
+  "identical_collision_targets_preserved": [
+    "coordinates_alpha_0_m"
+  ],
+  "interpretation": "Only NPZ keys were normalized. Array dtypes, shapes and byte values are preserved; the original archive remains unchanged.",
+  "key_mapping": {
+    "coordinates_alpha_134_m": "coordinates_alpha_0_m",
+    "global_stiffness_alpha_134_n_per_m": "global_stiffness_alpha_0_n_per_m",
+    "mpmath_displacement_alpha_134_m": "mpmath_displacement_alpha_0_m",
+    "qf_sri_kernel_numpy_direct_displacement_alpha_134_m": "qf_sri_kernel_numpy_direct_displacement_alpha_0_m",
+    "qf_sri_numpy_direct_free_residual_alpha_134_n": "qf_sri_numpy_direct_free_residual_alpha_0_n",
+    "qf_sri_numpy_direct_reactions_alpha_134_n": "qf_sri_numpy_direct_reactions_alpha_0_n",
+    "scaled_displacement_alpha_134_m": "scaled_displacement_alpha_0_m",
+    "scipy_displacement_alpha_134_m": "scipy_displacement_alpha_0_m"
+  },
+  "normalized_npz_sha256_raw": "5df6d2bbd3d95be6948f31b9571eacdaa26b719bd5b872d57e8e0915d698ce29",
+  "postprocess_status": "COMPLETED_DETERMINISTIC_KEY_NORMALIZATION",
+  "schema": "qf-j11-hex8-archive-key-normalization-v1",
+  "source_execution_status_preserved": "COMPLETED_EXPLORATORY",
+  "source_npz_sha256_raw": "457b95f3b1223e228d3f57389ec85a60b7fc728b71de3b1c1879f00d69af34df",
+  "source_result_json_sha256_raw": "fd284661c9ea90a075b1af4d4f3c43a8dfef187e72cc9b02c2f5816d43da7278",
+  "source_run": {
+    "attempt": 1,
+    "execution_status": "COMPLETED_EXPLORATORY",
+    "node_attempt_ledger_record_series_id": "dev-3faf37ecba1d",
+    "node_attempt_ledger_state": "PASS",
+    "nodeid": "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction_corrective_v2",
+    "preflight_receipt_sha256": "e6296cc50c94cb7e7d6f690b479861c669342a5807a5eb34e1c1cdab0887b203",
+    "run_record_sha256_raw": "6760b900ad61f5a1730d5c8dd83f5c015955a0ebd76e4c59abd4f5fefcf849d7",
+    "series_id": "dev-3faf37ecba1d",
+    "source_fingerprint": "5037085d25761b3923a5c692fc76e05db570276d4e75c1744b0a786fa84e1958",
+    "source_head": "50ad6fa506f478f9e2e5c2b97ecf205721dfef7c"
+  }
+}

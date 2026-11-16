@@ -1,0 +1,27 @@
+{
+  "attempt_id": "j10-mesh-postprocess-contract-v1-attempt-1",
+  "contract_id": "QF_SOLVER_0.3.0_J11_J10_PAIRWISE_MESH_POSTPROCESS_2026-11-16",
+  "contract_path": "research/j11_transient/contracts/j10_spatial_sensitivity_postprocess_contract.json",
+  "contract_sha256_raw": "ee6fce121233d17586bd1feb6270ef6cb9118bf5ccd2ba50b4353db76c576720",
+  "failure": "Contract expected a 192-sample grid from 0 to 0.023875 s; archived grid is 192 samples from 0.000125 s through 0.024 s. Validation stopped before any metric serialization.",
+  "historical_j10_data_modified": false,
+  "inputs": {
+    "result_json_sha256_raw": "29d72af104728513ea932c4d0474fbeb73306010351c1ebc1e4d6d608b336457",
+    "states_npz_sha256_raw": "cb4b31eb040413ff6559c1c3129726e2f30973a2226479c8b16d5fb31e6e354c"
+  },
+  "observed_resources": {
+    "budget_rss_soft_limit_mib": 512,
+    "budget_wall_timeout_seconds": 120,
+    "peak_rss_bytes": "not retained by the failed wrapper; unavailable",
+    "tool_wall_seconds_rounded": 0.7
+  },
+  "output_written": false,
+  "schema": "qf-j11-postprocess-attempt-record-v1",
+  "source_identity_snapshot": {
+    "script_path": "research/j11_transient/j10_spatial_pairwise.py",
+    "script_sha256_canonical": "95c54e8d6b92e973a33b681cb8242351c7c4b7f3d8e11bea06ccc1dfa207e1a0",
+    "test_sha256_canonical": "d2622851bfd1b01dcaee8d14d26ef45fec1180fed096fda9a0df894319f2f912",
+    "test_snapshot_path": "research/j11_transient/attempt_sources/test_j11_j10_spatial_pairwise_v1.py"
+  },
+  "status": "POSTPROCESS_FAILED_BEFORE_METRIC_OUTPUT"
+}
