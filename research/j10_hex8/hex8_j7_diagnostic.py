@@ -33,7 +33,7 @@ from solveur.elements.solid.hex8 import Hex8Element  # noqa: E402
 from solveur.elements.solid.hex8_sri import Hex8SRIElement  # noqa: E402
 from solveur.materials.solid import SolidMaterial  # noqa: E402
 
-CONTRACT_PATH = ROOT / "research/j10_hex8/contracts/hex8_j7_distortion_contract.json"
+CONTRACT_PATH = ROOT / "research/j10_hex8/contracts/hex8_j7_distortion_corrective_contract.json"
 INPUT_STATE_PATH = ROOT / "research/j8_hex8/inputs/near_degenerate_nu0495_nx4_state.npz"
 CASE_SPEC_PATH = ROOT / "research/j8_hex8/inputs/j7_hex8_sri_global_cases.json"
 HISTORICAL_RESULT_PATH = ROOT / "research/j8_hex8/inputs/near_degenerate_nu0495_nx4_result.json"
@@ -132,13 +132,13 @@ def run_diagnostic() -> dict[str, Any]:
     for item in contract["source_identity"]:
         if _canonical_sha256(ROOT / item["path"]) != item["canonical_sha256"]:
             raise RuntimeError(f"J10 HEX8 source differs from frozen identity: {item['path']}")
-    if _sha256(INPUT_STATE_PATH) != contract["input"]["state_sha256"]:
+    if _sha256(INPUT_STATE_PATH) != contract["inputs"]["j7_state_sha256_raw"]:
         raise RuntimeError("Archived J7 numeric state differs from frozen J10 input identity")
-    if _canonical_sha256(CASE_SPEC_PATH) != contract["input"]["case_spec_canonical_sha256"]:
+    if _canonical_sha256(CASE_SPEC_PATH) != contract["inputs"]["j7_case_spec_sha256_canonical"]:
         raise RuntimeError("Archived J7 case definition differs from frozen J10 input identity")
-    if _sha256(HISTORICAL_RESULT_PATH) != contract["input"]["historical_result_sha256"]:
+    if _sha256(HISTORICAL_RESULT_PATH) != contract["inputs"]["historical_result_sha256_raw"]:
         raise RuntimeError("Archived J7 near-degenerate result differs from frozen J10 input identity")
-    if _sha256(PREFLIGHT_RESULT_PATH) != contract["geometry_preflight"]["result_sha256"]:
+    if _sha256(PREFLIGHT_RESULT_PATH) != contract["inputs"]["geometry_preflight_result_sha256_raw"]:
         raise RuntimeError("J10 geometry-only preflight result differs from frozen FEM contract")
     preflight = json.loads(PREFLIGHT_RESULT_PATH.read_text(encoding="utf-8"))
     if preflight.get("preflight_status") != "PASS_GEOMETRY_ONLY":
@@ -268,6 +268,9 @@ def run_diagnostic() -> dict[str, Any]:
         "schema": "qf-j10-hex8-j7-distortion-result-v1",
         "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
         "execution_status": "COMPLETED_EXPLORATORY",
+        "contract_id": contract["contract_id"],
+        "attempt_id": contract["execution"]["attempt_id"],
+        "development_attempt_number": run["attempt"],
         "historical_j7_status": historical_status,
         "nodeid": NODEID,
         "source_head": run["identity"]["head"],

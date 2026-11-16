@@ -15,6 +15,11 @@ def test_j10_scope_is_bound_to_exact_nodes_one_thread_and_private_namespace(tmp_
         "tests/verification/test_j10_tet10_modal_smoke.py::test_j10_tet10_modal_route_smoke",
     )
     assert runner.J10_NODEIDS == expected
+    assert runner.J10_ATTEMPT_LIMITS == {
+        expected[0]: 1,
+        expected[1]: 2,
+        expected[2]: 1,
+    }
     assert runner.J10_BUDGETS == {
         "timeout_seconds": 1800,
         "rss_soft_limit_mib": 2048,
@@ -31,9 +36,11 @@ def test_j10_scope_is_bound_to_exact_nodes_one_thread_and_private_namespace(tmp_
     registration = json.loads((root / "research/j10/execution_scope_registration.json").read_text(encoding="utf-8"))
     assert registration["allowed_nodeids"] == list(expected)
     assert registration["attempt_limit_per_nodeid"] == 1
+    assert registration["attempt_limits_per_nodeid"] == runner.J10_ATTEMPT_LIMITS
     assert set(registration["family_contracts"]) == {
         "research/j10_transient/contracts/tet10_fixed_excitation_contract.json",
         "research/j10_hex8/contracts/hex8_j7_distortion_contract.json",
+        "research/j10_hex8/contracts/hex8_j7_distortion_corrective_contract.json",
         "research/j10_modal/contracts/tet10_modal_route_smoke_contract.json",
     }
     for relative in registration["family_contracts"]:

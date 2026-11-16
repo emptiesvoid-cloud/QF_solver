@@ -9,6 +9,12 @@
   "worktree_id": "j10",
   "attempt_ledger": ".codex/development-runs/node-attempt-ledger-j10.json",
   "attempt_limit_per_nodeid": 1,
+  "attempt_limits_per_nodeid": {
+    "tests/verification/test_j10_tet10_fixed_excitation.py::test_j10_tet10_same_physical_excitation_time_mesh_study": 1,
+    "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion": 2,
+    "tests/verification/test_j10_tet10_modal_smoke.py::test_j10_tet10_modal_route_smoke": 1
+  },
+  "corrective_attempt_rationale": "A first HEX8 attempt was PYTEST_FAILED before matrix assembly because the runner expected `input` while the frozen contract schema uses `inputs`. One second attempt is allowed only under a distinct corrective contract, after fixing this source/interface mismatch and refreshing the exact-node preflight. The first attempt remains in the ledger.",
   "allowed_nodeids": [
     "tests/verification/test_j10_tet10_fixed_excitation.py::test_j10_tet10_same_physical_excitation_time_mesh_study",
     "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion",
@@ -17,6 +23,7 @@
   "family_contracts": [
     "research/j10_transient/contracts/tet10_fixed_excitation_contract.json",
     "research/j10_hex8/contracts/hex8_j7_distortion_contract.json",
+    "research/j10_hex8/contracts/hex8_j7_distortion_corrective_contract.json",
     "research/j10_modal/contracts/tet10_modal_route_smoke_contract.json"
   ],
   "budgets": {

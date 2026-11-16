@@ -156,6 +156,11 @@ J10_NODEIDS = (
     "tests/verification/test_j10_hex8_j7_geometry.py::test_j10_hex8_j7_domain_preserving_distortion",
     "tests/verification/test_j10_tet10_modal_smoke.py::test_j10_tet10_modal_route_smoke",
 )
+J10_ATTEMPT_LIMITS = {
+    J10_NODEIDS[0]: 1,
+    J10_NODEIDS[1]: 2,
+    J10_NODEIDS[2]: 1,
+}
 J10_BUDGETS = {
     "timeout_seconds": 1800,
     "rss_soft_limit_mib": 2048,
@@ -481,8 +486,8 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             raise PolicyError("J10 requires its distinct development attempt namespace")
         if j10.get("allowed_nodeids") != list(J10_NODEIDS):
             raise PolicyError("J10 allowlist must contain only its exact transitory, HEX8 and modal diagnostic nodes")
-        if j10.get("attempt_limits_per_nodeid") != {nodeid: 1 for nodeid in J10_NODEIDS}:
-            raise PolicyError("J10 permits one attempt per exact registered nodeid")
+        if j10.get("attempt_limits_per_nodeid") != J10_ATTEMPT_LIMITS:
+            raise PolicyError("J10 limits attempts to one per node except the separately contracted HEX8 corrective replay")
         if j10.get("require_clean_worktree") is not True:
             raise PolicyError("J10 requires a clean isolated source worktree")
         if j10.get("node_attempt_ledger") != {
