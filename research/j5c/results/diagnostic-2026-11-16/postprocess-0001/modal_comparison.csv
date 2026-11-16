@@ -1,0 +1,16 @@
+mesh_size,comparison,reference_mode_order,qf_frequency_hz,mindlin_ritz_frequency_hz,qf_minus_ritz_relative,weighted_l2_mac_or_subspace_min,metric_definition
+4,mode_11,"[1, 1]",51.88551984460201,48.19790599779306,0.07650983524009951,0.9987761895158817,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+4,repeated_12_21_subspace,"[1, 2]",159.66282989122433,120.6059704929815,0.3238385234047405,0.9848956718905925,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+4,mode_22,"[2, 2]",259.942419751463,192.60640795502263,0.34960421364674754,0.9710706397480443,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+6,mode_11,"[1, 1]",49.88731044827922,48.19790599779306,0.035051407639234824,0.9997768248823211,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+6,repeated_12_21_subspace,"[1, 2]",135.73039429546478,120.6059704929815,0.1254036076378443,0.9977404286141819,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+6,mode_22,"[2, 2]",219.23894875922593,192.60640795502263,0.13827442755914185,0.9957071439254142,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+8,mode_11,"[1, 1]",49.212273919277216,48.19790599779306,0.021045891942496536,0.9999310465992802,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+8,repeated_12_21_subspace,"[1, 2]",128.83899107623972,120.6059704929815,0.06826378950897238,0.9993538775294211,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+8,mode_22,"[2, 2]",207.2541120127676,192.60640795502263,0.07604993111737739,0.9987761216114226,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+12,mode_11,"[1, 1]",48.73257955207747,48.19790599779306,0.01109329426695202,0.9999863512791721,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+12,repeated_12_21_subspace,"[1, 2]",124.28641552511233,120.6059704929815,0.030516275579781618,0.9998804133546639,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+12,mode_22,"[2, 2]",199.26566550260395,192.60640795502263,0.03457443404030663,0.999773750087402,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+16,mode_11,"[1, 1]",48.56049988880804,48.19790599779306,0.007523021664708507,0.9999954922853256,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+16,repeated_12_21_subspace,"[1, 2]",122.7521998513804,120.6059704929815,0.017795382348204686,0.9999622453113323,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine
+16,mode_22,"[2, 2]",196.5555640019456,192.60640795502263,0.020503762511604417,0.9999283842873069,quadrature-weighted L2 MAC; repeated pair is minimum squared principal-angle cosine

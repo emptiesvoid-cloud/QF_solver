@@ -1,0 +1,52 @@
+{
+  "schema": "qf-j5b-modal-plate-input-v1",
+  "case_id": "J5B-MITC4-SIMPLY-SUPPORTED-PLATE-MODAL",
+  "geometry": {
+    "shape": "square flat plate",
+    "length_m": 1.0,
+    "width_m": 1.0,
+    "thickness_m": 0.01,
+    "mid_surface_z_m": 0.0,
+    "normal": "+Z"
+  },
+  "material": {
+    "law": "linear isotropic Reissner-Mindlin shell",
+    "young_modulus_pa": 70000000000.0,
+    "poisson_ratio": 0.3,
+    "density_kg_m3": 2700.0,
+    "transverse_shear_factor": 0.8333333333333334,
+    "drilling_stiffness_scale": 0.0001,
+    "units": "SI"
+  },
+  "mesh": {
+    "element": "MITC4",
+    "sizes_per_edge": [4, 6, 8, 12, 16],
+    "quadrilateral_ordering": "counter-clockwise viewed from +Z",
+    "expected_element_counts": [16, 36, 64, 144, 256]
+  },
+  "boundary_conditions": {
+    "all_four_perimeter_edges": {"UZ": 0.0},
+    "edge_rotations": "free",
+    "in_plane_rigid_body_pins": [
+      {"node_at_coarse_mesh": 0, "dofs": ["UX", "UY"]},
+      {"node_at_coarse_mesh": 20, "dofs": ["UY"]}
+    ],
+    "pin_purpose": "remove in-plane rigid translation and rotation without constraining plate bending"
+  },
+  "analysis": {
+    "type": "free vibration",
+    "method": "dense generalized symmetric eigenproblem (eigh)",
+    "mass_formulation": "consistent shell mass with translational and tangential rotary inertia",
+    "requested_eigenmodes": 6,
+    "modal_validation_policy": "allow_inconclusive",
+    "reported_reference_modes": [[1, 1], [1, 2], [2, 1], [2, 2]],
+    "preload": "none",
+    "damping": "none"
+  },
+  "comparison": {
+    "frequency_reference": "Kirchhoff thin-plate Navier solution for a simply supported square plate",
+    "frequency_orders": [[1, 1], [1, 2], [2, 1], [2, 2]],
+    "mode_shapes": "sample the Navier sin(m*pi*x/a)*sin(n*pi*y/a) shape at model nodes; compare the repeated 12/21 eigenspace as a subspace",
+    "measured_frequency_unit": "Hz"
+  }
+}

@@ -1,0 +1,645 @@
+{
+  "archived_attempt": {
+    "attempt_id": "j5b-6bb4e32988af",
+    "campaign_status": "INCONCLUSIVE",
+    "j5b_modal_validation_reasons": [
+      "aggregate_work_budget",
+      "dimension_budget",
+      "dimension_budget",
+      "dimension_budget",
+      "dimension_budget"
+    ],
+    "j5b_modal_validation_statuses": [
+      "INCONCLUSIVE",
+      "INCONCLUSIVE",
+      "INCONCLUSIVE",
+      "INCONCLUSIVE",
+      "INCONCLUSIVE"
+    ],
+    "source_commit": "dc1315693715eb7322bd7e4647c2e36e635d4b0d",
+    "status_preserved": true
+  },
+  "classification": "DEVELOPMENT_DIAGNOSTIC_ONLY",
+  "contract_sha256": "465a5a6a7ef0a5c3909d9de15f52bf686ac1fd8b33f521d1fe78228be327c3f6",
+  "execution_manifest_sha256": "95de3b854519bda19383675f80e011a9d5e6a21f08763a373af3d61b0f2fd3b9",
+  "independent_checks": {
+    "K_matrix_available": false,
+    "M_matrix_available": false,
+    "all_input_hashes_match_contract": true,
+    "all_meshes_structured_positive_area_and_correct_domain": true,
+    "eigenpair_residual": "NOT_RECOMPUTED: archived K matrix is unavailable",
+    "eigenvalue_frequency_relation_max_relative_difference": 0.0,
+    "j5b_nodal_mac_reproduced_within_1e_10": true,
+    "mass_orthogonality": "NOT_RECOMPUTED: archived M matrix is unavailable",
+    "ritz_nested_basis_frequency_monotonicity_within_1e_8": true
+  },
+  "input_sha256": {
+    "attempt-0001.json": "60ec9466b2dfb82dd02c8f6212dfc54176db3bc2a0d200258f7b166836baf49f",
+    "checkpoints/mesh-0004.npz": "3602f14b0a7f805b7315f0f9530b8640b6a6bcf4a33f660d6bc590c0c385d1ac",
+    "checkpoints/mesh-0006.npz": "5a2f508614f57c9395342bbbf00540c55ffcf74790ad8cc2c0e0724bbead947e",
+    "checkpoints/mesh-0008.npz": "e83177a81b8732b5b006d53a1db9d613f927d309923c7d71d48625a73878d401",
+    "checkpoints/mesh-0012.npz": "22c08deba1ea8a95e18ad8f1808317e3e8ed8468132e84fc64dd8520f2c8568c",
+    "checkpoints/mesh-0016.npz": "df063ae2fd42dd5f0f4cd9d7eebf3bd0a4cf39606f98d666ed44873d8131ffa0",
+    "j5b_contract.json": "131e5daf6f4c96ff9bc42ff45ce3b101281c367f5b2da3bec666e3c4d4f379ab",
+    "j5b_model_input.json": "3afc57624dda39c11f0759e6efd0b533ecfb0759deabc9a21a038cbe1611d5c0",
+    "modal_shapes.npz": "df063ae2fd42dd5f0f4cd9d7eebf3bd0a4cf39606f98d666ed44873d8131ffa0",
+    "site_data.json": "bf3918544c970b8c8378cb75c2847aef6aa15b46bf4c2fcd4db72aa24753c3f9"
+  },
+  "limits": [
+    "J5B K and M matrices were not archived; QF eigenpair residual and mass orthogonality were not recomputed.",
+    "The independent Reissner-Mindlin Ritz sequence is a bounded numerical reference; quadrature order was fixed at 48 and not separately varied.",
+    "No published numerical result with verified soft-support conditions was available as an independent tabulated oracle.",
+    "The published hard-support plate table is not a direct comparison for J5B soft support.",
+    "J5B validation remains INCONCLUSIVE on all five meshes; no diagnostic here promotes that status."
+  ],
+  "measured_resources": {
+    "available_memory_at_start_bytes": 65242796032,
+    "budget_targets": {
+      "artifacts": [
+        "independent_check.json",
+        "modal_comparison.csv",
+        "ritz_convergence.csv",
+        "frequency_comparison.png",
+        "mode_shape_comparison.png",
+        "README.md",
+        "artifact_manifest.json",
+        "sanitized_run_record.json"
+      ],
+      "attempts": 1,
+      "case_target_rss_mib": 1024,
+      "case_target_seconds": 120,
+      "external_solver_calls": 0,
+      "fem_calls": 0,
+      "max_dense_generalized_system_dimension": 931,
+      "max_process_tree": 1,
+      "max_quadrature_points_per_axis": 48,
+      "max_rotation_polynomial_degree": 20,
+      "max_transverse_harmonic_order": 7,
+      "nodeid": "tests/unit/test_j5c_modal_postprocess.py::test_j5c_archive_postprocess_and_ritz_reference",
+      "resource_sampling": {
+        "case_target_is_soft": true,
+        "interval_seconds": 0.05,
+        "method": "psutil process-tree RSS sampling in the current test process",
+        "rss_is_an_observation_not_an_os_quota": true,
+        "runner_ceiling_seconds": 900
+      },
+      "runner_policy_ceiling_seconds": 900,
+      "runner_policy_rss_soft_limit_mib": 4096,
+      "runner_scope": "unit"
+    },
+    "case_target_rss_mib_met": true,
+    "case_target_seconds_met": true,
+    "elapsed_seconds": 3.545523799955845,
+    "external_solver_calls": 0,
+    "fem_calls": 0,
+    "matplotlib": "3.10.3",
+    "numpy": "2.2.6",
+    "peak_observed_process_count": 1,
+    "peak_observed_rss_bytes": 185937920,
+    "peak_observed_rss_mib": 177.32421875,
+    "physical_memory_bytes": 102963109888,
+    "platform": "Windows-10-10.0.19045-SP0",
+    "psutil": "7.2.2",
+    "python": "3.13.1",
+    "qf_solver_imported": false,
+    "rss_sampling_interval_seconds": 0.05,
+    "scipy": "1.15.2"
+  },
+  "mesh_results": [
+    {
+      "archived_nodal_mac": {
+        "first_mode_mac": 0.9999999999953174,
+        "fourth_mode_mac": 1.0,
+        "repeated_mode_subspace_mac": 0.9999999998813152
+      },
+      "boundary_uz_relative_max": 0.0,
+      "candidate_frequencies_hz": [
+        51.88551984460201,
+        159.66282989122433,
+        159.66282989378112,
+        259.942419751463
+      ],
+      "candidate_status": "COMPUTED_CANDIDATE",
+      "eigenvalue_to_frequency_max_relative_difference": 0.0,
+      "element_count": 16,
+      "mesh_geometry": {
+        "element_count_expected": 16,
+        "element_count_observed": 16,
+        "grid_coordinate_max_error_m": 0.0,
+        "mesh_size": [
+          4,
+          4
+        ],
+        "mid_surface_z_max_abs_m": 0.0,
+        "node_count_expected": 25,
+        "node_count_observed": 25,
+        "quad_signed_area_max_error_m2": 0.0,
+        "quad_signed_area_min_m2": 0.0625,
+        "structured_geometry_ok": true,
+        "total_mesh_area_m2": 1.0
+      },
+      "mesh_size": 4,
+      "modal_validation_reason": "aggregate_work_budget",
+      "modal_validation_status": "INCONCLUSIVE",
+      "navier_frequencies_hz": [
+        48.406723927944356,
+        121.0168098198609,
+        121.0168098198609,
+        193.62689571177742
+      ],
+      "navier_relative_errors": [
+        0.07186596477456317,
+        0.31934423101129356,
+        0.3193442310324211,
+        0.3424912835373825
+      ],
+      "node_count": 25,
+      "recomputed_nodal_mac": {
+        "first_mode_mac": 0.9999999999953174,
+        "fourth_mode_mac": 1.0,
+        "repeated_mode_subspace_mac": 0.9999999998813152
+      },
+      "translation_export_max_abs_difference": 0.0
+    },
+    {
+      "archived_nodal_mac": {
+        "first_mode_mac": 0.9999999987861594,
+        "fourth_mode_mac": 0.9999999972020093,
+        "repeated_mode_subspace_mac": 0.9999999931461665
+      },
+      "boundary_uz_relative_max": 0.0,
+      "candidate_frequencies_hz": [
+        49.88731044827922,
+        135.73039429546478,
+        135.7303943022797,
+        219.23894875922593
+      ],
+      "candidate_status": "COMPUTED_CANDIDATE",
+      "eigenvalue_to_frequency_max_relative_difference": 0.0,
+      "element_count": 36,
+      "mesh_geometry": {
+        "element_count_expected": 36,
+        "element_count_observed": 36,
+        "grid_coordinate_max_error_m": 0.0,
+        "mesh_size": [
+          6,
+          6
+        ],
+        "mid_surface_z_max_abs_m": 0.0,
+        "node_count_expected": 49,
+        "node_count_observed": 49,
+        "quad_signed_area_max_error_m2": 1.3877787807814457e-17,
+        "quad_signed_area_min_m2": 0.027777777777777762,
+        "structured_geometry_ok": true,
+        "total_mesh_area_m2": 1.0
+      },
+      "mesh_size": 6,
+      "modal_validation_reason": "dimension_budget",
+      "modal_validation_status": "INCONCLUSIVE",
+      "navier_frequencies_hz": [
+        48.406723927944356,
+        121.0168098198609,
+        121.0168098198609,
+        193.62689571177742
+      ],
+      "navier_relative_errors": [
+        0.030586381398972358,
+        0.12158298088923125,
+        0.12158298094554516,
+        0.13227528620596818
+      ],
+      "node_count": 49,
+      "recomputed_nodal_mac": {
+        "first_mode_mac": 0.9999999987861594,
+        "fourth_mode_mac": 0.9999999972020093,
+        "repeated_mode_subspace_mac": 0.9999999931461665
+      },
+      "translation_export_max_abs_difference": 0.0
+    },
+    {
+      "archived_nodal_mac": {
+        "first_mode_mac": 0.9999999966283372,
+        "fourth_mode_mac": 0.9999999777401929,
+        "repeated_mode_subspace_mac": 0.999999983880366
+      },
+      "boundary_uz_relative_max": 0.0,
+      "candidate_frequencies_hz": [
+        49.212273919277216,
+        128.83899107623972,
+        128.83899108162262,
+        207.2541120127676
+      ],
+      "candidate_status": "COMPUTED_CANDIDATE",
+      "eigenvalue_to_frequency_max_relative_difference": 0.0,
+      "element_count": 64,
+      "mesh_geometry": {
+        "element_count_expected": 64,
+        "element_count_observed": 64,
+        "grid_coordinate_max_error_m": 0.0,
+        "mesh_size": [
+          8,
+          8
+        ],
+        "mid_surface_z_max_abs_m": 0.0,
+        "node_count_expected": 81,
+        "node_count_observed": 81,
+        "quad_signed_area_max_error_m2": 0.0,
+        "quad_signed_area_min_m2": 0.015625,
+        "structured_geometry_ok": true,
+        "total_mesh_area_m2": 1.0
+      },
+      "mesh_size": 8,
+      "modal_validation_reason": "dimension_budget",
+      "modal_validation_status": "INCONCLUSIVE",
+      "navier_frequencies_hz": [
+        48.406723927944356,
+        121.0168098198609,
+        121.0168098198609,
+        193.62689571177742
+      ],
+      "navier_relative_errors": [
+        0.0166412829864702,
+        0.06463714642637253,
+        0.06463714647085314,
+        0.07037873664656026
+      ],
+      "node_count": 81,
+      "recomputed_nodal_mac": {
+        "first_mode_mac": 0.9999999966283372,
+        "fourth_mode_mac": 0.9999999777401929,
+        "repeated_mode_subspace_mac": 0.999999983880366
+      },
+      "translation_export_max_abs_difference": 0.0
+    },
+    {
+      "archived_nodal_mac": {
+        "first_mode_mac": 0.9999999904875594,
+        "fourth_mode_mac": 0.9999999166264391,
+        "repeated_mode_subspace_mac": 0.9999999580816001
+      },
+      "boundary_uz_relative_max": 0.0,
+      "candidate_frequencies_hz": [
+        48.73257955207747,
+        124.28641552511233,
+        124.28641552598745,
+        199.26566550260395
+      ],
+      "candidate_status": "COMPUTED_CANDIDATE",
+      "eigenvalue_to_frequency_max_relative_difference": 0.0,
+      "element_count": 144,
+      "mesh_geometry": {
+        "element_count_expected": 144,
+        "element_count_observed": 144,
+        "grid_coordinate_max_error_m": 0.0,
+        "mesh_size": [
+          12,
+          12
+        ],
+        "mid_surface_z_max_abs_m": 0.0,
+        "node_count_expected": 169,
+        "node_count_observed": 169,
+        "quad_signed_area_max_error_m2": 3.122502256758253e-17,
+        "quad_signed_area_min_m2": 0.00694444444444442,
+        "structured_geometry_ok": true,
+        "total_mesh_area_m2": 1.0
+      },
+      "mesh_size": 12,
+      "modal_validation_reason": "dimension_budget",
+      "modal_validation_status": "INCONCLUSIVE",
+      "navier_frequencies_hz": [
+        48.406723927944356,
+        121.0168098198609,
+        121.0168098198609,
+        193.62689571177742
+      ],
+      "navier_relative_errors": [
+        0.006731619033301308,
+        0.027017781332348747,
+        0.02701778133958013,
+        0.029121831293624098
+      ],
+      "node_count": 169,
+      "recomputed_nodal_mac": {
+        "first_mode_mac": 0.9999999904875594,
+        "fourth_mode_mac": 0.9999999166264391,
+        "repeated_mode_subspace_mac": 0.9999999580816001
+      },
+      "translation_export_max_abs_difference": 0.0
+    },
+    {
+      "archived_nodal_mac": {
+        "first_mode_mac": 0.9999999821418476,
+        "fourth_mode_mac": 0.9999998332596313,
+        "repeated_mode_subspace_mac": 0.999999923170194
+      },
+      "boundary_uz_relative_max": 0.0,
+      "candidate_frequencies_hz": [
+        48.56049988880804,
+        122.7521998513804,
+        122.7521998531355,
+        196.5555640019456
+      ],
+      "candidate_status": "COMPUTED_CANDIDATE",
+      "eigenvalue_to_frequency_max_relative_difference": 0.0,
+      "element_count": 256,
+      "mesh_geometry": {
+        "element_count_expected": 256,
+        "element_count_observed": 256,
+        "grid_coordinate_max_error_m": 0.0,
+        "mesh_size": [
+          16,
+          16
+        ],
+        "mid_surface_z_max_abs_m": 0.0,
+        "node_count_expected": 289,
+        "node_count_observed": 289,
+        "quad_signed_area_max_error_m2": 0.0,
+        "quad_signed_area_min_m2": 0.00390625,
+        "structured_geometry_ok": true,
+        "total_mesh_area_m2": 1.0
+      },
+      "mesh_size": 16,
+      "modal_validation_reason": "dimension_budget",
+      "modal_validation_status": "INCONCLUSIVE",
+      "navier_frequencies_hz": [
+        48.406723927944356,
+        121.0168098198609,
+        121.0168098198609,
+        193.62689571177742
+      ],
+      "navier_relative_errors": [
+        0.003176747947094827,
+        0.014340074193847191,
+        0.014340074208350113,
+        0.01512531758257204
+      ],
+      "node_count": 289,
+      "recomputed_nodal_mac": {
+        "first_mode_mac": 0.9999999821418476,
+        "fourth_mode_mac": 0.9999998332596313,
+        "repeated_mode_subspace_mac": 0.999999923170194
+      },
+      "translation_export_max_abs_difference": 0.0
+    }
+  ],
+  "model": {
+    "boundary_conditions": {
+      "all_four_perimeter_edges": {
+        "UZ": 0.0
+      },
+      "edge_rotations": "free",
+      "in_plane_rigid_body_pins": [
+        {
+          "dofs": [
+            "UX",
+            "UY"
+          ],
+          "node_at_coarse_mesh": 0
+        },
+        {
+          "dofs": [
+            "UY"
+          ],
+          "node_at_coarse_mesh": 20
+        }
+      ],
+      "pin_purpose": "remove in-plane rigid translation and rotation without constraining plate bending"
+    },
+    "case_id": "J5B-MITC4-SIMPLY-SUPPORTED-PLATE-MODAL",
+    "geometry": {
+      "length_m": 1.0,
+      "mid_surface_z_m": 0.0,
+      "normal": "+Z",
+      "shape": "square flat plate",
+      "thickness_m": 0.01,
+      "width_m": 1.0
+    },
+    "material": {
+      "density_kg_m3": 2700.0,
+      "drilling_stiffness_scale": 0.0001,
+      "law": "linear isotropic Reissner-Mindlin shell",
+      "poisson_ratio": 0.3,
+      "transverse_shear_factor": 0.8333333333333334,
+      "units": "SI",
+      "young_modulus_pa": 70000000000.0
+    },
+    "reference_support_interpretation": "soft simply supported: w=0 on all four edges; rotations free, natural moments",
+    "ritz_highest_system_dimension": 931,
+    "ritz_mass": "rho*h translation plus rho*h^3/12 rotary inertia per independent rotation",
+    "ritz_quadrature_order_per_axis": 48,
+    "ritz_rotation_basis": "tensor Legendre P0..P20 on the full domain",
+    "ritz_transverse_basis": "sin(m*pi*x/a)sin(n*pi*(y+b/2)/b), m,n=1..7"
+  },
+  "reference": {
+    "mindlin_ritz_frequencies_hz_first_four": [
+      48.19790599779306,
+      120.6059704929815,
+      120.6059704929815,
+      192.60640795502263
+    ],
+    "navier_kirchhoff_frequencies_hz": [
+      48.406723927944356,
+      121.0168098198609,
+      121.0168098198609,
+      193.62689571177742
+    ],
+    "ritz_basis_sweep": [
+      {
+        "frequencies_hz": [
+          48.383543892430005,
+          161.51698215910264,
+          161.51698217399073,
+          328.7788682848135
+        ],
+        "is_highest_basis_reference": false,
+        "quadrature_order_per_axis": 48,
+        "rotation_degree": 4,
+        "sequence": "rotation_degree_refinement",
+        "system_dimension": 75,
+        "transverse_order": 5
+      },
+      {
+        "frequencies_hz": [
+          48.32977219097289,
+          120.82592353366313,
+          120.82592356190672,
+          193.17160548826152
+        ],
+        "is_highest_basis_reference": false,
+        "quadrature_order_per_axis": 48,
+        "rotation_degree": 8,
+        "sequence": "rotation_degree_refinement",
+        "system_dimension": 187,
+        "transverse_order": 5
+      },
+      {
+        "frequencies_hz": [
+          48.27838285171155,
+          120.7404787047415,
+          120.74047879396895,
+          192.9570399760661
+        ],
+        "is_highest_basis_reference": false,
+        "quadrature_order_per_axis": 48,
+        "rotation_degree": 12,
+        "sequence": "rotation_degree_refinement",
+        "system_dimension": 363,
+        "transverse_order": 5
+      },
+      {
+        "frequencies_hz": [
+          48.22990469426897,
+          120.66105863639926,
+          120.66105869734717,
+          192.75395173614987
+        ],
+        "is_highest_basis_reference": false,
+        "quadrature_order_per_axis": 48,
+        "rotation_degree": 16,
+        "sequence": "rotation_degree_refinement",
+        "system_dimension": 603,
+        "transverse_order": 5
+      },
+      {
+        "frequencies_hz": [
+          48.19796401949742,
+          120.60619536246459,
+          120.6061954499151,
+          192.6074406157432
+        ],
+        "is_highest_basis_reference": false,
+        "quadrature_order_per_axis": 48,
+        "rotation_degree": 20,
+        "sequence": "rotation_degree_refinement",
+        "system_dimension": 907,
+        "transverse_order": 5
+      },
+      {
+        "frequencies_hz": [
+          48.19807373286861,
+          120.60661897573236,
+          120.60661897573236,
+          192.6095415372127
+        ],
+        "is_highest_basis_reference": false,
+        "quadrature_order_per_axis": 48,
+        "rotation_degree": 20,
+        "sequence": "transverse_harmonic_refinement",
+        "system_dimension": 891,
+        "transverse_order": 3
+      },
+      {
+        "frequencies_hz": [
+          48.19790599779306,
+          120.6059704929815,
+          120.6059704929815,
+          192.60640795502263
+        ],
+        "is_highest_basis_reference": true,
+        "quadrature_order_per_axis": 48,
+        "rotation_degree": 20,
+        "sequence": "transverse_harmonic_refinement",
+        "system_dimension": 931,
+        "transverse_order": 7
+      }
+    ],
+    "ritz_nested_changes": [
+      {
+        "current_basis": [
+          5,
+          8
+        ],
+        "max_relative_frequency_change": 0.41245735622849866,
+        "max_relative_increase": -0.001111363433333141,
+        "previous_basis": [
+          5,
+          4
+        ],
+        "sequence": "rotation_degree_refinement"
+      },
+      {
+        "current_basis": [
+          5,
+          12
+        ],
+        "max_relative_frequency_change": 0.0011107507837555606,
+        "max_relative_increase": -0.0007071724793727238,
+        "previous_basis": [
+          5,
+          8
+        ],
+        "sequence": "rotation_degree_refinement"
+      },
+      {
+        "current_basis": [
+          5,
+          16
+        ],
+        "max_relative_frequency_change": 0.001052504951057662,
+        "max_relative_increase": -0.0006577749996872071,
+        "previous_basis": [
+          5,
+          12
+        ],
+        "sequence": "rotation_degree_refinement"
+      },
+      {
+        "current_basis": [
+          5,
+          20
+        ],
+        "max_relative_frequency_change": 0.0007600939907432999,
+        "max_relative_increase": -0.0004546889280134681,
+        "previous_basis": [
+          5,
+          16
+        ],
+        "sequence": "rotation_degree_refinement"
+      },
+      {
+        "current_basis": [
+          7,
+          20
+        ],
+        "max_relative_frequency_change": 1.6269091162622142e-05,
+        "max_relative_increase": -3.480119900219709e-06,
+        "previous_basis": [
+          3,
+          20
+        ],
+        "sequence": "transverse_harmonic_refinement"
+      }
+    ],
+    "scope": "independent continuum Galerkin/Rayleigh-Ritz calculation; a numerical reference estimate, not a closed-form exact solution or a QF residual check"
+  },
+  "schema": "qf-j5c-independent-modal-postprocess-result-v1",
+  "source_commit": "2e640cefaf75559a4fbeaaffb9cd805fee8f8702",
+  "status": "DIAGNOSTIC_ONLY",
+  "weighted_continuum_shape_comparisons": {
+    "12": {
+      "mode_11_weighted_l2_mac": 0.9999863512791721,
+      "mode_22_weighted_l2_mac": 0.999773750087402,
+      "repeated_12_21_weighted_subspace_mac_min": 0.9998804133546639
+    },
+    "16": {
+      "mode_11_weighted_l2_mac": 0.9999954922853256,
+      "mode_22_weighted_l2_mac": 0.9999283842873069,
+      "repeated_12_21_weighted_subspace_mac_min": 0.9999622453113323
+    },
+    "4": {
+      "mode_11_weighted_l2_mac": 0.9987761895158817,
+      "mode_22_weighted_l2_mac": 0.9710706397480443,
+      "repeated_12_21_weighted_subspace_mac_min": 0.9848956718905925
+    },
+    "6": {
+      "mode_11_weighted_l2_mac": 0.9997768248823211,
+      "mode_22_weighted_l2_mac": 0.9957071439254142,
+      "repeated_12_21_weighted_subspace_mac_min": 0.9977404286141819
+    },
+    "8": {
+      "mode_11_weighted_l2_mac": 0.9999310465992802,
+      "mode_22_weighted_l2_mac": 0.9987761216114226,
+      "repeated_12_21_weighted_subspace_mac_min": 0.9993538775294211
+    }
+  }
+}

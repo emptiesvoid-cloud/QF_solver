@@ -1,0 +1,654 @@
+{
+  "artifacts": {
+    "checkpoint_directory": "checkpoints/",
+    "figures": [
+      "mesh_supports.png",
+      "frequency_convergence.png",
+      "four_modes.png"
+    ],
+    "frequency_table": "frequencies.csv"
+  },
+  "campaign_status": "INCONCLUSIVE",
+  "case_id": "J5B-MITC4-SIMPLY-SUPPORTED-PLATE-MODAL",
+  "classification": "DEVELOPMENT_DIAGNOSTIC_ONLY",
+  "criteria": {
+    "final_max_frequency_error": 0.05,
+    "first_mode_error_improves_coarse_to_fine": true,
+    "maximum_mass_orthogonality_error": 1e-07,
+    "maximum_relative_residual": 1e-07,
+    "minimum_first_mode_mac": 0.995,
+    "minimum_fourth_mode_mac": 0.995,
+    "minimum_repeated_pair_subspace_mac": 0.995,
+    "source": "unchanged constants in Mitc4SimplySupportedPlateStudy, inherited from J5A"
+  },
+  "limitations": [
+    "Any INCONCLUSIVE validation remains an exploratory candidate, not a certified modal result.",
+    "J5A did not retain serialized frequencies or modes; its PYTEST_FAILED status remains unchanged.",
+    "Navier is Kirchhoff thin-plate theory; MITC4 is Reissner-Mindlin and includes shear correction and rotary inertia.",
+    "The repeated (1,2)/(2,1) eigenspace is non-unique; individual candidate vectors can rotate or swap.",
+    "Visual mode amplitudes are normalized and scaled and do not represent a forced-response displacement.",
+    "This run does not qualify the modal route or the solver in general."
+  ],
+  "mesh_results": [
+    {
+      "assembled_matrix_nnz": {
+        "mass_full_system": 845,
+        "stiffness_full_system": 2835
+      },
+      "candidate_frequencies_hz": [
+        51.88551984460201,
+        159.66282989122433,
+        159.66282989378112,
+        259.942419751463,
+        374.5235665143135,
+        549.65780082383
+      ],
+      "candidate_status": "COMPUTED_CANDIDATE",
+      "dynamic_reduction_diagnostics": {
+        "candidate_drilling_dof_count": 25,
+        "condensed_drilling_dof_count": 25,
+        "condensed_mass_coupling_ratio": 0.0,
+        "condensed_stiffness_nnz": 3178,
+        "drilling_mass_tolerance": 1e-10,
+        "lazy_condensation": false,
+        "maximum_candidate_mass_row_ratio": 0.0,
+        "retained_dof_count": 106,
+        "strategy": "consistent_mass_static_drilling_condensation"
+      },
+      "element_count": 16,
+      "first_mode_mac": 0.9999999999953174,
+      "fourth_mode_mac": 1.0,
+      "frequencies_hz": [
+        51.88551984460201,
+        159.66282989122433,
+        159.66282989378112,
+        259.942419751463
+      ],
+      "mass_orthogonality_error": 3.813115505526542e-16,
+      "maximum_relative_residual": 1.1442630484915378e-09,
+      "mesh": [
+        4,
+        4
+      ],
+      "modal_use_policy": "ALLOW_INCONCLUSIVE_COMPUTED_MODES",
+      "modal_validation_diagnostics": {
+        "checks": [],
+        "exact_fallback": false,
+        "max_dimension": 128,
+        "max_eigenpairs": 128,
+        "max_estimated_memory_bytes": 2000000,
+        "max_integer_bits": 8192,
+        "max_operations": 65536,
+        "max_stored_terms": 1024,
+        "operation_count": 51690,
+        "reason": "aggregate_work_budget",
+        "status": "INCONCLUSIVE"
+      },
+      "modal_validation_operation_count": 51690,
+      "modal_validation_reason": "aggregate_work_budget",
+      "modal_validation_status": "INCONCLUSIVE",
+      "node_count": 25,
+      "reference_mode_orders": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "relative_frequency_errors": [
+        0.07186596477456317,
+        0.31934423101129356,
+        0.3193442310324211,
+        0.3424912835373825
+      ],
+      "repeated_mode_subspace_mac": 0.9999999998813152,
+      "total_dofs": 150
+    },
+    {
+      "assembled_matrix_nnz": {
+        "mass_full_system": 1805,
+        "stiffness_full_system": 6248
+      },
+      "candidate_frequencies_hz": [
+        49.88731044827922,
+        135.73039429546478,
+        135.7303943022797,
+        219.23894875922593,
+        327.82208278900157,
+        327.8221186362478
+      ],
+      "candidate_status": "COMPUTED_CANDIDATE",
+      "dynamic_reduction_diagnostics": {
+        "candidate_drilling_dof_count": 49,
+        "condensed_drilling_dof_count": 49,
+        "condensed_mass_coupling_ratio": 0.0,
+        "condensed_stiffness_nnz": 11388,
+        "drilling_mass_tolerance": 1e-10,
+        "lazy_condensation": false,
+        "maximum_candidate_mass_row_ratio": 0.0,
+        "retained_dof_count": 218,
+        "strategy": "consistent_mass_static_drilling_condensation"
+      },
+      "element_count": 36,
+      "first_mode_mac": 0.9999999987861594,
+      "fourth_mode_mac": 0.9999999972020093,
+      "frequencies_hz": [
+        49.88731044827922,
+        135.73039429546478,
+        135.7303943022797,
+        219.23894875922593
+      ],
+      "mass_orthogonality_error": 6.257931832990212e-16,
+      "maximum_relative_residual": 1.9325858656059465e-09,
+      "mesh": [
+        6,
+        6
+      ],
+      "modal_use_policy": "ALLOW_INCONCLUSIVE_COMPUTED_MODES",
+      "modal_validation_diagnostics": {
+        "checks": [],
+        "exact_fallback": false,
+        "max_dimension": 128,
+        "max_eigenpairs": 128,
+        "max_estimated_memory_bytes": 2000000,
+        "max_integer_bits": 8192,
+        "max_operations": 65536,
+        "max_stored_terms": 1024,
+        "operation_count": 0,
+        "reason": "dimension_budget",
+        "status": "INCONCLUSIVE"
+      },
+      "modal_validation_operation_count": 0,
+      "modal_validation_reason": "dimension_budget",
+      "modal_validation_status": "INCONCLUSIVE",
+      "node_count": 49,
+      "reference_mode_orders": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "relative_frequency_errors": [
+        0.030586381398972358,
+        0.12158298088923125,
+        0.12158298094554516,
+        0.13227528620596818
+      ],
+      "repeated_mode_subspace_mac": 0.9999999931461665,
+      "total_dofs": 294
+    },
+    {
+      "assembled_matrix_nnz": {
+        "mass_full_system": 3125,
+        "stiffness_full_system": 10046
+      },
+      "candidate_frequencies_hz": [
+        49.212273919277216,
+        128.83899107623972,
+        128.83899108162262,
+        207.2541120127676,
+        284.43825187213895,
+        284.4383117039791
+      ],
+      "candidate_status": "COMPUTED_CANDIDATE",
+      "dynamic_reduction_diagnostics": {
+        "candidate_drilling_dof_count": 81,
+        "condensed_drilling_dof_count": 81,
+        "condensed_mass_coupling_ratio": 0.0,
+        "condensed_stiffness_nnz": 29374,
+        "drilling_mass_tolerance": 1e-10,
+        "lazy_condensation": false,
+        "maximum_candidate_mass_row_ratio": 0.0,
+        "retained_dof_count": 370,
+        "strategy": "consistent_mass_static_drilling_condensation"
+      },
+      "element_count": 64,
+      "first_mode_mac": 0.9999999966283372,
+      "fourth_mode_mac": 0.9999999777401929,
+      "frequencies_hz": [
+        49.212273919277216,
+        128.83899107623972,
+        128.83899108162262,
+        207.2541120127676
+      ],
+      "mass_orthogonality_error": 8.101801546795184e-16,
+      "maximum_relative_residual": 1.937421252014704e-09,
+      "mesh": [
+        8,
+        8
+      ],
+      "modal_use_policy": "ALLOW_INCONCLUSIVE_COMPUTED_MODES",
+      "modal_validation_diagnostics": {
+        "checks": [],
+        "exact_fallback": false,
+        "max_dimension": 128,
+        "max_eigenpairs": 128,
+        "max_estimated_memory_bytes": 2000000,
+        "max_integer_bits": 8192,
+        "max_operations": 65536,
+        "max_stored_terms": 1024,
+        "operation_count": 0,
+        "reason": "dimension_budget",
+        "status": "INCONCLUSIVE"
+      },
+      "modal_validation_operation_count": 0,
+      "modal_validation_reason": "dimension_budget",
+      "modal_validation_status": "INCONCLUSIVE",
+      "node_count": 81,
+      "reference_mode_orders": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "relative_frequency_errors": [
+        0.0166412829864702,
+        0.06463714642637253,
+        0.06463714647085314,
+        0.07037873664656026
+      ],
+      "repeated_mode_subspace_mac": 0.999999983880366,
+      "total_dofs": 486
+    },
+    {
+      "assembled_matrix_nnz": {
+        "mass_full_system": 6845,
+        "stiffness_full_system": 23729
+      },
+      "candidate_frequencies_hz": [
+        48.73257955207747,
+        124.28641552511233,
+        124.28641552598745,
+        199.26566550260395,
+        259.1164518581574,
+        259.1165798070905
+      ],
+      "candidate_status": "COMPUTED_CANDIDATE",
+      "dynamic_reduction_diagnostics": {
+        "candidate_drilling_dof_count": 169,
+        "condensed_drilling_dof_count": 169,
+        "condensed_mass_coupling_ratio": 0.0,
+        "condensed_stiffness_nnz": 122436,
+        "drilling_mass_tolerance": 1e-10,
+        "lazy_condensation": false,
+        "maximum_candidate_mass_row_ratio": 0.0,
+        "retained_dof_count": 794,
+        "strategy": "consistent_mass_static_drilling_condensation"
+      },
+      "element_count": 144,
+      "first_mode_mac": 0.9999999904875594,
+      "fourth_mode_mac": 0.9999999166264391,
+      "frequencies_hz": [
+        48.73257955207747,
+        124.28641552511233,
+        124.28641552598745,
+        199.26566550260395
+      ],
+      "mass_orthogonality_error": 1.9141084953539435e-15,
+      "maximum_relative_residual": 2.2868891954847493e-09,
+      "mesh": [
+        12,
+        12
+      ],
+      "modal_use_policy": "ALLOW_INCONCLUSIVE_COMPUTED_MODES",
+      "modal_validation_diagnostics": {
+        "checks": [],
+        "exact_fallback": false,
+        "max_dimension": 128,
+        "max_eigenpairs": 128,
+        "max_estimated_memory_bytes": 2000000,
+        "max_integer_bits": 8192,
+        "max_operations": 65536,
+        "max_stored_terms": 1024,
+        "operation_count": 0,
+        "reason": "dimension_budget",
+        "status": "INCONCLUSIVE"
+      },
+      "modal_validation_operation_count": 0,
+      "modal_validation_reason": "dimension_budget",
+      "modal_validation_status": "INCONCLUSIVE",
+      "node_count": 169,
+      "reference_mode_orders": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "relative_frequency_errors": [
+        0.006731619033301308,
+        0.027017781332348747,
+        0.02701778133958013,
+        0.029121831293624098
+      ],
+      "repeated_mode_subspace_mac": 0.9999999580816001,
+      "total_dofs": 1014
+    },
+    {
+      "assembled_matrix_nnz": {
+        "mass_full_system": 12005,
+        "stiffness_full_system": 36603
+      },
+      "candidate_frequencies_hz": [
+        48.56049988880804,
+        122.7521998513804,
+        122.7521998531355,
+        196.5555640019456,
+        251.14729433570244,
+        251.14751408594537
+      ],
+      "candidate_status": "COMPUTED_CANDIDATE",
+      "dynamic_reduction_diagnostics": {
+        "candidate_drilling_dof_count": 289,
+        "condensed_drilling_dof_count": 289,
+        "condensed_mass_coupling_ratio": 0.0,
+        "condensed_stiffness_nnz": 347020,
+        "drilling_mass_tolerance": 1e-10,
+        "lazy_condensation": false,
+        "maximum_candidate_mass_row_ratio": 0.0,
+        "retained_dof_count": 1378,
+        "strategy": "consistent_mass_static_drilling_condensation"
+      },
+      "element_count": 256,
+      "first_mode_mac": 0.9999999821418476,
+      "fourth_mode_mac": 0.9999998332596313,
+      "frequencies_hz": [
+        48.56049988880804,
+        122.7521998513804,
+        122.7521998531355,
+        196.5555640019456
+      ],
+      "mass_orthogonality_error": 1.0316551579312284e-15,
+      "maximum_relative_residual": 2.8788138292735206e-09,
+      "mesh": [
+        16,
+        16
+      ],
+      "modal_use_policy": "ALLOW_INCONCLUSIVE_COMPUTED_MODES",
+      "modal_validation_diagnostics": {
+        "checks": [],
+        "exact_fallback": false,
+        "max_dimension": 128,
+        "max_eigenpairs": 128,
+        "max_estimated_memory_bytes": 2000000,
+        "max_integer_bits": 8192,
+        "max_operations": 65536,
+        "max_stored_terms": 1024,
+        "operation_count": 0,
+        "reason": "dimension_budget",
+        "status": "INCONCLUSIVE"
+      },
+      "modal_validation_operation_count": 0,
+      "modal_validation_reason": "dimension_budget",
+      "modal_validation_status": "INCONCLUSIVE",
+      "node_count": 289,
+      "reference_mode_orders": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "relative_frequency_errors": [
+        0.003176747947094827,
+        0.014340074193847191,
+        0.014340074208350113,
+        0.01512531758257204
+      ],
+      "repeated_mode_subspace_mac": 0.999999923170194,
+      "total_dofs": 1734
+    }
+  ],
+  "mode_shapes": {
+    "artifact": "modal_shapes.npz",
+    "physical_response": false,
+    "repeated_pair": "(1,2)/(2,1) is compared as a subspace; individual vectors are basis-dependent",
+    "solver_modes": "mass-normalized candidate vectors from QF Solver; see each mesh checkpoint",
+    "visual_normalization": "each displayed UZ mode is normalized to max(abs(UZ))=1 then drawn with 0.15 m visual height"
+  },
+  "model": {
+    "analysis": {
+      "damping": "none",
+      "mass_formulation": "consistent shell mass with translational and tangential rotary inertia",
+      "method": "dense generalized symmetric eigenproblem (eigh)",
+      "modal_validation_policy": "allow_inconclusive",
+      "preload": "none",
+      "reported_reference_modes": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "requested_eigenmodes": 6,
+      "type": "free vibration"
+    },
+    "boundary_conditions": {
+      "all_four_perimeter_edges": {
+        "UZ": 0.0
+      },
+      "edge_rotations": "free",
+      "in_plane_rigid_body_pins": [
+        {
+          "dofs": [
+            "UX",
+            "UY"
+          ],
+          "node_at_coarse_mesh": 0
+        },
+        {
+          "dofs": [
+            "UY"
+          ],
+          "node_at_coarse_mesh": 20
+        }
+      ],
+      "pin_purpose": "remove in-plane rigid translation and rotation without constraining plate bending"
+    },
+    "density_kg_m3": 2700.0,
+    "drilling_stiffness_scale": 0.0001,
+    "element": "MITC4",
+    "law": "linear isotropic Reissner-Mindlin shell",
+    "length_m": 1.0,
+    "meshes_per_edge": [
+      4,
+      6,
+      8,
+      12,
+      16
+    ],
+    "mid_surface_z_m": 0.0,
+    "normal": "+Z",
+    "poisson_ratio": 0.3,
+    "shape": "square flat plate",
+    "thickness_m": 0.01,
+    "transverse_shear_factor": 0.8333333333333334,
+    "units": "SI",
+    "width_m": 1.0,
+    "young_modulus_pa": 70000000000.0
+  },
+  "native_solver": {
+    "finest_mesh_candidate_frequencies_hz": [
+      48.56049988880804,
+      122.7521998513804,
+      122.7521998531355,
+      196.5555640019456,
+      251.14729433570244,
+      251.14751408594537
+    ],
+    "finest_mesh_candidate_status": "COMPUTED_CANDIDATE",
+    "interpretation": "Float residual and orthogonality values are diagnostics; INCONCLUSIVE is not a certified modal validation.",
+    "modal_validation_policy": "allow_inconclusive",
+    "modal_validation_reasons_by_mesh": [
+      "aggregate_work_budget",
+      "dimension_budget",
+      "dimension_budget",
+      "dimension_budget",
+      "dimension_budget"
+    ],
+    "modal_validation_statuses_by_mesh": [
+      "INCONCLUSIVE",
+      "INCONCLUSIVE",
+      "INCONCLUSIVE",
+      "INCONCLUSIVE",
+      "INCONCLUSIVE"
+    ]
+  },
+  "provenance": {
+    "attempt_id": "j5b-6bb4e32988af",
+    "case_id": "J5B-MITC4-SIMPLY-SUPPORTED-PLATE-MODAL",
+    "classification": "DEVELOPMENT_DIAGNOSTIC_ONLY",
+    "contract_sha256": "131e5daf6f4c96ff9bc42ff45ce3b101281c367f5b2da3bec666e3c4d4f379ab",
+    "execution_manifest_sha256": "c573aedaaa09159f36fe849c03129f380d4e9a3434a43c3bed2153f5406c62ec",
+    "input_sha256": "3afc57624dda39c11f0759e6efd0b533ecfb0759deabc9a21a038cbe1611d5c0",
+    "publication_status": "NOT_PUBLISHED",
+    "qualification_status": "NOT_A_QUALIFICATION_RESULT",
+    "solver_origin": "src/solveur/__init__.py",
+    "source_commit": "dc1315693715eb7322bd7e4647c2e36e635d4b0d",
+    "source_fingerprint": "48cbe37aa4634b5d04b01ebc93ccd101a96d34483bd85d45ecba5edf2775db50",
+    "source_inventory": {
+      "research/j5a/modal_plate.py": "ffabc315e6b6cb3929e4f39b277b55974a7bad8321f61b2445ac49a1a9104ded",
+      "research/j5b/__init__.py": "02829516184888318593271dd9e32575d3695b08ad708e3660f1a7ec18a59d86",
+      "research/j5b/checkpoints.py": "d9bdb864ac673b8804c8fbb9ff58141bc45a5b2b4f074e9f092eafab0b4c7760",
+      "research/j5b/modal_plate.py": "65c3b53be3a97c029e19caaf72c88da62b9e4b911cb4eeaa77eb9381aedb141b",
+      "scripts/development_autonomous.py": "35a27b4f925c5e56c01ca4cae9dd10f493171ca7fc4f5a269cb56cdfd3015de5",
+      "src/solveur/api/public.py": "576f68494139ef8f56d5d3eedfe46f9f540efd6281f359b36b980408231a22b8",
+      "src/solveur/core/analyses/modal.py": "119c163e0dcb1a6f72cb7b09de3d2cd78b84eb126dbccf9806ce19b557564aa9",
+      "src/solveur/core/analyses/modal_dense.py": "3c30a96f76e2016a04c71b8bc960bee60e532cc1150948e7d9ca4db084980b38",
+      "src/solveur/core/analyses/modal_residual_validation.py": "84f3d0c4f54b0f31db9823de96767751d8cea93770bfad0f488791c05f14760a",
+      "src/solveur/core/analysis.py": "9bba600b13eefd326c9ffdbbb6046d567c5b4ee12ded4c95458ad7679969c476",
+      "src/solveur/core/constraints.py": "86c2c061fc6c378bc321c8b752725bc44163010ded07c6aa9f8a1800fbe6fcd1",
+      "src/solveur/core/model.py": "cbe04fd1c35cfd98d326ab1c2287a97d05d5e7876c929bfe80d4805a7d387b8e",
+      "src/solveur/core/router.py": "090cce8a48b95c3ea7cb51474d51f50a59ed67333b086aac9be26fd54cb11dae",
+      "src/solveur/elements/shell/mitc4/element.py": "82e08fe9bfb199951de3b404a27fb476ab0b78f4078278c9d4b10948112e57de",
+      "src/solveur/elements/shell/mitc4/material.py": "d33f34f4ff313a016b3650eaade408152fa8ccab82ed1b71b6e1fb23e355987d",
+      "src/solveur/elements/shell/mitc4/mesh.py": "2ac2b7e03f17e703fa1be46adc030ebfc52f1b015e829461f08d66f8e56788c8",
+      "src/solveur/elements/shell/mitc4/model.py": "188416304a7311a7f1c4cd6fdd1a79bc797c940543eab87b9eec26c0fec6fab6",
+      "src/solveur/verification/mitc4_modal_plate.py": "d346421b6f2dfd0cf126227cfa258f95e711ff9f7096f155826e916def865281",
+      "tests/unit/test_j5b_checkpoints.py": "80f48dd936bc0396ffcdce6f87f76ef323d35a7139e1a01e39ed27b11f0024d6",
+      "tests/verification/test_j5b_modal_plate.py": "3d21754bdeb108c58b1c79719a2f20b468e85dcf305de770128751ca10298e24"
+    }
+  },
+  "publication_status": "NOT_PUBLISHED",
+  "qualification_status": "NOT_A_QUALIFICATION_RESULT",
+  "reference": {
+    "compatibility_limit": "The QF model uses Reissner-Mindlin MITC4 with shear_factor=5/6 and consistent rotary mass. At t/a=0.01 Navier is a thin-plate reference, not an exact discrete or Mindlin solution; theory and discretization effects remain combined.",
+    "equation": "f_mn=pi/(2*a^2)*sqrt(D/(rho*t))*(m^2+n^2)",
+    "frequencies_hz": [
+      48.406723927944356,
+      121.0168098198609,
+      121.0168098198609,
+      193.62689571177742
+    ],
+    "hypotheses": [
+      "flat homogeneous isotropic linearly elastic square plate",
+      "small-amplitude free vibration with transverse displacement zero on all edges",
+      "Kirchhoff thin-plate continuum; no transverse-shear deformation or rotary inertia"
+    ],
+    "mode_orders": [
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    "mode_shape": "sin(m*pi*x/a)*sin(n*pi*y/a)",
+    "primary_source": {
+      "author": "A. W. Leissa",
+      "title": "NASA SP-160: Vibration of Plates",
+      "url": "https://ntrs.nasa.gov/api/citations/19700009156/downloads/19700009156.pdf?attachment=true",
+      "year": 1969
+    },
+    "type": "independent analytical Kirchhoff thin-plate Navier solution"
+  },
+  "route_checks": {
+    "first_frequency_convergence": true,
+    "first_mode_mac": true,
+    "four_frequency_errors": true,
+    "fourth_mode_mac": true,
+    "mass_orthogonality": true,
+    "modal_residual": true,
+    "repeated_mode_subspace_mac": true
+  },
+  "schema": "qf-j5b-modal-plate-site-data-v1",
+  "solver_version": "0.2.10"
+}

@@ -1,0 +1,28 @@
+{
+  "archive": {
+    "path": "research/j5c/inputs/j5b_attempt_0001/modal_shapes.npz",
+    "sha256": "df063ae2fd42dd5f0f4cd9d7eebf3bd0a4cf39606f98d666ed44873d8131ffa0"
+  },
+  "attempt_id": "j5c-j5b-mode-gallery-plot-0001",
+  "classification": "DEVELOPMENT_DIAGNOSTIC_ONLY",
+  "limits": [
+    "Mode amplitudes are normalized for visualization, not physical forced response.",
+    "The repeated (1,2)/(2,1) pair can rotate or swap; plotted vectors are one archived basis.",
+    "This plot is a demonstration and does not validate modal frequencies or eigenpair residuals."
+  ],
+  "operation": "plot archived QF Solver UZ vectors only; no FEM, no external solver, no Ritz solve",
+  "output": {
+    "bytes": 160963,
+    "path": "research/j5c/results/diagnostic-2026-11-16/gallery-assets/j5b_qf_candidate_mode_shapes.png",
+    "sha256": "493abca36c4fbee64efa1544b658003c024199a0d82861200f442092218e13b9"
+  },
+  "plot_script": {
+    "path": "scripts/j5c_archive_mode_gallery.py",
+    "sha256": "307f91d73466b0bafbdbe79f1c21ea6344c8774d14b1a65e163ee0d7aebfbca1"
+  },
+  "schema": "qf-j5c-gallery-plot-only-manifest-v1",
+  "source_j5b_attempt_id": "j5b-6bb4e32988af",
+  "source_j5b_commit": "dc1315693715eb7322bd7e4647c2e36e635d4b0d",
+  "source_j5c_commit": "d30548e97efc40960b8c8be3cab4930ad55a77bb",
+  "source_status_preserved": "INCONCLUSIVE"
+}

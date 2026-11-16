@@ -1,0 +1,149 @@
+{
+  "schema": "qf-j5c-independent-modal-postprocess-contract-v1",
+  "contract_id": "J5C-MITC4-SOFT-SUPPORT-INDEPENDENT-01",
+  "owner_mandate_id": "QF_SOLVER_0_3_0_J5C",
+  "classification": "DEVELOPMENT_DIAGNOSTIC_ONLY",
+  "execution_authorized": true,
+  "execution_kind": "non_fem_independent_postprocess_and_continuum_ritz_reference",
+  "fem_authorized_in_this_contract": false,
+  "qualification_authorized": false,
+  "publication_authorized": false,
+  "maximum_attempts": 1,
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "j5b_branch": "work/0.3.0-j5b",
+    "j5b_source_commit": "dc1315693715eb7322bd7e4647c2e36e635d4b0d",
+    "j5b_source_fingerprint": "48cbe37aa4634b5d04b01ebc93ccd101a96d34483bd85d45ecba5edf2775db50",
+    "j5b_attempt_id": "j5b-6bb4e32988af"
+  },
+  "owner_authorization": {
+    "source": "explicit Owner instruction in the active session",
+    "record_path": "research/j5c/contracts/owner_authorization.md"
+  },
+  "copied_inputs": {
+    "directory": "research/j5c/inputs/j5b_attempt_0001",
+    "files_sha256": {
+      "attempt-0001.json": "60ec9466b2dfb82dd02c8f6212dfc54176db3bc2a0d200258f7b166836baf49f",
+      "j5b_contract.json": "131e5daf6f4c96ff9bc42ff45ce3b101281c367f5b2da3bec666e3c4d4f379ab",
+      "j5b_model_input.json": "3afc57624dda39c11f0759e6efd0b533ecfb0759deabc9a21a038cbe1611d5c0",
+      "modal_shapes.npz": "df063ae2fd42dd5f0f4cd9d7eebf3bd0a4cf39606f98d666ed44873d8131ffa0",
+      "site_data.json": "bf3918544c970b8c8378cb75c2847aef6aa15b46bf4c2fcd4db72aa24753c3f9",
+      "checkpoints/mesh-0004.npz": "3602f14b0a7f805b7315f0f9530b8640b6a6bcf4a33f660d6bc590c0c385d1ac",
+      "checkpoints/mesh-0006.npz": "5a2f508614f57c9395342bbbf00540c55ffcf74790ad8cc2c0e0724bbead947e",
+      "checkpoints/mesh-0008.npz": "e83177a81b8732b5b006d53a1db9d613f927d309923c7d71d48625a73878d401",
+      "checkpoints/mesh-0012.npz": "22c08deba1ea8a95e18ad8f1808317e3e8ed8468132e84fc64dd8520f2c8568c",
+      "checkpoints/mesh-0016.npz": "df063ae2fd42dd5f0f4cd9d7eebf3bd0a4cf39606f98d666ed44873d8131ffa0"
+    },
+    "npz_payload_inventory": [
+      "nodes",
+      "quads",
+      "eigenvalues",
+      "frequencies_hz",
+      "modes_full_dof",
+      "translations"
+    ],
+    "not_archived": [
+      "assembled reduced or full stiffness matrix",
+      "assembled reduced or full mass matrix"
+    ]
+  },
+  "objectives": [
+    "independently verify archive integrity, structured mesh geometry, and eigenvalue-to-frequency conversion for all five meshes",
+    "recompute the J5B nodal UZ MAC and repeated-mode subspace MAC using local formulas and explicitly compare its metric with the archived diagnostics",
+    "compare QF transverse mode shapes to an independent soft-support Reissner-Mindlin continuum Rayleigh-Ritz reference using a quadrature-weighted L2 metric",
+    "convert the existing Kirchhoff/Navier references independently and quantify the theoretical shift against a soft-support Mindlin model",
+    "preserve every J5B modal validation status and reason"
+  ],
+  "model": {
+    "shape": "flat square plate",
+    "length_x_m": 1.0,
+    "length_y_m": 1.0,
+    "thickness_m": 0.01,
+    "young_modulus_pa": 70000000000.0,
+    "poisson_ratio": 0.3,
+    "density_kg_m3": 2700.0,
+    "shear_correction_factor": 0.8333333333333334,
+    "shear_modulus_definition": "G=E/[2*(1+nu)]",
+    "support": "soft simply supported: transverse displacement w=0 on all edges; both independent section rotations are unconstrained and take the natural moment conditions",
+    "j5b_in_plane_pins": "remove in-plane rigid modes; they are decoupled from the flat isotropic flexural continuum reference without prestress",
+    "mass": "areal translational mass rho*h and rotary inertia rho*h^3/12 for each section rotation",
+    "damping_and_preload": "none"
+  },
+  "references": {
+    "kirchhoff_navier": {
+      "formula": "f_mn=pi/(2*a^2)*sqrt(D/(rho*h))*(m^2+n^2); D=E*h^3/[12*(1-nu^2)]",
+      "source": "A. W. Leissa, NASA SP-160: Vibration of Plates, 1969",
+      "url": "https://ntrs.nasa.gov/api/citations/19700009156/downloads/19700009156.pdf?attachment=true",
+      "role": "thin-plate context only; does not include shear or rotary inertia"
+    },
+    "mindlin_soft_support": {
+      "method": "independent Galerkin/Rayleigh-Ritz discretization of the Reissner-Mindlin continuum energy; no QF Solver assembly, API, or element code imported",
+      "primary_model_source": "R. D. Mindlin, Influence of Rotatory Inertia and Shear on Flexural Motions of Isotropic, Elastic Plates, 1951, DOI 10.1115/1.4010217",
+      "primary_model_source_url": "https://doi.org/10.1115/1.4010217",
+      "soft_hard_support_source": "D. N. Arnold and R. S. Falk, The Plate Paradox for Hard and Soft Simple Support, SIAM J. Math. Anal. 21(3), 1990, DOI 10.1137/0521030",
+      "soft_hard_support_source_url": "https://doi.org/10.1137/0521030",
+      "support_compatibility": "w=0 with rotations free is soft support; hard-support frequency tables with an edge tangential rotation constrained are not used as direct comparisons",
+      "energy_terms": "bending D, shear kappa*G*h, translational mass rho*h, rotary inertia rho*h^3/12",
+      "rotation_basis": "tensor Legendre polynomials on the full plate; no essential rotation boundary condition",
+      "transverse_basis": "sin(m*pi*x/a)*sin(n*pi*y/b), m,n=1..Nw, satisfying w=0 on all edges"
+    }
+  },
+  "predeclared_indicators": {
+    "frequency_from_eigenvalue_relative_difference_max": 1e-12,
+    "structured_geometry_absolute_tolerance_m": 1e-12,
+    "reproduced_archived_nodal_mac_absolute_difference_max": 1e-10,
+    "subspace_mac_definition": "minimum squared singular value of Qqf^T*Qref after independent Euclidean QR; this reproduces J5B's unweighted nodal UZ metric and is not a mass MAC",
+    "continuum_shape_metric": "quadrature-weighted L2 MAC of bilinear QF UZ interpolation and independent Ritz w fields; repeated pair compared by minimum principal-angle squared in the same weighted function space",
+    "ritz_nested_space_indicator": "reported frequencies should be non-increasing as a nested Ritz basis expands; flag increases exceeding 1e-8 relative as a numerical implementation issue",
+    "scientific_acceptance_threshold": null,
+    "status_rule": "all new comparisons are diagnostic; no result may promote a J5B INCONCLUSIVE state",
+    "site_candidate_frequency_absolute_difference_max_hz": 1e-10,
+    "site_navier_error_absolute_difference_max": 1e-12,
+    "full_translation_export_absolute_difference_max": 1e-13,
+    "boundary_uz_relative_max": 1e-12
+  },
+  "missing_matrix_handling": {
+    "eigenpair_residual": "NOT_RECOMPUTED: archived K matrix is unavailable",
+    "mass_orthogonality": "NOT_RECOMPUTED: archived M matrix is unavailable",
+    "no_matrix_reconstruction_from_qf_source": true
+  },
+  "bounded_run": {
+    "nodeid": "tests/unit/test_j5c_modal_postprocess.py::test_j5c_archive_postprocess_and_ritz_reference",
+    "runner_scope": "unit",
+    "attempts": 1,
+    "runner_policy_ceiling_seconds": 900,
+    "runner_policy_rss_soft_limit_mib": 4096,
+    "case_target_seconds": 120,
+    "case_target_rss_mib": 1024,
+    "max_process_tree": 1,
+    "max_quadrature_points_per_axis": 48,
+    "max_rotation_polynomial_degree": 20,
+    "max_transverse_harmonic_order": 7,
+    "max_dense_generalized_system_dimension": 931,
+    "external_solver_calls": 0,
+    "fem_calls": 0,
+    "artifacts": [
+      "independent_check.json",
+      "modal_comparison.csv",
+      "ritz_convergence.csv",
+      "frequency_comparison.png",
+      "mode_shape_comparison.png",
+      "README.md",
+      "artifact_manifest.json",
+      "sanitized_run_record.json"
+    ],
+    "resource_sampling": {
+      "method": "psutil process-tree RSS sampling in the current test process",
+      "interval_seconds": 0.05,
+      "case_target_is_soft": true,
+      "runner_ceiling_seconds": 900,
+      "rss_is_an_observation_not_an_os_quota": true
+    }
+  },
+  "execution_manifest": {
+    "path": "research/j5c/contracts/execution_manifest.json",
+    "must_be_committed_before_execution": true,
+    "must_pin_source_commit_contract_test_and_all_input_hashes": true,
+    "post_run_artifacts_are_written_only_after_frozen_source": true
+  }
+}
