@@ -24,7 +24,7 @@ def test_j11_scope_is_bound_to_exact_nodes_one_thread_and_one_attempt_each() -> 
     assert entry["node_attempt_ledger"]["path"] == "node-attempt-ledger-j11.json"
 
 
-def test_j11_scope_registration_binds_both_family_contracts() -> None:
+def test_j11_scope_registration_binds_all_family_contracts() -> None:
     registration = json.loads((ROOT / "research/j11/execution_scope_registration.json").read_text(encoding="utf-8"))
     assert registration["owner_mandate_id"] == "QF_SOLVER_0.3.0_J11_OWNER_2026-11-16"
     assert registration["development_mandate_id"] == "DEVELOPMENT_AUTONOMOUS-J11-2026-11-16-v1"
@@ -34,6 +34,7 @@ def test_j11_scope_registration_binds_both_family_contracts() -> None:
         "research/j11_transient/contracts/tet10_axial_bar_contract.json",
         "research/j11_hex8/contracts/hex8_j7_reconstruction_contract.json",
         "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json",
+        "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v3.json",
         "research/j11_hex8/contracts/hex8_j7_reconstruction_contract_corrective_v2.json",
     }
     for relative, expected_sha in registration["family_contract_sha256_canonical"].items():
@@ -43,11 +44,18 @@ def test_j11_scope_registration_binds_both_family_contracts() -> None:
         assert contract["owner_mandate_id"] == registration["owner_mandate_id"]
         assert contract["development_mandate_id"] == registration["development_mandate_id"]
         assert contract["attempts"]["exact_node_attempt_limit"] == 1
-    assert [item["prior_run_state"] for item in registration["corrective_attempts"]] == [
-        "PYTEST_FAILED",
-        "PYTEST_FAILED",
-    ]
+    assert [item["prior_run_state"] for item in registration["corrective_attempts"]] == ["PYTEST_FAILED"] * 3
     assert all("criteria" not in item for item in registration["corrective_attempts"])
+    assert registration["postprocess_contracts"] == [
+        "research/j11_hex8/contracts/hex8_archive_postprocess_contract.json"
+    ]
+    postprocess_path = registration["postprocess_contracts"][0]
+    postprocess_bytes = (ROOT / postprocess_path).read_bytes().replace(b"\r\n", b"\n")
+    assert hashlib.sha256(postprocess_bytes).hexdigest() == registration["postprocess_contract_sha256_canonical"][postprocess_path]
+    postprocess_contract = json.loads((ROOT / postprocess_path).read_text(encoding="utf-8"))
+    for item in postprocess_contract["source_identity"]:
+        source = (ROOT / item["path"]).read_bytes().replace(b"\r\n", b"\n")
+        assert hashlib.sha256(source).hexdigest() == item["canonical_sha256"]
 
 
 def test_j11_preflight_dispatches_to_its_exact_node_handler(monkeypatch) -> None:

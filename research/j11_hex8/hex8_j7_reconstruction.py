@@ -305,8 +305,8 @@ def run_diagnostic() -> dict[str, Any]:
         if alpha == 0.0:
             mp_solution_free = _mpmath_solve(matrix_ff, force_f, digits=80)
             mp_solution_mp = [mpmath.mpf("0") for _ in range(len(force))]
-            for index, value in zip(free, mp_solution_free, strict=True):
-                mp_solution_mp[int(index)] = value
+            for dof_index, value in zip(free, mp_solution_free, strict=True):
+                mp_solution_mp[int(dof_index)] = value
             mp_solution = np.asarray([float(value) for value in mp_solution_mp], dtype=np.float64)
             high_precision_solve = _mpmath_residual_and_closure(
                 coordinates, global_stiffness, force, mp_solution_mp, fixed, free

@@ -1,0 +1,80 @@
+{
+  "classification": "DETERMINISTIC_ARCHIVE_POSTPROCESSING_NOT_QUALIFICATION",
+  "contract_id": "QF_SOLVER_0.3.0_J11_HEX8_ARCHIVE_KEY_NORMALIZATION_2026-11-16",
+  "inputs": {
+    "runner_csv_path": "research/j11/results/diagnostic-2026-11-16/hex8/raw/hex8_global_reconstruction.csv",
+    "runner_csv_sha256_raw": "0aed1fc454dc647df2e8a77329bb3148a402906654ff4464c168a63103d37a17",
+    "runner_output_npz_path": "research/j11/results/diagnostic-2026-11-16/hex8/raw/hex8_global_reconstruction_states_raw.npz",
+    "runner_output_npz_sha256_raw": "457b95f3b1223e228d3f57389ec85a60b7fc728b71de3b1c1879f00d69af34df",
+    "runner_result_json_path": "research/j11/results/diagnostic-2026-11-16/hex8/raw/result.json",
+    "runner_result_json_sha256_raw": "fd284661c9ea90a075b1af4d4f3c43a8dfef187e72cc9b02c2f5816d43da7278"
+  },
+  "operation": {
+    "historical_status": "The original runner PASS and its raw NPZ remain unchanged. The derivative is a separately identified post-processed archive.",
+    "mapping": "For each exact known key ending with _alpha_134_<unit>, map its key to _alpha_0_<unit>. If coordinates_alpha_0_m already exists, require identical dtype, shape and bytes, preserve it, and drop only the duplicate alias.",
+    "non_operations": [
+      "no FEM assembly",
+      "no solve",
+      "no result metric recomputation",
+      "no threshold or status change"
+    ],
+    "observed_issue": "The alpha=0 mpmath solve loop shadowed the outer alpha index with the final free degree-of-freedom index 134. Arrays produced after that loop are keyed alpha_134; the original coordinates_alpha_0_m was already separately stored.",
+    "type": "NPZ_KEY_NORMALIZATION_ONLY"
+  },
+  "outputs": [
+    "research/j11/results/diagnostic-2026-11-16/hex8/hex8_global_reconstruction_states_key_normalized.npz",
+    "research/j11/results/diagnostic-2026-11-16/hex8/archive_postprocess.json"
+  ],
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J11_OWNER_2026-11-16",
+  "resources": {
+    "archive_size_limit_mib": 128,
+    "attempt_limit": 1,
+    "fem_execution": false,
+    "rss_soft_limit_mib": 512,
+    "semantics": "Offline local transform. Resource values are procedural bounds, not OS-enforced quotas.",
+    "wall_timeout_seconds": 120
+  },
+  "schema": "qf-j11-hex8-archive-postprocess-contract-v1",
+  "source_identity": [
+    {
+      "canonical_sha256": "ad2205221191f805ef1474f6330ad9f279e0af26ec64746dbc8bae2a80515d67",
+      "path": "research/j11_hex8/postprocess_archive.py"
+    },
+    {
+      "canonical_sha256": "6c70c244583171d2a4260c1f0c3321a1a7b81522c01e1c4ac16753f308ca388c",
+      "path": "tests/unit/test_j11_hex8_archive_postprocess.py"
+    }
+  ],
+  "source_run": {
+    "attempt": 1,
+    "execution_status": "COMPLETED_EXPLORATORY",
+    "node_attempt_ledger_record_series_id": "dev-3faf37ecba1d",
+    "node_attempt_ledger_state": "PASS",
+    "nodeid": "tests/verification/test_j11_hex8_j7_reconstruction.py::test_j11_hex8_global_and_independent_reconstruction_corrective_v2",
+    "preflight_receipt_sha256": "e6296cc50c94cb7e7d6f690b479861c669342a5807a5eb34e1c1cdab0887b203",
+    "run_record_sha256_raw": "6760b900ad61f5a1730d5c8dd83f5c015955a0ebd76e4c59abd4f5fefcf849d7",
+    "series_id": "dev-3faf37ecba1d",
+    "source_fingerprint": "5037085d25761b3923a5c692fc76e05db570276d4e75c1744b0a786fa84e1958",
+    "source_head": "50ad6fa506f478f9e2e5c2b97ecf205721dfef7c"
+  },
+  "verification": {
+    "formal_acceptance_thresholds": "none; this corrects archive indexing only and adds no mechanical evidence",
+    "preservation_checks": [
+      "expected exact alias key set",
+      "bitwise duplicate collision check",
+      "required alpha-zero and alpha-1/2/3 arrays",
+      "no alpha-134 keys remain",
+      "source and output SHA-256"
+    ],
+    "required_alpha_zero_fields": [
+      "coordinates",
+      "global stiffness",
+      "NumPy displacement",
+      "scaled displacement",
+      "SciPy displacement",
+      "reactions",
+      "free residual",
+      "mpmath displacement"
+    ]
+  }
+}

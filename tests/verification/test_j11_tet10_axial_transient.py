@@ -46,3 +46,7 @@ def test_j11_tet10_axial_bar_time_mesh_and_animation() -> None:
 
 def test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2() -> None:
     _assert_j11_tet10_axial_bar_result()
+
+
+def test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v3() -> None:
+    _assert_j11_tet10_axial_bar_result()

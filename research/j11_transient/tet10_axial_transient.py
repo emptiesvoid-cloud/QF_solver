@@ -38,8 +38,8 @@ from research.j11_transient.axial_bar_reference import (
 
 
 ROOT = Path(__file__).resolve().parents[2]
-CONTRACT_PATH = ROOT / "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v2.json"
-NODEID = "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v2"
+CONTRACT_PATH = ROOT / "research/j11_transient/contracts/tet10_axial_bar_contract_corrective_v3.json"
+NODEID = "tests/verification/test_j11_tet10_axial_transient.py::test_j11_tet10_axial_bar_time_mesh_and_animation_corrective_v3"
 LENGTH_M, WIDTH_M, HEIGHT_M = 2.0, 0.4, 0.4
 YOUNG_MODULUS_PA, POISSON_RATIO, DENSITY_KG_M3 = 70.0e9, 0.30, 2700.0
 CROSS_SECTION_M2 = WIDTH_M * HEIGHT_M
@@ -291,6 +291,21 @@ def _metrics(actual: np.ndarray, reference: np.ndarray, scale: float) -> dict[st
     }
 
 
+def _assert_shared_reference_consistency(
+    times: np.ndarray,
+    continuum: np.ndarray,
+    shared_times: np.ndarray,
+    shared_reference: np.ndarray,
+    *,
+    tolerance: float,
+) -> None:
+    """Compare cached continuum values only when both arrays use the same physical grid."""
+    if np.array_equal(times, shared_times) and not np.allclose(
+        continuum, shared_reference, rtol=0.0, atol=tolerance
+    ):
+        raise RuntimeError("The continuum reference changed between identical physical observation times")
+
+
 def _environment() -> dict[str, Any]:
     return {
         "python": platform.python_version(),
@@ -512,8 +527,13 @@ def run_study() -> dict[str, Any]:
             position_m=PROBE_POSITION_M[0],
             mode_count=CONTINUUM_MODES,
         )
-        if not np.allclose(continuum, reference_fine, rtol=0.0, atol=1e-14 * global_scale):
-            raise RuntimeError("The continuum reference changed between identical physical observation times")
+        _assert_shared_reference_consistency(
+            times,
+            continuum,
+            scale_times,
+            reference_fine,
+            tolerance=1e-14 * global_scale,
+        )
         semidiscrete_values = np.asarray(semidiscrete.displacement_probe, dtype=np.float64)
         if semidiscrete_values.shape != qf_values.shape:
             raise RuntimeError("Semidiscrete oracle and Newmark histories have different time grids")
