@@ -2379,7 +2379,9 @@ def _validate_d01_preflight_receipt(
         or receipt.get("source_fingerprint") != source_fingerprint
         or receipt.get("controller_provenance") != dict(controller_provenance)
         or receipt.get("native_guard_environment") != dict(guard_state)
-        or receipt.get("solver_origin_observed") != receipt.get("solver_origin_expected")
+        or receipt.get("solver_origin_observed") != (
+            "QF_DEV_SOLVER_ORIGIN=" + str(receipt.get("solver_origin_expected"))
+        )
         or receipt.get("collected_nodeids") != [target]
     ):
         raise PolicyError("D01 preflight does not match this exact source, controller, environment and nodeid")
