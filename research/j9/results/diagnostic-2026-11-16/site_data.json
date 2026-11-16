@@ -1,0 +1,377 @@
+{
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "contracts": [
+    {
+      "path": "research/j9_hex8/contracts/hex8_constant_domain_distortion_contract.json",
+      "sha256": "82168c14176dea137a0b3188ee625d84989b47fc22f44309382dc6433441fbb1"
+    },
+    {
+      "path": "research/j9_transient/contracts/tet10_newmark_direct_contract.json",
+      "sha256": "7b0e47c29ec71164fc9d8fcf2ad6b6a5dae436bcce6fa479fc980754f2b331ab"
+    }
+  ],
+  "historical_status": "J7 HEX8-SRI FAIL verdicts are unchanged",
+  "models": [
+    {
+      "contract_path": "research/j9_hex8/contracts/hex8_constant_domain_distortion_contract.json",
+      "contract_sha256": "82168c14176dea137a0b3188ee625d84989b47fc22f44309382dc6433441fbb1",
+      "execution_status": "COMPLETED_EXPLORATORY",
+      "external_solver_correlation": null,
+      "figures": [
+        "hex8_constant_domain/site_hex8_distortion.png",
+        "hex8_constant_domain/hex8_distortion_study.png"
+      ],
+      "geometry_m": [
+        20.0,
+        1.0,
+        1.0
+      ],
+      "id": "J9-HEX8-SRI-AFFINE-DISTORTION",
+      "material": {
+        "poisson_ratio": 0.495,
+        "young_modulus_pa": 1000000.0
+      },
+      "measurements": [
+        {
+          "condition_2_free_stiffness_estimate": 43.50148897273195,
+          "continuum_axial_force_reference_n": 100.0,
+          "distortion_amplitude_fraction_of_height": 0.0,
+          "element_count": 16,
+          "energy_j": 0.09999999999999958,
+          "energy_reference_j": 0.1,
+          "energy_relative_difference": -4.3021142204224816e-15,
+          "finite": true,
+          "free_displacement_error_l2_m": 2.304676877359995e-19,
+          "free_displacement_error_relative_to_exact_l2": 1.2312553035336505e-16,
+          "free_dof_count": 9,
+          "free_residual_norm_n": 2.465350359213561e-12,
+          "free_residual_relative_indicator": 2.0932775469482302e-16,
+          "left_end_reaction_x_n": -99.99999999999967,
+          "left_reaction_relative_difference": 3.268496584496461e-15,
+          "maximum_gauss_jacobian_m3": 0.15625000000000003,
+          "maximum_node_shift_m": 0.0,
+          "maximum_prescribed_boundary_difference_m": 0.0,
+          "minimum_gauss_jacobian_m3": 0.15624999999999992,
+          "node_count": 45,
+          "right_end_reaction_x_n": 99.99999999999798,
+          "right_reaction_relative_difference": -2.0179413695586844e-14,
+          "same_connectivity": true,
+          "same_outer_boundary_coordinates": true,
+          "total_gauss_volume_m3": 20.0
+        },
+        {
+          "condition_2_free_stiffness_estimate": 43.50359503852652,
+          "continuum_axial_force_reference_n": 100.0,
+          "distortion_amplitude_fraction_of_height": 0.05,
+          "element_count": 16,
+          "energy_j": 0.10000000000000195,
+          "energy_reference_j": 0.1,
+          "energy_relative_difference": 1.942890293094024e-14,
+          "finite": true,
+          "free_displacement_error_l2_m": 2.43710088302025e-19,
+          "free_displacement_error_relative_to_exact_l2": 1.3019424528236236e-16,
+          "free_dof_count": 9,
+          "free_residual_norm_n": 2.5414495666860953e-12,
+          "free_residual_relative_indicator": 2.1088277392172753e-16,
+          "left_end_reaction_x_n": -100.00000000000026,
+          "left_reaction_relative_difference": -2.5579538487363606e-15,
+          "maximum_gauss_jacobian_m3": 0.16792200731137727,
+          "maximum_node_shift_m": 0.050000000000000044,
+          "maximum_prescribed_boundary_difference_m": 0.0,
+          "minimum_gauss_jacobian_m3": 0.14457799268862265,
+          "node_count": 45,
+          "right_end_reaction_x_n": 100.00000000000001,
+          "right_reaction_relative_difference": 1.4210854715202004e-16,
+          "same_connectivity": true,
+          "same_outer_boundary_coordinates": true,
+          "total_gauss_volume_m3": 20.0
+        },
+        {
+          "condition_2_free_stiffness_estimate": 43.50891363798355,
+          "continuum_axial_force_reference_n": 100.0,
+          "distortion_amplitude_fraction_of_height": 0.1,
+          "element_count": 16,
+          "energy_j": 0.09999999999999806,
+          "energy_reference_j": 0.1,
+          "energy_relative_difference": -1.942890293094024e-14,
+          "finite": true,
+          "free_displacement_error_l2_m": 5.036706053557532e-19,
+          "free_displacement_error_relative_to_exact_l2": 2.6905649945121665e-16,
+          "free_dof_count": 9,
+          "free_residual_norm_n": 2.6577337898612654e-12,
+          "free_residual_relative_indicator": 2.1442526369110306e-16,
+          "left_end_reaction_x_n": -100.0000000000002,
+          "left_reaction_relative_difference": -1.9895196601282807e-15,
+          "maximum_gauss_jacobian_m3": 0.17959401462275457,
+          "maximum_node_shift_m": 0.09999999999999998,
+          "maximum_prescribed_boundary_difference_m": 0.0,
+          "minimum_gauss_jacobian_m3": 0.13290598537724538,
+          "node_count": 45,
+          "right_end_reaction_x_n": 99.99999999999852,
+          "right_reaction_relative_difference": -1.4779288903810084e-14,
+          "same_connectivity": true,
+          "same_outer_boundary_coordinates": true,
+          "total_gauss_volume_m3": 20.0
+        },
+        {
+          "condition_2_free_stiffness_estimate": 43.51427945353118,
+          "continuum_axial_force_reference_n": 100.0,
+          "distortion_amplitude_fraction_of_height": 0.15,
+          "element_count": 16,
+          "energy_j": 0.09999999999999833,
+          "energy_reference_j": 0.1,
+          "energy_relative_difference": -1.6792123247455493e-14,
+          "finite": true,
+          "free_displacement_error_l2_m": 3.409241848636697e-19,
+          "free_displacement_error_relative_to_exact_l2": 1.8210911421511703e-16,
+          "free_dof_count": 9,
+          "free_residual_norm_n": 3.5775244617888263e-12,
+          "free_residual_relative_indicator": 2.792326906170121e-16,
+          "left_end_reaction_x_n": -100.0,
+          "left_reaction_relative_difference": 0.0,
+          "maximum_gauss_jacobian_m3": 0.19126602193413184,
+          "maximum_node_shift_m": 0.15000000000000002,
+          "maximum_prescribed_boundary_difference_m": 0.0,
+          "minimum_gauss_jacobian_m3": 0.12123397806586811,
+          "node_count": 45,
+          "right_end_reaction_x_n": 99.99999999999906,
+          "right_reaction_relative_difference": -9.379164112033323e-15,
+          "same_connectivity": true,
+          "same_outer_boundary_coordinates": true,
+          "total_gauss_volume_m3": 20.0
+        }
+      ],
+      "mesh_divisions": [
+        4,
+        2,
+        2
+      ],
+      "reference": {
+        "axial_reaction_n": 100.0,
+        "kind": "analytical homogeneous 3D affine elasticity field",
+        "limits": "does not exercise a non-affine field or validate the general HEX8-SRI formulation",
+        "strain_energy_j": 0.1,
+        "stress_pa": [
+          100.0,
+          0.0,
+          0.0
+        ]
+      },
+      "source_head": "a8f5a91653c50c51cb51e51b297ed9c2cd623362",
+      "state_data": "hex8_constant_domain/hex8_distortion_states.npz",
+      "title": "HEX8-SRI \u00b7 distorsion int\u00e9rieure \u00e0 domaine constant",
+      "validation_status": "EXPLORATORY_PATCH_ONLY"
+    },
+    {
+      "boundary_condition": "all translational DOFs fixed on the complete x=0 face",
+      "contract_path": "research/j9_transient/contracts/tet10_newmark_direct_contract.json",
+      "contract_sha256": "7b0e47c29ec71164fc9d8fcf2ad6b6a5dae436bcce6fa479fc980754f2b331ab",
+      "execution_status": "COMPLETED_EXPLORATORY",
+      "external_solver_correlation": null,
+      "figures": [
+        "tet10_newmark_direct/site_tet10_mesh.png",
+        "tet10_newmark_direct/site_tet10_newmark.png"
+      ],
+      "geometry_m": [
+        2.0,
+        0.4,
+        0.4
+      ],
+      "history_data": "tet10_newmark_direct/tet10_newmark_history.csv",
+      "id": "J9-TET10-NEWMARK-CANTILEVER",
+      "load": "1 N triangular vertical nodal pulse at the center node of x=L face",
+      "material": {
+        "density_kg_m3": 2700.0,
+        "poisson_ratio": 0.3,
+        "young_modulus_pa": 70000000000.0
+      },
+      "mesh_levels": [
+        {
+          "assembled_load_resultant_n": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "cells": [
+            2,
+            1,
+            1
+          ],
+          "element_count": 12,
+          "first_semi_discrete_frequency_hz": 85.64688989612195,
+          "free_dof_count": 108,
+          "maximum_tet_corner_volume_m3": 0.026666666666666672,
+          "mesh_level": 0,
+          "minimum_tet_corner_volume_m3": 0.026666666666666672,
+          "node_count": 45,
+          "observed_time_refinement_orders": [
+            1.794178021862976,
+            1.610071997127499
+          ],
+          "period_s": 0.01167584720487649,
+          "root_fixed_node_count": 9,
+          "time_levels": [
+            {
+              "direct_status": "PASS",
+              "duration_s": 0.02335169440975298,
+              "force_resultant_n": -1.0,
+              "max_dynamic_residual_norm": 7.875101346378205e-13,
+              "maximum_tail_energy_range_relative": 1.322713250571495e-12,
+              "oracle_modal_count": 108,
+              "peak_absolute_difference_m": 1.6051970977356139e-09,
+              "peak_tip_displacement_m": 1.1839948540681775e-08,
+              "pulse_duration_s": 0.0029189618012191226,
+              "rms_absolute_error_m": 7.196416801741314e-10,
+              "rms_normalized_to_reference_peak": 0.060192127976320904,
+              "step_count": 32,
+              "steps_per_period": 16,
+              "time_step_s": 0.0007297404503047806
+            },
+            {
+              "direct_status": "PASS",
+              "duration_s": 0.02335169440975298,
+              "force_resultant_n": -1.0,
+              "max_dynamic_residual_norm": 9.55668543046568e-13,
+              "maximum_tail_energy_range_relative": 1.70334915944549e-12,
+              "oracle_modal_count": 108,
+              "peak_absolute_difference_m": 4.098817948526482e-10,
+              "peak_tip_displacement_m": 1.1926743119501503e-08,
+              "pulse_duration_s": 0.0029189618012191226,
+              "rms_absolute_error_m": 2.0749847379342735e-10,
+              "rms_normalized_to_reference_peak": 0.017355546563733087,
+              "step_count": 64,
+              "steps_per_period": 32,
+              "time_step_s": 0.0003648702251523903
+            },
+            {
+              "direct_status": "PASS",
+              "duration_s": 0.02335169440975298,
+              "force_resultant_n": -1.0,
+              "max_dynamic_residual_norm": 7.915198258721306e-13,
+              "maximum_tail_energy_range_relative": 1.6391159784208649e-12,
+              "oracle_modal_count": 108,
+              "peak_absolute_difference_m": 1.9610416395671723e-10,
+              "peak_tip_displacement_m": 1.1924782630688183e-08,
+              "pulse_duration_s": 0.0029189618012191226,
+              "rms_absolute_error_m": 6.797276560367112e-11,
+              "rms_normalized_to_reference_peak": 0.005685364701403382,
+              "step_count": 128,
+              "steps_per_period": 64,
+              "time_step_s": 0.00018243511257619516
+            }
+          ],
+          "tip_center_node": 35,
+          "tip_probe_position_m": [
+            2.0,
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "assembled_load_resultant_n": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "cells": [
+            4,
+            1,
+            1
+          ],
+          "element_count": 24,
+          "first_semi_discrete_frequency_hz": 82.64325729140721,
+          "free_dof_count": 216,
+          "maximum_tet_corner_volume_m3": 0.013333333333333336,
+          "mesh_level": 1,
+          "minimum_tet_corner_volume_m3": 0.013333333333333336,
+          "node_count": 81,
+          "observed_time_refinement_orders": [
+            1.1903104784686513,
+            1.2068411385322062
+          ],
+          "period_s": 0.01210020070329409,
+          "root_fixed_node_count": 9,
+          "time_levels": [
+            {
+              "direct_status": "PASS",
+              "duration_s": 0.02420040140658818,
+              "force_resultant_n": -1.0,
+              "max_dynamic_residual_norm": 5.641959520986989e-13,
+              "maximum_tail_energy_range_relative": 8.538433560827013e-13,
+              "oracle_modal_count": 216,
+              "peak_absolute_difference_m": 1.6768155258038279e-09,
+              "peak_tip_displacement_m": 1.2613861743752354e-08,
+              "pulse_duration_s": 0.0030250501758235225,
+              "rms_absolute_error_m": 8.251487941078419e-10,
+              "rms_normalized_to_reference_peak": 0.06468286555103159,
+              "step_count": 32,
+              "steps_per_period": 16,
+              "time_step_s": 0.0007562625439558806
+            },
+            {
+              "direct_status": "PASS",
+              "duration_s": 0.02420040140658818,
+              "force_resultant_n": -1.0,
+              "max_dynamic_residual_norm": 6.482798019334761e-13,
+              "maximum_tail_energy_range_relative": 9.191782669300857e-13,
+              "oracle_modal_count": 216,
+              "peak_absolute_difference_m": 8.206009965410017e-10,
+              "peak_tip_displacement_m": 1.2832287904362363e-08,
+              "pulse_duration_s": 0.0030250501758235225,
+              "rms_absolute_error_m": 3.615872523447594e-10,
+              "rms_normalized_to_reference_peak": 0.028344584389377755,
+              "step_count": 64,
+              "steps_per_period": 32,
+              "time_step_s": 0.0003781312719779403
+            },
+            {
+              "direct_status": "PASS",
+              "duration_s": 0.02420040140658818,
+              "force_resultant_n": -1.0,
+              "max_dynamic_residual_norm": 7.216183678460222e-13,
+              "maximum_tail_energy_range_relative": 2.0616329785153315e-12,
+              "oracle_modal_count": 216,
+              "peak_absolute_difference_m": 4.0761845904323746e-10,
+              "peak_tip_displacement_m": 1.2783670386375665e-08,
+              "pulse_duration_s": 0.0030250501758235225,
+              "rms_absolute_error_m": 1.5700266176060077e-10,
+              "rms_normalized_to_reference_peak": 0.012279331124403632,
+              "step_count": 128,
+              "steps_per_period": 64,
+              "time_step_s": 0.00018906563598897015
+            }
+          ],
+          "tip_center_node": 71,
+          "tip_probe_position_m": [
+            2.0,
+            0.2,
+            0.2
+          ]
+        }
+      ],
+      "modal_route_attempt": {
+        "meaning": "full-basis modal validation exceeded its aggregate work budget; not a scientific mechanics verdict",
+        "record": "tet10_modal_route_failure/modal_route_failure.json",
+        "status": "PYTEST_FAILED"
+      },
+      "newmark": {
+        "beta": 0.25,
+        "gamma": 0.5,
+        "rayleigh_alpha_s_inv": 0.0,
+        "rayleigh_beta_s": 0.0
+      },
+      "reference": {
+        "does_not_validate": "TET10 spatial discretization against an independent continuum or external solver",
+        "formula": "independent scipy.linalg.eigh(M,K) plus matrix-exponential propagation per affine load segment; no Newmark recurrence or modal truncation",
+        "type": "exact full-order modal state-space propagation of the assembled semi-discrete M/K system under the same piecewise-linear load table",
+        "validates": "time integration against the same assembled spatial system and load table"
+      },
+      "source_head": "88cd0b1cd51d2eb708afd881c3f8130f59a31f1e",
+      "state_data": "tet10_newmark_direct/tet10_newmark_states.npz",
+      "title": "TET10 \u00b7 cantilever 3D soumis \u00e0 une impulsion nodale",
+      "validation_status": "TEMPORAL_INTEGRATION_VS_SEMIDISCRETE_ORACLE_ONLY"
+    }
+  ],
+  "publication_status": "PREPARED_NOT_PUBLISHED",
+  "schema": "qf-j9-gallery-data-v1"
+}

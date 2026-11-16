@@ -1,0 +1,74 @@
+{
+  "attempt": 1,
+  "budgets": {
+    "archive_size_limit_mib": 128,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "process_tree_limit": 4,
+    "rss_soft_limit_mib": 2048,
+    "temporary_limit_mib": 256,
+    "timeout_seconds": 1200
+  },
+  "classification": "DEVELOPMENT_ROUTE_FAILURE_NOT_SCIENTIFIC_FAIL",
+  "command_root_relative": [
+    "python",
+    "scripts/development_autonomous.py",
+    "test",
+    "--scope",
+    "fem_exploratory",
+    "--worktree",
+    "j9",
+    "--target",
+    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_and_modal_newmark_time_mesh_study",
+    "--preflight-id",
+    "pf-7c21a48ef3d0",
+    "--series",
+    "dev-j9-tet10-newmark-20261116-01",
+    "--reason",
+    "Compare direct and full-basis modal Newmark time histories against exact propagation of the same assembled semi-discrete TET10 system on two bounded longitudinal meshes"
+  ],
+  "contract_path": "research/j9_transient/contracts/tet10_newmark_transient_contract.json",
+  "contract_sha256": "e1d4708fb42a00456fc49bef5a5ee18d3edf80866ced11f5462fbac3e400d0c7",
+  "elapsed_seconds": 9.406385299982503,
+  "execution_state": "PYTEST_FAILED",
+  "failure": {
+    "exception": "ModalResidualValidationError",
+    "fine_mesh_attempted": false,
+    "free_dofs_at_refusal": 108,
+    "message": "Modal basis validation is outside its supported bounded domain; computed modes are retained: reason=aggregate_work_budget.",
+    "prior_work_completed": "three coarse-mesh direct Newmark histories were computed in memory; no response artifact was written",
+    "solves_or_acceptance": "not a numerical PASS or FAIL for TET10 mechanics; the modal route was outside its declared bounded validation-work domain",
+    "stage": "full-order modal basis validation after the coarse-mesh direct time steps and before fine-mesh processing or final serialization"
+  },
+  "finished_at_utc": "2026-11-16T18:18:44.531478+00:00",
+  "nodeid": "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_and_modal_newmark_time_mesh_study",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J9_OWNER_2026-11-16",
+  "preflight": {
+    "preflight_id": "pf-7c21a48ef3d0",
+    "receipt_sha256": "82df285ec80dcbaebf7a4651d55e3f733b34a6641363489614fdb34db6a593d2",
+    "state": "PREFLIGHT_PASS"
+  },
+  "raw_stdout_log": {
+    "bytes": 7112,
+    "path": "retained only in the ignored local development-run store",
+    "sha256": "abef298797b0e5abf7c867cf57fdbf996955d9d2668243a15255c114d2d3b8c8"
+  },
+  "reason": "Compare direct and full-basis modal Newmark time histories against exact propagation of the same assembled semi-discrete TET10 system on two bounded longitudinal meshes",
+  "resources_observed": {
+    "archive_bytes": 7112,
+    "peak_process_count": 1,
+    "peak_rss_bytes": 165617664,
+    "peak_rss_mib": 157.9453125,
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 7112,
+    "stdout_sha256": "abef298797b0e5abf7c867cf57fdbf996955d9d2668243a15255c114d2d3b8c8",
+    "temporary_bytes": 0
+  },
+  "return_code": 1,
+  "schema": "qf-j9-modal-route-failure-v1",
+  "series_id": "dev-j9-tet10-newmark-20261116-01",
+  "source_fingerprint": "1851125239bb9f06434ae98119a5f6fc27a6e890a27bc28d47576f4b8c50a7a3",
+  "source_head": "a8f5a91653c50c51cb51e51b297ed9c2cd623362",
+  "started_at_utc": "2026-11-16T18:18:35.114698+00:00"
+}

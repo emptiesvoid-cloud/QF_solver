@@ -1,0 +1,52 @@
+{
+  "archive_bytes": 564,
+  "command_root_relative": [
+    "python",
+    "scripts/development_autonomous.py",
+    "preflight",
+    "--worktree",
+    "j9",
+    "--target",
+    "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study",
+    "--preflight-id",
+    "pf-b8257c4b620e"
+  ],
+  "elapsed_seconds": 5.190201099961996,
+  "finished_at_utc": "2026-11-16T18:25:01.880692+00:00",
+  "free_disk_after_bytes": 37273624576,
+  "free_disk_before_bytes": 37280944128,
+  "nodeid": "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study",
+  "peak_process_count": 1,
+  "peak_rss_bytes": 156831744,
+  "preflight_id": "pf-b8257c4b620e",
+  "receipt_sha256": "ffec3537703f42330a88e8ce73a79a20bdba85e297a9e59c947791199a9ac8e1",
+  "schema": "qf-j9-sanitized-preflight-v1",
+  "source_fingerprint": "57cea083477f77595269dad8aa21cce1f601a0c2935fd9c59e4f13a33b9339ad",
+  "source_head": "88cd0b1cd51d2eb708afd881c3f8130f59a31f1e",
+  "started_at_utc": "2026-11-16T18:24:52.815864+00:00",
+  "state": "PREFLIGHT_PASS",
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_bytes": 564,
+  "stdout_sha256": "ad3445d7a64c88b43ade8b090f77d3aa8a469739c502b02f36f2473b5ea2cd6c",
+  "temporary_bytes": 0,
+  "thread_environment": {
+    "BLIS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "threadpools": [
+    {
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "user_api": "blas",
+      "version": "0.3.29"
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+{
+  "classification": "DEVELOPMENT_EXPLORATORY_NOT_QUALIFICATION",
+  "contract_sha256": "7b0e47c29ec71164fc9d8fcf2ad6b6a5dae436bcce6fa479fc980754f2b331ab",
+  "criteria": {
+    "formal_acceptance_thresholds": "none; numerical differences are descriptive indicators fixed before execution",
+    "structural_checks": "positive tetra corner volumes; assembled load resultant equals (0,0,-1) N; finite response; direct and modal routes return completed results; tip probe remains at a fixed physical location"
+  },
+  "environment": {
+    "matplotlib": "3.10.3",
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "scipy": "1.15.2",
+    "threadpools": [
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "user_api": "blas",
+        "version": "0.3.29"
+      },
+      {
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "user_api": "blas",
+        "version": "0.3.28"
+      }
+    ]
+  },
+  "execution_status": "COMPLETED_EXPLORATORY",
+  "figures": {
+    "tet10_newmark_history.png": "f2362db1e43cf3e730301fbc10f438d9e2a9903c2771cc15c936cd65836b9b52",
+    "tet10_newmark_mesh.png": "17fe6d6dc24fe29278cce1a00cf744676f5e5f9173ff16c9637594bb7a64ccbe"
+  },
+  "history_csv": {
+    "path": "tet10_newmark_history.csv",
+    "sha256": "4bb29a1a5a48a5c51371df90416aff47d72d6ffebb3950dd7da0f63e99d9f267"
+  },
+  "interpretation": "The time-step study isolates Newmark temporal integration against a full-order semi-discrete oracle. The two axial mesh levels are a descriptive spatial sensitivity study with one cross-section cell; they do not establish spatial convergence.",
+  "mesh_frequency_increment_relative": 0.036344557356006335,
+  "mesh_levels": [
+    {
+      "assembled_load_resultant_n": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "cells": [
+        2,
+        1,
+        1
+      ],
+      "element_count": 12,
+      "first_semi_discrete_frequency_hz": 85.64688989612195,
+      "free_dof_count": 108,
+      "maximum_tet_corner_volume_m3": 0.026666666666666672,
+      "mesh_level": 0,
+      "minimum_tet_corner_volume_m3": 0.026666666666666672,
+      "node_count": 45,
+      "observed_time_refinement_orders": [
+        1.794178021862976,
+        1.610071997127499
+      ],
+      "period_s": 0.01167584720487649,
+      "root_fixed_node_count": 9,
+      "time_levels": [
+        {
+          "direct_status": "PASS",
+          "duration_s": 0.02335169440975298,
+          "force_resultant_n": -1.0,
+          "max_dynamic_residual_norm": 7.875101346378205e-13,
+          "maximum_tail_energy_range_relative": 1.322713250571495e-12,
+          "oracle_modal_count": 108,
+          "peak_absolute_difference_m": 1.6051970977356139e-09,
+          "peak_tip_displacement_m": 1.1839948540681775e-08,
+          "pulse_duration_s": 0.0029189618012191226,
+          "rms_absolute_error_m": 7.196416801741314e-10,
+          "rms_normalized_to_reference_peak": 0.060192127976320904,
+          "step_count": 32,
+          "steps_per_period": 16,
+          "time_step_s": 0.0007297404503047806
+        },
+        {
+          "direct_status": "PASS",
+          "duration_s": 0.02335169440975298,
+          "force_resultant_n": -1.0,
+          "max_dynamic_residual_norm": 9.55668543046568e-13,
+          "maximum_tail_energy_range_relative": 1.70334915944549e-12,
+          "oracle_modal_count": 108,
+          "peak_absolute_difference_m": 4.098817948526482e-10,
+          "peak_tip_displacement_m": 1.1926743119501503e-08,
+          "pulse_duration_s": 0.0029189618012191226,
+          "rms_absolute_error_m": 2.0749847379342735e-10,
+          "rms_normalized_to_reference_peak": 0.017355546563733087,
+          "step_count": 64,
+          "steps_per_period": 32,
+          "time_step_s": 0.0003648702251523903
+        },
+        {
+          "direct_status": "PASS",
+          "duration_s": 0.02335169440975298,
+          "force_resultant_n": -1.0,
+          "max_dynamic_residual_norm": 7.915198258721306e-13,
+          "maximum_tail_energy_range_relative": 1.6391159784208649e-12,
+          "oracle_modal_count": 108,
+          "peak_absolute_difference_m": 1.9610416395671723e-10,
+          "peak_tip_displacement_m": 1.1924782630688183e-08,
+          "pulse_duration_s": 0.0029189618012191226,
+          "rms_absolute_error_m": 6.797276560367112e-11,
+          "rms_normalized_to_reference_peak": 0.005685364701403382,
+          "step_count": 128,
+          "steps_per_period": 64,
+          "time_step_s": 0.00018243511257619516
+        }
+      ],
+      "tip_center_node": 35,
+      "tip_probe_position_m": [
+        2.0,
+        0.2,
+        0.2
+      ]
+    },
+    {
+      "assembled_load_resultant_n": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "cells": [
+        4,
+        1,
+        1
+      ],
+      "element_count": 24,
+      "first_semi_discrete_frequency_hz": 82.64325729140721,
+      "free_dof_count": 216,
+      "maximum_tet_corner_volume_m3": 0.013333333333333336,
+      "mesh_level": 1,
+      "minimum_tet_corner_volume_m3": 0.013333333333333336,
+      "node_count": 81,
+      "observed_time_refinement_orders": [
+        1.1903104784686513,
+        1.2068411385322062
+      ],
+      "period_s": 0.01210020070329409,
+      "root_fixed_node_count": 9,
+      "time_levels": [
+        {
+          "direct_status": "PASS",
+          "duration_s": 0.02420040140658818,
+          "force_resultant_n": -1.0,
+          "max_dynamic_residual_norm": 5.641959520986989e-13,
+          "maximum_tail_energy_range_relative": 8.538433560827013e-13,
+          "oracle_modal_count": 216,
+          "peak_absolute_difference_m": 1.6768155258038279e-09,
+          "peak_tip_displacement_m": 1.2613861743752354e-08,
+          "pulse_duration_s": 0.0030250501758235225,
+          "rms_absolute_error_m": 8.251487941078419e-10,
+          "rms_normalized_to_reference_peak": 0.06468286555103159,
+          "step_count": 32,
+          "steps_per_period": 16,
+          "time_step_s": 0.0007562625439558806
+        },
+        {
+          "direct_status": "PASS",
+          "duration_s": 0.02420040140658818,
+          "force_resultant_n": -1.0,
+          "max_dynamic_residual_norm": 6.482798019334761e-13,
+          "maximum_tail_energy_range_relative": 9.191782669300857e-13,
+          "oracle_modal_count": 216,
+          "peak_absolute_difference_m": 8.206009965410017e-10,
+          "peak_tip_displacement_m": 1.2832287904362363e-08,
+          "pulse_duration_s": 0.0030250501758235225,
+          "rms_absolute_error_m": 3.615872523447594e-10,
+          "rms_normalized_to_reference_peak": 0.028344584389377755,
+          "step_count": 64,
+          "steps_per_period": 32,
+          "time_step_s": 0.0003781312719779403
+        },
+        {
+          "direct_status": "PASS",
+          "duration_s": 0.02420040140658818,
+          "force_resultant_n": -1.0,
+          "max_dynamic_residual_norm": 7.216183678460222e-13,
+          "maximum_tail_energy_range_relative": 2.0616329785153315e-12,
+          "oracle_modal_count": 216,
+          "peak_absolute_difference_m": 4.0761845904323746e-10,
+          "peak_tip_displacement_m": 1.2783670386375665e-08,
+          "pulse_duration_s": 0.0030250501758235225,
+          "rms_absolute_error_m": 1.5700266176060077e-10,
+          "rms_normalized_to_reference_peak": 0.012279331124403632,
+          "step_count": 128,
+          "steps_per_period": 64,
+          "time_step_s": 0.00018906563598897015
+        }
+      ],
+      "tip_center_node": 71,
+      "tip_probe_position_m": [
+        2.0,
+        0.2,
+        0.2
+      ]
+    }
+  ],
+  "modal_route_comparison": null,
+  "model": {
+    "boundary_condition": "all translational DOFs fixed on the complete x=0 face",
+    "geometry_m": [
+      2.0,
+      0.4,
+      0.4
+    ],
+    "initial_conditions": "zero displacement and velocity",
+    "load": "1 N triangular vertical nodal pulse at the center node of x=L face",
+    "mass_matrix": "consistent TET10 mass assembled by GlobalAssembler",
+    "material": {
+      "density_kg_m3": 2700.0,
+      "poisson_ratio": 0.3,
+      "young_modulus_pa": 70000000000.0
+    },
+    "newmark": {
+      "beta": 0.25,
+      "gamma": 0.5,
+      "rayleigh_alpha_s_inv": 0.0,
+      "rayleigh_beta_s": 0.0
+    },
+    "probe": {
+      "dof": "UZ",
+      "node_definition": "tip-face center",
+      "units": "m"
+    }
+  },
+  "nodeid": "tests/verification/test_j9_tet10_newmark.py::test_j9_tet10_direct_newmark_time_mesh_study",
+  "reference": {
+    "does_not_validate": "TET10 spatial discretization against an independent continuum or external solver",
+    "formula": "independent scipy.linalg.eigh(M,K) plus matrix-exponential propagation per affine load segment; no Newmark recurrence or modal truncation",
+    "type": "exact full-order modal state-space propagation of the assembled semi-discrete M/K system under the same piecewise-linear load table",
+    "validates": "time integration against the same assembled spatial system and load table"
+  },
+  "schema": "qf-j9-tet10-newmark-result-v1",
+  "source_fingerprint": "57cea083477f77595269dad8aa21cce1f601a0c2935fd9c59e4f13a33b9339ad",
+  "source_head": "88cd0b1cd51d2eb708afd881c3f8130f59a31f1e",
+  "states_npz": {
+    "path": "tet10_newmark_states.npz",
+    "sha256": "6163471e3d3e954cd03e6c41344de92c844f721529668d0e624d7d12c2571ca8"
+  }
+}
