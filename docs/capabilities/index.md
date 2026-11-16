@@ -12,6 +12,10 @@ approver: ""
 **Current release documentation:** `0.2.12`<br>
 **Rotating modal and Campbell:** `EXPERIMENTAL`, within their declared scope.
 
+For the maintained current capability overview, see the [official capability
+index](https://qfsolver.org/capabilities). The 0.2.8 registry described below
+remains a historical maturity record.
+
 **0.2.12:** B* small-rotation
 frictional contact is recorded as `EXPERIMENTAL_BOUNDED` in a dedicated C01
 record. This does not update the published 0.2.11 capability matrix or certify

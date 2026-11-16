@@ -15,6 +15,9 @@ GitHub's automatically generated source archives are outside that audit. See
 [What's New in 0.2.12](../whats-new/0.2.12.md) and
 [the capability index](../capabilities/index.md) for maturity boundaries.
 
+For the maintained current installation and first-run flow, see the [official
+getting-started guide](https://qfsolver.org/getting-started).
+
 ## User installation
 
 Install version 0.2.12 from `main` (requires Git):

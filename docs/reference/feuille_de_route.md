@@ -17,6 +17,10 @@ or version DOI. This roadmap is a product-level orientation; it is not a release
 tag, publication decision, or promise that an unqualified route is ready for
 production.
 
+The maintained public product roadmap is also available at
+[qfsolver.org/roadmap](https://qfsolver.org/roadmap). This GitHub Pages page
+retains its versioned roadmap context.
+
 The 0.2.12 release does not change the Owner-approved WP12 state
 `WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA`; bounded dispositions preserve the
 recorded FAIL, INCONCLUSIVE and NOT_ACQUIRED states and do not grant general

@@ -13,6 +13,13 @@ approver: ""
 **Published 0.2.11 DOI:** [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487)<br>
 **Project concept DOI:** [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
 
+For the maintained project overview and current release, see
+[qfsolver.org](https://qfsolver.org/). Its [capability index](https://qfsolver.org/capabilities),
+[installation and first run](https://qfsolver.org/getting-started), and [roadmap](https://qfsolver.org/roadmap)
+provide current reader entry points. This GitHub Pages site also retains
+versioned technical pages and historical evidence; check each page's version
+and scope.
+
 QF Solver is an inspectable Python finite-element solver for structural
 mechanics and dynamics, intended for engineering-method development,
 research and reproducible FEM studies. It combines solid, beam and shell

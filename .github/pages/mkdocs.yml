@@ -2,7 +2,9 @@
 site_name: QF Solver
 site_description: Open-source Python FEM/FEA solver for structural mechanics and dynamics
 site_author: Quentin Farinazzo
-site_url: https://qfsolver.org/
+# Keep canonicals and the sitemap on this separate GitHub Pages host.
+# qfsolver.org is linked as the product site; historical evidence stays on its own URL.
+site_url: https://emptiesvoid-cloud.github.io/QF_solver/
 
 repo_name: emptiesvoid-cloud/QF_solver
 repo_url: https://github.com/emptiesvoid-cloud/QF_solver
@@ -19,9 +21,11 @@ exclude_docs: |
   qualification/**
   elements/rbe2_rbe3_audit_vv.md
   verification/wp12_b_elements_loads_audit.md
+  documentation_only_ci_pilot.md
 
 theme:
   name: material
+  custom_dir: overrides
   language: en
   features:
     - navigation.tabs
