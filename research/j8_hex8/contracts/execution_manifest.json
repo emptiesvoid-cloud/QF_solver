@@ -1,5 +1,5 @@
 {
-  "analysis_source_commit": "ba7c09695712434b5467accb0c9f62af7cc8ca45",
+  "analysis_source_commit": "f3432b7c379b172e5be9b15bbe13437e91e9e2d7",
   "analysis_source_files": [
     {
       "canonical_lf_sha256": "3f6a19ce2102d2c0a0430af758eefd03138fa70931077ce725b55fb8f11e63da",
@@ -14,7 +14,7 @@
       "path": "research/j8_hex8/geometry_contrast.py"
     },
     {
-      "canonical_lf_sha256": "f3e1b8e1e9fd1fa5cd7988c817b586f2538896168593ba25e3a72d3f2f048f72",
+      "canonical_lf_sha256": "7e26e127a1205be6c03317411ee8f930ba51d4e8328330c5c94a5c8f77c470e1",
       "path": "scripts/development_autonomous.py"
     },
     {
