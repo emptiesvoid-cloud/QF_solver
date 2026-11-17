@@ -1,0 +1,56 @@
+{
+  "schema": "qfsolver-j16-postprocess-contract-v1",
+  "contract_id": "J16-J15-PLOTTER-REPLAY-006",
+  "attempt_id": "J16-J15-PLOTTER-REPLAY-006-ATTEMPT-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J16_OWNER_2026-11-17",
+  "classification": "ARCHIVED_DATA_REPLAY_NO_SOLVER_CALL",
+  "source": {
+    "branch": "work/0.3.0-j16-plotter",
+    "commit": "99870802c498513f4331b1c74bba3bd4551ce213",
+    "source_sha256": {
+      "research/j16/harmonic_plotting.py": "6faa77215163f3e444427245db7bc0f0251bfdad23c53cee6c25c737a259dde3",
+      "research/j16/replay_j15_harmonic_plot.py": "58a3629958e9c10c452971a0a0b767eb781fba9cd4a3b4ab2667e2f072d3e5a5"
+    }
+  },
+  "input": {
+    "source_worktree_branch": "work/0.3.0-j15",
+    "source_worktree_commit": "d6b77430176fee3b6349aa7e41b43f8b5eb65335",
+    "path": "research/j15/results/diagnostic-2026-11-17/nafems_13h_resonance/postprocess_001/site_data.json",
+    "bytes": 205824,
+    "sha256": "f4d6d996987ef68ed318ae70589a3b851c972eb03497b4ab15872cd02d4b874c",
+    "frequency_rows": 151,
+    "route_status_counts": {
+      "QF_GUARD_REJECTED": 151
+    },
+    "original_runner_state": "PYTEST_FAILED",
+    "status_policy": "Input bytes and all point statuses remain unchanged.",
+    "dense_frequency_rows": 151,
+    "additional_exact_probe_frequency_hz": 2.375818178440047,
+    "route_status_counts_including_probe": {
+      "QF_GUARD_REJECTED": 152
+    }
+  },
+  "method": {
+    "purpose": "Render all 151 archived dense-grid rows and the separate exact Navier damped-peak probe from diagnostics.exact_navier_peak_probe; adapt reference_* archive columns and navier_* probe fields to the plotter schema.",
+    "solver_calls": false,
+    "external_solver_calls": false,
+    "expected_output": "One ordered 152-point amplitude/phase figure and manifest; 151 dense-grid points plus one exact probe, all with route status retained."
+  },
+  "execution": {
+    "command": "python -m research.j16.replay_j15_harmonic_plot --input <archived-site-data> --output research/j16/site_assets/j15_plot_replay_006/harmonic_amplitude_phase.png --manifest research/j16/site_assets/j15_plot_replay_006/replay_manifest.json",
+    "attempt_limit": 1,
+    "timeout_seconds": 300,
+    "rss_soft_limit_mib": 512,
+    "output_limit_mib": 2,
+    "no_fem_or_solver_calls": true
+  },
+  "completion_checks": [
+    "Input size and SHA-256 match the frozen contract before replay.",
+    "The figure and manifest are newly created in the named output directory.",
+    "The replay manifest reports 151 dense-grid rows plus one exact probe (152 plotted points total).",
+    "All 152 route statuses are QF_GUARD_REJECTED and the source state is PYTEST_FAILED.",
+    "The input file hash remains unchanged after replay.",
+    "The figure file has a nonzero byte size and a recorded SHA-256."
+  ]
+}
