@@ -1,0 +1,32 @@
+{
+  "schema": "qfsolver-j18-controlled-test-contract-v1",
+  "contract_id": "J18-EXACT-CSR-LIMITS-001",
+  "attempt_id": "J18-EXACT-CSR-LIMITS-001-ATTEMPT-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "classification": "BOUNDED_UNIT_TEST_NO_FEM",
+  "owner_authorization": "QF Solver 0.3.0 J18 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "branch": "work/0.3.0-j18",
+    "source_commit": "37764481a3c90f70078de3bedd5b330f1e4f3740"
+  },
+  "sources": {
+    "research/j17/exact_residual.py": "6123969da0007963fa0427fe5b9fe7408cbf9a48228e05f4061076da889ecea1",
+    "tests/unit/test_j18_exact_residual_limits.py": "bbe8ed2c4f059ac023e33893654d27543ca21e35cdf63fd69d895d10ad6237fa"
+  },
+  "objective": "Verify that the exact sparse residual evaluator returns INCONCLUSIVE when the configured rational bit-length budget is too small to certify the exact comparison.",
+  "criteria": {
+    "nodeid": "tests/unit/test_j18_exact_residual_limits.py::test_exact_csr_residual_returns_inconclusive_on_fraction_bit_budget",
+    "expected": "One PASS; evaluator status INCONCLUSIVE with an explicit bit-length-budget reason.",
+    "historical_status": "No J14/J15/J16/J17 result or status is modified."
+  },
+  "execution": {
+    "attempts": 1,
+    "timeout_seconds": 90,
+    "rss_soft_limit_mib": 1024,
+    "output_limit_mib": 8,
+    "fem": false,
+    "assembly": false,
+    "result": "research/j18/results/unit_tests_002/test_exact_csr_residual_returns_inconclusive_on_fraction_bit_budget.log"
+  }
+}
