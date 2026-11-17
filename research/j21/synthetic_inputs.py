@@ -48,8 +48,8 @@ def _duplicate_csr(dimension: int) -> dict[str, np.ndarray]:
     solution = np.ones(dimension, dtype=np.complex128)
     return {
         "matrix_storage": np.asarray("csr"),
-        "csr_data_real": np.asarray(data, dtype=np.float64).real,
-        "csr_data_imag": np.asarray(data, dtype=np.float64).imag,
+        "csr_data_real": np.asarray(data, dtype=np.complex128).real,
+        "csr_data_imag": np.asarray(data, dtype=np.complex128).imag,
         "csr_indices": np.asarray(indices, dtype=np.int32),
         "csr_indptr": np.asarray(indptr, dtype=np.int32),
         "matrix_shape": np.asarray([dimension, dimension], dtype=np.int64),
@@ -107,7 +107,16 @@ def main(argv: list[str] | None = None) -> int:
         ("duplicate_csr_32", "duplicate_csr", 32),
     )
     for filename, structure, dimension in specifications:
-        write_archive(output / f"{filename}.npz", structure, dimension)
+        path = output / f"{filename}.npz"
+        if path.exists():
+            expected = build_archive_payload(structure, dimension)
+            with np.load(path, allow_pickle=False) as archive:
+                if set(archive.files) != set(expected) or any(
+                    not np.array_equal(archive[name], value) for name, value in expected.items()
+                ):
+                    raise FileExistsError(f"existing synthetic archive differs from its specification: {path}")
+            continue
+        write_archive(path, structure, dimension)
     return 0
 
 
