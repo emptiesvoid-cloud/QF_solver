@@ -5,6 +5,7 @@ from __future__ import annotations
 from fractions import Fraction
 
 import numpy as np
+from scipy.sparse import csc_matrix, csr_matrix
 
 from research.j17.exact_residual import evaluate_exact_residual
 
@@ -85,3 +86,103 @@ def test_invalid_nonfinite_and_over_budget_inputs_are_inconclusive() -> None:
     assert "match the matrix" in wrong_shape.reason
     assert unsupported.status == "INCONCLUSIVE"
     assert "float32/float64" in unsupported.reason
+
+
+def test_sparse_complex_csr_exact_residual_matches_dense_reference() -> None:
+    matrix = np.array([[2.0 + 1.0j, -0.5j], [1.0 - 2.0j, 4.0 + 0.0j]], dtype=np.complex128)
+    rhs = np.array([1.0 + 1.0j, 2.0 - 1.0j], dtype=np.complex128)
+    solution = np.array([0.5 - 0.25j, 0.5 + 0.0j], dtype=np.complex128)
+
+    dense = evaluate_exact_residual(matrix, rhs, solution)
+    sparse = evaluate_exact_residual(csr_matrix(matrix), rhs, solution)
+
+    assert sparse.status == dense.status
+    assert sparse.residual_squared == dense.residual_squared
+    assert sparse.reference_squared == dense.reference_squared
+    assert sparse.relative_residual_squared == dense.relative_residual_squared
+    assert sparse.stored_entries == 4
+
+
+def test_sparse_duplicate_entries_keep_exact_cancellation_and_storage_order() -> None:
+    matrix = csr_matrix(
+        (
+            np.array([1.0e16 + 0.0j, 1.0 + 1.0j, -1.0e16 + 0.0j], dtype=np.complex128),
+            np.array([0, 0, 0], dtype=np.int32),
+            np.array([0, 3], dtype=np.int32),
+        ),
+        shape=(1, 1),
+    )
+    original_data = matrix.data.copy()
+    result = evaluate_exact_residual(
+        matrix,
+        np.array([1.0 + 1.0j], dtype=np.complex128),
+        np.array([1.0 + 0.0j], dtype=np.complex128),
+    )
+
+    assert not matrix.has_canonical_format
+    assert np.array_equal(matrix.data, original_data)
+    assert result.status == "PASS"
+    assert result.residual_squared == Fraction(0)
+    assert result.stored_entries == 3
+    assert result.nonzero_entries == 3
+
+
+def test_sparse_exact_decision_covers_near_threshold_and_zero_reference() -> None:
+    matrix = csr_matrix(np.array([[1.0 + 0.0j]], dtype=np.complex128))
+    rhs = np.array([1.0 + 0.0j], dtype=np.complex128)
+
+    below = evaluate_exact_residual(
+        matrix, rhs, np.array([1.0 + 0.5e-7j], dtype=np.complex128)
+    )
+    above = evaluate_exact_residual(
+        matrix, rhs, np.array([1.0 + 2.0e-7j], dtype=np.complex128)
+    )
+    zero_reference = evaluate_exact_residual(
+        matrix, np.zeros(1, dtype=np.complex128), np.zeros(1, dtype=np.complex128)
+    )
+
+    assert below.status == "PASS"
+    assert above.status == "FAIL"
+    assert zero_reference.status == "PASS"
+    assert zero_reference.relative_residual_squared == Fraction(0)
+
+
+def test_sparse_csr_rejects_nonfinite_malformed_and_over_budget_inputs() -> None:
+    nonfinite = evaluate_exact_residual(
+        csr_matrix(np.array([[np.inf + 0.0j]], dtype=np.complex128)),
+        np.ones(1, dtype=np.complex128),
+        np.ones(1, dtype=np.complex128),
+    )
+    over_budget = evaluate_exact_residual(
+        csr_matrix(
+            (
+                np.zeros(2, dtype=np.complex128),
+                np.array([0, 0], dtype=np.int32),
+                np.array([0, 2], dtype=np.int32),
+            ),
+            shape=(1, 1),
+        ),
+        np.zeros(1, dtype=np.complex128),
+        np.zeros(1, dtype=np.complex128),
+        max_nonzero_entries=1,
+    )
+    malformed_matrix = csr_matrix(np.eye(2, dtype=np.complex128))
+    malformed_matrix.indptr[-1] = 3
+    malformed = evaluate_exact_residual(
+        malformed_matrix, np.ones(2, dtype=np.complex128), np.ones(2, dtype=np.complex128)
+    )
+    wrong_format = evaluate_exact_residual(
+        csc_matrix(np.eye(2, dtype=np.complex128)),
+        np.ones(2, dtype=np.complex128),
+        np.ones(2, dtype=np.complex128),
+    )
+
+    assert nonfinite.status == "INCONCLUSIVE"
+    assert "finite" in nonfinite.reason
+    assert over_budget.status == "INCONCLUSIVE"
+    assert "entry count" in over_budget.reason
+    assert over_budget.stored_entries == 2
+    assert malformed.status == "INCONCLUSIVE"
+    assert "malformed" in malformed.reason
+    assert wrong_format.status == "INCONCLUSIVE"
+    assert "CSR" in wrong_format.reason
