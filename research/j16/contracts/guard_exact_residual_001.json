@@ -1,0 +1,72 @@
+{
+  "schema": "qfsolver-j16-family-contract-v1",
+  "contract_id": "J16-GUARD-EXACT-RESIDUAL-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "classification": "ARCHIVED_FLOAT64_SYSTEM_POSTPROCESSING",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J16_OWNER_2026-11-17",
+  "authorization": "The J16 Owner instruction authorizes analysis and post-processing of archived data and bounded diagnostics. This step evaluates only archived matrices, right-hand sides, and solution vectors; it does not assemble a model, call a solver, modify the historical guard, or change any run status.",
+  "source": {
+    "branch": "work/0.3.0-j16-science",
+    "parent_commit": "82c361e750b3a0d7bd26b22743d0a5fc240a41e3",
+    "upstream_experiment_commit": "29bbada6d9e12ad18c7f6889b96188537a276d9c",
+    "upstream_experiment_contract": "J16-NAFEMS13H-GUARD-SCALE-REFINEMENT-001",
+    "upstream_experiment_status": "PASS diagnostic completion; all three solver variants remain GUARD_REJECTED at each of five frequencies"
+  },
+  "inputs": {
+    "directory": "research/j16/results/diagnostic-2026-11-17/guard_resolution_001/",
+    "artifact_manifest": "research/j16/results/diagnostic-2026-11-17/guard_resolution_001/artifact_manifest.json",
+    "artifact_manifest_sha256": "b8c8998a194515fdd863fdbfad27bb1e4b6b50576e691e921cd3199b334984e0",
+    "verification": "Check each archived JSON/NPZ artifact path, byte size, and SHA-256 against artifact_manifest.json before reading any solution data.",
+    "matrix": "The exact float64 real and imaginary reduced impedance matrices saved by guard-resolution experiment 001.",
+    "right_hand_side": "The exact float64 real and imaginary right-hand-side arrays saved with each matrix.",
+    "solutions": [
+      "spsolve_unscaled",
+      "spsolve_row_column_equilibrated",
+      "splu_two_refinements"
+    ],
+    "frequencies_hz": [
+      2.3,
+      2.375818178440047,
+      2.417,
+      2.418,
+      2.45
+    ],
+    "source_run_status": "J15 remains PYTEST_FAILED; all 152 QF route points remain QF_GUARD_REJECTED."
+  },
+  "method": {
+    "arithmetic": "Convert each archived binary64 scalar to its exact integer ratio, then evaluate complex matrix-vector product, residual, L2 relative residual, and infinity-norm backward error with mpmath.",
+    "decimal_precisions": [
+      80,
+      120
+    ],
+    "maximum_precision_stability_relative_difference": "1e-50",
+    "formula_relative_residual": "||A*x-b||2 / max(||b||2, ||A*x||2)",
+    "formula_backward_error": "||A*x-b||inf / (||A||inf*||x||inf + ||b||inf)",
+    "comparison": "Compare the high-precision residual of each represented binary64 solution to the existing guard's float64 conservative upper bound and to the previous same-matrix scaling/refinement experiment.",
+    "acceptance_policy": "This is a post-processing diagnostic, not a QF route acceptance; the unchanged 1e-7 production threshold and all historical statuses remain untouched."
+  },
+  "execution": {
+    "command": "python research/j16/guard_exact_residual.py",
+    "attempt_limit": 1,
+    "timeout_seconds": 600,
+    "rss_soft_limit_mib": 1024,
+    "storage_limit_mib": 16,
+    "threads": 1,
+    "no_fem_or_solver_calls": true
+  },
+  "outputs": {
+    "directory": "research/j16/results/diagnostic-2026-11-17/guard_exact_residual_001/",
+    "file": "guard_exact_residual_summary.json",
+    "completion_checks": [
+      "All 11 upstream manifest artifacts pass SHA-256 and byte-size checks.",
+      "All 5 archived frequencies and all 3 archived solution variants receive high-precision metrics.",
+      "The 80- and 120-digit relative residuals agree within the stated relative-difference bound.",
+      "The output records that this diagnostic does not alter any historical or route status."
+    ]
+  },
+  "source_sha256": {
+    "research/j16/guard_exact_residual.py": "0734cbce992aa3f671518afa04a079de5a9b4ff0d84f4801602e2838eeb7f03f",
+    "tests/unit/test_j16_guard_exact_residual.py": "a58653b05b7c8cb820e5ba894de39674d041e850cf53b3cb79b0f6e6930d3cb7"
+  },
+  "status_policy": "The J16 guard-resolution attempt and J15 historical FAIL statuses are not modified. High-precision residual calculation can characterize the archived matrix solve only, not verify QF assembly or the plate mechanics."
+}

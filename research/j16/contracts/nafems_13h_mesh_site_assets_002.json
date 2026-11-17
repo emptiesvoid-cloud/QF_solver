@@ -1,0 +1,102 @@
+{
+  "schema": "qfsolver-j16-family-contract-v1",
+  "contract_id": "J16-NAFEMS13H-MESH-SITE-ASSETS-002",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "classification": "PRIVACY_SAFE_POSTPROCESSING_OF_COMPLETED_EXPLORATORY_RUNS_AFTER_CONTRACT_INPUT_PATH_FIX",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J16_OWNER_2026-11-17",
+  "authorization": "The J16 Owner instruction authorizes analysis of archived results and preparation of reproducible figures and files for a future site. This step only validates and packages existing J16-003 results; it does not call QF or an external solver and does not publish anything.",
+  "source": {
+    "branch": "work/0.3.0-j16-science",
+    "parent_commit": "f48253f0def976eb52628ae69fe5f9df94696d0a",
+    "family_contract": "J16-MITC4-NAFEMS13H-MESH-STUDY-003",
+    "source_attempt_ids": [
+      "J16-NAFEMS13H-MESH-06-003",
+      "J16-NAFEMS13H-MESH-08-003",
+      "J16-NAFEMS13H-MESH-10-003"
+    ],
+    "source_runner_states": [
+      "PASS",
+      "PASS",
+      "PASS"
+    ],
+    "state_meaning": "The three bounded development test nodes completed their output-completeness checks; frequency route statuses remain exactly as stored and are not qualified results.",
+    "prior_attempt": {
+      "contract_id": "J16-NAFEMS13H-MESH-SITE-ASSETS-001",
+      "attempt_id": "J16-NAFEMS13H-MESH-SITE-ASSETS-001-ATTEMPT-001",
+      "state": "PYTHON_FAILED",
+      "failure": "The aggregator looked for input_sha256 at contract top level; it is nested under inputs.input_sha256.",
+      "failure_record": "research/j16/results/diagnostic-2026-11-17/mesh_site_assets_001/attempt_failure.json",
+      "failure_record_sha256": "5fd02916132deb116e750fe31e789ba93a974b2db86025b4a9981339b8e2206b",
+      "inputs_read": false,
+      "assets_written": false
+    }
+  },
+  "inputs": {
+    "input_sha256": {
+      ".codex/development-runs/worktrees/j16_mesh_r3/dev-j16-nafems13h-mesh-06-003/attempt-0001/run.json": "650fd0f9df3ed6390477c19b0ee4418bbdf2c7a2f245ef8e975554103245b174",
+      ".codex/development-runs/worktrees/j16_mesh_r3/dev-j16-nafems13h-mesh-08-003/attempt-0001/run.json": "590a2630144eb7fe3f0f168f53be7ccff52bbba50d049ca2bdac8c0711bf47cb",
+      ".codex/development-runs/worktrees/j16_mesh_r3/dev-j16-nafems13h-mesh-10-003/attempt-0001/run.json": "a31e8beda11301728c387ac1d56a937f7f4a285ddf8ffafa3dd04b9ceaafabe3",
+      "qualification/external_reference_digests/abaqus_nafems_13h_harmonic.json": "5ba35b1ee1b5e57d7eec03f18341e42c3d938f0b79c5aa5095ae366530a777a1",
+      "research/j16/contracts/execution_scope_registration_003.json": "89f6dc83e7f386a4edc3b3d048c9376535a9bb6892b239bd469e8de889e75301",
+      "research/j16/contracts/nafems_13h_mesh_study_003.json": "94c87436dc620c130df381122ae60e1f74609547f151de337b5685c4e4fc3914",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_06/artifact_manifest.json": "3228301cc3e35a341b2fc70441148af7dec98fefa15a3789a988e4899676e00c",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_06/frequency_response.csv": "b72d5960419cca427fb8a4c9596f2cf3155d9b8a31cc16cb142c2b65bac20cf3",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_06/mesh_setup.png": "d8a993f1e9b8eb0fefe8b82f3cbcf34e6ce474070d9a10dba02afcd90af3a1d5",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_06/peak_deformation.png": "e54e177df5a4080aa915bc69f812e81a8efb0f212de0a27f69a524de6876afd0",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_06/site_data.json": "d5ba623580e949932dbe4df0d9df4028a64f64d151a106267f793f9a18d46c91",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_08/artifact_manifest.json": "d42ac2183c7bac0cf7f06a42b436972ae33ecbdc6d0abc225f639c1aa751491c",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_08/frequency_response.csv": "edf61c8a7a2453571e60cd7cb4798146295e6cda10ea46c837dad8d10aa2a803",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_08/mesh_setup.png": "985491f26ec3b2285ac506937883f904ac190c1669eb97c51456b53cc52e1779",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_08/peak_deformation.png": "ab5098eac365e9376b5997bcdcf877644e6a7788963e15e0d5bdac2de0b65e4e",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_08/site_data.json": "5a1148edc8f48ddca8d1c00c05d88721ecc069448251e752b3bea5dcf4a65224",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_10/artifact_manifest.json": "eef582189c017df6853629d6ecd88ba35f81bc4254333c78061d25bfbdf0d515",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_10/frequency_response.csv": "1a05e1fe63f9eb6b5bcda085cfbc8b58c7bba31ead869838f5b97158e873e89f",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_10/mesh_setup.png": "1fafcaa91be9f40618a4b9c2c550fb199a58a086bcdbb34bdc58e3689e2ab70c",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_10/peak_deformation.png": "3053f494c7de130e1e3535e1658a6df48786842462bf9450cd923304bb8acba6",
+      "research/j16/results/diagnostic-2026-11-17/mesh_study_003/mesh_10/site_data.json": "9da627e79b193ee6ae42140e7b1f35c9d3577558664ca4cbd4acbb7d8757423f"
+    }
+  },
+  "method": {
+    "operations": [
+      "Verify every listed input file against its frozen SHA-256 before copying or aggregating it.",
+      "Verify all three site_data.json files use the same geometry, material, pressure, supports, damping, observable, and frequency grid.",
+      "Retain every per-frequency QF route status and raw diagnostic label.",
+      "Aggregate frequency, amplitude, phase, residual, load resultant, and resource observations.",
+      "Compare descriptively with the independent Kirchhoff-Love Navier series and the published NAFEMS/Abaqus direct peak scalars.",
+      "Create a combined amplitude/phase figure, CSV, summaries, selected mesh setup/deformation figures, and a local SHA-256 manifest."
+    ],
+    "independent_reference": "Official Abaqus 2024 NAFEMS 13H benchmark page and its published direct S4R values; the local Abaqus executable is not used. The phase comparison is only against the independently evaluated Navier series because the official table provides no phase curve.",
+    "normalization": "Keep the source per-frequency complex-error normalization by the Navier peak over the entire 2.25\u20132.55 Hz window; do not relabel it as a local relative error.",
+    "status_policy": "A post-processing or development-run PASS does not override a frequency's QF_GUARD_REJECTED status and is not a mechanical correlation PASS."
+  },
+  "execution": {
+    "command": "python research/j16/aggregate_harmonic_mesh_study.py",
+    "attempt_limit": 1,
+    "timeout_seconds": 300,
+    "rss_soft_limit_mib": 1024,
+    "storage_limit_mib": 16,
+    "no_fem_or_solver_calls": true
+  },
+  "outputs": {
+    "directory": "research/j16/site_assets/nafems13h_mesh_study_003/",
+    "expected_files": [
+      "mesh_comparison_summary.json",
+      "mesh_comparison_frequency_response.csv",
+      "mesh_comparison_amplitude_phase.png",
+      "artifact_manifest.json",
+      "mesh_06/site_data.json",
+      "mesh_08/site_data.json",
+      "mesh_10/site_data.json"
+    ],
+    "checks": [
+      "The aggregate contains 186 frequency rows and three mesh summaries.",
+      "Each summary reports accepted and rejected counts separately and identifies raw peaks as unaccepted diagnostics where applicable.",
+      "No absolute workstation path or runner log is copied into the site asset directory."
+    ]
+  },
+  "source_sha256": {
+    "research/j16/aggregate_harmonic_mesh_study.py": "818c73fc3384ea95c99d3ad8c0f3bf60484db52fb13f8411255577430f554b28",
+    "tests/unit/test_j16_mesh_asset_aggregation.py": "b689b251f2fd1449a0b504728890408b82fa47f6dde7c36a44e0f125583dbbe9"
+  },
+  "status_policy": "Assets are prepared for review and a future site, not published. They remain exploratory and retain all QF route rejections."
+}

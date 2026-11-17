@@ -1,0 +1,254 @@
+{
+  "classification": "ARCHIVED_MATRIX_POSTPROCESSING_NO_SOLVE_OR_FEM_ASSEMBLY",
+  "contract_id": "J16-GUARD-EXACT-RESIDUAL-002",
+  "contract_sha256": "ac35ff30448e808f90a9407c55ee87f4e626db80f8896c7f71ae5ab6e97a5b69",
+  "environment": {
+    "mpmath": "1.3.0",
+    "numpy": "2.2.6",
+    "python": "3.13.1"
+  },
+  "input_artifact_manifest_sha256": "b8c8998a194515fdd863fdbfad27bb1e4b6b50576e691e921cd3199b334984e0",
+  "interpretation_limit": "This evaluates how accurately a stored vector solves the stored binary64 assembled matrix problem. It cannot verify QF element assembly, the mechanical model, or errors in the physical problem; it does not replace a QF route decision.",
+  "method": {
+    "acceptance_policy": "This is post-processing, not a QF route acceptance; the unchanged 1e-7 production threshold and all historical statuses remain untouched.",
+    "arithmetic": "Convert each archived binary64 scalar to its exact integer ratio, then evaluate complex matrix-vector product, residual, L2 relative residual, and infinity-norm backward error with mpmath.",
+    "comparison": "Compare the high-precision residual of each represented binary64 solution to the existing guard's float64 conservative upper bound and to the previous same-matrix scaling/refinement experiment.",
+    "decimal_precisions": [
+      80,
+      120
+    ],
+    "formula_backward_error": "||A*x-b||inf / (||A||inf*||x||inf + ||b||inf)",
+    "formula_relative_residual": "||A*x-b||2 / max(||b||2, ||A*x||2)",
+    "interpretation_limit": "This evaluates how accurately a stored vector solves the stored binary64 assembled matrix problem. It cannot verify QF element assembly, the mechanical model, or errors in the physical problem; it does not replace a QF route decision.",
+    "maximum_precision_stability_relative_difference": "1e-50"
+  },
+  "records": [
+    {
+      "condition_number_2": 1105516.8423656095,
+      "frequency_hz": 2.3,
+      "historical_guard_upper_bound": 2.1836132619567596e-07,
+      "historical_qf_status": "QF_GUARD_REJECTED",
+      "input_matrix_archive": "guard_frequency_2p300000000.npz",
+      "variants": [
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 2.1824381196877928e-07,
+          "high_precision_backward_error_eta_inf": "0.000000000000000148084729262526284457193816283676038693249444011870447308738",
+          "high_precision_relative_residual_l2": "0.000000000137172500995093532015594528535462857865219955045560759138131",
+          "high_precision_residual_l2": "0.000000150032422966357319647900815032082689204567132111257006094037",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "1.71345134667316048339877102367871207790240367125544974802547e-81",
+          "solution_difference_inf_vs_unscaled": 0.0,
+          "variant": "spsolve_unscaled"
+        },
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 2.1825322000737132e-07,
+          "high_precision_backward_error_eta_inf": "0.000000000000000185671178501211091238843399483406628981156817482055721470687",
+          "high_precision_relative_residual_l2": "0.000000000144584493932808430408752437609677758759390316444274898902008",
+          "high_precision_residual_l2": "0.000000158139290239009182014381645747119591326636338300351964121098",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "1.18513009692465666942023261962899661827554943780157307614579e-81",
+          "solution_difference_inf_vs_unscaled": 7.018822418507613e-11,
+          "variant": "spsolve_row_column_equilibrated"
+        },
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 2.1816803560483864e-07,
+          "high_precision_backward_error_eta_inf": "0.0000000000000000688858157431676705386120735002619934159865127188986259337582",
+          "high_precision_relative_residual_l2": "0.0000000000618447034786696982983555152754110394374871504436551230484952",
+          "high_precision_residual_l2": "0.0000000676426444297949659409228195044485894039650422372360073696417",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "1.41869590094210473514752337803962580538764794880321990282338e-81",
+          "solution_difference_inf_vs_unscaled": 3.577937474252048e-11,
+          "variant": "splu_two_refinements"
+        }
+      ]
+    },
+    {
+      "condition_number_2": 2165457.539788948,
+      "frequency_hz": 2.375818178440047,
+      "historical_guard_upper_bound": 4.2783179861618343e-07,
+      "historical_qf_status": "QF_GUARD_REJECTED",
+      "input_matrix_archive": "guard_frequency_2p375818178.npz",
+      "variants": [
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 4.276113764229749e-07,
+          "high_precision_backward_error_eta_inf": "0.000000000000000115545926846902772149807696738281463159395006142632244155771",
+          "high_precision_relative_residual_l2": "0.000000000281406631823320254490210168846315866378122763185313866984949",
+          "high_precision_residual_l2": "0.000000307788503558060525755898663877250930664011099855629103789535",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "1.16452699356944021057214735613612109321539591311278883433310e-83",
+          "solution_difference_inf_vs_unscaled": 0.0,
+          "variant": "spsolve_unscaled"
+        },
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 4.276169367846252e-07,
+          "high_precision_backward_error_eta_inf": "0.000000000000000105758301640015880693465836608014022592923573989547581836952",
+          "high_precision_relative_residual_l2": "0.000000000286070609984191338081079835828266749682959801188096286690265",
+          "high_precision_residual_l2": "0.000000312889729670209199366089679831210007247185593879314091708098",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "7.35044935928278001120668146503304604537321228614482153837377e-82",
+          "solution_difference_inf_vs_unscaled": 3.410912306610242e-11,
+          "variant": "spsolve_row_column_equilibrated"
+        },
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 4.2747737657069e-07,
+          "high_precision_backward_error_eta_inf": "0.0000000000000000584868437972146115886096347743457299748431468573053375236447",
+          "high_precision_relative_residual_l2": "0.000000000127980494980313956996686846697630469672922613135621061372426",
+          "high_precision_residual_l2": "0.000000139978666385523337862677458439369041416459546637368900784363",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "4.46486748769300964898176845633516543000001188500559727978609e-82",
+          "solution_difference_inf_vs_unscaled": 3.3364744283778897e-12,
+          "variant": "splu_two_refinements"
+        }
+      ]
+    },
+    {
+      "condition_number_2": 2830864.9520635577,
+      "frequency_hz": 2.417,
+      "historical_guard_upper_bound": 5.593745420732435e-07,
+      "historical_qf_status": "QF_GUARD_REJECTED",
+      "input_matrix_archive": "guard_frequency_2p417000000.npz",
+      "variants": [
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 5.591220734904374e-07,
+          "high_precision_backward_error_eta_inf": "0.000000000000000176235667789324752352164955124312055892446181330941438581597",
+          "high_precision_relative_residual_l2": "0.000000000406730818253432639929255079894783074425935590961863276188882",
+          "high_precision_residual_l2": "0.000000444861832464691840928477205905128286763852161747136530694400",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "1.18176251199685746285908902448704810733156404562279318254958e-82",
+          "solution_difference_inf_vs_unscaled": 0.0,
+          "variant": "spsolve_unscaled"
+        },
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 5.590832063077461e-07,
+          "high_precision_backward_error_eta_inf": "0.000000000000000148279660652719311513897989369924108029086417280346247123230",
+          "high_precision_relative_residual_l2": "0.000000000360491923659158515046204884427560244039446574803660485143523",
+          "high_precision_residual_l2": "0.000000394288041502204529228560504861636338522624077541922406646326",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "8.98635591662931755339893241757477109957894411291937622476732e-83",
+          "solution_difference_inf_vs_unscaled": 2.2920115363676246e-11,
+          "variant": "spsolve_row_column_equilibrated"
+        },
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 5.589306510512263e-07,
+          "high_precision_backward_error_eta_inf": "0.0000000000000000830297832006498885224975937669828101636706326127120768500560",
+          "high_precision_relative_residual_l2": "0.000000000196898690104790319257548109741086105913418233775594666424103",
+          "high_precision_residual_l2": "0.000000215357942302114358923796732537319447763094496405742964233469",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "6.37148256274513366527065324956703860510970927783568394712757e-82",
+          "solution_difference_inf_vs_unscaled": 9.912452267699271e-11,
+          "variant": "splu_two_refinements"
+        }
+      ]
+    },
+    {
+      "condition_number_2": 2830161.960310293,
+      "frequency_hz": 2.418,
+      "historical_guard_upper_bound": 5.595029322422947e-07,
+      "historical_qf_status": "QF_GUARD_REJECTED",
+      "input_matrix_archive": "guard_frequency_2p418000000.npz",
+      "variants": [
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 5.589401777145029e-07,
+          "high_precision_backward_error_eta_inf": "0.000000000000000154422410159994440815312629625137553692385806061151844152730",
+          "high_precision_relative_residual_l2": "0.000000000358473997126770801350225773029629280582855588878119784912765",
+          "high_precision_residual_l2": "0.000000392080934357405467914339469292740478477588743008036646530072",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "3.31115584478076377219340800741839713558886277233305945871105e-82",
+          "solution_difference_inf_vs_unscaled": 0.0,
+          "variant": "spsolve_unscaled"
+        },
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 5.589944481461198e-07,
+          "high_precision_backward_error_eta_inf": "0.000000000000000179580469048783471802116540499154278219437664950713940591484",
+          "high_precision_relative_residual_l2": "0.000000000423675105065890937445764504177555335521417005351577839663617",
+          "high_precision_residual_l2": "0.000000463394646165818099296495195131314972150778638321285175404731",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "1.32790897329536939454003403803167796699214638010130595588695e-81",
+          "solution_difference_inf_vs_unscaled": 4.338329778367195e-12,
+          "variant": "spsolve_row_column_equilibrated"
+        },
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 5.588392633102831e-07,
+          "high_precision_backward_error_eta_inf": "0.0000000000000000725554911972272525139801391994058050555155856476018173246135",
+          "high_precision_relative_residual_l2": "0.000000000189141526386314401891087497371926488015538100005700987774993",
+          "high_precision_residual_l2": "0.000000206873544485031326382965053744158918278377053087438731720891",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "1.01720927058080141839577938951291145334261088738921814250115e-81",
+          "solution_difference_inf_vs_unscaled": 7.069870410900538e-11,
+          "variant": "splu_two_refinements"
+        }
+      ]
+    },
+    {
+      "condition_number_2": 2331939.358048393,
+      "frequency_hz": 2.45,
+      "historical_guard_upper_bound": 4.6106326999465065e-07,
+      "historical_qf_status": "QF_GUARD_REJECTED",
+      "input_matrix_archive": "guard_frequency_2p450000000.npz",
+      "variants": [
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 4.6058471636239327e-07,
+          "high_precision_backward_error_eta_inf": "0.000000000000000138368190252319756978525849578910086798267771950847332875097",
+          "high_precision_relative_residual_l2": "0.000000000279909799700166632089626053693740513832785864030183432680123",
+          "high_precision_residual_l2": "0.000000306151343422057178838887126106438640219967813304877729617059",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "1.32521434555193085054540842954274188915489598513921135698991e-82",
+          "solution_difference_inf_vs_unscaled": 0.0,
+          "variant": "spsolve_unscaled"
+        },
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 4.605795491522681e-07,
+          "high_precision_backward_error_eta_inf": "0.0000000000000000926615774677065251051897879157338075602459959331757967599382",
+          "high_precision_relative_residual_l2": "0.000000000277254325075618036119873927096234782121020136818721908849943",
+          "high_precision_residual_l2": "0.000000303246918058037998915909314375538002730599362282553054377503",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "3.42502477746819659416132867106608607778386789995347805972074e-82",
+          "solution_difference_inf_vs_unscaled": 6.611985081685345e-11,
+          "variant": "spsolve_row_column_equilibrated"
+        },
+        {
+          "guard_recheck_outcome": "GUARD_REJECTED",
+          "guard_upper_bound": 4.6047667684374086e-07,
+          "high_precision_backward_error_eta_inf": "0.0000000000000000531019967587196410814037618259976592723898429735072334993063",
+          "high_precision_relative_residual_l2": "0.000000000124361688574065994790757576534087137735395563813369530695096",
+          "high_precision_residual_l2": "0.000000136020596877929432756852106712122269656459417435440677613292",
+          "precision_stability_pass": true,
+          "precision_stability_relative_difference": "1.28228084860986408160059869400273928619577738630150652957280e-81",
+          "solution_difference_inf_vs_unscaled": 2.3920940329520085e-11,
+          "variant": "splu_two_refinements"
+        }
+      ]
+    }
+  ],
+  "resources_observed": {
+    "elapsed_seconds": 2.8666065998841077,
+    "peak_rss_bytes_sampled": 36843520,
+    "rss_limit_semantics": "sampled soft monitor; not an OS memory quota",
+    "sampling_interval_seconds": 0.1
+  },
+  "schema": "qfsolver-j16-high-precision-residual-postprocess-v1",
+  "source_file_sha256": {
+    "research/j16/guard_exact_residual.py": "ae608094de30e0e98f6ccca940d7e05065e4cde51bf4f3517d874336f7fbc6e6",
+    "tests/unit/test_j16_guard_exact_residual.py": "528209a59613404013879cf0ce42eb63ad405d2ccda5411dcb92c8e74a8c5a5b"
+  },
+  "source_git_commit": "bdf780b9acd4c36cdb665ef40bf03ff9165b3ff9",
+  "source_guard_experiment_contract_id": "J16-NAFEMS13H-GUARD-SCALE-REFINEMENT-001",
+  "source_guard_experiment_contract_sha256": "0e0d5353eb3ea107429590621febf930488181ecb926aa3fd5964fe86c3a53a8",
+  "status_policy": "All original and prior diagnostic guard rejections remain unchanged; this post-processing is not a QF route acceptance.",
+  "verified_archived_input_bytes": 95798,
+  "verified_archived_input_count": 11
+}

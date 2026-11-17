@@ -1,0 +1,51 @@
+{
+  "schema": "qfsolver-j16-execution-scope-registration-v1",
+  "registration_id": "J16-DEVELOPMENT-AUTONOMOUS-SCOPE-002",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J16_OWNER_2026-11-17",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J16-2026-11-17-v2",
+  "worktree_id": "j16_mesh_r2",
+  "mode": "fem_exploratory",
+  "branch": "work/0.3.0-j16-science",
+  "baseline_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+  "source_fix_parent_commit": "29bbada6d9e12ad18c7f6889b96188537a276d9c",
+  "contract_id": "J16-MITC4-NAFEMS13H-MESH-STUDY-002",
+  "nodeids": [
+    "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_06",
+    "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_08",
+    "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_10"
+  ],
+  "series_ids": [
+    "dev-j16-nafems13h-mesh-06-002",
+    "dev-j16-nafems13h-mesh-08-002",
+    "dev-j16-nafems13h-mesh-10-002"
+  ],
+  "attempt_limit_per_nodeid": 1,
+  "budgets": {
+    "timeout_seconds_per_node": 1800,
+    "rss_soft_limit_mib": 2048,
+    "process_tree_limit": 4,
+    "temporary_limit_mib": 512,
+    "archive_size_limit_mib": 128,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8
+  },
+  "thread_environment": {
+    "BLIS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "attempt_ledger": {
+    "path": "node-attempt-ledger-j16-mesh-r2.json",
+    "mandate_id": "DEVELOPMENT_AUTONOMOUS-J16-2026-11-17-v2",
+    "predecessor": "J16-001 mesh-06 ledger is preserved separately; this is a new source-fix namespace."
+  },
+  "source_change": "Replace unsupported numpy.linalg.norm(CSR, ord=inf) in the diagnostic eta_inf calculation with explicit sparse row-sum infinity norm; add a synthetic sparse-matrix unit test. No solver algorithm, residual threshold, model, or historical status is changed.",
+  "controller_procedure": "Use the exact-node collect-only preflight and one-attempt runner for each registered nodeid. The local controller overlay and policy are recorded by SHA-256 in each run's controller provenance and are not merged as source changes.",
+  "qualification_status": "Development-only; not qualification, release, publication, merge, or historical-verdict authority."
+}

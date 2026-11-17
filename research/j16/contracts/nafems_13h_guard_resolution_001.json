@@ -1,0 +1,123 @@
+{
+  "schema": "qfsolver-j16-family-contract-v1",
+  "contract_id": "J16-NAFEMS13H-GUARD-SCALE-REFINEMENT-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "classification": "DEVELOPMENT_DIAGNOSTIC_ON_ARCHIVED_QF_ASSEMBLED_SYSTEM",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J16_OWNER_2026-11-17",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J16-2026-11-17-v1",
+  "authorization": "The Owner's explicit J16 instruction authorizes archived-data analysis and bounded solver diagnostics, targeted code and tests, and prospective harmonic work. It excludes publication, release, tagging, and merge.",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "execution_branch": "work/0.3.0-j16-science",
+    "execution_parent": "2027c799d0217868145afcb5005d91a1305d0f62",
+    "plotter_parent_branch": "work/0.3.0-j16-plotter"
+  },
+  "execution": {
+    "scope": "fem_exploratory",
+    "worktree_id": "j16",
+    "nodeid": "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_guard_scaling_refinement_diagnostic",
+    "series_id": "dev-j16-nafems13h-guard-scale-001",
+    "attempt_id": "J16-NAFEMS13H-GUARD-SCALE-001",
+    "attempt_limit": 1,
+    "retry_policy": "No automatic retry. Another attempt requires a separately identified source change or diagnostic hypothesis, a new contract/series/attempt ID, and a new ledger entry."
+  },
+  "inputs": {
+    "j15_source_commit": "591e04fcd648c7969ead41c13a9c80855e6623f1",
+    "j15_attempt_id": "J15-NAFEMS13H-RES-001",
+    "j15_source_status": "PYTEST_FAILED",
+    "j15_input_manifest_path": "research/j15/results/diagnostic-2026-11-17/nafems_13h_resonance/postprocess_001/input_artifact_manifest.json",
+    "j15_input_manifest_sha256": "fb430bed1f5cfaa072106c48e534d9abaaa9eb7340a61500b4e79b02c80d2e14",
+    "selected_checkpoint_frequencies_hz": [
+      2.3,
+      2.375818178440047,
+      2.417,
+      2.418,
+      2.45
+    ],
+    "selected_checkpoint_artifacts": "The JSON and NPZ pair for each listed frequency; each SHA-256 and byte count is verified against the immutable J15 input manifest before matrix assembly.",
+    "matrix_origin": "New reduced dynamic impedances assembled from the exact J15 QF source and the unchanged NAFEMS 13H model; archived J15 reduced response vectors are comparison inputs, not replacements."
+  },
+  "model": {
+    "benchmark": "NAFEMS 13H square plate",
+    "element": "MITC4 shell",
+    "mesh": "8x8 quadrilateral mesh",
+    "geometry_m": {
+      "length": 10.0,
+      "width": 10.0,
+      "thickness": 0.05
+    },
+    "material": {
+      "young_modulus_pa": 200000000000.0,
+      "poisson_ratio": 0.3,
+      "density_kg_m3": 8000.0
+    },
+    "pressure_pa": 100.0,
+    "physical_pressure_direction": "-Z",
+    "boundary_conditions": "UX=UY=RZ=0 at every node; UZ=0 on all four edges; RY=0 on bottom/top edges; RX=0 on left/right edges.",
+    "rayleigh_damping": {
+      "alpha_s_inv": 0.299,
+      "beta_s": 0.001339
+    },
+    "complex_equation": "(K + i*omega*C - omega^2*M) U = F, exp(+i*omega*t)",
+    "reduced_dofs": 175
+  },
+  "methods": {
+    "frequency_hz": [
+      2.3,
+      2.375818178440047,
+      2.417,
+      2.418,
+      2.45
+    ],
+    "guard_threshold": 1e-7,
+    "threshold_policy": "Recompute the existing guard on each candidate solution using the original unscaled matrix and unchanged historical threshold; do not amend historical status.",
+    "solvers": [
+      "SciPy spsolve on the unscaled reduced impedance.",
+      "SciPy spsolve after one row and one column infinity-sum equilibration; map the solution back to the original variables.",
+      "SciPy SuperLU factorization with two correction steps whose residuals are computed in complex128."
+    ],
+    "observables": [
+      "computed relative L2 residual",
+      "infinity-norm backward error eta_inf = ||Ax-b||_inf/(||A||_inf||x||_inf+||b||_inf)",
+      "guard upper bound on the original system",
+      "2-norm condition estimate",
+      "center UZ amplitude and phase",
+      "relative solution difference from unscaled spsolve",
+      "relative difference to the archived J15 reduced vector"
+    ]
+  },
+  "interpretation_and_completion": {
+    "diagnostic_question": "Determine whether scaling or same-precision iterative refinement changes the computed residual, guard bound, or response for the same QF-assembled system.",
+    "completion_checks": "Verify ten selected archived inputs; preserve the five historical QF_GUARD_REJECTED statuses; write all five matrices, right-hand sides, solutions, metrics, and hashes; do not produce a mechanical PASS.",
+    "mechanical_acceptance_threshold": null,
+    "scope_limit": "This tests solution methods on QF-assembled matrices. It is not an independent check of QF assembly, the plate formulation, or physical accuracy. A low backward error alone is not physical verification."
+  },
+  "resources": {
+    "timeout_seconds": 600,
+    "rss_soft_limit_mib": 2048,
+    "process_tree_limit": 4,
+    "temporary_limit_mib": 256,
+    "archive_size_limit_mib": 64,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "minimum_free_disk_mib": 1024,
+    "numeric_threads": 1,
+    "estimate": "Five solves of a 175-DOF reduced system and five condition estimates are expected to remain well below 10 minutes; this is an engineering estimate, not a measurement."
+  },
+  "artifacts_to_preserve": [
+    "Verified input-manifest SHA and the ten selected J15 input artifacts.",
+    "Per-frequency original complex impedance, RHS, unscaled/scaled/refined vectors, JSON metrics, and SHA-256 manifest.",
+    "Runner preflight, attempt ledger entry, resource observations, environment, source fingerprint, and logs.",
+    "All historical J15 artifacts and statuses without edits."
+  ],
+  "source_sha256": {
+    "research/j16/guard_resolution_experiment.py": "1972da822a9b67e1798242d84680ce67917ecea938ee79ceef0b676eac4d28e6",
+    "tests/verification/test_j16_harmonic_diagnostics.py": "e454371238e6b26cf6d4ca4cb1922f0cbaaa623bf27b0a613c317e9989386307",
+    "research/j15/harmonic_resonance.py": "93a3d8f5db6ecea972e2134a59a5a0fa7e2ce7a5933f2172f75defb991ec5bbb",
+    "src/solveur/core/solvers/linear.py": "379d7e30d22b712f5d0b648d8f7384d0a2c72dfaeb69e106402b21fc3cef79f9",
+    "src/solveur/verification/mitc4_harmonic_nafems.py": "c324ae5bf5c5fdc2c0b66f72505733efc7c5824c93bbaf438e516707e5919a13",
+    "src/solveur/core/assembly/assembler.py": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
+    "src/solveur/core/analyses/dynamic_reduction.py": "48bfa56d06bd3361f27fe3a93ba216e514ad55b27ec6660fd93dbb46831e5e78",
+    "src/solveur/verification/external_correlation.py": "7b4f0321efbea49c3c51b50c1d5773a872d74855953d23d4a682bd08adefa097"
+  }
+}

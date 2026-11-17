@@ -1,0 +1,131 @@
+{
+  "schema": "qfsolver-j16-family-contract-v1",
+  "contract_id": "J16-MITC4-NAFEMS13H-MESH-STUDY-002",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "classification": "PROSPECTIVE_EXPLORATORY_MULTI_MESH_HARMONIC_STUDY_AFTER_CHECKPOINT_FIX",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J16_OWNER_2026-11-17",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J16-2026-11-17-v2",
+  "authorization": "The J16 Owner instruction authorizes bounded multi-mesh harmonic studies and targeted code fixes. This new contract and attempt namespace follow the J16-001 retry rule after a demonstrated sparse-matrix post-processing error. Publication, release, tagging, and merge remain excluded.",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "execution_branch": "work/0.3.0-j16-science",
+    "code_fix_parent_commit": "29bbada6d9e12ad18c7f6889b96188537a276d9c",
+    "prior_contract_id": "J16-MITC4-NAFEMS13H-MESH-STUDY-001",
+    "prior_mesh_06_attempt": {
+      "attempt_id": "J16-NAFEMS13H-MESH-06-001",
+      "runner_state": "PYTEST_FAILED",
+      "failure": "The exploratory runner called numpy.linalg.norm(matrix, ord=inf) on a SciPy CSR matrix. The post-processing raised ValueError before the first per-frequency raw checkpoint; this is a harness failure, not a mechanical result.",
+      "preservation": "The original J16-001 contract, runner record, source commit, and failure status remain unchanged."
+    }
+  },
+  "execution": {
+    "scope": "fem_exploratory",
+    "worktree_id": "j16_mesh_r2",
+    "nodeids": [
+      "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_06",
+      "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_08",
+      "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_10"
+    ],
+    "series_ids": [
+      "dev-j16-nafems13h-mesh-06-002",
+      "dev-j16-nafems13h-mesh-08-002",
+      "dev-j16-nafems13h-mesh-10-002"
+    ],
+    "attempt_ids": [
+      "J16-NAFEMS13H-MESH-06-002",
+      "J16-NAFEMS13H-MESH-08-002",
+      "J16-NAFEMS13H-MESH-10-002"
+    ],
+    "attempt_limit_per_nodeid": 1,
+    "retry_policy": "One attempt per mesh in this new namespace. Any further attempt requires a separate source/instrumentation change or diagnostic hypothesis, contract, scope registration, and ledger entry."
+  },
+  "inputs": {
+    "reference_artifact": "qualification/external_reference_digests/abaqus_nafems_13h_harmonic.json",
+    "reference_artifact_sha256": "5ba35b1ee1b5e57d7eec03f18341e42c3d938f0b79c5aa5095ae366530a777a1",
+    "model": {
+      "geometry_m": {
+        "length": 10.0,
+        "width": 10.0,
+        "thickness": 0.05
+      },
+      "material": {
+        "young_modulus_pa": 200000000000.0,
+        "poisson_ratio": 0.3,
+        "density_kg_m3": 8000.0
+      },
+      "pressure_pa": 100.0,
+      "physical_pressure_direction": "-Z",
+      "boundary_conditions": [
+        "UX=UY=RZ=0 at every node",
+        "UZ=0 on all four edges",
+        "RY=0 on bottom and top edges",
+        "RX=0 on left and right edges"
+      ],
+      "rayleigh_damping": {
+        "alpha_s_inv": 0.299,
+        "beta_s": 0.001339
+      },
+      "complex_convention": "(K + i*omega*C - omega^2*M) U = F with exp(+i*omega*t)"
+    },
+    "mesh_sizes_per_edge": [6, 8, 10],
+    "mesh_only_variable": "MITC4 quadrilaterals per plan edge; every other model and analysis input remains fixed.",
+    "frequency_grid_hz": {
+      "dense_start": 2.25,
+      "dense_stop": 2.55,
+      "dense_count": 61,
+      "dense_spacing": 0.005,
+      "additional_probe_hz": 2.375818178440047,
+      "total_count": 62
+    },
+    "observable": "Complex center UZ at the physical point (5,5,0) m; center is a node in each even mesh.",
+    "reference": {
+      "id": "NAFEMS-13H-KIRCHHOFF-LOVE-NAVIER-ODD-ODD-SERIES",
+      "independence": "Odd/odd Navier series through index 51; it does not use QF assembled matrices.",
+      "theory": "Thin Kirchhoff-Love plate compared descriptively with finite-mesh MITC4/Reissner-Mindlin.",
+      "comparison_limit": "Differences remain sensitive to finite thickness and shell formulation; no mechanical acceptance threshold is defined."
+    }
+  },
+  "methods_and_indicators": {
+    "route": "At each frequency, solve the same QF-assembled reduced system with raw SciPy spsolve and separately execute the QF direct_frequency route. Preserve the exact QF status; do not promote unguarded vectors.",
+    "charge": "Archive the assembled resultant, direct translational nodal-force sums, and difference from the analytical flat-area resultant (0,0,-10000) N.",
+    "residual": "Report relative L2 residual and eta_inf = ||Ax-b||_inf/(||A||_inf||x||_inf+||b||_inf), using sparse-compatible row-sum norms. Keep the production guard at its historical 1e-7.",
+    "frequency_indicators": [
+      "QF K/M first undamped frequency, distinct from the damped response peak.",
+      "Dense sampled peak and local quadratic estimate of log amplitude, reported separately.",
+      "Amplitude, phase, and complex UZ discrepancy at each common frequency.",
+      "Complex discrepancy normalized by the maximum Navier amplitude on the common dense band; phase omitted below 5 percent of that reference peak."
+    ],
+    "completion_checks": "Each mesh has 62 final frequency records and finite raw response vectors; route status is explicit and is never HARNESS_ERROR in a completed test; load-vector self-consistency is checked to 1e-8 N. These are software/output checks, not a mechanical PASS.",
+    "mechanical_pass_threshold": null
+  },
+  "resources": {
+    "timeout_seconds_per_mesh": 1800,
+    "rss_soft_limit_mib": 2048,
+    "process_tree_limit": 4,
+    "temporary_limit_mib": 512,
+    "archive_size_limit_mib": 128,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "minimum_free_disk_mib": 1024,
+    "numeric_threads": 1,
+    "attempt_limit_per_mesh": 1,
+    "estimate": "J15's 8x8, 152-frequency run took 42.849 s. The J16 grid is 62 frequencies; 10x10 has more DOFs. The 30-minute and 2-GiB soft limits are conservative estimates, not measurements."
+  },
+  "artifacts_to_preserve": [
+    "Per-frequency JSON and NPZ checkpoints written before QF route execution and finalized afterward.",
+    "Per-mesh summary, CSV, setup figure, amplitude/phase plot, peak deformation figure, and artifact manifest.",
+    "Separate preflight receipts, attempt ledger, controller/source fingerprints, environment, logs, time and sampled resource observations.",
+    "J16-001 failure and all J14/J15 historical results unchanged."
+  ],
+  "source_sha256": {
+    "research/j16/harmonic_mesh_study.py": "21023c461faba0060d1db7193823dfbf3b50b17024abc24aee868d6f13d42815",
+    "tests/unit/test_j16_harmonic_mesh_math.py": "c0f6520f029c677c82907396c2898e389b1a7fbea05bc2ee1c33516e3e4c4a59",
+    "tests/verification/test_j16_harmonic_diagnostics.py": "e454371238e6b26cf6d4ca4cb1922f0cbaaa623bf27b0a613c317e9989386307",
+    "research/j15/harmonic_resonance.py": "93a3d8f5db6ecea972e2134a59a5a0fa7e2ce7a5933f2172f75defb991ec5bbb",
+    "src/solveur/verification/mitc4_harmonic_nafems.py": "c324ae5bf5c5fdc2c0b66f72505733efc7c5824c93bbaf438e516707e5919a13",
+    "src/solveur/core/assembly/assembler.py": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
+    "src/solveur/core/analyses/dynamic_reduction.py": "48bfa56d06bd3361f27fe3a93ba216e514ad55b27ec6660fd93dbb46831e5e78",
+    "src/solveur/verification/external_correlation.py": "7b4f0321efbea49c3c51b50c1d5773a872d74855953d23d4a682bd08adefa097",
+    "qualification/external_reference_digests/abaqus_nafems_13h_harmonic.json": "5ba35b1ee1b5e57d7eec03f18341e42c3d938f0b79c5aa5095ae366530a777a1"
+  }
+}

@@ -1,0 +1,74 @@
+"""Pure validation tests for the J16 multi-mesh site-asset builder."""
+
+from __future__ import annotations
+
+import json
+import hashlib
+from pathlib import Path
+
+import pytest
+
+from research.j16.aggregate_harmonic_mesh_study import summarize_runner_record, validate_mesh_data
+
+
+def test_asset_contract_nests_input_hashes_and_preserves_failed_attempt() -> None:
+    root = Path(__file__).resolve().parents[2]
+    contract = json.loads(
+        (root / "research/j16/contracts/nafems_13h_mesh_site_assets_004.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert contract["contract_id"] == "J16-NAFEMS13H-MESH-SITE-ASSETS-004"
+    assert "input_sha256" in contract["inputs"]
+    assert contract["source"]["prior_attempt"]["state"] == "CONTRACT_REJECTED"
+    for relative_path, expected in contract["source_sha256"].items():
+        actual = hashlib.sha256((root / relative_path).read_bytes()).hexdigest()
+        assert actual == expected
+
+
+def _mesh_data(mesh_size: int) -> dict:
+    return {
+        "geometry_m": {"length": 10.0},
+        "material": {"young_modulus_pa": 200e9},
+        "pressure_pa": 100.0,
+        "rayleigh_damping": {"alpha_s_inv": 0.299},
+        "conditions": "same",
+        "observable": "center UZ",
+        "frequency_grid_hz": {"count": 62},
+        "rows": [
+            {"frequency_hz": float(i), "qf_route_status": "QF_GUARD_REJECTED"}
+            for i in range(62)
+        ],
+        "mesh_size": mesh_size,
+    }
+
+
+def test_mesh_asset_validation_keeps_rejected_statuses() -> None:
+    validate_mesh_data({mesh: _mesh_data(mesh) for mesh in (6, 8, 10)})
+
+
+def test_mesh_asset_validation_rejects_inconsistent_support_setup() -> None:
+    mesh_data = {mesh: _mesh_data(mesh) for mesh in (6, 8, 10)}
+    mesh_data[10]["conditions"] = "different"
+    with pytest.raises(ValueError, match="frozen model"):
+        validate_mesh_data(mesh_data)
+
+
+def test_runner_resource_summary_reads_flat_persisted_receipt() -> None:
+    record = {
+        "state": "PASS",
+        "elapsed_seconds": 13.5,
+        "peak_rss_bytes": 177_000_000,
+        "peak_process_count": 1,
+        "budgets": {"timeout_seconds": 1800},
+        "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+    }
+    result = summarize_runner_record(record)
+    assert result["elapsed_seconds"] == 13.5
+    assert result["peak_rss_bytes_sampled"] == 177_000_000
+    assert result["max_process_count_sampled"] == 1
+
+
+def test_runner_resource_summary_names_missing_receipt_fields() -> None:
+    with pytest.raises(ValueError, match="runner record is missing fields: elapsed_seconds"):
+        summarize_runner_record({"state": "PASS"})

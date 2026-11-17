@@ -1,0 +1,22 @@
+{
+  "schema": "qfsolver-j16-archived-postprocess-attempt-v1",
+  "contract_id": "J16-NAFEMS13H-MESH-SITE-ASSETS-001",
+  "attempt_id": "J16-NAFEMS13H-MESH-SITE-ASSETS-001-ATTEMPT-001",
+  "state": "PYTHON_FAILED",
+  "phase": "CONTRACT_INPUT_VALIDATION",
+  "command": "python research/j16/aggregate_harmonic_mesh_study.py",
+  "source_commit": "f48253f0def976eb52628ae69fe5f9df94696d0a",
+  "failure": {
+    "type": "KeyError",
+    "missing_field": "input_sha256",
+    "detail": "The aggregator expected the input hash map at contract top level; the frozen contract stores it under inputs.input_sha256."
+  },
+  "inputs_read": false,
+  "assets_written": false,
+  "resources_observed": {
+    "wall_seconds_from_command_tool": 1.2,
+    "peak_rss": "not captured in the failed preflight attempt"
+  },
+  "historical_status_policy": "No source run or frequency status was changed.",
+  "recorded_at_utc": "2026-11-17T11:40:28.290033+00:00"
+}

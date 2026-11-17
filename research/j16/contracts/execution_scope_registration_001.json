@@ -1,0 +1,74 @@
+{
+  "schema": "qfsolver-j16-execution-scope-registration-v1",
+  "registration_id": "J16-DEVELOPMENT-AUTONOMOUS-SCOPE-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J16_OWNER_2026-11-17",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J16-2026-11-17-v1",
+  "mode": "fem_exploratory",
+  "branch": "work/0.3.0-j16-science",
+  "baseline_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+  "registered_worktrees": {
+    "j16_guard": {
+      "contract_id": "J16-NAFEMS13H-GUARD-SCALE-REFINEMENT-001",
+      "nodeids": [
+        "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_guard_scaling_refinement_diagnostic"
+      ],
+      "attempt_ledger": "node-attempt-ledger-j16-guard.json",
+      "timeout_seconds": 600
+    },
+    "j16_mesh": {
+      "contract_id": "J16-MITC4-NAFEMS13H-MESH-STUDY-001",
+      "nodeids": [
+        "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_06",
+        "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_08",
+        "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_10"
+      ],
+      "attempt_ledger": "node-attempt-ledger-j16-mesh.json",
+      "timeout_seconds": 1800
+    }
+  },
+  "nodeids": [
+    "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_guard_scaling_refinement_diagnostic",
+    "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_06",
+    "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_08",
+    "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_10"
+  ],
+  "attempt_limit_per_nodeid": 1,
+  "budgets": {
+    "guard_resolution_001": {
+      "timeout_seconds": 600,
+      "rss_soft_limit_mib": 2048,
+      "process_tree_limit": 4,
+      "temporary_limit_mib": 256,
+      "archive_size_limit_mib": 64,
+      "output_stream_limit_mib": 4,
+      "output_total_limit_mib": 8
+    },
+    "mesh_study_001_each_mesh": {
+      "timeout_seconds": 1800,
+      "rss_soft_limit_mib": 2048,
+      "process_tree_limit": 4,
+      "temporary_limit_mib": 512,
+      "archive_size_limit_mib": 128,
+      "output_stream_limit_mib": 4,
+      "output_total_limit_mib": 8
+    }
+  },
+  "thread_environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OMP_THREAD_LIMIT": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "BLIS_NUM_THREADS": "1",
+    "TBB_NUM_THREADS": "1"
+  },
+  "attempt_ledger": {
+    "path": "separate per registered worktree as declared above",
+    "mandate_id": "DEVELOPMENT_AUTONOMOUS-J16-2026-11-17-v1",
+    "predecessors": []
+  },
+  "controller_procedure": "Use the exact-node collect-only preflight and one-attempt runner for each registered nodeid. The local runner and policy extension are recorded by SHA-256 in runner provenance and execution outputs; they are not merged as source changes by this registration.",
+  "qualification_status": "This is development-only authority. It does not change any frozen qualification, release, publication, merge, or historical status."
+}
