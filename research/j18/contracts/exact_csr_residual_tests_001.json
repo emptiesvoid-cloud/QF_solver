@@ -1,0 +1,57 @@
+{
+  "schema": "qfsolver-j18-controlled-test-contract-v1",
+  "contract_id": "J18-EXACT-CSR-RESIDUAL-TESTS-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "classification": "BOUNDED_UNIT_TESTS_NO_FEM",
+  "owner_authorization": "QF Solver 0.3.0 J18 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "branch": "work/0.3.0-j18",
+    "source_parent_commit": "bc821cf048ef8d083ef13e00c52d1227ecc2c02f",
+    "source_branch": "work/0.3.0-j17"
+  },
+  "sources": {
+    "research/j17/exact_residual.py": "6123969da0007963fa0427fe5b9fe7408cbf9a48228e05f4061076da889ecea1",
+    "tests/unit/test_j17_exact_residual.py": "20bd7a121838534248019b3196f14f3ccb7f21b63ad3c7899038a48d6c94700d"
+  },
+  "environment_observed_before_test": {
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "platform": "Windows 10 x86_64"
+  },
+  "objective": "Verify exact represented-system residual decisions for dense and CSR complex inputs, including cancellation, duplicate CSR entries, threshold neighborhoods, zero reference, malformed/nonfinite inputs, and explicit resource limits.",
+  "method": {
+    "input_values": "Stored float32/float64 and complex64/complex128 binary values converted to exact rational components.",
+    "normalized_residual": "||A*x-b||2 / max(||b||2, ||A*x||2), with exact squared norms and exact comparison against the square of binary64(1e-7).",
+    "sparse_handling": "CSR only; no format conversion and no floating-point sum_duplicates. Duplicate entries are summed as exact stored terms.",
+    "scope_limit": "This validates the offline exact evaluator, not the production sparse matvec roundoff bound, assembly, physics, or forward solution error."
+  },
+  "criteria": {
+    "expected_nodeids": [
+      "tests/unit/test_j17_exact_residual.py::test_exact_residual_pass_fail_and_threshold_neighborhood",
+      "tests/unit/test_j17_exact_residual.py::test_exact_residual_uses_complex_binary_values_without_float_norms",
+      "tests/unit/test_j17_exact_residual.py::test_exact_residual_handles_ill_conditioning_and_tiny_norms",
+      "tests/unit/test_j17_exact_residual.py::test_exact_residual_defines_zero_reference_and_small_scale_cases",
+      "tests/unit/test_j17_exact_residual.py::test_invalid_nonfinite_and_over_budget_inputs_are_inconclusive",
+      "tests/unit/test_j17_exact_residual.py::test_sparse_complex_csr_exact_residual_matches_dense_reference",
+      "tests/unit/test_j17_exact_residual.py::test_sparse_duplicate_entries_keep_exact_cancellation_and_storage_order",
+      "tests/unit/test_j17_exact_residual.py::test_sparse_exact_decision_covers_near_threshold_and_zero_reference",
+      "tests/unit/test_j17_exact_residual.py::test_sparse_csr_rejects_nonfinite_malformed_and_over_budget_inputs"
+    ],
+    "pass": "All nine exact nodeids pass individually; dense/CSR exact decisions agree where their represented matrices agree; duplicate CSR storage remains unchanged; unsupported formats, invalid values, and exceeded budgets return INCONCLUSIVE.",
+    "fail": "Any assertion failure or uncaught exception.",
+    "historical_status": "Do not edit or promote J14/J15/J16/J17 historical outcomes."
+  },
+  "execution": {
+    "attempts": 1,
+    "commands": "One pytest invocation per exact nodeid; no directory or suite target.",
+    "timeout_seconds_per_nodeid": 90,
+    "soft_rss_limit_mib": 1024,
+    "output_limit_mib_per_nodeid": 8,
+    "fem": false,
+    "assembly": false,
+    "harmonic_solve": false,
+    "result_directory": "research/j18/results/unit_tests_001"
+  }
+}

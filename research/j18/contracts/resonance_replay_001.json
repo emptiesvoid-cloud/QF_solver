@@ -1,0 +1,98 @@
+{
+  "schema": "qfsolver-j18-harmonic-replay-contract-v1",
+  "contract_id": "J18-NAFEMS13H-ARCHIVED-REPLAY-001",
+  "attempt_id": "J18-NAFEMS13H-ARCHIVED-REPLAY-001-ATTEMPT-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "classification": "BOUNDED_ARCHIVED_MATRIX_SOLVES_NO_FEM_ASSEMBLY",
+  "owner_authorization": "QF Solver 0.3.0 J18 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "branch": "work/0.3.0-j18",
+    "source_commit": "37764481a3c90f70078de3bedd5b330f1e4f3740",
+    "matrix_generation_source_commit": "29bbada6d9e12ad18c7f6889b96188537a276d9c"
+  },
+  "sources": {
+    "research/j18/replay_archived_harmonic.py": "95c6cd9dc53dc80e911d539f626772e7b813dd4fb7669b72ba0e0c18f1079b55",
+    "tests/verification/test_j18_harmonic_replay.py": "675c26c46a05ee1ce3485f4cb89c6e224c647eb03d89e9f109cb1927e9832381",
+    "research/j17/exact_residual.py": "6123969da0007963fa0427fe5b9fe7408cbf9a48228e05f4061076da889ecea1",
+    "src/solveur/core/solvers/linear.py": "379d7e30d22b712f5d0b648d8f7384d0a2c72dfaeb69e106402b21fc3cef79f9",
+    "src/solveur/core/dofs.py": "62b1a414b2fe9e816c8373b8a0193a5f5abff1bff54bfabe3289fda52faba114",
+    "src/solveur/core/assembly/assembler.py": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
+    "src/solveur/verification/mitc4_harmonic_nafems.py": "c324ae5bf5c5fdc2c0b66f72505733efc7c5824c93bbaf438e516707e5919a13",
+    "src/solveur/verification/external_correlation.py": "7b4f0321efbea49c3c51b50c1d5773a872d74855953d23d4a682bd08adefa097"
+  },
+  "inputs": {
+    "source_inventory": "research/j17/inputs/source_inventory.json",
+    "source_inventory_sha256": "9e7415b6045df555a38fb8c111b8a6449a1d5a58fd3499ba1224578e41ffd880",
+    "sha256": {
+      "research/j17/inputs/guard_resolution_001/guard_frequency_2p375818178.npz": "bdf0ada904d800ae51e0afb39745633aea21186626741dfc0112ef5072eb97d0",
+      "research/j17/inputs/guard_resolution_001/guard_frequency_2p417000000.npz": "89fdef8c3811d8ceade2356a96c76227c51c88a278f6b287548629ecaef4a863",
+      "research/j17/inputs/guard_resolution_001/guard_frequency_2p418000000.npz": "a68c24ea120b49ae57fedc684c8ffd363b2f29830bc4e806948a95fe9878a1eb",
+      "qualification/external_reference_digests/abaqus_nafems_13h_harmonic.json": "5ba35b1ee1b5e57d7eec03f18341e42c3d938f0b79c5aa5095ae366530a777a1"
+    },
+    "archive_provenance": {
+      "verified": "The three NPZ SHA-256 values match the verified entries in the J17 source inventory.",
+      "not_used_as_inputs": "Per-frequency J16 JSON and summary files whose J16 manifest hashes did not match are comparison-only and are not read by this replay."
+    }
+  },
+  "model": {
+    "name": "NAFEMS 13H MITC4 8x8, archived reduced complex systems",
+    "matrix_shape": [175, 175],
+    "csr_stored_entries": 3607,
+    "free_dof_count": 175,
+    "center_node": 40,
+    "center_global_uz_dof": 242,
+    "center_reduced_uz_dof": 86,
+    "frequencies_hz": [2.375818178440047, 2.417, 2.418],
+    "excitation_and_damping": "Identical to the frozen J16 assembled dynamic-stiffness/RHS arrays; not reconstructed or modified in J18.",
+    "position": "Complex center UZ at physical point (5,5,0) m.",
+    "phase_convention": "u(t)=Re(U*exp(i*omega*t))"
+  },
+  "objective": "Re-solve three verified J16 archived 175x175 complex systems with SciPy spsolve, record the current unchanged QF residual-guard result, compare exact residuals on the stored binary CSR values, and preserve center UZ amplitude/phase. No FEM matrix assembly.",
+  "environment_preflight": {
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "platform": "Windows 10 x86_64"
+  },
+  "verification_budget": {
+    "max_dimension": 256,
+    "max_sparse_stored_entries": 100000,
+    "max_fraction_bits": 65536,
+    "exact_evaluator_wall_time": "Included in the single 600-second monitored test budget; no independent hard wall-clock guarantee.",
+    "memory": "1 GiB monitored soft RSS envelope; no OS hard memory quota."
+  },
+  "criteria": {
+    "threshold_binary64": "1e-7",
+    "completion": "Each input hash matches; all three systems have the contracted dimensions and finite RHS/solutions; each frequency has a row for float64 residual, current guard outcome/diagnostics, exact represented-system outcome, center UZ amplitude/phase, and residual-roundoff comparison.",
+    "guard_decision": "Record the current strict guard outcome as returned. Do not alter its threshold, factor, or route behavior.",
+    "exact_decision": "PASS/FAIL/INCONCLUSIVE is recorded from exact rational squared residual and threshold comparison; it is separate from the production guard and from mechanical validity.",
+    "roundoff_bound_observation": "For each row, compare exact error of the actual complex CSR product plus final subtraction against the rowwise bound using exact rational squared magnitudes. Report observed coverage or any violation; this finite sample is not a proof for all inputs.",
+    "historical_status": "J15 remains PYTEST_FAILED and its 152 points remain rejected; J16 historical guard outcomes remain rejected; J17's 15 exact archive results remain post-processing only.",
+    "reference": "Published NAFEMS/Abaqus peak values may be shown as peak-only context. No local Abaqus execution or pointwise phase comparison is allowed."
+  },
+  "execution": {
+    "nodeid": "tests/verification/test_j18_harmonic_replay.py::test_j18_replay_archived_nafems_13h_frequencies",
+    "attempts": 1,
+    "timeout_seconds": 600,
+    "rss_soft_limit_mib": 1024,
+    "process_tree_limit": 8,
+    "output_total_limit_mib": 16,
+    "output_stream_limit_mib": 8,
+    "temporary_limit_mib": 256,
+    "archive_size_limit_mib": 32,
+    "numeric_threads": 1,
+    "frequencies_per_attempt": 3,
+    "fem_assembly": false,
+    "external_solver": false,
+    "outputs": [
+      "research/j18/results/resonance_replay_001/replay.json",
+      "research/j18/results/resonance_replay_001/replay.csv",
+      "research/j18/results/resonance_replay_001/amplitude_phase.png",
+      "research/j18/results/resonance_replay_001/README.md",
+      "research/j18/results/resonance_replay_001/artifact_manifest.json"
+    ],
+    "resource_note": "RSS, process count, temporary/archive sizes and free-disk polling are soft observations; this is not an OS resource quota."
+  },
+  "pre_execution_integrity_note": "The first read-only SHA preflight found and corrected a transcribed extra 'b' in the assembler source digest before any harmonic replay execution. The source file was unchanged; the corrected digest now matches the checked-out bytes."
+}

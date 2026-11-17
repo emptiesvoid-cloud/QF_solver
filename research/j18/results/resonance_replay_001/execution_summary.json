@@ -1,0 +1,29 @@
+{
+  "schema": "qfsolver-j18-runner-summary-v1",
+  "contract_id": "J18-NAFEMS13H-ARCHIVED-REPLAY-001",
+  "attempt_id": "J18-NAFEMS13H-ARCHIVED-REPLAY-001-ATTEMPT-001",
+  "runner_scope": "fem_exploratory",
+  "registered_worktree_id": "j18",
+  "series_id": "dev-j18-harmonic-replay-001",
+  "nodeid": "tests/verification/test_j18_harmonic_replay.py::test_j18_replay_archived_nafems_13h_frequencies",
+  "source_commit": "6622e94ef59001715e6e01c5bcec72fe93355a84",
+  "runner_outcome": "PASS",
+  "interpretation": "The monitored test completed and archived all three contracted records. This is a runner/test outcome, not a solver qualification or promotion of a historical guard verdict.",
+  "observed_resources": {
+    "elapsed_seconds": 5.0794536,
+    "peak_rss_bytes": 165175296,
+    "peak_rss_mib": 157.5,
+    "peak_process_count": 1,
+    "stdout_bytes": 188,
+    "stderr_bytes": 0,
+    "temporary_bytes": 0,
+    "attempt_archive_bytes": 188,
+    "free_disk_bytes_before": 23880261632,
+    "free_disk_bytes_after": 23880130560,
+    "resource_control_note": "RSS, process count, temporary/archive sizes, and free-disk polling were observed soft controls, not OS quotas."
+  },
+  "internal_replay_seconds": 0.45724040013737977,
+  "assembly": false,
+  "external_solver": false,
+  "private_absolute_paths_omitted": true
+}
