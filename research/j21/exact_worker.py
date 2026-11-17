@@ -75,29 +75,61 @@ def evaluate_archive(
         raise ValueError("input SHA-256 mismatch")
     started = time.perf_counter()
     with np.load(input_path, allow_pickle=False) as archive:
-        required = {
-            "impedance_real",
-            "impedance_imag",
-            "rhs_real",
-            "rhs_imag",
-            "x_unscaled_real",
-            "x_unscaled_imag",
-        }
+        matrix_storage = (
+            str(archive["matrix_storage"].item())
+            if "matrix_storage" in archive.files
+            else "dense"
+        )
+        shared = {"rhs_real", "rhs_imag", "x_unscaled_real", "x_unscaled_imag"}
+        if matrix_storage == "dense":
+            matrix_fields = {"impedance_real", "impedance_imag"}
+        elif matrix_storage == "csr":
+            matrix_fields = {
+                "csr_data_real",
+                "csr_data_imag",
+                "csr_indices",
+                "csr_indptr",
+                "matrix_shape",
+            }
+        else:
+            raise ValueError("unsupported matrix storage format")
+        required = shared | matrix_fields
         missing = sorted(required.difference(archive.files))
         if missing:
             raise ValueError("input archive is missing required arrays")
-        real = np.asarray(archive["impedance_real"])
-        imag = np.asarray(archive["impedance_imag"])
         rhs_real = np.asarray(archive["rhs_real"])
         rhs_imag = np.asarray(archive["rhs_imag"])
         solution_real = np.asarray(archive["x_unscaled_real"])
         solution_imag = np.asarray(archive["x_unscaled_imag"])
+        if matrix_storage == "dense":
+            real = np.asarray(archive["impedance_real"])
+            imag = np.asarray(archive["impedance_imag"])
+        else:
+            csr_data_real = np.asarray(archive["csr_data_real"])
+            csr_data_imag = np.asarray(archive["csr_data_imag"])
+            csr_indices = np.asarray(archive["csr_indices"])
+            csr_indptr = np.asarray(archive["csr_indptr"])
+            matrix_shape = np.asarray(archive["matrix_shape"])
 
-    if real.shape != imag.shape or real.ndim != 2 or real.shape[0] != real.shape[1]:
-        raise ValueError("matrix real and imaginary arrays must have matching square shapes")
     if rhs_real.shape != rhs_imag.shape or solution_real.shape != solution_imag.shape:
         raise ValueError("real and imaginary vector arrays must have matching shapes")
-    matrix = csr_matrix(real + 1j * imag)
+    if matrix_storage == "dense":
+        if real.shape != imag.shape or real.ndim != 2 or real.shape[0] != real.shape[1]:
+            raise ValueError("matrix real and imaginary arrays must have matching square shapes")
+        matrix = csr_matrix(real + 1j * imag)
+    else:
+        if csr_data_real.shape != csr_data_imag.shape:
+            raise ValueError("CSR real and imaginary data arrays must have matching shapes")
+        if matrix_shape.shape != (2,) or matrix_shape.dtype.kind not in "iu":
+            raise ValueError("CSR matrix_shape must contain two integers")
+        matrix = csr_matrix(
+            (
+                csr_data_real + 1j * csr_data_imag,
+                csr_indices,
+                csr_indptr,
+            ),
+            shape=(int(matrix_shape[0]), int(matrix_shape[1])),
+        )
     rhs = rhs_real + 1j * rhs_imag
     solution = solution_real + 1j * solution_imag
     result = evaluate_exact_residual(

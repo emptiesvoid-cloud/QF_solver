@@ -10,6 +10,7 @@ import numpy as np
 import psutil
 
 from research.j21 import supervised_exact
+from research.j21.synthetic_inputs import build_archive_payload, write_archive
 from research.j21.supervised_exact import ProcessOutcome, SupervisorLimits, run_supervised_exact
 
 
@@ -17,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 PINNED_SOURCES = (
     "research/j21/exact_worker.py",
     "research/j21/supervised_exact.py",
+    "research/j21/synthetic_inputs.py",
     "research/j17/exact_residual.py",
 )
 
@@ -112,6 +114,36 @@ def test_j21_supervisor_preserves_normal_exact_pass_and_fail(tmp_path: Path) -> 
     assert all(case["supervisor_status"] == "COMPLETE" for case in journal["cases"])
     assert all(case["historical_guard_outcome"] == "NOT_APPLICABLE_SYNTHETIC" for case in journal["cases"])
     assert json.loads((tmp_path / "run" / "supervisor.json").read_text(encoding="utf-8"))["run_status"] == "COMPLETE"
+
+
+def test_j21_supervisor_preserves_duplicate_csr_entries(tmp_path: Path) -> None:
+    archive_path = tmp_path / "inputs" / "duplicate-csr.npz"
+    archive_path.parent.mkdir(parents=True)
+    np.savez(archive_path, **build_archive_payload("duplicate_csr", 8))
+    digest = _sha256(archive_path)
+    contract_path, _ = _contract(
+        tmp_path,
+        [{"case_id": "duplicate-csr", "input_path": "duplicate-csr.npz", "input_sha256": digest}],
+    )
+
+    journal = run_supervised_exact(
+        contract_path,
+        tmp_path / "run",
+        repository_root=ROOT,
+        input_root=tmp_path / "inputs",
+    )
+
+    case = journal["cases"][0]
+    assert journal["run_status"] == "COMPLETE"
+    assert case["exact_status"] == "PASS"
+    assert case["exact_result"]["stored_entries"] == 4 * 8 - 1
+    assert case["exact_result"]["nonzero_entries"] == 4 * 8 - 1
+
+
+def test_j21_synthetic_archive_bytes_are_reproducible(tmp_path: Path) -> None:
+    first = write_archive(tmp_path / "first.npz", "duplicate_csr", 8)
+    second = write_archive(tmp_path / "second.npz", "duplicate_csr", 8)
+    assert _sha256(first) == _sha256(second)
 
 
 def test_j21_supervisor_records_worker_exception_and_continues(tmp_path: Path) -> None:
