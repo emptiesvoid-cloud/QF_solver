@@ -8,9 +8,9 @@ from research.j19.replay_archived_harmonic import ROOT, run_replay
 
 
 def test_j19_replay_five_pinned_nafems_systems_with_checkpoints() -> None:
-    contract_path = Path(__file__).resolve().parents[2] / "research" / "j19" / "contracts" / "harmonic_replay_002.json"
+    contract_path = Path(__file__).resolve().parents[2] / "research" / "j19" / "contracts" / "harmonic_replay_003.json"
     contract = json.loads(contract_path.read_text(encoding="utf-8"))
-    output = ROOT / "research" / "j19" / "results" / "harmonic_replay_002"
+    output = ROOT / "research" / "j19" / "results" / "harmonic_replay_003"
     result = run_replay(contract_path=contract_path, output_directory=output)
 
     assert result["run_state"] == "COMPLETE"

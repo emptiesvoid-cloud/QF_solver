@@ -111,6 +111,46 @@ def _verify_contract_source_hashes(contract: dict[str, Any], root: Path = ROOT) 
             raise RuntimeError(f"source SHA-256 mismatch: {relative}")
 
 
+def _validated_contract_fields(contract: dict[str, Any]) -> tuple[str, tuple[int, int], int, int, dict[str, int | float]]:
+    baseline = contract.get("baseline")
+    source_commit = baseline.get("source_code_commit") if isinstance(baseline, dict) else None
+    if not isinstance(source_commit, str) or len(source_commit) != 40 or any(
+        character not in "0123456789abcdef" for character in source_commit.lower()
+    ):
+        raise RuntimeError("replay contract baseline must contain a full source_code_commit SHA")
+    model = contract.get("model")
+    shape = model.get("matrix_shape") if isinstance(model, dict) else None
+    stored_entries = model.get("csr_stored_entries") if isinstance(model, dict) else None
+    center_dof = model.get("center_reduced_uz_dof") if isinstance(model, dict) else None
+    if (
+        not isinstance(shape, list)
+        or len(shape) != 2
+        or any(isinstance(value, bool) or not isinstance(value, int) or value <= 0 for value in shape)
+        or shape[0] != shape[1]
+    ):
+        raise RuntimeError("replay contract model must define a positive square matrix shape")
+    if isinstance(stored_entries, bool) or not isinstance(stored_entries, int) or stored_entries <= 0:
+        raise RuntimeError("replay contract model must define positive CSR stored entries")
+    if isinstance(center_dof, bool) or not isinstance(center_dof, int) or not 0 <= center_dof < shape[0]:
+        raise RuntimeError("replay contract model must define a valid center reduced UZ degree of freedom")
+    raw_limits = contract.get("exact_limits")
+    required_limits = (
+        "max_dimension",
+        "max_sparse_stored_entries",
+        "max_fraction_bits",
+        "max_seconds_per_frequency",
+    )
+    if not isinstance(raw_limits, dict) or any(key not in raw_limits for key in required_limits):
+        raise RuntimeError("replay contract must define all exact-evaluation limits")
+    limits: dict[str, int | float] = {}
+    for key in required_limits:
+        value = raw_limits[key]
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not np.isfinite(value) or value <= 0:
+            raise RuntimeError(f"replay contract exact limit {key} must be finite and positive")
+        limits[key] = value
+    return source_commit, (shape[0], shape[1]), stored_entries, center_dof, limits
+
+
 def _write_csv(rows: list[dict[str, Any]], output: Path) -> None:
     output.mkdir(parents=True, exist_ok=True)
     temporary = output / ".replay.csv.tmp"
@@ -199,6 +239,9 @@ def run_replay(
     contract = json.loads(contract_path.read_text(encoding="utf-8"))
     if contract.get("state") != "FROZEN_BEFORE_EXECUTION":
         raise RuntimeError("J19 replay contract is not frozen")
+    source_code_commit, expected_shape, expected_stored_entries, center_dof, exact_limits = (
+        _validated_contract_fields(contract)
+    )
     if output.exists() and any(output.iterdir()):
         raise RuntimeError("J19 output already exists; refusing to overwrite a prior attempt")
     _verify_contract_source_hashes(contract)
@@ -216,7 +259,7 @@ def run_replay(
         "schema": "qfsolver-j19-harmonic-replay-v1",
         "contract_id": contract["contract_id"],
         "attempt_id": contract["attempt_id"],
-        "source_code_commit": contract["source_code_commit"],
+        "source_code_commit": source_code_commit,
         "execution_source_commit": _git_head(),
         "run_state": "RUNNING",
         "classification": "ARCHIVED_MATRIX_SOLVES_NO_FEM_ASSEMBLY",
@@ -229,7 +272,7 @@ def run_replay(
         "threshold_binary64": TOLERANCE,
         "contract_sha256": sha256(contract_path),
         "phase_convention": "u(t)=Re(U*exp(i*omega*t))",
-        "center_reduced_uz_dof": contract["center_reduced_uz_dof"],
+        "center_reduced_uz_dof": center_dof,
         "results": [],
     }
     checkpoint = output / "replay.json"
@@ -263,7 +306,7 @@ def run_replay(
         load_seconds = time.perf_counter() - load_started
 
         matrix = csr_matrix(impedance, dtype=np.complex128)
-        if matrix.shape != (175, 175) or matrix.nnz != 3607 or not np.array_equal(matrix.toarray(), impedance):
+        if matrix.shape != expected_shape or matrix.nnz != expected_stored_entries or not np.array_equal(matrix.toarray(), impedance):
             record.update(record_state="INCONCLUSIVE", reason="matrix shape, stored entries, or values differ")
             write_atomic_json(checkpoint, journal)
             continue
@@ -306,7 +349,7 @@ def run_replay(
         raw_relative = relative_residual_ratio(
             stable_l2_norm(raw_residual), max(stable_l2_norm(rhs), stable_l2_norm(product))
         )
-        center_uz = complex(solution[contract["center_reduced_uz_dof"]])
+        center_uz = complex(solution[center_dof])
         archived_scale = float(np.max(np.abs(archived_solution), initial=0.0))
         solution_delta = float(
             np.max(np.abs(solution - archived_solution), initial=0.0)
@@ -368,10 +411,10 @@ def run_replay(
             rhs,
             solution,
             tolerance=TOLERANCE,
-            max_dimension=contract["exact_limits"]["max_dimension"],
-            max_nonzero_entries=contract["exact_limits"]["max_sparse_stored_entries"],
-            max_fraction_bits=contract["exact_limits"]["max_fraction_bits"],
-            max_elapsed_seconds=contract["exact_limits"]["max_seconds_per_frequency"],
+            max_dimension=int(exact_limits["max_dimension"]),
+            max_nonzero_entries=int(exact_limits["max_sparse_stored_entries"]),
+            max_fraction_bits=int(exact_limits["max_fraction_bits"]),
+            max_elapsed_seconds=float(exact_limits["max_seconds_per_frequency"]),
         )
         record["timing_seconds"]["exact_rational_evaluation"] = time.perf_counter() - exact_started
         record["exact_represented_system"] = _json_exact_result(exact)
