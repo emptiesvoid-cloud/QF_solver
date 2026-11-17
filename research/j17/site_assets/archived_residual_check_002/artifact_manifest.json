@@ -1,0 +1,30 @@
+{
+  "artifacts": [
+    {
+      "bytes": 3813,
+      "path": "exact_residual_points.csv",
+      "sha256": "083c28f2b17e0668b417a87791051436144179e037bbd4faac2dec5e55b13bbc"
+    },
+    {
+      "bytes": 41099,
+      "path": "exact_residual_summary.json",
+      "sha256": "c8f9dab5bfed0a5929d7f97bc437f5179f7cb06a1fe878e206e967453b41e331"
+    },
+    {
+      "bytes": 119070,
+      "path": "exact_residual_vs_guard_bound_175x175.png",
+      "sha256": "e7f57c9f530ef33e40b0a207dcc1a33f7fd7e97384068c84a8d5163d51382e02"
+    },
+    {
+      "bytes": 1863,
+      "path": "README.md",
+      "sha256": "9420724a7d5618276577088fa43a33988d2a802cc6fbba3ae572e6561b5dd6a3"
+    }
+  ],
+  "classification": "UNPUBLISHED_DIAGNOSTIC_ASSETS",
+  "schema": "qfsolver-j17-gallery-assets-v1",
+  "source_contract_sha256": "f4f4af29557f1cf49b0579c4496eff8cbcb74b43cb868de51789dbb4902f24f9",
+  "source_csv_sha256": "083c28f2b17e0668b417a87791051436144179e037bbd4faac2dec5e55b13bbc",
+  "source_execution_commit": "cf30b059b82063805fdf8649c25c0f54039fb2d1",
+  "source_summary_sha256": "c8f9dab5bfed0a5929d7f97bc437f5179f7cb06a1fe878e206e967453b41e331"
+}

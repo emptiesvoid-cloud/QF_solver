@@ -1,0 +1,22 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_____ test_exact_residual_uses_complex_binary_values_without_float_norms ______
+
+    def test_exact_residual_uses_complex_binary_values_without_float_norms() -> None:
+        matrix = np.array([[2.0 + 1.0j, 0.0], [0.0, 4.0]], dtype=np.complex128)
+        rhs = np.array([1.0 + 1.0j, 2.0], dtype=np.complex128)
+        solution = np.array([0.5 + 0.0j, 0.5], dtype=np.complex128)
+    
+        result = evaluate_exact_residual(matrix, rhs, solution)
+    
+        # First component residual is -0.5 - 0.5j; ||b||^2 = 6.
+        assert result.status == "FAIL"
+>       assert result.residual_squared == Fraction(1, 2)
+E       AssertionError: assert Fraction(1, 4) == Fraction(1, 2)
+E        +  where Fraction(1, 4) = ExactResidualResult(status='FAIL', reason='exact represented-system residual is above the binary64 tolerance', dimensi...90427392), residual_l2_display='0.5', relative_residual_display='0.20412414523193150818310700622549094933049562338806').residual_squared
+E        +  and   Fraction(1, 2) = Fraction(1, 2)
+
+tests\unit\test_j17_exact_residual.py:38: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_j17_exact_residual.py::test_exact_residual_uses_complex_binary_values_without_float_norms
+1 failed in 0.84s

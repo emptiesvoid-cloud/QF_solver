@@ -1,0 +1,26 @@
+{
+  "contract_id": "J17-EXACT-RESIDUAL-UNIT-TESTS-001",
+  "original_source_commit": "117277457a0c9c30ffcf13b48a0e1fdf2062919d",
+  "classification": "NON_FEM_UNIT_TESTS",
+  "executions": [
+    {
+      "nodeid": "test_exact_residual_pass_fail_and_threshold_neighborhood",
+      "status": "PASS",
+      "log": "test_exact_residual_pass_fail_and_threshold_neighborhood.log",
+      "elapsed_seconds_reported": 0.75
+    },
+    {
+      "nodeid": "test_exact_residual_uses_complex_binary_values_without_float_norms",
+      "status": "FAIL_TEST_ORACLE",
+      "log": "test_complex_values.log",
+      "cause": "Test expected residual squared norm 1/2; direct arithmetic gives 1/4 for residual -0.5i."
+    }
+  ],
+  "not_run": [
+    "test_exact_residual_handles_ill_conditioning_and_tiny_norms",
+    "test_exact_residual_defines_zero_reference_and_small_scale_cases",
+    "test_invalid_nonfinite_and_over_budget_inputs_are_inconclusive"
+  ],
+  "memory": "RSS not sampled",
+  "historic_statuses_modified": false
+}
