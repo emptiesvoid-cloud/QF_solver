@@ -177,6 +177,9 @@ def run_archived_frequency_replay() -> dict[str, Any]:
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
     if contract.get("state") != "FROZEN_BEFORE_EXECUTION":
         raise RuntimeError("replay contract is not frozen")
+    inventory_path = ROOT / contract["inputs"]["source_inventory"]
+    if _sha256(inventory_path) != contract["inputs"]["source_inventory_sha256"]:
+        raise RuntimeError("J17 source-inventory SHA-256 mismatch")
     for relative, expected_hash in contract["inputs"]["sha256"].items():
         source = ROOT / relative
         if _sha256(source) != expected_hash:
