@@ -4,10 +4,29 @@
   "state": "FROZEN_BEFORE_EXECUTION",
   "owner_mandate_id": "QF_SOLVER_0.3.0_J16_OWNER_2026-11-17",
   "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J16-2026-11-17-v1",
-  "worktree_id": "j16",
   "mode": "fem_exploratory",
   "branch": "work/0.3.0-j16-science",
   "baseline_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+  "registered_worktrees": {
+    "j16_guard": {
+      "contract_id": "J16-NAFEMS13H-GUARD-SCALE-REFINEMENT-001",
+      "nodeids": [
+        "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_guard_scaling_refinement_diagnostic"
+      ],
+      "attempt_ledger": "node-attempt-ledger-j16-guard.json",
+      "timeout_seconds": 600
+    },
+    "j16_mesh": {
+      "contract_id": "J16-MITC4-NAFEMS13H-MESH-STUDY-001",
+      "nodeids": [
+        "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_06",
+        "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_08",
+        "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_10"
+      ],
+      "attempt_ledger": "node-attempt-ledger-j16-mesh.json",
+      "timeout_seconds": 1800
+    }
+  },
   "nodeids": [
     "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_guard_scaling_refinement_diagnostic",
     "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_06",
@@ -46,7 +65,7 @@
     "TBB_NUM_THREADS": "1"
   },
   "attempt_ledger": {
-    "path": "node-attempt-ledger-j16.json",
+    "path": "separate per registered worktree as declared above",
     "mandate_id": "DEVELOPMENT_AUTONOMOUS-J16-2026-11-17-v1",
     "predecessors": []
   },
