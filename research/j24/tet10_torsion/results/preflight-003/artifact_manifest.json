@@ -1,0 +1,81 @@
+{
+  "artifacts": [
+    {
+      "path": "attempt-001.json",
+      "sha256": "244c92d5b0cd4ae49052fcc4db73aa9e463a3d3e41ff8e5f654e141772948b5c",
+      "size_bytes": 1381
+    },
+    {
+      "path": "mesh_load_preflight.png",
+      "sha256": "3874ea959e2ba1b289f94891fc7c72af9b6cbe31bee67a25310957884a063125",
+      "size_bytes": 646707
+    },
+    {
+      "path": "preflight_summary.json",
+      "sha256": "168da8287f1893d2dfa6c956b18d4fdbe47798007e602d6a709839c50c50b603",
+      "size_bytes": 10325
+    },
+    {
+      "path": "torsion_tet10_h1.msh",
+      "sha256": "05f3db8c38cc2ad580b38a332535f6be25c42ebf0d4fafb424538bbf9183ebef",
+      "size_bytes": 28997
+    },
+    {
+      "path": "torsion_tet10_h1.setup.json",
+      "sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+      "size_bytes": 831
+    },
+    {
+      "path": "torsion_tet10_h1_nodal_loads.csv",
+      "sha256": "4e83ae600c8c0b356c7ac7f0474ac30625c1786ac85ba4a9847c6a01678ff7b8",
+      "size_bytes": 1931
+    },
+    {
+      "path": "torsion_tet10_h2.msh",
+      "sha256": "56d680e1cddb17c304cd0cdfb0474e34d8358cbaa0262b846c5cf8f6cfe802ed",
+      "size_bytes": 50586
+    },
+    {
+      "path": "torsion_tet10_h2.setup.json",
+      "sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+      "size_bytes": 831
+    },
+    {
+      "path": "torsion_tet10_h2_nodal_loads.csv",
+      "sha256": "699dabff7b15b469552146d60e4ffbfca68d2b7fbad51ba54c71ce448ad98b4c",
+      "size_bytes": 3470
+    },
+    {
+      "path": "torsion_tet10_h3.msh",
+      "sha256": "84d8f1049799d9a342a479de425e017f3ae20fb8ce37c52678d1f47d2707d328",
+      "size_bytes": 90968
+    },
+    {
+      "path": "torsion_tet10_h3.setup.json",
+      "sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+      "size_bytes": 831
+    },
+    {
+      "path": "torsion_tet10_h3_nodal_loads.csv",
+      "sha256": "15768220c4336930a7969939256b9984eb42941497e1c935b694efb2f445918d",
+      "size_bytes": 5379
+    },
+    {
+      "path": "torsion_tet10_h4.msh",
+      "sha256": "9d1a2f14c97cd75b598da5e66da3da41cab4d3036bc265aa670d2cbd16cc93e3",
+      "size_bytes": 182502
+    },
+    {
+      "path": "torsion_tet10_h4.setup.json",
+      "sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+      "size_bytes": 831
+    },
+    {
+      "path": "torsion_tet10_h4_nodal_loads.csv",
+      "sha256": "efa1649daae38fb4b63ea1678595b226795bf870bad9807d9d7257574bc28aff",
+      "size_bytes": 9303
+    }
+  ],
+  "contract_sha256": "00262286309a4a384b4f07142327ef203564e88fdf17952fed94ec3451830ea5",
+  "schema_version": 1
+}

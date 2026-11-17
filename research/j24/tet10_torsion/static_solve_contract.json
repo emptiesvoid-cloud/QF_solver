@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "contract_id": "J24-TET10-CIRCULAR-TORSION-STATIC-001",
+  "status": "BLOCKED_NOT_RUN",
+  "purpose": "Prospective four-level linear-static TET10 torsion campaign. This is a prepared contract only; it is not an execution authorization receipt and contains no mechanical result.",
+  "owner_authorization": "The user explicitly authorized bounded static FEM in the J24 request.",
+  "execution_gate": {
+    "status": "BLOCKED_BY_REGISTERED_SCOPE_REQUIREMENT",
+    "reason": "The applicable DEVELOPMENT_AUTONOMOUS procedure requires an exact registered worktree ID and exact nodeid for monitored FEM. The read-only policy in the original user checkout lists D01/C01/E01 and static_pilot_01 scopes, but has no J24 scope; static_pilot_01 execution is disabled in its launcher. The current main checkout has no dedicated J24 test nodeid, and the existing structural convergence campaign runs a broader TET4/TET10, traction/bending/torsion suite.",
+    "owner_authorization_satisfies_owner_gate": true,
+    "missing_procedure_fields": [
+      "A dedicated exact J24 test nodeid",
+      "A registered J24 worktree identity, baseline ancestry, source inventory and solver source root",
+      "A per-node attempt ledger and budgets accepted by the applicable runner"
+    ],
+    "local_policy_files_modified": false
+  },
+  "baseline": {
+    "branch": "work/0.3.0-j24",
+    "commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "origin_main": "be455745f4a1c2cf81cb9448830223107dc39b66"
+  },
+  "source_routes_to_review_for_a_future_registered_run": [
+    "src/solveur/verification/tet10_structural_convergence.py:Tet10StructuralConvergenceCampaign._torsion",
+    "src/solveur/benchmarks/solid_extended.py:apply_consistent_circular_torsion",
+    "src/solveur/core/router.py:AnalysisRouter.solve"
+  ],
+  "inputs": {
+    "preflight_directory": "research/j24/tet10_torsion/results/preflight-003",
+    "mesh_sha256_by_level": {
+      "h1": "44798d84221582e04b2d55802dca5666309fc6f05d72f67c6e56f0e4a6a1fc17",
+      "h2": "56d680e1cddb17c304cd0cdfb0474e34d8358cbaa0262b846c5cf8f6cfe802ed",
+      "h3": "84d8f1049799d9a342a479de425e017f3ae20fb8ce37c52678d1f47d2707d328",
+      "h4": "9d1a2f14c97cd75b598da5e66da3da41cab4d3036bc265aa670d2cbd16cc93e3"
+    },
+    "setup_sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+    "model": "L=3 m, R=0.5 m, E=80 GPa, nu=0.30, density=2700 kg/m^3, T=1000 N.m, x=0 fully fixed, four quadratic TET10 meshes"
+  },
+  "measurements": {
+    "rotation": "Least-squares rigid rotation fit over all nodes of x=L: sum(y*u_z-z*u_y)/sum(y^2+z^2); compare with TL/(GJ).",
+    "stress": "Use stored TET10 integration-point stresses and coordinates; compare tau_xy=-T*z/J and tau_xz=T*y/J pointwise with physical-volume weights. Do not use recovered nodal maxima as direct values.",
+    "equilibrium": "Archive force and moment reactions at x=0; force residual normalized by T/R and moment residual by T.",
+    "free_residual": "Use the solver's documented relative free-DOF residual and preserve raw norm and denominator."
+  },
+  "prospective_indicators": {
+    "load_torque_relative_error": "<= 1e-12 (already met by the mesh/load preflight; recheck at the model passed to the solver)",
+    "applied_force_resultant_over_T_over_R": "<= 1e-10",
+    "free_relative_residual": "<= 1e-8 (existing bounded structural campaign value; not a general solver qualification)",
+    "finest_mesh_twist_relative_error": "<= 1e-2, same threshold as historical VNV-TET10-STRUCTURAL-CONVERGENCE-012",
+    "twist_error_reduction_ratio_h1_to_h4": ">= 2, same threshold as historical VNV-TET10-STRUCTURAL-CONVERGENCE-012",
+    "reaction_force_closure": "report ||F_applied+F_reaction||/(T/R); target <=1e-8, prospective dimensionless normalization",
+    "reaction_moment_closure": "report |Mx_applied+Mx_reaction|/T; target <=1e-8, prospective",
+    "integration_point_stress_error": "descriptive only until a separate tolerance justification; no stress PASS criterion in this contract"
+  },
+  "resources_proposed_not_measured": {
+    "one_registered_test_nodeid": "not yet created or registered",
+    "maximum_campaign_attempts": 1,
+    "maximum_solver_calls": 4,
+    "wall_time_seconds_soft": 1800,
+    "rss_bytes_soft": 2147483648,
+    "output_bytes_soft": 134217728,
+    "cpu_count": 1,
+    "retry_rule": "Stop after any failure; a retry requires a classified source/instrumentation/launcher change or a new diagnostic hypothesis and new attempt ID."
+  },
+  "expected_artifacts_if_unblocked": [
+    "Per-level model inputs and exact mesh/setup/load hashes",
+    "Per-level displacement vectors, residuals, reactions, energies and solver route status",
+    "Per-element integration-point stress coordinates and values",
+    "Per-phase timing/RSS/output-size observations, stdout/stderr and attempt ledger",
+    "CSV summary and figures clearly marked as FEM result or analytic reference"
+  ],
+  "execution": "NOT_RUN; no FEM solve was attempted under this contract."
+}

@@ -1,0 +1,32 @@
+{
+  "all_mesh_hashes_match_attempt_001": false,
+  "attempt": 1,
+  "baseline_sha": "be455745f4a1c2cf81cb9448830223107dc39b66",
+  "contract_id": "J24-TET10-CIRCULAR-TORSION-MESH-REBUILD-003",
+  "contract_path": "research/j24/tet10_torsion/preflight_mesh_rebuild_contract.json",
+  "contract_sha256": "00262286309a4a384b4f07142327ef203564e88fdf17952fed94ec3451830ea5",
+  "elapsed_seconds": 40.078941399930045,
+  "execution_mode": "preflight_mesh_rebuild_contract.json",
+  "git_state_at_start": {
+    "branch": "work/0.3.0-j24",
+    "head": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "merge_base": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "origin_main": "be455745f4a1c2cf81cb9448830223107dc39b66"
+  },
+  "mechanical_solver_invoked": false,
+  "mesh_hashes_match_attempt_001": [
+    false,
+    true,
+    true,
+    true
+  ],
+  "observed_at_utc": "2026-11-17T20:26:12.172867+00:00",
+  "output_payload_bytes_before_summary_manifest": 1023167,
+  "peak_rss_bytes": 141377536,
+  "producer_script_archive": null,
+  "producer_script_sha256": "82da1fd55d2a71e27326afc94d6c5bae1aed557c7f27436395d331160515bb65",
+  "schema_version": 1,
+  "source_asset_hashes_match_attempt_001": false,
+  "status": "PREFLIGHT_COMPLETE_NO_MECHANICAL_VERDICT",
+  "summary_sha256_before_manifest_rebuild": "168da8287f1893d2dfa6c956b18d4fdbe47798007e602d6a709839c50c50b603"
+}

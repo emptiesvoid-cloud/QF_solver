@@ -1,0 +1,246 @@
+{
+  "analytic_reference": {
+    "G_Pa": 30769230769.230766,
+    "J_m4": 0.09817477042468103,
+    "assumptions": [
+      "constant circular prismatic section",
+      "zero warping for circular section",
+      "traction-free cylindrical surface",
+      "uniform torque",
+      "fully fixed x=0 is compatible with exact field",
+      "matching Saint-Venant traction on x=L"
+    ],
+    "maximum_shear_stress_Pa": 5092.958178940651,
+    "maximum_tip_tangential_displacement_m": 4.965634224467135e-07,
+    "tip_twist_rad": 9.93126844893427e-07,
+    "type": "Saint-Venant circular shaft, small-strain isotropic linear elasticity"
+  },
+  "baseline_sha": "be455745f4a1c2cf81cb9448830223107dc39b66",
+  "contract_id": "J24-TET10-CIRCULAR-TORSION-MESH-REBUILD-003",
+  "contract_sha256": "00262286309a4a384b4f07142327ef203564e88fdf17952fed94ec3451830ea5",
+  "criteria": {
+    "area_volume": "descriptive indicators only",
+    "force": "PASS if independent resultant norm/|T|<=1e-10",
+    "jacobian": "PASS if all 35 default closed-lattice samples per TET10 are positive and min det(J)>1e-14 m^3",
+    "mechanical_response": "NOT_RUN",
+    "torque": "PASS if independent relative torque error<=1e-12"
+  },
+  "environment": {
+    "gmsh": "4.15.2",
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "qf_solver": "0.2.12"
+  },
+  "git_state_at_start": {
+    "branch": "work/0.3.0-j24",
+    "head": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "merge_base": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "origin_main": "be455745f4a1c2cf81cb9448830223107dc39b66"
+  },
+  "mesh_levels": [
+    {
+      "dof_count_fixed": 66,
+      "dof_count_free": 978,
+      "dof_count_total": 1044,
+      "element_count": 151,
+      "force_resultant_over_torque": 0.0,
+      "independent_force_resultant_N": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "independent_torque_x_Nm": 999.9999999999998,
+      "jacobians": {
+        "maximum_m3": 0.2256830046031005,
+        "minimum_m3": 0.009966261103179793,
+        "nonpositive_count": 0,
+        "sample_count": 5285
+      },
+      "level": 1,
+      "load_function_diagnostics": {
+        "equilibrium_correction_norm": 1.0973192471533278e-07,
+        "face_count": 7.0,
+        "resultant_force_norm": 0.0,
+        "resultant_torque_x": 1000.0000000000001
+      },
+      "mesh_sha256": "05f3db8c38cc2ad580b38a332535f6be25c42ebf0d4fafb424538bbf9183ebef",
+      "nodal_loads_sha256": "4e83ae600c8c0b356c7ac7f0474ac30625c1786ac85ba4a9847c6a01678ff7b8",
+      "node_count": 348,
+      "nominal_h_m": 0.5,
+      "relative_torque_error": 2.2737367544323206e-16,
+      "represented_volume_order8_m3": 2.353987146358872,
+      "setup_sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+      "terminal_area_order10_m2": 0.7843612087337555,
+      "terminal_area_order5_m2": 0.7843612087337559,
+      "terminal_area_quadrature_relative_difference": 5.661794654110754e-16,
+      "terminal_area_relative_difference_to_pi_R2": 0.0013202916839112266,
+      "terminal_face_count": 7,
+      "volume_relative_difference_to_pi_R2_L": 0.000936825819201563
+    },
+    {
+      "dof_count_fixed": 120,
+      "dof_count_free": 1695,
+      "dof_count_total": 1815,
+      "element_count": 272,
+      "force_resultant_over_torque": 1.5449458480873625e-16,
+      "independent_force_resultant_N": [
+        0.0,
+        -2.8310687127941492e-14,
+        -1.5187850976872141e-13
+      ],
+      "independent_torque_x_Nm": 1000.0000000000003,
+      "jacobians": {
+        "maximum_m3": 0.09783732224851928,
+        "minimum_m3": 0.02040500343526883,
+        "nonpositive_count": 0,
+        "sample_count": 9520
+      },
+      "level": 2,
+      "load_function_diagnostics": {
+        "equilibrium_correction_norm": 9.925965630513703e-18,
+        "face_count": 15.0,
+        "resultant_force_norm": 1.5449458480873625e-13,
+        "resultant_torque_x": 1000.0
+      },
+      "mesh_sha256": "56d680e1cddb17c304cd0cdfb0474e34d8358cbaa0262b846c5cf8f6cfe802ed",
+      "nodal_loads_sha256": "699dabff7b15b469552146d60e4ffbfca68d2b7fbad51ba54c71ce448ad98b4c",
+      "node_count": 605,
+      "nominal_h_m": 0.38,
+      "relative_torque_error": 3.410605131648481e-16,
+      "represented_volume_order8_m3": 2.355469963738314,
+      "setup_sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+      "terminal_area_order10_m2": 0.7850150763445537,
+      "terminal_area_order5_m2": 0.7850150763445543,
+      "terminal_area_quadrature_relative_difference": 7.071348424255388e-16,
+      "terminal_area_relative_difference_to_pi_R2": 0.0004877615848214325,
+      "terminal_face_count": 15,
+      "volume_relative_difference_to_pi_R2_L": 0.0003074985774929967
+    },
+    {
+      "dof_count_fixed": 186,
+      "dof_count_free": 2982,
+      "dof_count_total": 3168,
+      "element_count": 531,
+      "force_resultant_over_torque": 7.904787935331114e-17,
+      "independent_force_resultant_N": [
+        0.0,
+        3.4638958368304884e-14,
+        7.105427357601002e-14
+      ],
+      "independent_torque_x_Nm": 999.9999999999999,
+      "jacobians": {
+        "maximum_m3": 0.06295540766402034,
+        "minimum_m3": 0.009087700568323276,
+        "nonpositive_count": 0,
+        "sample_count": 18585
+      },
+      "level": 3,
+      "load_function_diagnostics": {
+        "equilibrium_correction_norm": 1.568097085772699e-17,
+        "face_count": 25.0,
+        "resultant_force_norm": 7.904787935331115e-14,
+        "resultant_torque_x": 999.9999999999998
+      },
+      "mesh_sha256": "84d8f1049799d9a342a479de425e017f3ae20fb8ce37c52678d1f47d2707d328",
+      "nodal_loads_sha256": "15768220c4336930a7969939256b9984eb42941497e1c935b694efb2f445918d",
+      "node_count": 1056,
+      "nominal_h_m": 0.3,
+      "relative_torque_error": 1.1368683772161603e-16,
+      "represented_volume_order8_m3": 2.355845883301734,
+      "setup_sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+      "terminal_area_order10_m2": 0.7852256670847598,
+      "terminal_area_order5_m2": 0.7852256670847599,
+      "terminal_area_quadrature_relative_difference": 1.413890389939731e-16,
+      "terminal_area_relative_difference_to_pi_R2": 0.00021962912663593974,
+      "terminal_face_count": 25,
+      "volume_relative_difference_to_pi_R2_L": 0.00014795335956431757
+    },
+    {
+      "dof_count_fixed": 321,
+      "dof_count_free": 5655,
+      "dof_count_total": 5976,
+      "element_count": 1063,
+      "force_resultant_over_torque": 1.706135029904003e-16,
+      "independent_force_resultant_N": [
+        0.0,
+        -1.0658141036401503e-13,
+        -1.3322676295501878e-13
+      ],
+      "independent_torque_x_Nm": 999.9999999999994,
+      "jacobians": {
+        "maximum_m3": 0.03144916729933174,
+        "minimum_m3": 0.003673836394087084,
+        "nonpositive_count": 0,
+        "sample_count": 37205
+      },
+      "level": 4,
+      "load_function_diagnostics": {
+        "equilibrium_correction_norm": 1.3182088317497521e-17,
+        "face_count": 46.0,
+        "resultant_force_norm": 1.706135029904003e-13,
+        "resultant_torque_x": 999.9999999999998
+      },
+      "mesh_sha256": "9d1a2f14c97cd75b598da5e66da3da41cab4d3036bc265aa670d2cbd16cc93e3",
+      "nodal_loads_sha256": "efa1649daae38fb4b63ea1678595b226795bf870bad9807d9d7257574bc28aff",
+      "node_count": 1992,
+      "nominal_h_m": 0.24,
+      "relative_torque_error": 5.684341886080802e-16,
+      "represented_volume_order8_m3": 2.3560806437451856,
+      "setup_sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+      "terminal_area_order10_m2": 0.7853321773108899,
+      "terminal_area_order5_m2": 0.785332177310892,
+      "terminal_area_quadrature_relative_difference": 2.686027400546379e-15,
+      "terminal_area_relative_difference_to_pi_R2": 8.401609480845882e-05,
+      "terminal_face_count": 46,
+      "volume_relative_difference_to_pi_R2_L": 4.8317932850266913e-05
+    }
+  ],
+  "model_inputs": {
+    "geometry": {
+      "element": "TET10",
+      "length_m": 3.0,
+      "mesh_sizes_m": [
+        0.5,
+        0.38,
+        0.3,
+        0.24
+      ],
+      "order": 2,
+      "radius_m": 0.5,
+      "type": "solid circular cylinder along +X"
+    },
+    "material": {
+      "E_Pa": 80000000000.0,
+      "density_kg_m3": 2700.0,
+      "density_note": "Density is stored for source parity and is unused by a static formulation.",
+      "nu": 0.3
+    },
+    "support": "UX=UY=UZ fixed on x=0 plane nodes",
+    "torque": {
+      "axis": "X",
+      "magnitude_Nm": 1000.0,
+      "polar_moment": "J=pi*R^4/2",
+      "traction": "(0,-T*z/J,T*y/J)"
+    }
+  },
+  "resources": {
+    "elapsed_seconds": 40.078941399930045,
+    "output_payload_bytes_before_summary_manifest": 1023167,
+    "peak_rss_bytes": 141377536,
+    "peak_rss_method": "psutil sampled every 50 ms"
+  },
+  "schema_version": 1,
+  "scope_limit": "Mesh generation/import, sampled Jacobians, geometric integration, and nodal load construction only. No stiffness assembly, solve, displacement, reaction, energy, or mechanical verdict.",
+  "source_sha256": {
+    "research/j24/tet10_torsion/preflight_meshes.py": "82da1fd55d2a71e27326afc94d6c5bae1aed557c7f27436395d331160515bb65",
+    "src/solveur/benchmarks/gmsh_factory.py": "2ae42d3e36ebe63ad7c8635cbd1420fb9a66ad3a7f08bb5a898e0c6e203bfff5",
+    "src/solveur/benchmarks/solid_extended.py": "abdd80cc2c99d5771cf61df9499979d6ec356ce743d23f4f5c260699ad41fc13",
+    "src/solveur/elements/solid/quadrature.py": "e86eda5f28f7bead0c8bbff603ab455b6a426c2189b1b81347e821a8b391e19c",
+    "src/solveur/elements/solid/tet10.py": "a29b8bb118c20ce4b78406b07829a3017357f467af4318b8b6e0ffa72c89bbc5",
+    "src/solveur/mesh/gmsh_importer.py": "226edc9dab368b68cde13568adb9c6d0335f95320e1c16b484d5cc501caa5c3f",
+    "src/solveur/mesh/topology.py": "930b4b4945fffff3cdf867a2709ced92f40270af77aac991992bdcff6cf9b93e",
+    "src/solveur/verification/tet10_structural_convergence.py": "96022008c5dc2cd6e14a398e9462687ba7b9859168bc7029be965f4c1dd482de"
+  },
+  "status": "PREFLIGHT_COMPLETE_NO_MECHANICAL_VERDICT"
+}
