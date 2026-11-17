@@ -13,6 +13,8 @@ CONTRACT = ROOT / "research" / "j21" / "contracts" / "cost_profile_001.json"
 OUTPUT = ROOT / "research" / "j21" / "results" / "cost_profile_001"
 CONTRACT_002 = ROOT / "research" / "j21" / "contracts" / "cost_profile_002.json"
 OUTPUT_002 = ROOT / "research" / "j21" / "results" / "cost_profile_002"
+CONTRACT_003 = ROOT / "research" / "j21" / "contracts" / "cost_profile_003.json"
+OUTPUT_003 = ROOT / "research" / "j21" / "results" / "cost_profile_003"
 
 
 def _write_manifest(directory: Path, contract_sha256: str, contract_id: str) -> None:
@@ -82,6 +84,30 @@ def test_j21_supervisor_cost_profile_002() -> None:
         if result["peak_rss_bytes_sampled"] is None:
             raise AssertionError("sampled process-tree RSS is required by the frozen contract")
     _write_manifest(OUTPUT_002, contract_sha256, contract["contract_id"])
+
+
+def test_j21_supervisor_cost_profile_003() -> None:
+    if OUTPUT_003.exists() and any(OUTPUT_003.iterdir()):
+        raise RuntimeError("J21 cost output already exists; refusing to overwrite the frozen run")
+    contract = json.loads(CONTRACT_003.read_text(encoding="utf-8"))
+    if contract.get("state") != "FROZEN_BEFORE_EXECUTION":
+        raise RuntimeError("J21 cost contract must be frozen before execution")
+    contract_sha256 = hashlib.sha256(CONTRACT_003.read_bytes()).hexdigest()
+    journal = run_supervised_exact(CONTRACT_003, OUTPUT_003 / "run")
+    expected = {case["case_id"]: case for case in contract["cases"]}
+    for result in journal["cases"]:
+        case = expected[result["case_id"]]
+        if journal["run_status"] != "COMPLETE" or result["supervisor_status"] != "COMPLETE":
+            raise AssertionError(result)
+        if result["exact_status"] != "PASS":
+            raise AssertionError(result)
+        if result["exact_result"]["stored_entries"] != case["expected_stored_entries"]:
+            raise AssertionError(result)
+        if result["exact_result"]["dimension"] != case["dimension"]:
+            raise AssertionError(result)
+        if result["peak_rss_bytes_sampled"] is None:
+            raise AssertionError("sampled process-tree RSS is required by the frozen contract")
+    _write_manifest(OUTPUT_003, contract_sha256, contract["contract_id"])
 
 
 def test_j21_cost_artifact_manifest_uses_contract_id(tmp_path: Path) -> None:
