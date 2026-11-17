@@ -4,10 +4,12 @@ import hashlib
 import json
 import sys
 import threading
+import time
 from pathlib import Path
 
 import numpy as np
 import psutil
+import pytest
 
 from research.j21 import supervised_exact
 from research.j21.synthetic_inputs import build_archive_payload, write_archive
@@ -205,6 +207,72 @@ def test_j21_supervisor_timeout_kills_worker_and_observed_child_tree(tmp_path: P
     child_pid = int(child_pid_path.read_text(encoding="utf-8"))
     assert child_pid in outcome.observed_process_pids
     assert not psutil.pid_exists(child_pid)
+
+
+def test_j21_supervisor_kills_tree_when_monitor_raises(tmp_path: Path, monkeypatch) -> None:
+    child_pid_path = tmp_path / "exception-child.pid"
+    child_code = "import time; time.sleep(30)"
+    parent_code = (
+        "import subprocess,sys,time,pathlib; "
+        f"child=subprocess.Popen([sys.executable,'-c',{child_code!r}]); "
+        f"pathlib.Path({str(child_pid_path)!r}).write_text(str(child.pid)); "
+        "time.sleep(30)"
+    )
+
+    def fail_after_child_starts(_pid: int) -> int:
+        deadline = time.monotonic() + 3.0
+        while not child_pid_path.exists() and time.monotonic() < deadline:
+            time.sleep(0.01)
+        if not child_pid_path.exists():
+            raise AssertionError("synthetic child did not start within the test budget")
+        raise RuntimeError("injected RSS observer failure")
+
+    monkeypatch.setattr(supervised_exact, "_process_tree_rss", fail_after_child_starts)
+    with pytest.raises(RuntimeError, match="injected RSS observer failure"):
+        supervised_exact._run_external_process(
+            [sys.executable, "-c", parent_code],
+            cwd=tmp_path,
+            limits=SupervisorLimits(
+                case_timeout_seconds=5.0,
+                poll_interval_seconds=0.01,
+                termination_grace_seconds=0.1,
+                memory_soft_limit_bytes=512 * 1024 * 1024,
+            ),
+            stop_requested=lambda: False,
+        )
+
+    child_pid = int(child_pid_path.read_text(encoding="utf-8"))
+    assert not psutil.pid_exists(child_pid)
+
+
+def test_j21_supervisor_exception_is_journaled_inconclusive(tmp_path: Path, monkeypatch) -> None:
+    archive = tmp_path / "inputs" / "one.npz"
+    digest = _archive(
+        archive,
+        matrix=np.eye(1, dtype=np.complex128),
+        rhs=np.ones(1, dtype=np.complex128),
+        solution=np.ones(1, dtype=np.complex128),
+    )
+    contract_path, _ = _contract(
+        tmp_path,
+        [{"case_id": "monitor-error", "input_path": "one.npz", "input_sha256": digest}],
+    )
+    monkeypatch.setattr(
+        supervised_exact,
+        "_run_external_process",
+        lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("injected monitor fault")),
+    )
+
+    journal = run_supervised_exact(
+        contract_path,
+        tmp_path / "run",
+        repository_root=ROOT,
+        input_root=tmp_path / "inputs",
+    )
+
+    assert journal["run_status"] == "SUPERVISOR_EXCEPTION"
+    assert journal["cases"][0]["supervisor_status"] == "SUPERVISOR_EXCEPTION"
+    assert journal["cases"][0]["exact_status"] == "INCONCLUSIVE"
 
 
 def test_j21_supervisor_memory_threshold_is_sampled_soft_and_terminates(tmp_path: Path) -> None:

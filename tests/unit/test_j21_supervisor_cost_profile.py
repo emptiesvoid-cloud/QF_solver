@@ -15,7 +15,7 @@ CONTRACT_002 = ROOT / "research" / "j21" / "contracts" / "cost_profile_002.json"
 OUTPUT_002 = ROOT / "research" / "j21" / "results" / "cost_profile_002"
 
 
-def _write_manifest(directory: Path, contract_sha256: str) -> None:
+def _write_manifest(directory: Path, contract_sha256: str, contract_id: str) -> None:
     files: dict[str, dict[str, Any]] = {}
     for path in sorted(directory.rglob("*")):
         if path.is_file() and path.name != "artifact_manifest.json":
@@ -23,7 +23,7 @@ def _write_manifest(directory: Path, contract_sha256: str) -> None:
             files[relative] = {"sha256": sha256_file(path), "bytes": path.stat().st_size}
     manifest = {
         "schema": "qfsolver-j21-supervisor-cost-artifact-manifest-v1",
-        "contract_id": "J21-SUPERVISOR-COST-PROFILE-001",
+        "contract_id": contract_id,
         "contract_sha256": contract_sha256,
         "files": files,
         "limitations": [
@@ -57,7 +57,7 @@ def test_j21_supervisor_cost_profile() -> None:
             raise AssertionError(result)
         if result["peak_rss_bytes_sampled"] is None:
             raise AssertionError("sampled process-tree RSS is required by the frozen contract")
-    _write_manifest(OUTPUT, contract_sha256)
+    _write_manifest(OUTPUT, contract_sha256, contract["contract_id"])
 
 
 def test_j21_supervisor_cost_profile_002() -> None:
@@ -81,4 +81,10 @@ def test_j21_supervisor_cost_profile_002() -> None:
             raise AssertionError(result)
         if result["peak_rss_bytes_sampled"] is None:
             raise AssertionError("sampled process-tree RSS is required by the frozen contract")
-    _write_manifest(OUTPUT_002, contract_sha256)
+    _write_manifest(OUTPUT_002, contract_sha256, contract["contract_id"])
+
+
+def test_j21_cost_artifact_manifest_uses_contract_id(tmp_path: Path) -> None:
+    _write_manifest(tmp_path, "a" * 64, "J21-SYNTHETIC-TEST-CONTRACT")
+    manifest = json.loads((tmp_path / "artifact_manifest.json").read_text(encoding="utf-8"))
+    assert manifest["contract_id"] == "J21-SYNTHETIC-TEST-CONTRACT"

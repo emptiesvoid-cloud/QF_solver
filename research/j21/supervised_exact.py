@@ -225,81 +225,86 @@ def _run_external_process(
     observed_pids: set[int] = {process.pid}
     peak_rss: int | None = None
 
-    while True:
-        observed_pids.update(_process_tree_pids(process.pid))
-        return_code = process.poll()
-        if return_code is not None:
-            live_children = [pid for pid in observed_pids if pid != process.pid and psutil.pid_exists(pid)]
-            if live_children:
+    try:
+        while True:
+            observed_pids.update(_process_tree_pids(process.pid))
+            return_code = process.poll()
+            if return_code is not None:
+                live_children = [pid for pid in observed_pids if pid != process.pid and _pid_is_running(pid)]
+                if live_children:
+                    terminated, confirmed = _terminate_process_tree(
+                        process, observed_pids, limits.termination_grace_seconds
+                    )
+                    return ProcessOutcome(
+                        "CHILD_PROCESS_REMAINS", return_code, time.monotonic() - started,
+                        peak_rss, process.pid, terminated, confirmed,
+                        "worker exited while an observed descendant remained alive",
+                    )
+                return ProcessOutcome(
+                    "EXITED", return_code, time.monotonic() - started, peak_rss, process.pid,
+                    tuple(sorted(observed_pids)), True, None,
+                )
+
+            if stop_requested():
                 terminated, confirmed = _terminate_process_tree(
                     process, observed_pids, limits.termination_grace_seconds
                 )
                 return ProcessOutcome(
-                    "CHILD_PROCESS_REMAINS", return_code, time.monotonic() - started,
-                    peak_rss, process.pid, terminated, confirmed,
-                    "worker exited while an observed descendant remained alive",
+                    "INTERRUPTED", process.returncode, time.monotonic() - started,
+                    peak_rss, process.pid, terminated, confirmed, "stop requested",
                 )
-            return ProcessOutcome(
-                "EXITED", return_code, time.monotonic() - started, peak_rss, process.pid,
-                tuple(sorted(observed_pids)), True, None,
-            )
 
-        if stop_requested():
-            terminated, confirmed = _terminate_process_tree(
-                process, observed_pids, limits.termination_grace_seconds
-            )
-            return ProcessOutcome(
-                "INTERRUPTED", process.returncode, time.monotonic() - started,
-                peak_rss, process.pid, terminated, confirmed, "stop requested",
-            )
-
-        elapsed = time.monotonic() - started
-        if elapsed >= limits.case_timeout_seconds:
-            terminated, confirmed = _terminate_process_tree(
-                process, observed_pids, limits.termination_grace_seconds
-            )
-            return ProcessOutcome(
-                "TIMED_OUT", process.returncode, time.monotonic() - started,
-                peak_rss, process.pid, terminated, confirmed, "external wall-time limit reached",
-            )
-
-        current_rss = _process_tree_rss(process.pid)
-        if current_rss is None:
-            # The worker may have exited between poll() above and the RSS
-            # query. That is a normal short-process race, not a failed RSS
-            # monitor; the next loop pass will collect its return code.
-            if process.poll() is not None:
-                continue
-            if limits.memory_soft_limit_bytes is not None:
+            elapsed = time.monotonic() - started
+            if elapsed >= limits.case_timeout_seconds:
                 terminated, confirmed = _terminate_process_tree(
                     process, observed_pids, limits.termination_grace_seconds
                 )
                 return ProcessOutcome(
-                    "MEMORY_MONITOR_UNAVAILABLE", process.returncode, time.monotonic() - started,
-                    peak_rss, process.pid, terminated, confirmed,
-                    "RSS sampling failed while a memory threshold was configured",
+                    "TIMED_OUT", process.returncode, time.monotonic() - started,
+                    peak_rss, process.pid, terminated, confirmed, "external wall-time limit reached",
                 )
-        else:
-            peak_rss = max(peak_rss or 0, current_rss)
-            if limits.memory_soft_limit_bytes is not None and current_rss > limits.memory_soft_limit_bytes:
+
+            current_rss = _process_tree_rss(process.pid)
+            if current_rss is None:
+                # The worker may have exited between poll() above and the RSS
+                # query. That is a normal short-process race, not a failed RSS
+                # monitor; the next loop pass will collect its return code.
+                if process.poll() is not None:
+                    continue
+                if limits.memory_soft_limit_bytes is not None:
+                    terminated, confirmed = _terminate_process_tree(
+                        process, observed_pids, limits.termination_grace_seconds
+                    )
+                    return ProcessOutcome(
+                        "MEMORY_MONITOR_UNAVAILABLE", process.returncode, time.monotonic() - started,
+                        peak_rss, process.pid, terminated, confirmed,
+                        "RSS sampling failed while a memory threshold was configured",
+                    )
+            else:
+                peak_rss = max(peak_rss or 0, current_rss)
+                if limits.memory_soft_limit_bytes is not None and current_rss > limits.memory_soft_limit_bytes:
+                    terminated, confirmed = _terminate_process_tree(
+                        process, observed_pids, limits.termination_grace_seconds
+                    )
+                    return ProcessOutcome(
+                        "MEMORY_LIMIT_OBSERVED", process.returncode, time.monotonic() - started,
+                        peak_rss, process.pid, terminated, confirmed,
+                        "sampled process-tree RSS exceeded the configured soft threshold",
+                    )
+            try:
+                time.sleep(limits.poll_interval_seconds)
+            except KeyboardInterrupt:
                 terminated, confirmed = _terminate_process_tree(
                     process, observed_pids, limits.termination_grace_seconds
                 )
                 return ProcessOutcome(
-                    "MEMORY_LIMIT_OBSERVED", process.returncode, time.monotonic() - started,
-                    peak_rss, process.pid, terminated, confirmed,
-                    "sampled process-tree RSS exceeded the configured soft threshold",
+                    "INTERRUPTED", process.returncode, time.monotonic() - started,
+                    peak_rss, process.pid, terminated, confirmed, "keyboard interrupt",
                 )
-        try:
-            time.sleep(limits.poll_interval_seconds)
-        except KeyboardInterrupt:
-            terminated, confirmed = _terminate_process_tree(
-                process, observed_pids, limits.termination_grace_seconds
-            )
-            return ProcessOutcome(
-                "INTERRUPTED", process.returncode, time.monotonic() - started,
-                peak_rss, process.pid, terminated, confirmed, "keyboard interrupt",
-            )
+    finally:
+        # Protect against unexpected monitor exceptions or direct interruption.
+        if process.poll() is None:
+            _terminate_process_tree(process, observed_pids, limits.termination_grace_seconds)
 
 
 def _validate_contract(contract: dict[str, Any], contract_path: Path, root: Path, data_root: Path) -> list[dict[str, Any]]:
@@ -497,12 +502,31 @@ def run_supervised_exact(
             "--max-elapsed-seconds",
             str(float(limits_data["exact_time_budget_seconds"])),
         ]
-        outcome = _run_external_process(
-            command,
-            cwd=root,
-            limits=limits,
-            stop_requested=stopped,
-        )
+        try:
+            outcome = _run_external_process(
+                command,
+                cwd=root,
+                limits=limits,
+                stop_requested=stopped,
+            )
+        except KeyboardInterrupt:
+            record.update(
+                supervisor_status="INTERRUPTED",
+                exact_status="INCONCLUSIVE",
+                reason="supervisor interrupted while monitoring the worker",
+            )
+            stop_reason = "INTERRUPTED"
+            write_atomic_json(checkpoint, journal)
+            break
+        except Exception as exc:
+            record.update(
+                supervisor_status="SUPERVISOR_EXCEPTION",
+                exact_status="INCONCLUSIVE",
+                reason=f"supervisor exception: {type(exc).__name__}",
+            )
+            stop_reason = "SUPERVISOR_EXCEPTION"
+            write_atomic_json(checkpoint, journal)
+            break
         record.update(
             worker_pid=outcome.worker_pid,
             observed_process_pids=list(outcome.observed_process_pids),
