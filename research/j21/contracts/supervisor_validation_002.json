@@ -1,0 +1,44 @@
+{
+  "schema": "qfsolver-j21-supervisor-validation-contract-v1",
+  "contract_id": "J21-SUPERVISOR-FAULT-CLEANUP-002",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "attempt_id": "J21-SUPERVISOR-FAULT-CLEANUP-002-ATTEMPT-001",
+  "owner_authorization": "QF Solver 0.3.0 J21 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "j20_fix_commit": "ab27c564b6d43849078c1498c9f5c19faca58897",
+    "source_code_commit": "87686c50c06bb5bf4ab75b1c796ae148a2a984e5",
+    "branch": "work/0.3.0-j21"
+  },
+  "source_hashes": {
+    "research/j17/exact_residual.py": "670b4125fc7acf6db1e5f8b09b6b8c7e235476e0ecfdabb1765d6b93bb94e51f",
+    "research/j21/exact_worker.py": "77b783f9fb03c858fa937a145ecab4f3f8031382e9e51ca3ea37d68d309c723a",
+    "research/j21/supervised_exact.py": "075522984bda5869a94ef739d0c6a60165ed60bdc2e577ad5bba76c13cecf430",
+    "tests/unit/test_j21_supervised_exact.py": "0058a9c3be6885966d3c5e05982bc3b6973eeeda9e69e29f58eadfd6ada004a3"
+  },
+  "objective": "Verify that unexpected monitoring exceptions terminate a worker and observed descendants, and that the durable supervisor journal records the affected case as INCONCLUSIVE.",
+  "nodeids": [
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_kills_tree_when_monitor_raises",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_exception_is_journaled_inconclusive"
+  ],
+  "expected_results": {
+    "child_cleanup": "Injected RSS observer exception is re-raised after the worker tree is terminated; the observed child PID is no longer running.",
+    "journal_state": "Unexpected supervisor exception yields run_status and supervisor_status SUPERVISOR_EXCEPTION and exact_status INCONCLUSIVE."
+  },
+  "limits": {
+    "synthetic_process_timeout_seconds": 5,
+    "child_start_wait_seconds": 3,
+    "termination_grace_seconds": 0.1,
+    "memory_soft_limit_mib": 512,
+    "fem_assembly": false,
+    "harmonic_solve": false
+  },
+  "execution": {
+    "platform": "Windows 10 x64",
+    "test_invocation": "One exact pytest nodeid per command.",
+    "psutil_required": true,
+    "artifacts": "pytest temporary directories only; no project result directory or archive is overwritten."
+  },
+  "interpretation": "This contract tests supervisor cleanup and state recording under injected software faults on Windows. It does not test POSIX process-group behavior or establish a hard OS resource quota.",
+  "historical_policy": "No historical guard status or J14-J20 scientific result is changed."
+}
