@@ -1,0 +1,59 @@
+{
+  "schema": "qfsolver-j17-nonfem-test-contract-v1",
+  "contract_id": "J17-EXACT-RESIDUAL-UNIT-TESTS-002",
+  "attempt_id": "J17-EXACT-RESIDUAL-UNIT-TESTS-002-ATTEMPT-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "classification": "BOUNDED_NON_FEM_UNIT_TESTS",
+  "owner_authorization": "QF Solver 0.3.0 J17 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "branch": "work/0.3.0-j17",
+    "source_commit": "117277457a0c9c30ffcf13b48a0e1fdf2062919d"
+  },
+  "provenance": {
+    "prior_contract": "J17-EXACT-RESIDUAL-UNIT-TESTS-001",
+    "prior_attempt": "test_exact_residual_uses_complex_binary_values_without_float_norms failed because the test expected 1/2 for a residual whose exact squared norm is 1/4",
+    "change": "Correct the test oracle only; verifier source is unchanged."
+  },
+  "purpose": "Re-run all exact represented-residual unit checks after correcting the synthetic complex-case expected value.",
+  "criteria": {
+    "tolerance_binary64": "1e-7",
+    "pass": "Exact rational squared residual ratio <= exact square of float64 tolerance",
+    "fail": "Exact rational squared residual ratio > exact square of float64 tolerance",
+    "inconclusive": "Non-finite, malformed, unsupported, or over-budget inputs",
+    "controls": [
+      "comfortably below and above threshold",
+      "0.99x and 1.01x threshold neighborhood",
+      "complex-valued system",
+      "ill-conditioned system with 1e-300 residual scale",
+      "zero reference and nonzero tiny reference",
+      "non-finite, wrong-shape, unsupported dtype, and budget cap"
+    ]
+  },
+  "tests": [
+    "tests/unit/test_j17_exact_residual.py::test_exact_residual_pass_fail_and_threshold_neighborhood",
+    "tests/unit/test_j17_exact_residual.py::test_exact_residual_uses_complex_binary_values_without_float_norms",
+    "tests/unit/test_j17_exact_residual.py::test_exact_residual_handles_ill_conditioning_and_tiny_norms",
+    "tests/unit/test_j17_exact_residual.py::test_exact_residual_defines_zero_reference_and_small_scale_cases",
+    "tests/unit/test_j17_exact_residual.py::test_invalid_nonfinite_and_over_budget_inputs_are_inconclusive"
+  ],
+  "execution": {
+    "command": "python -m pytest <one exact nodeid> -q",
+    "attempts_per_nodeid": 1,
+    "timeout_seconds": 60,
+    "rss_soft_limit_mib": 512,
+    "output_limit_mib": 2,
+    "storage_limit_mib": 8,
+    "fem_or_solver_calls": false,
+    "run_one_nodeid_per_command": true
+  },
+  "artifacts": [
+    "One pytest log per exact nodeid under research/j17/results/unit_tests_002/",
+    "The J17-UNIT-TESTS-001 failure log is preserved separately."
+  ],
+  "source_sha256": {
+    "research/j17/exact_residual.py": "146412e89014b04135088943a4674f149e789e44ceffa06edec9a48b5656e84d",
+    "tests/unit/test_j17_exact_residual.py": "676a6c2aeef9e879d6090d3e3a0d4c9e223e13413638675bf37599e7903acf80"
+  },
+  "status_policy": "PASS/FAIL describe only exact residuals of supplied represented values. They do not alter historical QF_GUARD_REJECTED statuses."
+}

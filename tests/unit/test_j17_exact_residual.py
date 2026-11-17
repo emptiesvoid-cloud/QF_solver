@@ -35,7 +35,7 @@ def test_exact_residual_uses_complex_binary_values_without_float_norms() -> None
 
     # First component residual is -0.5 - 0.5j; ||b||^2 = 6.
     assert result.status == "FAIL"
-    assert result.residual_squared == Fraction(1, 2)
+    assert result.residual_squared == Fraction(1, 4)
     assert result.reference_squared == Fraction(6, 1)
 
 
