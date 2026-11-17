@@ -1,6 +1,8 @@
 *.msh -text whitespace=-trailing-space
 # Qualification files are hash-bound evidence; preserve their Git blob bytes on Windows.
 qualification/** -text
+# J19 result bundles include SHA-256 manifests over raw file bytes.
+research/j19/results/** -text whitespace=cr-at-eol
 # The WP13 installed-package smoke controller is hash-pinned by its execution manifest.
 scripts/wp13_package_smoke.py text eol=lf
 # Keep the WP-C02 manifest contract test diff-safe across Windows checkouts.

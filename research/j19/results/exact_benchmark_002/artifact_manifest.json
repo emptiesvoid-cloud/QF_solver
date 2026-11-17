@@ -1,0 +1,18 @@
+{
+  "schema": "qfsolver-j19-benchmark-artifact-manifest-v1",
+  "contract_id": "J19-EXACT-VERIFIER-BENCHMARK-002",
+  "contract_sha256": "b26d9c4b3bc23e60427608aedb19dc3920ffa1587bc9e14a9d86be629edd438b",
+  "source_code_commit": "6d02d50736390bafbc5f23fe3ce53d2c59248372",
+  "execution_source_commit": "cce9290fbde311e718b0f4bb8a077ef1c0d4477b",
+  "files": {
+    "benchmark.json": {
+      "sha256": "d80dbee3eb32e7468a3b378be2b551bd410fd33d47834e6f109bc2314ec3409f",
+      "bytes": 6684
+    }
+  },
+  "limitations": [
+    "Direct exact-node pytest; no process RSS monitor was active.",
+    "tracemalloc reports Python-managed allocations, not all native NumPy/SciPy memory.",
+    "The 20 synthetic cases do not establish worst-case cost at the 100000-entry or 65536-bit limits."
+  ]
+}

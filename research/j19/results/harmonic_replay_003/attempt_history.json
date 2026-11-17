@@ -1,0 +1,79 @@
+{
+  "schema": "qfsolver-j19-replay-attempt-history-v1",
+  "historical_policy": "Failed harness attempts are retained and are not scientific results; each successor contract and mandate is separate.",
+  "attempts": [
+    {
+      "contract_id": "J19-NAFEMS13H-ARCHIVED-REPLAY-001",
+      "contract_sha256": "665dd7a9abfd48bc5864488f2807683eafba2279b4c21d22260224d90d02c5e8",
+      "attempt_id": "J19-NAFEMS13H-ARCHIVED-REPLAY-001-ATTEMPT-001",
+      "source_code_commit": "c1736d9802025668ccdb3855008e3e391f130251",
+      "execution_source_commit": "eec6c672f6a78341d1c4b254d85464dde642f56e",
+      "series_id": "dev-j19-harmonic-replay-001",
+      "mandate_id": "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v1",
+      "state": "PYTEST_FAILED",
+      "stage": "before first frequency checkpoint",
+      "cause": "KeyError: input_sha256; contract stores SHA-256 per frequency item",
+      "frequency_solutions_started": false,
+      "checkpoint_written": false,
+      "ledger_path_id": "node-attempt-ledger.json",
+      "ledger_sha256": "f473c93ec8bde9a5dadc16a85ccb34bce159bc404b09184ef5c47aa2ceaf3e3c"
+    },
+    {
+      "contract_id": "J19-NAFEMS13H-ARCHIVED-REPLAY-002",
+      "contract_sha256": "8c47db11673f6b68b2bec18a2ead43f197588580d942662a5cf1c08f2d7562d4",
+      "attempt_id": "J19-NAFEMS13H-ARCHIVED-REPLAY-002-ATTEMPT-001",
+      "source_code_commit": "e26c2154d96ca816d7c0bf1e9a1d96d4d9f49de1",
+      "execution_source_commit": "186b2c0e1624fd91fd13eea9d7cb871e15ec42a1",
+      "series_id": "dev-j19-harmonic-replay-002-v3",
+      "mandate_id": "DEVELOPMENT_AUTONOMOUS-J19-2026-11-17-v2",
+      "state": "PYTEST_FAILED",
+      "stage": "before first frequency checkpoint",
+      "cause": "KeyError: source_code_commit; frozen contract nests the SHA under baseline",
+      "frequency_solutions_started": false,
+      "checkpoint_written": false,
+      "ledger_path_id": "node-attempt-ledger-j19-v2.json",
+      "ledger_sha256": "b3c9ea5530bcc3b1eef47501c1387bf5678a9361961f83d520c8861dcf926d38"
+    },
+    {
+      "contract_id": "J19-NAFEMS13H-ARCHIVED-REPLAY-003",
+      "contract_sha256": "2bb36a1a205792979a96cae9baa2208e1304e6ffdeec139b4ae770af7b8a0c1a",
+      "attempt_id": "J19-NAFEMS13H-ARCHIVED-REPLAY-003-ATTEMPT-001",
+      "source_code_commit": "0cf1a1f6db78f94ff5151474b18ae335030a1c55",
+      "execution_source_commit": "760aec0f8b36f03da8a368de57ba7fd40d71de89",
+      "series_id": "dev-j19-harmonic-replay-003",
+      "mandate_id": "DEVELOPMENT_AUTONOMOUS-J19-2026-11-17-v3",
+      "state": "PASS",
+      "stage": "five archive solves, guard rechecks, exact evaluations, checkpoints, and outputs complete",
+      "frequency_solutions_started": true,
+      "frequencies_completed": 5,
+      "ledger_path_id": "node-attempt-ledger-j19-v3.json",
+      "ledger_sha256": "f103d9f05f58967aa97b1d3b2988b697a7a81086c884490fe7edbc9190c50a3a"
+    }
+  ],
+  "ledger_chain": [
+    {
+      "path_id": "node-attempt-ledger.json",
+      "sha256": "f473c93ec8bde9a5dadc16a85ccb34bce159bc404b09184ef5c47aa2ceaf3e3c",
+      "mandate_id": "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v1"
+    },
+    {
+      "path_id": "node-attempt-ledger-j19-v2.json",
+      "sha256": "b3c9ea5530bcc3b1eef47501c1387bf5678a9361961f83d520c8861dcf926d38",
+      "predecessor_sha256": "f473c93ec8bde9a5dadc16a85ccb34bce159bc404b09184ef5c47aa2ceaf3e3c",
+      "mandate_id": "DEVELOPMENT_AUTONOMOUS-J19-2026-11-17-v2"
+    },
+    {
+      "path_id": "node-attempt-ledger-j19-v3.json",
+      "sha256": "f103d9f05f58967aa97b1d3b2988b697a7a81086c884490fe7edbc9190c50a3a",
+      "predecessor_sha256": "b3c9ea5530bcc3b1eef47501c1387bf5678a9361961f83d520c8861dcf926d38",
+      "mandate_id": "DEVELOPMENT_AUTONOMOUS-J19-2026-11-17-v3"
+    }
+  ],
+  "non_reserved_refusals": [
+    {
+      "series_id": "dev-j19-harmonic-replay-002",
+      "reason": "old v1 node attempt limit was exhausted",
+      "attempt_reserved": false
+    }
+  ]
+}
