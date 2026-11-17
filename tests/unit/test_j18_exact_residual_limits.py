@@ -19,3 +19,12 @@ def test_exact_csr_residual_returns_inconclusive_on_fraction_bit_budget() -> Non
 
     assert result.status == "INCONCLUSIVE"
     assert "bit-length limit" in result.reason
+
+
+def test_exact_residual_rejects_scalar_conversion_overflow() -> None:
+    matrix = np.array([[1.0]])
+    vector = np.array([1.0])
+    for parameter in ("tolerance", "max_elapsed_seconds"):
+        result = evaluate_exact_residual(matrix, vector, vector, **{parameter: 10**400})
+        assert result.status == "INCONCLUSIVE"
+        assert "scalar" in result.reason
