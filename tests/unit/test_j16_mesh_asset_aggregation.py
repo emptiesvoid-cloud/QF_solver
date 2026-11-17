@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from research.j16.aggregate_harmonic_mesh_study import validate_mesh_data
+from research.j16.aggregate_harmonic_mesh_study import summarize_runner_record, validate_mesh_data
 
 
 def test_asset_contract_nests_input_hashes_and_preserves_failed_attempt() -> None:
@@ -48,3 +48,23 @@ def test_mesh_asset_validation_rejects_inconsistent_support_setup() -> None:
     mesh_data[10]["conditions"] = "different"
     with pytest.raises(ValueError, match="frozen model"):
         validate_mesh_data(mesh_data)
+
+
+def test_runner_resource_summary_reads_flat_persisted_receipt() -> None:
+    record = {
+        "state": "PASS",
+        "elapsed_seconds": 13.5,
+        "peak_rss_bytes": 177_000_000,
+        "peak_process_count": 1,
+        "budgets": {"timeout_seconds": 1800},
+        "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+    }
+    result = summarize_runner_record(record)
+    assert result["elapsed_seconds"] == 13.5
+    assert result["peak_rss_bytes_sampled"] == 177_000_000
+    assert result["max_process_count_sampled"] == 1
+
+
+def test_runner_resource_summary_names_missing_receipt_fields() -> None:
+    with pytest.raises(ValueError, match="runner record is missing fields: elapsed_seconds"):
+        summarize_runner_record({"state": "PASS"})

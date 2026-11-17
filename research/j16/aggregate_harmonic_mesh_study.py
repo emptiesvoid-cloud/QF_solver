@@ -22,11 +22,11 @@ import psutil
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CONTRACT_PATH = PROJECT_ROOT / "research/j16/contracts/nafems_13h_mesh_site_assets_002.json"
+CONTRACT_PATH = PROJECT_ROOT / "research/j16/contracts/nafems_13h_mesh_site_assets_003.json"
 RESULT_ROOT = PROJECT_ROOT / "research/j16/results/diagnostic-2026-11-17/mesh_study_003"
 RUN_ROOT = PROJECT_ROOT / ".codex/development-runs/worktrees/j16_mesh_r3"
 REFERENCE_PATH = PROJECT_ROOT / "qualification/external_reference_digests/abaqus_nafems_13h_harmonic.json"
-ASSET_ROOT = PROJECT_ROOT / "research/j16/site_assets/nafems13h_mesh_study_003"
+ASSET_ROOT = PROJECT_ROOT / "research/j16/site_assets/nafems13h_mesh_study_003_attempt003"
 MESHES = (6, 8, 10)
 
 
@@ -55,6 +55,24 @@ def validate_mesh_data(mesh_data: dict[int, dict[str, Any]]) -> None:
     reference_frequencies = {row["frequency_hz"] for row in first["rows"]}
     if any({row["frequency_hz"] for row in data["rows"]} != reference_frequencies for data in mesh_data.values()):
         raise ValueError("mesh response grids do not match")
+
+
+def summarize_runner_record(run_record: dict[str, Any]) -> dict[str, Any]:
+    """Select privacy-safe resources from the persisted, flat runner receipt."""
+    required = ("state", "elapsed_seconds", "peak_rss_bytes", "peak_process_count", "budgets", "qualification")
+    missing = [key for key in required if key not in run_record]
+    if missing:
+        raise ValueError(f"runner record is missing fields: {', '.join(missing)}")
+    if run_record["state"] != "PASS" or run_record["qualification"] != "NOT_APPLICABLE_DEVELOPMENT_ONLY":
+        raise ValueError("runner record must be a completed development-only attempt")
+    return {
+        "state": run_record["state"],
+        "elapsed_seconds": run_record["elapsed_seconds"],
+        "peak_rss_bytes_sampled": run_record["peak_rss_bytes"],
+        "max_process_count_sampled": run_record["peak_process_count"],
+        "budget": run_record["budgets"],
+        "qualification": run_record["qualification"],
+    }
 
 
 def summarize_mesh(
@@ -106,14 +124,7 @@ def summarize_mesh(
         "max_raw_relative_l2_residual": max(row["raw_reduced_relative_residual_l2"] for row in rows),
         "max_raw_backward_error_eta_inf": max(row["raw_reduced_backward_error_eta_inf"] for row in rows),
         "force_resultant_check": data["assembled_load_resultant"],
-        "runner": {
-            "state": run_record["state"],
-            "elapsed_seconds": run_record["metrics"]["elapsed_seconds"],
-            "peak_rss_bytes_sampled": run_record["metrics"]["peak_rss_bytes"],
-            "max_process_count_sampled": run_record["metrics"]["peak_process_count"],
-            "budget": run_record["metrics"]["budgets"],
-            "qualification": run_record["qualification"],
-        },
+        "runner": summarize_runner_record(run_record),
         "status_policy": "Diagnostic peak values come from raw vectors; near-peak points remain QF_GUARD_REJECTED and are not accepted QF results.",
     }
 
@@ -231,7 +242,7 @@ def assemble_site_assets() -> dict[str, Any]:
     monitor = threading.Thread(target=sample_rss, name="j16-site-assets-rss-monitor", daemon=True)
     monitor.start()
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
-    if contract.get("contract_id") != "J16-NAFEMS13H-MESH-SITE-ASSETS-002" or contract.get("state") != "FROZEN_BEFORE_EXECUTION":
+    if contract.get("contract_id") != "J16-NAFEMS13H-MESH-SITE-ASSETS-003" or contract.get("state") != "FROZEN_BEFORE_EXECUTION":
         raise ValueError("the mesh-study site-asset contract is missing or not frozen")
     for rel, expected in contract["source_sha256"].items():
         actual = _sha256(PROJECT_ROOT / rel)
@@ -310,5 +321,5 @@ if __name__ == "__main__":
         "contract_id": result["contract_id"],
         "mesh_sizes": list(result["mesh_summaries"]),
         "frequency_rows": result["frequency_row_count"],
-        "assets": "research/j16/site_assets/nafems13h_mesh_study_003",
+        "assets": "research/j16/site_assets/nafems13h_mesh_study_003_attempt003",
     }, indent=2))
