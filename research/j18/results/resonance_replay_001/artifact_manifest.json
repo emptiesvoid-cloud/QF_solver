@@ -1,0 +1,27 @@
+{
+  "schema": "qfsolver-j18-artifact-manifest-v1",
+  "contract_id": "J18-NAFEMS13H-ARCHIVED-REPLAY-001",
+  "execution_source_commit": "6622e94ef59001715e6e01c5bcec72fe93355a84",
+  "files": {
+    "amplitude_phase.png": {
+      "sha256": "dc1a7f54188f8e9e7d1dee53728aec1dab184548b2a7b3aca4f3994a05096a9f",
+      "bytes": 84876
+    },
+    "execution_summary.json": {
+      "sha256": "f43b4b7f6d696bd403409d2381d1e438bdce00ccfe5db95cae24f71ef7ee2c03",
+      "bytes": 1315
+    },
+    "README.md": {
+      "sha256": "53cc1e5048e7ad942acc971f68dc449d3099d417be350bd170c7900aaec935f9",
+      "bytes": 822
+    },
+    "replay.csv": {
+      "sha256": "e7f0946207b8ebb3300add7ffb931face3cb05e98fcbe3a1b755a2df1692d3ed",
+      "bytes": 623
+    },
+    "replay.json": {
+      "sha256": "f0c763079e7e06da14da07d14f47afe3a3e7269959a1002f17f9a3d860b4e735",
+      "bytes": 15033
+    }
+  }
+}

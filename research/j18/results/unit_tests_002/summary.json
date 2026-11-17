@@ -1,0 +1,12 @@
+{
+  "schema": "qfsolver-j18-unit-test-summary-v1",
+  "contract_id": "J18-EXACT-CSR-LIMITS-001",
+  "attempt_id": "J18-EXACT-CSR-LIMITS-001-ATTEMPT-001",
+  "nodeid": "tests/unit/test_j18_exact_residual_limits.py::test_exact_csr_residual_returns_inconclusive_on_fraction_bit_budget",
+  "source_commit_before_execution": "37764481a3c90f70078de3bedd5b330f1e4f3740",
+  "result": "PASS",
+  "asserted_evaluator_result": "INCONCLUSIVE: configured rational bit-length budget exceeded",
+  "duration_seconds": 1.03,
+  "fem_or_assembly": false,
+  "private_absolute_paths_omitted": true
+}

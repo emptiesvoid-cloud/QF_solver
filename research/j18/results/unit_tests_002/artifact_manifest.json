@@ -1,0 +1,18 @@
+{
+  "schema": "qfsolver-j18-unit-tests-manifest-v1",
+  "contract_id": "J18-EXACT-CSR-LIMITS-001",
+  "files": {
+    "README.md": {
+      "sha256": "9108f86df427c184936b69348c49dae853022aaeacab29b517854c282dc2d047",
+      "bytes": 495
+    },
+    "summary.json": {
+      "sha256": "3a6ff78807df31355b72f7c734cae5ce41ded6f51a800e8363cf63e3fcce401f",
+      "bytes": 575
+    },
+    "test_exact_csr_residual_returns_inconclusive_on_fraction_bit_budget.log": {
+      "sha256": "d9772edda7360f9f73d31364226977873d026d3207b4a10d521c6fefefb29c2c",
+      "bytes": 100
+    }
+  }
+}

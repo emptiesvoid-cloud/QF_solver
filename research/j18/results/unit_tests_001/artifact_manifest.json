@@ -1,0 +1,46 @@
+{
+  "schema": "qfsolver-j18-unit-tests-manifest-v1",
+  "contract_id": "J18-EXACT-CSR-RESIDUAL-TESTS-001",
+  "files": {
+    "summary.json": {
+      "sha256": "2bac242c71ffa0bc5cbe6dfa6191685517290f2c0a9276c5baaf3281debf39d6",
+      "bytes": 2014
+    },
+    "test_exact_residual_defines_zero_reference_and_small_scale_cases.log": {
+      "sha256": "80a49dfa261a7e2ad5e7885fe00669b445b9a446a1645bf34d2354726e1e2a56",
+      "bytes": 100
+    },
+    "test_exact_residual_handles_ill_conditioning_and_tiny_norms.log": {
+      "sha256": "0e8a43f82b29c780bc6a3e17cea49cdbc92cf20e3172ea78a6ef3d4f22cf1071",
+      "bytes": 100
+    },
+    "test_exact_residual_pass_fail_and_threshold_neighborhood.log": {
+      "sha256": "8feba6c9711f796fa73ebde4bd32d3ee4e4a351057ee26b8a6bc1abc84d8e237",
+      "bytes": 100
+    },
+    "test_exact_residual_uses_complex_binary_values_without_float_norms.log": {
+      "sha256": "80a49dfa261a7e2ad5e7885fe00669b445b9a446a1645bf34d2354726e1e2a56",
+      "bytes": 100
+    },
+    "test_invalid_nonfinite_and_over_budget_inputs_are_inconclusive.log": {
+      "sha256": "3540d91ec320c224de34431488d94bb509ee1f0d3077c7b83c9c5b56b52ef419",
+      "bytes": 100
+    },
+    "test_sparse_complex_csr_exact_residual_matches_dense_reference.log": {
+      "sha256": "63ab5516464144a51359fe269d895344a528143d4c9859bbf6eb500352cfdf6f",
+      "bytes": 100
+    },
+    "test_sparse_csr_rejects_nonfinite_malformed_and_over_budget_inputs.log": {
+      "sha256": "80a49dfa261a7e2ad5e7885fe00669b445b9a446a1645bf34d2354726e1e2a56",
+      "bytes": 100
+    },
+    "test_sparse_duplicate_entries_keep_exact_cancellation_and_storage_order.log": {
+      "sha256": "2b048718bf809caa18804a2b3f6b47691a23bca970d39fe175d8fe4719f0d312",
+      "bytes": 100
+    },
+    "test_sparse_exact_decision_covers_near_threshold_and_zero_reference.log": {
+      "sha256": "3540d91ec320c224de34431488d94bb509ee1f0d3077c7b83c9c5b56b52ef419",
+      "bytes": 100
+    }
+  }
+}

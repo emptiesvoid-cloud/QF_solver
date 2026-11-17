@@ -1,0 +1,291 @@
+{
+  "schema": "qfsolver-j18-archived-harmonic-replay-v1",
+  "contract_id": "J18-NAFEMS13H-ARCHIVED-REPLAY-001",
+  "execution_source_commit": "6622e94ef59001715e6e01c5bcec72fe93355a84",
+  "classification": "BOUNDED_ARCHIVED_MATRIX_SOLVES_NO_FEM_ASSEMBLY",
+  "environment": {
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "platform": "Windows-10-10.0.19045-SP0"
+  },
+  "model_identity": {
+    "name": "NAFEMS 13H MITC4 8x8 reduced harmonic systems",
+    "free_dof_count": 175,
+    "center_node": 40,
+    "center_global_uz_dof": 242,
+    "center_reduced_uz_dof": 86,
+    "matrix_source": "J16 archived complex impedances; no stiffness/mass/load assembly in J18"
+  },
+  "threshold_binary64": 1e-07,
+  "frequency_count": 3,
+  "duration_seconds": 0.45724040013737977,
+  "published_reference": {
+    "reference_id": "ABAQUS-2024-NAFEMS-13H-S4R-DIRECT",
+    "evidence_level": "published_external_peak_data_not_locally_executed",
+    "nafems_peak": {
+      "peak_displacement_mm": 45.42,
+      "peak_stress_n_mm2": 30.03,
+      "peak_frequency_hz": 2.377
+    },
+    "abaqus_s4r_peak": {
+      "element": "S4R",
+      "peak_displacement_mm": 45.38,
+      "peak_stress_n_mm2": 30.37,
+      "peak_frequency_hz": 2.405
+    },
+    "phase_available": false,
+    "pointwise_samples_available": false,
+    "comparison_limit": "peak-only values are not pointwise references at the three replay frequencies"
+  },
+  "historical_status": {
+    "j15_run": "PYTEST_FAILED; 152 historical points remain QF_GUARD_REJECTED",
+    "j16_replayed_systems": "historical route statuses remain QF_GUARD_REJECTED",
+    "j17_exact_archive_check": "15 exact checks passed; no route verdict was promoted"
+  },
+  "results": [
+    {
+      "frequency_hz": 2.375818178440047,
+      "input_archive": "guard_frequency_2p375818178.npz",
+      "input_sha256": "bdf0ada904d800ae51e0afb39745633aea21186626741dfc0112ef5072eb97d0",
+      "matrix_shape": [
+        175,
+        175
+      ],
+      "csr_stored_entries": 3607,
+      "center_node": 40,
+      "center_global_uz_dof": 242,
+      "center_reduced_uz_dof": 86,
+      "center_uz_real_mm": -22.66848013329762,
+      "center_uz_imag_mm": 25.884458784061607,
+      "center_uz_amplitude_mm": 34.40734221205545,
+      "center_uz_phase_degrees": 131.21046129631398,
+      "phase_convention": "u(t)=Re(U*exp(i*omega*t))",
+      "float64_relative_residual": 5.298858166000522e-10,
+      "current_guard_outcome": "GUARD_REJECTED",
+      "current_guard_diagnostics": {
+        "residual_norm": 5.795626119167718e-07,
+        "relative_residual": 5.298858166000522e-10,
+        "matvec_roundoff_bound": 0.0004673614671227884,
+        "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+        "relative_residual_upper_bound": 4.2783179861618343e-07,
+        "residual_failure_tolerance": 1e-07,
+        "message": "j18_archived_direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=4.278318e-07, allowed=1.000000e-07)."
+      },
+      "observed_residual_roundoff": {
+        "status": "OBSERVED_ERROR_WITHIN_BOUND",
+        "scope": "exact comparison of the binary64 CSR product and subtraction with exact A*x-b for this stored matrix/vector",
+        "pointwise_violations": 0,
+        "exact_observed_error_l2_display_only": "1.078806285673312230398998611516895087329E-7",
+        "row_bound_l2_display_only": "0.0004673614671227884039473515069487161218300",
+        "exact_error_squared": {
+          "numerator": "1834278445465416732719401368835552537438152454986976081402405686576032843963148752375729823626039327853",
+          "denominator": "157608024785577916849116160400574455220318957081861786671793173616982887085988842445657065019539662563226511961227264"
+        },
+        "row_bound_squared_sum": {
+          "numerator": "608884886812173769309204173089895319",
+          "denominator": "2787593149816327892691964784081045188247552"
+        },
+        "covers_observed_residual_error": true
+      },
+      "exact_represented_system": {
+        "status": "PASS",
+        "reason": "exact represented-system residual is at or below the binary64 tolerance",
+        "dimension": 175,
+        "nonzero_entries": 3607,
+        "stored_entries": 3607,
+        "residual_squared": {
+          "numerator": "52664592449415049483629568554472158150841453708089429321936486081842262849206198335401813863868395355245",
+          "denominator": "157608024785577916849116160400574455220318957081861786671793173616982887085988842445657065019539662563226511961227264"
+        },
+        "reference_squared": {
+          "numerator": "188544756224358564780093425260185451490480481475631083688623397181000562213276251882099960316035862104145429243619553770605",
+          "denominator": "157608024785577916849116160400574455220318957081861786671793173616982887085988842445657065019539662563226511961227264"
+        },
+        "relative_residual_squared": {
+          "numerator": "10532918489883009896725913710894431630168290741617885864387297216368452569841239667080362772773679071049",
+          "denominator": "37708951244871712956018685052037090298096096295126216737724679436200112442655250376419992063207172420829085848723910754121"
+        },
+        "threshold_binary64": {
+          "numerator": "944473296573929",
+          "denominator": "9444732965739290427392"
+        },
+        "residual_l2_display_only": "5.7805638246313892326516728621493032793101235376186E-7",
+        "relative_residual_display_only": "5.2850869252210986397464121266659153024765510977231E-10"
+      },
+      "relative_solution_difference_inf_vs_archived_unscaled": 4.625574192324751e-13,
+      "matrix_rank_warnings": [],
+      "timing_seconds": {
+        "archive_load": 0.004452900029718876,
+        "dense_to_csr_and_integrity_check": 0.0007465998642146587,
+        "spsolve": 0.0008890999015420675,
+        "current_guard_recheck": 0.00589949986897409,
+        "exact_rational_evaluation": 0.0540219999384135
+      }
+    },
+    {
+      "frequency_hz": 2.417,
+      "input_archive": "guard_frequency_2p417000000.npz",
+      "input_sha256": "89fdef8c3811d8ceade2356a96c76227c51c88a278f6b287548629ecaef4a863",
+      "matrix_shape": [
+        175,
+        175
+      ],
+      "csr_stored_entries": 3607,
+      "center_node": 40,
+      "center_global_uz_dof": 242,
+      "center_reduced_uz_dof": 86,
+      "center_uz_real_mm": -0.7890246483588466,
+      "center_uz_imag_mm": 45.00493669991516,
+      "center_uz_amplitude_mm": 45.011852741906644,
+      "center_uz_phase_degrees": 91.0044042858321,
+      "phase_convention": "u(t)=Re(U*exp(i*omega*t))",
+      "float64_relative_residual": 7.46921674361255e-10,
+      "current_guard_outcome": "GUARD_REJECTED",
+      "current_guard_diagnostics": {
+        "residual_norm": 8.169455813326225e-07,
+        "relative_residual": 7.46921674361255e-10,
+        "matvec_roundoff_bound": 0.0006110630913556631,
+        "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+        "relative_residual_upper_bound": 5.594331766301972e-07,
+        "residual_failure_tolerance": 1e-07,
+        "message": "j18_archived_direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=5.594332e-07, allowed=1.000000e-07)."
+      },
+      "observed_residual_roundoff": {
+        "status": "OBSERVED_ERROR_WITHIN_BOUND",
+        "scope": "exact comparison of the binary64 CSR product and subtraction with exact A*x-b for this stored matrix/vector",
+        "pointwise_violations": 0,
+        "exact_observed_error_l2_display_only": "1.676083834959651424981076194562375927020E-7",
+        "row_bound_l2_display_only": "0.0006110630913556630812952009644010747537795",
+        "exact_error_squared": {
+          "numerator": "69181476612964110615454052130064636502612950059512907959849277413975937675190929263434066251765701047",
+          "denominator": "2462625387274654950767440006258975862817483704404090416746768337765357610718575663213391640930307227550414249394176"
+        },
+        "row_bound_squared_sum": {
+          "numerator": "1040881990222359022585922700704915843",
+          "denominator": "2787593149816327892691964784081045188247552"
+        },
+        "covers_observed_residual_error": true
+      },
+      "exact_represented_system": {
+        "status": "PASS",
+        "reason": "exact represented-system residual is at or below the binary64 tolerance",
+        "dimension": 175,
+        "nonzero_entries": 3607,
+        "stored_entries": 3607,
+        "residual_squared": {
+          "numerator": "1616465154351946424716427112721482635646167839252646019236106245860495259862197676819010204064393124279",
+          "denominator": "2462625387274654950767440006258975862817483704404090416746768337765357610718575663213391640930307227550414249394176"
+        },
+        "reference_squared": {
+          "numerator": "740467064513960006668695633920095",
+          "denominator": "618970019642690137449562112"
+        },
+        "relative_residual_squared": {
+          "numerator": "1616465154351946424716427112721482635646167839252646019236106245860495259862197676819010204064393124279",
+          "denominator": "2946011815831494957479086103825052246948257729568533403231992989008271306769770585177139304608183334782291924044281282560"
+        },
+        "threshold_binary64": {
+          "numerator": "944473296573929",
+          "denominator": "9444732965739290427392"
+        },
+        "residual_l2_display_only": "8.1018462525947290889854352826273175698327796935557E-7",
+        "relative_residual_display_only": "7.4074022880866112676501404397037401632500667689044E-10"
+      },
+      "relative_solution_difference_inf_vs_archived_unscaled": 6.173783829683574e-13,
+      "matrix_rank_warnings": [],
+      "timing_seconds": {
+        "archive_load": 0.002343999920412898,
+        "dense_to_csr_and_integrity_check": 0.0006648001726716757,
+        "spsolve": 0.0007565999403595924,
+        "current_guard_recheck": 0.00544070010073483,
+        "exact_rational_evaluation": 0.0527169001288712
+      }
+    },
+    {
+      "frequency_hz": 2.418,
+      "input_archive": "guard_frequency_2p418000000.npz",
+      "input_sha256": "a68c24ea120b49ae57fedc684c8ffd363b2f29830bc4e806948a95fe9878a1eb",
+      "matrix_shape": [
+        175,
+        175
+      ],
+      "csr_stored_entries": 3607,
+      "center_node": 40,
+      "center_global_uz_dof": 242,
+      "center_reduced_uz_dof": 86,
+      "center_uz_real_mm": 0.14125339504663087,
+      "center_uz_imag_mm": 45.00123119720949,
+      "center_uz_amplitude_mm": 45.001452885282646,
+      "center_uz_phase_degrees": 89.82015610277183,
+      "phase_convention": "u(t)=Re(U*exp(i*omega*t))",
+      "float64_relative_residual": 9.53408013463836e-10,
+      "current_guard_outcome": "GUARD_REJECTED",
+      "current_guard_diagnostics": {
+        "residual_norm": 1.0427900147260703e-06,
+        "relative_residual": 9.53408013463836e-10,
+        "matvec_roundoff_bound": 0.000610913542123001,
+        "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+        "relative_residual_upper_bound": 5.595029322422947e-07,
+        "residual_failure_tolerance": 1e-07,
+        "message": "j18_archived_direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=5.595029e-07, allowed=1.000000e-07)."
+      },
+      "observed_residual_roundoff": {
+        "status": "OBSERVED_ERROR_WITHIN_BOUND",
+        "scope": "exact comparison of the binary64 CSR product and subtraction with exact A*x-b for this stored matrix/vector",
+        "pointwise_violations": 0,
+        "exact_observed_error_l2_display_only": "1.442201438625986980971099183144178300886E-7",
+        "row_bound_l2_display_only": "0.0006109135421230009285856894931441821179282",
+        "exact_error_squared": {
+          "numerator": "409770026836942700050407249731120891187736770413079060832663684260546343876632463752139353903163340087",
+          "denominator": "19701003098197239606139520050071806902539869635232723333974146702122860885748605305707133127442457820403313995153408"
+        },
+        "row_bound_squared_sum": {
+          "numerator": "2080745139300904184285191566046828733",
+          "denominator": "5575186299632655785383929568162090376495104"
+        },
+        "covers_observed_residual_error": true
+      },
+      "exact_represented_system": {
+        "status": "PASS",
+        "reason": "exact represented-system residual is at or below the binary64 tolerance",
+        "dimension": 175,
+        "nonzero_entries": 3607,
+        "stored_entries": 3607,
+        "residual_squared": {
+          "numerator": "20228295120917001570383427642441609105182345504891471709756480791265895455410127876539139460508665345335",
+          "denominator": "19701003098197239606139520050071806902539869635232723333974146702122860885748605305707133127442457820403313995153408"
+        },
+        "reference_squared": {
+          "numerator": "740467064513960006668695633920095",
+          "denominator": "618970019642690137449562112"
+        },
+        "relative_residual_squared": {
+          "numerator": "4045659024183400314076685528488321821036469100978294341951296158253179091082025575307827892101733069067",
+          "denominator": "4713618905330391931966537766120083595117212367309653445171188782413234090831632936283422887373093335651667078470850052096"
+        },
+        "threshold_binary64": {
+          "numerator": "944473296573929",
+          "denominator": "9444732965739290427392"
+        },
+        "residual_l2_display_only": "0.0000010132939996362682274495946211660345986152833953998",
+        "relative_residual_display_only": "9.2644022823887403493801149081645906452869237003691E-10"
+      },
+      "relative_solution_difference_inf_vs_archived_unscaled": 9.341594300812598e-13,
+      "matrix_rank_warnings": [],
+      "timing_seconds": {
+        "archive_load": 0.002190799918025732,
+        "dense_to_csr_and_integrity_check": 0.0006560999900102615,
+        "spsolve": 0.0007764999754726887,
+        "current_guard_recheck": 0.0053656999953091145,
+        "exact_rational_evaluation": 0.0541189000941813
+      }
+    }
+  ],
+  "limitations": [
+    "Only frozen J16 impedance and RHS arrays were used; this did not independently verify QF assembly.",
+    "Abaqus was not executed locally; the published reference provides peak values, not phase or pointwise samples at all replay frequencies.",
+    "An exact residual PASS concerns the exact mathematical system represented by stored binary CSR entries; it does not bound forward solution error or physical/model error.",
+    "The current production guard and the exact sidecar are reported separately; historical guard outcomes are unchanged."
+  ]
+}
