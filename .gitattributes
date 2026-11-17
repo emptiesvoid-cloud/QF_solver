@@ -3,6 +3,10 @@
 qualification/** -text
 # J19 result bundles include SHA-256 manifests over raw file bytes.
 research/j19/results/** -text whitespace=cr-at-eol
+# J21 contracts pin source hashes consistently across Windows and POSIX checkouts.
+research/j17/exact_residual.py text eol=lf
+research/j21/** text eol=lf
+tests/unit/test_j21_*.py text eol=lf
 # The WP13 installed-package smoke controller is hash-pinned by its execution manifest.
 scripts/wp13_package_smoke.py text eol=lf
 # Keep the WP-C02 manifest contract test diff-safe across Windows checkouts.
