@@ -1,0 +1,197 @@
+{
+  "schema": "qfsolver-j19-exact-benchmark-v1",
+  "status": "COMPLETE",
+  "contract_id": "J19-EXACT-VERIFIER-BENCHMARK-002",
+  "contract_sha256": "b26d9c4b3bc23e60427608aedb19dc3920ffa1587bc9e14a9d86be629edd438b",
+  "source_code_commit": "6d02d50736390bafbc5f23fe3ce53d2c59248372",
+  "execution_source_commit": "cce9290fbde311e718b0f4bb8a077ef1c0d4477b",
+  "environment": {
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "platform": "Windows-10-10.0.19045-SP0"
+  },
+  "method": "Exact represented-system verifier; per-case elapsed-time budget 5 seconds; Python allocation peak from tracemalloc.",
+  "cases": [
+    {
+      "dimension": 16,
+      "structure": "dense",
+      "stored_entries": 31,
+      "elapsed_seconds": 0.0028661000542342663,
+      "python_peak_tracemalloc_bytes": 8163,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 64,
+      "structure": "dense",
+      "stored_entries": 127,
+      "elapsed_seconds": 0.014625400071963668,
+      "python_peak_tracemalloc_bytes": 23068,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 128,
+      "structure": "dense",
+      "stored_entries": 255,
+      "elapsed_seconds": 0.039935800014063716,
+      "python_peak_tracemalloc_bytes": 53108,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 175,
+      "structure": "dense",
+      "stored_entries": 349,
+      "elapsed_seconds": 0.060993799939751625,
+      "python_peak_tracemalloc_bytes": 65536,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 256,
+      "structure": "dense",
+      "stored_entries": 511,
+      "elapsed_seconds": 0.10611809999682009,
+      "python_peak_tracemalloc_bytes": 96200,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 16,
+      "structure": "diagonal",
+      "stored_entries": 16,
+      "elapsed_seconds": 0.002451500156894326,
+      "python_peak_tracemalloc_bytes": 7292,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 16,
+      "structure": "banded",
+      "stored_entries": 46,
+      "elapsed_seconds": 0.0031919998582452536,
+      "python_peak_tracemalloc_bytes": 7340,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 16,
+      "structure": "duplicates",
+      "stored_entries": 63,
+      "elapsed_seconds": 0.00354270008392632,
+      "python_peak_tracemalloc_bytes": 7332,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 64,
+      "structure": "diagonal",
+      "stored_entries": 64,
+      "elapsed_seconds": 0.008315599989145994,
+      "python_peak_tracemalloc_bytes": 22300,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 64,
+      "structure": "banded",
+      "stored_entries": 190,
+      "elapsed_seconds": 0.01138780009932816,
+      "python_peak_tracemalloc_bytes": 22292,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 64,
+      "structure": "duplicates",
+      "stored_entries": 255,
+      "elapsed_seconds": 0.013179600005969405,
+      "python_peak_tracemalloc_bytes": 22284,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 128,
+      "structure": "diagonal",
+      "stored_entries": 128,
+      "elapsed_seconds": 0.015963500132784247,
+      "python_peak_tracemalloc_bytes": 42244,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 128,
+      "structure": "banded",
+      "stored_entries": 382,
+      "elapsed_seconds": 0.02307450002990663,
+      "python_peak_tracemalloc_bytes": 42360,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 128,
+      "structure": "duplicates",
+      "stored_entries": 511,
+      "elapsed_seconds": 0.02666030009277165,
+      "python_peak_tracemalloc_bytes": 42352,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 175,
+      "structure": "diagonal",
+      "stored_entries": 175,
+      "elapsed_seconds": 0.021643599960952997,
+      "python_peak_tracemalloc_bytes": 57476,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 175,
+      "structure": "banded",
+      "stored_entries": 523,
+      "elapsed_seconds": 0.03162009990774095,
+      "python_peak_tracemalloc_bytes": 57592,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 175,
+      "structure": "duplicates",
+      "stored_entries": 699,
+      "elapsed_seconds": 0.03639379981905222,
+      "python_peak_tracemalloc_bytes": 57584,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 256,
+      "structure": "diagonal",
+      "stored_entries": 256,
+      "elapsed_seconds": 0.03213299997150898,
+      "python_peak_tracemalloc_bytes": 82412,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 256,
+      "structure": "banded",
+      "stored_entries": 766,
+      "elapsed_seconds": 0.045816499972715974,
+      "python_peak_tracemalloc_bytes": 82528,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    },
+    {
+      "dimension": 256,
+      "structure": "duplicates",
+      "stored_entries": 1023,
+      "elapsed_seconds": 0.05298359994776547,
+      "python_peak_tracemalloc_bytes": 82528,
+      "status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance"
+    }
+  ]
+}

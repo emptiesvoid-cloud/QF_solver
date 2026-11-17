@@ -1,0 +1,479 @@
+"""Bounded J19 replay of SHA-pinned archived NAFEMS 13H systems."""
+
+from __future__ import annotations
+
+import csv
+import hashlib
+import json
+import platform
+import subprocess
+import sys
+import time
+import warnings
+from pathlib import Path
+from typing import Any
+
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy
+from scipy.sparse import csr_matrix
+from scipy.sparse.linalg import MatrixRankWarning, spsolve
+
+from research.j17.exact_residual import evaluate_exact_residual
+from research.j19.checkpoint import write_atomic_json
+from solveur.core.errors import NumericalConvergenceError
+from solveur.core.solvers.linear import (
+    LinearSystemSolver,
+    relative_residual_ratio,
+    stable_l2_norm,
+)
+
+
+ROOT = Path(__file__).resolve().parents[2]
+CONTRACT = ROOT / "research" / "j19" / "contracts" / "harmonic_replay_002.json"
+INPUT_ROOT = ROOT / "research" / "j17" / "inputs" / "guard_resolution_001"
+OUTPUT = ROOT / "research" / "j19" / "results" / "harmonic_replay_002"
+TOLERANCE = 1.0e-7
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _git_head() -> str:
+    completed = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return completed.stdout.strip()
+
+
+def _json_exact_result(result: Any) -> dict[str, Any]:
+    def fraction_value(value: Any) -> dict[str, str] | None:
+        if value is None:
+            return None
+        return {"numerator": str(value.numerator), "denominator": str(value.denominator)}
+
+    return {
+        "status": result.status,
+        "reason": result.reason,
+        "dimension": result.dimension,
+        "nonzero_stored_terms": result.nonzero_entries,
+        "stored_entries": result.stored_entries,
+        "residual_squared": fraction_value(result.residual_squared),
+        "reference_squared": fraction_value(result.reference_squared),
+        "relative_residual_squared": fraction_value(result.relative_residual_squared),
+        "threshold_binary64": fraction_value(result.threshold_binary64),
+        "residual_l2_display_only": result.residual_l2_display,
+        "relative_residual_display_only": result.relative_residual_display,
+    }
+
+
+def _verified_frequency_inputs(contract: dict[str, Any], root: Path = ROOT) -> list[dict[str, Any]]:
+    frequencies = contract.get("frequencies")
+    if not isinstance(frequencies, list) or not frequencies:
+        raise RuntimeError("replay contract must contain a nonempty frequency list")
+    seen_frequencies: set[float] = set()
+    for item in frequencies:
+        if not isinstance(item, dict) or not isinstance(item.get("archive_path"), str):
+            raise RuntimeError("each replay frequency must identify an archive path")
+        expected = item.get("sha256")
+        if not isinstance(expected, str) or len(expected) != 64:
+            raise RuntimeError("each replay frequency must identify a SHA-256 digest")
+        try:
+            frequency = float(item["frequency_hz"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise RuntimeError("each replay frequency must be a finite number") from exc
+        if not np.isfinite(frequency) or frequency in seen_frequencies:
+            raise RuntimeError("replay frequencies must be finite and unique")
+        seen_frequencies.add(frequency)
+        relative = item["archive_path"]
+        if sha256(root / relative) != expected:
+            raise RuntimeError(f"input SHA-256 mismatch: {relative}")
+    return frequencies
+
+
+def _verify_contract_source_hashes(contract: dict[str, Any], root: Path = ROOT) -> None:
+    sources = contract.get("source_hashes")
+    if not isinstance(sources, dict) or not sources:
+        raise RuntimeError("replay contract must pin source hashes")
+    for relative, expected in sources.items():
+        if not isinstance(relative, str) or not isinstance(expected, str) or len(expected) != 64:
+            raise RuntimeError("replay contract contains malformed source hash metadata")
+        if sha256(root / relative) != expected:
+            raise RuntimeError(f"source SHA-256 mismatch: {relative}")
+
+
+def _validated_contract_fields(contract: dict[str, Any]) -> tuple[str, tuple[int, int], int, int, dict[str, int | float]]:
+    baseline = contract.get("baseline")
+    source_commit = baseline.get("source_code_commit") if isinstance(baseline, dict) else None
+    if not isinstance(source_commit, str) or len(source_commit) != 40 or any(
+        character not in "0123456789abcdef" for character in source_commit.lower()
+    ):
+        raise RuntimeError("replay contract baseline must contain a full source_code_commit SHA")
+    model = contract.get("model")
+    shape = model.get("matrix_shape") if isinstance(model, dict) else None
+    stored_entries = model.get("csr_stored_entries") if isinstance(model, dict) else None
+    center_dof = model.get("center_reduced_uz_dof") if isinstance(model, dict) else None
+    if (
+        not isinstance(shape, list)
+        or len(shape) != 2
+        or any(isinstance(value, bool) or not isinstance(value, int) or value <= 0 for value in shape)
+        or shape[0] != shape[1]
+    ):
+        raise RuntimeError("replay contract model must define a positive square matrix shape")
+    if isinstance(stored_entries, bool) or not isinstance(stored_entries, int) or stored_entries <= 0:
+        raise RuntimeError("replay contract model must define positive CSR stored entries")
+    if isinstance(center_dof, bool) or not isinstance(center_dof, int) or not 0 <= center_dof < shape[0]:
+        raise RuntimeError("replay contract model must define a valid center reduced UZ degree of freedom")
+    raw_limits = contract.get("exact_limits")
+    required_limits = (
+        "max_dimension",
+        "max_sparse_stored_entries",
+        "max_fraction_bits",
+        "max_seconds_per_frequency",
+    )
+    if not isinstance(raw_limits, dict) or any(key not in raw_limits for key in required_limits):
+        raise RuntimeError("replay contract must define all exact-evaluation limits")
+    limits: dict[str, int | float] = {}
+    for key in required_limits:
+        value = raw_limits[key]
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not np.isfinite(value) or value <= 0:
+            raise RuntimeError(f"replay contract exact limit {key} must be finite and positive")
+        limits[key] = value
+    return source_commit, (shape[0], shape[1]), stored_entries, center_dof, limits
+
+
+def _write_csv(rows: list[dict[str, Any]], output: Path) -> None:
+    output.mkdir(parents=True, exist_ok=True)
+    temporary = output / ".replay.csv.tmp"
+    fields = (
+        "frequency_hz",
+        "amplitude_mm",
+        "phase_degrees",
+        "float64_relative_residual",
+        "guard_outcome",
+        "guard_upper_bound",
+        "exact_status",
+        "exact_reason",
+        "record_state",
+    )
+    with temporary.open("w", newline="", encoding="utf-8") as stream:
+        writer = csv.DictWriter(stream, fieldnames=fields)
+        writer.writeheader()
+        for row in rows:
+            exact = row.get("exact_represented_system", {})
+            writer.writerow(
+                {
+                    "frequency_hz": row.get("frequency_hz"),
+                    "amplitude_mm": row.get("center_uz_amplitude_mm"),
+                    "phase_degrees": row.get("center_uz_phase_degrees"),
+                    "float64_relative_residual": row.get("float64_relative_residual"),
+                    "guard_outcome": row.get("current_guard_outcome", "PENDING"),
+                    "guard_upper_bound": row.get("current_guard_diagnostics", {}).get(
+                        "relative_residual_upper_bound"
+                    ),
+                    "exact_status": exact.get("status", "PENDING"),
+                    "exact_reason": exact.get("reason", ""),
+                    "record_state": row.get("record_state"),
+                }
+            )
+        stream.flush()
+    temporary.replace(output / "replay.csv")
+
+
+def _plot_results(rows: list[dict[str, Any]], output: Path) -> None:
+    complete = [row for row in rows if row.get("record_state") == "COMPLETE"]
+    if not complete:
+        return
+    frequencies = [float(row["frequency_hz"]) for row in complete]
+    amplitudes = [float(row["center_uz_amplitude_mm"]) for row in complete]
+    phases = [float(row["center_uz_phase_degrees"]) for row in complete]
+    colors = {"GUARD_ACCEPTED": "#19734b", "GUARD_REJECTED": "#b04719"}
+    markers = {"GUARD_ACCEPTED": "o", "GUARD_REJECTED": "x"}
+    fig, axes = plt.subplots(2, 1, figsize=(9, 7), sharex=True)
+    for row in complete:
+        outcome = str(row["current_guard_outcome"])
+        exact_status = str(row["exact_represented_system"].get("status", "INCONCLUSIVE"))
+        label = f"{outcome.replace('GUARD_', 'G-')} / exact {exact_status}"
+        style = {
+            "color": colors.get(outcome, "#666666"),
+            "marker": markers.get(outcome, "s"),
+            "linestyle": "none",
+            "markersize": 8,
+        }
+        axes[0].plot([row["frequency_hz"]], [row["center_uz_amplitude_mm"]], label=label, **style)
+        axes[1].plot([row["frequency_hz"]], [row["center_uz_phase_degrees"]], label=label, **style)
+    axes[0].set_ylabel("Centre UZ amplitude (mm)")
+    axes[1].set_ylabel("Centre UZ phase (degrees)")
+    axes[1].set_xlabel("Frequency (Hz)")
+    axes[0].set_title("Archived NAFEMS 13H systems — guard and exact residual statuses")
+    for axis in axes:
+        axis.grid(True, alpha=0.25)
+        axis.legend(fontsize=7, loc="best")
+    fig.text(
+        0.5,
+        0.01,
+        "Discrete archived matrix points; published NAFEMS/Abaqus peaks are context only, not pointwise references.",
+        ha="center",
+        fontsize=8,
+    )
+    fig.tight_layout(rect=(0, 0.035, 1, 1))
+    fig.savefig(output / "amplitude_phase.png", dpi=160)
+    plt.close(fig)
+
+
+def run_replay(
+    contract_path: Path = CONTRACT,
+    output_directory: Path = OUTPUT,
+) -> dict[str, Any]:
+    contract_path = Path(contract_path)
+    output = Path(output_directory)
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    if contract.get("state") != "FROZEN_BEFORE_EXECUTION":
+        raise RuntimeError("J19 replay contract is not frozen")
+    source_code_commit, expected_shape, expected_stored_entries, center_dof, exact_limits = (
+        _validated_contract_fields(contract)
+    )
+    if output.exists() and any(output.iterdir()):
+        raise RuntimeError("J19 output already exists; refusing to overwrite a prior attempt")
+    _verify_contract_source_hashes(contract)
+    expected_inventory = contract["source_inventory_sha256"]
+    inventory = ROOT / contract["source_inventory"]
+    if sha256(inventory) != expected_inventory:
+        raise RuntimeError("J17 source inventory SHA-256 mismatch")
+    frequencies = _verified_frequency_inputs(contract)
+    if sha256(ROOT / contract["reference_digest_path"]) != contract["reference_digest_sha256"]:
+        raise RuntimeError("external reference digest SHA-256 mismatch")
+
+    output.mkdir(parents=True, exist_ok=True)
+    started = time.perf_counter()
+    journal: dict[str, Any] = {
+        "schema": "qfsolver-j19-harmonic-replay-v1",
+        "contract_id": contract["contract_id"],
+        "attempt_id": contract["attempt_id"],
+        "source_code_commit": source_code_commit,
+        "execution_source_commit": _git_head(),
+        "run_state": "RUNNING",
+        "classification": "ARCHIVED_MATRIX_SOLVES_NO_FEM_ASSEMBLY",
+        "environment": {
+            "python": sys.version.split()[0],
+            "numpy": np.__version__,
+            "scipy": scipy.__version__,
+            "platform": platform.platform(),
+        },
+        "threshold_binary64": TOLERANCE,
+        "contract_sha256": sha256(contract_path),
+        "phase_convention": "u(t)=Re(U*exp(i*omega*t))",
+        "center_reduced_uz_dof": center_dof,
+        "results": [],
+    }
+    checkpoint = output / "replay.json"
+    write_atomic_json(checkpoint, journal)
+
+    for item in frequencies:
+        frequency = float(item["frequency_hz"])
+        archive_path = ROOT / item["archive_path"]
+        record: dict[str, Any] = {
+            "frequency_hz": frequency,
+            "archive_path": item["archive_path"],
+            "input_sha256": item["sha256"],
+            "record_state": "IN_PROGRESS",
+            "current_guard_outcome": "PENDING",
+            "exact_represented_system": {"status": "INCONCLUSIVE", "reason": "not evaluated yet"},
+        }
+        journal["results"].append(record)
+        write_atomic_json(checkpoint, journal)
+
+        load_started = time.perf_counter()
+        with np.load(archive_path, allow_pickle=False) as archive:
+            impedance = np.asarray(archive["impedance_real"], dtype=np.float64) + 1j * np.asarray(
+                archive["impedance_imag"], dtype=np.float64
+            )
+            rhs = np.asarray(archive["rhs_real"], dtype=np.float64) + 1j * np.asarray(
+                archive["rhs_imag"], dtype=np.float64
+            )
+            archived_solution = np.asarray(archive["x_unscaled_real"], dtype=np.float64) + 1j * np.asarray(
+                archive["x_unscaled_imag"], dtype=np.float64
+            )
+        load_seconds = time.perf_counter() - load_started
+
+        matrix = csr_matrix(impedance, dtype=np.complex128)
+        if matrix.shape != expected_shape or matrix.nnz != expected_stored_entries or not np.array_equal(matrix.toarray(), impedance):
+            record.update(record_state="INCONCLUSIVE", reason="matrix shape, stored entries, or values differ")
+            write_atomic_json(checkpoint, journal)
+            continue
+        if rhs.shape != (175,) or archived_solution.shape != (175,):
+            record.update(record_state="INCONCLUSIVE", reason="RHS or archived solution shape differs")
+            write_atomic_json(checkpoint, journal)
+            continue
+
+        matrix_digest = hashlib.sha256()
+        matrix_digest.update(np.asarray(matrix.shape, dtype=np.int64).tobytes())
+        matrix_digest.update(str(matrix.indptr.dtype).encode("ascii"))
+        matrix_digest.update(str(matrix.indices.dtype).encode("ascii"))
+        matrix_digest.update(str(matrix.data.dtype).encode("ascii"))
+        matrix_digest.update(np.ascontiguousarray(matrix.indptr).view(np.uint8).tobytes())
+        matrix_digest.update(np.ascontiguousarray(matrix.indices).view(np.uint8).tobytes())
+        matrix_digest.update(np.ascontiguousarray(matrix.data).view(np.uint8).tobytes())
+        matrix_hash = matrix_digest.hexdigest()
+        rhs_hash = hashlib.sha256(np.ascontiguousarray(rhs).view(np.uint8).tobytes()).hexdigest()
+        solve_started = time.perf_counter()
+        try:
+            with warnings.catch_warnings(record=True) as caught:
+                warnings.simplefilter("always", MatrixRankWarning)
+                solution = np.asarray(spsolve(matrix.tocsc(), rhs), dtype=np.complex128)
+        except Exception as exc:
+            record.update(
+                record_state="INCONCLUSIVE",
+                reason=f"linear solve raised {type(exc).__name__}: {exc}",
+                timing_seconds={"archive_load": load_seconds, "solve": time.perf_counter() - solve_started},
+            )
+            write_atomic_json(checkpoint, journal)
+            continue
+        solve_seconds = time.perf_counter() - solve_started
+        if not np.all(np.isfinite(solution)):
+            record.update(record_state="INCONCLUSIVE", reason="sparse solve returned non-finite values")
+            write_atomic_json(checkpoint, journal)
+            continue
+
+        product = matrix @ solution
+        raw_residual = product - rhs
+        raw_relative = relative_residual_ratio(
+            stable_l2_norm(raw_residual), max(stable_l2_norm(rhs), stable_l2_norm(product))
+        )
+        center_uz = complex(solution[center_dof])
+        archived_scale = float(np.max(np.abs(archived_solution), initial=0.0))
+        solution_delta = float(
+            np.max(np.abs(solution - archived_solution), initial=0.0)
+            / max(archived_scale, np.finfo(float).tiny)
+        )
+        record.update(
+            record_state="SOLUTION_CHECKPOINTED",
+            matrix_csr_sha256=matrix_hash,
+            rhs_values_sha256=rhs_hash,
+            solution_values_sha256=hashlib.sha256(
+                np.ascontiguousarray(solution).view(np.uint8).tobytes()
+            ).hexdigest(),
+            matrix_shape=list(matrix.shape),
+            csr_stored_entries=int(matrix.nnz),
+            rhs_norm=float(stable_l2_norm(rhs)),
+            float64_residual_norm=float(stable_l2_norm(raw_residual)),
+            float64_relative_residual=float(raw_relative),
+            center_uz_real_mm=float(1000.0 * center_uz.real),
+            center_uz_imag_mm=float(1000.0 * center_uz.imag),
+            center_uz_amplitude_mm=float(1000.0 * abs(center_uz)),
+            center_uz_phase_degrees=float(np.degrees(np.angle(center_uz))),
+            solution_real=solution.real.tolist(),
+            solution_imag=solution.imag.tolist(),
+            relative_solution_difference_inf_vs_archived_unscaled=solution_delta,
+            matrix_rank_warnings=[str(item.message) for item in caught],
+            current_guard_outcome="PENDING",
+            exact_represented_system={"status": "INCONCLUSIVE", "reason": "pending exact evaluation"},
+            timing_seconds={"archive_load": load_seconds, "solve": solve_seconds},
+        )
+        write_atomic_json(checkpoint, journal)
+
+        guard_started = time.perf_counter()
+        try:
+            guard_residual, guard_relative = LinearSystemSolver._validated_residual_metrics(
+                matrix, rhs, solution, "j19_archived_direct_frequency", {"residual_failure_tolerance": TOLERANCE}
+            )
+            guard_outcome = "GUARD_ACCEPTED"
+            guard_diagnostics: dict[str, Any] = {
+                "residual_norm": guard_residual,
+                "relative_residual": guard_relative,
+                "residual_failure_tolerance": TOLERANCE,
+            }
+        except NumericalConvergenceError as exc:
+            guard_outcome = "GUARD_REJECTED"
+            guard_diagnostics = dict(exc.diagnostics or {})
+            guard_diagnostics["message"] = str(exc)
+        guard_seconds = time.perf_counter() - guard_started
+        record.update(
+            record_state="GUARD_CHECKPOINTED",
+            current_guard_outcome=guard_outcome,
+            current_guard_diagnostics=guard_diagnostics,
+        )
+        record["timing_seconds"]["current_guard_recheck"] = guard_seconds
+        write_atomic_json(checkpoint, journal)
+
+        exact_started = time.perf_counter()
+        exact = evaluate_exact_residual(
+            matrix,
+            rhs,
+            solution,
+            tolerance=TOLERANCE,
+            max_dimension=int(exact_limits["max_dimension"]),
+            max_nonzero_entries=int(exact_limits["max_sparse_stored_entries"]),
+            max_fraction_bits=int(exact_limits["max_fraction_bits"]),
+            max_elapsed_seconds=float(exact_limits["max_seconds_per_frequency"]),
+        )
+        record["timing_seconds"]["exact_rational_evaluation"] = time.perf_counter() - exact_started
+        record["exact_represented_system"] = _json_exact_result(exact)
+        record["record_state"] = "COMPLETE"
+        write_atomic_json(checkpoint, journal)
+
+    required_frequencies = [float(item["frequency_hz"]) for item in frequencies]
+    present = [float(row["frequency_hz"]) for row in journal["results"]]
+    journal["run_state"] = "COMPLETE" if present == required_frequencies and all(
+        row["record_state"] == "COMPLETE" for row in journal["results"]
+    ) else "COMPLETED_WITH_INCONCLUSIVE_POINTS"
+    journal["duration_seconds"] = time.perf_counter() - started
+    journal["published_peak_context"] = contract["published_peak_context"]
+    journal["limitations"] = contract["limitations"]
+    write_atomic_json(checkpoint, journal)
+    _write_csv(journal["results"], output)
+    _plot_results(journal["results"], output)
+    _write_readme(journal, output)
+    _write_manifest(journal, contract_path, output)
+    return journal
+
+
+def _write_readme(journal: dict[str, Any], output: Path) -> None:
+    lines = [
+        "# J19 — bounded archived NAFEMS 13H harmonic replay",
+        "",
+        f"Contract: {journal['contract_id']}.",
+        "",
+        "Five SHA-pinned J16 impedance/RHS archives were solved again. No FEM assembly or local Abaqus execution was performed.",
+        "The JSON is atomically updated at each frequency and retains the solved vector before guard/exact post-processing.",
+        "Guard and exact represented-system statuses are separate; this is not a qualification of assembly or physical accuracy.",
+        "",
+        "See replay.csv and replay.json for frequencies, amplitudes, phases, input hashes, residual statuses and timings.",
+        "The figure uses only discrete archived points; published NAFEMS/Abaqus peaks are peak-only context.",
+        "",
+    ]
+    (output / "README.md").write_text("\n".join(lines), encoding="utf-8")
+
+
+def _write_manifest(journal: dict[str, Any], contract_path: Path, output: Path) -> None:
+    files = {}
+    for path in sorted(output.iterdir()):
+        if path.is_file() and path.name not in {"artifact_manifest.json", ".replay.csv.tmp"}:
+            raw = path.read_bytes()
+            files[path.name] = {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
+    (output / "artifact_manifest.json").write_text(
+        json.dumps(
+            {
+                "schema": "qfsolver-j19-harmonic-artifact-manifest-v1",
+                "contract_id": journal["contract_id"],
+                "contract_sha256": sha256(contract_path),
+                "files": files,
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
+if __name__ == "__main__":
+    run_replay()

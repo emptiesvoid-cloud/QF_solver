@@ -1,0 +1,54 @@
+{
+  "schema": "qfsolver-j19-exact-verifier-audit-contract-v1",
+  "contract_id": "J19-EXACT-VERIFIER-AUDIT-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "owner_authorization": "QF Solver 0.3.0 J19 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "j18_commit": "1f48e54bf287878847635310de178f086d4d4ed1",
+    "source_code_commit": "c1736d9802025668ccdb3855008e3e391f130251",
+    "branch": "work/0.3.0-j19"
+  },
+  "sources": {
+    "research/j17/exact_residual.py": "ff19a1faecb87005b63127a91f936c621d4befc062169cddca1b58379a3a77de",
+    "tests/unit/test_j19_exact_residual_review.py": "c0465c7dc6ac25ab9e0cb3613fa466bca0b4ed096a07238ee9e81f5a06e77365",
+    "src/solveur/core/solvers/linear.py": "379d7e30d22b712f5d0b648d8f7384d0a2c72dfaeb69e106402b21fc3cef79f9",
+    "research/j19/checkpoint.py": "17cf6f361a339979fbbeb5891cf37dee0cb3e6a616255ff1bcb008ad849d3ce9"
+  },
+  "objective": "Contradict the J17/J18 exact checker and complex row-bound implementation using malformed CSR storage, a hand-coded high-precision Decimal oracle, exact rowwise roundoff comparisons, and simulated checkpoint replacement failure.",
+  "nodeids": [
+    "tests/unit/test_j19_exact_residual_review.py::test_j19_exact_result_matches_decimal_oracle_at_zero_tiny_and_threshold_scales",
+    "tests/unit/test_j19_exact_residual_review.py::test_j19_malformed_csr_index_dtypes_and_unsigned_pointer_overflow_are_inconclusive",
+    "tests/unit/test_j19_exact_residual_review.py::test_j19_complex_csr_row_bound_covers_deterministic_exact_oracle_cases",
+    "tests/unit/test_j19_exact_residual_review.py::test_j19_zero_time_budget_returns_inconclusive_before_exact_work",
+    "tests/unit/test_j19_exact_residual_review.py::test_j19_atomic_checkpoint_keeps_previous_results_if_replacement_fails"
+  ],
+  "oracles_and_cases": {
+    "decimal_oracle": "Decimal.from_float inputs, independently accumulated complex products and squared norms at 2600-digit precision; compare squared residual directly with threshold_squared times the exact reference_squared.",
+    "expected_decisions": {
+      "exact_binary_system": "PASS",
+      "immediately_below_threshold": "PASS",
+      "immediately_above_threshold": "FAIL",
+      "small_nonzero_denominator_ratio_one_quarter": "FAIL",
+      "duplicate_csr_exact_cancellation": "PASS",
+      "zero_over_zero_guard_convention": "PASS"
+    },
+    "malformed_csr": "Floating and complex index arrays, floating indptr, and an unsigned pointer exceeding stored entries must return INCONCLUSIVE without exception.",
+    "complex_bound_probe": "Seed 190719; 32 CSR rows with 1-8 stored terms, unsorted/duplicate columns, exponent choices -600,-500,-53,0,450,500; compare exact binary rational error of CSR product plus subtraction against each computed row bound.",
+    "checkpoint_fault": "Force os.replace to raise after a previous complete checkpoint exists; previous JSON must remain parseable and unchanged."
+  },
+  "criteria": {
+    "pass": "Each nodeid completes with the contracted independent-oracle decision. The row-bound probe has zero violations for this finite sample. Atomic-write fault injection preserves the last complete checkpoint.",
+    "fail": "Any malformed CSR input is certified instead of INCONCLUSIVE, oracle disagreement, row-bound violation, or prior checkpoint corruption.",
+    "interpretation": "Passing these synthetic tests is bounded evidence only; it does not prove a universal production bound or mechanical accuracy."
+  },
+  "budgets": {
+    "attempts_per_nodeid": 1,
+    "timeout_seconds_per_nodeid": 120,
+    "rss_soft_limit_mib": 1024,
+    "output_limit_mib_per_nodeid": 8,
+    "fem_assembly": false,
+    "harmonic_solve": false
+  },
+  "historical_policy": "J14-J18 verdicts, thresholds, and archives are not modified."
+}

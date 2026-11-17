@@ -1,0 +1,52 @@
+{
+  "schema": "qfsolver-j19-monitored-run-summary-v1",
+  "series_id": "dev-j19-harmonic-replay-003",
+  "attempt": 1,
+  "state": "PASS",
+  "return_code": 0,
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-J19-2026-11-17-v3",
+  "worktree_id": "j19",
+  "branch": "work/0.3.0-j19",
+  "execution_source_commit": "760aec0f8b36f03da8a368de57ba7fd40d71de89",
+  "source_fingerprint_sha256": "b8bd6bfb776601c5e18b1927a4d42d182b09374ded57eb1bb724357fbca21db4",
+  "scope": "fem_exploratory",
+  "nodeid": "tests/verification/test_j19_harmonic_replay.py::test_j19_replay_five_pinned_nafems_systems_with_checkpoints",
+  "started_at_utc": "2026-11-17T15:40:49.797236+00:00",
+  "finished_at_utc": "2026-11-17T15:40:54.272893+00:00",
+  "elapsed_seconds": 4.466199900023639,
+  "budgets": {
+    "archive_size_limit_mib": 32,
+    "output_stream_limit_mib": 8,
+    "output_total_limit_mib": 16,
+    "process_tree_limit": 8,
+    "rss_soft_limit_mib": 1024,
+    "temporary_limit_mib": 256,
+    "timeout_seconds": 300
+  },
+  "observed": {
+    "peak_rss_bytes_soft_observation": 152784896,
+    "peak_process_count": 1,
+    "stdout_bytes": 188,
+    "stderr_bytes": 0,
+    "temporary_bytes": 0,
+    "archive_bytes": 188,
+    "free_disk_before_bytes": 29776449536,
+    "free_disk_after_bytes": 29776072704
+  },
+  "environment": {
+    "psutil_version": "7.2.2",
+    "pytest_version": "8.4.1",
+    "python_version": "3.13.1"
+  },
+  "budget_semantics": {
+    "attempt_limit": "persistent procedural ledger under the development run store",
+    "captured_output": "application-enforced byte caps on captured stdout/stderr",
+    "free_disk": "preflight and sampled floor check",
+    "numerical_threads": "per-case environment caps and a threadpoolctl pre-launch check; numerical libraries must report one thread",
+    "process_count": "sampled process-tree monitor; not a job-object boundary",
+    "rss": "sampled soft monitor; not a hard memory/commit limit",
+    "temporary_and_archive_size": "sampled size monitoring; not an NTFS quota",
+    "wall_timeout": "watchdog-triggered process-tree termination; best-effort OS control"
+  },
+  "qualification_promotion": "PROHIBITED_DEVELOPMENT_ONLY"
+}

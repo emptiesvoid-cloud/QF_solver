@@ -1,0 +1,6 @@
+frequency_hz,amplitude_mm,phase_degrees,float64_relative_residual,guard_outcome,guard_upper_bound,exact_status,exact_reason,record_state
+2.3,17.543561515728133,158.14705201353235,2.70927947979217e-10,GUARD_REJECTED,2.1836132619567596e-07,PASS,exact represented-system residual is at or below the binary64 tolerance,COMPLETE
+2.375818178440047,34.40734221205545,131.21046129631398,5.298858166000522e-10,GUARD_REJECTED,4.2783179861618343e-07,PASS,exact represented-system residual is at or below the binary64 tolerance,COMPLETE
+2.417,45.011852741906644,91.0044042858321,7.46921674361255e-10,GUARD_REJECTED,5.594331766301972e-07,PASS,exact represented-system residual is at or below the binary64 tolerance,COMPLETE
+2.418,45.001452885282646,89.82015610277183,9.53408013463836e-10,GUARD_REJECTED,5.595029322422947e-07,PASS,exact represented-system residual is at or below the binary64 tolerance,COMPLETE
+2.45,37.10005349082605,56.554214160748586,7.876068213896725e-10,GUARD_REJECTED,4.6106326999465065e-07,PASS,exact represented-system residual is at or below the binary64 tolerance,COMPLETE

@@ -11,6 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from decimal import Decimal, localcontext
 from fractions import Fraction
+from time import monotonic
 from typing import Literal
 
 import numpy as np
@@ -26,6 +27,9 @@ class ExactResidualResult:
 
     Squared norms and the threshold comparison are exact rational values.
     Decimal norm strings are display approximations and are not used to decide.
+    For CSR inputs, nonzero_entries counts nonzero stored terms before
+    duplicate columns are mathematically coalesced; stored_entries also counts
+    explicit zeros.
     """
 
     status: Decision
@@ -47,7 +51,7 @@ def exact_fraction(value: Fraction) -> dict[str, str]:
 
 
 def _fraction_from_real(value: np.generic | float) -> Fraction:
-    # float32 values are exactly representable in binary64; the conversion
+    # Binary16/32 values are exactly representable in binary64; conversion
     # preserves their value. Wider floats are rejected before this helper.
     return Fraction.from_float(float(value))
 
@@ -60,9 +64,9 @@ def _complex_fraction(value: np.generic | complex | float) -> tuple[Fraction, Fr
 
 def _supported_float_array(array: np.ndarray) -> bool:
     if array.dtype.kind == "f":
-        return array.dtype.itemsize <= 8
+        return array.dtype.itemsize in {2, 4, 8}
     if array.dtype.kind == "c":
-        return array.dtype.itemsize <= 16
+        return array.dtype.itemsize in {8, 16}
     return False
 
 
@@ -86,13 +90,14 @@ def evaluate_exact_residual(
     max_dimension: int = 256,
     max_nonzero_entries: int = 100_000,
     max_fraction_bits: int = 65_536,
+    max_elapsed_seconds: float | None = None,
 ) -> ExactResidualResult:
     """Compare an exact represented-system residual with a binary64 limit.
 
     The formula is ``||A*x-b||2 / max(||b||2, ||A*x||2)``.  Instead of
     computing square roots, the method compares the exact rational squared
     numerator and denominator with the exact square of ``float(tolerance)``.
-    Thus PASS/FAIL is exact for the supplied IEEE float32/float64 values,
+    Thus PASS/FAIL is exact for the supplied IEEE binary16/32/64 values,
     while input quantization and physical/model error remain outside scope.
 
     Dense float arrays and CSR sparse matrices are accepted. CSR entries are
@@ -103,9 +108,15 @@ def evaluate_exact_residual(
     by the stored binary values; it does not reproduce the CSR kernel's rounded
     operation sequence.
 
-    Unsupported, malformed, non-finite, or over-budget inputs return
+    Binary16/32/64 real values and complex64/128 values are accepted and
+    widened to exact binary64 rational values. Unsupported, malformed,
+    non-finite, or over-budget inputs return
     INCONCLUSIVE. The limits prevent this research path from being mistaken
     for an unbounded production solver routine.
+
+    ``max_elapsed_seconds`` is a cooperative CPU-time budget checked during
+    row and stored-term traversal. It is not an operating-system timeout; an
+    external monitored runner is still required for hard process limits.
     """
     if (
         isinstance(tolerance, (bool, np.bool_))
@@ -117,6 +128,20 @@ def evaluate_exact_residual(
     limits = (max_dimension, max_nonzero_entries, max_fraction_bits)
     if any(isinstance(value, bool) or not isinstance(value, (int, np.integer)) or int(value) <= 0 for value in limits):
         return ExactResidualResult("INCONCLUSIVE", "resource limits must be positive")
+    if max_elapsed_seconds is not None and (
+        isinstance(max_elapsed_seconds, (bool, np.bool_))
+        or not isinstance(max_elapsed_seconds, (int, float, np.integer, np.floating))
+        or not np.isfinite(float(max_elapsed_seconds))
+        or float(max_elapsed_seconds) < 0.0
+    ):
+        return ExactResidualResult("INCONCLUSIVE", "time limit must be a finite nonnegative scalar")
+    deadline = None if max_elapsed_seconds is None else monotonic() + float(max_elapsed_seconds)
+
+    def time_budget_exceeded() -> bool:
+        return deadline is not None and monotonic() >= deadline
+
+    if time_budget_exceeded():
+        return ExactResidualResult("INCONCLUSIVE", "exact evaluation exceeded its time budget")
 
     sparse_matrix = matrix if issparse(matrix) else None
     if sparse_matrix is not None:
@@ -129,8 +154,25 @@ def evaluate_exact_residual(
         matrix_values = np.asarray(sparse_matrix.data)
         indices = np.asarray(sparse_matrix.indices)
         indptr = np.asarray(sparse_matrix.indptr)
+        if len(matrix_shape) != 2:
+            return ExactResidualResult("INCONCLUSIVE", "sparse matrix shape must be two-dimensional")
+        if matrix_shape[0] != matrix_shape[1]:
+            return ExactResidualResult("INCONCLUSIVE", "matrix must be square")
+        dimension = int(matrix_shape[0])
+        if dimension > max_dimension:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix dimension exceeds the exact-evaluation limit",
+                dimension=dimension, stored_entries=int(matrix_values.size),
+            )
+        if matrix_values.size > max_nonzero_entries:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix entry count exceeds the exact-evaluation limit",
+                dimension=dimension, stored_entries=int(matrix_values.size),
+            )
         if not _supported_float_array(np.empty(0, dtype=matrix_dtype)):
-            return ExactResidualResult("INCONCLUSIVE", "only float32/float64 and complex64/complex128 arrays are supported")
+            return ExactResidualResult("INCONCLUSIVE", "only float16/float32/float64 and complex64/complex128 arrays are supported")
+        if indices.dtype.kind not in "iu" or indptr.dtype.kind not in "iu":
+            return ExactResidualResult("INCONCLUSIVE", "CSR indices and indptr must have integer dtypes")
         if (
             matrix_values.ndim != 1
             or indices.ndim != 1
@@ -140,15 +182,23 @@ def evaluate_exact_residual(
             or indptr.size == 0
             or int(indptr[0]) != 0
             or int(indptr[-1]) != matrix_values.size
-            or np.any(np.diff(indptr) < 0)
+            or np.any(indptr < 0)
+            or np.any(indptr > matrix_values.size)
+            or np.any(indptr[1:] < indptr[:-1])
             or (indices.size and (np.min(indices) < 0 or np.max(indices) >= matrix_shape[1]))
         ):
             return ExactResidualResult("INCONCLUSIVE", "CSR storage arrays are malformed")
         matrix_array = None
         stored_entries = int(matrix_values.size)
         budget_entries = stored_entries
-        nonzero_entries = int(np.count_nonzero(matrix_values))
-        matrix_finite = bool(np.all(np.isfinite(matrix_values)))
+        try:
+            nonzero_entries = int(np.count_nonzero(matrix_values))
+            matrix_finite = bool(np.all(np.isfinite(matrix_values)))
+        except MemoryError:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix validation exceeded available memory",
+                dimension=dimension, stored_entries=stored_entries,
+            )
     else:
         try:
             matrix_array = np.asarray(matrix)
@@ -157,19 +207,47 @@ def evaluate_exact_residual(
         matrix_shape = tuple(matrix_array.shape)
         matrix_dtype = matrix_array.dtype
         if not _supported_float_array(matrix_array):
-            return ExactResidualResult("INCONCLUSIVE", "only float32/float64 and complex64/complex128 arrays are supported")
+            return ExactResidualResult("INCONCLUSIVE", "only float16/float32/float64 and complex64/complex128 arrays are supported")
+        if len(matrix_shape) != 2 or matrix_shape[0] != matrix_shape[1]:
+            return ExactResidualResult("INCONCLUSIVE", "matrix must be square")
+        dimension = int(matrix_shape[0])
+        if dimension > max_dimension:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix dimension exceeds the exact-evaluation limit",
+                dimension=dimension, stored_entries=int(matrix_array.size),
+            )
         stored_entries = int(matrix_array.size)
-        nonzero_entries = int(np.count_nonzero(matrix_array))
+        try:
+            nonzero_entries = int(np.count_nonzero(matrix_array))
+        except MemoryError:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix validation exceeded available memory",
+                dimension=dimension, stored_entries=stored_entries,
+            )
         budget_entries = nonzero_entries
-        matrix_finite = bool(np.all(np.isfinite(matrix_array)))
+        if budget_entries > max_nonzero_entries:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix entry count exceeds the exact-evaluation limit",
+                dimension=dimension, nonzero_entries=nonzero_entries, stored_entries=stored_entries,
+            )
+        try:
+            matrix_finite = bool(np.all(np.isfinite(matrix_array)))
+        except MemoryError:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix validation exceeded available memory",
+                dimension=dimension, nonzero_entries=nonzero_entries, stored_entries=stored_entries,
+            )
         matrix_values = None
         indices = None
         indptr = None
 
-    rhs_array = np.asarray(rhs)
-    solution_array = np.asarray(solution)
+    try:
+        rhs_array = np.asarray(rhs)
+        solution_array = np.asarray(solution)
+    except (TypeError, ValueError, OverflowError, MemoryError):
+        return ExactResidualResult("INCONCLUSIVE", "right-hand side and solution must be rectangular numeric arrays")
     if not _supported_float_array(rhs_array) or not _supported_float_array(solution_array):
-        return ExactResidualResult("INCONCLUSIVE", "only float32/float64 and complex64/complex128 arrays are supported")
+        return ExactResidualResult("INCONCLUSIVE", "only float16/float32/float64 and complex64/complex128 arrays are supported")
     if len(matrix_shape) != 2 or matrix_shape[0] != matrix_shape[1]:
         return ExactResidualResult("INCONCLUSIVE", "matrix must be square")
     dimension = int(matrix_shape[0])
@@ -209,6 +287,11 @@ def evaluate_exact_residual(
             )
         exact_product: list[tuple[Fraction, Fraction]] = []
         for row in range(dimension):
+            if time_budget_exceeded():
+                return ExactResidualResult(
+                    "INCONCLUSIVE", "exact evaluation exceeded its time budget",
+                    dimension=dimension, nonzero_entries=nonzero_entries, stored_entries=stored_entries,
+                )
             product_real = Fraction(0)
             product_imag = Fraction(0)
             if sparse_matrix is None:
@@ -216,7 +299,12 @@ def evaluate_exact_residual(
             else:
                 start, stop = int(indptr[row]), int(indptr[row + 1])
                 entries = ((int(indices[position]), matrix_values[position]) for position in range(start, stop))
-            for column, coefficient in entries:
+            for term_index, (column, coefficient) in enumerate(entries):
+                if time_budget_exceeded():
+                    return ExactResidualResult(
+                        "INCONCLUSIVE", "exact evaluation exceeded its time budget",
+                        dimension=dimension, nonzero_entries=nonzero_entries, stored_entries=stored_entries,
+                    )
                 if coefficient == 0:
                     continue
                 a_real, a_imag = _complex_fraction(coefficient)
@@ -242,7 +330,14 @@ def evaluate_exact_residual(
         residual_squared = Fraction(0)
         rhs_squared = Fraction(0)
         product_squared = Fraction(0)
-        for (product_real, product_imag), (rhs_real, rhs_imag) in zip(exact_product, exact_rhs, strict=True):
+        for (product_real, product_imag), (rhs_real, rhs_imag) in zip(
+            exact_product, exact_rhs, strict=True
+        ):
+            if time_budget_exceeded():
+                return ExactResidualResult(
+                    "INCONCLUSIVE", "exact evaluation exceeded its time budget",
+                    dimension=dimension, nonzero_entries=nonzero_entries, stored_entries=stored_entries,
+                )
             residual_real = product_real - rhs_real
             residual_imag = product_imag - rhs_imag
             residual_squared += residual_real * residual_real + residual_imag * residual_imag
@@ -280,6 +375,11 @@ def evaluate_exact_residual(
                 dimension=dimension,
                 nonzero_entries=nonzero_entries,
             )
+        if time_budget_exceeded():
+            return ExactResidualResult(
+                "INCONCLUSIVE", "exact evaluation exceeded its time budget",
+                dimension=dimension, nonzero_entries=nonzero_entries, stored_entries=stored_entries,
+            )
 
         passed = residual_squared == 0 if reference_squared == 0 else relative_squared <= threshold_squared
         status: Decision = "PASS" if passed else "FAIL"
@@ -288,6 +388,13 @@ def evaluate_exact_residual(
             if passed
             else "exact represented-system residual is above the binary64 tolerance"
         )
+        residual_display = _decimal_sqrt(residual_squared)
+        relative_display = _decimal_sqrt(relative_squared) if relative_squared is not None else None
+        if time_budget_exceeded():
+            return ExactResidualResult(
+                "INCONCLUSIVE", "exact evaluation exceeded its time budget",
+                dimension=dimension, nonzero_entries=nonzero_entries, stored_entries=stored_entries,
+            )
         return ExactResidualResult(
             status=status,
             reason=reason,
@@ -298,10 +405,10 @@ def evaluate_exact_residual(
             reference_squared=reference_squared,
             relative_residual_squared=relative_squared,
             threshold_binary64=threshold,
-            residual_l2_display=_decimal_sqrt(residual_squared),
-            relative_residual_display=_decimal_sqrt(relative_squared) if relative_squared is not None else None,
+            residual_l2_display=residual_display,
+            relative_residual_display=relative_display,
         )
-    except (ArithmeticError, OverflowError, ValueError) as exc:
+    except (ArithmeticError, MemoryError, OverflowError, ValueError) as exc:
         return ExactResidualResult(
             "INCONCLUSIVE",
             f"exact evaluation could not be completed: {type(exc).__name__}: {exc}",

@@ -1,0 +1,31 @@
+{
+  "schema": "qfsolver-j19-harmonic-artifact-manifest-v1",
+  "contract_id": "J19-NAFEMS13H-ARCHIVED-REPLAY-003",
+  "contract_sha256": "2bb36a1a205792979a96cae9baa2208e1304e6ffdeec139b4ae770af7b8a0c1a",
+  "files": {
+    "amplitude_phase.png": {
+      "sha256": "2480c95d93a8a0338f778fed6a376f86fa838733abbdef2a15dbc54c23c9f863",
+      "bytes": 100019
+    },
+    "attempt_history.json": {
+      "sha256": "b00ea65ddb8321b0445164950f582fc4702e3e8e4d2e49752264c448652e8a1d",
+      "bytes": 3975
+    },
+    "README.md": {
+      "sha256": "27beb68363f0713349f22308d84115bd06c4e797e10ab2dfb1207f75b5e5a6b7",
+      "bytes": 679
+    },
+    "replay.csv": {
+      "sha256": "5767a4d2147ded22bf6765c22b397e34ce96dfb54243c075c9e1883eec11414b",
+      "bytes": 1092
+    },
+    "replay.json": {
+      "sha256": "3290128c69116e54cf816bc24e8674ef66489a7fb09635446faef4480174b12f",
+      "bytes": 73385
+    },
+    "runner_summary.json": {
+      "sha256": "fbf7dcc212e5a8327f7d0f0026f356af51d90a9614b4ebba798125017d4bdcf3",
+      "bytes": 2207
+    }
+  }
+}

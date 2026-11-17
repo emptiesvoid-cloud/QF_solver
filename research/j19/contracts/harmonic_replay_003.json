@@ -1,0 +1,120 @@
+{
+  "schema": "qfsolver-j19-harmonic-replay-contract-v1",
+  "contract_id": "J19-NAFEMS13H-ARCHIVED-REPLAY-003",
+  "attempt_id": "J19-NAFEMS13H-ARCHIVED-REPLAY-003-ATTEMPT-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "owner_authorization": "QF Solver 0.3.0 J19 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "j18_commit": "1f48e54bf287878847635310de178f086d4d4ed1",
+    "branch": "work/0.3.0-j19",
+    "source_code_commit": "0cf1a1f6db78f94ff5151474b18ae335030a1c55"
+  },
+  "source_hashes": {
+    "research/j19/replay_archived_harmonic.py": "0e9028dae8cd3cf7f10127cc787d96942e2dff8564d35d5e1c47cddd5d15ba0e",
+    "research/j19/checkpoint.py": "17cf6f361a339979fbbeb5891cf37dee0cb3e6a616255ff1bcb008ad849d3ce9",
+    "tests/verification/test_j19_harmonic_replay.py": "04e2d0baf0cb2e330eb27353fbb8fb928444fbb03dbdebb1cb5a9b91b78037d7",
+    "tests/unit/test_j19_exact_residual_review.py": "344c4f30f451b3188084f5ed606895063650a24821d5ec80ef3680ba43d18bed",
+    "tests/unit/test_j19_replay_contract.py": "1fd83c312e98c04a208c911f4fe20c376a704cb0ef1c506c06ed66ac2694e96b",
+    "research/j17/exact_residual.py": "d2907a25ef111ff4444901da16a72778c4544dc5b647bbcbf8ec82dd6ec81a7c",
+    "src/solveur/core/solvers/linear.py": "379d7e30d22b712f5d0b648d8f7384d0a2c72dfaeb69e106402b21fc3cef79f9"
+  },
+  "source_inventory": "research/j17/inputs/source_inventory.json",
+  "source_inventory_sha256": "9e7415b6045df555a38fb8c111b8a6449a1d5a58fd3499ba1224578e41ffd880",
+  "reference_digest_path": "qualification/external_reference_digests/abaqus_nafems_13h_harmonic.json",
+  "reference_digest_sha256": "5ba35b1ee1b5e57d7eec03f18341e42c3d938f0b79c5aa5095ae366530a777a1",
+  "frequencies": [
+    {
+      "frequency_hz": 2.3,
+      "archive_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p300000000.npz",
+      "sha256": "788bcc161f3b155a7ec4cd63ad4855c31363c40d79df619e021ff73230988c40"
+    },
+    {
+      "frequency_hz": 2.375818178440047,
+      "archive_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p375818178.npz",
+      "sha256": "bdf0ada904d800ae51e0afb39745633aea21186626741dfc0112ef5072eb97d0"
+    },
+    {
+      "frequency_hz": 2.417,
+      "archive_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p417000000.npz",
+      "sha256": "89fdef8c3811d8ceade2356a96c76227c51c88a278f6b287548629ecaef4a863"
+    },
+    {
+      "frequency_hz": 2.418,
+      "archive_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p418000000.npz",
+      "sha256": "a68c24ea120b49ae57fedc684c8ffd363b2f29830bc4e806948a95fe9878a1eb"
+    },
+    {
+      "frequency_hz": 2.45,
+      "archive_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p450000000.npz",
+      "sha256": "4c1a4cfd56e99e4fc99147aab1a61015e73d853cb193685111e8a7b1e37f8300"
+    }
+  ],
+  "model": {
+    "name": "NAFEMS 13H MITC4 8x8 archived reduced harmonic systems",
+    "matrix_shape": [
+      175,
+      175
+    ],
+    "csr_stored_entries": 3607,
+    "center_reduced_uz_dof": 86,
+    "observable_position_m": [
+      5.0,
+      5.0,
+      0.0
+    ],
+    "phase_convention": "u(t)=Re(U*exp(i*omega*t))",
+    "matrix_source": "J16 impedance_real/imag arrays; no J19 FEM assembly or reconstruction of K, M, load, support, or damping."
+  },
+  "objective": "One final bounded replay of five SHA-pinned archived complex systems after contract metadata validation was corrected and unit-tested; record current guard and exact represented-system residual separately; no FEM assembly.",
+  "criteria": {
+    "completion": "All five input hashes and dimensions match; each frequency has guard outcome, raw float64 residual, exact status/reason, amplitude/phase, matrix/RHS identity, solution vector, and timings.",
+    "expected_guard": "J17 rechecks rejected these five archived frequencies. J19 records the actual current outcome; it does not alter or promote the J17/J18 historical statuses.",
+    "expected_exact": "J17 exact post-processing found these represented systems below 1e-7. J19 independently recomputes each; any divergence is recorded and investigated, never overwritten.",
+    "point_statuses": "Guard and exact statuses are independent fields. A guard rejection remains GUARD_REJECTED even when exact represented-system status is PASS.",
+    "checkpointing": "Atomically persist RUNNING before the first frequency, IN_PROGRESS before each solve, solution and raw residual immediately after solve, guard result before exact evaluation, and exact result after evaluation. If interruption occurs, the last complete JSON checkpoint remains valid; unresolved status is reported INCONCLUSIVE/PENDING, not PASS."
+  },
+  "exact_limits": {
+    "max_dimension": 256,
+    "max_sparse_stored_entries": 100000,
+    "max_fraction_bits": 65536,
+    "max_seconds_per_frequency": 5
+  },
+  "execution": {
+    "nodeid": "tests/verification/test_j19_harmonic_replay.py::test_j19_replay_five_pinned_nafems_systems_with_checkpoints",
+    "attempts": 1,
+    "timeout_seconds": 300,
+    "rss_soft_limit_mib": 1024,
+    "process_tree_limit": 8,
+    "output_total_limit_mib": 16,
+    "output_stream_limit_mib": 8,
+    "temporary_limit_mib": 256,
+    "archive_size_limit_mib": 32,
+    "numeric_threads": 1,
+    "fem_assembly": false,
+    "external_solver": false,
+    "output_directory": "research/j19/results/harmonic_replay_003"
+  },
+  "published_peak_context": {
+    "nafems_peak_displacement_mm": 45.42,
+    "nafems_peak_frequency_hz": 2.377,
+    "abaqus_s4r_peak_displacement_mm": 45.38,
+    "abaqus_s4r_peak_frequency_hz": 2.405,
+    "abaqus_locally_executed": false,
+    "pointwise_reference_and_phase_available": false
+  },
+  "limitations": [
+    "An exact residual PASS only concerns the mathematical system represented by the stored binary CSR coefficients, RHS, and solution.",
+    "The archives contain already assembled QF matrices/RHS; J19 does not independently verify assembly or mechanical model accuracy.",
+    "Published peak-only values are context, not pointwise amplitude/phase references at each replay frequency.",
+    "Outer RSS observations are soft controls; cooperative exact time limits and the monitored runner do not constitute OS hard memory quotas."
+  ],
+  "historical_policy": "Attempts 001 and 002 and J14/J15/J16/J17/J18 statuses, thresholds, and artifacts remain immutable. Attempt 003 is a distinct corrected-source replay; its results are prospective and do not promote prior statuses.",
+  "predecessor_attempt": {
+    "contract_id": "J19-NAFEMS13H-ARCHIVED-REPLAY-002",
+    "attempt_id": "J19-NAFEMS13H-ARCHIVED-REPLAY-002-ATTEMPT-001",
+    "outcome": "PYTEST_FAILED_BEFORE_FREQUENCY_CHECKPOINT",
+    "cause": "replay harness expected source and center-observable metadata at the contract root while the frozen schema stores these under baseline and model",
+    "historical_record_preserved": true
+  }
+}

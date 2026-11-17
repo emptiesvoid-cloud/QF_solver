@@ -1,0 +1,44 @@
+{
+  "schema": "qfsolver-j19-exact-benchmark-contract-v1",
+  "contract_id": "J19-EXACT-VERIFIER-BENCHMARK-001",
+  "attempt_id": "J19-EXACT-VERIFIER-BENCHMARK-001-ATTEMPT-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "owner_authorization": "QF Solver 0.3.0 J19 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "branch": "work/0.3.0-j19",
+    "source_code_commit": "c1736d9802025668ccdb3855008e3e391f130251"
+  },
+  "sources": {
+    "research/j17/exact_residual.py": "ff19a1faecb87005b63127a91f936c621d4befc062169cddca1b58379a3a77de",
+    "tests/unit/test_j19_exact_verifier_benchmark.py": "56483ae32abca196fe4479765a24fa32631d3af4a30c6a1a1d85bf555451a69b",
+    "research/j19/checkpoint.py": "17cf6f361a339979fbbeb5891cf37dee0cb3e6a616255ff1bcb008ad849d3ce9"
+  },
+  "objective": "Measure the exact residual evaluator on synthetic dense and CSR structures spanning the declared maximum dimension, while recording per-case wall time and Python-managed peak allocation.",
+  "cases": {
+    "dimensions": [16, 64, 128, 175, 256],
+    "structures": ["dense", "diagonal", "banded", "duplicate-heavy CSR"],
+    "count": 20,
+    "expected_exact_system": "All systems have x=1 and an exactly representable RHS, so completed exact evaluations have zero residual. Duplicate CSR entries cancel exactly as mathematical stored terms.",
+    "evaluator_limits": {
+      "max_dimension": 256,
+      "max_sparse_stored_entries": 100000,
+      "max_fraction_bits": 65536,
+      "max_seconds_per_case": 5
+    }
+  },
+  "criteria": {
+    "pass": "All 20 cases are checkpointed; each is PASS with exact zero residual or INCONCLUSIVE with an explicit budget/limit reason. Measurements include elapsed seconds and tracemalloc peak bytes.",
+    "fail": "Any unexpected exact FAIL, missing case record, non-explained INCONCLUSIVE, or lost earlier benchmark records.",
+    "interpretation": "tracemalloc does not include all native allocations; runner RSS is an additional soft observation. No machine-independent runtime guarantee is claimed."
+  },
+  "execution": {
+    "nodeid": "tests/unit/test_j19_exact_verifier_benchmark.py::test_j19_exact_verifier_bounded_scaling_profile",
+    "attempts": 1,
+    "timeout_seconds": 300,
+    "rss_soft_limit_mib": 1024,
+    "output_limit_mib": 8,
+    "result_path": "research/j19/results/exact_benchmark_001/benchmark.json",
+    "fem_assembly": false
+  }
+}
