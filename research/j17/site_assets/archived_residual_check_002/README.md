@@ -8,9 +8,9 @@ Les 15 évaluations exactes satisfont le seuil pour les systèmes représentés.
 
 `exact_residual_points.csv` donne les fréquences, méthodes, résidus et bornes. `exact_residual_summary.json` conserve les fractions exactes, les contrôles mpmath, les conditionnements estimés, les empreintes et les ressources observées. La figure a été réimprimée depuis le CSV par `research/j17/prepare_gallery_assets.py`.
 
-### Rectification de libellé
+### Taille du maillage et taille algébrique
 
-Le fichier brut de post-traitement J17 et son image portent par erreur le libellé « 8x8 ». Les NPZ vérifiés et le contrat montrent des matrices de taille **175 × 175**. Les artefacts bruts sont conservés à l’identique; la figure présente ici le libellé corrigé.
+Le libellé brut « 8×8 » désigne le maillage MITC4 du modèle, tandis que les NPZ vérifiés et le contrat montrent des matrices **175 × 175** après contraintes. Les deux dimensions sont cohérentes. La figure de ce dossier affiche la taille matricielle pour lever l’ambiguïté.
 
 ### Reproduction
 
