@@ -9,7 +9,9 @@ from research.j16.harmonic_mesh_study import (
     _frequency_checkpoint,
     _load_resultant,
     _quadratic_peak,
+    _sparse_backward_error_eta_inf,
 )
+from scipy.sparse import csr_matrix
 
 
 class _TwoNodeModel:
@@ -34,6 +36,15 @@ def test_quadratic_peak_recovers_vertex_of_log_parabolic_samples() -> None:
 
     assert result["frequency_hz"] == pytest.approx(2.2)
     assert result["amplitude_mm"] == pytest.approx(1.0)
+
+
+def test_sparse_backward_error_uses_sparse_infinity_norms() -> None:
+    matrix = csr_matrix([[3.0, 1.0], [0.0, 2.0]])
+    rhs = np.asarray([4.5, 4.0])
+    solution = np.asarray([1.0, 2.0])
+    residual = matrix @ solution - rhs
+
+    assert _sparse_backward_error_eta_inf(matrix, rhs, solution, residual) == pytest.approx(0.04)
 
 
 def test_load_resultant_reports_assembled_and_direct_sums() -> None:

@@ -40,9 +40,9 @@ REFERENCE_PEAK_PROBE_HZ = 2.375818178440047
 FREQUENCIES_HZ = tuple(sorted(set(DENSE_FREQUENCIES_HZ + (REFERENCE_PEAK_PROBE_HZ,))))
 RESIDUAL_LIMIT = 1.0e-7
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CONTRACT_PATH = PROJECT_ROOT / "research/j16/contracts/nafems_13h_mesh_study_001.json"
+CONTRACT_PATH = PROJECT_ROOT / "research/j16/contracts/nafems_13h_mesh_study_002.json"
 REFERENCE_PATH = PROJECT_ROOT / "qualification/external_reference_digests/abaqus_nafems_13h_harmonic.json"
-OUTPUT_ROOT = PROJECT_ROOT / "research/j16/results/diagnostic-2026-11-17/mesh_study_001"
+OUTPUT_ROOT = PROJECT_ROOT / "research/j16/results/diagnostic-2026-11-17/mesh_study_002"
 
 
 def _atomic_json(path: Path, payload: dict[str, Any]) -> None:
@@ -81,7 +81,7 @@ def _git_identity() -> dict[str, str]:
 def _validate_contract(mesh_size: int, reference: dict[str, Any]) -> tuple[dict[str, Any], str]:
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     if (
-        contract.get("contract_id") != "J16-MITC4-NAFEMS13H-MESH-STUDY-001"
+        contract.get("contract_id") != "J16-MITC4-NAFEMS13H-MESH-STUDY-002"
         or contract.get("state") != "FROZEN_BEFORE_EXECUTION"
     ):
         raise ValueError("the J16 multi-mesh contract is missing or not frozen")
@@ -206,6 +206,21 @@ def _quadratic_peak(frequencies: np.ndarray, amplitudes: np.ndarray, index: int)
     if not (x[0] <= peak_frequency <= x[-1]):
         return {"frequency_hz": None, "amplitude_mm": None}
     return {"frequency_hz": peak_frequency, "amplitude_mm": float(np.exp(np.polyval((a, b, c), peak_frequency)))}
+
+
+def _sparse_backward_error_eta_inf(
+    matrix: csr_matrix,
+    rhs: np.ndarray,
+    solution: np.ndarray,
+    residual: np.ndarray | None = None,
+) -> float:
+    residual_value = matrix @ solution - rhs if residual is None else residual
+    matrix_inf = float(np.max(np.asarray(np.abs(matrix).sum(axis=1)).ravel(), initial=0.0))
+    solution_inf = float(np.max(np.abs(solution), initial=0.0))
+    rhs_inf = float(np.max(np.abs(rhs), initial=0.0))
+    denominator = matrix_inf * solution_inf + rhs_inf
+    residual_inf = float(np.max(np.abs(residual_value), initial=0.0))
+    return residual_inf / denominator if denominator > 0.0 else math.inf
 
 
 def _route_solve(reference: dict[str, Any], mesh_size: int, frequency_hz: float) -> tuple[str, dict[str, Any], np.ndarray | None]:
@@ -387,11 +402,7 @@ def run_mesh_study(mesh_size: int, output_dir: str | Path | None = None) -> dict
         product = impedance @ reduced_response
         residual = product - loads_reduced
         relative = float(np.linalg.norm(residual) / max(np.linalg.norm(loads_reduced), np.linalg.norm(product)))
-        matrix_inf = float(np.linalg.norm(impedance, ord=np.inf))
-        solution_inf = float(np.max(np.abs(reduced_response), initial=0.0))
-        rhs_inf = float(np.max(np.abs(loads_reduced), initial=0.0))
-        denominator = matrix_inf * solution_inf + rhs_inf
-        backward = float(np.max(np.abs(residual), initial=0.0) / denominator) if denominator else math.inf
+        backward = _sparse_backward_error_eta_inf(impedance, loads_reduced, reduced_response, residual)
         center_response = complex(full_response[center_index])
         residual_metrics = {
             "raw_reduced_residual_l2": float(np.linalg.norm(residual)),
@@ -465,12 +476,12 @@ def run_mesh_study(mesh_size: int, output_dir: str | Path | None = None) -> dict
         "schema": "qfsolver-j16-mitc4-mesh-study-v1",
         "classification": "PROSPECTIVE_EXPLORATORY_MULTI_MESH_HARMONIC_STUDY",
         "contract_id": contract["contract_id"],
-        "series_id": f"dev-j16-nafems13h-mesh-{mesh_size:02d}-001",
+        "series_id": f"dev-j16-nafems13h-mesh-{mesh_size:02d}-002",
         "contract_sha256": contract_sha256,
         "source_git": _git_identity(),
         "source_file_sha256": contract["source_sha256"],
         "reference_artifact_sha256": contract["inputs"]["reference_artifact_sha256"],
-        "attempt_id": f"J16-NAFEMS13H-MESH-{mesh_size:02d}-001",
+        "attempt_id": f"J16-NAFEMS13H-MESH-{mesh_size:02d}-002",
         "mesh_size": mesh_size,
         "mesh_shape": [mesh_size, mesh_size],
         "element": "MITC4",
