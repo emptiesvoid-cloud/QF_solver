@@ -1,0 +1,4 @@
+
+no tests ran in 1.06s
+ERROR: not found: <J22_WORKTREE>\tests\unit\test_j21_exact_scalar_validation.py::test_exact_residual_rejects_scalar_conversion_overflow
+(no match in any of [<Module test_j21_exact_scalar_validation.py>])

@@ -1,0 +1,165 @@
+{
+  "schema": "qfsolver-j21-supervised-exact-run-v1",
+  "contract_id": "J22-NAFEMS13H-SUPERVISED-RECHECK-001",
+  "contract_sha256": "74216164a4478c5e9329541c39fbbf36e5fc95229547c6ab49e7c7b506a9640c",
+  "source_code_commit": "06d17854c61c311d593aaa724b3b588b066daff0",
+  "execution_source_commit": "f451ded2bae86a70810a0b0c10ab83cab4ed0713",
+  "run_status": "COMPLETE",
+  "classification": "EXACT_REPRESENTED_SYSTEM_REVIEW_NO_FEM_ASSEMBLY",
+  "environment": {
+    "python": "3.13.1",
+    "platform": "win32",
+    "psutil": "7.2.2"
+  },
+  "limits": {
+    "case_timeout_seconds": 60,
+    "poll_interval_seconds": 0.05,
+    "termination_grace_seconds": 0.25,
+    "memory_soft_limit_mib": 512,
+    "maximum_worker_result_bytes": 8388608,
+    "max_dimension": 256,
+    "max_nonzero_entries": 100000,
+    "max_fraction_bits": 65536,
+    "exact_time_budget_seconds": 30,
+    "maximum_input_bytes": 67108864,
+    "cases": 3,
+    "aggregate_case_timeout_ceiling_seconds": 180,
+    "resource_semantics": "The 60 s per-case wall timeout is external. RSS is sampled every 50 ms and is a soft trigger, not an OS quota. The aggregate ceiling is the sum of three case ceilings plus small supervisor overhead, not an independent parent-process deadline.",
+    "memory_semantics": "sampled_soft_threshold_not_an_OS_quota",
+    "timeout_semantics": "external_watchdog_with_process_tree_termination_best_effort"
+  },
+  "cases": [
+    {
+      "case_id": "nafems13h-2p375818178",
+      "frequency_hz": 2.375818178440047,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p375818178.npz",
+      "input_sha256": "bdf0ada904d800ae51e0afb39745633aea21186626741dfc0112ef5072eb97d0",
+      "historical_guard_outcome": "GUARD_REJECTED",
+      "supervisor_status": "COMPLETE",
+      "exact_status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance",
+      "worker_pid": 79068,
+      "observed_process_pids": [
+        79068
+      ],
+      "elapsed_seconds": 0.8181942999362946,
+      "peak_rss_bytes_sampled": 54571008,
+      "worker_return_code": 0,
+      "termination_confirmed": true,
+      "worker_result_sha256": "04d09679512d2257f793b1cc965cbd759c5cae2daee5c645641d5d20f85088b4",
+      "worker_result_bytes": 1622,
+      "exact_result": {
+        "dimension": 175,
+        "stored_entries": 3607,
+        "nonzero_entries": 3607,
+        "residual_squared": {
+          "numerator": "233293769605032120205543535274269453910903240029285396131423371036681078412208433041414753179572942773",
+          "denominator": "2462625387274654950767440006258975862817483704404090416746768337765357610718575663213391640930307227550414249394176"
+        },
+        "reference_squared": {
+          "numerator": "2946011815856458943363138423395475375207717857755166972098932442011070588230854923383698173657188188095511822977569961909",
+          "denominator": "2462625387274654950767440006258975862817483704404090416746768337765357610718575663213391640930307227550414249394176"
+        },
+        "relative_residual_squared": {
+          "numerator": "233293769605032120205543535274269453910903240029285396131423371036681078412208433041414753179572942773",
+          "denominator": "2946011815856458943363138423395475375207717857755166972098932442011070588230854923383698173657188188095511822977569961909"
+        },
+        "threshold_binary64": {
+          "numerator": "944473296573929",
+          "denominator": "9444732965739290427392"
+        },
+        "residual_l2_display": "3.0778850355806052575589866387725093066401109985563E-7",
+        "relative_residual_display": "2.8140663182332025449021016884631586637812276318531E-10",
+        "elapsed_seconds": 0.05727529991418123
+      }
+    },
+    {
+      "case_id": "nafems13h-2p417000000",
+      "frequency_hz": 2.417,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p417000000.npz",
+      "input_sha256": "89fdef8c3811d8ceade2356a96c76227c51c88a278f6b287548629ecaef4a863",
+      "historical_guard_outcome": "GUARD_REJECTED",
+      "supervisor_status": "COMPLETE",
+      "exact_status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance",
+      "worker_pid": 69324,
+      "observed_process_pids": [
+        69324
+      ],
+      "elapsed_seconds": 0.7937491999473423,
+      "peak_rss_bytes_sampled": 55824384,
+      "worker_return_code": 0,
+      "termination_confirmed": true,
+      "worker_result_sha256": "cc3af38db22e12a751fe7e69363a205d9c9deb2306dcb7bd5381fe3694a39604",
+      "worker_result_bytes": 1450,
+      "exact_result": {
+        "dimension": 175,
+        "stored_entries": 3607,
+        "nonzero_entries": 3607,
+        "residual_squared": {
+          "numerator": "1949434449935643390789573508072899772613160554387568553394980540985346929456791830777836420570071817629",
+          "denominator": "9850501549098619803069760025035903451269934817616361666987073351061430442874302652853566563721228910201656997576704"
+        },
+        "reference_squared": {
+          "numerator": "740467064513960006668695633920095",
+          "denominator": "618970019642690137449562112"
+        },
+        "relative_residual_squared": {
+          "numerator": "1949434449935643390789573508072899772613160554387568553394980540985346929456791830777836420570071817629",
+          "denominator": "11784047263325979829916344415300208987793030918274133612927971956033085227079082340708557218432733339129167696177125130240"
+        },
+        "threshold_binary64": {
+          "numerator": "944473296573929",
+          "denominator": "9444732965739290427392"
+        },
+        "residual_l2_display": "4.4486183246469184092847720590512828676385216174714E-7",
+        "relative_residual_display": "4.0673081825343263992925507989478307442593559096186E-10",
+        "elapsed_seconds": 0.054421800188720226
+      }
+    },
+    {
+      "case_id": "nafems13h-2p418000000",
+      "frequency_hz": 2.418,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p418000000.npz",
+      "input_sha256": "a68c24ea120b49ae57fedc684c8ffd363b2f29830bc4e806948a95fe9878a1eb",
+      "historical_guard_outcome": "GUARD_REJECTED",
+      "supervisor_status": "COMPLETE",
+      "exact_status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance",
+      "worker_pid": 79884,
+      "observed_process_pids": [
+        79884
+      ],
+      "elapsed_seconds": 0.8026022999547422,
+      "peak_rss_bytes_sampled": 57749504,
+      "worker_return_code": 0,
+      "termination_confirmed": true,
+      "worker_result_sha256": "ba35c5c29fb0173124fd048eb83f9419b3fb7f50a11ec7b75eeaf5b343711e1f",
+      "worker_result_bytes": 1445,
+      "exact_result": {
+        "dimension": 175,
+        "stored_entries": 3607,
+        "nonzero_entries": 3607,
+        "residual_squared": {
+          "numerator": "189286571733914065672765948490547770649615013185281117173007883462302806222483201940874902027040083167",
+          "denominator": "1231312693637327475383720003129487931408741852202045208373384168882678805359287831606695820465153613775207124697088"
+        },
+        "reference_squared": {
+          "numerator": "740467064513960006668695633920095",
+          "denominator": "618970019642690137449562112"
+        },
+        "relative_residual_squared": {
+          "numerator": "189286571733914065672765948490547770649615013185281117173007883462302806222483201940874902027040083167",
+          "denominator": "1473005907915747478739543051912526123474128864784266701615996494504135653384885292588569652304091667391145962022140641280"
+        },
+        "threshold_binary64": {
+          "numerator": "944473296573929",
+          "denominator": "9444732965739290427392"
+        },
+        "residual_l2_display": "3.9208093435740546791433946929274047847758874300804E-7",
+        "relative_residual_display": "3.5847399712677080135022577302962928058285558887812E-10",
+        "elapsed_seconds": 0.0550570001360029
+      }
+    }
+  ]
+}

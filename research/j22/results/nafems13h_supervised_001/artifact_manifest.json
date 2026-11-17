@@ -1,0 +1,37 @@
+{
+  "schema": "qfsolver-j22-nafems-artifact-manifest-v1",
+  "contract_id": "J22-NAFEMS13H-SUPERVISED-RECHECK-001",
+  "contract_path": "research/j22/contracts/nafems13h_supervised_recheck_001.json",
+  "contract_sha256": "74216164a4478c5e9329541c39fbbf36e5fc95229547c6ab49e7c7b506a9640c",
+  "files": {
+    "comparison.json": {
+      "sha256": "c64b6a0b9fb3f87673f78753550f0ba6054762ea46ddbf095683c42a09736ae5",
+      "bytes": 7118
+    },
+    "preflight.json": {
+      "sha256": "98f89d9c82aedde903be6acf11f28da7accfd46f6ddec807724aab22628abd06",
+      "bytes": 3950
+    },
+    "run/nafems13h-2p375818178.worker.json": {
+      "sha256": "04d09679512d2257f793b1cc965cbd759c5cae2daee5c645641d5d20f85088b4",
+      "bytes": 1622
+    },
+    "run/nafems13h-2p417000000.worker.json": {
+      "sha256": "cc3af38db22e12a751fe7e69363a205d9c9deb2306dcb7bd5381fe3694a39604",
+      "bytes": 1450
+    },
+    "run/nafems13h-2p418000000.worker.json": {
+      "sha256": "ba35c5c29fb0173124fd048eb83f9419b3fb7f50a11ec7b75eeaf5b343711e1f",
+      "bytes": 1445
+    },
+    "run/supervisor.json": {
+      "sha256": "0b8017a3d59fbb6424bb9192c408bd637071e997e0e2a4fb4c71a22678e0480a",
+      "bytes": 8029
+    }
+  },
+  "limitations": [
+    "Archived represented-system residual check only; no FEM assembly or harmonic solve.",
+    "J19 used a recomputed solution vector; this run evaluates archived x_unscaled.",
+    "RSS is sampled and soft, and Windows process supervision was tested only on this host."
+  ]
+}
