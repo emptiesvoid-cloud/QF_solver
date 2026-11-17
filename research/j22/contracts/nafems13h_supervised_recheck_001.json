@@ -1,0 +1,142 @@
+{
+  "schema": "qfsolver-j21-supervised-exact-contract-v1",
+  "contract_id": "J22-NAFEMS13H-SUPERVISED-RECHECK-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "attempt_id": "J22-NAFEMS13H-SUPERVISED-RECHECK-001-ATTEMPT-001",
+  "owner_authorization": "QF Solver 0.3.0 J22 Owner instruction: post-process only the three existing NAFEMS archives; no FEM assembly or harmonic solve.",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "j21_commit": "06d17854c61c311d593aaa724b3b588b066daff0",
+    "source_code_commit": "06d17854c61c311d593aaa724b3b588b066daff0",
+    "branch": "work/0.3.0-j22"
+  },
+  "source_hashes": {
+    "research/j17/exact_residual.py": "670b4125fc7acf6db1e5f8b09b6b8c7e235476e0ecfdabb1765d6b93bb94e51f",
+    "research/j19/checkpoint.py": "b7f6ae025ec06f36276b9481e27a5780c84213a1f5be4b62f31158aba3d3b8ba",
+    "research/j21/exact_worker.py": "77b783f9fb03c858fa937a145ecab4f3f8031382e9e51ca3ea37d68d309c723a",
+    "research/j21/supervised_exact.py": "075522984bda5869a94ef739d0c6a60165ed60bdc2e577ad5bba76c13cecf430",
+    "research/j22/archive_provenance.py": "13c51dde9d00203e3a9e6ae0760ed4c597f8f25e0d7810c4712c24d56263abfd"
+  },
+  "historical_sources": {
+    "j21_preparation_contract": {
+      "path": "research/j21/contracts/nafems13h_supervised_verification_prep_001.json",
+      "sha256": "5618c575a055bbcd0bb176fd5144f28ee9f78ccf1176fe40ba6df459ba9da564"
+    },
+    "j19_contract": {
+      "path": "research/j19/contracts/harmonic_replay_003.json",
+      "sha256": "2bb36a1a205792979a96cae9baa2208e1304e6ffdeec139b4ae770af7b8a0c1a"
+    },
+    "j19_result": {
+      "path": "research/j19/results/harmonic_replay_003/replay.json",
+      "sha256": "3290128c69116e54cf816bc24e8674ef66489a7fb09635446faef4480174b12f"
+    },
+    "j19_source_commit": "0cf1a1f6db78f94ff5151474b18ae335030a1c55",
+    "j19_run_commit": "760aec0f8b36f03da8a368de57ba7fd40d71de89",
+    "j19_run_state": "COMPLETE"
+  },
+  "objective": "Run the J21 exact residual verifier in a supervised child process on three SHA-pinned existing complex archives. No matrix is assembled or solved in this execution.",
+  "solution_provenance": {
+    "field_evaluated": "x_unscaled_real + 1j*x_unscaled_imag in each original NPZ archive",
+    "j19_exact_vector": "J19 recomputed a direct sparse solution from the same archived matrix and RHS, then evaluated that newly computed vector. Its solution_values_sha256 is therefore distinct from the raw archived x_unscaled vector.",
+    "comparison_control": "Before execution, matrix and RHS fingerprints are recomputed using the J19 CSR/hash convention and compared to J19. The archived x_unscaled fingerprint and J19 solved-vector fingerprint are both recorded. J19 reported relative infinity differences between these vectors below 1e-12; small exact-residual differences are attributable to this documented vector provenance if they occur."
+  },
+  "criteria": {
+    "tolerance": 1e-7,
+    "expected_supervisor_status": "COMPLETE",
+    "expected_exact_status": "PASS",
+    "decision_rule": "Use the exact represented-system criterion implemented by research/j17/exact_residual.py. Preserve GUARD_REJECTED as an independent historical field; an exact PASS does not promote or replace it.",
+    "comparison": "Compare exact status and relative-residual display to J19. Compare exact values only with the vector provenance above in view; compare matrix/RHS identity by their canonical fingerprints.",
+    "failure_policy": "Timeout, worker error, monitor error, incomplete result, over-budget exact evaluation, or interruption remains INCONCLUSIVE and preserves completed earlier cases."
+  },
+  "limits": {
+    "case_timeout_seconds": 60,
+    "poll_interval_seconds": 0.05,
+    "termination_grace_seconds": 0.25,
+    "memory_soft_limit_mib": 512,
+    "maximum_worker_result_bytes": 8388608,
+    "max_dimension": 256,
+    "max_nonzero_entries": 100000,
+    "max_fraction_bits": 65536,
+    "exact_time_budget_seconds": 30,
+    "maximum_input_bytes": 67108864,
+    "cases": 3,
+    "aggregate_case_timeout_ceiling_seconds": 180,
+    "resource_semantics": "The 60 s per-case wall timeout is external. RSS is sampled every 50 ms and is a soft trigger, not an OS quota. The aggregate ceiling is the sum of three case ceilings plus small supervisor overhead, not an independent parent-process deadline."
+  },
+  "environment_preflight": {
+    "platform": "Windows 10 x64",
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "psutil": "7.2.2",
+    "available_memory_bytes_observed_before_run": 61757779968,
+    "taskkill_available": true
+  },
+  "cases": [
+    {
+      "case_id": "nafems13h-2p375818178",
+      "frequency_hz": 2.375818178440047,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p375818178.npz",
+      "input_sha256": "bdf0ada904d800ae51e0afb39745633aea21186626741dfc0112ef5072eb97d0",
+      "historical_guard_outcome": "GUARD_REJECTED",
+      "historical_exact_outcome": "PASS",
+      "matrix_shape": [175, 175],
+      "stored_entries": 3607,
+      "matrix_csr_sha256": "e5d4d5ee6b6000d6c63a4775b97d1184d6f66f80e68b6b1949302b68a56e5296",
+      "rhs_values_sha256": "99e42286b316df36dd26afe6126640882f814a5bad19f875ccb3a3232f3295fe",
+      "archived_x_unscaled_sha256": "b7d5a8c4829c92f45d8e59f5f48f34b294e1b6427b7d14d4d9d2a59a1856cb75",
+      "j19_solved_vector_sha256": "95ddf52a34bffb07c374dc77eacc8c7b417fb392f48479856a221451abdd4c51",
+      "j19_upper_bound": 4.2783179861618343e-7,
+      "j19_exact_relative_residual": "5.2850869252210986397464121266659153024765510977231E-10",
+      "j19_relative_solution_difference_inf_vs_unscaled": 4.625574192324751e-13
+    },
+    {
+      "case_id": "nafems13h-2p417000000",
+      "frequency_hz": 2.417,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p417000000.npz",
+      "input_sha256": "89fdef8c3811d8ceade2356a96c76227c51c88a278f6b287548629ecaef4a863",
+      "historical_guard_outcome": "GUARD_REJECTED",
+      "historical_exact_outcome": "PASS",
+      "matrix_shape": [175, 175],
+      "stored_entries": 3607,
+      "matrix_csr_sha256": "889b2210cd8a1b49c869269818ada9ab0f6d3f42087994166797efb6b9ff0034",
+      "rhs_values_sha256": "99e42286b316df36dd26afe6126640882f814a5bad19f875ccb3a3232f3295fe",
+      "archived_x_unscaled_sha256": "b4168d0f562e0b06ae9502a66693e5800785b9724482dabaaaae2ce292b885da",
+      "j19_solved_vector_sha256": "284e010ec62d4b4f875ca62338b4a13711f3cdc0e99ef84ce8175393224278a7",
+      "j19_upper_bound": 5.594331766301972e-7,
+      "j19_exact_relative_residual": "7.4074022880866112676501404397037401632500667689044E-10",
+      "j19_relative_solution_difference_inf_vs_unscaled": 6.173783829683574e-13
+    },
+    {
+      "case_id": "nafems13h-2p418000000",
+      "frequency_hz": 2.418,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p418000000.npz",
+      "input_sha256": "a68c24ea120b49ae57fedc684c8ffd363b2f29830bc4e806948a95fe9878a1eb",
+      "historical_guard_outcome": "GUARD_REJECTED",
+      "historical_exact_outcome": "PASS",
+      "matrix_shape": [175, 175],
+      "stored_entries": 3607,
+      "matrix_csr_sha256": "5e8237fa06165f93b9ad8867b0f080e4652594642e5000525900742dbecb2009",
+      "rhs_values_sha256": "99e42286b316df36dd26afe6126640882f814a5bad19f875ccb3a3232f3295fe",
+      "archived_x_unscaled_sha256": "8222b128bb94cc2d10f961de21854771f1cf1d7ec00a28c12e3e3dc64b2640d1",
+      "j19_solved_vector_sha256": "d7c3228243a3692fe6ae69b94dfbe6950b231e3c49b6ccd5bf7aec6adbe70266",
+      "j19_upper_bound": 5.595029322422947e-7,
+      "j19_exact_relative_residual": "9.2644022823887403493801149081645906452869237003691E-10",
+      "j19_relative_solution_difference_inf_vs_unscaled": 9.341594300812598e-13
+    }
+  ],
+  "execution": {
+    "route": "python -m research.j21.supervised_exact --contract <frozen contract> --output research/j22/results/nafems13h_supervised_001/run",
+    "fem_assembly": false,
+    "harmonic_solve": false,
+    "new_frequency": false,
+    "attempts": 1,
+    "output_policy": "Must be empty before launch; never overwrite a prior attempt.",
+    "artifacts": [
+      "atomic supervisor.json and worker JSON by frequency",
+      "source, contract, archive, matrix, RHS, and vector SHA-256 values",
+      "post-run J19 comparison and sanitized resource manifest"
+    ]
+  },
+  "historical_policy": "J14-J21 guard and exact statuses are context only and remain unchanged. This run reports a separate prospective supervised exact result for the archived x_unscaled vector."
+}
