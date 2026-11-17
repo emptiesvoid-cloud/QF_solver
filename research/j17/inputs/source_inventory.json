@@ -1,0 +1,121 @@
+{
+  "schema": "qfsolver-j17-input-inventory-v1",
+  "classification": "COPIED_ARCHIVE_INPUTS_ONLY_NO_NEW_SOLVE",
+  "source_j16": {
+    "branch": "work/0.3.0-j16-science",
+    "final_commit": "36b1bc4c67cdb9d990264864984856c306321f4d",
+    "matrix_experiment_source_commit": "29bbada6d9e12ad18c7f6889b96188537a276d9c",
+    "current_original_manifest_sha256": "588c8b6b481e37d9640563dbd90e31f16ebe9f169879bfcb1bf3191681807d71",
+    "manifest_sha256_frozen_by_j16_contract": "b8c8998a194515fdd863fdbfad27bb1e4b6b50576e691e921cd3199b334984e0",
+    "manifest_sha256_recorded_by_j16_output": "b8c8998a194515fdd863fdbfad27bb1e4b6b50576e691e921cd3199b334984e0",
+    "status": "J15 remains PYTEST_FAILED; all historical QF route points remain QF_GUARD_REJECTED"
+  },
+  "source_integrity_observation": {
+    "manifest_entries": 11,
+    "verified": 5,
+    "mismatched": 6,
+    "verified_paths": [
+      "guard_frequency_2p300000000.npz",
+      "guard_frequency_2p375818178.npz",
+      "guard_frequency_2p417000000.npz",
+      "guard_frequency_2p418000000.npz",
+      "guard_frequency_2p450000000.npz"
+    ],
+    "mismatched_paths": [
+      "guard_frequency_2p300000000.json",
+      "guard_frequency_2p375818178.json",
+      "guard_frequency_2p417000000.json",
+      "guard_frequency_2p418000000.json",
+      "guard_frequency_2p450000000.json",
+      "guard_resolution_summary.json"
+    ],
+    "note": "Five NPZ matrix/RHS/solution archives match their current manifest entries. Five per-frequency JSON files and guard_resolution_summary.json do not; they are copied for comparison only and guard metrics are recomputed."
+  },
+  "artifacts": [
+    {
+      "path": "guard_resolution_001/artifact_manifest.json",
+      "bytes": 1962,
+      "sha256": "588c8b6b481e37d9640563dbd90e31f16ebe9f169879bfcb1bf3191681807d71"
+    },
+    {
+      "path": "guard_resolution_001/guard_resolution_summary.json",
+      "bytes": 22102,
+      "sha256": "952185dbae9697b3a69571d57538d76d9e6d313a64420a25a203c18983c30fa9"
+    },
+    {
+      "path": "guard_resolution_001/guard_exact_residual_summary.json",
+      "bytes": 16247,
+      "sha256": "a65dd78f031a1f0cfd0614f1d961e9dd2de40c1fac3dda8072b05ed47ad76fed"
+    },
+    {
+      "path": "guard_resolution_001/guard_frequency_2p300000000.json",
+      "bytes": 3769,
+      "sha256": "b62982a02eb480dbf178fb7be54e02c645bdb04c84a9c62869cfca23dd7b5c20"
+    },
+    {
+      "path": "guard_resolution_001/guard_frequency_2p300000000.npz",
+      "bytes": 11101,
+      "sha256": "788bcc161f3b155a7ec4cd63ad4855c31363c40d79df619e021ff73230988c40"
+    },
+    {
+      "path": "guard_resolution_001/guard_frequency_2p375818178.json",
+      "bytes": 3780,
+      "sha256": "a7eca623c93576a9a7bccafc00e9e50bafa9bb83d9d4e6e101725e9e95b4f4cd"
+    },
+    {
+      "path": "guard_resolution_001/guard_frequency_2p375818178.npz",
+      "bytes": 11072,
+      "sha256": "bdf0ada904d800ae51e0afb39745633aea21186626741dfc0112ef5072eb97d0"
+    },
+    {
+      "path": "guard_resolution_001/guard_frequency_2p417000000.json",
+      "bytes": 3779,
+      "sha256": "49b6d50c1e0abea3cb9049004583f7ee8080bbf3b26d351714e7e73e770898c1"
+    },
+    {
+      "path": "guard_resolution_001/guard_frequency_2p417000000.npz",
+      "bytes": 11112,
+      "sha256": "89fdef8c3811d8ceade2356a96c76227c51c88a278f6b287548629ecaef4a863"
+    },
+    {
+      "path": "guard_resolution_001/guard_frequency_2p418000000.json",
+      "bytes": 3761,
+      "sha256": "4aa0fee94e2c87945fda32ea57e066d331a7c6ce6ced8829298ef3917ae17282"
+    },
+    {
+      "path": "guard_resolution_001/guard_frequency_2p418000000.npz",
+      "bytes": 11423,
+      "sha256": "a68c24ea120b49ae57fedc684c8ffd363b2f29830bc4e806948a95fe9878a1eb"
+    },
+    {
+      "path": "guard_resolution_001/guard_frequency_2p450000000.json",
+      "bytes": 3765,
+      "sha256": "c173836b9cf37a50b512d737440b051c5764c0d52664db3fcd8bbb477875a285"
+    },
+    {
+      "path": "guard_resolution_001/guard_frequency_2p450000000.npz",
+      "bytes": 11040,
+      "sha256": "4c1a4cfd56e99e4fc99147aab1a61015e73d853cb193685111e8a7b1e37f8300"
+    },
+    {
+      "path": "mesh_site_assets_004/artifact_manifest.json",
+      "bytes": 2635,
+      "sha256": "e6b38a599ab3284bd4e8a104ad645055e50f5bfee416ea16d43699ae640985e2"
+    },
+    {
+      "path": "mesh_site_assets_004/mesh_comparison_amplitude_phase.png",
+      "bytes": 409956,
+      "sha256": "805d0bab7873de06bdddc0ce4f34d5e1d78e0cf83522fa43c022af0eab2adcb7"
+    },
+    {
+      "path": "mesh_site_assets_004/mesh_comparison_frequency_response.csv",
+      "bytes": 31549,
+      "sha256": "2d53519ac7da8f1de1a4f0e63336a073b8593a7d83d060016befcf58f7098442"
+    },
+    {
+      "path": "mesh_site_assets_004/mesh_comparison_summary.json",
+      "bytes": 12722,
+      "sha256": "6b13aecad89932a2606dd4416a3e207aafc96bb7b964f49802555b3451ec8139"
+    }
+  ]
+}

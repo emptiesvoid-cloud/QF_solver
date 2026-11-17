@@ -1,0 +1,15 @@
+{
+  "contract_id": "J17-NAFEMS13H-ARCHIVED-EXACT-RECHECK-001",
+  "attempt_id": "J17-NAFEMS13H-ARCHIVED-EXACT-RECHECK-001-ATTEMPT-001",
+  "source_commit": "d2a842bde86f6da260f711495aa577678a84987a",
+  "status": "PYTHON_FAILED_BEFORE_INPUT_VALIDATION",
+  "elapsed_seconds": 1.47,
+  "memory": "not sampled",
+  "failure": "ModuleNotFoundError: No module named research because the standalone script added src to sys.path but not the repository root.",
+  "scope_processed": "No NPZ archive opened; no matrix, residual, guard, or FEM operation executed.",
+  "output_directory_created": false,
+  "log": "console.log",
+  "historical_statuses_modified": false,
+  "original_console_sha256_before_redaction": "9a8d1e6fc36520fdc96d98e1fa2273f4769144320e9e483f97147c392776869c",
+  "redaction": "Absolute local worktree prefix replaced with <worktree> before any push; the failure message and relative source path are preserved."
+}

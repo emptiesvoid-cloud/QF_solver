@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<worktree>\research\j17\analyze_archived_residuals.py", line 31, in <module>
+    from research.j17.exact_residual import evaluate_exact_residual, exact_fraction
+ModuleNotFoundError: No module named 'research'
+

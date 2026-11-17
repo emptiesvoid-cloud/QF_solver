@@ -1,0 +1,338 @@
+{
+  "classification": "EXPLORATORY_RESULTS_FOR_REVIEW_NOT_PUBLISHED",
+  "contract_id": "J16-NAFEMS13H-MESH-SITE-ASSETS-004",
+  "contract_sha256": "b9dda48b58e9e6c169da802a25154d12b0522cb39adca8b941c2e41cef3a21e6",
+  "frequency_row_count": 186,
+  "limitations": [
+    "The thin Kirchhoff-Love Navier series is analytically independent but is not the MITC4/Reissner-Mindlin finite-thickness formulation.",
+    "The official Abaqus table provides scalar direct peaks but no phase curve; Abaqus was not run locally.",
+    "The mesh trend is exploratory: near-peak points are rejected by the unchanged QF residual guard for all 8x8 and 10x10 frequencies, and all but nine low-frequency 6x6 points.",
+    "Only plan mesh density varies; this does not establish general convergence or verify all harmonic response routes."
+  ],
+  "mesh_summaries": {
+    "10": {
+      "at_abaqus_s4r_peak_frequency": {
+        "frequency_hz": 2.405,
+        "qf_route_status": "QF_GUARD_REJECTED",
+        "raw_qf_amplitude_mm": 45.075745198849404,
+        "raw_qf_phase_degrees": 87.40880623209986
+      },
+      "at_navier_damped_peak_probe": {
+        "frequency_hz": 2.375818178440047,
+        "navier_amplitude_mm": 45.42101598290622,
+        "navier_phase_degrees": 91.03359134868383,
+        "normalized_complex_error_by_reference_band_peak": 0.4758853367057667,
+        "qf_route_status": "QF_GUARD_REJECTED",
+        "raw_qf_amplitude_mm": 39.732374160426716,
+        "raw_qf_phase_degrees": 119.4490485837116
+      },
+      "element_count": 100,
+      "fixed_dofs": 447,
+      "force_resultant_check": {
+        "analytic_basis": "100 Pa uniform pressure over 10 m x 10 m flat reference area, physical direction -Z",
+        "analytic_expected_force_n": [
+          0.0,
+          0.0,
+          -10000.0
+        ],
+        "assembler_load_balance_resultant_n": [
+          0.0,
+          0.0,
+          -10000.0
+        ],
+        "assembler_moment_about_origin_nm": [
+          -49999.99999999999,
+          50000.0,
+          0.0
+        ],
+        "direct_minus_analytic_expected_force_n": [
+          0.0,
+          0.0,
+          3.637978807091713e-12
+        ],
+        "direct_minus_assembler_resultant_n": [
+          0.0,
+          0.0,
+          3.637978807091713e-12
+        ],
+        "direct_sum_of_nodal_translational_load_dofs_n": [
+          0.0,
+          0.0,
+          -9999.999999999996
+        ]
+      },
+      "free_dofs": 279,
+      "full_dofs": 726,
+      "max_raw_backward_error_eta_inf": 2.621998993958529e-16,
+      "max_raw_relative_l2_residual": 6.93906348990759e-10,
+      "mesh_size_per_edge": 10,
+      "nodes": 121,
+      "qf_assembled_first_frequency_hz": 2.4028656695737274,
+      "qf_raw_local_quadratic_peak_estimate": {
+        "amplitude_mm": 45.16601797934981,
+        "frequency_hz": 2.4019390241193617
+      },
+      "qf_raw_sampled_peak": {
+        "amplitude_mm": 45.12977169634331,
+        "frequency_hz": 2.4
+      },
+      "qf_route_status_counts": {
+        "QF_GUARD_REJECTED": 62
+      },
+      "relative_peak_amplitude_difference_vs_abaqus_s4r_direct_percent": -0.4715337607981321,
+      "relative_peak_amplitude_difference_vs_nafems_percent": -0.5591854263544507,
+      "relative_peak_frequency_difference_vs_abaqus_s4r_direct_percent": -0.12727550439243823,
+      "relative_peak_frequency_difference_vs_navier_percent": 1.0994463261690155,
+      "runner": {
+        "budget": {
+          "archive_size_limit_mib": 128,
+          "output_stream_limit_mib": 4,
+          "output_total_limit_mib": 8,
+          "process_tree_limit": 4,
+          "rss_soft_limit_mib": 2048,
+          "temporary_limit_mib": 512,
+          "timeout_seconds": 1800
+        },
+        "elapsed_seconds": 23.12477759993635,
+        "max_process_count_sampled": 1,
+        "peak_rss_bytes_sampled": 175562752,
+        "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+        "state": "PASS"
+      },
+      "status_policy": "Diagnostic peak values come from raw vectors; near-peak points remain QF_GUARD_REJECTED and are not accepted QF results."
+    },
+    "6": {
+      "at_abaqus_s4r_peak_frequency": {
+        "frequency_hz": 2.405,
+        "qf_route_status": "QF_GUARD_REJECTED",
+        "raw_qf_amplitude_mm": 33.08051298429234,
+        "raw_qf_phase_degrees": 133.2853458293642
+      },
+      "at_navier_damped_peak_probe": {
+        "frequency_hz": 2.375818178440047,
+        "navier_amplitude_mm": 45.42101598290622,
+        "navier_phase_degrees": 91.03359134868383,
+        "normalized_complex_error_by_reference_band_peak": 0.8305853099315511,
+        "qf_route_status": "QF_GUARD_REJECTED",
+        "raw_qf_amplitude_mm": 24.908594595424102,
+        "raw_qf_phase_degrees": 147.18795991718963
+      },
+      "element_count": 36,
+      "fixed_dofs": 199,
+      "force_resultant_check": {
+        "analytic_basis": "100 Pa uniform pressure over 10 m x 10 m flat reference area, physical direction -Z",
+        "analytic_expected_force_n": [
+          0.0,
+          0.0,
+          -10000.0
+        ],
+        "assembler_load_balance_resultant_n": [
+          0.0,
+          0.0,
+          -9999.999999999995
+        ],
+        "assembler_moment_about_origin_nm": [
+          -50000.000000000015,
+          50000.000000000015,
+          0.0
+        ],
+        "direct_minus_analytic_expected_force_n": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "direct_minus_assembler_resultant_n": [
+          0.0,
+          0.0,
+          -5.4569682106375694e-12
+        ],
+        "direct_sum_of_nodal_translational_load_dofs_n": [
+          0.0,
+          0.0,
+          -10000.0
+        ]
+      },
+      "free_dofs": 95,
+      "full_dofs": 294,
+      "max_raw_backward_error_eta_inf": 2.4064397352855257e-16,
+      "max_raw_relative_l2_residual": 3.5084507341808187e-10,
+      "mesh_size_per_edge": 6,
+      "nodes": 49,
+      "qf_assembled_first_frequency_hz": 2.4508325287422332,
+      "qf_raw_local_quadratic_peak_estimate": {
+        "amplitude_mm": 44.657308050525195,
+        "frequency_hz": 2.4498792763852104
+      },
+      "qf_raw_sampled_peak": {
+        "amplitude_mm": 44.657173583039885,
+        "frequency_hz": 2.4499999999999997
+      },
+      "qf_route_status_counts": {
+        "QF_GUARD_REJECTED": 53,
+        "QF_SOLVE_ACCEPTED": 9
+      },
+      "relative_peak_amplitude_difference_vs_abaqus_s4r_direct_percent": -1.592534044677848,
+      "relative_peak_amplitude_difference_vs_nafems_percent": -1.6791984796891382,
+      "relative_peak_frequency_difference_vs_abaqus_s4r_direct_percent": 1.8660821781792354,
+      "relative_peak_frequency_difference_vs_navier_percent": 3.117288124876277,
+      "runner": {
+        "budget": {
+          "archive_size_limit_mib": 128,
+          "output_stream_limit_mib": 4,
+          "output_total_limit_mib": 8,
+          "process_tree_limit": 4,
+          "rss_soft_limit_mib": 2048,
+          "temporary_limit_mib": 512,
+          "timeout_seconds": 1800
+        },
+        "elapsed_seconds": 13.696721900021657,
+        "max_process_count_sampled": 1,
+        "peak_rss_bytes_sampled": 177201152,
+        "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+        "state": "PASS"
+      },
+      "status_policy": "Diagnostic peak values come from raw vectors; near-peak points remain QF_GUARD_REJECTED and are not accepted QF results."
+    },
+    "8": {
+      "at_abaqus_s4r_peak_frequency": {
+        "frequency_hz": 2.405,
+        "qf_route_status": "QF_GUARD_REJECTED",
+        "raw_qf_amplitude_mm": 43.703196562148115,
+        "raw_qf_phase_degrees": 104.90635528067926
+      },
+      "at_navier_damped_peak_probe": {
+        "frequency_hz": 2.375818178440047,
+        "navier_amplitude_mm": 45.42101598290622,
+        "navier_phase_degrees": 91.03359134868383,
+        "normalized_complex_error_by_reference_band_peak": 0.6451824035387013,
+        "qf_route_status": "QF_GUARD_REJECTED",
+        "raw_qf_amplitude_mm": 34.407342212058076,
+        "raw_qf_phase_degrees": 131.21046129631617
+      },
+      "element_count": 64,
+      "fixed_dofs": 311,
+      "force_resultant_check": {
+        "analytic_basis": "100 Pa uniform pressure over 10 m x 10 m flat reference area, physical direction -Z",
+        "analytic_expected_force_n": [
+          0.0,
+          0.0,
+          -10000.0
+        ],
+        "assembler_load_balance_resultant_n": [
+          0.0,
+          0.0,
+          -10000.0
+        ],
+        "assembler_moment_about_origin_nm": [
+          -49999.99999999999,
+          50000.0,
+          0.0
+        ],
+        "direct_minus_analytic_expected_force_n": [
+          0.0,
+          0.0,
+          1.8189894035458565e-12
+        ],
+        "direct_minus_assembler_resultant_n": [
+          0.0,
+          0.0,
+          1.8189894035458565e-12
+        ],
+        "direct_sum_of_nodal_translational_load_dofs_n": [
+          0.0,
+          0.0,
+          -9999.999999999998
+        ]
+      },
+      "free_dofs": 175,
+      "full_dofs": 486,
+      "max_raw_backward_error_eta_inf": 2.1025618045749082e-16,
+      "max_raw_relative_l2_residual": 4.1262620508463857e-10,
+      "mesh_size_per_edge": 8,
+      "nodes": 81,
+      "qf_assembled_first_frequency_hz": 2.41788776959311,
+      "qf_raw_local_quadratic_peak_estimate": {
+        "amplitude_mm": 45.01122899043763,
+        "frequency_hz": 2.4169523161769617
+      },
+      "qf_raw_sampled_peak": {
+        "amplitude_mm": 44.975068062388445,
+        "frequency_hz": 2.415
+      },
+      "qf_route_status_counts": {
+        "QF_GUARD_REJECTED": 62
+      },
+      "relative_peak_amplitude_difference_vs_abaqus_s4r_direct_percent": -0.812628932486498,
+      "relative_peak_amplitude_difference_vs_nafems_percent": -0.8999802059937736,
+      "relative_peak_frequency_difference_vs_abaqus_s4r_direct_percent": 0.4969778036158798,
+      "relative_peak_frequency_difference_vs_navier_percent": 1.7313672447747361,
+      "runner": {
+        "budget": {
+          "archive_size_limit_mib": 128,
+          "output_stream_limit_mib": 4,
+          "output_total_limit_mib": 8,
+          "process_tree_limit": 4,
+          "rss_soft_limit_mib": 2048,
+          "temporary_limit_mib": 512,
+          "timeout_seconds": 1800
+        },
+        "elapsed_seconds": 16.494517899816856,
+        "max_process_count_sampled": 1,
+        "peak_rss_bytes_sampled": 177135616,
+        "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+        "state": "PASS"
+      },
+      "status_policy": "Diagnostic peak values come from raw vectors; near-peak points remain QF_GUARD_REJECTED and are not accepted QF results."
+    }
+  },
+  "model_common_to_all_meshes": {
+    "conditions": "Frozen NAFEMS 13H: UX=UY=RZ=0 globally; UZ=0 on perimeter; RY=0 on top/bottom; RX=0 on left/right.",
+    "frequency_grid_hz": {
+      "additional_probe_hz": 2.375818178440047,
+      "dense_count": 61,
+      "dense_spacing": 0.005,
+      "dense_start": 2.25,
+      "dense_stop": 2.55,
+      "total_count": 62
+    },
+    "geometry_m": {
+      "length": 10.0,
+      "thickness": 0.05,
+      "width": 10.0
+    },
+    "material": {
+      "density_kg_m3": 8000.0,
+      "poisson_ratio": 0.3,
+      "young_modulus_pa": 200000000000.0
+    },
+    "observable": "Complex center UZ at physical point (5,5,0) m.",
+    "pressure_pa": 100.0,
+    "rayleigh_damping": {
+      "alpha_s_inv": 0.299,
+      "beta_s": 0.001339
+    }
+  },
+  "official_reference": {
+    "abaqus_s4r_direct_peak": {
+      "center_displacement_mm": 45.38,
+      "frequency_hz": 2.405
+    },
+    "abaqus_was_executed_locally": false,
+    "nafems_direct_peak": {
+      "center_displacement_mm": 45.42,
+      "frequency_hz": 2.377
+    },
+    "published_phase_available": false,
+    "source": "https://docs.software.vt.edu/abaqusv2024/English/SIMACAEBMKRefMap/simabmk-c-forcedvibrationtest13h.htm"
+  },
+  "resources_observed": {
+    "elapsed_seconds": 0.46049099997617304,
+    "peak_rss_bytes_sampled": 80900096,
+    "rss_limit_semantics": "sampled soft monitor; not an OS memory quota",
+    "sampling_interval_seconds": 0.1
+  },
+  "schema": "qfsolver-j16-nafems13h-mesh-site-assets-v1",
+  "source_git_commit": "cc584c4b8c016a1e4a5d89e339a87893b0264b09",
+  "source_mesh_contract_id": "J16-MITC4-NAFEMS13H-MESH-STUDY-003",
+  "status_policy": "The 6x6, 8x8, and 10x10 route counts are retained as run. Raw diagnostics at rejected frequencies are not promoted to accepted responses or a mechanics PASS."
+}

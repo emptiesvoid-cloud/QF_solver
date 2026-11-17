@@ -1,0 +1,51 @@
+{
+  "artifacts": [
+    {
+      "bytes": 3813,
+      "path": "archived_residual_check_002/exact_residual_points.csv",
+      "sha256": "083c28f2b17e0668b417a87791051436144179e037bbd4faac2dec5e55b13bbc"
+    },
+    {
+      "bytes": 41099,
+      "path": "archived_residual_check_002/exact_residual_summary.json",
+      "sha256": "c8f9dab5bfed0a5929d7f97bc437f5179f7cb06a1fe878e206e967453b41e331"
+    },
+    {
+      "bytes": 119070,
+      "path": "archived_residual_check_002/exact_residual_vs_guard_bound_175x175.png",
+      "sha256": "e7f57c9f530ef33e40b0a207dcc1a33f7fd7e97384068c84a8d5163d51382e02"
+    },
+    {
+      "bytes": 1891,
+      "path": "archived_residual_check_002/README.md",
+      "sha256": "863c77b22ff83c70f517341664772822470f8bc97f1a0447ac282913d7d7d6bc"
+    },
+    {
+      "bytes": 409956,
+      "path": "nafems13h_mesh_study_003_attempt004_j16/mesh_comparison_amplitude_phase.png",
+      "sha256": "805d0bab7873de06bdddc0ce4f34d5e1d78e0cf83522fa43c022af0eab2adcb7"
+    },
+    {
+      "bytes": 31549,
+      "path": "nafems13h_mesh_study_003_attempt004_j16/mesh_comparison_frequency_response.csv",
+      "sha256": "2d53519ac7da8f1de1a4f0e63336a073b8593a7d83d060016befcf58f7098442"
+    },
+    {
+      "bytes": 12722,
+      "path": "nafems13h_mesh_study_003_attempt004_j16/mesh_comparison_summary.json",
+      "sha256": "6b13aecad89932a2606dd4416a3e207aafc96bb7b964f49802555b3451ec8139"
+    },
+    {
+      "bytes": 811,
+      "path": "nafems13h_mesh_study_003_attempt004_j16/README.md",
+      "sha256": "dcc63310be03a94ba22d57bb1cbe17f97610bfa35b7f779c64a8448217572dd6"
+    },
+    {
+      "bytes": 861,
+      "path": "README.md",
+      "sha256": "2e0f4738bb0c286424ec9978374f3a7c35e24393ccdc3bed42f163a92e02cf53"
+    }
+  ],
+  "classification": "UNPUBLISHED_DIAGNOSTIC_ASSETS",
+  "schema": "qfsolver-j17-site-assets-manifest-v1"
+}

@@ -1,0 +1,27 @@
+{
+  "artifacts": [
+    {
+      "bytes": 41099,
+      "path": "exact_residual_summary.json",
+      "sha256": "c8f9dab5bfed0a5929d7f97bc437f5179f7cb06a1fe878e206e967453b41e331"
+    },
+    {
+      "bytes": 3813,
+      "path": "exact_residual_points.csv",
+      "sha256": "083c28f2b17e0668b417a87791051436144179e037bbd4faac2dec5e55b13bbc"
+    },
+    {
+      "bytes": 119025,
+      "path": "exact_residual_vs_guard_bound.png",
+      "sha256": "586caeb4724ab9a2be44b6858b2f67d9ac2de42d5de21b1ab338e5750597a89c"
+    },
+    {
+      "bytes": 727,
+      "path": "README.md",
+      "sha256": "f4777212c5f3640a3693ae456e0051815c11ff3b1fd838e622a530e7c59283e1"
+    }
+  ],
+  "contract_sha256": "f4f4af29557f1cf49b0579c4496eff8cbcb74b43cb868de51789dbb4902f24f9",
+  "input_inventory_sha256": "9e7415b6045df555a38fb8c111b8a6449a1d5a58fd3499ba1224578e41ffd880",
+  "schema": "qfsolver-j17-output-manifest-v1"
+}
