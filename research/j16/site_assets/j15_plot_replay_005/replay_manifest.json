@@ -1,0 +1,18 @@
+{
+  "schema": "qfsolver-j16-j15-plot-replay-v1",
+  "classification": "ARCHIVED_EXPLORATORY_DATA_REPLOT_NO_SOLVER_CALL",
+  "source_attempt_id": "J15-NAFEMS13H-RES-001",
+  "source_run_status": "PYTEST_FAILED",
+  "postprocess_id": "J15-NAFEMS13H-POSTPROCESS-001",
+  "input_artifact": "site_data.json",
+  "input_sha256_raw": "f4d6d996987ef68ed318ae70589a3b851c972eb03497b4ab15872cd02d4b874c",
+  "frequency_count": 151,
+  "route_status_counts": {
+    "QF_GUARD_REJECTED": 151
+  },
+  "rejected_points_are_marked": true,
+  "output_artifact": "harmonic_amplitude_phase.png",
+  "output_bytes": 167983,
+  "output_sha256_raw": "ba5844b5852dc18d0a50cc5dece725ec8c07b2e1f2c572b2e2c184f05ce6dc92",
+  "historical_status_policy": "Input rows and original J15 PYTEST_FAILED status are not changed or promoted."
+}

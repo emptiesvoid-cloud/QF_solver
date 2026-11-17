@@ -1,0 +1,18 @@
+{
+  "schema": "qfsolver-j16-replay-receipt-v1",
+  "contract_id": "J16-J15-PLOTTER-REPLAY-005",
+  "attempt_id": "J16-J15-PLOTTER-REPLAY-005-ATTEMPT-001",
+  "state": "POSTPROCESS_COMPLETED",
+  "source_commit": "a55eaa1ecbf810132434dd4a402665e058e2e0a8",
+  "input_sha256": "f4d6d996987ef68ed318ae70589a3b851c972eb03497b4ab15872cd02d4b874c",
+  "input_bytes": 205824,
+  "output_sha256": "ba5844b5852dc18d0a50cc5dece725ec8c07b2e1f2c572b2e2c184f05ce6dc92",
+  "output_bytes": 167983,
+  "elapsed_seconds": 1.101059,
+  "rss_sampled": false,
+  "rss_observation": "Not sampled; soft RSS envelope is not an OS quota.",
+  "original_runner_state": "PYTEST_FAILED",
+  "route_status_counts": {
+    "QF_GUARD_REJECTED": 151
+  }
+}
