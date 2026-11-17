@@ -2,9 +2,24 @@
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import pytest
 
 from research.j16.aggregate_harmonic_mesh_study import validate_mesh_data
+
+
+def test_asset_contract_nests_input_hashes_and_preserves_failed_attempt() -> None:
+    root = Path(__file__).resolve().parents[2]
+    contract = json.loads(
+        (root / "research/j16/contracts/nafems_13h_mesh_site_assets_002.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert contract["contract_id"] == "J16-NAFEMS13H-MESH-SITE-ASSETS-002"
+    assert "input_sha256" in contract["inputs"]
+    assert contract["source"]["prior_attempt"]["state"] == "PYTHON_FAILED"
 
 
 def _mesh_data(mesh_size: int) -> dict:

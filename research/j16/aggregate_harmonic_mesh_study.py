@@ -22,7 +22,7 @@ import psutil
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CONTRACT_PATH = PROJECT_ROOT / "research/j16/contracts/nafems_13h_mesh_site_assets_001.json"
+CONTRACT_PATH = PROJECT_ROOT / "research/j16/contracts/nafems_13h_mesh_site_assets_002.json"
 RESULT_ROOT = PROJECT_ROOT / "research/j16/results/diagnostic-2026-11-17/mesh_study_003"
 RUN_ROOT = PROJECT_ROOT / ".codex/development-runs/worktrees/j16_mesh_r3"
 REFERENCE_PATH = PROJECT_ROOT / "qualification/external_reference_digests/abaqus_nafems_13h_harmonic.json"
@@ -119,7 +119,7 @@ def summarize_mesh(
 
 
 def _load_inputs(contract: dict[str, Any]) -> tuple[dict[int, dict[str, Any]], dict[int, dict[str, Any]], dict[str, Any]]:
-    for rel, expected in contract["input_sha256"].items():
+    for rel, expected in contract["inputs"]["input_sha256"].items():
         actual = _sha256(PROJECT_ROOT / rel)
         if actual != expected:
             raise ValueError(f"input SHA mismatch for {rel}: {actual} != {expected}")
@@ -231,7 +231,7 @@ def assemble_site_assets() -> dict[str, Any]:
     monitor = threading.Thread(target=sample_rss, name="j16-site-assets-rss-monitor", daemon=True)
     monitor.start()
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
-    if contract.get("contract_id") != "J16-NAFEMS13H-MESH-SITE-ASSETS-001" or contract.get("state") != "FROZEN_BEFORE_EXECUTION":
+    if contract.get("contract_id") != "J16-NAFEMS13H-MESH-SITE-ASSETS-002" or contract.get("state") != "FROZEN_BEFORE_EXECUTION":
         raise ValueError("the mesh-study site-asset contract is missing or not frozen")
     for rel, expected in contract["source_sha256"].items():
         actual = _sha256(PROJECT_ROOT / rel)
