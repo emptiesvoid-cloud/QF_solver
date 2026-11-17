@@ -1,18 +1,29 @@
 from __future__ import annotations
 
+import hashlib
 import json
+import platform
+import subprocess
+import sys
 import time
 import tracemalloc
 from pathlib import Path
 
 import numpy as np
+import scipy
 from scipy.sparse import csr_matrix
 
 from research.j17.exact_residual import evaluate_exact_residual
 from research.j19.checkpoint import write_atomic_json
 
 
-OUTPUT = Path(__file__).resolve().parents[2] / "research" / "j19" / "results" / "exact_benchmark_001" / "benchmark.json"
+ROOT = Path(__file__).resolve().parents[2]
+CONTRACT = ROOT / "research" / "j19" / "contracts" / "exact_verifier_benchmark_002.json"
+OUTPUT = ROOT / "research" / "j19" / "results" / "exact_benchmark_002" / "benchmark.json"
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _make_system(dimension: int, structure: str) -> tuple[object, np.ndarray, np.ndarray, int]:
@@ -58,12 +69,31 @@ def _make_system(dimension: int, structure: str) -> tuple[object, np.ndarray, np
 
 
 def test_j19_exact_verifier_bounded_scaling_profile() -> None:
+    contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    if contract.get("state") != "FROZEN_BEFORE_EXECUTION":
+        raise RuntimeError("J19 benchmark contract is not frozen")
+    for relative, expected in contract["sources"].items():
+        if _sha256(ROOT / relative) != expected:
+            raise RuntimeError(f"benchmark source SHA-256 mismatch: {relative}")
+    execution_commit = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, check=True, capture_output=True, text=True
+    ).stdout.strip()
     if OUTPUT.exists():
         raise RuntimeError("J19 benchmark output already exists; refusing to overwrite a prior attempt")
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     record: dict[str, object] = {
         "schema": "qfsolver-j19-exact-benchmark-v1",
         "status": "RUNNING",
+        "contract_id": contract["contract_id"],
+        "contract_sha256": _sha256(CONTRACT),
+        "source_code_commit": contract["baseline"]["source_code_commit"],
+        "execution_source_commit": execution_commit,
+        "environment": {
+            "python": sys.version.split()[0],
+            "numpy": np.__version__,
+            "scipy": scipy.__version__,
+            "platform": platform.platform(),
+        },
         "method": "Exact represented-system verifier; per-case elapsed-time budget 5 seconds; Python allocation peak from tracemalloc.",
         "cases": [],
     }
