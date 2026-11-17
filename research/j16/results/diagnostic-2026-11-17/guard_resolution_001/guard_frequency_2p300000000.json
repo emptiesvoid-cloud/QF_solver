@@ -1,0 +1,88 @@
+{
+  "frequency_hz": 2.3,
+  "historical_checkpoint_status": "POSTPROCESSED",
+  "condition_number_2": 1105516.8423656095,
+  "historical_qf_status": "QF_GUARD_REJECTED",
+  "historical_guard_upper_bound": 2.1836132619567596e-07,
+  "unscaled_vs_archived_j15_reduced_vector_relative_inf": 0.0,
+  "row_scale_min_max": [
+    3.982230950678146e-11,
+    2.661090700868091e-10
+  ],
+  "column_scale_min_max": [
+    0.5275718312853013,
+    1.8880683627743193
+  ],
+  "variants": {
+    "spsolve_unscaled": {
+      "guard_recheck": {
+        "outcome": "GUARD_REJECTED",
+        "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=2.182438e-07, allowed=1.000000e-07).",
+        "diagnostics": {
+          "residual_norm": 1.6779625743340247e-07,
+          "relative_residual": 1.5341372107993735e-10,
+          "matvec_roundoff_bound": 0.00023853637308252833,
+          "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+          "relative_residual_upper_bound": 2.1824381196877928e-07,
+          "residual_failure_tolerance": 1e-07
+        }
+      },
+      "relative_residual_l2": 1.5341372107993738e-10,
+      "backward_error_eta_inf": 1.3447396254747665e-16,
+      "center_uz_amplitude_mm": 17.543561515726594,
+      "center_uz_phase_degrees": 158.14705201353502,
+      "relative_solution_difference_inf_vs_unscaled": 0.0
+    },
+    "spsolve_row_column_equilibrated": {
+      "guard_recheck": {
+        "outcome": "GUARD_REJECTED",
+        "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=2.182532e-07, allowed=1.000000e-07).",
+        "diagnostics": {
+          "residual_norm": 1.7808631506901945e-07,
+          "relative_residual": 1.6282177377738925e-10,
+          "matvec_roundoff_bound": 0.00023853637306710276,
+          "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+          "relative_residual_upper_bound": 2.1825322000737132e-07,
+          "residual_failure_tolerance": 1e-07
+        }
+      },
+      "relative_residual_l2": 1.6282177377738925e-10,
+      "backward_error_eta_inf": 2.107672907560731e-16,
+      "center_uz_amplitude_mm": 17.543561514588454,
+      "center_uz_phase_degrees": 158.14705201506985,
+      "relative_solution_difference_inf_vs_unscaled": 7.018822418507613e-11
+    },
+    "splu_two_refinements": {
+      "guard_recheck": {
+        "outcome": "GUARD_REJECTED",
+        "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=2.181680e-07, allowed=1.000000e-07).",
+        "diagnostics": {
+          "residual_norm": 8.49158670298801e-08,
+          "relative_residual": 7.763736414160468e-11,
+          "matvec_roundoff_bound": 0.000238536373074872,
+          "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+          "relative_residual_upper_bound": 2.1816803560483864e-07,
+          "residual_failure_tolerance": 1e-07
+        }
+      },
+      "relative_residual_l2": 7.763736414160468e-11,
+      "backward_error_eta_inf": 6.516581418497036e-17,
+      "center_uz_amplitude_mm": 17.54356151516029,
+      "center_uz_phase_degrees": 158.14705201441927,
+      "relative_solution_difference_inf_vs_unscaled": 3.577937474252048e-11
+    }
+  },
+  "iterative_refinement": [
+    {
+      "iteration": 1,
+      "correction_norm_inf": 3.7760931056745896e-13,
+      "computed_relative_residual_l2": 9.653145239590812e-11
+    },
+    {
+      "iteration": 2,
+      "correction_norm_inf": 2.8292811714983335e-13,
+      "computed_relative_residual_l2": 7.763736414160468e-11
+    }
+  ],
+  "matrix_archive": "guard_frequency_2p300000000.npz"
+}

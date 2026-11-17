@@ -1,0 +1,466 @@
+{
+  "schema": "qfsolver-j16-guard-resolution-experiment-v1",
+  "classification": "BOUNDED_SOLVER_DIAGNOSTIC_ON_QF_ASSEMBLED_8X8_SYSTEM",
+  "contract_id": "J16-NAFEMS13H-GUARD-SCALE-REFINEMENT-001",
+  "series_id": "dev-j16-nafems13h-guard-scale-001",
+  "attempt_id": "J16-NAFEMS13H-GUARD-SCALE-001",
+  "source_run_status": "J15_PYTEST_FAILED; all historical QF points remain rejected",
+  "contract_sha256": "0e0d5353eb3ea107429590621febf930488181ecb926aa3fd5964fe86c3a53a8",
+  "source_git": {
+    "commit": "29bbada6d9e12ad18c7f6889b96188537a276d9c",
+    "branch": "work/0.3.0-j16-science"
+  },
+  "model": "NAFEMS 13H MITC4 8x8; same frozen geometry, material, supports, pressure, and Rayleigh damping as J15",
+  "methods": [
+    "SciPy spsolve on the unscaled reduced QF impedance",
+    "SciPy spsolve after one-pass row and column infinity-sum equilibration; solution mapped back to the original variables",
+    "SciPy SuperLU with two correction steps using residuals computed in complex128"
+  ],
+  "guard_threshold": 1e-07,
+  "j15_input_manifest_sha256": "fb430bed1f5cfaa072106c48e534d9abaaa9eb7340a61500b4e79b02c80d2e14",
+  "j15_input_artifacts_verified": 10,
+  "frequencies": [
+    {
+      "frequency_hz": 2.3,
+      "historical_checkpoint_status": "POSTPROCESSED",
+      "condition_number_2": 1105516.8423656095,
+      "historical_qf_status": "QF_GUARD_REJECTED",
+      "historical_guard_upper_bound": 2.1836132619567596e-07,
+      "unscaled_vs_archived_j15_reduced_vector_relative_inf": 0.0,
+      "row_scale_min_max": [
+        3.982230950678146e-11,
+        2.661090700868091e-10
+      ],
+      "column_scale_min_max": [
+        0.5275718312853013,
+        1.8880683627743193
+      ],
+      "variants": {
+        "spsolve_unscaled": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=2.182438e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 1.6779625743340247e-07,
+              "relative_residual": 1.5341372107993735e-10,
+              "matvec_roundoff_bound": 0.00023853637308252833,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 2.1824381196877928e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 1.5341372107993738e-10,
+          "backward_error_eta_inf": 1.3447396254747665e-16,
+          "center_uz_amplitude_mm": 17.543561515726594,
+          "center_uz_phase_degrees": 158.14705201353502,
+          "relative_solution_difference_inf_vs_unscaled": 0.0
+        },
+        "spsolve_row_column_equilibrated": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=2.182532e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 1.7808631506901945e-07,
+              "relative_residual": 1.6282177377738925e-10,
+              "matvec_roundoff_bound": 0.00023853637306710276,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 2.1825322000737132e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 1.6282177377738925e-10,
+          "backward_error_eta_inf": 2.107672907560731e-16,
+          "center_uz_amplitude_mm": 17.543561514588454,
+          "center_uz_phase_degrees": 158.14705201506985,
+          "relative_solution_difference_inf_vs_unscaled": 7.018822418507613e-11
+        },
+        "splu_two_refinements": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=2.181680e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 8.49158670298801e-08,
+              "relative_residual": 7.763736414160468e-11,
+              "matvec_roundoff_bound": 0.000238536373074872,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 2.1816803560483864e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 7.763736414160468e-11,
+          "backward_error_eta_inf": 6.516581418497036e-17,
+          "center_uz_amplitude_mm": 17.54356151516029,
+          "center_uz_phase_degrees": 158.14705201441927,
+          "relative_solution_difference_inf_vs_unscaled": 3.577937474252048e-11
+        }
+      },
+      "iterative_refinement": [
+        {
+          "iteration": 1,
+          "correction_norm_inf": 3.7760931056745896e-13,
+          "computed_relative_residual_l2": 9.653145239590812e-11
+        },
+        {
+          "iteration": 2,
+          "correction_norm_inf": 2.8292811714983335e-13,
+          "computed_relative_residual_l2": 7.763736414160468e-11
+        }
+      ],
+      "matrix_archive": "guard_frequency_2p300000000.npz"
+    },
+    {
+      "frequency_hz": 2.375818178440047,
+      "historical_checkpoint_status": "POSTPROCESSED",
+      "condition_number_2": 2165457.539788948,
+      "historical_qf_status": "QF_GUARD_REJECTED",
+      "historical_guard_upper_bound": 4.2783179861618343e-07,
+      "unscaled_vs_archived_j15_reduced_vector_relative_inf": 0.0,
+      "row_scale_min_max": [
+        3.9821808533686354e-11,
+        2.6610573272118136e-10
+      ],
+      "column_scale_min_max": [
+        0.5275718496364175,
+        1.8880683379405172
+      ],
+      "variants": {
+        "spsolve_unscaled": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=4.276114e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 3.384758380692844e-07,
+              "relative_residual": 3.094636233716302e-10,
+              "matvec_roundoff_bound": 0.0004673614671228146,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 4.276113764229749e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 3.094636233716302e-10,
+          "backward_error_eta_inf": 1.3412680094432065e-16,
+          "center_uz_amplitude_mm": 34.407342212058076,
+          "center_uz_phase_degrees": 131.21046129631617,
+          "relative_solution_difference_inf_vs_unscaled": 0.0
+        },
+        "spsolve_row_column_equilibrated": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=4.276169e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 3.4455749429916407e-07,
+              "relative_residual": 3.150239947878072e-10,
+              "matvec_roundoff_bound": 0.0004673614671121397,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 4.276169367846252e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 3.1502399478780716e-10,
+          "backward_error_eta_inf": 1.3468383980216288e-16,
+          "center_uz_amplitude_mm": 34.40734221127803,
+          "center_uz_phase_degrees": 131.21046129777633,
+          "relative_solution_difference_inf_vs_unscaled": 3.410912306610242e-11
+        },
+        "splu_two_refinements": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=4.274774e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 1.9191350110353064e-07,
+              "relative_residual": 1.7546377243480861e-10,
+              "matvec_roundoff_bound": 0.00046736146712134417,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 4.2747737657069e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 1.7546377243480864e-10,
+          "backward_error_eta_inf": 7.745674687026771e-17,
+          "center_uz_amplitude_mm": 34.407342211949455,
+          "center_uz_phase_degrees": 131.2104612962543,
+          "relative_solution_difference_inf_vs_unscaled": 3.3364744283778897e-12
+        }
+      },
+      "iterative_refinement": [
+        {
+          "iteration": 1,
+          "correction_norm_inf": 9.194116876789889e-13,
+          "computed_relative_residual_l2": 1.8412929428313315e-10
+        },
+        {
+          "iteration": 2,
+          "correction_norm_inf": 8.120943462691011e-13,
+          "computed_relative_residual_l2": 1.7546377243480864e-10
+        }
+      ],
+      "matrix_archive": "guard_frequency_2p375818178.npz"
+    },
+    {
+      "frequency_hz": 2.417,
+      "historical_checkpoint_status": "POSTPROCESSED",
+      "condition_number_2": 2830864.9520635577,
+      "historical_qf_status": "QF_GUARD_REJECTED",
+      "historical_guard_upper_bound": 5.593745420732435e-07,
+      "unscaled_vs_archived_j15_reduced_vector_relative_inf": 5.5943179676475914e-11,
+      "row_scale_min_max": [
+        3.982152962169289e-11,
+        2.661038746745246e-10
+      ],
+      "column_scale_min_max": [
+        0.5275718598531313,
+        1.8880683241146665
+      ],
+      "variants": {
+        "spsolve_unscaled": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=5.591221e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 4.7667652217513225e-07,
+              "relative_residual": 4.35818534560121e-10,
+              "matvec_roundoff_bound": 0.0006110630913557091,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 5.591220734904374e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 4.3581853456012106e-10,
+          "backward_error_eta_inf": 1.7289181013569042e-16,
+          "center_uz_amplitude_mm": 45.0118527419023,
+          "center_uz_phase_degrees": 91.0044042858325,
+          "relative_solution_difference_inf_vs_unscaled": 0.0
+        },
+        "spsolve_row_column_equilibrated": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=5.590832e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 4.3416554152775923e-07,
+              "relative_residual": 3.969513522539514e-10,
+              "matvec_roundoff_bound": 0.000611063091355288,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 5.590832063077461e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 3.9695135225395134e-10,
+          "backward_error_eta_inf": 1.405171872328691e-16,
+          "center_uz_amplitude_mm": 45.01185274186905,
+          "center_uz_phase_degrees": 91.00440428451996,
+          "relative_solution_difference_inf_vs_unscaled": 2.2920115363676246e-11
+        },
+        "splu_two_refinements": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=5.589307e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 2.67308228595238e-07,
+              "relative_residual": 2.4439609471564625e-10,
+              "matvec_roundoff_bound": 0.0006110630913564024,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 5.589306510512263e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 2.4439609471564625e-10,
+          "backward_error_eta_inf": 1.0052276382278483e-16,
+          "center_uz_amplitude_mm": 45.01185274196164,
+          "center_uz_phase_degrees": 91.0044042801536,
+          "relative_solution_difference_inf_vs_unscaled": 9.912452267699271e-11
+        }
+      },
+      "iterative_refinement": [
+        {
+          "iteration": 1,
+          "correction_norm_inf": 1.1353812084258263e-12,
+          "computed_relative_residual_l2": 3.2207730303205045e-10
+        },
+        {
+          "iteration": 2,
+          "correction_norm_inf": 3.3287867944413872e-12,
+          "computed_relative_residual_l2": 2.4439609471564625e-10
+        }
+      ],
+      "matrix_archive": "guard_frequency_2p417000000.npz"
+    },
+    {
+      "frequency_hz": 2.418,
+      "historical_checkpoint_status": "POSTPROCESSED",
+      "condition_number_2": 2830161.960310293,
+      "historical_qf_status": "QF_GUARD_REJECTED",
+      "historical_guard_upper_bound": 5.595029322422947e-07,
+      "unscaled_vs_archived_j15_reduced_vector_relative_inf": 0.0,
+      "row_scale_min_max": [
+        3.9821522789462745e-11,
+        2.661038291597992e-10
+      ],
+      "column_scale_min_max": [
+        0.5275718601033991,
+        1.8880683237759899
+      ],
+      "variants": {
+        "spsolve_unscaled": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=5.589402e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 4.2727724999796625e-07,
+              "relative_residual": 3.9065348571242637e-10,
+              "matvec_roundoff_bound": 0.0006109135421229585,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 5.589401777145029e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 3.906534857124265e-10,
+          "backward_error_eta_inf": 1.6791585991643622e-16,
+          "center_uz_amplitude_mm": 45.00145288528171,
+          "center_uz_phase_degrees": 89.8201561027723,
+          "relative_solution_difference_inf_vs_unscaled": 0.0
+        },
+        "spsolve_row_column_equilibrated": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=5.589944e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 4.866355344150293e-07,
+              "relative_residual": 4.449239171792542e-10,
+              "matvec_roundoff_bound": 0.0006109135421231224,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 5.589944481461198e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 4.449239171792542e-10,
+          "backward_error_eta_inf": 1.6277214077785732e-16,
+          "center_uz_amplitude_mm": 45.001452885309085,
+          "center_uz_phase_degrees": 89.82015610252618,
+          "relative_solution_difference_inf_vs_unscaled": 4.338329778367195e-12
+        },
+        "splu_two_refinements": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=5.588393e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 3.1690211961918325e-07,
+              "relative_residual": 2.897390807946819e-10,
+              "matvec_roundoff_bound": 0.0006109135421237221,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 5.588392633102831e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 2.8973908079468194e-10,
+          "backward_error_eta_inf": 9.889555588167654e-17,
+          "center_uz_amplitude_mm": 45.00145288534159,
+          "center_uz_phase_degrees": 89.82015609872226,
+          "relative_solution_difference_inf_vs_unscaled": 7.069870410900538e-11
+        }
+      },
+      "iterative_refinement": [
+        {
+          "iteration": 1,
+          "correction_norm_inf": 4.090189255635012e-12,
+          "computed_relative_residual_l2": 2.6446757908780294e-10
+        },
+        {
+          "iteration": 2,
+          "correction_norm_inf": 9.092788241323397e-13,
+          "computed_relative_residual_l2": 2.8973908079468194e-10
+        }
+      ],
+      "matrix_archive": "guard_frequency_2p418000000.npz"
+    },
+    {
+      "frequency_hz": 2.45,
+      "historical_checkpoint_status": "POSTPROCESSED",
+      "condition_number_2": 2331939.358048393,
+      "historical_qf_status": "QF_GUARD_REJECTED",
+      "historical_guard_upper_bound": 4.6106326999465065e-07,
+      "unscaled_vs_archived_j15_reduced_vector_relative_inf": 0.0,
+      "row_scale_min_max": [
+        3.9821302667769906e-11,
+        2.6610236276032746e-10
+      ],
+      "column_scale_min_max": [
+        0.5275718681665396,
+        1.888068312864482
+      ],
+      "variants": {
+        "spsolve_unscaled": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=4.605847e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 3.3802692564696544e-07,
+              "relative_residual": 3.090531891629399e-10,
+              "matvec_roundoff_bound": 0.000503426506593841,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 4.6058471636239327e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 3.090531891629398e-10,
+          "backward_error_eta_inf": 1.518993946486595e-16,
+          "center_uz_amplitude_mm": 37.10005349081685,
+          "center_uz_phase_degrees": 56.55421416074706,
+          "relative_solution_difference_inf_vs_unscaled": 0.0
+        },
+        "spsolve_row_column_equilibrated": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=4.605795e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 3.323752713382002e-07,
+              "relative_residual": 3.0388596236040653e-10,
+              "matvec_roundoff_bound": 0.0005034265066120753,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 4.605795491522681e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 3.038859623604065e-10,
+          "backward_error_eta_inf": 1.0875470361270074e-16,
+          "center_uz_amplitude_mm": 37.10005349215569,
+          "center_uz_phase_degrees": 56.55421416392144,
+          "relative_solution_difference_inf_vs_unscaled": 6.611985081685345e-11
+        },
+        "splu_two_refinements": {
+          "guard_recheck": {
+            "outcome": "GUARD_REJECTED",
+            "message": "direct_frequency cannot demonstrate residual convergence within floating-point roundoff (relative upper bound=4.604767e-07, allowed=1.000000e-07).",
+            "diagnostics": {
+              "residual_norm": 2.1985869710249546e-07,
+              "relative_residual": 2.0101366592204207e-10,
+              "matvec_roundoff_bound": 0.0005034265065988597,
+              "norm_relative_roundoff_factor": 1.2434497875801755e-12,
+              "relative_residual_upper_bound": 4.6047667684374086e-07,
+              "residual_failure_tolerance": 1e-07
+            }
+          },
+          "relative_residual_l2": 2.0101366592204215e-10,
+          "backward_error_eta_inf": 8.749738814117578e-17,
+          "center_uz_amplitude_mm": 37.10005349118394,
+          "center_uz_phase_degrees": 56.554214161994885,
+          "relative_solution_difference_inf_vs_unscaled": 2.3920940329520085e-11
+        }
+      },
+      "iterative_refinement": [
+        {
+          "iteration": 1,
+          "correction_norm_inf": 1.1318996422030534e-12,
+          "computed_relative_residual_l2": 1.7076771809240746e-10
+        },
+        {
+          "iteration": 2,
+          "correction_norm_inf": 5.049042539771135e-13,
+          "computed_relative_residual_l2": 2.0101366592204215e-10
+        }
+      ],
+      "matrix_archive": "guard_frequency_2p450000000.npz"
+    }
+  ],
+  "interpretation_limit": "The guard recheck uses the original unscaled QF matrix and unchanged threshold. These methods compare solution paths for the same assembled systems; they do not independently verify assembly or mechanics.",
+  "frequency_checkpoint_count": 5
+}

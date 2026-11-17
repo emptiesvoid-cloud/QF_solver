@@ -1,0 +1,22 @@
+{
+  "schema": "qfsolver-j16-archived-postprocess-attempt-v1",
+  "contract_id": "J16-GUARD-EXACT-RESIDUAL-001",
+  "attempt_id": "J16-GUARD-EXACT-RESIDUAL-001-ATTEMPT-001",
+  "state": "PYTHON_FAILED",
+  "phase": "RESULT_SERIALIZATION",
+  "command": "python research/j16/guard_exact_residual.py",
+  "source_commit": "40ee340a74adec382412bdd3148b2c6f396d87f6",
+  "input_manifest_sha256": "b8c8998a194515fdd863fdbfad27bb1e4b6b50576e691e921cd3199b334984e0",
+  "failure": {
+    "type": "KeyError",
+    "missing_field": "interpretation_limit",
+    "detail": "The output assembly required a top-level contract field not declared in contract 001."
+  },
+  "computation": "All five archived frequencies and three solution variants reached high-precision metric calculation at 80 and 120 decimal digits, but no summary was written.",
+  "resources_observed": {
+    "wall_seconds_from_command_tool": 3.5,
+    "peak_rss": "not captured in the failed serialization attempt"
+  },
+  "historical_status_policy": "No QF or historical status was changed.",
+  "recorded_at_utc": "2026-11-17T11:29:51.551303+00:00"
+}

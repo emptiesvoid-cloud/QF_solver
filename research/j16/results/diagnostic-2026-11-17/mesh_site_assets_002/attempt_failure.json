@@ -1,0 +1,29 @@
+{
+  "schema": "qfsolver-j16-archived-postprocess-attempt-v1",
+  "contract_id": "J16-NAFEMS13H-MESH-SITE-ASSETS-002",
+  "attempt_id": "J16-NAFEMS13H-MESH-SITE-ASSETS-002-ATTEMPT-001",
+  "state": "PYTHON_FAILED",
+  "phase": "RUNNER_RESOURCE_SUMMARY",
+  "command": "python research/j16/aggregate_harmonic_mesh_study.py",
+  "source_commit": "e37b73e00c4cf909a97475d8d9a15e1aa8867116",
+  "failure": {
+    "type": "KeyError",
+    "missing_field": "metrics",
+    "detail": "The aggregator expected the console wrapper shape; persisted run.json stores elapsed_seconds, peak_rss_bytes, peak_process_count, and budgets at its top level."
+  },
+  "inputs_read": true,
+  "verified_inputs": "All frozen input SHA-256 checks passed before aggregation.",
+  "assets_written": [
+    "mesh_06/site_data.json",
+    "mesh_06/frequency_response.csv",
+    "mesh_06/mesh_setup.png",
+    "mesh_06/peak_deformation.png"
+  ],
+  "assets_directory": "research/j16/site_assets/nafems13h_mesh_study_003",
+  "resources_observed": {
+    "wall_seconds_from_command_tool": 1.2,
+    "peak_rss": "not captured in the failed aggregation attempt"
+  },
+  "historical_status_policy": "No source run or frequency status was changed.",
+  "recorded_at_utc": "2026-11-17T11:42:13.108005+00:00"
+}

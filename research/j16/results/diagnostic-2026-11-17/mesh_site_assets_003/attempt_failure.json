@@ -1,0 +1,22 @@
+{
+  "schema": "qfsolver-j16-archived-postprocess-attempt-v1",
+  "contract_id": "J16-NAFEMS13H-MESH-SITE-ASSETS-003",
+  "attempt_id": "J16-NAFEMS13H-MESH-SITE-ASSETS-003-ATTEMPT-001",
+  "state": "CONTRACT_REJECTED",
+  "phase": "SOURCE_HASH_PREFLIGHT",
+  "command": "python research/j16/aggregate_harmonic_mesh_study.py",
+  "source_commit": "75c0c186372f1ae4e040cd580d6ad23eb1ae431e",
+  "failure": {
+    "type": "ValueError",
+    "missing_field": "source_sha256 match",
+    "detail": "The frozen contract contained a mistyped source SHA-256; actual source hash was 92d6ed3b75fb6dbf6025abdba8a22f039f7ba963cfaea65366fb14a7c33bb57f."
+  },
+  "inputs_read": false,
+  "assets_written": false,
+  "resources_observed": {
+    "wall_seconds_from_command_tool": 1.1,
+    "peak_rss": "not captured in the preflight rejection"
+  },
+  "historical_status_policy": "No source run, input artifact, or frequency status was changed.",
+  "recorded_at_utc": "2026-11-17T11:44:10.616565+00:00"
+}
