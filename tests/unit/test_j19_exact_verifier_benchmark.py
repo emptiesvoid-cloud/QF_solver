@@ -58,6 +58,8 @@ def _make_system(dimension: int, structure: str) -> tuple[object, np.ndarray, np
 
 
 def test_j19_exact_verifier_bounded_scaling_profile() -> None:
+    if OUTPUT.exists():
+        raise RuntimeError("J19 benchmark output already exists; refusing to overwrite a prior attempt")
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     record: dict[str, object] = {
         "schema": "qfsolver-j19-exact-benchmark-v1",
