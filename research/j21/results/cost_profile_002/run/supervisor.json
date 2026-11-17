@@ -1,0 +1,253 @@
+{
+  "schema": "qfsolver-j21-supervised-exact-run-v1",
+  "contract_id": "J21-SUPERVISOR-COST-PROFILE-002",
+  "contract_sha256": "e37201989cb87f89184252547ed8df4a271d8bfd4da0d86b8e6ba316ea925c59",
+  "source_code_commit": "0d82e5c10f848538da50f43580af30fce87ee6e7",
+  "execution_source_commit": "c1bbf126b7b590bf2ad288bebd0bdfbf21a5aaaf",
+  "run_status": "COMPLETE",
+  "classification": "EXACT_REPRESENTED_SYSTEM_REVIEW_NO_FEM_ASSEMBLY",
+  "environment": {
+    "python": "3.13.1",
+    "platform": "win32",
+    "psutil": "7.2.2"
+  },
+  "limits": {
+    "case_timeout_seconds": 30,
+    "poll_interval_seconds": 0.05,
+    "termination_grace_seconds": 0.25,
+    "memory_soft_limit_mib": 512,
+    "maximum_worker_result_bytes": 8388608,
+    "max_dimension": 256,
+    "max_nonzero_entries": 100000,
+    "max_fraction_bits": 65536,
+    "exact_time_budget_seconds": 10,
+    "maximum_input_bytes": 67108864,
+    "maximum_cases": 5,
+    "aggregate_case_timeout_ceiling_seconds": 150,
+    "resource_semantics": "Per-case timeout is enforced externally. RSS is sampled every 50 ms and is a soft trigger, not an OS quota. The 150 s aggregate is the sum of five per-case ceilings, not an independent parent-process deadline.",
+    "memory_semantics": "sampled_soft_threshold_not_an_OS_quota",
+    "timeout_semantics": "external_watchdog_with_process_tree_termination_best_effort"
+  },
+  "cases": [
+    {
+      "case_id": "diagonal-16",
+      "frequency_hz": null,
+      "input_path": "research/j21/inputs/cost_profile_001/diagonal_16.npz",
+      "input_sha256": "dc7fb82e2168411642be18eea39ea3f9322d2d120755775d82a03cba9e5a76be",
+      "historical_guard_outcome": null,
+      "supervisor_status": "COMPLETE",
+      "exact_status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance",
+      "worker_pid": 83360,
+      "observed_process_pids": [
+        83360
+      ],
+      "elapsed_seconds": 0.7656284000258893,
+      "peak_rss_bytes_sampled": 52412416,
+      "worker_return_code": 0,
+      "termination_confirmed": true,
+      "worker_result_sha256": "fca5faf3d17d8390fccbc9bedb27e8f2d9009c83d2ac622fa77e29c4e68ff864",
+      "worker_result_bytes": 832,
+      "exact_result": {
+        "dimension": 16,
+        "stored_entries": 16,
+        "nonzero_entries": 16,
+        "residual_squared": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "reference_squared": {
+          "numerator": "68",
+          "denominator": "1"
+        },
+        "relative_residual_squared": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "threshold_binary64": {
+          "numerator": "944473296573929",
+          "denominator": "9444732965739290427392"
+        },
+        "residual_l2_display": "0",
+        "relative_residual_display": "0",
+        "elapsed_seconds": 0.003083700081333518
+      }
+    },
+    {
+      "case_id": "banded-32",
+      "frequency_hz": null,
+      "input_path": "research/j21/inputs/cost_profile_001/banded_32.npz",
+      "input_sha256": "794eb41b0ba095811779b8fcfda74216858115d94077909e5de2b8e3b21f8e4e",
+      "historical_guard_outcome": null,
+      "supervisor_status": "COMPLETE",
+      "exact_status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance",
+      "worker_pid": 93028,
+      "observed_process_pids": [
+        93028
+      ],
+      "elapsed_seconds": 0.7420860999263823,
+      "peak_rss_bytes_sampled": 51859456,
+      "worker_return_code": 0,
+      "termination_confirmed": true,
+      "worker_result_sha256": "38d457307e61d2e3d1e5c30bcd9f8c2c66568fbb76d8941ee3170f6ec93bb11b",
+      "worker_result_bytes": 831,
+      "exact_result": {
+        "dimension": 32,
+        "stored_entries": 94,
+        "nonzero_entries": 94,
+        "residual_squared": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "reference_squared": {
+          "numerator": "589",
+          "denominator": "8"
+        },
+        "relative_residual_squared": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "threshold_binary64": {
+          "numerator": "944473296573929",
+          "denominator": "9444732965739290427392"
+        },
+        "residual_l2_display": "0",
+        "relative_residual_display": "0",
+        "elapsed_seconds": 0.004007000010460615
+      }
+    },
+    {
+      "case_id": "banded-64",
+      "frequency_hz": null,
+      "input_path": "research/j21/inputs/cost_profile_001/banded_64.npz",
+      "input_sha256": "b68b39fe349588e75fb6e46a4e914a8143d3707795f5cc618341ff50db354cb0",
+      "historical_guard_outcome": null,
+      "supervisor_status": "COMPLETE",
+      "exact_status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance",
+      "worker_pid": 16848,
+      "observed_process_pids": [
+        16848
+      ],
+      "elapsed_seconds": 0.7520727999508381,
+      "peak_rss_bytes_sampled": 52555776,
+      "worker_return_code": 0,
+      "termination_confirmed": true,
+      "worker_result_sha256": "47f9bebe03ec584a3fddaa6391b4f81508c47b460c3f98d75a0cd1590dc26c4e",
+      "worker_result_bytes": 834,
+      "exact_result": {
+        "dimension": 64,
+        "stored_entries": 190,
+        "nonzero_entries": 190,
+        "residual_squared": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "reference_squared": {
+          "numerator": "1165",
+          "denominator": "8"
+        },
+        "relative_residual_squared": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "threshold_binary64": {
+          "numerator": "944473296573929",
+          "denominator": "9444732965739290427392"
+        },
+        "residual_l2_display": "0",
+        "relative_residual_display": "0",
+        "elapsed_seconds": 0.005273400107398629
+      }
+    },
+    {
+      "case_id": "dense-24",
+      "frequency_hz": null,
+      "input_path": "research/j21/inputs/cost_profile_001/dense_24.npz",
+      "input_sha256": "6b6f21889a55cdc381b5482e967530fd6fcd3c51aee6e8624db90f230503204c",
+      "historical_guard_outcome": null,
+      "supervisor_status": "COMPLETE",
+      "exact_status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance",
+      "worker_pid": 45292,
+      "observed_process_pids": [
+        45292
+      ],
+      "elapsed_seconds": 0.7407144999597222,
+      "peak_rss_bytes_sampled": 52641792,
+      "worker_return_code": 0,
+      "termination_confirmed": true,
+      "worker_result_sha256": "81be5cc03a8083f62c30cbd8af85540868db544c1c78c7e6145ebb13e2e49a94",
+      "worker_result_bytes": 832,
+      "exact_result": {
+        "dimension": 24,
+        "stored_entries": 576,
+        "nonzero_entries": 576,
+        "residual_squared": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "reference_squared": {
+          "numerator": "294",
+          "denominator": "1"
+        },
+        "relative_residual_squared": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "threshold_binary64": {
+          "numerator": "944473296573929",
+          "denominator": "9444732965739290427392"
+        },
+        "residual_l2_display": "0",
+        "relative_residual_display": "0",
+        "elapsed_seconds": 0.007288900204002857
+      }
+    },
+    {
+      "case_id": "duplicate-csr-32",
+      "frequency_hz": null,
+      "input_path": "research/j21/inputs/cost_profile_001/duplicate_csr_32.npz",
+      "input_sha256": "f9e855cab9b57026ddbe12ba46dcd8cbf77d3e5d1dd53ab6d687180dc9acfa27",
+      "historical_guard_outcome": null,
+      "supervisor_status": "COMPLETE",
+      "exact_status": "PASS",
+      "reason": "exact represented-system residual is at or below the binary64 tolerance",
+      "worker_pid": 55696,
+      "observed_process_pids": [
+        55696
+      ],
+      "elapsed_seconds": 0.7316678001079708,
+      "peak_rss_bytes_sampled": 52899840,
+      "worker_return_code": 0,
+      "termination_confirmed": true,
+      "worker_result_sha256": "cbc0d3048e938a9b8abe723a4ca36f308564f93415fc275d8c56061f139092fc",
+      "worker_result_bytes": 842,
+      "exact_result": {
+        "dimension": 32,
+        "stored_entries": 127,
+        "nonzero_entries": 127,
+        "residual_squared": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "reference_squared": {
+          "numerator": "2575",
+          "denominator": "16"
+        },
+        "relative_residual_squared": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "threshold_binary64": {
+          "numerator": "944473296573929",
+          "denominator": "9444732965739290427392"
+        },
+        "residual_l2_display": "0",
+        "relative_residual_display": "0",
+        "elapsed_seconds": 0.004003700101748109
+      }
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "schema": "qfsolver-j21-supervised-exact-contract-v1",
+  "contract_id": "J21-SUPERVISOR-COST-PROFILE-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "attempt_id": "J21-SUPERVISOR-COST-PROFILE-001-ATTEMPT-001",
+  "owner_authorization": "QF Solver 0.3.0 J21 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "j19_commit": "8ac97e56fcfe2ff0e5d81c2aab4762c78b05562b",
+    "j20_fix_commit": "ab27c564b6d43849078c1498c9f5c19faca58897",
+    "source_code_commit": "9c63ea8462e6ee23dc09e72721dd40cdefa60e4b",
+    "branch": "work/0.3.0-j21"
+  },
+  "source_hashes": {
+    "research/j17/exact_residual.py": "670b4125fc7acf6db1e5f8b09b6b8c7e235476e0ecfdabb1765d6b93bb94e51f",
+    "research/j21/exact_worker.py": "77b783f9fb03c858fa937a145ecab4f3f8031382e9e51ca3ea37d68d309c723a",
+    "research/j21/supervised_exact.py": "b9e81931707e1970ed79ce6573492228404232a128c474dd6121d711b5be191a",
+    "research/j21/synthetic_inputs.py": "84465210dbf021a04ad609b7369342aec49d7aa66ab8a64468a27796996a14ba",
+    "tests/unit/test_j21_supervised_exact.py": "3da4389d086a5f6033f53eb05ca52b9c75a0f16313a3c057ba7916c8f06a0c5e",
+    "tests/unit/test_j21_supervisor_cost_profile.py": "96755ebb986f0a1c54d579d50d604b4f02d66fbc01be3f993ec1f3e3e7adf426"
+  },
+  "objective": "Measure supervised exact-residual evaluation cost on five deterministic synthetic represented systems. No FEM assembly, harmonic solve, or NAFEMS data is included.",
+  "nodeids": [
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_preserves_duplicate_csr_entries",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_synthetic_archive_bytes_are_reproducible",
+    "tests/unit/test_j21_supervisor_cost_profile.py::test_j21_supervisor_cost_profile"
+  ],
+  "limits": {
+    "case_timeout_seconds": 30,
+    "poll_interval_seconds": 0.05,
+    "termination_grace_seconds": 0.25,
+    "memory_soft_limit_mib": 512,
+    "maximum_worker_result_bytes": 8388608,
+    "max_dimension": 256,
+    "max_nonzero_entries": 100000,
+    "max_fraction_bits": 65536,
+    "exact_time_budget_seconds": 10,
+    "maximum_input_bytes": 67108864,
+    "maximum_cases": 5,
+    "aggregate_case_timeout_ceiling_seconds": 150,
+    "resource_semantics": "Per-case timeout is enforced externally. RSS is sampled every 50 ms and is a soft trigger, not an OS quota. The 150 s aggregate is the sum of five per-case ceilings, not an independent parent-process deadline."
+  },
+  "criteria": {
+    "tolerance": 1e-7,
+    "expected_exact_status": "PASS",
+    "interpretation": "Each synthetic right-hand side is constructed from its stored matrix and exact all-ones solution using binary fractions. PASS validates only the exact verifier over these represented synthetic systems."
+  },
+  "cases": [
+    {
+      "case_id": "diagonal-16",
+      "input_path": "research/j21/inputs/cost_profile_001/diagonal_16.npz",
+      "input_sha256": "dc7fb82e2168411642be18eea39ea3f9322d2d120755775d82a03cba9e5a76be",
+      "structure": "dense diagonal converted to CSR",
+      "dimension": 16,
+      "expected_stored_entries": 16
+    },
+    {
+      "case_id": "banded-32",
+      "input_path": "research/j21/inputs/cost_profile_001/banded_32.npz",
+      "input_sha256": "794eb41b0ba095811779b8fcfda74216858115d94077909e5de2b8e3b21f8e4e",
+      "structure": "symmetric tridiagonal complex-valued represented system",
+      "dimension": 32,
+      "expected_stored_entries": 94
+    },
+    {
+      "case_id": "banded-64",
+      "input_path": "research/j21/inputs/cost_profile_001/banded_64.npz",
+      "input_sha256": "b68b39fe349588e75fb6e46a4e914a8143d3707795f5cc618341ff50db354cb0",
+      "structure": "symmetric tridiagonal complex-valued represented system",
+      "dimension": 64,
+      "expected_stored_entries": 190
+    },
+    {
+      "case_id": "dense-24",
+      "input_path": "research/j21/inputs/cost_profile_001/dense_24.npz",
+      "input_sha256": "6b6f21889a55cdc381b5482e967530fd6fcd3c51aee6e8624db90f230503204c",
+      "structure": "dense rank-one perturbation with complex diagonal",
+      "dimension": 24,
+      "expected_stored_entries": 576
+    },
+    {
+      "case_id": "duplicate-csr-32",
+      "input_path": "research/j21/inputs/cost_profile_001/duplicate_csr_32.npz",
+      "input_sha256": "f9e855cab9b57026ddbe12ba46dcd8cbf77d3e5d1dd53ab6d687180dc9acfa27",
+      "structure": "raw CSR with cancelling duplicate diagonal entries preserved",
+      "dimension": 32,
+      "expected_stored_entries": 127
+    }
+  ],
+  "execution": {
+    "platform": "Windows x64; exact Python, NumPy, SciPy, psutil versions are recorded in the result journal",
+    "invocation": "One exact pytest nodeid per command; run the three listed nodeids sequentially.",
+    "output_directory": "research/j21/results/cost_profile_001",
+    "overwrite_policy": "Refuse if nonempty output exists; preserve all prior outputs.",
+    "artifacts": [
+      "input NPZ files with SHA-256",
+      "atomic supervisor journal and per-case worker JSON",
+      "per-case elapsed seconds, sampled peak process-tree RSS, dimensions and stored entries",
+      "artifact manifest with hashes and byte sizes"
+    ]
+  },
+  "historical_policy": "J14-J20/J19 guard and replay statuses remain unchanged. This synthetic cost profile does not evaluate archived NAFEMS cases and does not run a harmonic campaign."
+}

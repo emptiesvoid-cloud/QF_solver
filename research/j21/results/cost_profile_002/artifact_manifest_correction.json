@@ -1,0 +1,7 @@
+{
+  "schema": "qfsolver-j21-artifact-metadata-correction-v1",
+  "contract_id": "J21-SUPERVISOR-COST-PROFILE-002",
+  "original_manifest_sha256": "7cb35aa299ac4cdf89c5b0996d2a57bf7240289ddd12f0feb1acc27a0827ef97",
+  "correction": "The initial manifest helper had a hard-coded contract ID ending in 001. The run journal and all worker records already identified contract 002 correctly; this correction changes only the manifest metadata label and preserves the original manifest bytes.",
+  "scientific_results_changed": false
+}

@@ -1,0 +1,99 @@
+{
+  "schema": "qfsolver-j21-nafems-supervised-verification-preparation-v1",
+  "contract_id": "J21-NAFEMS13H-ARCHIVED-RESIDUAL-VERIFICATION-PREP-001",
+  "state": "PREPARED_NOT_EXECUTED",
+  "owner_authorization": "J21 authorizes preparation only; execution requires a separate explicit Owner instruction.",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "j19_source_commit": "8ac97e56fcfe2ff0e5d81c2aab4762c78b05562b",
+    "j21_supervisor_source_commit": "a163499fd7bb5950e1ded9ad07167c8ac3ac70f5",
+    "branch": "work/0.3.0-j21"
+  },
+  "objective": "If separately authorized, re-evaluate exact residuals on three already archived NAFEMS 13H represented complex systems using the J21 process supervisor. This is post-processing of stored arrays only: it does not assemble FEM matrices and does not solve a harmonic response.",
+  "sources": {
+    "historical_contract": {
+      "path": "research/j19/contracts/harmonic_replay_001.json",
+      "sha256": "3305b08aad8bb0e7b72aa2b7729b928ab3ba405a8370edb4101e2d1b3dbb3aa7"
+    },
+    "historical_result": "research/j19/results/harmonic_replay_003/replay.json",
+    "historical_summary": "docs/planning/0.3.0-j19-resultats.md",
+    "tool": "research/j21/supervised_exact.py and research/j21/exact_worker.py",
+    "verifier": "research/j17/exact_residual.py"
+  },
+  "source_hashes": {
+    "research/j17/exact_residual.py": "670b4125fc7acf6db1e5f8b09b6b8c7e235476e0ecfdabb1765d6b93bb94e51f",
+    "research/j21/exact_worker.py": "77b783f9fb03c858fa937a145ecab4f3f8031382e9e51ca3ea37d68d309c723a",
+    "research/j21/supervised_exact.py": "075522984bda5869a94ef739d0c6a60165ed60bdc2e577ad5bba76c13cecf430"
+  },
+  "cases": [
+    {
+      "case_id": "archived-2p375818178",
+      "frequency_hz": 2.375818178440047,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p375818178.npz",
+      "input_sha256": "bdf0ada904d800ae51e0afb39745633aea21186626741dfc0112ef5072eb97d0",
+      "historical_guard_status": "GUARD_REJECTED",
+      "historical_exact_status": "PASS",
+      "dimension": 175,
+      "nonzero_entries": 3607,
+      "solution_field_for_future_check": "x_unscaled_real + 1j*x_unscaled_imag"
+    },
+    {
+      "case_id": "archived-2p417000000",
+      "frequency_hz": 2.417,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p417000000.npz",
+      "input_sha256": "89fdef8c3811d8ceade2356a96c76227c51c88a278f6b287548629ecaef4a863",
+      "historical_guard_status": "GUARD_REJECTED",
+      "historical_exact_status": "PASS",
+      "dimension": 175,
+      "nonzero_entries": 3607,
+      "solution_field_for_future_check": "x_unscaled_real + 1j*x_unscaled_imag"
+    },
+    {
+      "case_id": "archived-2p418000000",
+      "frequency_hz": 2.418,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p418000000.npz",
+      "input_sha256": "a68c24ea120b49ae57fedc684c8ffd363b2f29830bc4e806948a95fe9878a1eb",
+      "historical_guard_status": "GUARD_REJECTED",
+      "historical_exact_status": "PASS",
+      "dimension": 175,
+      "nonzero_entries": 3607,
+      "solution_field_for_future_check": "x_unscaled_real + 1j*x_unscaled_imag"
+    }
+  ],
+  "criteria_and_limits": {
+    "prospective_threshold": 1e-07,
+    "maximum_dimension": 256,
+    "maximum_nonzero_entries": 100000,
+    "maximum_fraction_bits": 65536,
+    "exact_evaluation_budget_seconds_per_case": 30,
+    "external_timeout_seconds_per_case": 60,
+    "sampled_process_tree_rss_soft_limit_mib": 512,
+    "sample_interval_seconds": 0.05,
+    "memory_limit_semantics": "Sampled soft trigger; not an OS-enforced quota.",
+    "budget_overrun": "INCONCLUSIVE; preserve earlier complete cases and all checkpoints.",
+    "statuses": "Report historical guard and historical exact status separately from any prospective result. No new result rewrites J14-J20/J19 evidence."
+  },
+  "comparison_limits": {
+    "abaqus": "Documentary published reference only; no local Abaqus execution and no pointwise phase reference available.",
+    "navier": "Analytical reference with its own plate-theory and boundary-condition assumptions; it is not an oracle for the represented-system residual.",
+    "interpretation": "An exact residual PASS applies only to stored binary values in the archived represented system. It does not validate assembly, physical accuracy, spatial error, or the historical guard decision.",
+    "frequency_note": "2.417 Hz was the largest sampled response among the J19 selected points; this does not identify a continuous resonance frequency."
+  },
+  "execution": {
+    "permitted_in_j21": false,
+    "requires_new_owner_instruction": true,
+    "not_included": [
+      "FEM assembly",
+      "harmonic solve",
+      "new frequencies",
+      "new meshes",
+      "historical status updates"
+    ],
+    "planned_outputs_if_later_authorized": [
+      "supervisor journal with per-frequency decisions",
+      "worker JSON with exact squared norms",
+      "input, source, contract, and result SHA-256 manifest",
+      "separate historical and prospective status table"
+    ]
+  }
+}

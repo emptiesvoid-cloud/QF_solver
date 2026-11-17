@@ -1,0 +1,66 @@
+{
+  "schema": "qfsolver-j21-supervisor-validation-contract-v1",
+  "contract_id": "J21-SUPERVISOR-SYNTHETIC-VALIDATION-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "attempt_id": "J21-SUPERVISOR-SYNTHETIC-VALIDATION-001-ATTEMPT-001",
+  "owner_authorization": "QF Solver 0.3.0 J21 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "j19_commit": "8ac97e56fcfe2ff0e5d81c2aab4762c78b05562b",
+    "j20_fix_commit": "ab27c564b6d43849078c1498c9f5c19faca58897",
+    "source_code_commit": "3406cfb7378c7dc11e0d0f6823db1629fa39c619",
+    "branch": "work/0.3.0-j21"
+  },
+  "source_hashes": {
+    "research/j17/exact_residual.py": "670b4125fc7acf6db1e5f8b09b6b8c7e235476e0ecfdabb1765d6b93bb94e51f",
+    "research/j21/supervised_exact.py": "b9e81931707e1970ed79ce6573492228404232a128c474dd6121d711b5be191a",
+    "research/j21/exact_worker.py": "d4ab01be316d401dbea40a946323ca78ca083b8234d4821d52bef73e34921a70",
+    "tests/unit/test_j21_exact_scalar_validation.py": "37f0165a655c3f9f9e021613d09497c937f031304b65a74b117c9abb4b503417",
+    "tests/unit/test_j21_supervised_exact.py": "e53abc172f5e4f300a67a28919be43971bf2c3e99b4c11d0fadcf1964a2a3a89"
+  },
+  "objective": "Validate the external exact-verifier worker and supervisor with synthetic systems and controlled process outcomes. No FEM assembly, harmonic solve, or archived NAFEMS frequency is included.",
+  "nodeids": [
+    "tests/unit/test_j21_exact_scalar_validation.py::test_exact_residual_returns_inconclusive_when_numeric_conversion_raises_type_error",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_preserves_normal_exact_pass_and_fail",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_records_worker_exception_and_continues",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_timeout_kills_worker_and_observed_child_tree",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_memory_threshold_is_sampled_soft_and_terminates",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_interruption_preserves_complete_and_marks_remaining_inconclusive",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_incomplete_worker_result_cannot_be_pass",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_stop_file_interrupts_child_process"
+  ],
+  "cases_and_expected_results": {
+    "normal": "A synthetic represented system with zero exact residual remains exact_status PASS after supervised execution; a system with relative residual 1 remains exact_status FAIL.",
+    "worker_exception": "A malformed NPZ is recorded as supervisor_status WORKER_EXCEPTION and exact_status INCONCLUSIVE; the following valid case still completes.",
+    "timeout": "A worker and observed descendant sleeping past the external 0.5-second test budget are terminated; all captured PIDs are confirmed not running.",
+    "memory": "A one-byte sampled RSS threshold triggers MEMORY_LIMIT_OBSERVED; it is explicitly a soft polling trigger, not a hard quota.",
+    "interruption": "A completed first result remains PASS; the active and not-started cases remain INCONCLUSIVE after a stop event.",
+    "incomplete": "A zero exit without a complete worker JSON is INCONCLUSIVE, never PASS.",
+    "stop_file": "Creating a stop file terminates the active process and leaves no active worker PID."
+  },
+  "limits": {
+    "exact_evaluator_max_dimension": 256,
+    "exact_evaluator_max_nonzero_entries": 100000,
+    "exact_evaluator_max_fraction_bits": 65536,
+    "exact_time_budget_seconds": 5,
+    "normal_test_external_timeout_seconds": 8,
+    "timeout_case_external_timeout_seconds": 0.5,
+    "poll_interval_seconds": 0.01,
+    "memory_test_soft_threshold_bytes": 1,
+    "normal_case_memory_soft_threshold_mib": 512,
+    "termination_grace_seconds": 0.1,
+    "maximum_worker_result_bytes": 1000000,
+    "fem_assembly": false,
+    "harmonic_solve": false
+  },
+  "execution": {
+    "platform": "Windows 10 x64",
+    "python": "3.13.x",
+    "test_invocation": "One exact pytest nodeid per command; no directory, module, or suite target.",
+    "psutil_required": true,
+    "process_termination": "Windows taskkill /T /F followed by psutil confirmation; sampled process-tree RSS.",
+    "output": "Test-generated inputs and checkpoints are confined to pytest temporary directories."
+  },
+  "interpretation": "These tests validate bounded supervisor behavior on the tested Windows host only. RSS is sampled and may overshoot between samples; process termination is best effort. No platform-independent memory quota or numerical qualification is established.",
+  "historical_policy": "The J19 exact checker and J14-J20 historical guard/results are not rewritten. No NAFEMS data or harmonic execution is used by this contract."
+}

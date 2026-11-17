@@ -1,0 +1,30 @@
+{
+  "schema": "qfsolver-j21-exact-worker-result-v1",
+  "case_id": "duplicate-csr-32",
+  "input_sha256": "f9e855cab9b57026ddbe12ba46dcd8cbf77d3e5d1dd53ab6d687180dc9acfa27",
+  "record_state": "COMPLETE",
+  "exact_status": "PASS",
+  "reason": "exact represented-system residual is at or below the binary64 tolerance",
+  "dimension": 32,
+  "stored_entries": 127,
+  "nonzero_entries": 127,
+  "residual_squared": {
+    "numerator": "0",
+    "denominator": "1"
+  },
+  "reference_squared": {
+    "numerator": "2575",
+    "denominator": "16"
+  },
+  "relative_residual_squared": {
+    "numerator": "0",
+    "denominator": "1"
+  },
+  "threshold_binary64": {
+    "numerator": "944473296573929",
+    "denominator": "9444732965739290427392"
+  },
+  "residual_l2_display": "0",
+  "relative_residual_display": "0",
+  "elapsed_seconds": 0.00389779987744987
+}

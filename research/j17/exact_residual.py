@@ -124,7 +124,7 @@ def evaluate_exact_residual(
         return ExactResidualResult("INCONCLUSIVE", "tolerance must be a finite positive scalar")
     try:
         tolerance_float = float(tolerance)
-    except (OverflowError, ValueError):
+    except (OverflowError, TypeError, ValueError):
         return ExactResidualResult("INCONCLUSIVE", "tolerance must be a finite positive scalar")
     if not np.isfinite(tolerance_float) or tolerance_float <= 0.0:
         return ExactResidualResult("INCONCLUSIVE", "tolerance must be a finite positive scalar")
@@ -139,7 +139,7 @@ def evaluate_exact_residual(
             return ExactResidualResult("INCONCLUSIVE", "time limit must be a finite nonnegative scalar")
         try:
             elapsed_float = float(max_elapsed_seconds)
-        except (OverflowError, ValueError):
+        except (OverflowError, TypeError, ValueError):
             return ExactResidualResult("INCONCLUSIVE", "time limit must be a finite nonnegative scalar")
         if not np.isfinite(elapsed_float) or elapsed_float < 0.0:
             return ExactResidualResult("INCONCLUSIVE", "time limit must be a finite nonnegative scalar")
