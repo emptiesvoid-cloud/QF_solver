@@ -1,0 +1,103 @@
+{
+  "schema": "qfsolver-j17-archive-contract-v1",
+  "contract_id": "J17-NAFEMS13H-ARCHIVED-EXACT-RECHECK-002",
+  "attempt_id": "J17-NAFEMS13H-ARCHIVED-EXACT-RECHECK-002-ATTEMPT-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "classification": "BOUNDED_ARCHIVE_POSTPROCESSING_NO_FEM",
+  "owner_authorization": "QF Solver 0.3.0 J17 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "branch": "work/0.3.0-j17",
+    "source_commit": "69794ee638d4e6c36d50905a8712688904892475",
+    "source_branch_j16": "work/0.3.0-j16-science",
+    "source_branch_j16_head": "36b1bc4c67cdb9d990264864984856c306321f4d",
+    "matrix_experiment_source": "29bbada6d9e12ad18c7f6889b96188537a276d9c",
+    "mesh_source": "82c361e750b3a0d7bd26b22743d0a5fc240a41e3"
+  },
+  "prior_attempt": {
+    "contract_id": "J17-NAFEMS13H-ARCHIVED-EXACT-RECHECK-001",
+    "attempt_id": "J17-NAFEMS13H-ARCHIVED-EXACT-RECHECK-001-ATTEMPT-001",
+    "status": "PYTHON_FAILED_BEFORE_INPUT_VALIDATION",
+    "failure": "Standalone script omitted repository root from sys.path; no data was opened or evaluated.",
+    "evidence": "research/j17/results/attempts/archived_exact_recheck_001/"
+  },
+  "objective": "Recompute exact residuals, current guard outcomes, 2-norm condition estimates, and high-precision backward error on five archived 175x175 complex systems and three vectors each. No assembly or linear solve.",
+  "inputs": {
+    "inventory": "research/j17/inputs/source_inventory.json",
+    "inventory_sha256": "9e7415b6045df555a38fb8c111b8a6449a1d5a58fd3499ba1224578e41ffd880",
+    "original_guard_manifest_sha256_current": "588c8b6b481e37d9640563dbd90e31f16ebe9f169879bfcb1bf3191681807d71",
+    "j16_frozen_manifest_sha256": "b8c8998a194515fdd863fdbfad27bb1e4b6b50576e691e921cd3199b334984e0",
+    "archive_names": [
+      "guard_frequency_2p300000000.npz",
+      "guard_frequency_2p375818178.npz",
+      "guard_frequency_2p417000000.npz",
+      "guard_frequency_2p418000000.npz",
+      "guard_frequency_2p450000000.npz"
+    ],
+    "frequencies_hz": [
+      2.3,
+      2.375818178440047,
+      2.417,
+      2.418,
+      2.45
+    ],
+    "variants": [
+      "spsolve_unscaled",
+      "spsolve_row_column_equilibrated",
+      "splu_two_refinements"
+    ],
+    "matrix_shape": [
+      175,
+      175
+    ],
+    "upstream_manifest_observation": {
+      "verified_selected_artifact_count": 5,
+      "mismatched_selected_artifact_count": 6,
+      "source_manifest_entries": 11,
+      "verified_files": "five NPZ matrix/RHS/solution archives",
+      "mismatched_files": "five per-frequency JSON files and guard_resolution_summary.json; comparison only"
+    }
+  },
+  "criteria": {
+    "guard_tolerance_binary64": "1e-7",
+    "exact_pass": "Exact rational squared residual ratio <= exact square of binary64(1e-7)",
+    "exact_fail": "Exact rational squared residual ratio > exact square of binary64(1e-7)",
+    "inconclusive": "Nonfinite, malformed, unsupported dtype, or exact evaluation over budget",
+    "expected_records": 15,
+    "current_guard": "Recompute current main guard from stored A, b and x; no solver/assembly; record actual decision",
+    "maximum_relative_delta_vs_j16_mpmath": "1e-50",
+    "condition_number": "Recompute 2-norm condition estimate from stored impedance",
+    "threshold_policy": "Do not change threshold or historical route decisions"
+  },
+  "method": {
+    "residual": "||A*x-b||2 / max(||b||2, ||A*x||2)",
+    "primary": "Exact Fraction arithmetic for represented float values and complex operations; compare squared rationals",
+    "guard": "Call only LinearSystemSolver._validated_residual_metrics; do not call spsolve, splu, or any FEM/model route",
+    "crosscheck": "Recompute 100-digit mpmath relative residual and infinity-norm backward error from exact binary integer ratios",
+    "scope": "Exact evaluation removes arithmetic uncertainty only for stored binary arrays. It does not bound input quantization, matrix assembly, physical model, or forward solution error."
+  },
+  "execution": {
+    "command": "python research/j17/analyze_archived_residuals.py",
+    "attempts": 1,
+    "timeout_seconds": 600,
+    "rss_soft_limit_mib": 1024,
+    "output_limit_mib": 16,
+    "storage_limit_mib": 16,
+    "numeric_threads": 1,
+    "no_fem": true,
+    "no_assembly": true,
+    "no_linear_solve": true
+  },
+  "outputs": [
+    "research/j17/results/archived_exact_recheck_002/exact_residual_summary.json",
+    "research/j17/results/archived_exact_recheck_002/exact_residual_points.csv",
+    "research/j17/results/archived_exact_recheck_002/exact_residual_vs_guard_bound.png",
+    "research/j17/results/archived_exact_recheck_002/artifact_manifest.json"
+  ],
+  "source_sha256": {
+    "research/j17/exact_residual.py": "146412e89014b04135088943a4674f149e789e44ceffa06edec9a48b5656e84d",
+    "research/j17/analyze_archived_residuals.py": "f09c715a29ec37c8cd66b0d5fee47021e8558833e51e0cc463c15ff95aff9df2",
+    "src/solveur/core/solvers/linear.py": "379d7e30d22b712f5d0b648d8f7384d0a2c72dfaeb69e106402b21fc3cef79f9"
+  },
+  "status_policy": "Exact PASS/FAIL concerns only stored represented matrices. J15 PYTEST_FAILED and all J15/J16 QF_GUARD_REJECTED statuses remain unchanged."
+}

@@ -25,6 +25,8 @@ from scipy.sparse import csr_matrix
 
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / "src"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 import solveur
@@ -32,11 +34,11 @@ from research.j17.exact_residual import evaluate_exact_residual, exact_fraction
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.solvers.linear import LinearSystemSolver
 
-CONTRACT_PATH = ROOT / "research/j17/contracts/archived_exact_recheck_001.json"
+CONTRACT_PATH = ROOT / "research/j17/contracts/archived_exact_recheck_002.json"
 INVENTORY_PATH = ROOT / "research/j17/inputs/source_inventory.json"
 INPUT_ROOT = ROOT / "research/j17/inputs/guard_resolution_001"
 SITE_INPUT = ROOT / "research/j17/inputs/mesh_site_assets_004"
-OUTPUT = ROOT / "research/j17/results/archived_exact_recheck_001"
+OUTPUT = ROOT / "research/j17/results/archived_exact_recheck_002"
 FREQUENCIES = {
     "guard_frequency_2p300000000.npz": 2.3,
     "guard_frequency_2p375818178.npz": 2.375818178440047,
@@ -58,7 +60,7 @@ def sha256(path: Path) -> str:
 
 def _verify() -> tuple[dict[str, Any], dict[str, Any]]:
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
-    if contract.get("contract_id") != "J17-NAFEMS13H-ARCHIVED-EXACT-RECHECK-001" or contract.get("state") != "FROZEN_BEFORE_EXECUTION":
+    if contract.get("contract_id") != "J17-NAFEMS13H-ARCHIVED-EXACT-RECHECK-002" or contract.get("state") != "FROZEN_BEFORE_EXECUTION":
         raise ValueError("unexpected or unfrozen J17 archive-recheck contract")
     ancestry = subprocess.run(["git", "merge-base", "HEAD", "origin/main"], cwd=ROOT, check=True, capture_output=True, text=True).stdout.strip()
     if ancestry != contract["baseline"]["main_commit"]:
