@@ -117,6 +117,16 @@ def test_j16_archived_plot_replay_preserves_input_statuses_and_bytes(tmp_path: P
             {
                 "postprocess_id": "J15-NAFEMS13H-POSTPROCESS-001",
                 "original_run": {"attempt_id": "J15-NAFEMS13H-RES-001", "runner_state": "PYTEST_FAILED"},
+                "diagnostics": {
+                    "exact_navier_peak_probe": {
+                        "frequency_hz": 2.3155,
+                        "qf_route_status": "QF_GUARD_REJECTED",
+                        "diagnostic_center_uz_amplitude_mm": 18.0,
+                        "diagnostic_center_uz_phase_degrees": 137.0,
+                        "navier_center_uz_amplitude_mm": 26.0,
+                        "navier_center_uz_phase_degrees": 130.0,
+                    }
+                },
                 "frequency_rows": input_rows,
             }
         )
@@ -129,7 +139,11 @@ def test_j16_archived_plot_replay_preserves_input_statuses_and_bytes(tmp_path: P
     manifest = replay_archived_plot(input_path, output_path, manifest_path)
 
     assert manifest["source_run_status"] == "PYTEST_FAILED"
-    assert manifest["route_status_counts"] == {"QF_GUARD_REJECTED": 2, "QF_SOLVE_ACCEPTED": 1}
+    assert manifest["frequency_count"] == 3
+    assert manifest["dense_frequency_count"] == 3
+    assert manifest["additional_probe_count"] == 1
+    assert manifest["plotted_point_count"] == 4
+    assert manifest["route_status_counts"] == {"QF_GUARD_REJECTED": 3, "QF_SOLVE_ACCEPTED": 1}
     assert input_path.read_bytes() == input_bytes
     assert output_path.is_file() and output_path.stat().st_size > 0
     assert [row["qf_route_status"] for row in input_rows] == [
@@ -137,3 +151,20 @@ def test_j16_archived_plot_replay_preserves_input_statuses_and_bytes(tmp_path: P
         "QF_SOLVE_ACCEPTED",
         "QF_GUARD_REJECTED",
     ]
+
+
+def test_j16_archived_plot_replay_requires_the_exact_peak_probe(tmp_path: Path) -> None:
+    qf_rows, reference_rows = _rows()
+    input_rows = [
+        {
+            **qf,
+            "reference_uz_amplitude_mm": reference["navier_uz_amplitude_mm"],
+            "reference_uz_phase_degrees": reference["navier_uz_phase_degrees"],
+        }
+        for qf, reference in zip(qf_rows, reference_rows, strict=True)
+    ]
+    input_path = tmp_path / "site_data.json"
+    input_path.write_text(json.dumps({"frequency_rows": input_rows}), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="missing diagnostics.exact_navier_peak_probe"):
+        replay_archived_plot(input_path, tmp_path / "replay.png", tmp_path / "manifest.json")

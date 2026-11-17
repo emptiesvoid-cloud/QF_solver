@@ -37,6 +37,41 @@ def replay_archived_plot(input_json: Path, output_png: Path, manifest_path: Path
         }
         for row in rows
     ]
+    exact_probe = payload.get("diagnostics", {}).get("exact_navier_peak_probe")
+    if not isinstance(exact_probe, dict):
+        raise ValueError("archived site_data is missing diagnostics.exact_navier_peak_probe")
+    required_probe_fields = (
+        "frequency_hz",
+        "qf_route_status",
+        "diagnostic_center_uz_amplitude_mm",
+        "diagnostic_center_uz_phase_degrees",
+        "navier_center_uz_amplitude_mm",
+        "navier_center_uz_phase_degrees",
+    )
+    missing_probe_fields = [field for field in required_probe_fields if field not in exact_probe]
+    if missing_probe_fields:
+        raise ValueError(
+            "archived site_data diagnostics.exact_navier_peak_probe is missing required fields: "
+            + ", ".join(missing_probe_fields)
+        )
+    qf_rows.append(
+        {
+            "frequency_hz": exact_probe.get("frequency_hz"),
+            "qf_route_status": exact_probe.get("qf_route_status"),
+            "diagnostic_center_uz_amplitude_mm": exact_probe.get("diagnostic_center_uz_amplitude_mm"),
+            "diagnostic_center_uz_phase_degrees": exact_probe.get("diagnostic_center_uz_phase_degrees"),
+        }
+    )
+    reference_rows.append(
+        {
+            "frequency_hz": exact_probe.get("frequency_hz"),
+            "navier_uz_amplitude_mm": exact_probe.get("navier_center_uz_amplitude_mm"),
+            "navier_uz_phase_degrees": exact_probe.get("navier_center_uz_phase_degrees"),
+        }
+    )
+    paired_rows = sorted(zip(qf_rows, reference_rows, strict=True), key=lambda pair: pair[0]["frequency_hz"])
+    qf_rows = [pair[0] for pair in paired_rows]
+    reference_rows = [pair[1] for pair in paired_rows]
     statuses = [row["qf_route_status"] for row in qf_rows]
     if any(not isinstance(status, str) for status in statuses):
         raise ValueError("archived frequency row is missing qf_route_status")
@@ -54,6 +89,10 @@ def replay_archived_plot(input_json: Path, output_png: Path, manifest_path: Path
         "input_artifact": input_json.name,
         "input_sha256_raw": hashlib.sha256(raw_input).hexdigest(),
         "frequency_count": len(rows),
+        "dense_frequency_count": len(rows),
+        "additional_probe_count": 1,
+        "additional_probe_frequency_hz": exact_probe.get("frequency_hz"),
+        "plotted_point_count": len(qf_rows),
         "route_status_counts": dict(sorted(Counter(statuses).items())),
         "rejected_points_are_marked": True,
         "output_artifact": output_png.name,
