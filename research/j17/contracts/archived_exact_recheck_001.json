@@ -1,0 +1,96 @@
+{
+  "schema": "qfsolver-j17-archive-contract-v1",
+  "contract_id": "J17-NAFEMS13H-ARCHIVED-EXACT-RECHECK-001",
+  "attempt_id": "J17-NAFEMS13H-ARCHIVED-EXACT-RECHECK-001-ATTEMPT-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "classification": "BOUNDED_ARCHIVE_POSTPROCESSING_NO_FEM",
+  "owner_authorization": "QF Solver 0.3.0 J17 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "branch": "work/0.3.0-j17",
+    "worktree": "isolated J17 worktree based on origin/main; absolute path intentionally omitted",
+    "source_branch_j16": "work/0.3.0-j16-science",
+    "source_branch_j16_head": "36b1bc4c67cdb9d990264864984856c306321f4d",
+    "upstream_matrix_experiment_source": "29bbada6d9e12ad18c7f6889b96188537a276d9c",
+    "upstream_mesh_source": "82c361e750b3a0d7bd26b22743d0a5fc240a41e3"
+  },
+  "objective": "Re-evaluate exact residuals, current guard outcomes, and high-precision backward error on five archived 175x175 complex systems and three stored solution vectors each. No model assembly and no linear solve.",
+  "inputs": {
+    "inventory": "research/j17/inputs/source_inventory.json",
+    "inventory_sha256": "9e7415b6045df555a38fb8c111b8a6449a1d5a58fd3499ba1224578e41ffd880",
+    "original_guard_manifest_sha256_current": "588c8b6b481e37d9640563dbd90e31f16ebe9f169879bfcb1bf3191681807d71",
+    "j16_frozen_manifest_sha256": "b8c8998a194515fdd863fdbfad27bb1e4b6b50576e691e921cd3199b334984e0",
+    "archive_names": [
+      "guard_frequency_2p300000000.npz",
+      "guard_frequency_2p375818178.npz",
+      "guard_frequency_2p417000000.npz",
+      "guard_frequency_2p418000000.npz",
+      "guard_frequency_2p450000000.npz"
+    ],
+    "frequencies_hz": [
+      2.3,
+      2.375818178440047,
+      2.417,
+      2.418,
+      2.45
+    ],
+    "variants": [
+      "spsolve_unscaled",
+      "spsolve_row_column_equilibrated",
+      "splu_two_refinements"
+    ],
+    "matrix_shape": [
+      175,
+      175
+    ],
+    "source_integrity_observation": {
+      "source_manifest_entries": 11,
+      "verified_selected_artifact_count": 5,
+      "mismatched_selected_artifact_count": 6,
+      "verified_files": "the five NPZ matrix/RHS/solution archives",
+      "mismatched_files": "the five per-frequency JSON records and guard_resolution_summary.json; copied as comparison-only records"
+    }
+  },
+  "criteria": {
+    "guard_tolerance_binary64": "1e-7",
+    "exact_pass": "Exact rational squared ratio <= exact square of float64(1e-7)",
+    "exact_fail": "Exact rational squared ratio > exact square of float64(1e-7)",
+    "inconclusive": "Nonfinite, malformed, unsupported dtype, or exact-evaluation budget exceeded",
+    "expected_records": 15,
+    "all_current_guard_decisions": "Recompute from current main LinearSystemSolver source; expected roundoff-bound rejection, preserve actual outcome",
+    "maximum_relative_delta_vs_j16_mpmath": "1e-50",
+    "condition_number": "Recompute matrix 2-norm condition estimate from stored matrices",
+    "threshold_policy": "Do not change threshold or historical route decisions."
+  },
+  "method": {
+    "residual": "||A*x-b||2 / max(||b||2, ||A*x||2)",
+    "primary": "Python Fraction exact rational arithmetic on each represented binary float and exact complex arithmetic; compare squared norms and squared exact binary64 threshold",
+    "guard": "Call only LinearSystemSolver._validated_residual_metrics on stored arrays; no spsolve/splu/cg or model code",
+    "crosscheck": "Recompute 100-digit mpmath relative residual and infinity-norm backward error from exact integer-ratio conversions",
+    "scope": "Matrix assembly and physical accuracy are not verified. Exact arithmetic removes evaluation roundoff only for the stored binary arrays."
+  },
+  "execution": {
+    "command": "python research/j17/analyze_archived_residuals.py",
+    "attempts": 1,
+    "timeout_seconds": 600,
+    "rss_soft_limit_mib": 1024,
+    "output_limit_mib": 16,
+    "storage_limit_mib": 16,
+    "numeric_threads": 1,
+    "no_fem": true,
+    "no_assembly": true,
+    "no_linear_solve": true
+  },
+  "outputs": [
+    "research/j17/results/archived_exact_recheck_001/exact_residual_summary.json",
+    "research/j17/results/archived_exact_recheck_001/exact_residual_points.csv",
+    "research/j17/results/archived_exact_recheck_001/exact_residual_vs_guard_bound.png",
+    "research/j17/results/archived_exact_recheck_001/artifact_manifest.json"
+  ],
+  "source_sha256": {
+    "research/j17/exact_residual.py": "146412e89014b04135088943a4674f149e789e44ceffa06edec9a48b5656e84d",
+    "research/j17/analyze_archived_residuals.py": "ecc41fc4ca8c9d2fc6996187ddff73385789bd6b9bfd89754a176e12572dbdb0",
+    "src/solveur/core/solvers/linear.py": "379d7e30d22b712f5d0b648d8f7384d0a2c72dfaeb69e106402b21fc3cef79f9"
+  },
+  "status_policy": "Exact PASS/FAIL applies to stored represented matrices only. J15 PYTEST_FAILED, its 152 QF_GUARD_REJECTED points, and J16 diagnostic statuses remain unchanged."
+}
