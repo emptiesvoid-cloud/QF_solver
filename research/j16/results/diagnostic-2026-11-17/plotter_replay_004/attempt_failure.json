@@ -1,0 +1,12 @@
+{
+  "schema": "qfsolver-j16-postprocess-attempt-v1",
+  "contract_id": "J16-J15-PLOTTER-REPLAY-004",
+  "attempt_id": "J16-J15-PLOTTER-REPLAY-004-ATTEMPT-001",
+  "state": "PREFLIGHT_REJECTED",
+  "failure": "The replay source digest was again frozen as 63 characters rather than a valid 64-character SHA-256. The contract check stopped before output creation.",
+  "input_checked": false,
+  "source_integrity_verified": false,
+  "solver_called": false,
+  "outputs_written": false,
+  "historical_run_or_point_statuses_changed": false
+}
