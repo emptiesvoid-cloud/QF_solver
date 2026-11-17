@@ -1,0 +1,67 @@
+{
+  "schema": "qfsolver-j19-exact-benchmark-contract-v1",
+  "contract_id": "J19-EXACT-VERIFIER-BENCHMARK-002",
+  "attempt_id": "J19-EXACT-VERIFIER-BENCHMARK-002-ATTEMPT-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "owner_authorization": "QF Solver 0.3.0 J19 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "branch": "work/0.3.0-j19",
+    "source_code_commit": "6d02d50736390bafbc5f23fe3ce53d2c59248372"
+  },
+  "sources": {
+    "research/j17/exact_residual.py": "603986098adde5f752f049b59512b289053d2d7efc31dbed0eb6b29e11cc9839",
+    "tests/unit/test_j19_exact_verifier_benchmark.py": "811c0ef0ca4ee6b6f27b911f9ad66246ef540a9822c93178b2ed0f6741991853",
+    "research/j19/checkpoint.py": "17cf6f361a339979fbbeb5891cf37dee0cb3e6a616255ff1bcb008ad849d3ce9"
+  },
+  "objective": "Re-measure the updated bounded exact residual evaluator after per-term and post-display cooperative time checks and explicit binary16 support; use the same synthetic size/structure matrix and record source/contract/environment provenance.",
+  "cases": {
+    "dimensions": [
+      16,
+      64,
+      128,
+      175,
+      256
+    ],
+    "structures": [
+      "dense",
+      "diagonal",
+      "banded",
+      "duplicate-heavy CSR"
+    ],
+    "count": 20,
+    "expected_exact_system": "All systems have x=1 and an exactly representable RHS, so completed exact evaluations have zero residual. Duplicate CSR entries cancel exactly as mathematical stored terms.",
+    "evaluator_limits": {
+      "max_dimension": 256,
+      "max_sparse_stored_entries": 100000,
+      "max_fraction_bits": 65536,
+      "max_seconds_per_case": 5
+    }
+  },
+  "criteria": {
+    "pass": "All 20 cases are checkpointed; each is PASS with exact zero residual or INCONCLUSIVE with an explicit budget/limit reason. Measurements include elapsed seconds and tracemalloc peak bytes.",
+    "fail": "Any unexpected exact FAIL, missing case record, non-explained INCONCLUSIVE, or lost earlier benchmark records.",
+    "interpretation": "tracemalloc does not include all native allocations; runner RSS is an additional soft observation. No machine-independent runtime guarantee is claimed."
+  },
+  "execution": {
+    "nodeid": "tests/unit/test_j19_exact_verifier_benchmark.py::test_j19_exact_verifier_bounded_scaling_profile",
+    "attempts": 1,
+    "timeout_seconds": 300,
+    "rss_soft_limit_mib": 1024,
+    "output_limit_mib": 8,
+    "result_path": "research/j19/results/exact_benchmark_002/benchmark.json",
+    "fem_assembly": false,
+    "output_directory": "research/j19/results/exact_benchmark_002"
+  },
+  "predecessor_attempt": {
+    "contract_id": "J19-EXACT-VERIFIER-BENCHMARK-001",
+    "attempt_id": "J19-EXACT-VERIFIER-BENCHMARK-001-ATTEMPT-001",
+    "outcome": "COMPLETE_20_CASES",
+    "historical_artifacts_preserved": true,
+    "changes_since_predecessor": [
+      "time budget checks at each CSR term and during norm aggregation/display",
+      "explicit float16 support and tests"
+    ]
+  },
+  "historical_policy": "Benchmark 001 is immutable. Benchmark 002 measures the updated source; no results qualify physical assembly or production guard behavior."
+}
