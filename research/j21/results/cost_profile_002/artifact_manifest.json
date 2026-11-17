@@ -1,0 +1,44 @@
+{
+  "schema": "qfsolver-j21-supervisor-cost-artifact-manifest-v1",
+  "contract_id": "J21-SUPERVISOR-COST-PROFILE-002",
+  "contract_sha256": "e37201989cb87f89184252547ed8df4a271d8bfd4da0d86b8e6ba316ea925c59",
+  "files": {
+    "run/banded-32.worker.json": {
+      "sha256": "38d457307e61d2e3d1e5c30bcd9f8c2c66568fbb76d8941ee3170f6ec93bb11b",
+      "bytes": 831
+    },
+    "run/banded-64.worker.json": {
+      "sha256": "47f9bebe03ec584a3fddaa6391b4f81508c47b460c3f98d75a0cd1590dc26c4e",
+      "bytes": 834
+    },
+    "run/dense-24.worker.json": {
+      "sha256": "81be5cc03a8083f62c30cbd8af85540868db544c1c78c7e6145ebb13e2e49a94",
+      "bytes": 832
+    },
+    "run/diagonal-16.worker.json": {
+      "sha256": "fca5faf3d17d8390fccbc9bedb27e8f2d9009c83d2ac622fa77e29c4e68ff864",
+      "bytes": 832
+    },
+    "run/duplicate-csr-32.worker.json": {
+      "sha256": "cbc0d3048e938a9b8abe723a4ca36f308564f93415fc275d8c56061f139092fc",
+      "bytes": 842
+    },
+    "run/supervisor.json": {
+      "sha256": "4428f6a9b0f6fe4e086c5343d99ce11b2ef7c6b17b35baceeb6073c0471e1c27",
+      "bytes": 8859
+    },
+    "artifact_manifest_initial.json": {
+      "sha256": "7cb35aa299ac4cdf89c5b0996d2a57bf7240289ddd12f0feb1acc27a0827ef97",
+      "bytes": 1449
+    },
+    "artifact_manifest_correction.json": {
+      "sha256": "4f58bec5ecaac5860ae424bbd905672cd8aad4a52bb17d059e1080cf0941afc0",
+      "bytes": 525
+    }
+  },
+  "limitations": [
+    "Synthetic exact-system work only; no FEM assembly, harmonic solve, or NAFEMS archive.",
+    "RSS is sampled per worker process tree and may overshoot between samples; it is not a hard quota.",
+    "Measurements are observations from one Windows host and do not imply worst-case cost."
+  ]
+}
