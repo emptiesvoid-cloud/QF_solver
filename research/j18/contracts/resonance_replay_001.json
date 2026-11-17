@@ -17,7 +17,7 @@
     "research/j17/exact_residual.py": "6123969da0007963fa0427fe5b9fe7408cbf9a48228e05f4061076da889ecea1",
     "src/solveur/core/solvers/linear.py": "379d7e30d22b712f5d0b648d8f7384d0a2c72dfaeb69e106402b21fc3cef79f9",
     "src/solveur/core/dofs.py": "62b1a414b2fe9e816c8373b8a0193a5f5abff1bff54bfabe3289fda52faba114",
-    "src/solveur/core/assembly/assembler.py": "23e0702165a65afbb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
+    "src/solveur/core/assembly/assembler.py": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
     "src/solveur/verification/mitc4_harmonic_nafems.py": "c324ae5bf5c5fdc2c0b66f72505733efc7c5824c93bbaf438e516707e5919a13",
     "src/solveur/verification/external_correlation.py": "7b4f0321efbea49c3c51b50c1d5773a872d74855953d23d4a682bd08adefa097"
   },
@@ -93,5 +93,6 @@
       "research/j18/results/resonance_replay_001/artifact_manifest.json"
     ],
     "resource_note": "RSS, process count, temporary/archive sizes and free-disk polling are soft observations; this is not an OS resource quota."
-  }
+  },
+  "pre_execution_integrity_note": "The first read-only SHA preflight found and corrected a transcribed extra 'b' in the assembler source digest before any harmonic replay execution. The source file was unchanged; the corrected digest now matches the checked-out bytes."
 }
