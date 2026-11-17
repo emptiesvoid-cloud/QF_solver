@@ -154,6 +154,19 @@ def evaluate_exact_residual(
         indptr = np.asarray(sparse_matrix.indptr)
         if len(matrix_shape) != 2:
             return ExactResidualResult("INCONCLUSIVE", "sparse matrix shape must be two-dimensional")
+        if matrix_shape[0] != matrix_shape[1]:
+            return ExactResidualResult("INCONCLUSIVE", "matrix must be square")
+        dimension = int(matrix_shape[0])
+        if dimension > max_dimension:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix dimension exceeds the exact-evaluation limit",
+                dimension=dimension, stored_entries=int(matrix_values.size),
+            )
+        if matrix_values.size > max_nonzero_entries:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix entry count exceeds the exact-evaluation limit",
+                dimension=dimension, stored_entries=int(matrix_values.size),
+            )
         if not _supported_float_array(np.empty(0, dtype=matrix_dtype)):
             return ExactResidualResult("INCONCLUSIVE", "only float32/float64 and complex64/complex128 arrays are supported")
         if indices.dtype.kind not in "iu" or indptr.dtype.kind not in "iu":
@@ -176,8 +189,14 @@ def evaluate_exact_residual(
         matrix_array = None
         stored_entries = int(matrix_values.size)
         budget_entries = stored_entries
-        nonzero_entries = int(np.count_nonzero(matrix_values))
-        matrix_finite = bool(np.all(np.isfinite(matrix_values)))
+        try:
+            nonzero_entries = int(np.count_nonzero(matrix_values))
+            matrix_finite = bool(np.all(np.isfinite(matrix_values)))
+        except MemoryError:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix validation exceeded available memory",
+                dimension=dimension, stored_entries=stored_entries,
+            )
     else:
         try:
             matrix_array = np.asarray(matrix)
@@ -187,16 +206,44 @@ def evaluate_exact_residual(
         matrix_dtype = matrix_array.dtype
         if not _supported_float_array(matrix_array):
             return ExactResidualResult("INCONCLUSIVE", "only float32/float64 and complex64/complex128 arrays are supported")
+        if len(matrix_shape) != 2 or matrix_shape[0] != matrix_shape[1]:
+            return ExactResidualResult("INCONCLUSIVE", "matrix must be square")
+        dimension = int(matrix_shape[0])
+        if dimension > max_dimension:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix dimension exceeds the exact-evaluation limit",
+                dimension=dimension, stored_entries=int(matrix_array.size),
+            )
         stored_entries = int(matrix_array.size)
-        nonzero_entries = int(np.count_nonzero(matrix_array))
+        try:
+            nonzero_entries = int(np.count_nonzero(matrix_array))
+        except MemoryError:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix validation exceeded available memory",
+                dimension=dimension, stored_entries=stored_entries,
+            )
         budget_entries = nonzero_entries
-        matrix_finite = bool(np.all(np.isfinite(matrix_array)))
+        if budget_entries > max_nonzero_entries:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix entry count exceeds the exact-evaluation limit",
+                dimension=dimension, nonzero_entries=nonzero_entries, stored_entries=stored_entries,
+            )
+        try:
+            matrix_finite = bool(np.all(np.isfinite(matrix_array)))
+        except MemoryError:
+            return ExactResidualResult(
+                "INCONCLUSIVE", "matrix validation exceeded available memory",
+                dimension=dimension, nonzero_entries=nonzero_entries, stored_entries=stored_entries,
+            )
         matrix_values = None
         indices = None
         indptr = None
 
-    rhs_array = np.asarray(rhs)
-    solution_array = np.asarray(solution)
+    try:
+        rhs_array = np.asarray(rhs)
+        solution_array = np.asarray(solution)
+    except (TypeError, ValueError, OverflowError, MemoryError):
+        return ExactResidualResult("INCONCLUSIVE", "right-hand side and solution must be rectangular numeric arrays")
     if not _supported_float_array(rhs_array) or not _supported_float_array(solution_array):
         return ExactResidualResult("INCONCLUSIVE", "only float32/float64 and complex64/complex128 arrays are supported")
     if len(matrix_shape) != 2 or matrix_shape[0] != matrix_shape[1]:
@@ -251,7 +298,7 @@ def evaluate_exact_residual(
                 start, stop = int(indptr[row]), int(indptr[row + 1])
                 entries = ((int(indices[position]), matrix_values[position]) for position in range(start, stop))
             for term_index, (column, coefficient) in enumerate(entries):
-                if term_index % 64 == 0 and time_budget_exceeded():
+                if time_budget_exceeded():
                     return ExactResidualResult(
                         "INCONCLUSIVE", "exact evaluation exceeded its time budget",
                         dimension=dimension, nonzero_entries=nonzero_entries, stored_entries=stored_entries,

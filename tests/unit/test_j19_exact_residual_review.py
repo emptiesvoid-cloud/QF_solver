@@ -202,6 +202,17 @@ def test_j19_zero_time_budget_returns_inconclusive_before_exact_work() -> None:
     assert "time budget" in result.reason
 
 
+def test_j19_ragged_rhs_or_solution_is_reported_inconclusive() -> None:
+    matrix = np.eye(2, dtype=np.complex128)
+    result = evaluate_exact_residual(
+        matrix,
+        rhs=[[1.0], [1.0, 2.0]],
+        solution=np.ones(2, dtype=np.complex128),
+    )
+    assert result.status == "INCONCLUSIVE"
+    assert "rectangular numeric arrays" in result.reason
+
+
 def test_j19_atomic_checkpoint_keeps_previous_results_if_replacement_fails(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     checkpoint = tmp_path / "replay.json"
     previous = {"results": [{"frequency_hz": 2.3, "state": "COMPLETE"}]}

@@ -1,15 +1,17 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
-from research.j19.replay_archived_harmonic import OUTPUT, run_replay
+from research.j19.replay_archived_harmonic import ROOT, run_replay
 
 
 def test_j19_replay_five_pinned_nafems_systems_with_checkpoints() -> None:
-    contract_path = Path(__file__).resolve().parents[2] / "research" / "j19" / "contracts" / "harmonic_replay_001.json"
+    contract_path = Path(__file__).resolve().parents[2] / "research" / "j19" / "contracts" / "harmonic_replay_002.json"
     contract = json.loads(contract_path.read_text(encoding="utf-8"))
-    result = run_replay()
+    output = ROOT / "research" / "j19" / "results" / "harmonic_replay_002"
+    result = run_replay(contract_path=contract_path, output_directory=output)
 
     assert result["run_state"] == "COMPLETE"
     assert len(result["results"]) == len(contract["frequencies"]) == 5
@@ -25,6 +27,11 @@ def test_j19_replay_five_pinned_nafems_systems_with_checkpoints() -> None:
         assert row["current_guard_outcome"] in {"GUARD_ACCEPTED", "GUARD_REJECTED"}
         assert row["exact_represented_system"]["status"] in {"PASS", "FAIL", "INCONCLUSIVE"}
 
-    assert (OUTPUT / "replay.csv").is_file()
-    assert (OUTPUT / "amplitude_phase.png").is_file()
-    assert json.loads((OUTPUT / "replay.json").read_text(encoding="utf-8"))["run_state"] == "COMPLETE"
+    assert (output / "replay.csv").is_file()
+    assert (output / "amplitude_phase.png").is_file()
+    replay = json.loads((output / "replay.json").read_text(encoding="utf-8"))
+    assert replay["run_state"] == "COMPLETE"
+    assert replay["contract_sha256"] == hashlib.sha256(contract_path.read_bytes()).hexdigest()
+    manifest = json.loads((output / "artifact_manifest.json").read_text(encoding="utf-8"))
+    assert manifest["contract_id"] == contract["contract_id"]
+    assert manifest["contract_sha256"] == replay["contract_sha256"]
