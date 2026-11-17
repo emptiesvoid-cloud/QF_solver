@@ -1,0 +1,14 @@
+{
+  "schema": "qfsolver-j16-postprocess-attempt-v1",
+  "contract_id": "J16-J15-PLOTTER-REPLAY-003",
+  "attempt_id": "J16-J15-PLOTTER-REPLAY-003-ATTEMPT-001",
+  "state": "PREFLIGHT_REJECTED",
+  "failure": "The frozen contract contained a malformed 63-character SHA-256 for research/j16/replay_j15_harmonic_plot.py; the actual file digest is 64 characters.",
+  "input_checked": true,
+  "input_size_verified": true,
+  "input_sha256_verified": true,
+  "source_integrity_verified": false,
+  "solver_called": false,
+  "outputs_written": false,
+  "historical_run_or_point_statuses_changed": false
+}
