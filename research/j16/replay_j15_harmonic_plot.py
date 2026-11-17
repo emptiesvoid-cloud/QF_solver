@@ -3,18 +3,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import sys
 from collections import Counter
 from pathlib import Path
 from typing import Any
 
-# Make the checked-out repository's src package available for a direct CLI call.
-_PROJECT_ROOT = Path(__file__).resolve().parents[2]
-_SOURCE_ROOT = _PROJECT_ROOT / "src"
-if str(_SOURCE_ROOT) not in sys.path:
-    sys.path.insert(0, str(_SOURCE_ROOT))
-
-from research.j15.harmonic_resonance import _plot_response  # noqa: E402
+from research.j16.harmonic_plotting import plot_harmonic_response
 
 
 def replay_archived_plot(input_json: Path, output_png: Path, manifest_path: Path) -> dict[str, Any]:
@@ -39,8 +32,8 @@ def replay_archived_plot(input_json: Path, output_png: Path, manifest_path: Path
     reference_rows = [
         {
             "frequency_hz": row.get("frequency_hz"),
-            "reference_uz_amplitude_mm": row.get("reference_uz_amplitude_mm"),
-            "reference_uz_phase_degrees": row.get("reference_uz_phase_degrees"),
+            "navier_uz_amplitude_mm": row.get("reference_uz_amplitude_mm"),
+            "navier_uz_phase_degrees": row.get("reference_uz_phase_degrees"),
         }
         for row in rows
     ]
@@ -50,7 +43,7 @@ def replay_archived_plot(input_json: Path, output_png: Path, manifest_path: Path
 
     output_png.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    _plot_response(qf_rows, reference_rows, output_png)
+    plot_harmonic_response(qf_rows, reference_rows, output_png)
     output_bytes = output_png.read_bytes()
     manifest = {
         "schema": "qfsolver-j16-j15-plot-replay-v1",

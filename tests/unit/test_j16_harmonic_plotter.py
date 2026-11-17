@@ -8,7 +8,7 @@ import matplotlib.axes
 import numpy as np
 import pytest
 
-from research.j15.harmonic_resonance import _plot_response
+from research.j16.harmonic_plotting import plot_harmonic_response
 from research.j16.replay_j15_harmonic_plot import replay_archived_plot
 
 
@@ -36,18 +36,18 @@ def _rows() -> tuple[list[dict[str, object]], list[dict[str, object]]]:
     reference = [
         {
             "frequency_hz": 2.30,
-            "reference_uz_amplitude_mm": 24.4,
-            "reference_uz_phase_degrees": 148.6,
+            "navier_uz_amplitude_mm": 24.4,
+            "navier_uz_phase_degrees": 148.6,
         },
         {
             "frequency_hz": 2.31,
-            "reference_uz_amplitude_mm": 27.0,
-            "reference_uz_phase_degrees": 137.0,
+            "navier_uz_amplitude_mm": 27.0,
+            "navier_uz_phase_degrees": 137.0,
         },
         {
             "frequency_hz": 2.32,
-            "reference_uz_amplitude_mm": 30.0,
-            "reference_uz_phase_degrees": 124.0,
+            "navier_uz_amplitude_mm": 30.0,
+            "navier_uz_phase_degrees": 124.0,
         },
     ]
     return qf, reference
@@ -70,7 +70,7 @@ def test_j16_plot_response_uses_contract_fields_and_marks_rejected_points(
     monkeypatch.setattr(matplotlib.axes.Axes, "scatter", capture_scatter)
     destination = tmp_path / "harmonic_amplitude_phase.png"
 
-    _plot_response(qf_rows, reference_rows, destination)
+    plot_harmonic_response(qf_rows, reference_rows, destination)
 
     assert destination.is_file() and destination.stat().st_size > 0
     assert len(rejected_scatter_frequencies) == 2
@@ -87,10 +87,10 @@ def test_j16_plot_response_uses_contract_fields_and_marks_rejected_points(
 
 def test_j16_plot_response_reports_missing_reference_field_clearly(tmp_path: Path) -> None:
     qf_rows, reference_rows = _rows()
-    del reference_rows[0]["reference_uz_amplitude_mm"]
+    del reference_rows[0]["navier_uz_amplitude_mm"]
 
-    with pytest.raises(ValueError, match="missing required field 'reference_uz_amplitude_mm'.*row 0"):
-        _plot_response(qf_rows, reference_rows, tmp_path / "unused.png")
+    with pytest.raises(ValueError, match="missing required field 'navier_uz_amplitude_mm'.*row 0"):
+        plot_harmonic_response(qf_rows, reference_rows, tmp_path / "unused.png")
 
 
 def test_j16_plot_response_rejects_misaligned_frequency_rows(tmp_path: Path) -> None:
@@ -98,7 +98,7 @@ def test_j16_plot_response_rejects_misaligned_frequency_rows(tmp_path: Path) -> 
     reference_rows[1]["frequency_hz"] = 2.315
 
     with pytest.raises(ValueError, match="same frequencies"):
-        _plot_response(qf_rows, reference_rows, tmp_path / "unused.png")
+        plot_harmonic_response(qf_rows, reference_rows, tmp_path / "unused.png")
 
 
 def test_j16_archived_plot_replay_preserves_input_statuses_and_bytes(tmp_path: Path) -> None:
@@ -106,8 +106,8 @@ def test_j16_archived_plot_replay_preserves_input_statuses_and_bytes(tmp_path: P
     input_rows = [
         {
             **qf,
-            "reference_uz_amplitude_mm": reference["reference_uz_amplitude_mm"],
-            "reference_uz_phase_degrees": reference["reference_uz_phase_degrees"],
+            "reference_uz_amplitude_mm": reference["navier_uz_amplitude_mm"],
+            "reference_uz_phase_degrees": reference["navier_uz_phase_degrees"],
         }
         for qf, reference in zip(qf_rows, reference_rows, strict=True)
     ]
