@@ -85,7 +85,7 @@ def test_invalid_nonfinite_and_over_budget_inputs_are_inconclusive() -> None:
     assert wrong_shape.status == "INCONCLUSIVE"
     assert "match the matrix" in wrong_shape.reason
     assert unsupported.status == "INCONCLUSIVE"
-    assert "float32/float64" in unsupported.reason
+    assert "float16/float32/float64" in unsupported.reason
 
 
 def test_sparse_complex_csr_exact_residual_matches_dense_reference() -> None:

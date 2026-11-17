@@ -213,6 +213,35 @@ def test_j19_ragged_rhs_or_solution_is_reported_inconclusive() -> None:
     assert "rectangular numeric arrays" in result.reason
 
 
+def test_j19_time_budget_expiring_during_display_returns_inconclusive(monkeypatch: pytest.MonkeyPatch) -> None:
+    clock_values = iter([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0])
+    monkeypatch.setattr(
+        "research.j17.exact_residual.monotonic",
+        lambda: next(clock_values, 2.0),
+    )
+
+    result = evaluate_exact_residual(
+        np.array([[1.0 + 0.0j]], dtype=np.complex128),
+        np.array([1.0 + 0.0j], dtype=np.complex128),
+        np.array([1.0 + 0.0j], dtype=np.complex128),
+        max_elapsed_seconds=1.0,
+    )
+
+    assert result.status == "INCONCLUSIVE"
+    assert "time budget" in result.reason
+
+
+def test_j19_binary16_inputs_are_exactly_widened_and_supported() -> None:
+    matrix = np.array([[1.5]], dtype=np.float16)
+    rhs = np.array([1.5], dtype=np.float16)
+    solution = np.array([1.0], dtype=np.float16)
+
+    result = evaluate_exact_residual(matrix, rhs, solution)
+
+    assert result.status == "PASS"
+    assert result.residual_squared == Fraction(0)
+
+
 def test_j19_atomic_checkpoint_keeps_previous_results_if_replacement_fails(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     checkpoint = tmp_path / "replay.json"
     previous = {"results": [{"frequency_hz": 2.3, "state": "COMPLETE"}]}
