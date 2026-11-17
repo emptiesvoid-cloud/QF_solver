@@ -1,0 +1,144 @@
+{
+  "schema": "qfsolver-j16-family-contract-v1",
+  "contract_id": "J16-MITC4-NAFEMS13H-MESH-STUDY-003",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "classification": "PROSPECTIVE_EXPLORATORY_MULTI_MESH_HARMONIC_STUDY_AFTER_SUMMARY_FIX",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J16_OWNER_2026-11-17",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-J16-2026-11-17-v3",
+  "authorization": "The explicit J16 Owner instruction authorizes bounded harmonic studies and targeted harness fixes. This contract registers one source-fix attempt per mesh after the two preserved J16-001/J16-002 test failures. Publication, release, tagging, and merge remain excluded.",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "execution_branch": "work/0.3.0-j16-science",
+    "source_fix_parent_commit": "21676649bcd5d38fd9f39847180249d9ab8a6467",
+    "preserved_prior_attempts": [
+      {
+        "contract_id": "J16-MITC4-NAFEMS13H-MESH-STUDY-001",
+        "attempt_id": "J16-NAFEMS13H-MESH-06-001",
+        "runner_state": "PYTEST_FAILED",
+        "failure": "numpy.linalg.norm was called with ord=inf on a SciPy CSR impedance before the first frequency checkpoint."
+      },
+      {
+        "contract_id": "J16-MITC4-NAFEMS13H-MESH-STUDY-002",
+        "attempt_id": "J16-NAFEMS13H-MESH-06-002",
+        "runner_state": "PYTEST_FAILED",
+        "failure": "All 62 per-frequency checkpoints were written, but final summary serialization accessed a nonexistent DynamicDofReducer.fixed attribute. The stored frequency data remain unaccepted diagnostic vectors.",
+        "observed_checkpoint_statuses": {
+          "QF_SOLVE_ACCEPTED": 9,
+          "QF_GUARD_REJECTED": 53
+        }
+      }
+    ],
+    "preservation": "Both earlier contracts, source commits, runner records, per-frequency files, and PYTEST_FAILED statuses remain unchanged."
+  },
+  "execution": {
+    "scope": "fem_exploratory",
+    "worktree_id": "j16_mesh_r3",
+    "nodeids": [
+      "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_06",
+      "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_08",
+      "tests/verification/test_j16_harmonic_diagnostics.py::test_j16_nafems13h_mesh_10"
+    ],
+    "series_ids": [
+      "dev-j16-nafems13h-mesh-06-003",
+      "dev-j16-nafems13h-mesh-08-003",
+      "dev-j16-nafems13h-mesh-10-003"
+    ],
+    "attempt_ids": [
+      "J16-NAFEMS13H-MESH-06-003",
+      "J16-NAFEMS13H-MESH-08-003",
+      "J16-NAFEMS13H-MESH-10-003"
+    ],
+    "attempt_limit_per_nodeid": 1,
+    "retry_policy": "One attempt per mesh in this new namespace. A further attempt needs a new diagnostic hypothesis or source change, contract, worktree registration, preflight, series, and ledger."
+  },
+  "source_change": "Derive fixed_dofs as total DofManager DOFs minus the reducer's free-DOF count. The preceding code used a nonexistent reducer.fixed attribute. This is summary metadata only; no solver algorithm, model, guard, threshold, load, or boundary condition changes.",
+  "inputs": {
+    "reference_artifact": "qualification/external_reference_digests/abaqus_nafems_13h_harmonic.json",
+    "reference_artifact_sha256": "5ba35b1ee1b5e57d7eec03f18341e42c3d938f0b79c5aa5095ae366530a777a1",
+    "model": {
+      "geometry_m": {
+        "length": 10.0,
+        "width": 10.0,
+        "thickness": 0.05
+      },
+      "material": {
+        "young_modulus_pa": 200000000000.0,
+        "poisson_ratio": 0.3,
+        "density_kg_m3": 8000.0
+      },
+      "pressure_pa": 100.0,
+      "physical_pressure_direction": "-Z",
+      "boundary_conditions": [
+        "UX=UY=RZ=0 at every node",
+        "UZ=0 on all four edges",
+        "RY=0 on bottom and top edges",
+        "RX=0 on left and right edges"
+      ],
+      "rayleigh_damping": {
+        "alpha_s_inv": 0.299,
+        "beta_s": 0.001339
+      },
+      "complex_convention": "(K + i*omega*C - omega^2*M) U = F with exp(+i*omega*t)"
+    },
+    "mesh_sizes_per_edge": [6, 8, 10],
+    "mesh_only_variable": "MITC4 quadrilaterals per plan edge; all other geometry, material, load, support, damping, measurement, and frequency inputs are fixed.",
+    "frequency_grid_hz": {
+      "dense_start": 2.25,
+      "dense_stop": 2.55,
+      "dense_count": 61,
+      "dense_spacing": 0.005,
+      "additional_probe_hz": 2.375818178440047,
+      "total_count": 62
+    },
+    "observable": "Complex center UZ at the physical point (5,5,0) m, which is a node for each even mesh.",
+    "reference": {
+      "id": "NAFEMS-13H-KIRCHHOFF-LOVE-NAVIER-ODD-ODD-SERIES",
+      "independence": "Odd/odd Navier series through index 51, using no QF assembled matrices.",
+      "theory": "Thin Kirchhoff-Love reference compared descriptively to finite-mesh MITC4/Reissner-Mindlin.",
+      "comparison_limit": "Formulation and finite-thickness differences remain; no mechanical correlation threshold is set."
+    }
+  },
+  "methods_and_indicators": {
+    "route": "For each frequency, solve the QF-assembled reduced impedance with SciPy spsolve and separately call the QF direct_frequency route. Preserve exact route status; never promote unguarded vectors.",
+    "load_check": "Record assembled load resultant, direct translational nodal-force sums, and differences from the flat-area analytical resultant (0,0,-10000) N.",
+    "residuals": "Record relative L2 residual and sparse-compatible eta_inf = ||Ax-b||_inf/(||A||_inf||x||_inf+||b||_inf). The production guard remains at the historical 1e-7.",
+    "frequency_indicators": [
+      "Smallest generalized frequency from that mesh's QF K/M, distinguished from damped response peak.",
+      "Dense sampled peak and local quadratic estimate on log amplitude, reported separately.",
+      "Amplitude, phase, and complex UZ discrepancy at each common-grid point.",
+      "Complex error normalized by the Navier peak over the common dense grid; phase omitted below 5 percent of that scale."
+    ],
+    "completion_checks": "Each mesh writes 62 final JSON/NPZ frequency records, finite raw vectors, summary, CSV, figures, and SHA-256 manifest. The test rejects HARNESS_ERROR and checks assembled/direct load sums within 1e-8 N. These checks are not a mechanical PASS.",
+    "mechanical_pass_threshold": null
+  },
+  "resources": {
+    "timeout_seconds_per_mesh": 1800,
+    "rss_soft_limit_mib": 2048,
+    "process_tree_limit": 4,
+    "temporary_limit_mib": 512,
+    "archive_size_limit_mib": 128,
+    "output_stream_limit_mib": 4,
+    "output_total_limit_mib": 8,
+    "minimum_free_disk_mib": 1024,
+    "numeric_threads": 1,
+    "attempt_limit_per_mesh": 1,
+    "estimate": "J15's 8x8, 152-frequency run took 42.849 s. J16 has 62 points but larger meshes; 30 minutes and 2 GiB soft RSS per mesh are conservative estimates, not measurements."
+  },
+  "artifacts_to_preserve": [
+    "Per-frequency atomic JSON/NPZ checkpoints with raw solution before the QF route and final route status afterward.",
+    "Per-mesh site_data.json, CSV, setup figure, amplitude/phase plot, peak deformation image, and artifact manifest.",
+    "Exact-node preflight, separate attempt ledger, runner/source fingerprints, environment, logs, and sampled resource observations.",
+    "J16-001 and J16-002 failures and all J14/J15 historical statuses unchanged."
+  ],
+  "source_sha256": {
+    "research/j16/harmonic_mesh_study.py": "093fcaf68020670bed0664dbcd3ddb9b6ebf2034e98832bd7d3287ece325e816",
+    "tests/unit/test_j16_harmonic_mesh_math.py": "c0f6520f029c677c82907396c2898e389b1a7fbea05bc2ee1c33516e3e4c4a59",
+    "tests/verification/test_j16_harmonic_diagnostics.py": "e454371238e6b26cf6d4ca4cb1922f0cbaaa623bf27b0a613c317e9989386307",
+    "research/j15/harmonic_resonance.py": "93a3d8f5db6ecea972e2134a59a5a0fa7e2ce7a5933f2172f75defb991ec5bbb",
+    "src/solveur/verification/mitc4_harmonic_nafems.py": "c324ae5bf5c5fdc2c0b66f72505733efc7c5824c93bbaf438e516707e5919a13",
+    "src/solveur/core/assembly/assembler.py": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
+    "src/solveur/core/analyses/dynamic_reduction.py": "48bfa56d06bd3361f27fe3a93ba216e514ad55b27ec6660fd93dbb46831e5e78",
+    "src/solveur/verification/external_correlation.py": "7b4f0321efbea49c3c51b50c1d5773a872d74855953d23d4a682bd08adefa097",
+    "qualification/external_reference_digests/abaqus_nafems_13h_harmonic.json": "5ba35b1ee1b5e57d7eec03f18341e42c3d938f0b79c5aa5095ae366530a777a1"
+  }
+}

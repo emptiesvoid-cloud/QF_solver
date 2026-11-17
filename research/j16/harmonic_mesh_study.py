@@ -40,9 +40,9 @@ REFERENCE_PEAK_PROBE_HZ = 2.375818178440047
 FREQUENCIES_HZ = tuple(sorted(set(DENSE_FREQUENCIES_HZ + (REFERENCE_PEAK_PROBE_HZ,))))
 RESIDUAL_LIMIT = 1.0e-7
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CONTRACT_PATH = PROJECT_ROOT / "research/j16/contracts/nafems_13h_mesh_study_002.json"
+CONTRACT_PATH = PROJECT_ROOT / "research/j16/contracts/nafems_13h_mesh_study_003.json"
 REFERENCE_PATH = PROJECT_ROOT / "qualification/external_reference_digests/abaqus_nafems_13h_harmonic.json"
-OUTPUT_ROOT = PROJECT_ROOT / "research/j16/results/diagnostic-2026-11-17/mesh_study_002"
+OUTPUT_ROOT = PROJECT_ROOT / "research/j16/results/diagnostic-2026-11-17/mesh_study_003"
 
 
 def _atomic_json(path: Path, payload: dict[str, Any]) -> None:
@@ -81,7 +81,7 @@ def _git_identity() -> dict[str, str]:
 def _validate_contract(mesh_size: int, reference: dict[str, Any]) -> tuple[dict[str, Any], str]:
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     if (
-        contract.get("contract_id") != "J16-MITC4-NAFEMS13H-MESH-STUDY-002"
+        contract.get("contract_id") != "J16-MITC4-NAFEMS13H-MESH-STUDY-003"
         or contract.get("state") != "FROZEN_BEFORE_EXECUTION"
     ):
         raise ValueError("the J16 multi-mesh contract is missing or not frozen")
@@ -476,19 +476,19 @@ def run_mesh_study(mesh_size: int, output_dir: str | Path | None = None) -> dict
         "schema": "qfsolver-j16-mitc4-mesh-study-v1",
         "classification": "PROSPECTIVE_EXPLORATORY_MULTI_MESH_HARMONIC_STUDY",
         "contract_id": contract["contract_id"],
-        "series_id": f"dev-j16-nafems13h-mesh-{mesh_size:02d}-002",
+        "series_id": f"dev-j16-nafems13h-mesh-{mesh_size:02d}-003",
         "contract_sha256": contract_sha256,
         "source_git": _git_identity(),
         "source_file_sha256": contract["source_sha256"],
         "reference_artifact_sha256": contract["inputs"]["reference_artifact_sha256"],
-        "attempt_id": f"J16-NAFEMS13H-MESH-{mesh_size:02d}-002",
+        "attempt_id": f"J16-NAFEMS13H-MESH-{mesh_size:02d}-003",
         "mesh_size": mesh_size,
         "mesh_shape": [mesh_size, mesh_size],
         "element": "MITC4",
         "nodes": model.node_count,
         "full_dofs": dofs.ndof,
         "free_dofs": int(reducer.free.size),
-        "fixed_dofs": int(reducer.fixed.size),
+        "fixed_dofs": int(dofs.ndof - reducer.free.size),
         "geometry_m": reference["model"]["geometry_m"],
         "material": reference["model"]["material"],
         "pressure_pa": reference["model"]["pressure_pa"],
