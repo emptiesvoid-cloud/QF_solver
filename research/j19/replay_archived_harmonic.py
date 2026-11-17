@@ -6,6 +6,7 @@ import csv
 import hashlib
 import json
 import platform
+import subprocess
 import sys
 import time
 import warnings
@@ -42,6 +43,17 @@ def sha256(path: Path) -> str:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def _git_head() -> str:
+    completed = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return completed.stdout.strip()
 
 
 def _json_exact_result(result: Any) -> dict[str, Any]:
@@ -166,7 +178,8 @@ def run_replay() -> dict[str, Any]:
         "schema": "qfsolver-j19-harmonic-replay-v1",
         "contract_id": contract["contract_id"],
         "attempt_id": contract["attempt_id"],
-        "execution_source_commit": contract["execution_source_commit"],
+        "source_code_commit": contract["source_code_commit"],
+        "execution_source_commit": _git_head(),
         "run_state": "RUNNING",
         "classification": "ARCHIVED_MATRIX_SOLVES_NO_FEM_ASSEMBLY",
         "environment": {
