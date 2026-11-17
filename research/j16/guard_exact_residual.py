@@ -22,9 +22,9 @@ import psutil
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CONTRACT_PATH = PROJECT_ROOT / "research/j16/contracts/guard_exact_residual_001.json"
+CONTRACT_PATH = PROJECT_ROOT / "research/j16/contracts/guard_exact_residual_002.json"
 INPUT_ROOT = PROJECT_ROOT / "research/j16/results/diagnostic-2026-11-17/guard_resolution_001"
-OUTPUT_ROOT = PROJECT_ROOT / "research/j16/results/diagnostic-2026-11-17/guard_exact_residual_001"
+OUTPUT_ROOT = PROJECT_ROOT / "research/j16/results/diagnostic-2026-11-17/guard_exact_residual_002"
 VARIANTS = {
     "spsolve_unscaled": "unscaled",
     "spsolve_row_column_equilibrated": "scaled",
@@ -118,7 +118,7 @@ def high_precision_residual_metrics(
 
 def _load_contract() -> dict[str, Any]:
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
-    if contract.get("contract_id") != "J16-GUARD-EXACT-RESIDUAL-001":
+    if contract.get("contract_id") != "J16-GUARD-EXACT-RESIDUAL-002":
         raise ValueError("unexpected high-precision residual contract")
     if contract.get("state") != "FROZEN_BEFORE_EXECUTION":
         raise ValueError("high-precision residual contract is not frozen")
@@ -250,7 +250,7 @@ def run_postprocess() -> dict[str, Any]:
         "resources_observed": {},
         "method": contract["method"],
         "records": records,
-        "interpretation_limit": contract["interpretation_limit"],
+        "interpretation_limit": contract["method"]["interpretation_limit"],
         "status_policy": "All original and prior diagnostic guard rejections remain unchanged; this post-processing is not a QF route acceptance.",
     }
     output_path = OUTPUT_ROOT / "guard_exact_residual_summary.json"
@@ -276,5 +276,5 @@ if __name__ == "__main__":
         "contract_id": payload["contract_id"],
         "frequencies": len(payload["records"]),
         "verified_archived_inputs": payload["verified_archived_input_count"],
-        "output": "research/j16/results/diagnostic-2026-11-17/guard_exact_residual_001/guard_exact_residual_summary.json",
+        "output": "research/j16/results/diagnostic-2026-11-17/guard_exact_residual_002/guard_exact_residual_summary.json",
     }, indent=2))

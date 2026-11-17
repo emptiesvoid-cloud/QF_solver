@@ -3,11 +3,20 @@
 from __future__ import annotations
 
 import math
+import json
+from pathlib import Path
 
 import mpmath as mp
 import numpy as np
 
 from research.j16.guard_exact_residual import high_precision_residual_metrics
+
+
+def test_postprocess_contract_declares_serialization_interpretation_limit() -> None:
+    contract_path = Path(__file__).resolve().parents[2] / "research/j16/contracts/guard_exact_residual_002.json"
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    assert contract["contract_id"] == "J16-GUARD-EXACT-RESIDUAL-002"
+    assert "interpretation_limit" in contract["method"]
 
 
 def test_high_precision_residual_metrics_match_complex_diagonal_case() -> None:
