@@ -109,10 +109,11 @@ CSV/JSON et une figure. Elles n'assemblent ni ne résolvent un modèle FEM.
 1. Installer/disposer d'une version licenciée et fonctionnelle d'Abaqus/Standard.
 2. Régénérer les artefacts avec la commande de préparation ci-dessus et
    vérifier les SHA de `data/` et le contrat J23.
-3. Dans le dossier du deck, exécuter un `datacheck`. S'il réussit, lancer
-   une seule tentative de calcul :
+3. Se placer dans le dossier du paquet. Exécuter un `datacheck`; s'il réussit,
+   lancer une seule tentative de calcul :
 
    ```text
+   cd research/j23/transient_flexure_reference
    abaqus job=j23_tet10_transient_flexure input=j23_tet10_transient_flexure.inp datacheck cpus=1 interactive
    abaqus job=j23_tet10_transient_flexure input=j23_tet10_transient_flexure.inp cpus=1 interactive
    ```
@@ -135,11 +136,19 @@ l'intervalle commun; aucune tolérance de corrélation n'est déclarée PASS.
 
 - `j23_tet10_transient_flexure.inp` : deck Abaqus/Standard généré et non exécuté.
 - `load_preflight.json` : vérification géométrique et de charge.
+- `contract.json` : contrat externe J23 `FROZEN_NOT_RUN` avec sources, entrées,
+  budgets, indicateurs et conditions d'arrêt.
+- `artifact_manifest.json` : tailles et empreintes SHA-256 des données,
+  deck, préflight et assets.
 - `data/j13_tet10_8x4x4_model_inputs.npz` : coordonnées, connectivité, volumes
   et charges nodales archivés.
 - `data/j13_tet10_8x4x4_qf_history.npz` : historique QF et Euler–Bernoulli.
+- `data/j13_tet10_8x4x4_qf_result.json` : indicateurs et wrenches QF J13
+  archivés.
 - `data/j13_tet10_8x4x4_qf_animation_states.npz` : états de déplacement QF
   retenus pour l'animation.
+- `extract_abaqus_history.py` et `compare_external_history.py` : extraction
+  ODB et comparaison future après un calcul Abaqus réellement exécuté.
 - `site_assets/j13_tet10_8x4x4_qf_animation.gif` : animation QF des
   checkpoints réellement calculés; 101 images couvrant 100 intervalles de
   0 à 80 ms, amplification de déplacement ×1000, 10 images/s d'affichage. Les
@@ -161,7 +170,7 @@ publié.
 ## Documentation externe
 
 - [Abaqus: C3D10 element index](https://docs.software.vt.edu/abaqusv2026/English/SIMACAEELMRefMap/simaelm-c-stdelementindex.htm)
-- [Abaqus: integration points for tetrahedral elements](https://docs.software.vt.edu/abaqusv2025/English/SIMACAETheRefMap/simathe-c-tritetwedge.htm)
+- [Abaqus: integration points for tetrahedral elements](https://docs.software.vt.edu/abaqusv2025/English/SIMACAETHERefMap/simathe-c-tritetwedge.htm)
 - [Abaqus: implicit direct dynamics and Newmark/HHT parameters](https://docs.software.vt.edu/abaqusv2026/English/SIMACAEANLRefMap/simaanl-c-dynamic.htm)
 - [Abaqus: `*DYNAMIC` keyword](https://docs.software.vt.edu/abaqusv2026/English/SIMACAEKEYRefMap/simakey-r-dynamic.htm)
 - [Abaqus: field output time intervals](https://docs.software.vt.edu/abaqusv2025/English/SIMACAEKEYRefMap/simakey-r-output.htm)
