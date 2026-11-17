@@ -265,6 +265,11 @@ def _run_external_process(
 
         current_rss = _process_tree_rss(process.pid)
         if current_rss is None:
+            # The worker may have exited between poll() above and the RSS
+            # query. That is a normal short-process race, not a failed RSS
+            # monitor; the next loop pass will collect its return code.
+            if process.poll() is not None:
+                continue
             if limits.memory_soft_limit_bytes is not None:
                 terminated, confirmed = _terminate_process_tree(
                     process, observed_pids, limits.termination_grace_seconds
