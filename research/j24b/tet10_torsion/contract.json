@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "contract_id": "J24B-TET10-CIRCULAR-TORSION-STATIC-001",
+  "status": "FROZEN_BEFORE_SOLVE",
+  "owner_authorization": {
+    "scope": "The current J24B request explicitly authorizes one bounded four-mesh static TET10 torsion campaign; J24 report and contract document the prior Owner authorization for the same model family.",
+    "prohibited": ["release", "tag", "site_publication", "merge"]
+  },
+  "baseline": {
+    "j24_commit": "49b2e0ce4e221c6e9de926ac87a3723ae5960ff2",
+    "source_branch": "work/0.3.0-j24b",
+    "source_baseline_commit": "49b2e0ce4e221c6e9de926ac87a3723ae5960ff2"
+  },
+  "model": {
+    "geometry": {"shape": "solid circular shaft", "axis": "+X", "length_m": 3.0, "radius_m": 0.5},
+    "material": {"law": "small-strain isotropic linear elasticity", "young_modulus_Pa": 80000000000.0, "poisson_ratio": 0.3, "density_kg_m3": 2700.0, "density_use": "unused in linear static analysis"},
+    "analysis": {"type": "linear_static", "method": "direct", "verification_profile": "engineering", "element": "TET10"},
+    "boundary_conditions": {"x_min": {"UX": 0.0, "UY": 0.0, "UZ": 0.0}},
+    "load": {"type": "Saint-Venant terminal traction represented by consistent nodal forces", "plane": "x=L", "torque_axis": "+X", "torque_Nm": 1000.0, "analytic_traction_N_m2": ["0", "-T*z/J", "T*y/J"]}
+  },
+  "reference": {
+    "type": "Saint-Venant circular prismatic shaft",
+    "equations": {
+      "G_Pa": "E/[2(1+nu)]",
+      "J_m4": "pi*R^4/2",
+      "twist_rad_at_x": "T*x/(G*J)",
+      "tau_xy_Pa": "-T*z/J",
+      "tau_xz_Pa": "T*y/J",
+      "displacement_y_m": "-twist(x)*z",
+      "displacement_z_m": "twist(x)*y"
+    },
+    "shear_modulus_Pa": 30769230769.230766,
+    "polar_moment_m4": 0.09817477042468103,
+    "tip_twist_rad": 9.93126844893427e-7,
+    "maximum_shear_stress_Pa": 5092.958178940651,
+    "maximum_tip_tangential_displacement_m": 4.965634224467135e-7,
+    "assumptions": ["constant circular section", "zero warping for a circular shaft", "traction-free cylindrical surface", "uniform torque", "fully fixed x=0 compatible with the exact field", "terminal traction matches the Saint-Venant field"],
+    "limitations": ["mesh surface is faceted and its represented area/volume differ slightly from the exact cylinder", "Saint-Venant reference does not quantify local numerical end effects in the discrete model"]
+  },
+  "inputs": {
+    "source_contract": "research/j24/tet10_torsion/static_solve_contract.json",
+    "mesh_directory": "research/j24/tet10_torsion/results/preflight-003",
+    "setup_sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+    "levels": {
+      "h1": {"nominal_h_m": 0.5, "mesh": "torsion_tet10_h1.msh", "mesh_sha256": "44798d84221582e04b2d55802dca5666309fc6f05d72f67c6e56f0e4a6a1fc17", "setup": "torsion_tet10_h1.setup.json"},
+      "h2": {"nominal_h_m": 0.38, "mesh": "torsion_tet10_h2.msh", "mesh_sha256": "56d680e1cddb17c304cd0cdfb0474e34d8358cbaa0262b846c5cf8f6cfe802ed", "setup": "torsion_tet10_h2.setup.json"},
+      "h3": {"nominal_h_m": 0.3, "mesh": "torsion_tet10_h3.msh", "mesh_sha256": "84d8f1049799d9a342a479de425e017f3ae20fb8ce37c52678d1f47d2707d328", "setup": "torsion_tet10_h3.setup.json"},
+      "h4": {"nominal_h_m": 0.24, "mesh": "torsion_tet10_h4.msh", "mesh_sha256": "9d1a2f14c97cd75b598da5e66da3da41cab4d3036bc265aa670d2cbd16cc93e3", "setup": "torsion_tet10_h4.setup.json"}
+    }
+  },
+  "observables_and_methods": {
+    "tip_twist": "Least-squares small rigid-rotation fit across mesh nodes satisfying |x-L| <= 1e-10*max(L,1 m): sum(y*uz-z*uy)/sum(y^2+z^2); compare with TL/(GJ). The extraction plane is fixed physically and uses only nodes on x=L.",
+    "stress": "Compare Sxy and Sxz at the TET10 stiffness integration points against -T*z/J and T*y/J at those same physical coordinates. Report volume-weighted L2 error; do not use extrapolated nodal stress as an integration-point value.",
+    "reactions": "Preserve the solver's support reaction entries and global force/moment imbalance; additionally normalize force imbalance by T/R and the X-moment imbalance by T.",
+    "residual": "Record free residual norm, free relative residual and the external-load norm used by the solver normalization.",
+    "energy": "Record external work, secant internal energy and the solver's linear energy identity error; descriptive only."
+  },
+  "criteria_basis_fixed_before_solve": {
+    "load_torque_relative_error": "1e-12 is a prospective consistency screen for the discrete nodal torque, which is explicitly normalized to the requested torque; not a mechanics error tolerance.",
+    "load_force_resultant_over_T_over_R": "1e-10 is dimensionless using T/R=2000 N; it is a prospective discrete load-balance screen, chosen well above the preflight roundoff-scale residual (~1e-16) while remaining sensitive to a material force imbalance.",
+    "free_relative_residual": "1e-8 is retained from the bounded structural campaign indicator; the solver normalizes by max(||f_free||2,1 N). The frozen load is applied only to free terminal DOFs, so the reported full external-load norm is the same norm for this configuration.",
+    "reaction_force_closure": "1e-8 uses the same dimensionless force scale T/R and the existing bounded residual-level target; it is prospective for this configuration only.",
+    "reaction_x_moment_closure": "1e-8 is dimensionless using the applied torque T and is prospective for this configuration only.",
+    "h4_tip_twist_relative_error": "1e-2 is the existing VNV-TET10-STRUCTURAL-CONVERGENCE-012 twist-error acceptance value, retained before this run against the same Saint-Venant circular-shaft solution; the J24B mesh family and supports remain distinct.",
+    "h1_to_h4_tip_twist_error_reduction_ratio": "2 is the existing VNV-TET10-STRUCTURAL-CONVERGENCE-012 endpoint error-reduction threshold; it checks only this frozen pair of mesh levels, not monotonic convergence or general TET10 qualification.",
+    "stress_and_energy": "No PASS threshold is defined; both remain descriptive due geometry and end-effect sensitivity, and stress is sampled at actual integration points."
+  },
+  "criteria_fixed_before_solve": {
+    "result_route": "AnalysisRouter linear-static result must return status PASS; the broader maturity/run_verdict is reported separately.",
+    "load_torque_relative_error": "<= 1e-12",
+    "load_force_resultant_over_T_over_R": "||F_applied||/(T/R) <= 1e-10; dimensionless normalization",
+    "free_relative_residual": "<= 1e-8, existing bounded structural campaign indicator",
+    "reaction_force_closure": "||F_applied+F_reaction||/(T/R) <= 1e-8",
+    "reaction_x_moment_closure": "abs(Mx_applied+Mx_reaction)/T <= 1e-8",
+    "h4_tip_twist_relative_error": "<= 1e-2, inherited prospectively from VNV-TET10-STRUCTURAL-CONVERGENCE-012",
+    "h1_to_h4_tip_twist_error_reduction_ratio": ">= 2, inherited prospectively from VNV-TET10-STRUCTURAL-CONVERGENCE-012",
+    "integration_point_stress_error": "Descriptive only; no stress PASS threshold is claimed.",
+    "energy_identity_error": "Descriptive only; no energy PASS threshold is claimed.",
+    "status_rule": "Overall PASS only if all four routes return, all per-mesh load/residual/reaction criteria pass, and both h4 twist and h1-to-h4 reduction criteria pass. Any measured criterion violation is FAIL. Missing or unusable required observables are INCONCLUSIVE. This status applies only to this model, source, mesh family and configuration."
+  },
+  "criteria_values": {
+    "load_torque_relative_error_max": 1e-12,
+    "load_force_resultant_over_T_over_R_max": 1e-10,
+    "free_relative_residual_max": 1e-8,
+    "reaction_force_closure_max": 1e-8,
+    "reaction_x_moment_closure_max": 1e-8,
+    "h4_tip_twist_relative_error_max": 1e-2,
+    "h1_to_h4_tip_twist_error_reduction_ratio_min": 2.0
+  },
+  "execution_scope": {
+    "exact_nodeid": "tests/verification/test_j24b_tet10_static_torsion.py::test_j24b_tet10_static_torsion_four_meshes",
+    "solver_calls_max": 4,
+    "campaign_attempts_max": 1,
+    "checkpoint_policy": "Write an atomic start record before each mesh and an atomic completed/failure record after it; retain each level immediately so a later-level failure does not discard earlier levels.",
+    "budgets": {
+      "timeout_seconds_soft": 1800,
+      "rss_soft_limit_mib": 2048,
+      "process_tree_limit": 8,
+      "output_total_limit_mib": 128,
+      "output_stream_limit_mib": 64,
+      "temporary_limit_mib": 512,
+      "archive_size_limit_mib": 192,
+      "numerical_threads": 1
+    },
+    "budget_semantics": "Wall time, RSS, process count and temporary/archive size are monitored soft limits, not OS-enforced quotas; captured stdout/stderr byte caps are enforced by the launcher.",
+    "retry_rule": "No retry in this contract. A future attempt needs a separately frozen contract and exact source/diagnostic rationale."
+  },
+  "outputs": ["per-mesh input and load checks", "per-mesh displacement and support reaction checkpoints", "solver residual and energy observables", "TET10 integration-point stress CSV", "four-level summary and status", "mesh/tip-twist/stress figures", "controller preflight receipts and attempt ledger"]
+}
