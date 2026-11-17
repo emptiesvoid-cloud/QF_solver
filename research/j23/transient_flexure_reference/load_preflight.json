@@ -1,0 +1,27 @@
+{
+  "face_triangle_count": 32,
+  "face_area_m2": 0.010000000000000005,
+  "traction_pa": 10000.0,
+  "recomputed_resultant_n": [
+    0.0,
+    0.0,
+    100.0
+  ],
+  "moment_about_loaded_face_centroid_nm": [
+    -1.8735013540549517e-16,
+    0.0,
+    0.0
+  ],
+  "quadratic_face_integration": "constant traction, exact shape-function integrals: corner weights 0, each midside weight A/3",
+  "triangle_area_min_max_m2": [
+    0.00031249999999999984,
+    0.0003125000000000002
+  ],
+  "archived_resultant_n": [
+    0.0,
+    0.0,
+    99.99999999999999
+  ],
+  "archive_load_max_abs_difference_n": 8.881784197001252e-16,
+  "archive_load_l1_difference_n": 1.9539925233402755e-14
+}

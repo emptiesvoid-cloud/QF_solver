@@ -1,0 +1,28 @@
+{
+  "status": "DESCRIPTIVE_ARCHIVED_QF_VS_EULER_BERNOULLI",
+  "sample_count_including_initial_zero": 801,
+  "dt_s": 0.0001,
+  "normalization": "RMS and maximum absolute QF-minus-Euler-Bernoulli history differences divided by the Euler-Bernoulli peak absolute displacement at the same physical probe over 0-80 ms; no pointwise division near zero.",
+  "probes": {
+    "midspan": {
+      "qf_peak_abs_m": 5.685763519651415e-05,
+      "qf_peak_time_s": 0.0688,
+      "euler_bernoulli_peak_abs_m": 5.7928225548649024e-05,
+      "euler_bernoulli_peak_time_s": 0.0694,
+      "rms_abs_difference_m": 2.4722632717330468e-06,
+      "max_abs_difference_m": 6.341970006401673e-06,
+      "rms_difference_normalized_to_eb_peak": 0.04267804249686194,
+      "max_difference_normalized_to_eb_peak": 0.1094797906605233
+    },
+    "tip": {
+      "qf_peak_abs_m": 0.0001676467301140824,
+      "qf_peak_time_s": 0.0455,
+      "euler_bernoulli_peak_abs_m": 0.00016935470447365132,
+      "euler_bernoulli_peak_time_s": 0.0459,
+      "rms_abs_difference_m": 6.8847649044991195e-06,
+      "max_abs_difference_m": 1.7761968875184893e-05,
+      "rms_difference_normalized_to_eb_peak": 0.04065292975413193,
+      "max_difference_normalized_to_eb_peak": 0.10488028029920096
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "qf-j23-transient-flexure-artifacts-v1",
+  "scope": "frozen input archives, generated Abaqus deck and load preflight, plus prepared site assets",
+  "files": {
+    "data/j13_tet10_8x4x4_model_inputs.npz": {
+      "sha256": "c2bc590c8bbadaf1497b8c7f005c062f416ab9844d85fc130bb19523f02476ae",
+      "size_bytes": 15835
+    },
+    "data/j13_tet10_8x4x4_qf_animation_states.npz": {
+      "sha256": "8d0ff9af601cd042106dc59947beb951502174b03808e7f62346f29e31ce4185",
+      "size_bytes": 42969
+    },
+    "data/j13_tet10_8x4x4_qf_history.npz": {
+      "sha256": "7bb5da33a9e1625a76a54194087ee960868eede297a8aba1d66dcabf56090b33",
+      "size_bytes": 124729
+    },
+    "data/j13_tet10_8x4x4_qf_result.json": {
+      "sha256": "86b77096fb2e3cd49de3b4ffad9bedef88772f7b8aceaee6fa702aee7d8f5263",
+      "size_bytes": 180440
+    },
+    "j23_tet10_transient_flexure.inp": {
+      "sha256": "dfd394d87bde65ef3e264ff5b5871def30ff0453cf1fb2af0d9c935a31d8da12",
+      "size_bytes": 109113
+    },
+    "load_preflight.json": {
+      "sha256": "42ef99dd1cdc353ba7278dc7d539259eb10446def5746beed0f0e46cd745228e",
+      "size_bytes": 695
+    },
+    "site_assets/j13_animation_manifest.json": {
+      "sha256": "3ceb3866e53a20dba72095df08a4bc570f50c8a204bcad401a5ef91fab8edb61",
+      "size_bytes": 1911
+    },
+    "site_assets/j13_tet10_8x4x4_mesh_and_bcs.png": {
+      "sha256": "7c123e6e2b698f0321e8b12a8da84e04844813dafbe4916e1704ab65ba4ee2ad",
+      "size_bytes": 86973
+    },
+    "site_assets/j13_tet10_8x4x4_qf_animation.gif": {
+      "sha256": "586df8e3bf6daeecc3ad664511e1c65fa0f92e465dafdcbd1b74fce4760f654a",
+      "size_bytes": 1100226
+    },
+    "site_assets/qf_equilibrium_summary.json": {
+      "sha256": "59b51c072748c5d3b79c8d08310c627c77dd3939e49c8bfd1c0ef3d891242019",
+      "size_bytes": 824
+    },
+    "site_assets/qf_euler_bernoulli_histories.png": {
+      "sha256": "99efefa202e07c3cc65d2b756428a5f1551fa329364e68f5e1fc15952e3c4b11",
+      "size_bytes": 168919
+    },
+    "site_assets/qf_euler_bernoulli_metrics.json": {
+      "sha256": "2b7b90e6d1cb763089b08656ecfa484b10cd68c29d745beb72736b0122eb68ab",
+      "size_bytes": 1285
+    },
+    "site_assets/qf_euler_bernoulli_probe_histories.csv": {
+      "sha256": "ad18a1d5a2f82fe4f885e69edb69260002760de5963011c18dfb9374df2e8d15",
+      "size_bytes": 89975
+    },
+    "site_assets/qf_support_reaction_checkpoints.csv": {
+      "sha256": "c3eaabe3dcb74ef26f97065859e1b7040bf00a868d8a133e2f6612955a9c1013",
+      "size_bytes": 28745
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "amplification": 1000.0,
+  "classification": "POSTPROCESSING_DERIVATIVE_EXPLORATORY_NO_NEW_FEM",
+  "contract_id": "J13-POST-ANIMATION-DEDUPE-003",
+  "display_fps": 10,
+  "duplicate_terminal_state": {
+    "deduplicated_state_count": 101,
+    "original_state_count": 102,
+    "removed_index": 101,
+    "retained_terminal_time_s": 0.08,
+    "terminal_values_bitwise_equal": true,
+    "time_dependent_arrays_checked": [
+      "centerline_state_displacement_m"
+    ]
+  },
+  "input_sha256": {
+    "raw_animation": "586df8e3bf6daeecc3ad664511e1c65fa0f92e465dafdcbd1b74fce4760f654a",
+    "result": "86b77096fb2e3cd49de3b4ffad9bedef88772f7b8aceaee6fa702aee7d8f5263",
+    "state_archive": "b7b2eb1d38da121f61a6cb0dab3a0c95181b3e153d9066ce812d70411d93e6e7"
+  },
+  "limitations": [
+    "The derivative removes one exactly repeated terminal state only; it does not alter the archived FEM result or raw animation.",
+    "The animation follows the retained QF Newmark checkpoint displacements along the centerline, amplified for viewing.",
+    "It is a visualization of this mesh and excitation, not a validation result."
+  ],
+  "outputs": {
+    "tet10_transverse_animation_deduplicated.gif": {
+      "bytes": 1100226,
+      "sha256": "586df8e3bf6daeecc3ad664511e1c65fa0f92e465dafdcbd1b74fce4760f654a"
+    },
+    "tet10_transverse_states_deduplicated.npz": {
+      "bytes": 42969,
+      "sha256": "8d0ff9af601cd042106dc59947beb951502174b03808e7f62346f29e31ce4185"
+    }
+  },
+  "physical_time_s": [
+    0.0,
+    0.08
+  ],
+  "playback_interpretation": "100 retained intervals span 0.08 s of physical time and display for 10 s; display speed is not physical time.",
+  "schema": "qf-j13-animation-deduplication-v1",
+  "source_fem_contract_id": "J13-TET10-TRANSVERSE-004",
+  "source_fem_head": "1965fac7430dc88c232e24eb5fafaf12eb08585f",
+  "state_stride_s": 0.0008000000000000004
+}
