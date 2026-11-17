@@ -1,0 +1,60 @@
+{
+  "schema": "qfsolver-j16-plotter-replay-contract-v1",
+  "contract_id": "J16-NAFEMS13H-PLOTTER-REPLAY-001",
+  "state": "FROZEN_BEFORE_POSTPROCESSING",
+  "classification": "ARCHIVED_EXPLORATORY_DATA_REPLOT_NO_SOLVER_CALL",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J16_OWNER_2026-11-17",
+  "baseline": {
+    "branch": "work/0.3.0-j16-plotter",
+    "commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "source_run_commit": "591e04fcd648c7969ead41c13a9c80855e6623f1",
+    "source_run_contract": "research/j15/contracts/nafems_13h_resonance_diagnostic_001.json",
+    "source_run_contract_sha256_canonical": "64fa7962ef26d6d868296291bb3b3135529f14e79a45e1871ea5d2f38f111b1a",
+    "source_postprocess_contract": "research/j15/contracts/nafems_13h_postprocess_001.json"
+  },
+  "inputs": {
+    "site_data_path_from_source_worktree": "research/j15/results/diagnostic-2026-11-17/nafems_13h_resonance/postprocess_001/site_data.json",
+    "site_data_sha256_raw": "f4d6d996987ef68ed318ae70589a3b851c972eb03497b4ab15872cd02d4b874c",
+    "checkpoint_manifest_path_from_source_worktree": "research/j15/results/diagnostic-2026-11-17/nafems_13h_resonance/postprocess_001/input_artifact_manifest.json",
+    "checkpoint_manifest_sha256_raw": "fb430bed1f5cfaa072106c48e534d9abaaa9eb7340a61500b4e79b02c80d2e14",
+    "raw_checkpoint_inventory": "The 152 JSON and 152 NPZ files listed in the J15 postprocess input_artifact_manifest.json; read-only and not copied by this replay.",
+    "expected_frequency_rows": 151,
+    "expected_source_run_status": "PYTEST_FAILED"
+  },
+  "sources_sha256_raw": {
+    "research/j15/harmonic_resonance.py": "e8a6b5d105029b79ebfb4db810fd193eccbcd01856583571865587d560e887fa",
+    "research/j16/replay_j15_harmonic_plot.py": "b85965a62c8c0740ae3d14242508ab4a2a2fc1f5180903b9b275cb15557abcda",
+    "tests/unit/test_j16_harmonic_plotter.py": "08665f9bf8bc88137178f6df2684c64b25fd9ed395fec3d8f235ece65c67f8b9"
+  },
+  "operations": {
+    "allowed": [
+      "read the archived postprocessed site_data.json",
+      "validate the J15 run state, frequency count, field schema, and point statuses",
+      "generate one amplitude/phase figure into a new J16 output path",
+      "write a manifest with input and output hashes and route-status counts"
+    ],
+    "prohibited": [
+      "finite-element assembly or solver calls",
+      "changing J14/J15 artifacts, contracts, ledgers, or statuses",
+      "relabeling rejected points as accepted",
+      "overwriting an existing output"
+    ]
+  },
+  "criteria": {
+    "input_integrity": "Input SHA-256 equals the frozen value before and after plotting.",
+    "status_integrity": "The source run remains PYTEST_FAILED; all 151 row-level qf_route_status values remain unchanged and are represented in the output manifest.",
+    "schema": "All 151 QF and reference rows have aligned frequencies and the expected explicit amplitude and phase fields.",
+    "output": "A nonempty PNG is created at the new output path and its SHA-256 is recorded.",
+    "scientific_status": "Recovered exploratory data only; no QF route point is promoted and no mechanical PASS is claimed."
+  },
+  "resources": {
+    "timeout_seconds": 60,
+    "rss_soft_limit_mib": 512,
+    "process_tree_limit": 1,
+    "output_storage_limit_mib": 8,
+    "attempt_limit": 1,
+    "estimate": "One JSON input, 151 rows, one Matplotlib PNG, and one small manifest; no FEM assembly or solver call."
+  },
+  "output_directory": "research/j16/results/diagnostic-2026-11-17/plotter_replay_001",
+  "status_policy": "The source J15 run and per-frequency route statuses remain unchanged; the replay does not create a new FEM attempt."
+}

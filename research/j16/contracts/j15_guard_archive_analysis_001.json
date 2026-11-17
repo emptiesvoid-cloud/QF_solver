@@ -1,0 +1,65 @@
+{
+  "schema": "qfsolver-j16-guard-archive-analysis-contract-v1",
+  "contract_id": "J16-NAFEMS13H-GUARD-ARCHIVE-ANALYSIS-001",
+  "state": "FROZEN_BEFORE_POSTPROCESSING",
+  "classification": "ARCHIVED_CHECKPOINT_ANALYSIS_NO_ASSEMBLY_OR_SOLVER_CALL",
+  "owner_mandate_id": "QF_SOLVER_0.3.0_J16_OWNER_2026-11-17",
+  "baseline": {
+    "main": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "work_branch": "work/0.3.0-j16-science",
+    "branch_base_commit": "2027c799d0217868145afcb5005d91a1305d0f62",
+    "source_attempt_commit": "591e04fcd648c7969ead41c13a9c80855e6623f1"
+  },
+  "inputs": {
+    "source_run_contract": "research/j15/contracts/nafems_13h_resonance_diagnostic_001.json",
+    "source_postprocess_contract": "research/j15/contracts/nafems_13h_postprocess_001.json",
+    "frequency_checkpoint_directory": "research/j15/results/diagnostic-2026-11-17/nafems_13h_resonance/raw/frequency_checkpoints",
+    "input_manifest": "research/j15/results/diagnostic-2026-11-17/nafems_13h_resonance/postprocess_001/input_artifact_manifest.json",
+    "input_manifest_sha256_raw": "fb430bed1f5cfaa072106c48e534d9abaaa9eb7340a61500b4e79b02c80d2e14",
+    "frequency_artifact_count": 304,
+    "checkpoint_count": 152,
+    "source_run_status": "PYTEST_FAILED"
+  },
+  "sources_sha256_raw": {
+    "research/j16/residual_guard_analysis.py": "37eeb5f8a207fc69433d3a1a9fe31dddf832770e16bb09a4a8b3f9eef2c4b854",
+    "tests/unit/test_j16_residual_guard_analysis.py": "77d05a3b4b550acb94be1335e988fd1c23113986ea78a20b3987a9315a5c3f98",
+    "src/solveur/core/solvers/linear.py": "379d7e30d22b712f5d0b648d8f7384d0a2c72dfaeb69e106402b21fc3cef79f9"
+  },
+  "operations": {
+    "allowed": [
+      "verify the J15 manifest and all listed JSON/NPZ SHA-256 values",
+      "reconcile the archived QF relative residual, matvec roundoff bound, upper bound, limit, and raw spsolve metrics",
+      "calculate summary statistics and a descriptive frequency figure from archived values",
+      "write CSV, JSON, and PNG results under the new J16 output directory"
+    ],
+    "prohibited": [
+      "finite-element assembly or solver calls",
+      "modifying J14/J15 source files, checkpoints, ledgers, contracts, or verdicts",
+      "recomputing or claiming the exact guard bound from absent archived matrices",
+      "changing or recommending an unsubstantiated residual threshold"
+    ]
+  },
+  "indicators": {
+    "qf_relative_residual_l2": "Computed residual norm divided by max(||b||2, ||A x||2), as recorded by the solver.",
+    "qf_relative_upper_bound": "Recorded outward-rounded upper bound including sparse matvec and subtraction roundoff.",
+    "approx_relative_roundoff_contribution": "matvec_roundoff_bound / (residual_norm / relative_residual); this estimates the roundoff contribution relative to the residual denominator, not an exact recomputation.",
+    "spsolve_backward_error_eta_inf": "Archived infinity-norm backward error for the separate raw SciPy diagnostic solution; it is not the QF guard metric.",
+    "frequency_conditioning": "Only the four condition estimates actually archived are reported; no interpolation or inferred full-grid condition is allowed."
+  },
+  "criteria": {
+    "input_integrity": "All 304 checkpoint JSON/NPZ files match the frozen manifest.",
+    "status_integrity": "All 152 route statuses remain QF_GUARD_REJECTED and source run remains PYTEST_FAILED.",
+    "outputs": "Produce a 152-row CSV, summary JSON, descriptive figure, and output hash manifest.",
+    "scientific_status": "Analysis is diagnostic only; no mechanical PASS or exact independent recomputation is claimed."
+  },
+  "resources": {
+    "timeout_seconds": 120,
+    "rss_soft_limit_mib": 512,
+    "process_tree_limit": 1,
+    "output_storage_limit_mib": 8,
+    "attempt_limit": 1,
+    "estimate": "Hash 304 local files and analyze 152 small JSON records; no matrices or linear systems are assembled or solved."
+  },
+  "output_directory": "research/j16/results/diagnostic-2026-11-17/guard_analysis_001",
+  "status_policy": "The J15 execution, all 152 route statuses, and the timeout/FAIL history remain unchanged."
+}
