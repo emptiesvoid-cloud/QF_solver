@@ -118,24 +118,32 @@ def evaluate_exact_residual(
     row and stored-term traversal. It is not an operating-system timeout; an
     external monitored runner is still required for hard process limits.
     """
-    if (
-        isinstance(tolerance, (bool, np.bool_))
-        or not isinstance(tolerance, (int, float, np.integer, np.floating))
-        or not np.isfinite(float(tolerance))
-        or float(tolerance) <= 0.0
+    if isinstance(tolerance, (bool, np.bool_)) or not isinstance(
+        tolerance, (int, float, np.integer, np.floating)
     ):
+        return ExactResidualResult("INCONCLUSIVE", "tolerance must be a finite positive scalar")
+    try:
+        tolerance_float = float(tolerance)
+    except (OverflowError, ValueError):
+        return ExactResidualResult("INCONCLUSIVE", "tolerance must be a finite positive scalar")
+    if not np.isfinite(tolerance_float) or tolerance_float <= 0.0:
         return ExactResidualResult("INCONCLUSIVE", "tolerance must be a finite positive scalar")
     limits = (max_dimension, max_nonzero_entries, max_fraction_bits)
     if any(isinstance(value, bool) or not isinstance(value, (int, np.integer)) or int(value) <= 0 for value in limits):
         return ExactResidualResult("INCONCLUSIVE", "resource limits must be positive")
-    if max_elapsed_seconds is not None and (
-        isinstance(max_elapsed_seconds, (bool, np.bool_))
-        or not isinstance(max_elapsed_seconds, (int, float, np.integer, np.floating))
-        or not np.isfinite(float(max_elapsed_seconds))
-        or float(max_elapsed_seconds) < 0.0
-    ):
-        return ExactResidualResult("INCONCLUSIVE", "time limit must be a finite nonnegative scalar")
-    deadline = None if max_elapsed_seconds is None else monotonic() + float(max_elapsed_seconds)
+    elapsed_float = None
+    if max_elapsed_seconds is not None:
+        if isinstance(max_elapsed_seconds, (bool, np.bool_)) or not isinstance(
+            max_elapsed_seconds, (int, float, np.integer, np.floating)
+        ):
+            return ExactResidualResult("INCONCLUSIVE", "time limit must be a finite nonnegative scalar")
+        try:
+            elapsed_float = float(max_elapsed_seconds)
+        except (OverflowError, ValueError):
+            return ExactResidualResult("INCONCLUSIVE", "time limit must be a finite nonnegative scalar")
+        if not np.isfinite(elapsed_float) or elapsed_float < 0.0:
+            return ExactResidualResult("INCONCLUSIVE", "time limit must be a finite nonnegative scalar")
+    deadline = None if elapsed_float is None else monotonic() + elapsed_float
 
     def time_budget_exceeded() -> bool:
         return deadline is not None and monotonic() >= deadline
@@ -353,7 +361,7 @@ def evaluate_exact_residual(
                 )
 
         reference_squared = max(rhs_squared, product_squared)
-        threshold = Fraction.from_float(float(tolerance))
+        threshold = Fraction.from_float(tolerance_float)
         threshold_squared = threshold * threshold
         if reference_squared == 0:
             relative_squared = Fraction(0) if residual_squared == 0 else None
