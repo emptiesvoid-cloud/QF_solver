@@ -1,0 +1,51 @@
+{
+  "schema": "qfsolver-j22-supervisor-robustness-contract-v1",
+  "contract_id": "J22-SUPERVISOR-ROBUSTNESS-001",
+  "state": "FROZEN_BEFORE_EXECUTION",
+  "attempt_id": "J22-SUPERVISOR-ROBUSTNESS-001-ATTEMPT-001",
+  "owner_authorization": "QF Solver 0.3.0 J22 Owner instruction",
+  "baseline": {
+    "main_commit": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "j21_commit": "06d17854c61c311d593aaa724b3b588b066daff0",
+    "branch": "work/0.3.0-j22"
+  },
+  "source_hashes": {
+    "research/j17/exact_residual.py": "670b4125fc7acf6db1e5f8b09b6b8c7e235476e0ecfdabb1765d6b93bb94e51f",
+    "research/j21/exact_worker.py": "77b783f9fb03c858fa937a145ecab4f3f8031382e9e51ca3ea37d68d309c723a",
+    "research/j21/supervised_exact.py": "075522984bda5869a94ef739d0c6a60165ed60bdc2e577ad5bba76c13cecf430",
+    "tests/unit/test_j21_exact_scalar_validation.py": "37f0165a655c3f9f9e021613d09497c937f031304b65a74b117c9abb4b503417",
+    "tests/unit/test_j21_supervised_exact.py": "0058a9c3be6885966d3c5e05982bc3b6973eeeda9e69e29f58eadfd6ada004a3"
+  },
+  "objective": "Recheck the J21 scalar fix and process supervisor behavior on the available Windows platform, using exact pytest function nodeids only.",
+  "nodeids": [
+    "tests/unit/test_j21_exact_scalar_validation.py::test_exact_residual_rejects_scalar_conversion_overflow",
+    "tests/unit/test_j21_exact_scalar_validation.py::test_exact_residual_returns_inconclusive_when_numeric_conversion_raises_type_error",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_preserves_normal_exact_pass_and_fail",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_records_worker_exception_and_continues",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_timeout_kills_worker_and_observed_child_tree",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_memory_threshold_is_sampled_soft_and_terminates",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_interruption_preserves_complete_and_marks_remaining_inconclusive",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_incomplete_worker_result_cannot_be_pass",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_stop_file_interrupts_child_process",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_kills_tree_when_monitor_raises",
+    "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_exception_is_journaled_inconclusive"
+  ],
+  "expected": {
+    "scalar_conversion": "Both overflow and TypeError conversion edge cases return INCONCLUSIVE without crashing the caller.",
+    "normal_worker": "Exact synthetic residual PASS and FAIL are preserved independently.",
+    "worker_error": "Worker exception remains INCONCLUSIVE and does not promote a later case incorrectly.",
+    "timeout_and_stop": "Timeout and stop request terminate the worker and observed descendants; completed records remain intact and unresolved cases remain INCONCLUSIVE.",
+    "rss": "A sampled soft threshold is documented and causes termination; it is not interpreted as an OS quota.",
+    "incomplete": "Missing or malformed worker result cannot become PASS.",
+    "monitor_fault": "Unexpected monitor failure cleans up its process tree and is atomically journaled INCONCLUSIVE."
+  },
+  "limits": {
+    "exact_test_invocation": "One nodeid per pytest command.",
+    "worker_timeouts_are_defined_in_test_fixtures": true,
+    "platform": "Windows 10 x64",
+    "fem_assembly": false,
+    "harmonic_solve": false
+  },
+  "interpretation": "A passing software test validates the tested supervisor behavior on this Windows runtime only. POSIX process groups and hard memory quotas are outside this contract.",
+  "historical_policy": "No J14-J21 scientific result or guard verdict is changed."
+}

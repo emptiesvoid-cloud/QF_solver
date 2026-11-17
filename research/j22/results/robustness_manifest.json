@@ -1,0 +1,122 @@
+{
+  "schema": "qfsolver-j22-supervisor-robustness-manifest-v1",
+  "historical_test_selection_attempt": {
+    "contract_id": "J22-SUPERVISOR-ROBUSTNESS-001",
+    "contract_path": "research/j22/contracts/supervisor_robustness_001.json",
+    "contract_sha256": "3582335764ce19877900c69d77046f00b219c01b5e9e4c410736b9e6590f0192",
+    "status": "NODEID_NOT_FOUND_NO_TEST_EXECUTED",
+    "log_path": "robustness_001/01_scalar_overflow.log",
+    "log_sha256": "e3086e43c2ae68edade9f494da90c8d79a168b28f426fb20d630229c0f37bd17",
+    "log_redaction": "Personal worktree prefix replaced with <J22_WORKTREE>; pytest output retained otherwise."
+  },
+  "corrected_test_run": {
+    "contract_id": "J22-SUPERVISOR-ROBUSTNESS-002",
+    "contract_path": "research/j22/contracts/supervisor_robustness_002.json",
+    "contract_sha256": "45a1237092638f6bd56ad85bc96560ca226b25636895022412475fa783a00be1",
+    "status": "PASS",
+    "count": 11,
+    "nodeids": [
+      "tests/unit/test_j18_exact_residual_limits.py::test_exact_residual_rejects_scalar_conversion_overflow",
+      "tests/unit/test_j21_exact_scalar_validation.py::test_exact_residual_returns_inconclusive_when_numeric_conversion_raises_type_error",
+      "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_preserves_normal_exact_pass_and_fail",
+      "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_records_worker_exception_and_continues",
+      "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_timeout_kills_worker_and_observed_child_tree",
+      "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_memory_threshold_is_sampled_soft_and_terminates",
+      "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_interruption_preserves_complete_and_marks_remaining_inconclusive",
+      "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_incomplete_worker_result_cannot_be_pass",
+      "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_stop_file_interrupts_child_process",
+      "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_kills_tree_when_monitor_raises",
+      "tests/unit/test_j21_supervised_exact.py::test_j21_supervisor_exception_is_journaled_inconclusive"
+    ],
+    "source_hashes": {
+      "research/j17/exact_residual.py": "670b4125fc7acf6db1e5f8b09b6b8c7e235476e0ecfdabb1765d6b93bb94e51f",
+      "research/j21/exact_worker.py": "77b783f9fb03c858fa937a145ecab4f3f8031382e9e51ca3ea37d68d309c723a",
+      "research/j21/supervised_exact.py": "075522984bda5869a94ef739d0c6a60165ed60bdc2e577ad5bba76c13cecf430",
+      "tests/unit/test_j18_exact_residual_limits.py": "32c85325a3ac568f3c1997a907ac4152fe9fda28f1ab6e6f21d3ff10d903196d",
+      "tests/unit/test_j21_exact_scalar_validation.py": "37f0165a655c3f9f9e021613d09497c937f031304b65a74b117c9abb4b503417",
+      "tests/unit/test_j21_supervised_exact.py": "0058a9c3be6885966d3c5e05982bc3b6973eeeda9e69e29f58eadfd6ada004a3"
+    },
+    "log_paths": [
+      "robustness_001/02_scalar_overflow_corrected.log",
+      "robustness_001/03_scalar_type_error.log",
+      "robustness_001/04_normal_worker.log",
+      "robustness_001/05_worker_exception.log",
+      "robustness_001/06_timeout_child_tree.log",
+      "robustness_001/07_sampled_rss.log",
+      "robustness_001/08_interruption_journal.log",
+      "robustness_001/09_incomplete_result.log",
+      "robustness_001/10_stop_file_child.log",
+      "robustness_001/11_monitor_exception_cleanup.log",
+      "robustness_001/12_supervisor_exception_journal.log"
+    ],
+    "pytest_elapsed_seconds_from_log_summaries": [
+      1.98,
+      2.75,
+      2.41,
+      2.29,
+      2.19,
+      1.6,
+      0.81,
+      0.79,
+      1.79,
+      1.76,
+      0.8
+    ]
+  },
+  "files": {
+    "robustness_001/01_scalar_overflow.log": {
+      "sha256": "e3086e43c2ae68edade9f494da90c8d79a168b28f426fb20d630229c0f37bd17",
+      "bytes": 227
+    },
+    "robustness_001/02_scalar_overflow_corrected.log": {
+      "sha256": "62c7ef6a85ea5c2678432dafb13eba55a1c7638732c5574005a7292cd59fd1fa",
+      "bytes": 100
+    },
+    "robustness_001/03_scalar_type_error.log": {
+      "sha256": "bc719ea142cb737865596461b3bcc2cba08341d5b5f8cfedc6806247594771b2",
+      "bytes": 100
+    },
+    "robustness_001/04_normal_worker.log": {
+      "sha256": "719902afd500c4e190d32ea2aab2ef8a92ca6d70a48a45e026e874200a866f5a",
+      "bytes": 100
+    },
+    "robustness_001/05_worker_exception.log": {
+      "sha256": "9178cb5a06c956729c5d4ffb4e77bb3ec6e3a4c3bc283571be249b187f01f41d",
+      "bytes": 100
+    },
+    "robustness_001/06_timeout_child_tree.log": {
+      "sha256": "3beae1b942090a0494974f7451cca1fbbe70fab9a001988d5fc21a53b133eeb2",
+      "bytes": 100
+    },
+    "robustness_001/07_sampled_rss.log": {
+      "sha256": "58625b1ecd52202299085e2ded08192abe9965263e9dd5131894971f642622a9",
+      "bytes": 100
+    },
+    "robustness_001/08_interruption_journal.log": {
+      "sha256": "bf0fd24d88aed7013b352e904337d574db524c14855f2410bb70486f556d148f",
+      "bytes": 100
+    },
+    "robustness_001/09_incomplete_result.log": {
+      "sha256": "0028b606c075f76cdf23bf827f20bfa76a810f9bb715a28e497f8f67cc643223",
+      "bytes": 100
+    },
+    "robustness_001/10_stop_file_child.log": {
+      "sha256": "b2097f20a8bf3d6b68e15785f0fe45ed0aab2fa732aa1954a1c5209bbcc87bb2",
+      "bytes": 100
+    },
+    "robustness_001/11_monitor_exception_cleanup.log": {
+      "sha256": "01f2959f1d421009479f996ce1a9b99fceb37f03a935174ccb8d5914f914db41",
+      "bytes": 100
+    },
+    "robustness_001/12_supervisor_exception_journal.log": {
+      "sha256": "fd1807cb90e99f82b6cbe687ce1680076b7d16027099d9c8701e92ae561e0309",
+      "bytes": 100
+    }
+  },
+  "limits": {
+    "one_exact_nodeid_per_invocation": true,
+    "platform": "Windows 10 x64",
+    "rss": "sampled soft threshold; not an OS memory quota",
+    "posix_process_supervision_tested": false
+  }
+}

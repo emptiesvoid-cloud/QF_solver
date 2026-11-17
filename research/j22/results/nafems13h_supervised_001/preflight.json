@@ -1,0 +1,78 @@
+{
+  "schema": "qfsolver-j22-nafems-preflight-v1",
+  "contract_id": "J22-NAFEMS13H-SUPERVISED-RECHECK-001",
+  "contract_sha256": "74216164a4478c5e9329541c39fbbf36e5fc95229547c6ab49e7c7b506a9640c",
+  "source_code_commit": "06d17854c61c311d593aaa724b3b588b066daff0",
+  "state": "PREFLIGHT_PASS_NO_EVALUATION_STARTED",
+  "classification": "ARCHIVE_POSTPROCESSING_ONLY_NO_ASSEMBLY_OR_SOLVE",
+  "environment": {
+    "python": "3.13.1",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "psutil": "7.2.2",
+    "available_memory_bytes": 61219205120
+  },
+  "identities": [
+    {
+      "case_id": "nafems13h-2p375818178",
+      "frequency_hz": 2.375818178440047,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p375818178.npz",
+      "input_sha256": "bdf0ada904d800ae51e0afb39745633aea21186626741dfc0112ef5072eb97d0",
+      "matrix_shape": [
+        175,
+        175
+      ],
+      "stored_entries": 3607,
+      "matrix_csr_sha256": "e5d4d5ee6b6000d6c63a4775b97d1184d6f66f80e68b6b1949302b68a56e5296",
+      "rhs_values_sha256": "99e42286b316df36dd26afe6126640882f814a5bad19f875ccb3a3232f3295fe",
+      "evaluated_archived_x_unscaled_sha256": "b7d5a8c4829c92f45d8e59f5f48f34b294e1b6427b7d14d4d9d2a59a1856cb75",
+      "j19_recomputed_solution_sha256": "95ddf52a34bffb07c374dc77eacc8c7b417fb392f48479856a221451abdd4c51",
+      "j19_relative_solution_difference_inf_vs_unscaled": 4.625574192324751e-13,
+      "historical_guard_outcome": "GUARD_REJECTED",
+      "historical_exact_outcome": "PASS",
+      "historical_exact_relative_residual": "5.2850869252210986397464121266659153024765510977231E-10",
+      "historical_guard_upper_bound": 4.2783179861618343e-07
+    },
+    {
+      "case_id": "nafems13h-2p417000000",
+      "frequency_hz": 2.417,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p417000000.npz",
+      "input_sha256": "89fdef8c3811d8ceade2356a96c76227c51c88a278f6b287548629ecaef4a863",
+      "matrix_shape": [
+        175,
+        175
+      ],
+      "stored_entries": 3607,
+      "matrix_csr_sha256": "889b2210cd8a1b49c869269818ada9ab0f6d3f42087994166797efb6b9ff0034",
+      "rhs_values_sha256": "99e42286b316df36dd26afe6126640882f814a5bad19f875ccb3a3232f3295fe",
+      "evaluated_archived_x_unscaled_sha256": "b4168d0f562e0b06ae9502a66693e5800785b9724482dabaaaae2ce292b885da",
+      "j19_recomputed_solution_sha256": "284e010ec62d4b4f875ca62338b4a13711f3cdc0e99ef84ce8175393224278a7",
+      "j19_relative_solution_difference_inf_vs_unscaled": 6.173783829683574e-13,
+      "historical_guard_outcome": "GUARD_REJECTED",
+      "historical_exact_outcome": "PASS",
+      "historical_exact_relative_residual": "7.4074022880866112676501404397037401632500667689044E-10",
+      "historical_guard_upper_bound": 5.594331766301972e-07
+    },
+    {
+      "case_id": "nafems13h-2p418000000",
+      "frequency_hz": 2.418,
+      "input_path": "research/j17/inputs/guard_resolution_001/guard_frequency_2p418000000.npz",
+      "input_sha256": "a68c24ea120b49ae57fedc684c8ffd363b2f29830bc4e806948a95fe9878a1eb",
+      "matrix_shape": [
+        175,
+        175
+      ],
+      "stored_entries": 3607,
+      "matrix_csr_sha256": "5e8237fa06165f93b9ad8867b0f080e4652594642e5000525900742dbecb2009",
+      "rhs_values_sha256": "99e42286b316df36dd26afe6126640882f814a5bad19f875ccb3a3232f3295fe",
+      "evaluated_archived_x_unscaled_sha256": "8222b128bb94cc2d10f961de21854771f1cf1d7ec00a28c12e3e3dc64b2640d1",
+      "j19_recomputed_solution_sha256": "d7c3228243a3692fe6ae69b94dfbe6950b231e3c49b6ccd5bf7aec6adbe70266",
+      "j19_relative_solution_difference_inf_vs_unscaled": 9.341594300812598e-13,
+      "historical_guard_outcome": "GUARD_REJECTED",
+      "historical_exact_outcome": "PASS",
+      "historical_exact_relative_residual": "9.2644022823887403493801149081645906452869237003691E-10",
+      "historical_guard_upper_bound": 5.595029322422947e-07
+    }
+  ]
+}
