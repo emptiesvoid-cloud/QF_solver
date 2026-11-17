@@ -1,0 +1,194 @@
+{
+  "schema": "qf-j23-external-transient-comparison-contract-v1",
+  "contract_id": "J23-ABAQUS-TET10-FLEXURE-001",
+  "status": "FROZEN_NOT_RUN_EXTERNAL_TOOL_UNAVAILABLE",
+  "prepared_at_utc": "2026-11-17T19:26:46Z",
+  "owner_mandate": "QF SOLVER 0.3.0 — JALON J23, section 3; permits bounded external FEM and artifacts, but not publication, release, tag, or merge.",
+  "source_identity": {
+    "comparison_package_commit": "e810b599d1d8640629555947de83f2f9ccd71fee",
+    "comparison_package_branch": "work/0.3.0-j23",
+    "base_main_sha": "be455745f4a1c2cf81cb9448830223107dc39b66",
+    "qf_case_source_branch": "work/0.3.0-j13",
+    "qf_case_source_commit": "1965fac7430dc88c232e24eb5fafaf12eb08585f",
+    "qf_case_source_tree": "6fe29396729b38b50c1d41c35a1d7e193f929c5c",
+    "qf_source_fingerprint": "51c5a840d011b388064c128a7ed0415e44ec10d0450db71cab3e62dcf30b1945",
+    "qf_source_run_contract": {
+      "contract_id": "J13-TET10-TRANSVERSE-004",
+      "file_sha256": "db0d2b0c90b4c4efbd38950f50888dda966314250fdedd5d19e789ed13c69ca4",
+      "canonical_sha256": "aaaa9b3926ba9cec25a49ebeec6f55efcaca644883506784cba0fc0a87a61ec6"
+    },
+    "package_code_sha256": {
+      "prepare_abaqus_case.py": "a63a982d739353e2237a2dcb3f4b37aaf1ecabb551ccbb3569c1e95cead56ae0",
+      "extract_abaqus_history.py": "3ddac275eaad06ce2da930430bd8cecb1f6013f8811d722cab1d6a83c61b407e",
+      "compare_external_history.py": "419841fa8156dd5e756f1c2e9f9e58432ce657a69355849625705aaca608f92e"
+    },
+    "software_test_sha256": "6876902b763ccab119d6ed592cbe21bbcd6c4ec445968568be50ba3efbae0ad7",
+    "artifact_manifest_sha256": "8fb8c1a0ce54e47a048ce5574a89582fefc05989ac097a2c06a16a0222e40566"
+  },
+  "input_artifacts": {
+    "data/j13_tet10_8x4x4_model_inputs.npz": "c2bc590c8bbadaf1497b8c7f005c062f416ab9844d85fc130bb19523f02476ae",
+    "data/j13_tet10_8x4x4_qf_history.npz": "7bb5da33a9e1625a76a54194087ee960868eede297a8aba1d66dcabf56090b33",
+    "data/j13_tet10_8x4x4_qf_result.json": "86b77096fb2e3cd49de3b4ffad9bedef88772f7b8aceaee6fa702aee7d8f5263",
+    "data/j13_tet10_8x4x4_qf_animation_states.npz": "8d0ff9af601cd042106dc59947beb951502174b03808e7f62346f29e31ce4185",
+    "site_assets/j13_tet10_8x4x4_qf_animation.gif": "586df8e3bf6daeecc3ad664511e1c65fa0f92e465dafdcbd1b74fce4760f654a",
+    "site_assets/j13_tet10_8x4x4_mesh_and_bcs.png": "7c123e6e2b698f0321e8b12a8da84e04844813dafbe4916e1704ab65ba4ee2ad",
+    "site_assets/j13_animation_manifest.json": "3ceb3866e53a20dba72095df08a4bc570f50c8a204bcad401a5ef91fab8edb61"
+  },
+  "objective": "Compare archived QF TET10 transient flexure on its exact 8x4x4 mesh with an independently assembled Abaqus/Standard C3D10 linear-solid model, using the same nodal load history, constraints, material, time grid, and physical probe nodes.",
+  "model": {
+    "geometry_m": {
+      "length_x": 2.0,
+      "width_y": 0.1,
+      "height_z": 0.1,
+      "volume": 0.02,
+      "expected_mass_kg": 156.0
+    },
+    "mesh": {
+      "type": "same archived straight-sided TET10 mesh / Abaqus C3D10",
+      "elements": 768,
+      "nodes": 1377,
+      "solid_dofs": 4131,
+      "fixed_dofs": 243,
+      "free_dofs": 3888,
+      "abaqus_node_labels": "archived zero-based node indices plus one; local edges 1-2, 2-3, 3-1, 1-4, 2-4, 3-4 checked by midpoint coordinates"
+    },
+    "material": {
+      "young_modulus_pa": 210000000000.0,
+      "poisson_ratio": 0.3,
+      "density_kg_m3": 7800.0,
+      "physical_damping": "none"
+    },
+    "boundary_conditions": "UX=UY=UZ=0 on every node at x=0; all other solid translations free; no solid rotational DOFs.",
+    "initial_conditions": "zero displacement and zero velocity",
+    "load": {
+      "physical_description": "uniform +UZ traction on x=L over 0.01 m^2",
+      "independent_load_preflight": "reintegrate constant traction over 32 quadratic surface triangles; for each T6 triangle, exact resultant weights are zero at corners and area/3 at each midside node",
+      "abaqus_application": "CLOAD with the archived QF equivalent nodal vector, scaled by the same tabular amplitude; this deliberately removes solver-specific surface-load integration from the response comparison",
+      "archived_nodal_resultant_n": [
+        0.0,
+        0.0,
+        99.99999999999999
+      ],
+      "independently_reintegrated_resultant_n": [
+        0.0,
+        0.0,
+        100.0
+      ],
+      "max_abs_nodal_difference_n": 8.881784197001252e-16,
+      "area_m2": 0.010000000000000005,
+      "peak_traction_pa": 10000.0,
+      "temporal_knots_s_factor": [
+        [0.0, 0.0],
+        [0.01, 1.0],
+        [0.02, 0.0],
+        [0.08, 0.0]
+      ],
+      "peak_resultant_n": [
+        0.0,
+        0.0,
+        100.0
+      ],
+      "moment_about_loaded_face_centroid_nm": [
+        -1.8735013540549517e-16,
+        0.0,
+        0.0
+      ]
+    },
+    "time_integration": {
+      "method": "Abaqus/Standard direct integration with ALPHA=0, BETA=0.25, GAMMA=0.5; intended to match Newmark average acceleration",
+      "physical_damping": "none",
+      "initial_dt_s": 0.0001,
+      "fixed_dt_s": 0.0001,
+      "duration_s": 0.08,
+      "positive_time_steps": 800,
+      "field_output": "800 equal time intervals with exact time marks, plus initial state if provided by the ODB"
+    },
+    "probes": {
+      "midspan": {
+        "position_m": [
+          1.0,
+          0.05,
+          0.05
+        ],
+        "qf_zero_based_node_index": 112,
+        "abaqus_node_label": 113,
+        "observable": "global UZ"
+      },
+      "tip": {
+        "position_m": [
+          2.0,
+          0.05,
+          0.05
+        ],
+        "qf_zero_based_node_index": 116,
+        "abaqus_node_label": 117,
+        "observable": "global UZ"
+      }
+    }
+  },
+  "reference_and_comparison": {
+    "independent_solid_reference": "Abaqus/Standard C3D10 is prepared but no local executable is usable; no Abaqus answer is available yet.",
+    "existing_mechanical_reference": "J12/J13 continuous Euler-Bernoulli cantilever modal series with 64 modes and a transverse tip-force history; 32/64 truncation difference was checked at <=1e-5 of the 64-mode peak on the J13 grids.",
+    "existing_reference_limits": "Euler-Bernoulli omits transverse shear, rotary inertia, the three-dimensional clamp boundary layer, and the solid section discretization. It is not an exact solution to the 3D model.",
+    "comparison_metrics": [
+      "absolute displacement history differences at identical physical probe positions and QF times",
+      "RMS and maximum absolute displacement differences normalized to the QF absolute peak at that probe over the common time interval",
+      "absolute peak magnitude and physical time of peak",
+      "support resultant force and moment at archived 0.8 ms QF equilibrium checkpoints; one exactly duplicate 80 ms checkpoint is collapsed only after equality verification"
+    ],
+    "acceptance_thresholds": "none; comparisons are descriptive. No correlation PASS or dynamic qualification is defined by this contract.",
+    "preflight_checks": {
+      "elements": 768,
+      "nodes": 1377,
+      "loaded_face_triangles": 32,
+      "loaded_area_m2_tolerance": 1e-12,
+      "resultant_component_n_tolerance": 1e-12,
+      "recomputed_vs_archived_nodal_load_max_abs_n_tolerance": 1e-13,
+      "loaded_centroid_moment_nm_norm_tolerance": 1e-12,
+      "probe_coordinate_match_m_tolerance": 1e-12
+    }
+  },
+  "external_tool": {
+    "requested": "Abaqus/Standard direct dynamics",
+    "detected_local_wrapper": "abaqus.bat",
+    "version_probe": "abaqus information=release",
+    "version_probe_result": "exit code 1; wrapper refers to missing abq2019.bat",
+    "other_solver_commands": "CalculiX ccx and Code_Aster as_run were not found",
+    "execution_status": "NOT_RUN_EXTERNAL_TOOL_UNAVAILABLE",
+    "version_to_record_if_run": "exact Abaqus/Standard release and build; data-check the generated keyword deck before the single solve",
+    "documentation_version_caveat": "Current official Abaqus documentation was consulted; local wrapper suggested 2019 but was unusable, so keyword compatibility remains to be confirmed by a real data check."
+  },
+  "execution_plan_if_external_runtime_becomes_available": {
+    "data_check_limit": 1,
+    "full_analysis_limit": 1,
+    "retry_policy": "stop after any data-check error, solver error, interruption, or unexpected output schema; another attempt requires a classified new hypothesis, new contract, and preserved prior artifacts",
+    "wall_time_limit_s": 1800,
+    "rss_soft_limit_mib": 4096,
+    "temporary_storage_limit_mib": 512,
+    "output_storage_limit_mib": 1024,
+    "numeric_threads": 1,
+    "budget_semantics": "RSS and storage are observed soft limits unless the external host provides real OS quotas; preserve logs and partial ODB on stop.",
+    "not_run_reason": "No usable Abaqus, CalculiX, or Code_Aster executable was found. The repository's current registered monitored-FEM scopes do not include this J23 QF FEM node; no direct QF solve was attempted."
+  },
+  "artifacts_to_preserve": [
+    "generated input deck and its SHA-256",
+    "exact input archive hashes and this frozen contract",
+    "Abaqus version banner and data-check output",
+    "job .msg, .dat, .sta, .log, .odb, and process/resource observations",
+    "Abaqus probe/reaction CSV from extract_abaqus_history.py",
+    "comparison metrics JSON, curve figure, and script versions",
+    "partial outputs and failure status if the single attempt stops"
+  ],
+  "historical_statuses_unchanged": [
+    "J12 Euler-Bernoulli comparison",
+    "J13 TET10 mesh/time exploratory records",
+    "all J14-J22 harmonic residual guard and verifier statuses"
+  ],
+  "execution_record": {
+    "new_abaqus_data_check": "NOT_RUN",
+    "new_abaqus_solve": "NOT_RUN",
+    "new_qf_fem_solve": "NOT_RUN",
+    "new_abaqus_metrics": null,
+    "correlation_status": "NOT_AVAILABLE"
+  }
+}

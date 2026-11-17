@@ -1,0 +1,18 @@
+{
+  "status": "ARCHIVED_QF_CHECKPOINTS",
+  "source_result_sha256": "86b77096fb2e3cd49de3b4ffad9bedef88772f7b8aceaee6fa702aee7d8f5263",
+  "source_commit": "1965fac7430dc88c232e24eb5fafaf12eb08585f",
+  "contract_id": "J13-TET10-TRANSVERSE-004",
+  "runner_series_id": "dev-j13flex-4x4-001",
+  "runner_execution_status": "COMPLETED_EXPLORATORY",
+  "checkpoint_count": 101,
+  "unique_checkpoint_count": 100,
+  "duplicate_time_s": [
+    0.08
+  ],
+  "duplicate_terminal_checkpoint_identical": true,
+  "checkpoint_stride_s": 0.0008,
+  "maximum_force_balance_residual_norm_n": 2.7446881156330584e-07,
+  "maximum_moment_balance_residual_norm_nm": 3.941114295347439e-07,
+  "interpretation": "These are stored J13 postprocessing observables at checkpoint times; they are not a new FEM run or a cross-solver result."
+}
