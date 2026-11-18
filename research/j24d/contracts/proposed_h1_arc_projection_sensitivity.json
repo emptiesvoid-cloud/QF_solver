@@ -1,0 +1,61 @@
+{
+  "schema": "qfsolver-j24d-proposed-run-contract-v1",
+  "contract_id": "J24D-H1-MIDNODE-PROJECTION-SENSITIVITY-001",
+  "status": "PROPOSED_NOT_EXECUTED",
+  "evidence_class": "bounded exploratory geometry sensitivity; not qualification",
+  "question": "Does the angular placement of the 20 selected H1 midside nodes measurably affect the archived static torsion observables when topology, source, loads, supports, and every other coordinate are held fixed?",
+  "source_and_inputs": {
+    "j24b_source_sha": "275c5788e4eaded1ea4305630ea1b0eb0b88158c",
+    "j24b_contract_id": "J24B-TET10-CIRCULAR-TORSION-STATIC-002",
+    "j24b_contract_sha256": "1c1b63da996750baf28c7750936d4532ac95644d4ff317344113324e12331e5e",
+    "h1_mesh_sha256": "05f3db8c38cc2ad580b38a332535f6be25c42ebf0d4fafb424538bbf9183ebef",
+    "h1_setup_sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+    "j24b_archive_sha256": "61a916e5dce3d09804ab2b8110f41eeba4c449257f7ea1f80536c64616dae6ff",
+    "selected_edge_inventory_sha256": "0a306f4e3b236b23f442e692db35538d36dea322de289e544089af1bfdd4fb0e"
+  },
+  "variants": [
+    {
+      "id": "A_ARCHIVED_H1",
+      "definition": "Unmodified archived H1 mesh and setup; re-solve once under the new source/scope as an execution control."
+    },
+    {
+      "id": "B_H1_ANGLE_PROJECTED_20",
+      "definition": "From A, move only the 20 selected unique midside nodes to the short-arc angular midpoint on radius 0.5 m; preserve each node's stored x coordinate, topology, all other coordinates, material, setup, loads, supports, and solver source. Preflight must stop if selected midside IDs are not unique or if any resulting TET10 validity check fails."
+    }
+  ],
+  "predeclared_observables": [
+    "Tip twist angle and its descriptive difference from the same Saint-Venant reference.",
+    "Applied and reaction torque, free residual, strain energy, and archived contract criteria, reported separately for each variant.",
+    "Integration-point shear error against Saint-Venant using the same element/IP labels and weights; interpret paired values as a geometry sensitivity, not pointwise identical physical positions."
+  ],
+  "decision_policy": {
+    "status": "No new PASS tolerance is defined for the sensitivity itself. Report paired deltas and any existing J24B checks without changing thresholds or J24B verdicts.",
+    "inconclusive": "Any missing observable, non-unique projection target, invalid mesh, failed solver, or incomplete trace makes the comparison INCONCLUSIVE; do not replace the archived H1 result."
+  },
+  "execution_plan": {
+    "attempts_max": 1,
+    "solver_calls_max": 2,
+    "estimated_elapsed_seconds": 120,
+    "estimated_elapsed_basis": "J24B R1 completed all four levels in 75.07 s; H1's archived level was 6.20 s. This estimate covers two H1 calls plus pre/post-processing and is not a measurement.",
+    "soft_budgets": {
+      "timeout_seconds": 600,
+      "rss_limit_mib": 2048,
+      "process_tree_limit": 8,
+      "archive_limit_mib": 128,
+      "numerical_threads": 1
+    },
+    "budget_semantics": "Timeout, RSS, process and storage are monitored soft limits; captured output caps are enforced by the registered launcher."
+  },
+  "required_artifacts": [
+    "Frozen source SHA, contract/input hashes, and generated variant mesh hash.",
+    "Preflight mesh-quality and geometry report before either solve.",
+    "Per-variant checkpoints for reactions, residual, energy, twist, integration-point stresses, runtime and resources.",
+    "stdout/stderr, launcher ledger, environment/dependency versions, comparison JSON/CSV and figures."
+  ],
+  "execution_scope_required": {
+    "existing_j24b_scope_reusable": false,
+    "required_action": "Register a new exact nodeid, worktree/source inventory, owner scope, preflight, attempt ledger, and budget before execution. The single J24B contract-002 attempt is consumed.",
+    "proposed_nodeid": "tests/verification/test_j24d_tet10_h1_projection_sensitivity.py::test_j24d_h1_arc_midpoint_projection_sensitivity",
+    "authorization_status": "J24D authorizes archive analysis and contract preparation only; this proposal is not an execution authorization."
+  }
+}
