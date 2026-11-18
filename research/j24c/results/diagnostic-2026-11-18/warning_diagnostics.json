@@ -1,0 +1,600 @@
+{
+  "analysis_id": "J24C-TET10-MIDEDGE-ARCHIVE-001",
+  "analysis_type": "archival post-processing only; no FEM solve",
+  "archive": {
+    "bytes": 25473419,
+    "sha256": "61a916e5dce3d09804ab2b8110f41eeba4c449257f7ea1f80536c64616dae6ff",
+    "verified_member_count": 41
+  },
+  "baseline_main_sha": "be455745f4a1c2cf81cb9448830223107dc39b66",
+  "historical_status": {
+    "audit_run_verdicts": "WARNING preserved at all four levels",
+    "contract_001": "PYTEST_FAILED",
+    "contract_001_campaign": "INCONCLUSIVE",
+    "contract_002_campaign": "PASS (bounded to frozen J24B configuration)"
+  },
+  "j24b_contract_id": "J24B-TET10-CIRCULAR-TORSION-STATIC-002",
+  "j24b_contract_sha256": "1c1b63da996750baf28c7750936d4532ac95644d4ff317344113324e12331e5e",
+  "j24b_run_source_sha": "275c5788e4eaded1ea4305630ea1b0eb0b88158c",
+  "j24b_run_source_tree": "a21b7d06ce1aff00f565d39ca24b2ce1073abf53",
+  "levels": [
+    {
+      "archived_warning_element_count": 148,
+      "cylindrical_warning_edge_distance_to_ideal_arc_midpoint_mm_max": 29.77500912329393,
+      "cylindrical_warning_edge_radial_midpoint_error_mm_max": 1.1102230246251565e-13,
+      "element_count": 151,
+      "interpretation": "Warning-edge categories are reconstructed by topological boundary faces and node positions. Element-local error grouping is descriptive, unweighted for nodal displacement, and cannot establish causality.",
+      "lateral_warning_edge_ideal_arc_midpoint_distance_mm": {
+        "count": 82,
+        "count_over_10mm": 20,
+        "count_over_1mm": 40,
+        "max": 29.77500912329393,
+        "mean": 7.252462972295847,
+        "median": 0.6285111859006118,
+        "p95": 25.463295644009484
+      },
+      "level": "h1",
+      "maximum_absolute_deviation_edge": {
+        "chord_length_m": 0.552874758189474,
+        "distance_to_ideal_cylinder_arc_midpoint_m": 0.0026901203565022256,
+        "element_index": 17,
+        "endpoint_node_indices": [
+          43,
+          65
+        ],
+        "is_boundary_edge": true,
+        "level": "h1",
+        "local_edge_index": 0,
+        "location": "lateral_cylinder",
+        "midpoint_deviation_m": 0.08280682253887318,
+        "midpoint_deviation_mm": 82.80682253887318,
+        "midside_node_index": 174,
+        "on_analytical_cylinder": true,
+        "owner_element_indices": [
+          17,
+          143
+        ],
+        "radial_mid_error_to_R_m": 0.0,
+        "radial_mid_m": 0.5,
+        "relative_midpoint_deviation": 0.1497750101850277,
+        "theta_mid_deg": 175.37951755996605,
+        "x_mid_m": 2.216792993955348
+      },
+      "maximum_absolute_mid_edge_deviation_mm": 82.80682253887318,
+      "maximum_relative_deviation_edge": {
+        "chord_length_m": 0.552874758189474,
+        "distance_to_ideal_cylinder_arc_midpoint_m": 0.0026901203565022256,
+        "element_index": 17,
+        "endpoint_node_indices": [
+          43,
+          65
+        ],
+        "is_boundary_edge": true,
+        "level": "h1",
+        "local_edge_index": 0,
+        "location": "lateral_cylinder",
+        "midpoint_deviation_m": 0.08280682253887318,
+        "midpoint_deviation_mm": 82.80682253887318,
+        "midside_node_index": 174,
+        "on_analytical_cylinder": true,
+        "owner_element_indices": [
+          17,
+          143
+        ],
+        "radial_mid_error_to_R_m": 0.0,
+        "radial_mid_m": 0.5,
+        "relative_midpoint_deviation": 0.1497750101850277,
+        "theta_mid_deg": 175.37951755996605,
+        "x_mid_m": 2.216792993955348
+      },
+      "maximum_relative_mid_edge_deviation": 0.1497750101850277,
+      "node_count": 348,
+      "quality_indicators": {
+        "elements_below_sampled_jacobian_ratio_warning_threshold": 0,
+        "jacobian_sample_count_per_element": 35,
+        "jacobian_sample_count_total": 5285,
+        "jacobian_sampled_below_failure_threshold_count": 0,
+        "jacobian_sampled_maximum_m3": 0.2256830046031005,
+        "jacobian_sampled_minimum_m3": 0.009966261103179793,
+        "jacobian_sampled_nonpositive_count": 0,
+        "maximum_corner_aspect_ratio": 2.152561725089957,
+        "mesh_errors_archived": 0,
+        "minimum_corner_quality": 0.3008244231149556,
+        "minimum_corner_radius_ratio": 0.3106913080574951,
+        "minimum_per_element_sampled_jacobian_ratio": 0.23385523100511707,
+        "minimum_relative_corner_volume": 0.015811009542876085,
+        "other_mesh_warning_count": 0,
+        "other_mesh_warning_examples": [],
+        "sampling_limit": "Tet10Element.jacobian_determinants default closed lattice; 35 samples per element. Finite sampling does not certify positivity everywhere inside each curved element."
+      },
+      "recomputed_warning_element_count": 148,
+      "unique_physical_warning_edges_above_threshold": 96,
+      "unique_warning_edges_by_location": {
+        "cylindrical_rim_x0": 7,
+        "cylindrical_rim_xL": 7,
+        "lateral_cylinder": 82
+      },
+      "warning_edge_element_incidences_above_threshold": 231,
+      "warning_edge_incidences_by_location": {
+        "cylindrical_rim_x0": 7,
+        "cylindrical_rim_xL": 7,
+        "lateral_cylinder": 217
+      },
+      "warning_element_indices_match_archive": true,
+      "warning_elements_by_axial_zone": {
+        "middle_half": 72,
+        "root_quarter": 38,
+        "tip_quarter": 38
+      },
+      "warning_threshold_relative_deviation": 0.05,
+      "warning_vs_unwarning_element_errors": {
+        "unwarned_displacement_relative_l2": {
+          "count": 3,
+          "max": 0.006677035356068975,
+          "mean": 0.0048342119006818075,
+          "median": 0.00449065508393868,
+          "p95": 0.006458397328855945
+        },
+        "unwarned_ip_shear_relative_l2": {
+          "count": 3,
+          "max": 0.02722981727005905,
+          "mean": 0.02211054742880671,
+          "median": 0.026173615807970944,
+          "p95": 0.027124197123850242
+        },
+        "warned_displacement_relative_l2": {
+          "count": 148,
+          "max": 0.009046346266177183,
+          "mean": 0.00410181267124035,
+          "median": 0.003779717643151527,
+          "p95": 0.006523886039512557
+        },
+        "warned_ip_shear_relative_l2": {
+          "count": 148,
+          "max": 0.09513823321755842,
+          "mean": 0.030484496957275634,
+          "median": 0.02890658428511434,
+          "p95": 0.046641891071575486
+        }
+      }
+    },
+    {
+      "archived_warning_element_count": 250,
+      "cylindrical_warning_edge_distance_to_ideal_arc_midpoint_mm_max": 1.3325567187647328e-12,
+      "cylindrical_warning_edge_radial_midpoint_error_mm_max": 1.1102230246251565e-13,
+      "element_count": 272,
+      "interpretation": "Warning-edge categories are reconstructed by topological boundary faces and node positions. Element-local error grouping is descriptive, unweighted for nodal displacement, and cannot establish causality.",
+      "lateral_warning_edge_ideal_arc_midpoint_distance_mm": {
+        "count": 137,
+        "count_over_10mm": 0,
+        "count_over_1mm": 0,
+        "max": 1.3325567187647328e-12,
+        "mean": 2.644450028448631e-13,
+        "median": 2.220446049250313e-13,
+        "p95": 5.697929404087465e-13
+      },
+      "level": "h2",
+      "maximum_absolute_deviation_edge": {
+        "chord_length_m": 0.3847405463964467,
+        "distance_to_ideal_cylinder_arc_midpoint_m": 4.611102534756203e-16,
+        "element_index": 194,
+        "endpoint_node_indices": [
+          102,
+          116
+        ],
+        "is_boundary_edge": true,
+        "level": "h2",
+        "local_edge_index": 2,
+        "location": "lateral_cylinder",
+        "midpoint_deviation_m": 0.03784850473244675,
+        "midpoint_deviation_mm": 37.84850473244675,
+        "midside_node_index": 316,
+        "on_analytical_cylinder": true,
+        "owner_element_indices": [
+          194,
+          199,
+          206
+        ],
+        "radial_mid_error_to_R_m": 0.0,
+        "radial_mid_m": 0.5,
+        "relative_midpoint_deviation": 0.09837409934290278,
+        "theta_mid_deg": 312.1643937648122,
+        "x_mid_m": 2.420180418925019
+      },
+      "maximum_absolute_mid_edge_deviation_mm": 37.84850473244675,
+      "maximum_relative_deviation_edge": {
+        "chord_length_m": 0.3847405463964467,
+        "distance_to_ideal_cylinder_arc_midpoint_m": 4.611102534756203e-16,
+        "element_index": 194,
+        "endpoint_node_indices": [
+          102,
+          116
+        ],
+        "is_boundary_edge": true,
+        "level": "h2",
+        "local_edge_index": 2,
+        "location": "lateral_cylinder",
+        "midpoint_deviation_m": 0.03784850473244675,
+        "midpoint_deviation_mm": 37.84850473244675,
+        "midside_node_index": 316,
+        "on_analytical_cylinder": true,
+        "owner_element_indices": [
+          194,
+          199,
+          206
+        ],
+        "radial_mid_error_to_R_m": 0.0,
+        "radial_mid_m": 0.5,
+        "relative_midpoint_deviation": 0.09837409934290278,
+        "theta_mid_deg": 312.1643937648122,
+        "x_mid_m": 2.420180418925019
+      },
+      "maximum_relative_mid_edge_deviation": 0.09837409934290278,
+      "node_count": 605,
+      "quality_indicators": {
+        "elements_below_sampled_jacobian_ratio_warning_threshold": 0,
+        "jacobian_sample_count_per_element": 35,
+        "jacobian_sample_count_total": 9520,
+        "jacobian_sampled_below_failure_threshold_count": 0,
+        "jacobian_sampled_maximum_m3": 0.09783732224851928,
+        "jacobian_sampled_minimum_m3": 0.02040500343526883,
+        "jacobian_sampled_nonpositive_count": 0,
+        "maximum_corner_aspect_ratio": 2.2867892210021963,
+        "mesh_errors_archived": 0,
+        "minimum_corner_quality": 0.4250692402726663,
+        "minimum_corner_radius_ratio": 0.49437522323734917,
+        "minimum_per_element_sampled_jacobian_ratio": 0.7087919171628378,
+        "minimum_relative_corner_volume": 0.027604249958435096,
+        "other_mesh_warning_count": 0,
+        "other_mesh_warning_examples": [],
+        "sampling_limit": "Tet10Element.jacobian_determinants default closed lattice; 35 samples per element. Finite sampling does not certify positivity everywhere inside each curved element."
+      },
+      "recomputed_warning_element_count": 250,
+      "unique_physical_warning_edges_above_threshold": 155,
+      "unique_warning_edges_by_location": {
+        "cylindrical_rim_x0": 9,
+        "cylindrical_rim_xL": 9,
+        "lateral_cylinder": 137
+      },
+      "warning_edge_element_incidences_above_threshold": 360,
+      "warning_edge_incidences_by_location": {
+        "cylindrical_rim_x0": 9,
+        "cylindrical_rim_xL": 9,
+        "lateral_cylinder": 342
+      },
+      "warning_element_indices_match_archive": true,
+      "warning_elements_by_axial_zone": {
+        "middle_half": 122,
+        "root_quarter": 62,
+        "tip_quarter": 66
+      },
+      "warning_threshold_relative_deviation": 0.05,
+      "warning_vs_unwarning_element_errors": {
+        "unwarned_displacement_relative_l2": {
+          "count": 22,
+          "max": 0.004753472231900558,
+          "mean": 0.0022610719355684807,
+          "median": 0.0011447136568111687,
+          "p95": 0.0047135828246324795
+        },
+        "unwarned_ip_shear_relative_l2": {
+          "count": 22,
+          "max": 0.01509410921672883,
+          "mean": 0.009196984198128621,
+          "median": 0.009113920006146352,
+          "p95": 0.014808916779003497
+        },
+        "warned_displacement_relative_l2": {
+          "count": 250,
+          "max": 0.006061499641997349,
+          "mean": 0.0014926047128917186,
+          "median": 0.0010000270842382137,
+          "p95": 0.004387947989496339
+        },
+        "warned_ip_shear_relative_l2": {
+          "count": 250,
+          "max": 0.02514740469136184,
+          "mean": 0.016135559857728757,
+          "median": 0.01597504706085252,
+          "p95": 0.02235519892755627
+        }
+      }
+    },
+    {
+      "archived_warning_element_count": 374,
+      "cylindrical_warning_edge_distance_to_ideal_arc_midpoint_mm_max": 1.3345785898812088e-12,
+      "cylindrical_warning_edge_radial_midpoint_error_mm_max": 1.1102230246251565e-13,
+      "element_count": 531,
+      "interpretation": "Warning-edge categories are reconstructed by topological boundary faces and node positions. Element-local error grouping is descriptive, unweighted for nodal displacement, and cannot establish causality.",
+      "lateral_warning_edge_ideal_arc_midpoint_distance_mm": {
+        "count": 202,
+        "count_over_10mm": 0,
+        "count_over_1mm": 0,
+        "max": 1.3345785898812088e-12,
+        "mean": 3.00235817384488e-13,
+        "median": 2.3551386880256624e-13,
+        "p95": 6.689899735553488e-13
+      },
+      "level": "h3",
+      "maximum_absolute_deviation_edge": {
+        "chord_length_m": 0.3342036291225471,
+        "distance_to_ideal_cylinder_arc_midpoint_m": 7.850462293418876e-17,
+        "element_index": 196,
+        "endpoint_node_indices": [
+          120,
+          151
+        ],
+        "is_boundary_edge": true,
+        "level": "h3",
+        "local_edge_index": 2,
+        "location": "lateral_cylinder",
+        "midpoint_deviation_m": 0.025743520533534077,
+        "midpoint_deviation_mm": 25.743520533534078,
+        "midside_node_index": 335,
+        "on_analytical_cylinder": true,
+        "owner_element_indices": [
+          196,
+          343,
+          352
+        ],
+        "radial_mid_error_to_R_m": 1.1102230246251565e-16,
+        "radial_mid_m": 0.49999999999999994,
+        "relative_midpoint_deviation": 0.07702944639208074,
+        "theta_mid_deg": 137.47310461768308,
+        "x_mid_m": 0.5195548969868804
+      },
+      "maximum_absolute_mid_edge_deviation_mm": 25.743520533534078,
+      "maximum_relative_deviation_edge": {
+        "chord_length_m": 0.3121758339170931,
+        "distance_to_ideal_cylinder_arc_midpoint_m": 1.0007415106216802e-16,
+        "element_index": 335,
+        "endpoint_node_indices": [
+          72,
+          156
+        ],
+        "is_boundary_edge": true,
+        "level": "h3",
+        "local_edge_index": 1,
+        "location": "lateral_cylinder",
+        "midpoint_deviation_m": 0.02482103364699118,
+        "midpoint_deviation_mm": 24.82103364699118,
+        "midside_node_index": 193,
+        "on_analytical_cylinder": true,
+        "owner_element_indices": [
+          335,
+          358,
+          479
+        ],
+        "radial_mid_error_to_R_m": 5.551115123125783e-17,
+        "radial_mid_m": 0.5,
+        "relative_midpoint_deviation": 0.07950978567284965,
+        "theta_mid_deg": 158.40904067066828,
+        "x_mid_m": 2.767056832941595
+      },
+      "maximum_relative_mid_edge_deviation": 0.07950978567284965,
+      "node_count": 1056,
+      "quality_indicators": {
+        "elements_below_sampled_jacobian_ratio_warning_threshold": 0,
+        "jacobian_sample_count_per_element": 35,
+        "jacobian_sample_count_total": 18585,
+        "jacobian_sampled_below_failure_threshold_count": 0,
+        "jacobian_sampled_maximum_m3": 0.06295540766402034,
+        "jacobian_sampled_minimum_m3": 0.009087700568323276,
+        "jacobian_sampled_nonpositive_count": 0,
+        "maximum_corner_aspect_ratio": 2.4347490204476543,
+        "mesh_errors_archived": 0,
+        "minimum_corner_quality": 0.26283843774546106,
+        "minimum_corner_radius_ratio": 0.3382646723613842,
+        "minimum_per_element_sampled_jacobian_ratio": 0.7049384687653855,
+        "minimum_relative_corner_volume": 0.015107390470572645,
+        "other_mesh_warning_count": 0,
+        "other_mesh_warning_examples": [],
+        "sampling_limit": "Tet10Element.jacobian_determinants default closed lattice; 35 samples per element. Finite sampling does not certify positivity everywhere inside each curved element."
+      },
+      "recomputed_warning_element_count": 374,
+      "unique_physical_warning_edges_above_threshold": 224,
+      "unique_warning_edges_by_location": {
+        "cylindrical_rim_x0": 11,
+        "cylindrical_rim_xL": 11,
+        "lateral_cylinder": 202
+      },
+      "warning_edge_element_incidences_above_threshold": 542,
+      "warning_edge_incidences_by_location": {
+        "cylindrical_rim_x0": 11,
+        "cylindrical_rim_xL": 11,
+        "lateral_cylinder": 520
+      },
+      "warning_element_indices_match_archive": true,
+      "warning_elements_by_axial_zone": {
+        "middle_half": 191,
+        "root_quarter": 92,
+        "tip_quarter": 91
+      },
+      "warning_threshold_relative_deviation": 0.05,
+      "warning_vs_unwarning_element_errors": {
+        "unwarned_displacement_relative_l2": {
+          "count": 157,
+          "max": 0.003129342933613312,
+          "mean": 0.0006670458233760026,
+          "median": 0.00037084633667788976,
+          "p95": 0.0023203223255633546
+        },
+        "unwarned_ip_shear_relative_l2": {
+          "count": 157,
+          "max": 0.016902331912515958,
+          "mean": 0.004826416563459149,
+          "median": 0.004577050489286642,
+          "p95": 0.009665128580611837
+        },
+        "warned_displacement_relative_l2": {
+          "count": 374,
+          "max": 0.003448194921953279,
+          "mean": 0.00066332353113301,
+          "median": 0.0004270741050015576,
+          "p95": 0.00217495455916642
+        },
+        "warned_ip_shear_relative_l2": {
+          "count": 374,
+          "max": 0.03018065815724892,
+          "mean": 0.011501940677369798,
+          "median": 0.011240150903443574,
+          "p95": 0.01748438337415174
+        }
+      }
+    },
+    {
+      "archived_warning_element_count": 99,
+      "cylindrical_warning_edge_distance_to_ideal_arc_midpoint_mm_max": 1.3380375466713834e-12,
+      "cylindrical_warning_edge_radial_midpoint_error_mm_max": 1.1102230246251565e-13,
+      "element_count": 1063,
+      "interpretation": "Warning-edge categories are reconstructed by topological boundary faces and node positions. Element-local error grouping is descriptive, unweighted for nodal displacement, and cannot establish causality.",
+      "lateral_warning_edge_ideal_arc_midpoint_distance_mm": {
+        "count": 25,
+        "count_over_10mm": 0,
+        "count_over_1mm": 0,
+        "max": 1.3380375466713834e-12,
+        "mean": 2.846640610480449e-13,
+        "median": 1.7772239894833365e-13,
+        "p95": 8.18966525397403e-13
+      },
+      "level": "h4",
+      "maximum_absolute_deviation_edge": {
+        "chord_length_m": 0.23959191893386209,
+        "distance_to_ideal_cylinder_arc_midpoint_m": 2.7336071744532853e-16,
+        "element_index": 651,
+        "endpoint_node_indices": [
+          89,
+          233
+        ],
+        "is_boundary_edge": true,
+        "level": "h4",
+        "local_edge_index": 0,
+        "location": "lateral_cylinder",
+        "midpoint_deviation_m": 0.014340611967498943,
+        "midpoint_deviation_mm": 14.340611967498944,
+        "midside_node_index": 320,
+        "on_analytical_cylinder": true,
+        "owner_element_indices": [
+          651,
+          828,
+          917
+        ],
+        "radial_mid_error_to_R_m": 5.551115123125783e-17,
+        "radial_mid_m": 0.49999999999999994,
+        "relative_midpoint_deviation": 0.05985432243003815,
+        "theta_mid_deg": 347.5843752804111,
+        "x_mid_m": 2.800050408269594
+      },
+      "maximum_absolute_mid_edge_deviation_mm": 14.340611967498944,
+      "maximum_relative_deviation_edge": {
+        "chord_length_m": 0.23959191893386209,
+        "distance_to_ideal_cylinder_arc_midpoint_m": 2.7336071744532853e-16,
+        "element_index": 651,
+        "endpoint_node_indices": [
+          89,
+          233
+        ],
+        "is_boundary_edge": true,
+        "level": "h4",
+        "local_edge_index": 0,
+        "location": "lateral_cylinder",
+        "midpoint_deviation_m": 0.014340611967498943,
+        "midpoint_deviation_mm": 14.340611967498944,
+        "midside_node_index": 320,
+        "on_analytical_cylinder": true,
+        "owner_element_indices": [
+          651,
+          828,
+          917
+        ],
+        "radial_mid_error_to_R_m": 5.551115123125783e-17,
+        "radial_mid_m": 0.49999999999999994,
+        "relative_midpoint_deviation": 0.05985432243003815,
+        "theta_mid_deg": 347.5843752804111,
+        "x_mid_m": 2.800050408269594
+      },
+      "maximum_relative_mid_edge_deviation": 0.05985432243003815,
+      "node_count": 1992,
+      "quality_indicators": {
+        "elements_below_sampled_jacobian_ratio_warning_threshold": 0,
+        "jacobian_sample_count_per_element": 35,
+        "jacobian_sample_count_total": 37205,
+        "jacobian_sampled_below_failure_threshold_count": 0,
+        "jacobian_sampled_maximum_m3": 0.03144916729933174,
+        "jacobian_sampled_minimum_m3": 0.003673836394087084,
+        "jacobian_sampled_nonpositive_count": 0,
+        "maximum_corner_aspect_ratio": 2.5254825899335396,
+        "mesh_errors_archived": 0,
+        "minimum_corner_quality": 0.2638703970363677,
+        "minimum_corner_radius_ratio": 0.30556807595434426,
+        "minimum_per_element_sampled_jacobian_ratio": 0.6913468092661788,
+        "minimum_relative_corner_volume": 0.0171607814858104,
+        "other_mesh_warning_count": 0,
+        "other_mesh_warning_examples": [],
+        "sampling_limit": "Tet10Element.jacobian_determinants default closed lattice; 35 samples per element. Finite sampling does not certify positivity everywhere inside each curved element."
+      },
+      "recomputed_warning_element_count": 99,
+      "unique_physical_warning_edges_above_threshold": 53,
+      "unique_warning_edges_by_location": {
+        "cylindrical_rim_x0": 14,
+        "cylindrical_rim_xL": 14,
+        "lateral_cylinder": 25
+      },
+      "warning_edge_element_incidences_above_threshold": 99,
+      "warning_edge_incidences_by_location": {
+        "cylindrical_rim_x0": 14,
+        "cylindrical_rim_xL": 14,
+        "lateral_cylinder": 71
+      },
+      "warning_element_indices_match_archive": true,
+      "warning_elements_by_axial_zone": {
+        "root_quarter": 50,
+        "tip_quarter": 49
+      },
+      "warning_threshold_relative_deviation": 0.05,
+      "warning_vs_unwarning_element_errors": {
+        "unwarned_displacement_relative_l2": {
+          "count": 964,
+          "max": 0.002101911730580526,
+          "mean": 0.00020484430516363344,
+          "median": 0.00011804604783519792,
+          "p95": 0.0007051144782724279
+        },
+        "unwarned_ip_shear_relative_l2": {
+          "count": 964,
+          "max": 0.014075107075690785,
+          "mean": 0.00425644083634369,
+          "median": 0.004548008929191823,
+          "p95": 0.008060523662250584
+        },
+        "warned_displacement_relative_l2": {
+          "count": 99,
+          "max": 0.0020986964583361175,
+          "mean": 0.0006088469466470042,
+          "median": 0.00030966007040608197,
+          "p95": 0.0016428704769901677
+        },
+        "warned_ip_shear_relative_l2": {
+          "count": 99,
+          "max": 0.009892934749211752,
+          "mean": 0.005391600540221142,
+          "median": 0.005031497804582824,
+          "p95": 0.007429812455962879
+        }
+      }
+    }
+  ],
+  "postprocess_environment": {
+    "matplotlib": "3.10.3",
+    "numpy": "2.2.6",
+    "python": "3.13.1"
+  },
+  "pr150_head_sha_at_analysis": "de3f39c536da73cf43cd19bae58b27a78bb528b2",
+  "quality_control": {
+    "definition": "For each of the six TET10 edges: Euclidean distance from the midside node to the straight chord midpoint divided by corner-to-corner chord length; the element warning uses the maximum over six edges.",
+    "jacobian_sampling": "Tet10Element.jacobian_determinants default closed lattice; 35 points per element; not a continuum certificate.",
+    "source": "src/solveur/mesh/quality.py: MeshQualityThresholds.tet10_max_mid_edge_deviation_ratio",
+    "warning_threshold_relative_deviation": 0.05
+  },
+  "schema": "qf-j24c-tet10-curvature-warning-postprocess-v1"
+}

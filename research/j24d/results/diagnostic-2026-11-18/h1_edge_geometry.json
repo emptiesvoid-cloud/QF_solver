@@ -1,0 +1,1495 @@
+{
+  "analysis_id": "J24D-H1-QUADRATIC-EDGE-GEOMETRY-001",
+  "analysis_type": "archived mesh geometry post-processing; no FEM solve",
+  "edges": [
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.20382135951449987,
+        "maximum_absolute_radius_error_m": 0.0026529538616385517,
+        "maximum_radius_at_t": 0.7795098874622711,
+        "maximum_radius_m": 0.5022226817420361,
+        "minimum_radius_at_t": 0.20382135951449987,
+        "minimum_radius_m": 0.49734704613836145
+      },
+      "chord_length_m": 0.3930147051488466,
+      "element_index": 2,
+      "endpoint_node_indices": [
+        65,
+        75
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940673548,
+        "maximum_absolute_radius_error_m": 0.0001274669481745594,
+        "maximum_radius_at_t": 0.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.14644660940673548,
+        "minimum_radius_m": 0.49987253305182544
+      },
+      "level": "h1",
+      "local_edge_index": 2,
+      "max_node_radial_error_to_R_m": 0.0,
+      "midside_angular_offset_from_short_arc_midpoint_deg": -2.43943553046976,
+      "midside_axial_offset_from_chord_midpoint_m": 0.008736572380118712,
+      "midside_distance_to_ideal_arc_midpoint_mm": 23.00960797353692,
+      "midside_node_index": 177,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 2.152561725089957,
+          "corner_quality": 0.5689755685881801,
+          "corner_radius_ratio": 0.6330182321625577,
+          "displacement_error_relative_l2": 0.0037310359485075166,
+          "element_index": 2,
+          "ip_shear_error_relative_l2": 0.028769440968475925,
+          "sampled_jacobian_min": 0.095498347092036,
+          "sampled_jacobian_ratio": 0.5995894313317527
+        },
+        {
+          "corner_aspect_ratio": 1.9316645380089277,
+          "corner_quality": 0.3008244231149556,
+          "corner_radius_ratio": 0.3106913080574951,
+          "displacement_error_relative_l2": 0.00362369104581373,
+          "element_index": 8,
+          "ip_shear_error_relative_l2": 0.09513823321755842,
+          "sampled_jacobian_min": 0.034954538116063645,
+          "sampled_jacobian_ratio": 0.45790083477333965
+        },
+        {
+          "corner_aspect_ratio": 1.8601378485645634,
+          "corner_quality": 0.4608502782078438,
+          "corner_radius_ratio": 0.476765058126115,
+          "displacement_error_relative_l2": 0.0037337624707613703,
+          "element_index": 17,
+          "ip_shear_error_relative_l2": 0.04834751734817225,
+          "sampled_jacobian_min": 0.052249788126741865,
+          "sampled_jacobian_ratio": 0.5898022728874301
+        },
+        {
+          "corner_aspect_ratio": 1.6898569614737262,
+          "corner_quality": 0.46088139041309845,
+          "corner_radius_ratio": 0.4312217524046001,
+          "displacement_error_relative_l2": 0.0031811687455499745,
+          "element_index": 22,
+          "ip_shear_error_relative_l2": 0.026792939414028754,
+          "sampled_jacobian_min": 0.014923351584489599,
+          "sampled_jacobian_ratio": 0.27605660517948927
+        }
+      ],
+      "owner_element_indices": [
+        2,
+        8,
+        17,
+        22
+      ],
+      "warning_relative_deviation": 0.08121422540413893,
+      "x_mid_m": 2.07710664478855
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.2040737662344803,
+        "maximum_absolute_radius_error_m": 0.0030120361792616013,
+        "maximum_radius_at_t": 0.7798832050344012,
+        "maximum_radius_m": 0.5025379668856891,
+        "minimum_radius_at_t": 0.2040737662344803,
+        "minimum_radius_m": 0.4969879638207384
+      },
+      "chord_length_m": 0.41075354950633464,
+      "element_index": 6,
+      "endpoint_node_indices": [
+        43,
+        75
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940671023,
+        "maximum_absolute_radius_error_m": 9.745552587686612e-05,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5000000000000001,
+        "minimum_radius_at_t": 0.14644660940671023,
+        "minimum_radius_m": 0.49990254447412313
+      },
+      "level": "h1",
+      "local_edge_index": 0,
+      "max_node_radial_error_to_R_m": 0.0,
+      "midside_angular_offset_from_short_arc_midpoint_deg": 2.965855182079443,
+      "midside_axial_offset_from_chord_midpoint_m": -0.00020967582770037296,
+      "midside_distance_to_ideal_arc_midpoint_mm": 25.87992890651541,
+      "midside_node_index": 173,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.7798057471893798,
+          "corner_quality": 0.7150302115244062,
+          "corner_radius_ratio": 0.6860440779227315,
+          "displacement_error_relative_l2": 0.0035981046540855617,
+          "element_index": 6,
+          "ip_shear_error_relative_l2": 0.04788741263918568,
+          "sampled_jacobian_min": 0.1116947092739822,
+          "sampled_jacobian_ratio": 0.7248045880423546
+        },
+        {
+          "corner_aspect_ratio": 1.8601378485645634,
+          "corner_quality": 0.4608502782078438,
+          "corner_radius_ratio": 0.476765058126115,
+          "displacement_error_relative_l2": 0.0037337624707613703,
+          "element_index": 17,
+          "ip_shear_error_relative_l2": 0.04834751734817225,
+          "sampled_jacobian_min": 0.052249788126741865,
+          "sampled_jacobian_ratio": 0.5898022728874301
+        },
+        {
+          "corner_aspect_ratio": 1.9189208994358835,
+          "corner_quality": 0.4694112468662004,
+          "corner_radius_ratio": 0.4709389295789732,
+          "displacement_error_relative_l2": 0.003615916266415263,
+          "element_index": 33,
+          "ip_shear_error_relative_l2": 0.05118854679922551,
+          "sampled_jacobian_min": 0.01886568281204589,
+          "sampled_jacobian_ratio": 0.23385523100511707
+        }
+      ],
+      "owner_element_indices": [
+        6,
+        17,
+        33
+      ],
+      "warning_relative_deviation": 0.0782513739999749,
+      "x_mid_m": 2.090612895138277
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.8025052885309577,
+        "maximum_absolute_radius_error_m": 0.0045579690874167356,
+        "maximum_radius_at_t": 0.2319823819424572,
+        "maximum_radius_m": 0.5031898039364685,
+        "minimum_radius_at_t": 0.8025052885309577,
+        "minimum_radius_m": 0.49544203091258326
+      },
+      "chord_length_m": 0.5006595837560162,
+      "element_index": 6,
+      "endpoint_node_indices": [
+        18,
+        43
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.8535533905932701,
+        "maximum_absolute_radius_error_m": 0.0006398754214679281,
+        "maximum_radius_at_t": 0.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.8535533905932701,
+        "minimum_radius_m": 0.49936012457853207
+      },
+      "level": "h1",
+      "local_edge_index": 2,
+      "max_node_radial_error_to_R_m": 5.551115123125783e-17,
+      "midside_angular_offset_from_short_arc_midpoint_deg": -2.615253261939897,
+      "midside_axial_offset_from_chord_midpoint_m": -0.0063445388271636816,
+      "midside_distance_to_ideal_arc_midpoint_mm": 23.685950196839595,
+      "midside_node_index": 128,
+      "midside_radial_error_to_R_m": -5.551115123125783e-17,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.7798057471893798,
+          "corner_quality": 0.7150302115244062,
+          "corner_radius_ratio": 0.6860440779227315,
+          "displacement_error_relative_l2": 0.0035981046540855617,
+          "element_index": 6,
+          "ip_shear_error_relative_l2": 0.04788741263918568,
+          "sampled_jacobian_min": 0.1116947092739822,
+          "sampled_jacobian_ratio": 0.7248045880423546
+        },
+        {
+          "corner_aspect_ratio": 1.9189208994358835,
+          "corner_quality": 0.4694112468662004,
+          "corner_radius_ratio": 0.4709389295789732,
+          "displacement_error_relative_l2": 0.003615916266415263,
+          "element_index": 33,
+          "ip_shear_error_relative_l2": 0.05118854679922551,
+          "sampled_jacobian_min": 0.01886568281204589,
+          "sampled_jacobian_ratio": 0.23385523100511707
+        },
+        {
+          "corner_aspect_ratio": 1.3963129551004392,
+          "corner_quality": 0.8555446538022095,
+          "corner_radius_ratio": 0.8689635919694739,
+          "displacement_error_relative_l2": 0.004071979013200843,
+          "element_index": 66,
+          "ip_shear_error_relative_l2": 0.0460184636905855,
+          "sampled_jacobian_min": 0.10176349768366436,
+          "sampled_jacobian_ratio": 0.7235509904731442
+        }
+      ],
+      "owner_element_indices": [
+        6,
+        33,
+        66
+      ],
+      "warning_relative_deviation": 0.11060086997372114,
+      "x_mid_m": 2.114535269845356
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.7979085138501539,
+        "maximum_absolute_radius_error_m": 0.004410077216776942,
+        "maximum_radius_at_t": 0.22320275308041043,
+        "maximum_radius_m": 0.5035213565360592,
+        "minimum_radius_at_t": 0.7979085138501539,
+        "minimum_radius_m": 0.49558992278322306
+      },
+      "chord_length_m": 0.447822160085005,
+      "element_index": 7,
+      "endpoint_node_indices": [
+        54,
+        65
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.8535533905932755,
+        "maximum_absolute_radius_error_m": 0.0002990676174762785,
+        "maximum_radius_at_t": 0.0,
+        "maximum_radius_m": 0.5000000000000001,
+        "minimum_radius_at_t": 0.8535533905932755,
+        "minimum_radius_m": 0.4997009323825237
+      },
+      "level": "h1",
+      "local_edge_index": 2,
+      "max_node_radial_error_to_R_m": 1.1102230246251565e-16,
+      "midside_angular_offset_from_short_arc_midpoint_deg": 3.2232568188155364,
+      "midside_axial_offset_from_chord_midpoint_m": 0.008322054986684257,
+      "midside_distance_to_ideal_arc_midpoint_mm": 29.329930676080576,
+      "midside_node_index": 221,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.8891169019870246,
+          "corner_quality": 0.678945619130892,
+          "corner_radius_ratio": 0.7332572708823264,
+          "displacement_error_relative_l2": 0.0033417396705055745,
+          "element_index": 7,
+          "ip_shear_error_relative_l2": 0.02755356953356027,
+          "sampled_jacobian_min": 0.11837026133398514,
+          "sampled_jacobian_ratio": 0.5844125973058499
+        },
+        {
+          "corner_aspect_ratio": 1.9316645380089277,
+          "corner_quality": 0.3008244231149556,
+          "corner_radius_ratio": 0.3106913080574951,
+          "displacement_error_relative_l2": 0.00362369104581373,
+          "element_index": 8,
+          "ip_shear_error_relative_l2": 0.09513823321755842,
+          "sampled_jacobian_min": 0.034954538116063645,
+          "sampled_jacobian_ratio": 0.45790083477333965
+        },
+        {
+          "corner_aspect_ratio": 1.9700713890450412,
+          "corner_quality": 0.6412954120851952,
+          "corner_radius_ratio": 0.6412492072166468,
+          "displacement_error_relative_l2": 0.0034359516819880715,
+          "element_index": 14,
+          "ip_shear_error_relative_l2": 0.048819697306132864,
+          "sampled_jacobian_min": 0.05555946552314008,
+          "sampled_jacobian_ratio": 0.7449275470691751
+        },
+        {
+          "corner_aspect_ratio": 1.6898569614737262,
+          "corner_quality": 0.46088139041309845,
+          "corner_radius_ratio": 0.4312217524046001,
+          "displacement_error_relative_l2": 0.0031811687455499745,
+          "element_index": 22,
+          "ip_shear_error_relative_l2": 0.026792939414028754,
+          "sampled_jacobian_min": 0.014923351584489599,
+          "sampled_jacobian_ratio": 0.27605660517948927
+        }
+      ],
+      "owner_element_indices": [
+        7,
+        8,
+        14,
+        22
+      ],
+      "warning_relative_deviation": 0.09990029177843651,
+      "x_mid_m": 2.075901655732757
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.7974245112790309,
+        "maximum_absolute_radius_error_m": 0.004411660401195117,
+        "maximum_radius_at_t": 0.22241557010566024,
+        "maximum_radius_m": 0.5035679453925717,
+        "minimum_radius_at_t": 0.7974245112790309,
+        "minimum_radius_m": 0.4955883395988049
+      },
+      "chord_length_m": 0.403927146648939,
+      "element_index": 11,
+      "endpoint_node_indices": [
+        54,
+        55
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.8535533905932888,
+        "maximum_absolute_radius_error_m": 0.0002549104164968896,
+        "maximum_radius_at_t": 0.0,
+        "maximum_radius_m": 0.5000000000000001,
+        "minimum_radius_at_t": 0.8535533905932888,
+        "minimum_radius_m": 0.4997450895835031
+      },
+      "level": "h1",
+      "local_edge_index": 0,
+      "max_node_radial_error_to_R_m": 1.1102230246251565e-16,
+      "midside_angular_offset_from_short_arc_midpoint_deg": 3.37139755673416,
+      "midside_axial_offset_from_chord_midpoint_m": 0.004604998384358128,
+      "midside_distance_to_ideal_arc_midpoint_mm": 29.77500912329393,
+      "midside_node_index": 214,
+      "midside_radial_error_to_R_m": -5.551115123125783e-17,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.6898569614737262,
+          "corner_quality": 0.6877810475248236,
+          "corner_radius_ratio": 0.6699810172785455,
+          "displacement_error_relative_l2": 0.002594905575002601,
+          "element_index": 11,
+          "ip_shear_error_relative_l2": 0.04268696073291273,
+          "sampled_jacobian_min": 0.07522857053293272,
+          "sampled_jacobian_ratio": 0.7700110805666189
+        },
+        {
+          "corner_aspect_ratio": 1.6898569614737262,
+          "corner_quality": 0.46088139041309845,
+          "corner_radius_ratio": 0.4312217524046001,
+          "displacement_error_relative_l2": 0.0031811687455499745,
+          "element_index": 22,
+          "ip_shear_error_relative_l2": 0.026792939414028754,
+          "sampled_jacobian_min": 0.014923351584489599,
+          "sampled_jacobian_ratio": 0.27605660517948927
+        },
+        {
+          "corner_aspect_ratio": 1.460934255663859,
+          "corner_quality": 0.8868426937958175,
+          "corner_radius_ratio": 0.9077563283568175,
+          "displacement_error_relative_l2": 0.002622256149712502,
+          "element_index": 95,
+          "ip_shear_error_relative_l2": 0.041814229204529964,
+          "sampled_jacobian_min": 0.061965530671934395,
+          "sampled_jacobian_ratio": 0.6265634080235963
+        }
+      ],
+      "owner_element_indices": [
+        11,
+        22,
+        95
+      ],
+      "warning_relative_deviation": 0.10650307271636714,
+      "x_mid_m": 1.843359610302141
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.20335563837356815,
+        "maximum_absolute_radius_error_m": 0.002684550919890283,
+        "maximum_radius_at_t": 0.77880655257602,
+        "maximum_radius_m": 0.5022224842363388,
+        "minimum_radius_at_t": 0.20335563837356815,
+        "minimum_radius_m": 0.4973154490801097
+      },
+      "chord_length_m": 0.37014974227695574,
+      "element_index": 11,
+      "endpoint_node_indices": [
+        55,
+        75
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940669765,
+        "maximum_absolute_radius_error_m": 0.00015416322130684668,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5000000000000001,
+        "minimum_radius_at_t": 0.14644660940669765,
+        "minimum_radius_m": 0.49984583677869315
+      },
+      "level": "h1",
+      "local_edge_index": 1,
+      "max_node_radial_error_to_R_m": 1.1102230246251565e-16,
+      "midside_angular_offset_from_short_arc_midpoint_deg": -2.3433305417380206,
+      "midside_axial_offset_from_chord_midpoint_m": 0.0030127910654624834,
+      "midside_distance_to_ideal_arc_midpoint_mm": 20.668750949753935,
+      "midside_node_index": 227,
+      "midside_radial_error_to_R_m": -5.551115123125783e-17,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.6898569614737262,
+          "corner_quality": 0.6877810475248236,
+          "corner_radius_ratio": 0.6699810172785455,
+          "displacement_error_relative_l2": 0.002594905575002601,
+          "element_index": 11,
+          "ip_shear_error_relative_l2": 0.04268696073291273,
+          "sampled_jacobian_min": 0.07522857053293272,
+          "sampled_jacobian_ratio": 0.7700110805666189
+        },
+        {
+          "corner_aspect_ratio": 1.6898569614737262,
+          "corner_quality": 0.46088139041309845,
+          "corner_radius_ratio": 0.4312217524046001,
+          "displacement_error_relative_l2": 0.0031811687455499745,
+          "element_index": 22,
+          "ip_shear_error_relative_l2": 0.026792939414028754,
+          "sampled_jacobian_min": 0.014923351584489599,
+          "sampled_jacobian_ratio": 0.27605660517948927
+        },
+        {
+          "corner_aspect_ratio": 1.593093498258431,
+          "corner_quality": 0.8447608739896508,
+          "corner_radius_ratio": 0.8707759821711739,
+          "displacement_error_relative_l2": 0.002670725204858175,
+          "element_index": 77,
+          "ip_shear_error_relative_l2": 0.027248551076926888,
+          "sampled_jacobian_min": 0.052660485125114065,
+          "sampled_jacobian_ratio": 0.6635486493957381
+        }
+      ],
+      "owner_element_indices": [
+        11,
+        22,
+        77
+      ],
+      "warning_relative_deviation": 0.08640888484584894,
+      "x_mid_m": 1.842557874645604
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.20398932231066885,
+        "maximum_absolute_radius_error_m": 0.0029608346394029428,
+        "maximum_radius_at_t": 0.7797589150757512,
+        "maximum_radius_m": 0.5024897643694672,
+        "minimum_radius_at_t": 0.20398932231066885,
+        "minimum_radius_m": 0.49703916536059706
+      },
+      "chord_length_m": 0.35109735769005634,
+      "element_index": 13,
+      "endpoint_node_indices": [
+        57,
+        75
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.8535533905932765,
+        "maximum_absolute_radius_error_m": 0.00011330915435114886,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.49999999999999994,
+        "minimum_radius_at_t": 0.8535533905932765,
+        "minimum_radius_m": 0.49988669084564885
+      },
+      "level": "h1",
+      "local_edge_index": 1,
+      "max_node_radial_error_to_R_m": 5.551115123125783e-17,
+      "midside_angular_offset_from_short_arc_midpoint_deg": 2.807040510616888,
+      "midside_axial_offset_from_chord_midpoint_m": 0.0030128071311144033,
+      "midside_distance_to_ideal_arc_midpoint_mm": 24.678197635628422,
+      "midside_node_index": 172,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.9189208994358835,
+          "corner_quality": 0.7060257396992651,
+          "corner_radius_ratio": 0.7008099782014242,
+          "displacement_error_relative_l2": 0.0036122827471340123,
+          "element_index": 13,
+          "ip_shear_error_relative_l2": 0.047407735810622326,
+          "sampled_jacobian_min": 0.08429180050597687,
+          "sampled_jacobian_ratio": 0.7173131795755638
+        },
+        {
+          "corner_aspect_ratio": 1.9189208994358835,
+          "corner_quality": 0.4694112468662004,
+          "corner_radius_ratio": 0.4709389295789732,
+          "displacement_error_relative_l2": 0.003615916266415263,
+          "element_index": 33,
+          "ip_shear_error_relative_l2": 0.05118854679922551,
+          "sampled_jacobian_min": 0.01886568281204589,
+          "sampled_jacobian_ratio": 0.23385523100511707
+        },
+        {
+          "corner_aspect_ratio": 1.6795431093047868,
+          "corner_quality": 0.821816541502452,
+          "corner_radius_ratio": 0.8519669268986407,
+          "displacement_error_relative_l2": 0.00296749881475608,
+          "element_index": 89,
+          "ip_shear_error_relative_l2": 0.03183290111537716,
+          "sampled_jacobian_min": 0.04595928931354555,
+          "sampled_jacobian_ratio": 0.5925019761166964
+        }
+      ],
+      "owner_element_indices": [
+        13,
+        33,
+        89
+      ],
+      "warning_relative_deviation": 0.09170429869811196,
+      "x_mid_m": 1.842839282231592
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.8019340272559202,
+        "maximum_absolute_radius_error_m": 0.004386104815279568,
+        "maximum_radius_at_t": 0.2307462715334734,
+        "maximum_radius_m": 0.5031244529127031,
+        "minimum_radius_at_t": 0.8019340272559202,
+        "minimum_radius_m": 0.49561389518472043
+      },
+      "chord_length_m": 0.5011208624608305,
+      "element_index": 13,
+      "endpoint_node_indices": [
+        18,
+        57
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.8535533905932734,
+        "maximum_absolute_radius_error_m": 0.000581463101854307,
+        "maximum_radius_at_t": 0.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.8535533905932734,
+        "minimum_radius_m": 0.4994185368981457
+      },
+      "level": "h1",
+      "local_edge_index": 2,
+      "max_node_radial_error_to_R_m": 5.551115123125783e-17,
+      "midside_angular_offset_from_short_arc_midpoint_deg": -2.5949364961554546,
+      "midside_axial_offset_from_chord_midpoint_m": 0.006872592302980651,
+      "midside_distance_to_ideal_arc_midpoint_mm": 23.66315928423534,
+      "midside_node_index": 125,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.9189208994358835,
+          "corner_quality": 0.7060257396992651,
+          "corner_radius_ratio": 0.7008099782014242,
+          "displacement_error_relative_l2": 0.0036122827471340123,
+          "element_index": 13,
+          "ip_shear_error_relative_l2": 0.047407735810622326,
+          "sampled_jacobian_min": 0.08429180050597687,
+          "sampled_jacobian_ratio": 0.7173131795755638
+        },
+        {
+          "corner_aspect_ratio": 1.9189208994358835,
+          "corner_quality": 0.4694112468662004,
+          "corner_radius_ratio": 0.4709389295789732,
+          "displacement_error_relative_l2": 0.003615916266415263,
+          "element_index": 33,
+          "ip_shear_error_relative_l2": 0.05118854679922551,
+          "sampled_jacobian_min": 0.01886568281204589,
+          "sampled_jacobian_ratio": 0.23385523100511707
+        },
+        {
+          "corner_aspect_ratio": 1.2716932910103265,
+          "corner_quality": 0.9389288519391671,
+          "corner_radius_ratio": 0.9469272203927919,
+          "displacement_error_relative_l2": 0.0039632519685079545,
+          "element_index": 87,
+          "ip_shear_error_relative_l2": 0.04042157047904052,
+          "sampled_jacobian_min": 0.09554514732069147,
+          "sampled_jacobian_ratio": 0.7240473446841229
+        }
+      ],
+      "owner_element_indices": [
+        13,
+        33,
+        87
+      ],
+      "warning_relative_deviation": 0.10625136663995073,
+      "x_mid_m": 1.87675630511
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.7961144347146244,
+        "maximum_absolute_radius_error_m": 0.0028857167391134197,
+        "maximum_radius_at_t": 0.22039463304434273,
+        "maximum_radius_m": 0.5024205887050994,
+        "minimum_radius_at_t": 0.7961144347146244,
+        "minimum_radius_m": 0.4971142832608866
+      },
+      "chord_length_m": 0.363396516846873,
+      "element_index": 18,
+      "endpoint_node_indices": [
+        61,
+        76
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940671603,
+        "maximum_absolute_radius_error_m": 0.00012414357563422795,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5000000000000001,
+        "minimum_radius_at_t": 0.14644660940671603,
+        "minimum_radius_m": 0.49987585642436577
+      },
+      "level": "h1",
+      "local_edge_index": 2,
+      "max_node_radial_error_to_R_m": 5.551115123125783e-17,
+      "midside_angular_offset_from_short_arc_midpoint_deg": 2.6722299787577626,
+      "midside_axial_offset_from_chord_midpoint_m": 0.0024560268124496076,
+      "midside_distance_to_ideal_arc_midpoint_mm": 23.446481887776923,
+      "midside_node_index": 226,
+      "midside_radial_error_to_R_m": -5.551115123125783e-17,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.8800009800602087,
+          "corner_quality": 0.665221566642721,
+          "corner_radius_ratio": 0.7225040443100034,
+          "displacement_error_relative_l2": 0.003458869141199492,
+          "element_index": 18,
+          "ip_shear_error_relative_l2": 0.019339986852337752,
+          "sampled_jacobian_min": 0.06346412586717476,
+          "sampled_jacobian_ratio": 0.5562181904031963
+        },
+        {
+          "corner_aspect_ratio": 1.8800009800602087,
+          "corner_quality": 0.4232312067843994,
+          "corner_radius_ratio": 0.46494045940709766,
+          "displacement_error_relative_l2": 0.0037299778246822975,
+          "element_index": 28,
+          "ip_shear_error_relative_l2": 0.05950515595999888,
+          "sampled_jacobian_min": 0.03799794104403633,
+          "sampled_jacobian_ratio": 0.5054013411161266
+        },
+        {
+          "corner_aspect_ratio": 1.65701855079726,
+          "corner_quality": 0.4013965537577017,
+          "corner_radius_ratio": 0.36908286485326763,
+          "displacement_error_relative_l2": 0.0032969795758478874,
+          "element_index": 31,
+          "ip_shear_error_relative_l2": 0.02581243118155887,
+          "sampled_jacobian_min": 0.009966261103179793,
+          "sampled_jacobian_ratio": 0.3129748903744775
+        },
+        {
+          "corner_aspect_ratio": 1.648174426714563,
+          "corner_quality": 0.8282057320930242,
+          "corner_radius_ratio": 0.8544597645550565,
+          "displacement_error_relative_l2": 0.002957908971244982,
+          "element_index": 83,
+          "ip_shear_error_relative_l2": 0.028857868579174273,
+          "sampled_jacobian_min": 0.05354299282091999,
+          "sampled_jacobian_ratio": 0.6726577712965758
+        }
+      ],
+      "owner_element_indices": [
+        18,
+        28,
+        31,
+        83
+      ],
+      "warning_relative_deviation": 0.08797290000394056,
+      "x_mid_m": 1.402489579480667
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.7958081954192777,
+        "maximum_absolute_radius_error_m": 0.0027261259701079066,
+        "maximum_radius_at_t": 0.21994406850636145,
+        "maximum_radius_m": 0.5023050806955662,
+        "minimum_radius_at_t": 0.7958081954192777,
+        "minimum_radius_m": 0.4972738740298921
+      },
+      "chord_length_m": 0.3789926470514863,
+      "element_index": 24,
+      "endpoint_node_indices": [
+        42,
+        76
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940671372,
+        "maximum_absolute_radius_error_m": 9.853072780774408e-05,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5000000000000001,
+        "minimum_radius_at_t": 0.14644660940671372,
+        "minimum_radius_m": 0.49990146927219226
+      },
+      "level": "h1",
+      "local_edge_index": 0,
+      "max_node_radial_error_to_R_m": 5.551115123125783e-17,
+      "midside_angular_offset_from_short_arc_midpoint_deg": -2.681434602652526,
+      "midside_axial_offset_from_chord_midpoint_m": 0.001628877973137044,
+      "midside_distance_to_ideal_arc_midpoint_mm": 23.45442588545339,
+      "midside_node_index": 167,
+      "midside_radial_error_to_R_m": -5.551115123125783e-17,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.8026360488460254,
+          "corner_quality": 0.6218024451160165,
+          "corner_radius_ratio": 0.679993418947877,
+          "displacement_error_relative_l2": 0.003636621962443363,
+          "element_index": 24,
+          "ip_shear_error_relative_l2": 0.0193737826426372,
+          "sampled_jacobian_min": 0.05808525233423596,
+          "sampled_jacobian_ratio": 0.5329457326762753
+        },
+        {
+          "corner_aspect_ratio": 1.8800009800602087,
+          "corner_quality": 0.4232312067843994,
+          "corner_radius_ratio": 0.46494045940709766,
+          "displacement_error_relative_l2": 0.0037299778246822975,
+          "element_index": 28,
+          "ip_shear_error_relative_l2": 0.05950515595999888,
+          "sampled_jacobian_min": 0.03799794104403633,
+          "sampled_jacobian_ratio": 0.5054013411161266
+        },
+        {
+          "corner_aspect_ratio": 1.65701855079726,
+          "corner_quality": 0.4013965537577017,
+          "corner_radius_ratio": 0.36908286485326763,
+          "displacement_error_relative_l2": 0.0032969795758478874,
+          "element_index": 31,
+          "ip_shear_error_relative_l2": 0.02581243118155887,
+          "sampled_jacobian_min": 0.009966261103179793,
+          "sampled_jacobian_ratio": 0.3129748903744775
+        },
+        {
+          "corner_aspect_ratio": 1.647873327193041,
+          "corner_quality": 0.8089005465304621,
+          "corner_radius_ratio": 0.8278579238642125,
+          "displacement_error_relative_l2": 0.0034502265565495797,
+          "element_index": 79,
+          "ip_shear_error_relative_l2": 0.027893637370932735,
+          "sampled_jacobian_min": 0.05612746621390774,
+          "sampled_jacobian_ratio": 0.6629509008368062
+        }
+      ],
+      "owner_element_indices": [
+        24,
+        28,
+        31,
+        79
+      ],
+      "warning_relative_deviation": 0.08013876020978318,
+      "x_mid_m": 1.379362688455556
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.2035679605090602,
+        "maximum_absolute_radius_error_m": 0.0032854616336347453,
+        "maximum_radius_at_t": 0.779129570166574,
+        "maximum_radius_m": 0.5027317776321406,
+        "minimum_radius_at_t": 0.2035679605090602,
+        "minimum_radius_m": 0.49671453836636525
+      },
+      "chord_length_m": 0.3506848225003256,
+      "element_index": 25,
+      "endpoint_node_indices": [
+        15,
+        77
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.1464466094067316,
+        "maximum_absolute_radius_error_m": 0.0001502652728189724,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.1464466094067316,
+        "minimum_radius_m": 0.499849734727181
+      },
+      "level": "h1",
+      "local_edge_index": 0,
+      "max_node_radial_error_to_R_m": 0.0,
+      "midside_angular_offset_from_short_arc_midpoint_deg": 2.891886166829839,
+      "midside_axial_offset_from_chord_midpoint_m": -0.0017395985480913034,
+      "midside_distance_to_ideal_arc_midpoint_mm": 25.293681158302363,
+      "midside_node_index": 89,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.6794548656739618,
+          "corner_quality": 0.6293183817241353,
+          "corner_radius_ratio": 0.6285192148628639,
+          "displacement_error_relative_l2": 0.003674008158791343,
+          "element_index": 25,
+          "ip_shear_error_relative_l2": 0.04268007158962065,
+          "sampled_jacobian_min": 0.05815639542069624,
+          "sampled_jacobian_ratio": 0.7556815215676776
+        },
+        {
+          "corner_aspect_ratio": 1.6794548656739618,
+          "corner_quality": 0.41675886964141884,
+          "corner_radius_ratio": 0.4173680946940012,
+          "displacement_error_relative_l2": 0.004180070597398659,
+          "element_index": 46,
+          "ip_shear_error_relative_l2": 0.025611500101764214,
+          "sampled_jacobian_min": 0.01528770396296669,
+          "sampled_jacobian_ratio": 0.32394477906236874
+        },
+        {
+          "corner_aspect_ratio": 1.5861774820666157,
+          "corner_quality": 0.8535371967463583,
+          "corner_radius_ratio": 0.8852249796055368,
+          "displacement_error_relative_l2": 0.004279761127301917,
+          "element_index": 137,
+          "ip_shear_error_relative_l2": 0.03930658940766479,
+          "sampled_jacobian_min": 0.063764363301914,
+          "sampled_jacobian_ratio": 0.6492457418488279
+        }
+      ],
+      "owner_element_indices": [
+        25,
+        46,
+        137
+      ],
+      "warning_relative_deviation": 0.09917218830293299,
+      "x_mid_m": 0.4172124543001258
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.20355266621542542,
+        "maximum_absolute_radius_error_m": 0.0032969932229294785,
+        "maximum_radius_at_t": 0.7791064356533756,
+        "maximum_radius_m": 0.5027402393098,
+        "minimum_radius_at_t": 0.20355266621542542,
+        "minimum_radius_m": 0.4967030067770705
+      },
+      "chord_length_m": 0.35763918274678363,
+      "element_index": 25,
+      "endpoint_node_indices": [
+        15,
+        78
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940672136,
+        "maximum_absolute_radius_error_m": 0.00015162680401326067,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.14644660940672136,
+        "minimum_radius_m": 0.49984837319598674
+      },
+      "level": "h1",
+      "local_edge_index": 2,
+      "max_node_radial_error_to_R_m": 5.551115123125783e-17,
+      "midside_angular_offset_from_short_arc_midpoint_deg": -2.8951015514444847,
+      "midside_axial_offset_from_chord_midpoint_m": -0.001820933432635452,
+      "midside_distance_to_ideal_arc_midpoint_mm": 25.32738307898427,
+      "midside_node_index": 90,
+      "midside_radial_error_to_R_m": -5.551115123125783e-17,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.6794548656739618,
+          "corner_quality": 0.6293183817241353,
+          "corner_radius_ratio": 0.6285192148628639,
+          "displacement_error_relative_l2": 0.003674008158791343,
+          "element_index": 25,
+          "ip_shear_error_relative_l2": 0.04268007158962065,
+          "sampled_jacobian_min": 0.05815639542069624,
+          "sampled_jacobian_ratio": 0.7556815215676776
+        },
+        {
+          "corner_aspect_ratio": 1.6794548656739618,
+          "corner_quality": 0.41675886964141884,
+          "corner_radius_ratio": 0.4173680946940012,
+          "displacement_error_relative_l2": 0.004180070597398659,
+          "element_index": 46,
+          "ip_shear_error_relative_l2": 0.025611500101764214,
+          "sampled_jacobian_min": 0.01528770396296669,
+          "sampled_jacobian_ratio": 0.32394477906236874
+        },
+        {
+          "corner_aspect_ratio": 1.5514788217676978,
+          "corner_quality": 0.8554637087914606,
+          "corner_radius_ratio": 0.8876371027990656,
+          "displacement_error_relative_l2": 0.004714067019615779,
+          "element_index": 142,
+          "ip_shear_error_relative_l2": 0.04025039748015423,
+          "sampled_jacobian_min": 0.06491350879049923,
+          "sampled_jacobian_ratio": 0.6662356214103896
+        }
+      ],
+      "owner_element_indices": [
+        25,
+        46,
+        142
+      ],
+      "warning_relative_deviation": 0.09752233653421753,
+      "x_mid_m": 0.4105783109604437
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.20355693138251058,
+        "maximum_absolute_radius_error_m": 0.0032884353189225335,
+        "maximum_radius_at_t": 0.7791128893203981,
+        "maximum_radius_m": 0.5027334665843318,
+        "minimum_radius_at_t": 0.20355693138251058,
+        "minimum_radius_m": 0.49671156468107747
+      },
+      "chord_length_m": 0.35346789809110885,
+      "element_index": 26,
+      "endpoint_node_indices": [
+        19,
+        79
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940673265,
+        "maximum_absolute_radius_error_m": 0.0001512479386491239,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.14644660940673265,
+        "minimum_radius_m": 0.4998487520613509
+      },
+      "level": "h1",
+      "local_edge_index": 0,
+      "max_node_radial_error_to_R_m": 5.551115123125783e-17,
+      "midside_angular_offset_from_short_arc_midpoint_deg": 2.8895159066682443,
+      "midside_axial_offset_from_chord_midpoint_m": 0.0017635839163547828,
+      "midside_distance_to_ideal_arc_midpoint_mm": 25.274714611308404,
+      "midside_node_index": 86,
+      "midside_radial_error_to_R_m": -5.551115123125783e-17,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.661537683295359,
+          "corner_quality": 0.6323910408947667,
+          "corner_radius_ratio": 0.6339957060815125,
+          "displacement_error_relative_l2": 0.0043725167516637355,
+          "element_index": 26,
+          "ip_shear_error_relative_l2": 0.04138644221033604,
+          "sampled_jacobian_min": 0.057485677675705706,
+          "sampled_jacobian_ratio": 0.7499705439303824
+        },
+        {
+          "corner_aspect_ratio": 1.661537683295359,
+          "corner_quality": 0.41331547639087507,
+          "corner_radius_ratio": 0.4163581164976846,
+          "displacement_error_relative_l2": 0.003941993395385688,
+          "element_index": 49,
+          "ip_shear_error_relative_l2": 0.026230727533667623,
+          "sampled_jacobian_min": 0.015021757270340892,
+          "sampled_jacobian_ratio": 0.32581633092338164
+        },
+        {
+          "corner_aspect_ratio": 1.5779228593489052,
+          "corner_quality": 0.8570357338997724,
+          "corner_radius_ratio": 0.8876418764021525,
+          "displacement_error_relative_l2": 0.004283776604418974,
+          "element_index": 146,
+          "ip_shear_error_relative_l2": 0.038176619966263835,
+          "sampled_jacobian_min": 0.06458103459377883,
+          "sampled_jacobian_ratio": 0.6553063087138337
+        }
+      ],
+      "owner_element_indices": [
+        26,
+        49,
+        146
+      ],
+      "warning_relative_deviation": 0.09851002982156154,
+      "x_mid_m": 2.585316910045602
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.2036671182984174,
+        "maximum_absolute_radius_error_m": 0.0032228082860489837,
+        "maximum_radius_at_t": 0.7792790598192183,
+        "maximum_radius_m": 0.5026867629770684,
+        "minimum_radius_at_t": 0.2036671182984174,
+        "minimum_radius_m": 0.496777191713951
+      },
+      "chord_length_m": 0.35197399075972946,
+      "element_index": 26,
+      "endpoint_node_indices": [
+        19,
+        80
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940673287,
+        "maximum_absolute_radius_error_m": 0.00014141754631619152,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.14644660940673287,
+        "minimum_radius_m": 0.4998585824536838
+      },
+      "level": "h1",
+      "local_edge_index": 1,
+      "max_node_radial_error_to_R_m": 0.0,
+      "midside_angular_offset_from_short_arc_midpoint_deg": -2.882621958232763,
+      "midside_axial_offset_from_chord_midpoint_m": 0.0016716726037611096,
+      "midside_distance_to_ideal_arc_midpoint_mm": 25.20845779654257,
+      "midside_node_index": 87,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.661537683295359,
+          "corner_quality": 0.6323910408947667,
+          "corner_radius_ratio": 0.6339957060815125,
+          "displacement_error_relative_l2": 0.0043725167516637355,
+          "element_index": 26,
+          "ip_shear_error_relative_l2": 0.04138644221033604,
+          "sampled_jacobian_min": 0.057485677675705706,
+          "sampled_jacobian_ratio": 0.7499705439303824
+        },
+        {
+          "corner_aspect_ratio": 1.661537683295359,
+          "corner_quality": 0.41331547639087507,
+          "corner_radius_ratio": 0.4163581164976846,
+          "displacement_error_relative_l2": 0.003941993395385688,
+          "element_index": 49,
+          "ip_shear_error_relative_l2": 0.026230727533667623,
+          "sampled_jacobian_min": 0.015021757270340892,
+          "sampled_jacobian_ratio": 0.32581633092338164
+        },
+        {
+          "corner_aspect_ratio": 1.5611399706569271,
+          "corner_quality": 0.8554961332848857,
+          "corner_radius_ratio": 0.8873006439567466,
+          "displacement_error_relative_l2": 0.004290290592186376,
+          "element_index": 136,
+          "ip_shear_error_relative_l2": 0.039667428952493936,
+          "sampled_jacobian_min": 0.06208241550823008,
+          "sampled_jacobian_ratio": 0.6611066021531489
+        }
+      ],
+      "owner_element_indices": [
+        26,
+        49,
+        136
+      ],
+      "warning_relative_deviation": 0.09722124775226292,
+      "x_mid_m": 2.588168781989259
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.20355225045934228,
+        "maximum_absolute_radius_error_m": 0.003330354761076071,
+        "maximum_radius_at_t": 0.7791058064828613,
+        "maximum_radius_m": 0.502767769115067,
+        "minimum_radius_at_t": 0.20355225045934228,
+        "minimum_radius_m": 0.49666964523892393
+      },
+      "chord_length_m": 0.44780741044406286,
+      "element_index": 29,
+      "endpoint_node_indices": [
+        1,
+        78
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940672136,
+        "maximum_absolute_radius_error_m": 0.00015162680401326067,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.14644660940672136,
+        "minimum_radius_m": 0.49984837319598674
+      },
+      "level": "h1",
+      "local_edge_index": 2,
+      "max_node_radial_error_to_R_m": 0.0,
+      "midside_angular_offset_from_short_arc_midpoint_deg": -2.9243091633663023,
+      "midside_axial_offset_from_chord_midpoint_m": 0.001140617247508413,
+      "midside_distance_to_ideal_arc_midpoint_mm": 25.54212243040552,
+      "midside_node_index": 91,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.3456149254686625,
+          "corner_quality": 0.8916275064166711,
+          "corner_radius_ratio": 0.8874831299944718,
+          "displacement_error_relative_l2": 0.007621029825050233,
+          "element_index": 29,
+          "ip_shear_error_relative_l2": 0.035378532839898925,
+          "sampled_jacobian_min": 0.10653304088339519,
+          "sampled_jacobian_ratio": 0.7631561139824132
+        },
+        {
+          "corner_aspect_ratio": 1.6794548656739618,
+          "corner_quality": 0.41675886964141884,
+          "corner_radius_ratio": 0.4173680946940012,
+          "displacement_error_relative_l2": 0.004180070597398659,
+          "element_index": 46,
+          "ip_shear_error_relative_l2": 0.025611500101764214,
+          "sampled_jacobian_min": 0.01528770396296669,
+          "sampled_jacobian_ratio": 0.32394477906236874
+        },
+        {
+          "corner_aspect_ratio": 1.703047260915396,
+          "corner_quality": 0.822896598705932,
+          "corner_radius_ratio": 0.8516197819678687,
+          "displacement_error_relative_l2": 0.008805955454523146,
+          "element_index": 138,
+          "ip_shear_error_relative_l2": 0.03411237570016676,
+          "sampled_jacobian_min": 0.06321349759282385,
+          "sampled_jacobian_ratio": 0.8158611413839993
+        }
+      ],
+      "owner_element_indices": [
+        29,
+        46,
+        138
+      ],
+      "warning_relative_deviation": 0.0782143430985944,
+      "x_mid_m": 0.1627382174879896
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.2035674947845997,
+        "maximum_absolute_radius_error_m": 0.003311770298401462,
+        "maximum_radius_at_t": 0.7791288660049878,
+        "maximum_radius_m": 0.502753487538478,
+        "minimum_radius_at_t": 0.2035674947845997,
+        "minimum_radius_m": 0.49668822970159854
+      },
+      "chord_length_m": 0.45689514948162896,
+      "element_index": 29,
+      "endpoint_node_indices": [
+        1,
+        77
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.1464466094067316,
+        "maximum_absolute_radius_error_m": 0.0001502652728189724,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.1464466094067316,
+        "minimum_radius_m": 0.499849734727181
+      },
+      "level": "h1",
+      "local_edge_index": 3,
+      "max_node_radial_error_to_R_m": 5.551115123125783e-17,
+      "midside_angular_offset_from_short_arc_midpoint_deg": 2.9149698044558394,
+      "midside_axial_offset_from_chord_midpoint_m": 0.0012109321294315467,
+      "midside_distance_to_ideal_arc_midpoint_mm": 25.46397606908331,
+      "midside_node_index": 88,
+      "midside_radial_error_to_R_m": -5.551115123125783e-17,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.3456149254686625,
+          "corner_quality": 0.8916275064166711,
+          "corner_radius_ratio": 0.8874831299944718,
+          "displacement_error_relative_l2": 0.007621029825050233,
+          "element_index": 29,
+          "ip_shear_error_relative_l2": 0.035378532839898925,
+          "sampled_jacobian_min": 0.10653304088339519,
+          "sampled_jacobian_ratio": 0.7631561139824132
+        },
+        {
+          "corner_aspect_ratio": 1.6794548656739618,
+          "corner_quality": 0.41675886964141884,
+          "corner_radius_ratio": 0.4173680946940012,
+          "displacement_error_relative_l2": 0.004180070597398659,
+          "element_index": 46,
+          "ip_shear_error_relative_l2": 0.025611500101764214,
+          "sampled_jacobian_min": 0.01528770396296669,
+          "sampled_jacobian_ratio": 0.32394477906236874
+        },
+        {
+          "corner_aspect_ratio": 1.66461840716502,
+          "corner_quality": 0.8326412749958808,
+          "corner_radius_ratio": 0.8571547715048281,
+          "displacement_error_relative_l2": 0.009046346266177183,
+          "element_index": 133,
+          "ip_shear_error_relative_l2": 0.03380913377525253,
+          "sampled_jacobian_min": 0.06578080544757595,
+          "sampled_jacobian_ratio": 0.8156695319411209
+        }
+      ],
+      "owner_element_indices": [
+        29,
+        46,
+        133
+      ],
+      "warning_relative_deviation": 0.07637433338150564,
+      "x_mid_m": 0.1693613408250507
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.20355668161918933,
+        "maximum_absolute_radius_error_m": 0.0033156051141531306,
+        "maximum_radius_at_t": 0.7791125114452367,
+        "maximum_radius_m": 0.5027558967273735,
+        "minimum_radius_at_t": 0.20355668161918933,
+        "minimum_radius_m": 0.49668439488584687
+      },
+      "chord_length_m": 0.45358349632833644,
+      "element_index": 30,
+      "endpoint_node_indices": [
+        0,
+        79
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940673265,
+        "maximum_absolute_radius_error_m": 0.0001512479386491239,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.14644660940673265,
+        "minimum_radius_m": 0.4998487520613509
+      },
+      "level": "h1",
+      "local_edge_index": 0,
+      "max_node_radial_error_to_R_m": 0.0,
+      "midside_angular_offset_from_short_arc_midpoint_deg": 2.913322004117905,
+      "midside_axial_offset_from_chord_midpoint_m": -0.0012266006957690756,
+      "midside_distance_to_ideal_arc_midpoint_mm": 25.450367567606797,
+      "midside_node_index": 82,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.3453442476873434,
+          "corner_quality": 0.8906770562536507,
+          "corner_radius_ratio": 0.8867162313236733,
+          "displacement_error_relative_l2": 0.0038345595699505095,
+          "element_index": 30,
+          "ip_shear_error_relative_l2": 0.03593844731580602,
+          "sampled_jacobian_min": 0.1054011595057261,
+          "sampled_jacobian_ratio": 0.7634102759133752
+        },
+        {
+          "corner_aspect_ratio": 1.661537683295359,
+          "corner_quality": 0.41331547639087507,
+          "corner_radius_ratio": 0.4163581164976846,
+          "displacement_error_relative_l2": 0.003941993395385688,
+          "element_index": 49,
+          "ip_shear_error_relative_l2": 0.026230727533667623,
+          "sampled_jacobian_min": 0.015021757270340892,
+          "sampled_jacobian_ratio": 0.32581633092338164
+        },
+        {
+          "corner_aspect_ratio": 1.679290120876402,
+          "corner_quality": 0.8290679375604281,
+          "corner_radius_ratio": 0.8551327322681541,
+          "displacement_error_relative_l2": 0.003567347516204319,
+          "element_index": 134,
+          "ip_shear_error_relative_l2": 0.032528247447205685,
+          "sampled_jacobian_min": 0.06483641565278574,
+          "sampled_jacobian_ratio": 0.8156961021865935
+        }
+      ],
+      "owner_element_indices": [
+        30,
+        49,
+        134
+      ],
+      "warning_relative_deviation": 0.07703199386043966,
+      "x_mid_m": 2.833109047957012
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.203664364574802,
+        "maximum_absolute_radius_error_m": 0.0032573735088839983,
+        "maximum_radius_at_t": 0.7792749199555178,
+        "maximum_radius_m": 0.5027152172097061,
+        "minimum_radius_at_t": 0.203664364574802,
+        "minimum_radius_m": 0.496742626491116
+      },
+      "chord_length_m": 0.44584541369823977,
+      "element_index": 30,
+      "endpoint_node_indices": [
+        0,
+        80
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940673287,
+        "maximum_absolute_radius_error_m": 0.00014141754631619152,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.14644660940673287,
+        "minimum_radius_m": 0.4998585824536838
+      },
+      "level": "h1",
+      "local_edge_index": 2,
+      "max_node_radial_error_to_R_m": 0.0,
+      "midside_angular_offset_from_short_arc_midpoint_deg": -2.913367644302165,
+      "midside_axial_offset_from_chord_midpoint_m": -0.0011103168746715575,
+      "midside_distance_to_ideal_arc_midpoint_mm": 25.445426047016596,
+      "midside_node_index": 85,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.3453442476873434,
+          "corner_quality": 0.8906770562536507,
+          "corner_radius_ratio": 0.8867162313236733,
+          "displacement_error_relative_l2": 0.0038345595699505095,
+          "element_index": 30,
+          "ip_shear_error_relative_l2": 0.03593844731580602,
+          "sampled_jacobian_min": 0.1054011595057261,
+          "sampled_jacobian_ratio": 0.7634102759133752
+        },
+        {
+          "corner_aspect_ratio": 1.661537683295359,
+          "corner_quality": 0.41331547639087507,
+          "corner_radius_ratio": 0.4163581164976846,
+          "displacement_error_relative_l2": 0.003941993395385688,
+          "element_index": 49,
+          "ip_shear_error_relative_l2": 0.026230727533667623,
+          "sampled_jacobian_min": 0.015021757270340892,
+          "sampled_jacobian_ratio": 0.32581633092338164
+        },
+        {
+          "corner_aspect_ratio": 1.6864111834000763,
+          "corner_quality": 0.8262188794896621,
+          "corner_radius_ratio": 0.8540749013974472,
+          "displacement_error_relative_l2": 0.0036980367633953396,
+          "element_index": 135,
+          "ip_shear_error_relative_l2": 0.03250336104152727,
+          "sampled_jacobian_min": 0.06360335337838911,
+          "sampled_jacobian_ratio": 0.8155904946767345
+        }
+      ],
+      "owner_element_indices": [
+        30,
+        49,
+        135
+      ],
+      "warning_relative_deviation": 0.07712294423929876,
+      "x_mid_m": 2.83616911503436
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.7960000004375739,
+        "maximum_absolute_radius_error_m": 0.002923858520377076,
+        "maximum_radius_at_t": 0.22022533601141872,
+        "maximum_radius_m": 0.5024594994596835,
+        "minimum_radius_at_t": 0.7960000004375739,
+        "minimum_radius_m": 0.4970761414796229
+      },
+      "chord_length_m": 0.33302827840101673,
+      "element_index": 31,
+      "endpoint_node_indices": [
+        42,
+        81
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940669993,
+        "maximum_absolute_radius_error_m": 0.0001131621900587465,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5000000000000001,
+        "minimum_radius_at_t": 0.14644660940669993,
+        "minimum_radius_m": 0.49988683780994125
+      },
+      "level": "h1",
+      "local_edge_index": 0,
+      "max_node_radial_error_to_R_m": 5.551115123125783e-17,
+      "midside_angular_offset_from_short_arc_midpoint_deg": -2.7732943113385975,
+      "midside_axial_offset_from_chord_midpoint_m": 0.0026357930036025046,
+      "midside_distance_to_ideal_arc_midpoint_mm": 24.342318910339124,
+      "midside_node_index": 170,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.65701855079726,
+          "corner_quality": 0.4013965537577017,
+          "corner_radius_ratio": 0.36908286485326763,
+          "displacement_error_relative_l2": 0.0032969795758478874,
+          "element_index": 31,
+          "ip_shear_error_relative_l2": 0.02581243118155887,
+          "sampled_jacobian_min": 0.009966261103179793,
+          "sampled_jacobian_ratio": 0.3129748903744775
+        },
+        {
+          "corner_aspect_ratio": 1.6827082050359843,
+          "corner_quality": 0.6745992345819068,
+          "corner_radius_ratio": 0.6776542004930831,
+          "displacement_error_relative_l2": 0.003399383095365137,
+          "element_index": 39,
+          "ip_shear_error_relative_l2": 0.037127007485732826,
+          "sampled_jacobian_min": 0.056404244561675684,
+          "sampled_jacobian_ratio": 0.7165667666509797
+        },
+        {
+          "corner_aspect_ratio": 1.7051205945743875,
+          "corner_quality": 0.8428707433923807,
+          "corner_radius_ratio": 0.8659912299257543,
+          "displacement_error_relative_l2": 0.003782865353018219,
+          "element_index": 122,
+          "ip_shear_error_relative_l2": 0.024713001360837785,
+          "sampled_jacobian_min": 0.05263796946170132,
+          "sampled_jacobian_ratio": 0.5973813994375184
+        }
+      ],
+      "owner_element_indices": [
+        31,
+        39,
+        122
+      ],
+      "warning_relative_deviation": 0.09591086786296248,
+      "x_mid_m": 1.169009002087067
+    },
+    {
+      "actual_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.7959470908126614,
+        "maximum_absolute_radius_error_m": 0.002888187297141187,
+        "maximum_radius_at_t": 0.22014743745124782,
+        "maximum_radius_m": 0.5024328893921197,
+        "minimum_radius_at_t": 0.7959470908126614,
+        "minimum_radius_m": 0.4971118127028588
+      },
+      "chord_length_m": 0.35497300579320895,
+      "element_index": 31,
+      "endpoint_node_indices": [
+        61,
+        81
+      ],
+      "ideal_midpoint_quadratic_edge_radius_extrema": {
+        "maximum_absolute_radius_error_at_t": 0.14644660940668724,
+        "maximum_absolute_radius_error_m": 0.00010844857573888422,
+        "maximum_radius_at_t": 1.0,
+        "maximum_radius_m": 0.5,
+        "minimum_radius_at_t": 0.14644660940668724,
+        "minimum_radius_m": 0.4998915514242611
+      },
+      "level": "h1",
+      "local_edge_index": 1,
+      "max_node_radial_error_to_R_m": 5.551115123125783e-17,
+      "midside_angular_offset_from_short_arc_midpoint_deg": 2.769959702208813,
+      "midside_axial_offset_from_chord_midpoint_m": 0.003457000633746876,
+      "midside_distance_to_ideal_arc_midpoint_mm": 24.416076790062558,
+      "midside_node_index": 231,
+      "midside_radial_error_to_R_m": 0.0,
+      "owner_element_errors": [
+        {
+          "corner_aspect_ratio": 1.65701855079726,
+          "corner_quality": 0.4013965537577017,
+          "corner_radius_ratio": 0.36908286485326763,
+          "displacement_error_relative_l2": 0.0032969795758478874,
+          "element_index": 31,
+          "ip_shear_error_relative_l2": 0.02581243118155887,
+          "sampled_jacobian_min": 0.009966261103179793,
+          "sampled_jacobian_ratio": 0.3129748903744775
+        },
+        {
+          "corner_aspect_ratio": 1.6827082050359843,
+          "corner_quality": 0.6745992345819068,
+          "corner_radius_ratio": 0.6776542004930831,
+          "displacement_error_relative_l2": 0.003399383095365137,
+          "element_index": 39,
+          "ip_shear_error_relative_l2": 0.037127007485732826,
+          "sampled_jacobian_min": 0.056404244561675684,
+          "sampled_jacobian_ratio": 0.7165667666509797
+        },
+        {
+          "corner_aspect_ratio": 1.57868177982203,
+          "corner_quality": 0.8073186292302824,
+          "corner_radius_ratio": 0.8272624701560913,
+          "displacement_error_relative_l2": 0.0035420603845465613,
+          "element_index": 102,
+          "ip_shear_error_relative_l2": 0.027168920734480358,
+          "sampled_jacobian_min": 0.04617167766261607,
+          "sampled_jacobian_ratio": 0.5939253788800578
+        }
+      ],
+      "owner_element_indices": [
+        31,
+        39,
+        102
+      ],
+      "warning_relative_deviation": 0.08933226516747259,
+      "x_mid_m": 1.19212995190301
+    }
+  ],
+  "environment": {
+    "matplotlib": "3.10.3",
+    "numpy": "2.2.6",
+    "python": "3.13.1"
+  },
+  "h1_mesh_sha256": "05f3db8c38cc2ad580b38a332535f6be25c42ebf0d4fafb424538bbf9183ebef",
+  "h1_setup_sha256": "409371b02a218d099768f41e256dbb3422ab964fdd623844b0505466024ac8bd",
+  "interpretation_limit": "Midside nodes lie on the analytical radius, but off-half-angle positions alter the quadratic edge mapping. The continuous edge radial error is quantified here; no acceptance tolerance is established and no causality to the archived mechanical errors is inferred.",
+  "j24b_contract_sha256": "1c1b63da996750baf28c7750936d4532ac95644d4ff317344113324e12331e5e",
+  "j24b_run_source_sha": "275c5788e4eaded1ea4305630ea1b0eb0b88158c",
+  "j24c_commit": "c8a90f6e52bdb6f42444b9ab2e5efe88f478f488",
+  "j24c_warning_edges_csv_sha256": "0a306f4e3b236b23f442e692db35538d36dea322de289e544089af1bfdd4fb0e",
+  "radius_checks": {
+    "actual_quadratic_mapping_maximum_radial_error_m": 0.0045579690874167356,
+    "actual_quadratic_mapping_p95_radial_error_m": 0.0044189758355061975,
+    "all_selected_edge_nodes_within_tolerance": true,
+    "ideal_midpoint_quadratic_mapping_maximum_radial_error_m": 0.0006398754214679281,
+    "ideal_midpoint_quadratic_mapping_p95_radial_error_m": 0.0005843837178349881,
+    "maximum_node_radial_error_m": 1.1102230246251565e-16,
+    "method": "For each quadratic edge, form the degree-4 polynomial y(t)^2+z(t)^2; solve its degree-3 derivative for all real roots in (0,1), then evaluate endpoints and all stationary points. This computes radial extrema of the represented edge polynomial up to floating-point root-solving error; it does not bound the interior of the 3D tetrahedron.",
+    "node_tolerance_m": 1e-08
+  },
+  "radius_m": 0.5,
+  "selected_edges": 20,
+  "selection": "H1 unique physical lateral-cylinder warning edges with distance from the midside node to the short-arc midpoint greater than 0.010 m"
+}

@@ -69,3 +69,14 @@ qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package_candidate/logs
 qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/** whitespace=cr-at-eol
 qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/*.log binary
 qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/*.log binary
+# Preserve the historical raw-byte identities used by the J24B/J24C archives.
+research/j24b/tet10_torsion/contract-002-h1-digest-corrected.json text eol=crlf
+research/j24/tet10_torsion/results/preflight-003/torsion_tet10_h1.setup.json text eol=crlf
+research/j24c/results/diagnostic-2026-11-18/warning_edges.csv text eol=crlf
+research/j24c/results/diagnostic-2026-11-18/element_error_comparison.csv text eol=crlf
+# Keep J24D scripts and derived text artifacts byte-stable across platforms.
+docs/planning/0.3.0-j24d-resultats.md text eol=lf
+research/j24d/h1_edges/*.py text eol=lf
+research/j24d/contracts/*.json text eol=lf
+research/j24d/results/diagnostic-2026-11-18/*.json text eol=lf
+research/j24d/results/diagnostic-2026-11-18/*.csv text eol=lf
