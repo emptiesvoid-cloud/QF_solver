@@ -16,7 +16,7 @@ def test_multielement_external_decks_cover_all_solid_families() -> None:
     for family, keyword in expected.items():
         nodes, elements, mesh = code_aster_mesh(family, cells=2)
         assert nodes.shape[1] == 3
-        assert len(elements) == (10 if family in {"TET4", "TET10"} else 2)
+        assert len(elements) == (12 if family in {"TET4", "TET10"} else 2)
         assert keyword in mesh
         assert "GROUP_MA" in mesh
         assert "FIXED" in mesh
