@@ -27,6 +27,11 @@ def _strain_voigt(tensor: np.ndarray) -> np.ndarray:
     )
 
 
+def _green_strain(gradient: np.ndarray) -> np.ndarray:
+    """Evaluate Green strain without subtracting the identity from F.T @ F."""
+    return 0.5 * (gradient + gradient.T + gradient.T @ gradient)
+
+
 def _stress_tensor(values: np.ndarray) -> np.ndarray:
     """Convert stress Voigt order ``XX,YY,ZZ,XY,YZ,XZ`` to a tensor."""
     sx, sy, sz, txy, tyz, txz = np.asarray(values, dtype=float)
@@ -112,11 +117,12 @@ class TotalLagrangianJ2Element:
         updated_states: list[dict[str, Any]] = []
         local = local_displacement.reshape(self.node_count, 3)
         for point_index, (measure, gradients) in enumerate(self._cached_reference_data(coords)):
-            deformation = np.eye(3) + local.T @ gradients
+            gradient = local.T @ gradients
+            deformation = np.eye(3) + gradient
             determinant = float(np.linalg.det(deformation))
             if determinant <= 1.0e-10 or not np.all(np.isfinite(deformation)):
                 raise ValueError(f"Invalid finite deformation gradient determinant {determinant:.6e}.")
-            green = 0.5 * (deformation.T @ deformation - np.eye(3))
+            green = _green_strain(gradient)
             response = evaluate_constitutive(
                 self.material,
                 _strain_voigt(green),
@@ -151,11 +157,12 @@ class TotalLagrangianJ2Element:
         local = np.asarray(local_displacement, dtype=float).reshape(self.node_count, 3)
         rows: list[dict[str, Any]] = []
         for point_index, (measure, gradients) in enumerate(self._cached_reference_data(coords)):
-            deformation = np.eye(3) + local.T @ gradients
+            gradient = local.T @ gradients
+            deformation = np.eye(3) + gradient
             determinant = float(np.linalg.det(deformation))
             if determinant <= 1.0e-10:
                 raise ValueError(f"Invalid finite deformation gradient determinant {determinant:.6e}.")
-            green = 0.5 * (deformation.T @ deformation - np.eye(3))
+            green = _green_strain(gradient)
             response = evaluate_constitutive(
                 self.material,
                 _strain_voigt(green),
