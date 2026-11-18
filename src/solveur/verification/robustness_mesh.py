@@ -62,11 +62,9 @@ def multi_element_mesh(element_type: str) -> tuple[np.ndarray, list[list[int]]]:
 def mesh_refinement_mesh(element_type: str, cells: int) -> tuple[np.ndarray, list[list[int]]]:
     """Build a regular unit-block mesh at one refinement level.
 
-    The topology is shared by all four families: HEX families use the block
-    directly, while TET families split each block into five tetrahedra. Higher
-    order nodes are generated from globally shared edge midpoints, so the
-    comparison exercises the same assembled interface rather than independent
-    element samples.
+    Hexahedra and single-cell tetrahedral meshes keep their original topology.
+    Multi-cell tetrahedral meshes use a matching Freudenthal split on every
+    shared face. Higher-order nodes share globally indexed edge midpoints.
     """
     family = str(element_type).upper()
     if family not in ELEMENT_TYPES:
@@ -101,6 +99,13 @@ def mesh_refinement_mesh(element_type: str, cells: int) -> tuple[np.ndarray, lis
 
     edge_order = ((0, 1), (0, 3), (0, 4), (1, 2), (1, 5), (2, 3), (2, 6), (3, 7), (4, 5), (4, 7), (5, 6), (6, 7))
     tet_corner_templates = ((0, 1, 3, 4), (1, 2, 3, 6), (1, 3, 4, 6), (1, 4, 5, 6), (3, 4, 6, 7))
+    if cells > 1:
+        # The same body diagonal in each cell induces the same diagonal from
+        # either side of every shared face.
+        tet_corner_templates = (
+            (0, 1, 2, 6), (0, 1, 5, 6), (0, 3, 2, 6),
+            (0, 3, 7, 6), (0, 4, 5, 6), (0, 4, 7, 6),
+        )
     elements: list[list[int]] = []
     for index in range(cells):
         corners = block_corners(index)
