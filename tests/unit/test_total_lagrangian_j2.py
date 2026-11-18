@@ -16,7 +16,7 @@ from solveur.elements.solid.total_lagrangian_j2 import (
     TotalLagrangianJ2Tet10Element,
     TotalLagrangianJ2Tet4Element,
 )
-from solveur.materials.solid import VonMisesElastoplasticMaterial
+from solveur.materials.solid import SolidMaterial, VonMisesElastoplasticMaterial
 from solveur.verification.robustness_nonlinear_solids import (
     _refinement_model,
     run_finite_kinematic_j2_benchmark,
@@ -144,6 +144,29 @@ def test_total_lagrangian_j2_high_order_tangent_matches_finite_difference(family
         columns.append((force_plus - force_minus) / (2.0 * step))
 
     np.testing.assert_allclose(tangent, np.column_stack(columns), rtol=8.0e-6, atol=2.0e-6)
+
+
+def test_tet10_tl_retains_strain_and_force_below_identity_resolution() -> None:
+    corners = _tet4_coords()
+    edges = ((0, 1), (1, 2), (2, 0), (0, 3), (1, 3), (2, 3))
+    coords = np.vstack([corners, [(corners[i] + corners[j]) / 2 for i, j in edges]])
+    element = TotalLagrangianJ2Tet10Element(SolidMaterial(E=210e9, nu=0.3))
+    epsilon = 2.0**-56
+    displacement = np.zeros_like(coords)
+    displacement[:, 0] = epsilon * coords[:, 0]
+    u = displacement.ravel()
+    # A uniform axial stretch has exactly E_xx = epsilon + epsilon²/2.
+    expected_strain = np.diag([epsilon + 0.5 * epsilon**2, 0.0, 0.0])
+    for result in element.integration_point_results(coords, u):
+        np.testing.assert_allclose(
+            result["green_lagrange_strain"], expected_strain, rtol=1e-14, atol=1e-30,
+        )
+    _, zero_tangent = element.internal_force_and_tangent(coords, np.zeros_like(u))
+    force, _ = element.internal_force_and_tangent(coords, u)
+    # Terms beyond the zero-state linear response are O(epsilon²).
+    expected_force = zero_tangent @ u
+    assert np.linalg.norm(expected_force) > 0
+    np.testing.assert_allclose(force, expected_force, rtol=1e-13, atol=1e-20)
 
 
 def test_total_lagrangian_j2_reuses_reference_geometry_data() -> None:
