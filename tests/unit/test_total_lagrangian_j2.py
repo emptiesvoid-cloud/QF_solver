@@ -192,6 +192,35 @@ def test_tet10_tl_rigid_translation_preserves_local_strain_force_and_tangent() -
             np.testing.assert_array_equal(moved["green_lagrange_strain"], original["green_lagrange_strain"])
 
 
+@pytest.mark.parametrize("family", ["TET4", "TET10", "HEX8", "HEX20"])
+def test_tl_affine_stretch_and_shear_are_invariant_under_translation(family: str) -> None:
+    element_type, coords = {
+        "TET4": (TotalLagrangianJ2Tet4Element, _tet4_coords()),
+        "TET10": (TotalLagrangianJ2Tet10Element, np.asarray(_high_order_model("TET10").nodes)),
+        "HEX8": (TotalLagrangianJ2Hex8Element, _hex20_coords()[:8]),
+        "HEX20": (TotalLagrangianJ2Hex20Element, _hex20_coords()),
+    }[family]
+    element = element_type(SolidMaterial(E=1_000.0, nu=0.3))
+    stretch, shear = 1 / 16, 1 / 8
+    local = np.zeros_like(coords)
+    local[:, 0] = stretch * coords[:, 0] + shear * coords[:, 1]
+    moved = (local + [0.5, -0.25, 1.0]).ravel()
+    shear_strain = (1 + stretch) * shear / 2
+    expected_strain = [
+        [stretch + stretch**2 / 2, shear_strain, 0.0],
+        [shear_strain, shear**2 / 2, 0.0],
+        [0.0, 0.0, 0.0],
+    ]
+    force, tangent = element.internal_force_and_tangent(coords, local.ravel())
+    moved_force, moved_tangent = element.internal_force_and_tangent(coords, moved)
+    assert np.linalg.norm(force) > 0.0
+    np.testing.assert_array_equal(moved_force, force)
+    np.testing.assert_array_equal(moved_tangent, tangent)
+    for result in element.integration_point_results(coords, moved):
+        np.testing.assert_allclose(result["green_lagrange_strain"], expected_strain, atol=1e-14, rtol=0)
+        assert result["det_f"] == pytest.approx(1 + stretch, abs=1e-14, rel=0)
+
+
 def test_total_lagrangian_j2_reuses_reference_geometry_data() -> None:
     material = VonMisesElastoplasticMaterial(
         E=1000.0,
