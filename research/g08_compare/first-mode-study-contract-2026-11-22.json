@@ -1,0 +1,241 @@
+{
+  "schema": "qf-g08-first-mode-study-contract-v1",
+  "contract_id": "G08-TET10-FIRST-MODE-2026-11-22",
+  "status": "PREPARED_NOT_EXECUTED",
+  "classification": "DEVELOPMENT_ONLY",
+  "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+  "authorization": {
+    "fem_or_matrix_capture_authorized": false,
+    "separate_owner_authorization_required": true,
+    "attempts_per_source_after_authorization": 1,
+    "automatic_retry": false,
+    "execution_scopes_registered": false,
+    "note": "This contract prepares a later instrumented matrix-capture study; it does not authorize a new solve or FEM run."
+  },
+  "provenance": {
+    "ab_summary": "results/controlled-ab-retry-2026-11-22.json",
+    "ab_summary_sha256": "9cf3cc5f6529985cfd588dce5016624f3be2d05423c1a70f7f631bf90bd447dc",
+    "parent_ab_contract_sha256": "59427e9382654369d79d181a72df45458b8a3e1b9173271a2dedf5e6bf94af97",
+    "paired_solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+    "buckling_module_blob": "1bbe7e577d1d6ac09157a6619e7745bc70c6bb85",
+    "geometric_assembly_module_blob": "01c5a054cf1d744de13f208f29ff6dc22148f3b3",
+    "before": {
+      "source_commit": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
+      "source_tree": "400859d3f8b8d86eeb43ed8515abd3cfa5b0d856",
+      "generator_blob": "00941fa19a4be2dcdabe1cae6ecfc63b3fbd507a",
+      "inputs_sha256": "cada40b87ac8cfadfb1e60f6a3398772fd9385cbf96b0b1abeec3fc894768a53",
+      "mesh_sha256": "aaf2d8cf7ae44d5212bdb6785e9fdb36787bf8fde0cc2a04aa3c0c867d0b26e7",
+      "archived_run_sha256": "2551c9d0b3e900f964938cc0284ed9d1a3f851d6773a3d578753e6d0f934a2e6",
+      "archived_result_sha256": "ed6bdbdf8123fd12c8ee8725b91a8298ddf7c46036ac97d0251ad1d98e4a1f67",
+      "archived_mode_sha256": "73a5a05605ece9436735d667b07b652caf501c606d6b799745194b3e5926b6b3",
+      "preflight_id": "pf-38b39cfebd81",
+      "preflight_sha256": "01258a7c867378763b95e021151ee715e75cf3b630e677ff65d66304094d9eb0",
+      "ledger_sha256": "dcdbf12b1cb2e9629d424f51868b7263074dbfcf97fecbc035ee1752a86babaa",
+      "free_dofs": 276,
+      "mode_vector_shape": [
+        351
+      ],
+      "critical_factor_candidate": 866.2977536614513,
+      "candidate_bracket": [
+        866.25,
+        866.3125
+      ],
+      "candidate_residual_relative": 3.717849437434164e-11,
+      "preload_final_relative_residual": 5.9570592065110315e-15,
+      "initial_tangent_nnz_reported": 20371,
+      "geometric_tangent_nnz_reported": 6939,
+      "mode_norm": 0.9999999999999999
+    },
+    "after": {
+      "source_commit": "6dd15ea007439a37327298690232cf81bf4c7f69",
+      "source_tree": "27b38beffb18327ecb20d07f8e008f5e0ced8dbf",
+      "generator_blob": "f5aa4431ee1f68bcb13250406dc312f28c9d048a",
+      "inputs_sha256": "1b0f448d8910c4b1f9bb3282a5fb97a3b014cfcef4b97b3a048cb8d493f062ff",
+      "mesh_sha256": "163b1f9a7ebe237f28f6e03315a487599200ef5d56b1f96022437572c8492986",
+      "archived_run_sha256": "ef065d55ec34f92871e304aba5529faaa45a64f203cde9f74316e79922361b10",
+      "archived_result_sha256": "fcebefd7260dbeaa9ce24c3db3e671e6991ce42e9b00ec4dd9550628745dd004",
+      "archived_mode_sha256": "6990c6a4293ca9610fc4cfea092bc7a7bde1a1b3331aca851e8f28b18f48a6b6",
+      "preflight_id": "pf-g08after0002",
+      "preflight_sha256": "26ad4fa8e417b01aff81299de78aed866449ddea507c94ac8725342004082916",
+      "ledger_sha256": "a9ba7806b1de8da457331f0a0bc5cd891afdc6894a2f0ab268f2a477ab16c8fe",
+      "free_dofs": 300,
+      "mode_vector_shape": [
+        375
+      ],
+      "critical_factor_candidate": 869.9805921314434,
+      "candidate_bracket": [
+        869.9375,
+        870.0
+      ],
+      "candidate_residual_relative": 5.078786081630351e-11,
+      "preload_final_relative_residual": 7.110491597689875e-15,
+      "initial_tangent_nnz_reported": 21519,
+      "geometric_tangent_nnz_reported": 7323
+    },
+    "historical_initial_before_failure": {
+      "runner_status": "PYTEST_FAILED",
+      "failure_sha256": "2a2865080745e70da0e9d04d3dc6c0301f7653134c40278aa4e2ed7d7fb9d0e0",
+      "ledger_sha256": "8b7aee4a5e6f3bc92397a73d883c4a5dbd786afb6cd7eac511ed6a6b4be1aed3",
+      "must_remain_unchanged": true
+    }
+  },
+  "data_inventory": {
+    "before": {
+      "archive_files": [
+        "result.json",
+        "mode.npy"
+      ],
+      "k0_values": "NOT_ARCHIVED",
+      "kg_values": "NOT_ARCHIVED",
+      "preload_displacement_vector": "NOT_ARCHIVED",
+      "candidate_mode_vector": "ARCHIVED_FINITE_UNIT_NORM",
+      "mode_vector_norm": 0.9999999999999999,
+      "diagnostics_only": {
+        "k0_shape": [
+          276,
+          276
+        ],
+        "kg_shape": [
+          276,
+          276
+        ],
+        "k0_nnz": 20371,
+        "kg_nnz": 6939
+      },
+      "mode_vector_shape": [
+        351
+      ]
+    },
+    "after": {
+      "archive_files": [
+        "result.json",
+        "mode.npy"
+      ],
+      "k0_values": "NOT_ARCHIVED",
+      "kg_values": "NOT_ARCHIVED",
+      "preload_displacement_vector": "NOT_ARCHIVED",
+      "candidate_mode_vector": "ARCHIVED_FINITE_UNIT_NORM",
+      "mode_vector_norm": 0.9999999999999998,
+      "diagnostics_only": {
+        "k0_shape": [
+          300,
+          300
+        ],
+        "kg_shape": [
+          300,
+          300
+        ],
+        "k0_nnz": 21519,
+        "kg_nnz": 7323
+      },
+      "mode_vector_shape": [
+        375
+      ]
+    },
+    "interpretation": "The archives contain matrix dimensions and nonzero counts, not matrix entries. Preload residual histories do not reconstruct the converged displacement vector."
+  },
+  "model_and_sign_convention": {
+    "family": "TET10",
+    "geometry": {
+      "length": 4.0,
+      "width": 0.5,
+      "height": 0.5
+    },
+    "material": {
+      "type": "isotropic_3d",
+      "E": 1000000.0,
+      "nu": 0.3
+    },
+    "supports": "UX, UY and UZ fixed at x=0",
+    "reference_load_resultant": -1.0,
+    "reported_signed_critical_load": "negative compression; archived factor lambda is positive",
+    "pencil": "Q(lambda) = K0 + lambda * Kg; lambda is the positive dimensionless load multiplier",
+    "K0_definition": "Reduced tangent from assembly.assemble(zero displacement) on the exact registered free-DOF map.",
+    "Kg_definition": "Reduced initial-stress second-Piola geometric tangent from assembly.geometric_tangent(u_pre), using the converged proportional-preload state.",
+    "solver_source": "LinearBucklingSolver.solve assembles K0 at zero and Kg at its converged preload displacement; diagnostic generalized problem is (K0 + lambda*Kg) phi = 0."
+  },
+  "capture_plan": {
+    "method": "Add a development-only observer around the existing solver call. Wrap solve_full_newton to archive the returned u_pre, and wrap the exact assembly.assemble(zero) and assembly.geometric_tangent(u_pre) calls to capture CSR matrices without changing returned values or production algorithms.",
+    "exact_sources": [
+      "before.source_commit",
+      "after.source_commit"
+    ],
+    "planned_nodeids": [
+      "tests/verification/test_g08_first_mode_study.py::test_capture_before",
+      "tests/verification/test_g08_first_mode_study.py::test_capture_after"
+    ],
+    "attempts": "One attempt per source, with separate new registered scopes and ledgers; no retry under a consumed scope.",
+    "capture_outputs": [
+      "u_pre vector and constrained/free DOF map",
+      "K0 and Kg in canonical CSR arrays with dtype, shape, symmetry defect and SHA-256",
+      "source, input, mesh and assembly-module identities",
+      "solver status, preload diagnostics and comparison against the archived factor and residual",
+      "candidate mode vector identity"
+    ],
+    "invariants": [
+      "same model builder, mesh, material, supports, loads, four preload increments, preload factor 1.0 and tolerances as the archived attempts",
+      "instrumentation must return the same arrays and solver results as the uninstrumented path",
+      "no changes to buckling algorithms, thresholds or historical evidence"
+    ],
+    "proposed_budgets": {
+      "threads": 1,
+      "timeout_seconds": 120,
+      "rss_soft_limit_mib": 1024,
+      "process_tree_limit": 8,
+      "stdout_stderr_total_limit_mib": 8,
+      "archive_soft_limit_mib": 32,
+      "temporary_soft_limit_mib": 32,
+      "combined_storage_soft_limit_mib": 64,
+      "automatic_retries": 0,
+      "budget_note": "These are proposed runner limits; RSS, process and storage polling remain soft observations."
+    }
+  },
+  "spectral_method": {
+    "numerical_observation": [
+      "Check matrix dimensions, finite entries, symmetry defect, free-DOF ordering, units and sparse structure before any spectral claim.",
+      "Use dense symmetric factorization/eigensolution on these 276x276 and 300x300 reduced matrices as a practical double-precision screen.",
+      "Report backward residuals, conditioning and all eigenvalues in the candidate cluster; label these as numerical observations only."
+    ],
+    "positivity_of_k0": {
+      "screen": "Smallest-algebraic eigenvalue plus residual and scale-aware error estimate; ordinary floating-point Cholesky/LDL is a screen, not a certificate.",
+      "error_controlled": "Use outward-rounded interval Cholesky or pivoted interval LDL^T/inertia on the exact captured binary64 entries. This certifies the inertia of the stored matrix. To bound finite-element assembly roundoff as well, propagate interval bounds through element assembly; otherwise describe the result only as an error-controlled property of the captured matrix, not the exact real-arithmetic FE operator. Declare K0 positive definite only when all certified pivots/eigenvalue lower bounds are strictly positive.",
+      "failure_status": "If a pivot interval contains zero, or the verified backend cannot certify the sign, report K0_POSITIVITY_INDETERMINATE; do not infer positivity from a small residual."
+    },
+    "pencil_inertia_and_first_positive_root": {
+      "transformation": "After K0 is certified SPD, form L with K0 = L L^T and S = L^-1 (-Kg) L^-T. Then Q(lambda) is congruent to I - lambda*S; positive roots are reciprocals of positive eigenvalues of S.",
+      "candidate_windows_are_seeds_only": {
+        "before": [
+          866.25,
+          866.3125
+        ],
+        "after": [
+          869.9375,
+          870.0
+        ]
+      },
+      "verification": "Certify inertia of Q(lambda) at zero and on both sides of a re-isolated candidate interval using verified symmetric LDL^T/inertia. For lambda >= 0 and certified symmetric S, negative inertia is nondecreasing; n_-(0)=0, n_-(lambda_low)=0 and n_-(lambda_high)=1 establish a single first positive crossing in the interval. Recheck this relation from captured matrices; archived brackets alone are not proof.",
+      "multiple_roots": "An inertia jump greater than one or a clustered positive eigenvalue of S is a multiple/near-multiple root. Report its multiplicity/subspace and do not label one vector as the unique first mode.",
+      "near_zero_pivots": "Use scale-aware outward error intervals; if any pivot interval straddles zero, raise working precision (proposed 128 then 256 bits) and repeat the same matrix-only factorization. If still unresolved, retain INDETERMINATE.",
+      "nonconvergence": "Preserve solver, factorization or interval-eigensolver nonconvergence as NOT_ESTABLISHED; no fallback status may promote the first-mode claim."
+    },
+    "mode_comparison": {
+      "availability": "Candidate vectors are archived but belong to different full-DOF spaces (351 and 375 entries) and different meshes.",
+      "method": "After candidate eigenspaces are isolated, reconstruct each exact mesh and evaluate vector fields elementwise on a common physical quadrature. Compare volume-weighted L2 projections and principal angles of candidate subspaces, with sign and scale invariance.",
+      "limits": "Record uncovered/multiply covered points and the historical mesh's disconnected components. Shape similarity is descriptive and cannot establish eigenvalue rank."
+    },
+    "evidence_tiers": {
+      "NUMERICAL_OBSERVATION": "Double-precision results with residuals and conditioning; not an error-controlled proof.",
+      "ERROR_CONTROLLED_MATRIX_EVIDENCE": "Verified signs/inertias for the captured binary64 matrices under explicit factorization bounds; only an assembly-level certificate additionally bounds element-assembly rounding. Neither establishes continuum or physical validity.",
+      "FIRST_MODE_ESTABLISHED": "Permitted only after certified K0 positivity, a verified first positive root/multiplicity count, and a residual-qualified candidate subspace."
+    }
+  },
+  "stop_conditions": [
+    "Source, mesh, input or assembly hash differs from the archived scope.",
+    "Captured preload does not converge or its exact input/DOF map differs.",
+    "K0 or Kg is not symmetric within a predeclared assembly error bound.",
+    "K0 positivity or inertia signs remain indeterminate after precision escalation.",
+    "Candidate root is outside the archived seed interval and no separately approved contract covers that change.",
+    "A multiple-root cluster cannot be isolated or the eigensolver fails its residual contract."
+  ],
+  "next_step": "Select and test a verified interval-inertia backend, implement the two exact capture nodeids, register separate scopes/ledgers after explicit Owner authorization, then perform capture and matrix-only analysis. Until then, FIRST_MODE_NOT_ESTABLISHED remains for both cases."
+}

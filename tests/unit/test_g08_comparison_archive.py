@@ -247,3 +247,29 @@ def test_g08_archive_validator_preserves_solver_exception(tmp_path):
     assert verdict["archive_validation"] == "FAILURE_ARCHIVED"
     assert verdict["preload_status"] == "NOT_REPORTED"
     assert verdict["first_mode_status"] == "FIRST_MODE_NOT_ESTABLISHED"
+
+
+def test_g08_first_mode_study_contract_records_data_gaps_and_execution_gate():
+    contract = json.loads(
+        (ROOT / "research/g08_compare/first-mode-study-contract-2026-11-22.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert contract["schema"] == "qf-g08-first-mode-study-contract-v1"
+    assert contract["status"] == "PREPARED_NOT_EXECUTED"
+    assert contract["authorization"]["fem_or_matrix_capture_authorized"] is False
+    assert contract["authorization"]["execution_scopes_registered"] is False
+    assert contract["data_inventory"]["before"]["k0_values"] == "NOT_ARCHIVED"
+    assert contract["data_inventory"]["before"]["kg_values"] == "NOT_ARCHIVED"
+    assert contract["data_inventory"]["before"]["preload_displacement_vector"] == "NOT_ARCHIVED"
+    assert contract["data_inventory"]["before"]["candidate_mode_vector"] == "ARCHIVED_FINITE_UNIT_NORM"
+    assert contract["data_inventory"]["after"]["mode_vector_shape"] == [375]
+    assert "interval" in contract["spectral_method"]["positivity_of_k0"]["error_controlled"]
+    assert "INDETERMINATE" in contract["spectral_method"]["pencil_inertia_and_first_positive_root"]["near_zero_pivots"]
+    ab = json.loads(
+        (ROOT / "research/g08_compare/results/controlled-ab-retry-2026-11-22.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert ab["before_retry"]["first_mode_status"] == "FIRST_MODE_NOT_ESTABLISHED"
+    assert ab["after"]["first_mode_status"] == "FIRST_MODE_NOT_ESTABLISHED"

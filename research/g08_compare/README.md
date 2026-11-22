@@ -53,3 +53,20 @@ Le harnais appelle le solveur de flambement via son API supportée
 `solve_model(model)`. Les tests synthétiques ciblés, le lint et les
 contrôles du port ne remplacent pas la CI protégée ni une qualification
 scientifique. Ces éléments ne déclarent pas la release prête.
+
+## Étude du premier mode
+
+Le contrat distinct
+[first-mode-study-contract-2026-11-22.json](first-mode-study-contract-2026-11-22.json)
+est préparé mais non exécuté. Les archives A/B contiennent les vecteurs
+candidats `mode.npy` (351 et 375 composantes), les résidus et les comptes
+de non-zéros des tangentes ; elles ne contiennent ni les valeurs de
+`K0`/`Kg` ni le vecteur de déplacement de précharge `u_pre`.
+Les résidus de précharge seuls ne permettent pas de reconstruire cet état.
+
+L’étude devra capturer ces objets en observant le chemin existant du
+solveur, sans changer l’algorithme, puis certifier la positivité de
+`K0` et compter l’inertie de `K0 + lambda Kg`. Les scopes de capture
+ne sont pas enregistrés et aucune nouvelle exécution n’est autorisée
+par ce contrat. Jusque-là, les deux cas restent
+`FIRST_MODE_NOT_ESTABLISHED`.
