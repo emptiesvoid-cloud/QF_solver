@@ -1,0 +1,1044 @@
+{
+  "cases": {
+    "after": {
+      "K0_inertia": {
+        "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+        "dimension": 300,
+        "elapsed_seconds": 0.5491423001512885,
+        "flint_version": "0.9.0",
+        "inertia": {
+          "negative": 0,
+          "positive": 300,
+          "zero": 0
+        },
+        "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+        "orthogonality_max_row_sum_upper_bound": "[2.7729333289098221956069217540428380758e-14 +/- 1.60e-52]",
+        "orthogonality_rows_below_one": 300,
+        "precision_bits": 128,
+        "scaled_residual_max_row_sum_upper_bound": "[5.5869267300370689100637292447212467965e-11 +/- 2.54e-49]",
+        "scaled_residual_rows_below_one": 300,
+        "status": "CERTIFIED"
+      },
+      "K0_sha256_canonical_csr": "17d5ca19a3b35b8cdde3575e9d9b43769efe80cd583d6f9c3a4589625bc84476",
+      "K0_shape": [
+        300,
+        300
+      ],
+      "Kg_indefiniteness_witnesses": {
+        "dimension": 300,
+        "flint_version": "0.9.0",
+        "precision_bits": 128,
+        "status": "CERTIFIED_INDEFINITE",
+        "witnesses": {
+          "maximum_quotient": {
+            "approximate_eigenvalue": 1.517663801889688,
+            "rayleigh_quotient_ball": "[1.5176638018896881070184993570091548077 +/- 2.17e-38]",
+            "sign": "positive"
+          },
+          "minimum_quotient": {
+            "approximate_eigenvalue": -0.5230639521511683,
+            "rayleigh_quotient_ball": "[-0.52306395215116846571110297842046013278 +/- 4.69e-39]",
+            "sign": "negative"
+          }
+        }
+      },
+      "Kg_sha256_canonical_csr": "749d42ae487f41bd456fd8e261eb829c6d131c02e2e27c95f65327308cdfca6d",
+      "Kg_shape": [
+        300,
+        300
+      ],
+      "analysis_runtime_versions": {
+        "numpy": "2.2.6",
+        "python": "3.13.1",
+        "python_flint": "0.9.0",
+        "scipy": "1.15.2"
+      },
+      "archive_validation": "VALID",
+      "archived_candidate_inside_certified_bracket": true,
+      "archived_solver_candidate_residual_relative": 5.078786081630351e-11,
+      "budget_enforcement": "Elapsed-time check after each certificate; not a preemptive process timeout.",
+      "candidate_factor": 869.9805921314434,
+      "candidate_factor_bracket": {
+        "lower": 869.9805917739868,
+        "upper": 869.9805927276611
+      },
+      "candidate_mode_residual_enclosure": {
+        "arb_residual_norm_upper_bound": "[6.01083511016991e-10 +/- 4.80e-25]",
+        "arb_residual_norm_upper_enclosure": "[6.01083511016990e-10 +/- 4.84e-25]",
+        "arb_solver_style_residual_upper_bound": "[4.00788286071317e-11 +/- 3.20e-26]",
+        "arb_solver_style_residual_upper_enclosure": "[4.00788286071317e-11 +/- 3.80e-26]",
+        "candidate_factor": 869.9805921314434,
+        "candidate_mode_norm": 0.9999999999999998,
+        "denominator_norm_lower_bound": "[14.9975319116496 +/- 3.77e-14]",
+        "flint_version": "0.9.0",
+        "float64_generalized_residual": 2.219599647404538e-11,
+        "float64_residual_norm": 6.657703308607587e-10,
+        "float64_solver_style_residual": 4.439199294810922e-11,
+        "precision_bits": 128,
+        "status": "RESIDUAL_ENCLOSED"
+      },
+      "candidate_mode_sha256": "6990c6a4293ca9610fc4cfea092bc7a7bde1a1b3331aca851e8f28b18f48a6b6",
+      "capture_contract_sha256": "1114517e4522053c9419d2c7b7a7afb54c9b6d7a2f6dcb9377777f458b6ea2f5",
+      "capture_json_sha256": "105766de775f540eed7439dd0d7320d5bcc2f6d2d7b57c40b52b2a2eaf069c0f",
+      "capture_validation": "VALID",
+      "case": "after",
+      "certificate_scope": "Exact real values represented by stored binary64 K0, Kg, and dyadic bracket endpoints. No FEM assembly, discretization, or model error is bounded. The candidate vector itself is not interval-certified.",
+      "classification": "CERTIFICATE_FOR_STORED_BINARY64_MATRICES_ONLY",
+      "dof_map_sha256": "722fe108434f340d8d35b32d57e2b596617a4bdaba3b0e108824b06ebfbbe39b",
+      "exact_binary64_symmetry": {
+        "K0": true,
+        "Kg": true
+      },
+      "flint_version": "0.9.0",
+      "free_dofs": 300,
+      "historical_ab_result_match": {
+        "candidate_factor_exact": true,
+        "candidate_mode_sha256": true,
+        "candidate_residual_exact": true,
+        "first_mode_status_preserved": true,
+        "inputs": true,
+        "mesh": true,
+        "source": true
+      },
+      "historical_first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+      "inertia_at_bracket": {
+        "lower": {
+          "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+          "dimension": 300,
+          "elapsed_seconds": 0.6029147000517696,
+          "flint_version": "0.9.0",
+          "inertia": {
+            "negative": 0,
+            "positive": 300,
+            "zero": 0
+          },
+          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "load_factor_binary64": 869.9805917739868,
+          "orthogonality_max_row_sum_upper_bound": "[2.6017669258612363402993321836067542656e-14 +/- 3.75e-53]",
+          "orthogonality_rows_below_one": 300,
+          "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+          "precision_bits": 128,
+          "scaled_residual_max_row_sum_upper_bound": "[0.00057669649654222384162444065996465010539 +/- 2.15e-43]",
+          "scaled_residual_rows_below_one": 300,
+          "status": "CERTIFIED"
+        },
+        "upper": {
+          "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+          "dimension": 300,
+          "elapsed_seconds": 0.5896423999220133,
+          "flint_version": "0.9.0",
+          "inertia": {
+            "negative": 1,
+            "positive": 299,
+            "zero": 0
+          },
+          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "load_factor_binary64": 869.9805927276611,
+          "orthogonality_max_row_sum_upper_bound": "[2.7904692835937262123207761458681223641e-14 +/- 4.80e-52]",
+          "orthogonality_rows_below_one": 300,
+          "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+          "precision_bits": 128,
+          "scaled_residual_max_row_sum_upper_bound": "[0.10686605999811575371345909387283552575 +/- 4.33e-39]",
+          "scaled_residual_rows_below_one": 300,
+          "status": "CERTIFIED"
+        }
+      },
+      "initial_solver_bracket": {
+        "lower": 869.9375,
+        "upper": 870.0
+      },
+      "inputs_sha256": "1b0f448d8910c4b1f9bb3282a5fb97a3b014cfcef4b97b3a048cb8d493f062ff",
+      "matrices_npz_sha256": "e263f58cca91d7f845e14f2e8d4b7552e3d2904ff2c61fc5c0cf9f164a56bc67",
+      "maximum_single_certificate_seconds": 120.0,
+      "memory_observation": "NOT_MEASURED",
+      "mesh_sha256": "163b1f9a7ebe237f28f6e03315a487599200ef5d56b1f96022437572c8492986",
+      "mode_comparison": "NOT_DONE; no common physical interpolation or projection is defined and tested.",
+      "observed_total_seconds": 13.363359299954027,
+      "observed_total_seconds_scope": "Inertia and residual calculations after archive validation and data loading.",
+      "pencil_convention": "Q(lambda) = K0 + lambda * Kg; lambda is the positive dimensionless load multiplier",
+      "precision_bits": 128,
+      "precision_schedule": [
+        128
+      ],
+      "preload_final_relative_residual": 7.110491597689875e-15,
+      "preload_status": "CONVERGED",
+      "result_json_sha256": "e366ce7289ec61120a56a8f567a59e9313aad9de519b4dce70cf8918f9d822b8",
+      "root_bracket_refinement": {
+        "K0_inertia": {
+          "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+          "dimension": 300,
+          "elapsed_seconds": 0.5481763000134379,
+          "flint_version": "0.9.0",
+          "inertia": {
+            "negative": 0,
+            "positive": 300,
+            "zero": 0
+          },
+          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "orthogonality_max_row_sum_upper_bound": "[2.7729333289098221956069217540428380758e-14 +/- 1.60e-52]",
+          "orthogonality_rows_below_one": 300,
+          "precision_bits": 128,
+          "scaled_residual_max_row_sum_upper_bound": "[5.5869267300370689100637292447212467965e-11 +/- 2.54e-49]",
+          "scaled_residual_rows_below_one": 300,
+          "status": "CERTIFIED"
+        },
+        "lower": 869.9805917739868,
+        "lower_inertia": {
+          "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+          "dimension": 300,
+          "elapsed_seconds": 0.6029147000517696,
+          "flint_version": "0.9.0",
+          "inertia": {
+            "negative": 0,
+            "positive": 300,
+            "zero": 0
+          },
+          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "load_factor_binary64": 869.9805917739868,
+          "orthogonality_max_row_sum_upper_bound": "[2.6017669258612363402993321836067542656e-14 +/- 3.75e-53]",
+          "orthogonality_rows_below_one": 300,
+          "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+          "precision_bits": 128,
+          "scaled_residual_max_row_sum_upper_bound": "[0.00057669649654222384162444065996465010539 +/- 2.15e-43]",
+          "scaled_residual_rows_below_one": 300,
+          "status": "CERTIFIED"
+        },
+        "max_steps": 16,
+        "precision_bits": 128,
+        "status": "REFINEMENT_LIMIT_REACHED",
+        "steps": [
+          {
+            "elapsed_seconds": 0.5628863000310957,
+            "inertia": {
+              "negative": 0,
+              "positive": 300,
+              "zero": 0
+            },
+            "iteration": 1,
+            "lambda": 869.96875,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5687869000248611,
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "iteration": 2,
+            "lambda": 869.984375,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.558230800088495,
+            "inertia": {
+              "negative": 0,
+              "positive": 300,
+              "zero": 0
+            },
+            "iteration": 3,
+            "lambda": 869.9765625,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5608441000804305,
+            "inertia": {
+              "negative": 0,
+              "positive": 300,
+              "zero": 0
+            },
+            "iteration": 4,
+            "lambda": 869.98046875,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5520391000900418,
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "iteration": 5,
+            "lambda": 869.982421875,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5711324999574572,
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "iteration": 6,
+            "lambda": 869.9814453125,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5649184000212699,
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "iteration": 7,
+            "lambda": 869.98095703125,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5766926999203861,
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "iteration": 8,
+            "lambda": 869.980712890625,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5753765997942537,
+            "inertia": {
+              "negative": 0,
+              "positive": 300,
+              "zero": 0
+            },
+            "iteration": 9,
+            "lambda": 869.9805908203125,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.589056400116533,
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "iteration": 10,
+            "lambda": 869.9806518554688,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5616303000133485,
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "iteration": 11,
+            "lambda": 869.9806213378906,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5732142999768257,
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "iteration": 12,
+            "lambda": 869.9806060791016,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5885366001166403,
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "iteration": 13,
+            "lambda": 869.980598449707,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5647670000325888,
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "iteration": 14,
+            "lambda": 869.9805946350098,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.5896423999220133,
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "iteration": 15,
+            "lambda": 869.9805927276611,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.6029147000517696,
+            "inertia": {
+              "negative": 0,
+              "positive": 300,
+              "zero": 0
+            },
+            "iteration": 16,
+            "lambda": 869.9805917739868,
+            "status": "CERTIFIED"
+          }
+        ],
+        "upper": 869.9805927276611,
+        "upper_inertia": {
+          "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+          "dimension": 300,
+          "elapsed_seconds": 0.5896423999220133,
+          "flint_version": "0.9.0",
+          "inertia": {
+            "negative": 1,
+            "positive": 299,
+            "zero": 0
+          },
+          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "load_factor_binary64": 869.9805927276611,
+          "orthogonality_max_row_sum_upper_bound": "[2.7904692835937262123207761458681223641e-14 +/- 4.80e-52]",
+          "orthogonality_rows_below_one": 300,
+          "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+          "precision_bits": 128,
+          "scaled_residual_max_row_sum_upper_bound": "[0.10686605999811575371345909387283552575 +/- 4.33e-39]",
+          "scaled_residual_rows_below_one": 300,
+          "status": "CERTIFIED"
+        }
+      },
+      "root_count_reasoning": "K0 is certified positive definite. By congruence, Q(lambda) is I + lambda B for a symmetric B. Each eigenvalue is affine in lambda and crosses zero at most once for lambda>=0. Thus inertia 0 at the first bracket's lower endpoint and inertia 1 at its upper endpoint certify exactly one first positive root there and exclude any earlier positive root.",
+      "runner_evidence": {
+        "archive_bytes": 130653,
+        "archive_validation": "VALID",
+        "attempt": 1,
+        "capture_validation": "VALID",
+        "contract_sha256": "1114517e4522053c9419d2c7b7a7afb54c9b6d7a2f6dcb9377777f458b6ea2f5",
+        "elapsed_seconds": 15.928251500008628,
+        "ledger": {
+          "entries": 1,
+          "filename": "node-attempt-ledger-first-mode-after-001.json",
+          "sha256": "47086f71fab2c830cc72d7424b3b2328e211870e8d44df405f6c4e90f7f976bf"
+        },
+        "nodeid": "tests/verification/test_g08_first_mode_capture.py::test_capture_after",
+        "peak_process_count": 3,
+        "peak_rss_bytes": 167108608,
+        "preflight": {
+          "attempt_reserved": false,
+          "id": "pf-87e141ae8f88",
+          "sha256": "89529a663bcf537877c5b37c84de61a7fc9729de1c130c1922c7194fcbb099b5",
+          "status": "PREFLIGHT_PASS"
+        },
+        "preload_status": "CONVERGED",
+        "return_code": 0,
+        "run_record_sha256": "61ffae14384bb3399ed6c4c28e8cf3d8c3ac11decb65d522c8e5dd6bb52b2f9a",
+        "runner_state": "G08_RESULT_ARCHIVED",
+        "runner_status": "PASS",
+        "scope_id": "g08-tet10-after-capture-001",
+        "source_inventory_sha256": "4c7caf55daddbf9d42ebfda8e74bd6bb4519c13aa63ade93c59e912a843e76b5",
+        "spectral_status": "COMPUTED",
+        "status": "VERIFIED",
+        "stderr_bytes": 0,
+        "stdout_bytes": 711
+      },
+      "runtime_versions": {
+        "numpy": "2.2.6",
+        "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+        "scipy": "1.15.2"
+      },
+      "scope_id": "g08-tet10-after-capture-001",
+      "second_positive_root_bracket": {
+        "inertia": {
+          "lower": {
+            "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+            "dimension": 300,
+            "elapsed_seconds": 0.5886166000273079,
+            "flint_version": "0.9.0",
+            "inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+            "load_factor_binary64": 872.96875,
+            "orthogonality_max_row_sum_upper_bound": "[3.0391267262756604717940947652141292422e-14 +/- 5.66e-53]",
+            "orthogonality_rows_below_one": 300,
+            "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+            "precision_bits": 128,
+            "scaled_residual_max_row_sum_upper_bound": "[4.9033247231760014388658031881805459630e-8 +/- 3.27e-46]",
+            "scaled_residual_rows_below_one": 300,
+            "status": "CERTIFIED"
+          },
+          "upper": {
+            "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+            "dimension": 300,
+            "elapsed_seconds": 0.5903958999551833,
+            "flint_version": "0.9.0",
+            "inertia": {
+              "negative": 2,
+              "positive": 298,
+              "zero": 0
+            },
+            "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+            "load_factor_binary64": 873.03125,
+            "orthogonality_max_row_sum_upper_bound": "[2.6202719473367506079736923055469112077e-14 +/- 6.30e-53]",
+            "orthogonality_rows_below_one": 300,
+            "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+            "precision_bits": 128,
+            "scaled_residual_max_row_sum_upper_bound": "[6.0654880317138237760258872652789018663e-7 +/- 2.04e-45]",
+            "scaled_residual_rows_below_one": 300,
+            "status": "CERTIFIED"
+          }
+        },
+        "lower": 872.96875,
+        "upper": 873.03125
+      },
+      "second_root_bracket_status": "CERTIFIED",
+      "signed_load": -869.9805921314434,
+      "source_commit": "6dd15ea007439a37327298690232cf81bf4c7f69",
+      "source_tree": "27b38beffb18327ecb20d07f8e008f5e0ced8dbf",
+      "stored_matrix_first_positive_root_status": "CERTIFIED_FOR_STORED_BINARY64_MATRIX",
+      "u_pre_sha256": "6c1dbd73e67e7cd0958b9b26dedaddad8976bb31d3d9fd2259fbc62c433fe3b0",
+      "units": {
+        "elastic_modulus": "Source-native consistent stress units; E is stored as 1000000.0 without a unit label.",
+        "force": "Source-native consistent force units; the reference resultant is -1.0.",
+        "interpretation": "Keep values dimensionally consistent; do not attach SI units without external provenance.",
+        "length": "Source-native consistent model units; the G08 builder does not label a physical unit."
+      }
+    },
+    "before": {
+      "K0_inertia": {
+        "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+        "dimension": 276,
+        "elapsed_seconds": 0.3721622000448406,
+        "flint_version": "0.9.0",
+        "inertia": {
+          "negative": 0,
+          "positive": 276,
+          "zero": 0
+        },
+        "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+        "orthogonality_max_row_sum_upper_bound": "[2.5519026058319131269442897007835358468e-14 +/- 1.33e-53]",
+        "orthogonality_rows_below_one": 276,
+        "precision_bits": 128,
+        "scaled_residual_max_row_sum_upper_bound": "[6.7016576571902066971607582198282490495e-11 +/- 1.41e-49]",
+        "scaled_residual_rows_below_one": 276,
+        "status": "CERTIFIED"
+      },
+      "K0_sha256_canonical_csr": "7500bf21f2a3f25cbcd200ebb6b338aa5de18aac0161f96e320612315f5485b5",
+      "K0_shape": [
+        276,
+        276
+      ],
+      "Kg_indefiniteness_witnesses": {
+        "dimension": 276,
+        "flint_version": "0.9.0",
+        "precision_bits": 128,
+        "status": "CERTIFIED_INDEFINITE",
+        "witnesses": {
+          "maximum_quotient": {
+            "approximate_eigenvalue": 1.0493739633063586,
+            "rayleigh_quotient_ball": "[1.0493739633063577704000822595373740877 +/- 4.38e-38]",
+            "sign": "positive"
+          },
+          "minimum_quotient": {
+            "approximate_eigenvalue": -0.5636904255949154,
+            "rayleigh_quotient_ball": "[-0.56369042559491410353744240945903172058 +/- 7.76e-39]",
+            "sign": "negative"
+          }
+        }
+      },
+      "Kg_sha256_canonical_csr": "90e175c8c573794a8c49eb78e6acf8d70d0d42bb2fc0421ebd12bfeb1ecc3172",
+      "Kg_shape": [
+        276,
+        276
+      ],
+      "analysis_runtime_versions": {
+        "numpy": "2.2.6",
+        "python": "3.13.1",
+        "python_flint": "0.9.0",
+        "scipy": "1.15.2"
+      },
+      "archive_validation": "VALID",
+      "archived_candidate_inside_certified_bracket": true,
+      "archived_solver_candidate_residual_relative": 3.717849437434164e-11,
+      "budget_enforcement": "Elapsed-time check after each certificate; not a preemptive process timeout.",
+      "candidate_factor": 866.2977536614513,
+      "candidate_factor_bracket": {
+        "lower": 866.2977533340454,
+        "upper": 866.2977542877197
+      },
+      "candidate_mode_residual_enclosure": {
+        "arb_residual_norm_upper_bound": "[4.92900146249698e-10 +/- 5.59e-27]",
+        "arb_residual_norm_upper_enclosure": "[4.92900146249698e-10 +/- 4.29e-26]",
+        "arb_solver_style_residual_upper_bound": "[3.15636661654088e-11 +/- 4.89e-27]",
+        "arb_solver_style_residual_upper_enclosure": "[3.15636661654088e-11 +/- 5.78e-27]",
+        "candidate_factor": 866.2977536614513,
+        "candidate_mode_norm": 0.9999999999999999,
+        "denominator_norm_lower_bound": "[15.6160613176766 +/- 4.56e-16]",
+        "flint_version": "0.9.0",
+        "float64_generalized_residual": 1.6969093174482018e-11,
+        "float64_residual_norm": 5.299807990359432e-10,
+        "float64_solver_style_residual": 3.393818634895432e-11,
+        "precision_bits": 128,
+        "status": "RESIDUAL_ENCLOSED"
+      },
+      "candidate_mode_sha256": "73a5a05605ece9436735d667b07b652caf501c606d6b799745194b3e5926b6b3",
+      "capture_contract_sha256": "1114517e4522053c9419d2c7b7a7afb54c9b6d7a2f6dcb9377777f458b6ea2f5",
+      "capture_json_sha256": "957ec4ee53b4b380a1b75f806bbab0deb990926befa5fb6ea67f55dafde56840",
+      "capture_validation": "VALID",
+      "case": "before",
+      "certificate_scope": "Exact real values represented by stored binary64 K0, Kg, and dyadic bracket endpoints. No FEM assembly, discretization, or model error is bounded. The candidate vector itself is not interval-certified.",
+      "classification": "CERTIFICATE_FOR_STORED_BINARY64_MATRICES_ONLY",
+      "dof_map_sha256": "31ebd7d4cdbed5a835d48647968ebb47918c7d5f72a2998aeb775bbaa73259dd",
+      "exact_binary64_symmetry": {
+        "K0": true,
+        "Kg": true
+      },
+      "flint_version": "0.9.0",
+      "free_dofs": 276,
+      "historical_ab_result_match": {
+        "candidate_factor_exact": true,
+        "candidate_mode_sha256": true,
+        "candidate_residual_exact": true,
+        "first_mode_status_preserved": true,
+        "inputs": true,
+        "mesh": true,
+        "source": true
+      },
+      "historical_first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+      "inertia_at_bracket": {
+        "lower": {
+          "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+          "dimension": 276,
+          "elapsed_seconds": 0.44209419982507825,
+          "flint_version": "0.9.0",
+          "inertia": {
+            "negative": 0,
+            "positive": 276,
+            "zero": 0
+          },
+          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "load_factor_binary64": 866.2977533340454,
+          "orthogonality_max_row_sum_upper_bound": "[2.6041049815993824610827086260008591888e-14 +/- 2.33e-52]",
+          "orthogonality_rows_below_one": 276,
+          "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+          "precision_bits": 128,
+          "scaled_residual_max_row_sum_upper_bound": "[0.16411513147272504515453308183541557921 +/- 1.08e-39]",
+          "scaled_residual_rows_below_one": 276,
+          "status": "CERTIFIED"
+        },
+        "upper": {
+          "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+          "dimension": 276,
+          "elapsed_seconds": 0.4509023998398334,
+          "flint_version": "0.9.0",
+          "inertia": {
+            "negative": 1,
+            "positive": 275,
+            "zero": 0
+          },
+          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "load_factor_binary64": 866.2977542877197,
+          "orthogonality_max_row_sum_upper_bound": "[2.5450740345784262626579222196613174753e-14 +/- 2.35e-52]",
+          "orthogonality_rows_below_one": 276,
+          "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+          "precision_bits": 128,
+          "scaled_residual_max_row_sum_upper_bound": "[0.016170255219311545660739630708071736678 +/- 4.52e-40]",
+          "scaled_residual_rows_below_one": 276,
+          "status": "CERTIFIED"
+        }
+      },
+      "initial_solver_bracket": {
+        "lower": 866.25,
+        "upper": 866.3125
+      },
+      "inputs_sha256": "cada40b87ac8cfadfb1e60f6a3398772fd9385cbf96b0b1abeec3fc894768a53",
+      "matrices_npz_sha256": "a8e3f50dd02174c83ca886d5f0225f369dd8eaa83386f8eb99022f8aeab5dd7f",
+      "maximum_single_certificate_seconds": 120.0,
+      "memory_observation": "NOT_MEASURED",
+      "mesh_sha256": "aaf2d8cf7ae44d5212bdb6785e9fdb36787bf8fde0cc2a04aa3c0c867d0b26e7",
+      "mode_comparison": "NOT_DONE; no common physical interpolation or projection is defined and tested.",
+      "observed_total_seconds": 9.916544300038368,
+      "observed_total_seconds_scope": "Inertia and residual calculations after archive validation and data loading.",
+      "pencil_convention": "Q(lambda) = K0 + lambda * Kg; lambda is the positive dimensionless load multiplier",
+      "precision_bits": 128,
+      "precision_schedule": [
+        128
+      ],
+      "preload_final_relative_residual": 5.9570592065110315e-15,
+      "preload_status": "CONVERGED",
+      "result_json_sha256": "b8a43e3582963103e548b7a22c5abd29d44ed2995c60af22c274c1a5184accf7",
+      "root_bracket_refinement": {
+        "K0_inertia": {
+          "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+          "dimension": 276,
+          "elapsed_seconds": 0.39903689990751445,
+          "flint_version": "0.9.0",
+          "inertia": {
+            "negative": 0,
+            "positive": 276,
+            "zero": 0
+          },
+          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "orthogonality_max_row_sum_upper_bound": "[2.5519026058319131269442897007835358468e-14 +/- 1.33e-53]",
+          "orthogonality_rows_below_one": 276,
+          "precision_bits": 128,
+          "scaled_residual_max_row_sum_upper_bound": "[6.7016576571902066971607582198282490495e-11 +/- 1.41e-49]",
+          "scaled_residual_rows_below_one": 276,
+          "status": "CERTIFIED"
+        },
+        "lower": 866.2977533340454,
+        "lower_inertia": {
+          "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+          "dimension": 276,
+          "elapsed_seconds": 0.44209419982507825,
+          "flint_version": "0.9.0",
+          "inertia": {
+            "negative": 0,
+            "positive": 276,
+            "zero": 0
+          },
+          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "load_factor_binary64": 866.2977533340454,
+          "orthogonality_max_row_sum_upper_bound": "[2.6041049815993824610827086260008591888e-14 +/- 2.33e-52]",
+          "orthogonality_rows_below_one": 276,
+          "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+          "precision_bits": 128,
+          "scaled_residual_max_row_sum_upper_bound": "[0.16411513147272504515453308183541557921 +/- 1.08e-39]",
+          "scaled_residual_rows_below_one": 276,
+          "status": "CERTIFIED"
+        },
+        "max_steps": 16,
+        "precision_bits": 128,
+        "status": "REFINEMENT_LIMIT_REACHED",
+        "steps": [
+          {
+            "elapsed_seconds": 0.40729890018701553,
+            "inertia": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "iteration": 1,
+            "lambda": 866.28125,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.4141736999154091,
+            "inertia": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "iteration": 2,
+            "lambda": 866.296875,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.3925799001008272,
+            "inertia": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "iteration": 3,
+            "lambda": 866.3046875,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.40713080018758774,
+            "inertia": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "iteration": 4,
+            "lambda": 866.30078125,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.40445730020292103,
+            "inertia": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "iteration": 5,
+            "lambda": 866.298828125,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.41096589993685484,
+            "inertia": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "iteration": 6,
+            "lambda": 866.2978515625,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.4113483999390155,
+            "inertia": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "iteration": 7,
+            "lambda": 866.29736328125,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.43492559995502234,
+            "inertia": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "iteration": 8,
+            "lambda": 866.297607421875,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.41356569994241,
+            "inertia": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "iteration": 9,
+            "lambda": 866.2977294921875,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.4358550999313593,
+            "inertia": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "iteration": 10,
+            "lambda": 866.2977905273438,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.42261620005592704,
+            "inertia": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "iteration": 11,
+            "lambda": 866.2977600097656,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.4374396000057459,
+            "inertia": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "iteration": 12,
+            "lambda": 866.2977447509766,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.4353904000017792,
+            "inertia": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "iteration": 13,
+            "lambda": 866.2977523803711,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.4399651999119669,
+            "inertia": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "iteration": 14,
+            "lambda": 866.2977561950684,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.4509023998398334,
+            "inertia": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "iteration": 15,
+            "lambda": 866.2977542877197,
+            "status": "CERTIFIED"
+          },
+          {
+            "elapsed_seconds": 0.44209419982507825,
+            "inertia": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "iteration": 16,
+            "lambda": 866.2977533340454,
+            "status": "CERTIFIED"
+          }
+        ],
+        "upper": 866.2977542877197,
+        "upper_inertia": {
+          "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+          "dimension": 276,
+          "elapsed_seconds": 0.4509023998398334,
+          "flint_version": "0.9.0",
+          "inertia": {
+            "negative": 1,
+            "positive": 275,
+            "zero": 0
+          },
+          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "load_factor_binary64": 866.2977542877197,
+          "orthogonality_max_row_sum_upper_bound": "[2.5450740345784262626579222196613174753e-14 +/- 2.35e-52]",
+          "orthogonality_rows_below_one": 276,
+          "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+          "precision_bits": 128,
+          "scaled_residual_max_row_sum_upper_bound": "[0.016170255219311545660739630708071736678 +/- 4.52e-40]",
+          "scaled_residual_rows_below_one": 276,
+          "status": "CERTIFIED"
+        }
+      },
+      "root_count_reasoning": "K0 is certified positive definite. By congruence, Q(lambda) is I + lambda B for a symmetric B. Each eigenvalue is affine in lambda and crosses zero at most once for lambda>=0. Thus inertia 0 at the first bracket's lower endpoint and inertia 1 at its upper endpoint certify exactly one first positive root there and exclude any earlier positive root.",
+      "runner_evidence": {
+        "archive_bytes": 125267,
+        "archive_validation": "VALID",
+        "attempt": 1,
+        "capture_validation": "VALID",
+        "contract_sha256": "1114517e4522053c9419d2c7b7a7afb54c9b6d7a2f6dcb9377777f458b6ea2f5",
+        "elapsed_seconds": 14.297940299846232,
+        "ledger": {
+          "entries": 1,
+          "filename": "node-attempt-ledger-first-mode-before-001.json",
+          "sha256": "a51380160ca8ea566fd328b03da34758fcff2edba0628aba749d017addcc5051"
+        },
+        "nodeid": "tests/verification/test_g08_first_mode_capture.py::test_capture_before",
+        "peak_process_count": 3,
+        "peak_rss_bytes": 166154240,
+        "preflight": {
+          "attempt_reserved": false,
+          "id": "pf-efbf9d01dffa",
+          "sha256": "102bb2e756e28f81c598f6b6f6c90c184040ebdb121f535603a71919c53a2c7b",
+          "status": "PREFLIGHT_PASS"
+        },
+        "preload_status": "CONVERGED",
+        "return_code": 0,
+        "run_record_sha256": "c064f9c553410c5a625bf28261042b8991392f14286e0f498be734ff2a12756d",
+        "runner_state": "G08_RESULT_ARCHIVED",
+        "runner_status": "PASS",
+        "scope_id": "g08-tet10-before-capture-001",
+        "source_inventory_sha256": "44bbf9079039670603cef97f055d950d9883f72c355c9201f29cfb4b20f63dd3",
+        "spectral_status": "COMPUTED",
+        "status": "VERIFIED",
+        "stderr_bytes": 0,
+        "stdout_bytes": 714
+      },
+      "runtime_versions": {
+        "numpy": "2.2.6",
+        "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+        "scipy": "1.15.2"
+      },
+      "scope_id": "g08-tet10-before-capture-001",
+      "second_positive_root_bracket": {
+        "inertia": {
+          "lower": {
+            "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+            "dimension": 276,
+            "elapsed_seconds": 0.4608116000890732,
+            "flint_version": "0.9.0",
+            "inertia": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+            "load_factor_binary64": 873.0,
+            "orthogonality_max_row_sum_upper_bound": "[2.3934027245347984393639983544865484605e-14 +/- 2.01e-52]",
+            "orthogonality_rows_below_one": 276,
+            "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+            "precision_bits": 128,
+            "scaled_residual_max_row_sum_upper_bound": "[3.6039282923877301866749056866391106391e-6 +/- 4.81e-44]",
+            "scaled_residual_rows_below_one": 276,
+            "status": "CERTIFIED"
+          },
+          "upper": {
+            "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
+            "dimension": 276,
+            "elapsed_seconds": 0.4323436999693513,
+            "flint_version": "0.9.0",
+            "inertia": {
+              "negative": 2,
+              "positive": 274,
+              "zero": 0
+            },
+            "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+            "load_factor_binary64": 873.03125,
+            "orthogonality_max_row_sum_upper_bound": "[2.5631127464461671333580402398281915885e-14 +/- 4.59e-52]",
+            "orthogonality_rows_below_one": 276,
+            "pencil_convention": "Q(lambda) = K0 + lambda * Kg",
+            "precision_bits": 128,
+            "scaled_residual_max_row_sum_upper_bound": "[1.8059667540492123299055091146349252902e-6 +/- 2.26e-44]",
+            "scaled_residual_rows_below_one": 276,
+            "status": "CERTIFIED"
+          }
+        },
+        "lower": 873.0,
+        "upper": 873.03125
+      },
+      "second_root_bracket_status": "CERTIFIED",
+      "signed_load": -866.2977536614513,
+      "source_commit": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
+      "source_tree": "400859d3f8b8d86eeb43ed8515abd3cfa5b0d856",
+      "stored_matrix_first_positive_root_status": "CERTIFIED_FOR_STORED_BINARY64_MATRIX",
+      "u_pre_sha256": "6c072a73927e94b358714e89f9a407e181c127ed356b8e99523c09664a11443d",
+      "units": {
+        "elastic_modulus": "Source-native consistent stress units; E is stored as 1000000.0 without a unit label.",
+        "force": "Source-native consistent force units; the reference resultant is -1.0.",
+        "interpretation": "Keep values dimensionally consistent; do not attach SI units without external provenance.",
+        "length": "Source-native consistent model units; the G08 builder does not label a physical unit."
+      }
+    }
+  },
+  "classification": "DEVELOPMENT_ONLY_STORED_MATRIX_CERTIFICATE",
+  "comparison": {
+    "after_minus_before_root_difference_bracket": {
+      "lower": 3.68283748626709,
+      "upper": 3.6828393936157227
+    },
+    "candidate_factor_difference_after_minus_before": 3.6828384699920207,
+    "first_positive_root_brackets": {
+      "after": {
+        "lower": 869.9805917739868,
+        "upper": 869.9805927276611
+      },
+      "before": {
+        "lower": 866.2977533340454,
+        "upper": 866.2977542877197
+      }
+    },
+    "free_dofs_before_after": [
+      276,
+      300
+    ],
+    "interpretation_limit": "The A/B change combines connectivity and discretization; it is not a physical validation or an isolated connectivity effect."
+  },
+  "implementation_fingerprints": {
+    "analysis_script_sha256": "4fc3db517e7b2e16b72781b7ffcc017244aafe105cad8115edae764fa0f5e20a",
+    "optional_dependency_spec_sha256": "bb8edf2a54dd3e5b5c053c4eff67fe073f65944adef85b361a098c22dc0427dd",
+    "synthetic_tests_sha256": "d861e20e1267fc87ad3cae9683e400a6f5ca0109cf109388593345ccd09c442b"
+  },
+  "method": "Arb interval enclosure plus approximate eigenbasis and norm perturbation bounds",
+  "schema": "qf-g08-verified-inertia-v1"
+}

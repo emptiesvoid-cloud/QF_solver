@@ -1,0 +1,2 @@
+# Research-only optional backend for rigorous interval bounds; not a runtime dependency.
+python-flint==0.9.0

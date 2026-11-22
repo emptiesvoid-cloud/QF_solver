@@ -73,14 +73,12 @@ précharges ont convergé et les deux archives de capture sont valides.
 Les matrices réduites sont 276×276 avant et 300×300 après ; leurs
 empreintes CSR canoniques et celles de `u_pre` figurent dans le résumé.
 
-Le criblage en précision double observe K0 positive dans les deux cas.
-Il classe le candidat au rang numérique 1 et observe une inertie
-numérique de 0 à 1 de part et d’autre des candidats. Aucun backend
-d’inertie à erreur contrôlée n’est installé ; ces observations ne
-certifient donc ni la positivité de K0 ni le rang du premier mode. Les
-deux cas restent `FIRST_MODE_NOT_ESTABLISHED`. La comparaison modale
-entre maillages n’a pas été effectuée, faute d’interpolation commune
-définie et testée.
+Le premier criblage en précision double observait K0 positive et classait
+chaque candidat au rang numérique 1. Ces valeurs étaient des observations,
+pas des certificats. Le statut historique des deux résultats reste
+`FIRST_MODE_NOT_ESTABLISHED` ; la vérification séparée des matrices
+stockées est consignée ci-dessous. La comparaison modale entre maillages
+n’a pas été effectuée, faute d’interpolation commune définie et testée.
 
 Les facteurs candidats diffèrent d’environ 0,425 %. Ce constat mêle la
 connectivité et la discrétisation (276 contre 300 DDL libres) et ne
@@ -99,10 +97,78 @@ elles ne contenaient ni les valeurs de
 `K0`/`Kg` ni le vecteur de déplacement de précharge `u_pre`.
 Les résidus de précharge seuls ne permettent pas de reconstruire cet état.
 
-L’étude devra capturer ces objets en observant le chemin existant du
-solveur, sans changer l’algorithme, puis certifier la positivité de
-`K0` et compter l’inertie de `K0 + lambda Kg`. Les scopes de capture
-n’étaient alors pas enregistrés et le document n’autorisait aucune
-nouvelle exécution. La section précédente consigne les captures
-autorisées ensuite ; les deux cas restent
-`FIRST_MODE_NOT_ESTABLISHED`.
+À cette date, les captures n’étaient pas autorisées. Les captures
+séparées décrites plus haut ont ensuite ajouté `K0`, `Kg` et `u_pre` sans
+modifier l’algorithme du solveur. Les verdicts historiques restent
+inchangés.
+
+## Inertie vérifiée des matrices stockées
+
+Le calcul reproductible et ses empreintes sont dans
+[`verified-first-root-2026-11-22.json`](results/verified-first-root-2026-11-22.json).
+L’empreinte SHA-256 du rapport est conservée dans
+[`verified-first-root-2026-11-22.sha256`](results/verified-first-root-2026-11-22.sha256).
+Les archives ont d’abord repassé le validateur contrôlé ; les empreintes
+des fichiers bruts, matrices CSR canoniques, `u_pre`, mode et carte des
+DDL y sont consignées. Les matrices binary64 stockées sont exactement
+symétriques. Aucune symétrisation n’a été appliquée. La convention reste
+`Q(lambda) = K0 + lambda * Kg`, avec facteur positif et charge signée
+égale à son opposé. Les unités restent cohérentes, mais non étiquetées
+physiquement dans la source.
+
+La méthode construit une base propre approximative en binary64, puis
+utilise Arb avec inclusion rigoureuse pour borner `V.T @ V` et
+`V.T @ A @ V`. Elle certifie `V` inversible par
+`||I - V.T @ V||∞ < 1`, puis certifie l’inertie de la diagonale
+approximative par
+`||D^-1/2 (V.T @ A @ V - D) D^-1/2||∞ < 1`.
+Comme les matrices sont symétriques, cette borne implique une norme
+spectrale inférieure à 1 et une homotopie sans changement d’inertie.
+Un certificat indéterminé n’est jamais converti en compte flottant.
+La méthode ne repose pas sur une factorisation pivotée ; les pivots
+1×1/2×2 ne s’appliquent donc pas.
+
+Avec `python-flint==0.9.0`, 128 bits et Python 3.13.1 / NumPy 2.2.6 /
+SciPy 1.15.2 :
+
+| Cas | Inertie certifiée de K0 | Borne du premier facteur positif | Inertie aux bornes | Racine suivante |
+|---|---:|---:|---:|---:|
+| Avant, 276 DDL libres | (0 négative, 0 nulle, 276 positive) | [866,2977533340454 ; 866,2977542877197] | 0 puis 1 négative | [873 ; 873,03125], saut 1→2 |
+| Après, 300 DDL libres | (0 négative, 0 nulle, 300 positive) | [869,9805917739868 ; 869,9805927276611] | 0 puis 1 négative | [872,96875 ; 873,03125], saut 1→2 |
+
+Les intervalles du premier facteur résultent de 16 bissections guidées
+par des comptes d’inertie certifiés à chaque milieu. Le facteur candidat
+archivé reste dans chaque intervalle raffiné. La différence après moins
+avant est encadrée par [3,68283748626709 ; 3,6828393936157227].
+
+`Kg` est indéfinie dans les deux cas, avec témoins de Rayleigh négatif
+et positif certifiés. Cela ne casse pas le comptage : puisque `K0` est
+positive définie, le crayon est congruent à `I + lambda B` pour une
+matrice symétrique `B`; le nombre de valeurs propres négatives ne peut
+que croître avec `lambda >= 0`. Le compte nul à la borne basse exclut
+une racine positive antérieure ; le compte 1 à la borne haute établit
+une seule première racine dans chaque intervalle. Le saut 1→2 encadre
+également la valeur propre positive suivante.
+
+Le rapport certifie donc un encadrement du **premier facteur propre
+positif des matrices binary64 stockées**. Les résidus des vecteurs
+candidats ont été recalculés avec Arb ; ils ne remplacent pas les résidus
+archivés, qui suivent la définition du solveur. Le rapport conserve les
+deux valeurs pour comparaison. Il ne valide ni l’assemblage
+FEM, ni les erreurs de discrétisation ou de modèle, ni toute la route
+non linéaire. Le vecteur candidat n’a pas reçu de certificat d’intervalle
+propre ; ses résidus ont été recalculés avec une borne Arb séparée. Les
+résultats d’origine conservent leur statut `FIRST_MODE_NOT_ESTABLISHED`.
+La différence du premier facteur après moins avant est encadrée par
+[3,625 ; 3,75] ; elle mêle connectivité et discrétisation et ne permet
+pas d’isoler l’effet de connectivité.
+
+Les opérations d’inertie et les 16 raffinements ont pris 9,92 s avant
+et 13,36 s après dans l’environnement rapporté. La mémoire n’a pas été
+mesurée. Le budget de 120 s par certificat est vérifié après son calcul,
+pas par interruption préemptive. Le backend de recherche est optionnel et épinglé dans
+[`requirements-inertia.txt`](requirements-inertia.txt); il n’ajoute
+aucune dépendance d’exécution au produit. Les tests synthétiques couvrent
+les matrices définies positives, indéfinies, singulières, proches de
+zéro et à valeurs multiples, les crayons à racines simples ou multiples,
+les données invalides et l’indisponibilité du backend.
