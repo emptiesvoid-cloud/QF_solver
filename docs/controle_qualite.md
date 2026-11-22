@@ -100,7 +100,7 @@ pas etre borne avec confiance.
 ```powershell
 python -m ruff check src\solveur src\qf_solver scripts tests
 python -m pytest
-python -m compileall -q src\solveur src\qf_solver scripts tests qf_solver.py main_solveur.py mitc4_solver.py
+python -m compileall -q src\solveur src\qf_solver scripts tests qf_solver.py mitc4_solver.py
 python .\qf_solver.py verify --quick
 python .\mitc4_solver.py verify --quick
 python .\qf_solver.py verify-all --profile engineering --json-report .\results\verification\verify_all_engineering.json

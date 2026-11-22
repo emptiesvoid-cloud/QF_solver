@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-REF-API-003
-revision: 1.4
+revision: 1.5
 status: controlled_candidate
 applicable_version: 0.3.0
 reviewer: "GPT-6 Luna — WP11 contract review (2026-10-25)"
@@ -171,7 +171,7 @@ separate checkpoint contract.
 
 ## Stability categories
 
-- `STABLE`: intended for new integrations in the 0.2.x compatibility line.
+- `STABLE` symbols retain the documented Python interface in the 0.3.0 candidate.
 - `PROVISIONAL`: public and tested, but tied to benchmark, V&V, large-model,
   or campaign workflows whose result schemas may evolve.
 - `DEPRECATED`: retained for compatibility and not recommended for new code.
@@ -193,8 +193,7 @@ general qualification claim are outside that scope. The relevant API symbol
 list and signatures appear in the provisional inventory below; the D02
 qualification report records the exact fixtures and evidence.
 
-The `Version 0.2.11` notes below describe routes introduced in that historical
-release and remain part of this current 0.2.12 reference.
+The `Version 0.2.11` notes below identify when each route was introduced.
 
 In 0.3.0 the top-level compatibility exports from `solveur` are removed.
 Import public symbols from `qf_solver`. The internal `solveur` package remains
