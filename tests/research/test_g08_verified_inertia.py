@@ -15,6 +15,7 @@ from research.g08_compare.verified_inertia import (  # noqa: E402
     certify_indefinite_witnesses,
     certify_pencil_inertia,
     certify_symmetric_inertia,
+    floating_ldl_crosscheck,
     refine_certified_root_bracket,
     residual_enclosure,
 )
@@ -69,6 +70,30 @@ def test_pencil_endpoints_bracket_simple_positive_root() -> None:
     assert witnesses["status"] == "CERTIFIED_INDEFINITE"
 
 
+def test_python_flint_inputs_are_exact_binary64_values() -> None:
+    from flint import arb, arb_mat
+
+    value = 0.1
+    numerator, denominator = value.as_integer_ratio()
+    exponent = -(denominator.bit_length() - 1)
+    exact_binary64 = arb((numerator, exponent))
+
+    assert arb(value).rad().is_zero()
+    assert (arb(value) - exact_binary64).is_zero()
+    assert (arb_mat([[value]])[0, 0] - exact_binary64).is_zero()
+
+
+def test_floating_ldl_crosscheck_is_explicitly_noncertifying() -> None:
+    result = floating_ldl_crosscheck(
+        np.array([[0.0, 1.0], [1.0, 0.0]]),
+        {"negative": 1, "zero": 0, "positive": 1},
+    )
+
+    assert result["status"] == "NUMERICAL_CROSSCHECK_MATCH"
+    assert result["classification"] == "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND"
+    assert result["relative_infinity_reconstruction_residual"] < 1e-14
+
+
 def test_certified_root_bracket_refines_only_from_inertia_counts() -> None:
     k0 = np.diag([2.123456, 3.0])
     kg = np.diag([-1.0, 0.0])
@@ -80,6 +105,8 @@ def test_certified_root_bracket_refines_only_from_inertia_counts() -> None:
     assert len(result["steps"]) == 4
     assert result["lower_inertia"]["inertia"]["negative"] == 0
     assert result["upper_inertia"]["inertia"]["negative"] == 1
+    assert result["total_crossing_multiplicity_in_bracket"] == 1
+    assert result["unique_simple_root_isolated"] is True
 
 
 def test_first_root_bracket_requires_certified_positive_definite_k0() -> None:
@@ -98,10 +125,26 @@ def test_multiple_simultaneous_roots_are_not_mistaken_for_a_simple_crossing() ->
 
     at_root = certify_pencil_inertia(k0, kg, 2.0)
     above = certify_pencil_inertia(k0, kg, 2.1)
+    bracket = refine_certified_root_bracket(k0, kg, 1.9, 2.1, max_steps=4)
 
     assert at_root["status"] == "INDETERMINATE_APPROXIMATE_DIAGONAL_HAS_ZERO"
     assert above["status"] == "CERTIFIED"
     assert above["inertia"] == {"negative": 2, "zero": 0, "positive": 0}
+    assert bracket["root_bracket_certified"] is True
+    assert bracket["status"] == "MIDPOINT_INERTIA_INDETERMINATE"
+    assert bracket["total_crossing_multiplicity_in_bracket"] == 2
+    assert bracket["unique_simple_root_isolated"] is False
+
+
+def test_singular_upper_bound_does_not_certify_a_root_bracket() -> None:
+    k0 = np.diag([2.0, 4.0])
+    kg = np.diag([-1.0, -2.0])
+
+    result = refine_certified_root_bracket(k0, kg, 1.9, 2.0)
+
+    assert result["status"] == "INITIAL_BRACKET_NOT_CERTIFIED"
+    assert result["root_bracket_certified"] is False
+    assert result["upper_inertia"]["status"] == "INDETERMINATE_APPROXIMATE_DIAGONAL_HAS_ZERO"
 
 
 def test_candidate_residual_is_enclosed_and_free_dof_map_is_checked() -> None:

@@ -18,7 +18,7 @@ import time
 from typing import Any, Iterator
 
 import numpy as np
-from scipy.linalg import eigh
+from scipy.linalg import eigh, ldl
 
 
 class VerifiedInertiaInputError(ValueError):
@@ -142,6 +142,9 @@ def _certify_ball_inertia(ball_matrix: Any, approximate: np.ndarray, precision_b
                 "elapsed_seconds": time.perf_counter() - started,
             }
 
+        # With S = sign(D), F = |D|^-1/2 (V.T A V - D) |D|^-1/2,
+        # the exact congruent matrix is S + F. If ||F||_2 < 1, the homotopy
+        # S + tF remains nonsingular and has the inertia of D for 0 <= t <= 1.
         diagonal = arb_mat(
             [[float(approximate_eigenvalues[i]) if i == j else 0.0 for j in range(n)] for i in range(n)]
         )
@@ -186,7 +189,7 @@ def _certify_ball_inertia(ball_matrix: Any, approximate: np.ndarray, precision_b
             "inertia": {"negative": negative, "zero": 0, "positive": positive},
             "precision_bits": precision_bits,
             "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
-            "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+            "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
             "orthogonality_rows_below_one": n,
             "scaled_residual_rows_below_one": n,
             "orthogonality_max_row_sum_upper_bound": _largest_upper_bound(orthogonality_bounds),
@@ -284,15 +287,23 @@ def refine_certified_root_bracket(
     lo_result = certify_pencil_inertia(initial, geometric, lo, precision_bits=precision_bits)
     hi_result = certify_pencil_inertia(initial, geometric, hi, precision_bits=precision_bits)
     expected_lo = {"negative": 0, "zero": 0, "positive": initial.shape[0]}
-    expected_hi = {"negative": 1, "zero": 0, "positive": initial.shape[0] - 1}
+    hi_inertia = hi_result.get("inertia", {})
+    hi_negative = hi_inertia.get("negative", 0)
+    valid_upper_inertia = (
+        isinstance(hi_negative, int)
+        and hi_negative >= 1
+        and hi_inertia.get("zero") == 0
+        and hi_inertia.get("positive") == initial.shape[0] - hi_negative
+    )
     if (
         lo_result.get("status") != "CERTIFIED"
         or lo_result.get("inertia") != expected_lo
         or hi_result.get("status") != "CERTIFIED"
-        or hi_result.get("inertia") != expected_hi
+        or not valid_upper_inertia
     ):
         return {
             "status": "INITIAL_BRACKET_NOT_CERTIFIED",
+            "root_bracket_certified": False,
             "lower": lo,
             "upper": hi,
             "lower_inertia": lo_result,
@@ -325,20 +336,30 @@ def refine_certified_root_bracket(
         if midpoint_result.get("status") != "CERTIFIED":
             stop_status = "MIDPOINT_INERTIA_INDETERMINATE"
             break
-        if midpoint_result["inertia"] == expected_lo:
-            lo, lo_result = midpoint, midpoint_result
-        elif midpoint_result["inertia"] == expected_hi:
-            hi, hi_result = midpoint, midpoint_result
-        else:
+        midpoint_inertia = midpoint_result["inertia"]
+        midpoint_negative = midpoint_inertia["negative"]
+        if midpoint_inertia["zero"] != 0 or not 0 <= midpoint_negative <= hi_negative:
             stop_status = "MIDPOINT_INERTIA_OUTSIDE_BRACKET_COUNTS"
             break
+        if midpoint_negative == 0:
+            lo, lo_result = midpoint, midpoint_result
+        else:
+            hi, hi_result = midpoint, midpoint_result
+            hi_negative = midpoint_negative
     return {
         "status": stop_status,
+        "root_bracket_certified": True,
         "lower": lo,
         "upper": hi,
         "lower_inertia": lo_result,
         "upper_inertia": hi_result,
         "K0_inertia": k0_result,
+        "total_crossing_multiplicity_in_bracket": (
+            hi_result["inertia"]["negative"] - lo_result["inertia"]["negative"]
+        ),
+        "unique_simple_root_isolated": (
+            hi_result["inertia"]["negative"] - lo_result["inertia"]["negative"] == 1
+        ),
         "steps": steps,
         "max_steps": max_steps,
         "precision_bits": precision_bits,
@@ -461,6 +482,49 @@ def residual_enclosure(
     }
 
 
+def floating_ldl_crosscheck(
+    matrix: Any,
+    expected_inertia: dict[str, int] | None = None,
+) -> dict[str, Any]:
+    """Independent floating-point Bunch-Kaufman screen; never a certificate."""
+    value = _validated_symmetric(matrix, "matrix")
+    started = time.perf_counter()
+    try:
+        lower_factor, block_diagonal, permutation = ldl(
+            value,
+            lower=True,
+            hermitian=True,
+            check_finite=True,
+        )
+        pivot_values = eigh(block_diagonal, eigvals_only=True, check_finite=True, driver="evd")
+    except np.linalg.LinAlgError:
+        return {"status": "NUMERICAL_CROSSCHECK_FAILED", "classification": "NOT_CERTIFIED"}
+    scale = max(float(np.max(np.abs(pivot_values))), np.finfo(float).tiny)
+    tolerance = 100.0 * np.finfo(float).eps * scale
+    inertia = {
+        "negative": int(np.count_nonzero(pivot_values < -tolerance)),
+        "zero": int(np.count_nonzero(np.abs(pivot_values) <= tolerance)),
+        "positive": int(np.count_nonzero(pivot_values > tolerance)),
+    }
+    reconstruction = lower_factor @ block_diagonal @ lower_factor.T
+    residual = float(
+        np.linalg.norm(value - reconstruction, ord=np.inf)
+        / max(float(np.linalg.norm(value, ord=np.inf)), np.finfo(float).tiny)
+    )
+    match = expected_inertia is not None and inertia == expected_inertia and inertia["zero"] == 0
+    return {
+        "status": "NUMERICAL_CROSSCHECK_MATCH" if match else "NUMERICAL_CROSSCHECK_NOT_MATCHED_OR_UNRESOLVED",
+        "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
+        "inertia_from_ldl_D_eigenvalues": inertia,
+        "expected_certified_inertia": expected_inertia,
+        "tolerance": tolerance,
+        "minimum_absolute_D_eigenvalue": float(np.min(np.abs(pivot_values))),
+        "relative_infinity_reconstruction_residual": residual,
+        "permutation_count": int(np.count_nonzero(permutation != np.arange(value.shape[0]))),
+        "elapsed_seconds": time.perf_counter() - started,
+    }
+
+
 def _as_dense(matrix: Any) -> np.ndarray:
     return np.asarray(matrix.toarray() if hasattr(matrix, "toarray") else matrix, dtype=np.float64)
 
@@ -562,8 +626,12 @@ def analyze_capture_inertia(
         and k0_inertia["inertia"] == {"negative": 0, "zero": 0, "positive": expected_dimension}
         and lower_inertia.get("status") == "CERTIFIED"
         and lower_inertia["inertia"] == {"negative": 0, "zero": 0, "positive": expected_dimension}
+        and refinement.get("root_bracket_certified") is True
         and upper_inertia.get("status") == "CERTIFIED"
-        and upper_inertia["inertia"] == {"negative": 1, "zero": 0, "positive": expected_dimension - 1}
+        and upper_inertia["inertia"]["negative"] >= 1
+        and upper_inertia["inertia"]["zero"] == 0
+        and upper_inertia["inertia"]["positive"]
+        == expected_dimension - upper_inertia["inertia"]["negative"]
     )
     second_certified = (
         elapsed_seconds <= MAX_CERTIFICATE_SECONDS
@@ -571,7 +639,24 @@ def analyze_capture_inertia(
         and second_lower_inertia["inertia"] == {"negative": 1, "zero": 0, "positive": expected_dimension - 1}
         and second_upper_inertia.get("status") == "CERTIFIED"
         and second_upper_inertia["inertia"] == {"negative": 2, "zero": 0, "positive": expected_dimension - 2}
+        and upper < second_lower
     )
+    independent_screens = []
+    for label, load_factor, expected in (
+        ("K0", None, k0_inertia.get("inertia")),
+        ("first_lower", lower, lower_inertia.get("inertia")),
+        ("first_upper", upper, upper_inertia.get("inertia")),
+        ("second_lower", second_lower, second_lower_inertia.get("inertia")),
+        ("second_upper", second_upper, second_upper_inertia.get("inertia")),
+    ):
+        matrix = k0 if load_factor is None else k0 + load_factor * kg
+        independent_screens.append(
+            {
+                "matrix_point": label,
+                "load_factor_binary64": load_factor,
+                **floating_ldl_crosscheck(matrix, expected),
+            }
+        )
     return {
         "case": case_name,
         "classification": "CERTIFICATE_FOR_STORED_BINARY64_MATRICES_ONLY",
@@ -616,6 +701,10 @@ def analyze_capture_inertia(
         "initial_solver_bracket": {"lower": initial_lower, "upper": initial_upper},
         "root_bracket_refinement": refinement,
         "archived_candidate_inside_certified_bracket": lower <= factor <= upper,
+        "total_crossing_multiplicity_in_first_bracket": refinement.get(
+            "total_crossing_multiplicity_in_bracket"
+        ),
+        "unique_simple_first_root_isolated": refinement.get("unique_simple_root_isolated"),
         "candidate_mode_residual_enclosure": candidate_residual,
         "K0_inertia": k0_inertia,
         "Kg_indefiniteness_witnesses": kg_signs,
@@ -625,11 +714,17 @@ def analyze_capture_inertia(
             "upper": second_upper,
             "inertia": {"lower": second_lower_inertia, "upper": second_upper_inertia},
         },
+        "independent_floating_ldl_crosscheck": {
+            "classification": "NUMERICAL_ONLY_NOT_PART_OF_CERTIFICATE",
+            "matrix_formation": "K0 + lambda*Kg formed in binary64 for this separate comparison.",
+            "screens": independent_screens,
+        },
         "root_count_reasoning": (
             "K0 is certified positive definite. By congruence, Q(lambda) is I + lambda B for a symmetric B. "
             "Each eigenvalue is affine in lambda and crosses zero at most once for lambda>=0. "
-            "Thus inertia 0 at the first bracket's lower endpoint and inertia 1 at its upper endpoint "
-            "certify exactly one first positive root there and exclude any earlier positive root."
+            "Inertia zero at the lower endpoint excludes an earlier positive root; a positive negative-count "
+            "at the upper endpoint brackets the first root. The endpoint count difference is the total "
+            "crossing multiplicity in the interval; a difference of one isolates a unique simple root."
         ),
         "precision_bits": precision_bits,
         "precision_schedule": [precision_bits],

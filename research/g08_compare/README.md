@@ -121,12 +121,19 @@ utilise Arb avec inclusion rigoureuse pour borner `V.T @ V` et
 `V.T @ A @ V`. Elle certifie `V` inversible par
 `||I - V.T @ V||∞ < 1`, puis certifie l’inertie de la diagonale
 approximative par
-`||D^-1/2 (V.T @ A @ V - D) D^-1/2||∞ < 1`.
-Comme les matrices sont symétriques, cette borne implique une norme
-spectrale inférieure à 1 et une homotopie sans changement d’inertie.
+`|| |D|^-1/2 (V.T @ A @ V - D) |D|^-1/2 ||∞ < 1`, où `D` est la
+diagonale approximative et `|D|` prend la valeur absolue de chaque
+entrée. Pour les matrices symétriques, cette erreur mise à l’échelle est
+symétrique; sa norme spectrale est donc inférieure à 1. En posant
+`J = sign(D)`, la matrice mise à l’échelle est `J + F`; l’homotopie
+`J + tF`, `0 ≤ t ≤ 1`, ne rencontre pas zéro et conserve l’inertie.
+Cette valeur absolue est nécessaire quand `D` contient des valeurs
+négatives.
 Un certificat indéterminé n’est jamais converti en compte flottant.
-La méthode ne repose pas sur une factorisation pivotée ; les pivots
-1×1/2×2 ne s’appliquent donc pas.
+Le certificat par base propre ne repose pas sur une factorisation pivotée ;
+les pivots 1×1/2×2 ne s’appliquent donc pas à cette preuve. Le rapport
+consigne séparément un criblage Bunch–Kaufman `scipy.linalg.ldl` comme
+comparaison numérique non certifiante.
 
 Avec `python-flint==0.9.0`, 128 bits et Python 3.13.1 / NumPy 2.2.6 /
 SciPy 1.15.2 :
@@ -135,6 +142,12 @@ SciPy 1.15.2 :
 |---|---:|---:|---:|---:|
 | Avant, 276 DDL libres | (0 négative, 0 nulle, 276 positive) | [866,2977533340454 ; 866,2977542877197] | 0 puis 1 négative | [873 ; 873,03125], saut 1→2 |
 | Après, 300 DDL libres | (0 négative, 0 nulle, 300 positive) | [869,9805917739868 ; 869,9805927276611] | 0 puis 1 négative | [872,96875 ; 873,03125], saut 1→2 |
+
+Le criblage indépendant par `scipy.linalg.ldl` retrouve les mêmes comptes
+pour K0, les quatre bornes du premier/deuxième facteur, avec un résidu de
+reconstruction inférieur à 3,7e−16 en norme infinie relative. Ce contrôle
+utilise des facteurs et opérations binary64 sans borne d’erreur ; il
+corrobore les signes numériquement et n’entre pas dans le certificat Arb.
 
 Les intervalles du premier facteur résultent de 16 bissections guidées
 par des comptes d’inertie certifiés à chaque milieu. Le facteur candidat
@@ -146,8 +159,13 @@ et positif certifiés. Cela ne casse pas le comptage : puisque `K0` est
 positive définie, le crayon est congruent à `I + lambda B` pour une
 matrice symétrique `B`; le nombre de valeurs propres négatives ne peut
 que croître avec `lambda >= 0`. Le compte nul à la borne basse exclut
-une racine positive antérieure ; le compte 1 à la borne haute établit
-une seule première racine dans chaque intervalle. Le saut 1→2 encadre
+une racine positive antérieure. Un compte positif à la borne haute
+place la première racine dans l’intervalle. La différence des comptes
+aux bornes donne la multiplicité totale des croisements contenus dans
+l’intervalle : 0→1 isole une racine simple, tandis qu’un saut plus grand
+reste conservé comme multiplicité, sans prétendre distinguer une racine
+multiple de plusieurs racines proches. Ici, le saut 0→1 certifie une
+racine simple dans chaque premier intervalle. Le saut 1→2 encadre
 également la valeur propre positive suivante.
 
 Le rapport certifie donc un encadrement du **premier facteur propre
@@ -160,11 +178,11 @@ non linéaire. Le vecteur candidat n’a pas reçu de certificat d’intervalle
 propre ; ses résidus ont été recalculés avec une borne Arb séparée. Les
 résultats d’origine conservent leur statut `FIRST_MODE_NOT_ESTABLISHED`.
 La différence du premier facteur après moins avant est encadrée par
-[3,625 ; 3,75] ; elle mêle connectivité et discrétisation et ne permet
-pas d’isoler l’effet de connectivité.
+[3,68283748626709 ; 3,6828393936157227] ; elle mêle connectivité et
+discrétisation et ne permet pas d’isoler l’effet de connectivité.
 
-Les opérations d’inertie et les 16 raffinements ont pris 9,92 s avant
-et 13,36 s après dans l’environnement rapporté. La mémoire n’a pas été
+Les opérations d’inertie et les 16 raffinements ont pris 10,28 s avant
+et 14,02 s après dans l’environnement rapporté. La mémoire n’a pas été
 mesurée. Le budget de 120 s par certificat est vérifié après son calcul,
 pas par interruption préemptive. Le backend de recherche est optionnel et épinglé dans
 [`requirements-inertia.txt`](requirements-inertia.txt); il n’ajoute

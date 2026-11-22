@@ -4,14 +4,14 @@
       "K0_inertia": {
         "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
         "dimension": 300,
-        "elapsed_seconds": 0.5491423001512885,
+        "elapsed_seconds": 0.5658565000630915,
         "flint_version": "0.9.0",
         "inertia": {
           "negative": 0,
           "positive": 300,
           "zero": 0
         },
-        "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+        "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
         "orthogonality_max_row_sum_upper_bound": "[2.7729333289098221956069217540428380758e-14 +/- 1.60e-52]",
         "orthogonality_rows_below_one": 300,
         "precision_bits": 128,
@@ -101,18 +101,129 @@
         "source": true
       },
       "historical_first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+      "independent_floating_ldl_crosscheck": {
+        "classification": "NUMERICAL_ONLY_NOT_PART_OF_CERTIFICATE",
+        "matrix_formation": "K0 + lambda*Kg formed in binary64 for this separate comparison.",
+        "screens": [
+          {
+            "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
+            "elapsed_seconds": 0.01295990007929504,
+            "expected_certified_inertia": {
+              "negative": 0,
+              "positive": 300,
+              "zero": 0
+            },
+            "inertia_from_ldl_D_eigenvalues": {
+              "negative": 0,
+              "positive": 300,
+              "zero": 0
+            },
+            "load_factor_binary64": null,
+            "matrix_point": "K0",
+            "minimum_absolute_D_eigenvalue": 642.7259794259842,
+            "permutation_count": 0,
+            "relative_infinity_reconstruction_residual": 2.3827813662896196e-16,
+            "status": "NUMERICAL_CROSSCHECK_MATCH",
+            "tolerance": 8.838480274526256e-08
+          },
+          {
+            "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
+            "elapsed_seconds": 0.011916900053620338,
+            "expected_certified_inertia": {
+              "negative": 0,
+              "positive": 300,
+              "zero": 0
+            },
+            "inertia_from_ldl_D_eigenvalues": {
+              "negative": 0,
+              "positive": 300,
+              "zero": 0
+            },
+            "load_factor_binary64": 869.9805917739868,
+            "matrix_point": "first_lower",
+            "minimum_absolute_D_eigenvalue": 6.020815579432792e-07,
+            "permutation_count": 0,
+            "relative_infinity_reconstruction_residual": 2.341139178861813e-16,
+            "status": "NUMERICAL_CROSSCHECK_MATCH",
+            "tolerance": 8.838219920474635e-08
+          },
+          {
+            "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
+            "elapsed_seconds": 0.010913599980995059,
+            "expected_certified_inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "inertia_from_ldl_D_eigenvalues": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "load_factor_binary64": 869.9805927276611,
+            "matrix_point": "first_upper",
+            "minimum_absolute_D_eigenvalue": 9.945489662932516e-07,
+            "permutation_count": 0,
+            "relative_infinity_reconstruction_residual": 3.1703155238572464e-16,
+            "status": "NUMERICAL_CROSSCHECK_MATCH",
+            "tolerance": 8.838219920474349e-08
+          },
+          {
+            "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
+            "elapsed_seconds": 0.011883900035172701,
+            "expected_certified_inertia": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "inertia_from_ldl_D_eigenvalues": {
+              "negative": 1,
+              "positive": 299,
+              "zero": 0
+            },
+            "load_factor_binary64": 872.96875,
+            "matrix_point": "second_lower",
+            "minimum_absolute_D_eigenvalue": 0.0450600072570877,
+            "permutation_count": 0,
+            "relative_infinity_reconstruction_residual": 3.095315621428733e-16,
+            "status": "NUMERICAL_CROSSCHECK_MATCH",
+            "tolerance": 8.838219026222135e-08
+          },
+          {
+            "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
+            "elapsed_seconds": 0.011146199889481068,
+            "expected_certified_inertia": {
+              "negative": 2,
+              "positive": 298,
+              "zero": 0
+            },
+            "inertia_from_ldl_D_eigenvalues": {
+              "negative": 2,
+              "positive": 298,
+              "zero": 0
+            },
+            "load_factor_binary64": 873.03125,
+            "matrix_point": "second_upper",
+            "minimum_absolute_D_eigenvalue": 0.05937276766296051,
+            "permutation_count": 0,
+            "relative_infinity_reconstruction_residual": 2.241930560659322e-16,
+            "status": "NUMERICAL_CROSSCHECK_MATCH",
+            "tolerance": 8.838219007518045e-08
+          }
+        ]
+      },
       "inertia_at_bracket": {
         "lower": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 300,
-          "elapsed_seconds": 0.6029147000517696,
+          "elapsed_seconds": 0.772382800001651,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
             "positive": 300,
             "zero": 0
           },
-          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
           "load_factor_binary64": 869.9805917739868,
           "orthogonality_max_row_sum_upper_bound": "[2.6017669258612363402993321836067542656e-14 +/- 3.75e-53]",
           "orthogonality_rows_below_one": 300,
@@ -125,14 +236,14 @@
         "upper": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 300,
-          "elapsed_seconds": 0.5896423999220133,
+          "elapsed_seconds": 0.7151752000208944,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 1,
             "positive": 299,
             "zero": 0
           },
-          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
           "load_factor_binary64": 869.9805927276611,
           "orthogonality_max_row_sum_upper_bound": "[2.7904692835937262123207761458681223641e-14 +/- 4.80e-52]",
           "orthogonality_rows_below_one": 300,
@@ -153,7 +264,7 @@
       "memory_observation": "NOT_MEASURED",
       "mesh_sha256": "163b1f9a7ebe237f28f6e03315a487599200ef5d56b1f96022437572c8492986",
       "mode_comparison": "NOT_DONE; no common physical interpolation or projection is defined and tested.",
-      "observed_total_seconds": 13.363359299954027,
+      "observed_total_seconds": 14.02059859992005,
       "observed_total_seconds_scope": "Inertia and residual calculations after archive validation and data loading.",
       "pencil_convention": "Q(lambda) = K0 + lambda * Kg; lambda is the positive dimensionless load multiplier",
       "precision_bits": 128,
@@ -167,14 +278,14 @@
         "K0_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 300,
-          "elapsed_seconds": 0.5481763000134379,
+          "elapsed_seconds": 0.589504900155589,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
             "positive": 300,
             "zero": 0
           },
-          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
           "orthogonality_max_row_sum_upper_bound": "[2.7729333289098221956069217540428380758e-14 +/- 1.60e-52]",
           "orthogonality_rows_below_one": 300,
           "precision_bits": 128,
@@ -186,14 +297,14 @@
         "lower_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 300,
-          "elapsed_seconds": 0.6029147000517696,
+          "elapsed_seconds": 0.772382800001651,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
             "positive": 300,
             "zero": 0
           },
-          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
           "load_factor_binary64": 869.9805917739868,
           "orthogonality_max_row_sum_upper_bound": "[2.6017669258612363402993321836067542656e-14 +/- 3.75e-53]",
           "orthogonality_rows_below_one": 300,
@@ -205,10 +316,11 @@
         },
         "max_steps": 16,
         "precision_bits": 128,
+        "root_bracket_certified": true,
         "status": "REFINEMENT_LIMIT_REACHED",
         "steps": [
           {
-            "elapsed_seconds": 0.5628863000310957,
+            "elapsed_seconds": 0.5549738998524845,
             "inertia": {
               "negative": 0,
               "positive": 300,
@@ -219,7 +331,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5687869000248611,
+            "elapsed_seconds": 0.5675604999996722,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -230,7 +342,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.558230800088495,
+            "elapsed_seconds": 0.5573388000484556,
             "inertia": {
               "negative": 0,
               "positive": 300,
@@ -241,7 +353,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5608441000804305,
+            "elapsed_seconds": 0.56349469977431,
             "inertia": {
               "negative": 0,
               "positive": 300,
@@ -252,7 +364,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5520391000900418,
+            "elapsed_seconds": 0.5658112000674009,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -263,7 +375,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5711324999574572,
+            "elapsed_seconds": 0.5853228999767452,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -274,7 +386,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5649184000212699,
+            "elapsed_seconds": 0.5718754001427442,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -285,7 +397,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5766926999203861,
+            "elapsed_seconds": 0.5635422000195831,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -296,7 +408,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5753765997942537,
+            "elapsed_seconds": 0.5745788000058383,
             "inertia": {
               "negative": 0,
               "positive": 300,
@@ -307,7 +419,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.589056400116533,
+            "elapsed_seconds": 0.5683096998836845,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -318,7 +430,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5616303000133485,
+            "elapsed_seconds": 0.5606180001050234,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -329,7 +441,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5732142999768257,
+            "elapsed_seconds": 0.58260180009529,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -340,7 +452,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5885366001166403,
+            "elapsed_seconds": 0.5926675000227988,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -351,7 +463,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5647670000325888,
+            "elapsed_seconds": 0.5746447001583874,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -362,7 +474,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5896423999220133,
+            "elapsed_seconds": 0.7151752000208944,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -373,7 +485,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.6029147000517696,
+            "elapsed_seconds": 0.772382800001651,
             "inertia": {
               "negative": 0,
               "positive": 300,
@@ -384,18 +496,20 @@
             "status": "CERTIFIED"
           }
         ],
+        "total_crossing_multiplicity_in_bracket": 1,
+        "unique_simple_root_isolated": true,
         "upper": 869.9805927276611,
         "upper_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 300,
-          "elapsed_seconds": 0.5896423999220133,
+          "elapsed_seconds": 0.7151752000208944,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 1,
             "positive": 299,
             "zero": 0
           },
-          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
           "load_factor_binary64": 869.9805927276611,
           "orthogonality_max_row_sum_upper_bound": "[2.7904692835937262123207761458681223641e-14 +/- 4.80e-52]",
           "orthogonality_rows_below_one": 300,
@@ -406,7 +520,7 @@
           "status": "CERTIFIED"
         }
       },
-      "root_count_reasoning": "K0 is certified positive definite. By congruence, Q(lambda) is I + lambda B for a symmetric B. Each eigenvalue is affine in lambda and crosses zero at most once for lambda>=0. Thus inertia 0 at the first bracket's lower endpoint and inertia 1 at its upper endpoint certify exactly one first positive root there and exclude any earlier positive root.",
+      "root_count_reasoning": "K0 is certified positive definite. By congruence, Q(lambda) is I + lambda B for a symmetric B. Each eigenvalue is affine in lambda and crosses zero at most once for lambda>=0. Inertia zero at the lower endpoint excludes an earlier positive root; a positive negative-count at the upper endpoint brackets the first root. The endpoint count difference is the total crossing multiplicity in the interval; a difference of one isolates a unique simple root.",
       "runner_evidence": {
         "archive_bytes": 130653,
         "archive_validation": "VALID",
@@ -451,14 +565,14 @@
           "lower": {
             "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
             "dimension": 300,
-            "elapsed_seconds": 0.5886166000273079,
+            "elapsed_seconds": 0.5926800000015646,
             "flint_version": "0.9.0",
             "inertia": {
               "negative": 1,
               "positive": 299,
               "zero": 0
             },
-            "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+            "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
             "load_factor_binary64": 872.96875,
             "orthogonality_max_row_sum_upper_bound": "[3.0391267262756604717940947652141292422e-14 +/- 5.66e-53]",
             "orthogonality_rows_below_one": 300,
@@ -471,14 +585,14 @@
           "upper": {
             "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
             "dimension": 300,
-            "elapsed_seconds": 0.5903958999551833,
+            "elapsed_seconds": 0.5844303998164833,
             "flint_version": "0.9.0",
             "inertia": {
               "negative": 2,
               "positive": 298,
               "zero": 0
             },
-            "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+            "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
             "load_factor_binary64": 873.03125,
             "orthogonality_max_row_sum_upper_bound": "[2.6202719473367506079736923055469112077e-14 +/- 6.30e-53]",
             "orthogonality_rows_below_one": 300,
@@ -497,7 +611,9 @@
       "source_commit": "6dd15ea007439a37327298690232cf81bf4c7f69",
       "source_tree": "27b38beffb18327ecb20d07f8e008f5e0ced8dbf",
       "stored_matrix_first_positive_root_status": "CERTIFIED_FOR_STORED_BINARY64_MATRIX",
+      "total_crossing_multiplicity_in_first_bracket": 1,
       "u_pre_sha256": "6c1dbd73e67e7cd0958b9b26dedaddad8976bb31d3d9fd2259fbc62c433fe3b0",
+      "unique_simple_first_root_isolated": true,
       "units": {
         "elastic_modulus": "Source-native consistent stress units; E is stored as 1000000.0 without a unit label.",
         "force": "Source-native consistent force units; the reference resultant is -1.0.",
@@ -509,14 +625,14 @@
       "K0_inertia": {
         "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
         "dimension": 276,
-        "elapsed_seconds": 0.3721622000448406,
+        "elapsed_seconds": 0.37609450006857514,
         "flint_version": "0.9.0",
         "inertia": {
           "negative": 0,
           "positive": 276,
           "zero": 0
         },
-        "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+        "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
         "orthogonality_max_row_sum_upper_bound": "[2.5519026058319131269442897007835358468e-14 +/- 1.33e-53]",
         "orthogonality_rows_below_one": 276,
         "precision_bits": 128,
@@ -606,18 +722,129 @@
         "source": true
       },
       "historical_first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+      "independent_floating_ldl_crosscheck": {
+        "classification": "NUMERICAL_ONLY_NOT_PART_OF_CERTIFICATE",
+        "matrix_formation": "K0 + lambda*Kg formed in binary64 for this separate comparison.",
+        "screens": [
+          {
+            "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
+            "elapsed_seconds": 0.01048140018247068,
+            "expected_certified_inertia": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "inertia_from_ldl_D_eigenvalues": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "load_factor_binary64": null,
+            "matrix_point": "K0",
+            "minimum_absolute_D_eigenvalue": 640.588025731209,
+            "permutation_count": 0,
+            "relative_infinity_reconstruction_residual": 3.324859895005006e-16,
+            "status": "NUMERICAL_CROSSCHECK_MATCH",
+            "tolerance": 8.649053423402522e-08
+          },
+          {
+            "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
+            "elapsed_seconds": 0.008561300113797188,
+            "expected_certified_inertia": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "inertia_from_ldl_D_eigenvalues": {
+              "negative": 0,
+              "positive": 276,
+              "zero": 0
+            },
+            "load_factor_binary64": 866.2977533340454,
+            "matrix_point": "first_lower",
+            "minimum_absolute_D_eigenvalue": 2.0776328035765346e-07,
+            "permutation_count": 5,
+            "relative_infinity_reconstruction_residual": 3.6125295529228383e-16,
+            "status": "NUMERICAL_CROSSCHECK_MATCH",
+            "tolerance": 8.648794277268666e-08
+          },
+          {
+            "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
+            "elapsed_seconds": 0.009848600020632148,
+            "expected_certified_inertia": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "inertia_from_ldl_D_eigenvalues": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "load_factor_binary64": 866.2977542877197,
+            "matrix_point": "first_upper",
+            "minimum_absolute_D_eigenvalue": 3.8985235106814287e-07,
+            "permutation_count": 5,
+            "relative_infinity_reconstruction_residual": 3.5381905865518254e-16,
+            "status": "NUMERICAL_CROSSCHECK_MATCH",
+            "tolerance": 8.64879427726838e-08
+          },
+          {
+            "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
+            "elapsed_seconds": 0.008813299937173724,
+            "expected_certified_inertia": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "inertia_from_ldl_D_eigenvalues": {
+              "negative": 1,
+              "positive": 275,
+              "zero": 0
+            },
+            "load_factor_binary64": 873.0,
+            "matrix_point": "second_lower",
+            "minimum_absolute_D_eigenvalue": 0.01106045926230137,
+            "permutation_count": 5,
+            "relative_infinity_reconstruction_residual": 3.307119523741579e-16,
+            "status": "NUMERICAL_CROSSCHECK_MATCH",
+            "tolerance": 8.648792271931246e-08
+          },
+          {
+            "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
+            "elapsed_seconds": 0.00977270002476871,
+            "expected_certified_inertia": {
+              "negative": 2,
+              "positive": 274,
+              "zero": 0
+            },
+            "inertia_from_ldl_D_eigenvalues": {
+              "negative": 2,
+              "positive": 274,
+              "zero": 0
+            },
+            "load_factor_binary64": 873.03125,
+            "matrix_point": "second_upper",
+            "minimum_absolute_D_eigenvalue": 0.008469795367488597,
+            "permutation_count": 5,
+            "relative_infinity_reconstruction_residual": 3.4133568487664235e-16,
+            "status": "NUMERICAL_CROSSCHECK_MATCH",
+            "tolerance": 8.648792262581116e-08
+          }
+        ]
+      },
       "inertia_at_bracket": {
         "lower": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 276,
-          "elapsed_seconds": 0.44209419982507825,
+          "elapsed_seconds": 0.4466400998644531,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
             "positive": 276,
             "zero": 0
           },
-          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
           "load_factor_binary64": 866.2977533340454,
           "orthogonality_max_row_sum_upper_bound": "[2.6041049815993824610827086260008591888e-14 +/- 2.33e-52]",
           "orthogonality_rows_below_one": 276,
@@ -630,14 +857,14 @@
         "upper": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 276,
-          "elapsed_seconds": 0.4509023998398334,
+          "elapsed_seconds": 0.44163399981334805,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 1,
             "positive": 275,
             "zero": 0
           },
-          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
           "load_factor_binary64": 866.2977542877197,
           "orthogonality_max_row_sum_upper_bound": "[2.5450740345784262626579222196613174753e-14 +/- 2.35e-52]",
           "orthogonality_rows_below_one": 276,
@@ -658,7 +885,7 @@
       "memory_observation": "NOT_MEASURED",
       "mesh_sha256": "aaf2d8cf7ae44d5212bdb6785e9fdb36787bf8fde0cc2a04aa3c0c867d0b26e7",
       "mode_comparison": "NOT_DONE; no common physical interpolation or projection is defined and tested.",
-      "observed_total_seconds": 9.916544300038368,
+      "observed_total_seconds": 10.280525400070474,
       "observed_total_seconds_scope": "Inertia and residual calculations after archive validation and data loading.",
       "pencil_convention": "Q(lambda) = K0 + lambda * Kg; lambda is the positive dimensionless load multiplier",
       "precision_bits": 128,
@@ -672,14 +899,14 @@
         "K0_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 276,
-          "elapsed_seconds": 0.39903689990751445,
+          "elapsed_seconds": 0.38105069985613227,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
             "positive": 276,
             "zero": 0
           },
-          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
           "orthogonality_max_row_sum_upper_bound": "[2.5519026058319131269442897007835358468e-14 +/- 1.33e-53]",
           "orthogonality_rows_below_one": 276,
           "precision_bits": 128,
@@ -691,14 +918,14 @@
         "lower_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 276,
-          "elapsed_seconds": 0.44209419982507825,
+          "elapsed_seconds": 0.4466400998644531,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
             "positive": 276,
             "zero": 0
           },
-          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
           "load_factor_binary64": 866.2977533340454,
           "orthogonality_max_row_sum_upper_bound": "[2.6041049815993824610827086260008591888e-14 +/- 2.33e-52]",
           "orthogonality_rows_below_one": 276,
@@ -710,10 +937,11 @@
         },
         "max_steps": 16,
         "precision_bits": 128,
+        "root_bracket_certified": true,
         "status": "REFINEMENT_LIMIT_REACHED",
         "steps": [
           {
-            "elapsed_seconds": 0.40729890018701553,
+            "elapsed_seconds": 0.5333319997880608,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -724,7 +952,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.4141736999154091,
+            "elapsed_seconds": 0.49364160001277924,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -735,7 +963,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.3925799001008272,
+            "elapsed_seconds": 0.3917753000278026,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -746,7 +974,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.40713080018758774,
+            "elapsed_seconds": 0.40140810003504157,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -757,7 +985,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.40445730020292103,
+            "elapsed_seconds": 0.39739520009607077,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -768,7 +996,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.41096589993685484,
+            "elapsed_seconds": 0.4283875999972224,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -779,7 +1007,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.4113483999390155,
+            "elapsed_seconds": 0.40833080001175404,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -790,7 +1018,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.43492559995502234,
+            "elapsed_seconds": 0.41797710000537336,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -801,7 +1029,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.41356569994241,
+            "elapsed_seconds": 0.43341830000281334,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -812,7 +1040,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.4358550999313593,
+            "elapsed_seconds": 0.45572840003296733,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -823,7 +1051,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.42261620005592704,
+            "elapsed_seconds": 0.44019490014761686,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -834,7 +1062,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.4374396000057459,
+            "elapsed_seconds": 0.4434744000900537,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -845,7 +1073,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.4353904000017792,
+            "elapsed_seconds": 0.43690579989925027,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -856,7 +1084,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.4399651999119669,
+            "elapsed_seconds": 0.4555956998374313,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -867,7 +1095,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.4509023998398334,
+            "elapsed_seconds": 0.44163399981334805,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -878,7 +1106,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.44209419982507825,
+            "elapsed_seconds": 0.4466400998644531,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -889,18 +1117,20 @@
             "status": "CERTIFIED"
           }
         ],
+        "total_crossing_multiplicity_in_bracket": 1,
+        "unique_simple_root_isolated": true,
         "upper": 866.2977542877197,
         "upper_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 276,
-          "elapsed_seconds": 0.4509023998398334,
+          "elapsed_seconds": 0.44163399981334805,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 1,
             "positive": 275,
             "zero": 0
           },
-          "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+          "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
           "load_factor_binary64": 866.2977542877197,
           "orthogonality_max_row_sum_upper_bound": "[2.5450740345784262626579222196613174753e-14 +/- 2.35e-52]",
           "orthogonality_rows_below_one": 276,
@@ -911,7 +1141,7 @@
           "status": "CERTIFIED"
         }
       },
-      "root_count_reasoning": "K0 is certified positive definite. By congruence, Q(lambda) is I + lambda B for a symmetric B. Each eigenvalue is affine in lambda and crosses zero at most once for lambda>=0. Thus inertia 0 at the first bracket's lower endpoint and inertia 1 at its upper endpoint certify exactly one first positive root there and exclude any earlier positive root.",
+      "root_count_reasoning": "K0 is certified positive definite. By congruence, Q(lambda) is I + lambda B for a symmetric B. Each eigenvalue is affine in lambda and crosses zero at most once for lambda>=0. Inertia zero at the lower endpoint excludes an earlier positive root; a positive negative-count at the upper endpoint brackets the first root. The endpoint count difference is the total crossing multiplicity in the interval; a difference of one isolates a unique simple root.",
       "runner_evidence": {
         "archive_bytes": 125267,
         "archive_validation": "VALID",
@@ -956,14 +1186,14 @@
           "lower": {
             "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
             "dimension": 276,
-            "elapsed_seconds": 0.4608116000890732,
+            "elapsed_seconds": 0.44964230014011264,
             "flint_version": "0.9.0",
             "inertia": {
               "negative": 1,
               "positive": 275,
               "zero": 0
             },
-            "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+            "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
             "load_factor_binary64": 873.0,
             "orthogonality_max_row_sum_upper_bound": "[2.3934027245347984393639983544865484605e-14 +/- 2.01e-52]",
             "orthogonality_rows_below_one": 276,
@@ -976,14 +1206,14 @@
           "upper": {
             "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
             "dimension": 276,
-            "elapsed_seconds": 0.4323436999693513,
+            "elapsed_seconds": 0.4399482000153512,
             "flint_version": "0.9.0",
             "inertia": {
               "negative": 2,
               "positive": 274,
               "zero": 0
             },
-            "inertia_stability": "CERTIFIED_BY ||D^-1/2 (V.T A V - D) D^-1/2||_infinity < 1",
+            "inertia_stability": "CERTIFIED_BY ||abs(D)^-1/2 (V.T A V - D) abs(D)^-1/2||_infinity < 1",
             "load_factor_binary64": 873.03125,
             "orthogonality_max_row_sum_upper_bound": "[2.5631127464461671333580402398281915885e-14 +/- 4.59e-52]",
             "orthogonality_rows_below_one": 276,
@@ -1002,7 +1232,9 @@
       "source_commit": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
       "source_tree": "400859d3f8b8d86eeb43ed8515abd3cfa5b0d856",
       "stored_matrix_first_positive_root_status": "CERTIFIED_FOR_STORED_BINARY64_MATRIX",
+      "total_crossing_multiplicity_in_first_bracket": 1,
       "u_pre_sha256": "6c072a73927e94b358714e89f9a407e181c127ed356b8e99523c09664a11443d",
+      "unique_simple_first_root_isolated": true,
       "units": {
         "elastic_modulus": "Source-native consistent stress units; E is stored as 1000000.0 without a unit label.",
         "force": "Source-native consistent force units; the reference resultant is -1.0.",
@@ -1035,9 +1267,9 @@
     "interpretation_limit": "The A/B change combines connectivity and discretization; it is not a physical validation or an isolated connectivity effect."
   },
   "implementation_fingerprints": {
-    "analysis_script_sha256": "4fc3db517e7b2e16b72781b7ffcc017244aafe105cad8115edae764fa0f5e20a",
+    "analysis_script_sha256": "3b6bf55c2035685aaa8c0f6f7fcc66de9b6de78ef36697bc44b09ffb99eb76a7",
     "optional_dependency_spec_sha256": "bb8edf2a54dd3e5b5c053c4eff67fe073f65944adef85b361a098c22dc0427dd",
-    "synthetic_tests_sha256": "d861e20e1267fc87ad3cae9683e400a6f5ca0109cf109388593345ccd09c442b"
+    "synthetic_tests_sha256": "f47f2ac202caaddfb7b69f50c0846ad09a1971ae79a0ce2d56c5170562b4690e"
   },
   "method": "Arb interval enclosure plus approximate eigenbasis and norm perturbation bounds",
   "schema": "qf-g08-verified-inertia-v1"
