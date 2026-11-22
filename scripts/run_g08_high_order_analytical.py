@@ -74,7 +74,7 @@ def _euler_reference() -> float:
 def _structured_solid_mesh(
     family: str, cells_x: int, transverse_cells: int
 ) -> tuple[np.ndarray, list[list[int]]]:
-    """Build a shared structured solid mesh for axial and transverse screens."""
+    """Build the structured solid mesh used by the transverse screen."""
     family = str(family).upper()
     coordinates: list[tuple[float, float, float]] = []
     node_ids: dict[tuple[float, float, float], int] = {}
@@ -100,9 +100,11 @@ def _structured_solid_mesh(
         (0, 1), (0, 3), (0, 4), (1, 2), (1, 5), (2, 3),
         (2, 6), (3, 7), (4, 5), (4, 7), (5, 6), (6, 7),
     )
+    # Use the same body diagonal in every block so each shared quadrilateral
+    # gets the same diagonal from both sides in x, y and z.
     tet_corner_templates = (
-        (0, 1, 3, 4), (1, 2, 3, 6), (1, 3, 4, 6),
-        (1, 4, 5, 6), (3, 4, 6, 7),
+        (0, 1, 2, 6), (0, 1, 5, 6), (0, 3, 2, 6),
+        (0, 3, 7, 6), (0, 4, 5, 6), (0, 4, 7, 6),
     )
     elements: list[list[int]] = []
     for i in range(cells_x):
