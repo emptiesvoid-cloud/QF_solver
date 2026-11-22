@@ -1,0 +1,411 @@
+{
+  "cases": {
+    "after": {
+      "archive_validation": "VALID",
+      "candidate_factor": 869.9805921314434,
+      "candidate_mode_sha256": "6990c6a4293ca9610fc4cfea092bc7a7bde1a1b3331aca851e8f28b18f48a6b6",
+      "capture_contract_sha256": "1114517e4522053c9419d2c7b7a7afb54c9b6d7a2f6dcb9377777f458b6ea2f5",
+      "capture_json_sha256": "105766de775f540eed7439dd0d7320d5bcc2f6d2d7b57c40b52b2a2eaf069c0f",
+      "capture_validation": "VALID",
+      "case": "after",
+      "dof_map_sha256": "722fe108434f340d8d35b32d57e2b596617a4bdaba3b0e108824b06ebfbbe39b",
+      "element_count": 48,
+      "fixed_dofs": 75,
+      "free_dofs": 300,
+      "full_dofs": 375,
+      "generator_blob": "f5aa4431ee1f68bcb13250406dc312f28c9d048a",
+      "historical_ab_result_match": {
+        "candidate_factor_exact": true,
+        "candidate_mode_sha256": true,
+        "candidate_residual_exact": true,
+        "first_mode_status_preserved": true,
+        "inputs": true,
+        "mesh": true,
+        "source": true
+      },
+      "historical_ab_scope_id": "g08-tet10-after",
+      "inputs_sha256": "1b0f448d8910c4b1f9bb3282a5fb97a3b014cfcef4b97b3a048cb8d493f062ff",
+      "matrices_npz_sha256": "e263f58cca91d7f845e14f2e8d4b7552e3d2904ff2c61fc5c0cf9f164a56bc67",
+      "matrix_fingerprints": {
+        "K0": {
+          "nnz": 15734,
+          "sha256_canonical_csr": "17d5ca19a3b35b8cdde3575e9d9b43769efe80cd583d6f9c3a4589625bc84476",
+          "shape": [
+            300,
+            300
+          ],
+          "symmetry_defect_relative_max_entry": 0.0
+        },
+        "Kg": {
+          "nnz": 5316,
+          "sha256_canonical_csr": "749d42ae487f41bd456fd8e261eb829c6d131c02e2e27c95f65327308cdfca6d",
+          "shape": [
+            300,
+            300
+          ],
+          "symmetry_defect_relative_max_entry": 0.0
+        }
+      },
+      "mesh_sha256": "163b1f9a7ebe237f28f6e03315a487599200ef5d56b1f96022437572c8492986",
+      "node_count": 125,
+      "pencil_sign_convention": "Q(lambda) = K0 + lambda * Kg; lambda is the positive dimensionless load multiplier",
+      "preload_final_relative_residual": 7.110491597689875e-15,
+      "preload_status": "CONVERGED",
+      "result_json_sha256": "e366ce7289ec61120a56a8f567a59e9313aad9de519b4dce70cf8918f9d822b8",
+      "runner_evidence": {
+        "archive_bytes": 130653,
+        "archive_validation": "VALID",
+        "attempt": 1,
+        "capture_validation": "VALID",
+        "contract_sha256": "1114517e4522053c9419d2c7b7a7afb54c9b6d7a2f6dcb9377777f458b6ea2f5",
+        "elapsed_seconds": 15.928251500008628,
+        "ledger": {
+          "entries": 1,
+          "filename": "node-attempt-ledger-first-mode-after-001.json",
+          "sha256": "47086f71fab2c830cc72d7424b3b2328e211870e8d44df405f6c4e90f7f976bf"
+        },
+        "nodeid": "tests/verification/test_g08_first_mode_capture.py::test_capture_after",
+        "peak_process_count": 3,
+        "peak_rss_bytes": 167108608,
+        "preflight": {
+          "attempt_reserved": false,
+          "id": "pf-87e141ae8f88",
+          "sha256": "89529a663bcf537877c5b37c84de61a7fc9729de1c130c1922c7194fcbb099b5",
+          "status": "PREFLIGHT_PASS"
+        },
+        "preload_status": "CONVERGED",
+        "return_code": 0,
+        "run_record_sha256": "61ffae14384bb3399ed6c4c28e8cf3d8c3ac11decb65d522c8e5dd6bb52b2f9a",
+        "runner_state": "G08_RESULT_ARCHIVED",
+        "runner_status": "PASS",
+        "scope_id": "g08-tet10-after-capture-001",
+        "source_inventory_sha256": "4c7caf55daddbf9d42ebfda8e74bd6bb4519c13aa63ade93c59e912a843e76b5",
+        "spectral_status": "COMPUTED",
+        "status": "VERIFIED",
+        "stderr_bytes": 0,
+        "stdout_bytes": 711
+      },
+      "runtime_versions": {
+        "numpy": "2.2.6",
+        "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+        "scipy": "1.15.2"
+      },
+      "scope_id": "g08-tet10-after-capture-001",
+      "screen": {
+        "K0_condition_2_estimate": 1749729.4501936068,
+        "K0_eigenvalue_screen_tolerance": 2.7725374100167637e-07,
+        "K0_eigenvalues_at_or_below_tolerance": 0,
+        "K0_maximum_eigenvalue": 12486398.446622256,
+        "K0_minimum_eigenvalue": 7.136188080529045,
+        "K0_status": "POSITIVE_DOUBLE_PRECISION_SCREEN",
+        "K0_symmetry_defect_inf_relative": 0.0,
+        "Kg_symmetry_defect_inf_relative": 0.0,
+        "candidate_Q_inertia_numeric": {
+          "maximum_eigenvalue": 12486392.555104516,
+          "minimum_eigenvalue": 8.952911662528004e-10,
+          "near_zero": 1,
+          "negative": 0,
+          "positive": 299,
+          "scale_aware_double_precision_tolerance": 2.7725361018370344e-07
+        },
+        "candidate_bracket": {
+          "lower": 869.9375,
+          "upper": 870.0
+        },
+        "candidate_bracket_inertia_numeric": {
+          "lower": {
+            "maximum_eigenvalue": 12486392.55539582,
+            "minimum_eigenvalue": 0.00036588327025920754,
+            "near_zero": 0,
+            "negative": 0,
+            "positive": 300,
+            "scale_aware_double_precision_tolerance": 2.772536101901717e-07
+          },
+          "upper": {
+            "maximum_eigenvalue": 12486392.554973345,
+            "minimum_eigenvalue": -0.00016478771297993126,
+            "near_zero": 0,
+            "negative": 1,
+            "positive": 299,
+            "scale_aware_double_precision_tolerance": 2.7725361018079086e-07
+          }
+        },
+        "candidate_factor": 869.9805921314434,
+        "candidate_generalized_residual": 2.219599647404538e-11,
+        "candidate_nearest_numeric_root_delta": 2.0274910639273003e-09,
+        "candidate_next_root_relative_gap_numeric": 0.003465375981287284,
+        "candidate_root_rank_numeric": 1,
+        "candidate_solver_style_residual_recomputed": 4.439199294810922e-11,
+        "classification": "NUMERICAL_OBSERVATION_ONLY",
+        "dimension": 300,
+        "error_controlled_inertia": "NOT_PERFORMED",
+        "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+        "method": "Dense binary64 symmetric eigenscreens; Cholesky K0 = L L.T, then eigensolve L^-1(-Kg)L^-T.",
+        "positive_roots_numeric_count": 189,
+        "positivity_and_inertia_certified": false,
+        "root_rank_status": "RANK_1_NUMERICAL_SCREEN",
+        "smallest_positive_roots_numeric": [
+          869.9805921334709,
+          872.9954019816292,
+          8907.070960790888,
+          8934.873533888414,
+          48421.68216398952
+        ],
+        "symmetry_tolerance_predeclared": 1e-12,
+        "transformed_S_symmetry_defect_inf_relative": 1.1135931335579349e-15
+      },
+      "signed_critical_load": -869.9805921314434,
+      "solver_backend": "scipy.sparse.linalg.eigs",
+      "solver_candidate_residual_relative": 5.078786081630351e-11,
+      "solver_eigen_formulation": "generalized_eigs_shift_invert",
+      "solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+      "source_commit": "6dd15ea007439a37327298690232cf81bf4c7f69",
+      "source_tree": "27b38beffb18327ecb20d07f8e008f5e0ced8dbf",
+      "u_pre_sha256": "6c1dbd73e67e7cd0958b9b26dedaddad8976bb31d3d9fd2259fbc62c433fe3b0",
+      "units": {
+        "elastic_modulus": "Source-native consistent stress units; E is stored as 1000000.0 without a unit label.",
+        "force": "Source-native consistent force units; the reference resultant is -1.0.",
+        "interpretation": "Keep values dimensionally consistent; do not attach SI units without external provenance.",
+        "length": "Source-native consistent model units; the G08 builder does not label a physical unit."
+      }
+    },
+    "before": {
+      "archive_validation": "VALID",
+      "candidate_factor": 866.2977536614513,
+      "candidate_mode_sha256": "73a5a05605ece9436735d667b07b652caf501c606d6b799745194b3e5926b6b3",
+      "capture_contract_sha256": "1114517e4522053c9419d2c7b7a7afb54c9b6d7a2f6dcb9377777f458b6ea2f5",
+      "capture_json_sha256": "957ec4ee53b4b380a1b75f806bbab0deb990926befa5fb6ea67f55dafde56840",
+      "capture_validation": "VALID",
+      "case": "before",
+      "dof_map_sha256": "31ebd7d4cdbed5a835d48647968ebb47918c7d5f72a2998aeb775bbaa73259dd",
+      "element_count": 40,
+      "fixed_dofs": 75,
+      "free_dofs": 276,
+      "full_dofs": 351,
+      "generator_blob": "00941fa19a4be2dcdabe1cae6ecfc63b3fbd507a",
+      "historical_ab_result_match": {
+        "candidate_factor_exact": true,
+        "candidate_mode_sha256": true,
+        "candidate_residual_exact": true,
+        "first_mode_status_preserved": true,
+        "inputs": true,
+        "mesh": true,
+        "source": true
+      },
+      "historical_ab_scope_id": "g08-tet10-before-retry-001",
+      "inputs_sha256": "cada40b87ac8cfadfb1e60f6a3398772fd9385cbf96b0b1abeec3fc894768a53",
+      "matrices_npz_sha256": "a8e3f50dd02174c83ca886d5f0225f369dd8eaa83386f8eb99022f8aeab5dd7f",
+      "matrix_fingerprints": {
+        "K0": {
+          "nnz": 14836,
+          "sha256_canonical_csr": "7500bf21f2a3f25cbcd200ebb6b338aa5de18aac0161f96e320612315f5485b5",
+          "shape": [
+            276,
+            276
+          ],
+          "symmetry_defect_relative_max_entry": 0.0
+        },
+        "Kg": {
+          "nnz": 5028,
+          "sha256_canonical_csr": "90e175c8c573794a8c49eb78e6acf8d70d0d42bb2fc0421ebd12bfeb1ecc3172",
+          "shape": [
+            276,
+            276
+          ],
+          "symmetry_defect_relative_max_entry": 0.0
+        }
+      },
+      "mesh_sha256": "aaf2d8cf7ae44d5212bdb6785e9fdb36787bf8fde0cc2a04aa3c0c867d0b26e7",
+      "node_count": 117,
+      "pencil_sign_convention": "Q(lambda) = K0 + lambda * Kg; lambda is the positive dimensionless load multiplier",
+      "preload_final_relative_residual": 5.9570592065110315e-15,
+      "preload_status": "CONVERGED",
+      "result_json_sha256": "b8a43e3582963103e548b7a22c5abd29d44ed2995c60af22c274c1a5184accf7",
+      "runner_evidence": {
+        "archive_bytes": 125267,
+        "archive_validation": "VALID",
+        "attempt": 1,
+        "capture_validation": "VALID",
+        "contract_sha256": "1114517e4522053c9419d2c7b7a7afb54c9b6d7a2f6dcb9377777f458b6ea2f5",
+        "elapsed_seconds": 14.297940299846232,
+        "ledger": {
+          "entries": 1,
+          "filename": "node-attempt-ledger-first-mode-before-001.json",
+          "sha256": "a51380160ca8ea566fd328b03da34758fcff2edba0628aba749d017addcc5051"
+        },
+        "nodeid": "tests/verification/test_g08_first_mode_capture.py::test_capture_before",
+        "peak_process_count": 3,
+        "peak_rss_bytes": 166154240,
+        "preflight": {
+          "attempt_reserved": false,
+          "id": "pf-efbf9d01dffa",
+          "sha256": "102bb2e756e28f81c598f6b6f6c90c184040ebdb121f535603a71919c53a2c7b",
+          "status": "PREFLIGHT_PASS"
+        },
+        "preload_status": "CONVERGED",
+        "return_code": 0,
+        "run_record_sha256": "c064f9c553410c5a625bf28261042b8991392f14286e0f498be734ff2a12756d",
+        "runner_state": "G08_RESULT_ARCHIVED",
+        "runner_status": "PASS",
+        "scope_id": "g08-tet10-before-capture-001",
+        "source_inventory_sha256": "44bbf9079039670603cef97f055d950d9883f72c355c9201f29cfb4b20f63dd3",
+        "spectral_status": "COMPUTED",
+        "status": "VERIFIED",
+        "stderr_bytes": 0,
+        "stdout_bytes": 714
+      },
+      "runtime_versions": {
+        "numpy": "2.2.6",
+        "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+        "scipy": "1.15.2"
+      },
+      "scope_id": "g08-tet10-before-capture-001",
+      "screen": {
+        "K0_condition_2_estimate": 1131556.6716740746,
+        "K0_eigenvalue_screen_tolerance": 1.8700298221172098e-07,
+        "K0_eigenvalues_at_or_below_tolerance": 0,
+        "K0_maximum_eigenvalue": 8421865.61005878,
+        "K0_minimum_eigenvalue": 7.442725424966214,
+        "K0_status": "POSITIVE_DOUBLE_PRECISION_SCREEN",
+        "K0_symmetry_defect_inf_relative": 0.0,
+        "Kg_symmetry_defect_inf_relative": 0.0,
+        "candidate_Q_inertia_numeric": {
+          "maximum_eigenvalue": 8421980.724546649,
+          "minimum_eigenvalue": 4.6002460020900646e-10,
+          "near_zero": 1,
+          "negative": 0,
+          "positive": 275,
+          "scale_aware_double_precision_tolerance": 1.8700553826681894e-07
+        },
+        "candidate_bracket": {
+          "lower": 866.25,
+          "upper": 866.3125
+        },
+        "candidate_bracket_inertia_numeric": {
+          "lower": {
+            "maximum_eigenvalue": 8421980.718196247,
+            "minimum_eigenvalue": 0.0004237728362877567,
+            "near_zero": 0,
+            "negative": 0,
+            "positive": 276,
+            "scale_aware_double_precision_tolerance": 1.870055381258117e-07
+          },
+          "upper": {
+            "maximum_eigenvalue": 8421980.726507645,
+            "minimum_eigenvalue": -0.0001308616675763124,
+            "near_zero": 0,
+            "negative": 1,
+            "positive": 275,
+            "scale_aware_double_precision_tolerance": 1.870055383103618e-07
+          }
+        },
+        "candidate_factor": 866.2977536614513,
+        "candidate_generalized_residual": 1.6969093174482018e-11,
+        "candidate_nearest_numeric_root_delta": 1.8764012565952726e-09,
+        "candidate_next_root_relative_gap_numeric": 0.007757042261274511,
+        "candidate_root_rank_numeric": 1,
+        "candidate_solver_style_residual_recomputed": 3.393818634895432e-11,
+        "classification": "NUMERICAL_OBSERVATION_ONLY",
+        "dimension": 276,
+        "error_controlled_inertia": "NOT_PERFORMED",
+        "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+        "method": "Dense binary64 symmetric eigenscreens; Cholesky K0 = L L.T, then eigensolve L^-1(-Kg)L^-T.",
+        "positive_roots_numeric_count": 168,
+        "positivity_and_inertia_certified": false,
+        "root_rank_status": "RANK_1_NUMERICAL_SCREEN",
+        "smallest_positive_roots_numeric": [
+          866.2977536633277,
+          873.0176619493268,
+          8697.2248598921,
+          8997.960855972862,
+          43059.37036835093
+        ],
+        "symmetry_tolerance_predeclared": 1e-12,
+        "transformed_S_symmetry_defect_inf_relative": 1.401881862547418e-15
+      },
+      "signed_critical_load": -866.2977536614513,
+      "solver_backend": "scipy.sparse.linalg.eigs",
+      "solver_candidate_residual_relative": 3.717849437434164e-11,
+      "solver_eigen_formulation": "generalized_eigs_shift_invert",
+      "solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+      "source_commit": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
+      "source_tree": "400859d3f8b8d86eeb43ed8515abd3cfa5b0d856",
+      "u_pre_sha256": "6c072a73927e94b358714e89f9a407e181c127ed356b8e99523c09664a11443d",
+      "units": {
+        "elastic_modulus": "Source-native consistent stress units; E is stored as 1000000.0 without a unit label.",
+        "force": "Source-native consistent force units; the reference resultant is -1.0.",
+        "interpretation": "Keep values dimensionally consistent; do not attach SI units without external provenance.",
+        "length": "Source-native consistent model units; the G08 builder does not label a physical unit."
+      }
+    }
+  },
+  "classification": "DEVELOPMENT_ONLY_NUMERICAL_OBSERVATION",
+  "comparison": {
+    "after_source": "6dd15ea007439a37327298690232cf81bf4c7f69",
+    "before_source": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
+    "candidate_factor_before_after": [
+      866.2977536614513,
+      869.9805921314434
+    ],
+    "candidate_factor_difference_after_minus_before": 3.6828384699920207,
+    "candidate_factor_relative_difference": 0.004251238623702205,
+    "classification": "MESH_AND_CONNECTIVITY_CHANGE_NUMERICAL_OBSERVATION",
+    "elements_before_after": [
+      40,
+      48
+    ],
+    "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+    "free_dofs_before_after": [
+      276,
+      300
+    ],
+    "interpretation_limit": "The change combines connectivity and discretization; no isolated connectivity effect or physical buckling qualification is inferred.",
+    "nodes_before_after": [
+      117,
+      125
+    ],
+    "signed_critical_load_before_after": [
+      -866.2977536614513,
+      -869.9805921314434
+    ],
+    "solver_residual_before_after": [
+      3.717849437434164e-11,
+      5.078786081630351e-11
+    ]
+  },
+  "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+  "historical_verdicts_preserved": {
+    "after_ab": {
+      "archive_validation": "VALID",
+      "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+      "preload_status": "CONVERGED",
+      "runner_status": "PASS",
+      "scope_id": "g08-tet10-after",
+      "spectral_status": "COMPUTED"
+    },
+    "before_ab": {
+      "archive_validation": "VALID",
+      "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+      "preload_status": "CONVERGED",
+      "runner_status": "PASS",
+      "scope_id": "g08-tet10-before-retry-001",
+      "spectral_status": "COMPUTED"
+    },
+    "initial_before_failure": {
+      "archive_validation": "FAILURE_ARCHIVED",
+      "first_mode_status": "NOT_ESTABLISHED",
+      "preload_status": "NOT_REPORTED",
+      "runner_status": "PYTEST_FAILED",
+      "scope_id": "g08-tet10-before",
+      "spectral_status": "SOLVER_EXCEPTION"
+    }
+  },
+  "interval_backend": {
+    "error_controlled_inertia": "NOT_PERFORMED",
+    "gmpy2_available": false,
+    "mpmath_available_but_not_used_as_interval_certificate": true,
+    "python_flint_available": false
+  },
+  "mode_comparison": "NOT_PERFORMED; no common physical interpolation/projection was defined and tested.",
+  "schema": "qf-g08-first-mode-matrix-screen-v1"
+}

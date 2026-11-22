@@ -1,0 +1,143 @@
+{
+  "authorization": {
+    "attempts_per_source": 1,
+    "automatic_retry": false,
+    "basis": "Explicit authorization in the user mission dated 2026-11-22 for one matrix capture per G08 source.",
+    "fem_matrix_capture_authorized": true,
+    "historical_scopes_and_verdicts_immutable": true,
+    "official_collect_only_preflight_required": true
+  },
+  "budget": {
+    "archive_soft_limit_mib": 32,
+    "combined_storage_soft_limit_mib": 64,
+    "minimum_free_disk_mib": 1024,
+    "monitoring": "RSS, process count, and storage polling are soft observations; output byte caps and one-attempt ledgers are enforced procedurally.",
+    "process_tree_limit": 8,
+    "rss_soft_limit_mib": 1024,
+    "stdout_stderr_total_limit_mib": 8,
+    "temporary_soft_limit_mib": 32,
+    "threads": 1,
+    "timeout_seconds": 120
+  },
+  "capture_method": {
+    "algorithm_changes": false,
+    "archive": "matrices.npz (CSR arrays, u_pre, DOF maps), mode.npy, result.json, capture.json; identity and SHA-256 bound.",
+    "candidate_reproduction": "Compare new factor and solver residual with archived A/B references using recorded values; exact bitwise equality is not required.",
+    "observed_calls": [
+      "solve_full_newton return displacement u_pre",
+      "assembly.assemble(zero) tangent K0",
+      "assembly.geometric_tangent(u_pre) tangent Kg"
+    ],
+    "production_mechanics_changes": false,
+    "reduction": "Apply the solver exact free-DOF index vector after full assembly; archive fixed/free indices and dof labels.",
+    "solver_call": "Existing public qf_solver.solve_model call, exactly once per scope."
+  },
+  "cases": {
+    "after": {
+      "aliases": 0,
+      "components": 1,
+      "elements": 48,
+      "free_dofs": 300,
+      "generator_blob": "f5aa4431ee1f68bcb13250406dc312f28c9d048a",
+      "historical_candidate": {
+        "bracket": [
+          869.9375,
+          870.0
+        ],
+        "factor": 869.9805921314434,
+        "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+        "mode_sha256": "6990c6a4293ca9610fc4cfea092bc7a7bde1a1b3331aca851e8f28b18f48a6b6",
+        "preload_final_relative_residual": 7.110491597689875e-15,
+        "residual_relative": 5.078786081630351e-11,
+        "result_sha256": "fcebefd7260dbeaa9ce24c3db3e671e6991ce42e9b00ec4dd9550628745dd004",
+        "source_run_sha256": "ef065d55ec34f92871e304aba5529faaa45a64f203cde9f74316e79922361b10"
+      },
+      "inputs_sha256": "1b0f448d8910c4b1f9bb3282a5fb97a3b014cfcef4b97b3a048cb8d493f062ff",
+      "ledger": "node-attempt-ledger-first-mode-after-001.json",
+      "mesh_sha256": "163b1f9a7ebe237f28f6e03315a487599200ef5d56b1f96022437572c8492986",
+      "nodeid": "tests/verification/test_g08_first_mode_capture.py::test_capture_after",
+      "nodes": 125,
+      "open_faces": 0,
+      "scope_id": "g08-tet10-after-capture-001",
+      "series_id": "dev-g08-capture-after-001",
+      "solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+      "source_branch": "work/g08-after-controlled",
+      "source_commit": "6dd15ea007439a37327298690232cf81bf4c7f69",
+      "source_tree": "27b38beffb18327ecb20d07f8e008f5e0ced8dbf"
+    },
+    "before": {
+      "aliases": 12,
+      "components": 8,
+      "elements": 40,
+      "free_dofs": 276,
+      "generator_blob": "00941fa19a4be2dcdabe1cae6ecfc63b3fbd507a",
+      "historical_candidate": {
+        "bracket": [
+          866.25,
+          866.3125
+        ],
+        "factor": 866.2977536614513,
+        "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+        "mode_sha256": "73a5a05605ece9436735d667b07b652caf501c606d6b799745194b3e5926b6b3",
+        "preload_final_relative_residual": 5.9570592065110315e-15,
+        "residual_relative": 3.717849437434164e-11,
+        "result_sha256": "ed6bdbdf8123fd12c8ee8725b91a8298ddf7c46036ac97d0251ad1d98e4a1f67",
+        "source_run_sha256": "2551c9d0b3e900f964938cc0284ed9d1a3f851d6773a3d578753e6d0f934a2e6"
+      },
+      "inputs_sha256": "cada40b87ac8cfadfb1e60f6a3398772fd9385cbf96b0b1abeec3fc894768a53",
+      "ledger": "node-attempt-ledger-first-mode-before-001.json",
+      "mesh_sha256": "aaf2d8cf7ae44d5212bdb6785e9fdb36787bf8fde0cc2a04aa3c0c867d0b26e7",
+      "nodeid": "tests/verification/test_g08_first_mode_capture.py::test_capture_before",
+      "nodes": 117,
+      "open_faces": 48,
+      "scope_id": "g08-tet10-before-capture-001",
+      "series_id": "dev-g08-capture-before-001",
+      "solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+      "source_branch": "work/g08-before-controlled",
+      "source_commit": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
+      "source_tree": "400859d3f8b8d86eeb43ed8515abd3cfa5b0d856"
+    }
+  },
+  "classification": "DEVELOPMENT_ONLY",
+  "contract_id": "G08-TET10-FIRST-MODE-CAPTURE-2026-11-22",
+  "model_and_sign_convention": {
+    "K0_definition": "Reduced tangent from assembly.assemble(zero displacement) on the exact registered free-DOF map.",
+    "Kg_definition": "Reduced initial-stress second-Piola geometric tangent from assembly.geometric_tangent(u_pre), using the converged proportional-preload state.",
+    "family": "TET10",
+    "geometry": {
+      "height": 0.5,
+      "length": 4.0,
+      "width": 0.5
+    },
+    "material": {
+      "E": 1000000.0,
+      "nu": 0.3,
+      "type": "isotropic_3d"
+    },
+    "pencil": "Q(lambda) = K0 + lambda * Kg; lambda is the positive dimensionless load multiplier",
+    "reference_load_resultant": -1.0,
+    "reported_signed_critical_load": "negative compression; archived factor lambda is positive",
+    "solver_source": "LinearBucklingSolver.solve assembles K0 at zero and Kg at its converged preload displacement; diagnostic generalized problem is (K0 + lambda*Kg) phi = 0.",
+    "supports": "UX, UY and UZ fixed at x=0",
+    "units": {
+      "elastic_modulus": "Source-native consistent stress units; E is stored as 1000000.0 without a unit label.",
+      "force": "Source-native consistent force units; the reference resultant is -1.0.",
+      "interpretation": "Keep values dimensionally consistent; do not attach SI units without external provenance.",
+      "length": "Source-native consistent model units; the G08 builder does not label a physical unit."
+    }
+  },
+  "provenance": {
+    "ab_summary": "results/controlled-ab-retry-2026-11-22.json",
+    "ab_summary_sha256": "9cf3cc5f6529985cfd588dce5016624f3be2d05423c1a70f7f631bf90bd447dc",
+    "buckling_module_blob": "1bbe7e577d1d6ac09157a6619e7745bc70c6bb85",
+    "geometric_assembly_module_blob": "01c5a054cf1d744de13f208f29ff6dc22148f3b3",
+    "paired_solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+    "parent_ab_contract_sha256": "59427e9382654369d79d181a72df45458b8a3e1b9173271a2dedf5e6bf94af97",
+    "study_contract": "first-mode-study-contract-2026-11-22.json",
+    "study_contract_sha256": "e7866039d79670f5d75d531913ed51044cae23f27ffeeb269242b3d1357134cd"
+  },
+  "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+  "schema": "qf-g08-first-mode-capture-contract-v1",
+  "spectral_claim_limit": "Captured-matrix double-precision diagnostics are numerical observations only. FIRST_MODE_NOT_ESTABLISHED remains unless a separately validated error-controlled matrix inertia proof succeeds.",
+  "status": "DEVELOPMENT_AUTONOMOUS_AUTHORIZED"
+}

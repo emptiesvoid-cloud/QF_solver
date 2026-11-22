@@ -54,19 +54,55 @@ Le harnais appelle le solveur de flambement via son API supportée
 contrôles du port ne remplacent pas la CI protégée ni une qualification
 scientifique. Ces éléments ne déclarent pas la release prête.
 
-## Étude du premier mode
+## Capture matricielle et criblage spectral
+
+Le contrat d’étude ci-dessus est conservé comme photographie de la
+préparation antérieure aux captures. Deux captures séparées ont depuis
+été exécutées sous le contrat
+[`first-mode-capture-contract-2026-11-22.json`](first-mode-capture-contract-2026-11-22.json),
+avec un scope, un préflight officiel et un ledger distinct par source.
+Les deux préflights ont passé ; chaque ledger contient une tentative.
+Les archives brutes restent dans le dépôt local de preuves et ne sont
+pas versionnées ici.
+
+Le résumé reproductible
+[`first-mode-matrix-screen-2026-11-22.json`](results/first-mode-matrix-screen-2026-11-22.json)
+lie les résultats aux empreintes des sources, entrées, vecteurs et
+matrices, et aux verdicts A/B. Les deux runners ont réussi, les deux
+précharges ont convergé et les deux archives de capture sont valides.
+Les matrices réduites sont 276×276 avant et 300×300 après ; leurs
+empreintes CSR canoniques et celles de `u_pre` figurent dans le résumé.
+
+Le criblage en précision double observe K0 positive dans les deux cas.
+Il classe le candidat au rang numérique 1 et observe une inertie
+numérique de 0 à 1 de part et d’autre des candidats. Aucun backend
+d’inertie à erreur contrôlée n’est installé ; ces observations ne
+certifient donc ni la positivité de K0 ni le rang du premier mode. Les
+deux cas restent `FIRST_MODE_NOT_ESTABLISHED`. La comparaison modale
+entre maillages n’a pas été effectuée, faute d’interpolation commune
+définie et testée.
+
+Les facteurs candidats diffèrent d’environ 0,425 %. Ce constat mêle la
+connectivité et la discrétisation (276 contre 300 DDL libres) et ne
+permet pas d’isoler l’effet de connectivité ni de qualifier la charge
+critique physique. Aucun calcul FEM additionnel n’a été lancé après les
+deux captures autorisées.
+
+## Préparation initiale de l’étude du premier mode
 
 Le contrat distinct
 [first-mode-study-contract-2026-11-22.json](first-mode-study-contract-2026-11-22.json)
-est préparé mais non exécuté. Les archives A/B contiennent les vecteurs
-candidats `mode.npy` (351 et 375 composantes), les résidus et les comptes
-de non-zéros des tangentes ; elles ne contiennent ni les valeurs de
+est un document de préparation antérieur aux captures. À sa date, les
+archives A/B contenaient les vecteurs candidats `mode.npy` (351 et 375
+composantes), les résidus et les comptes de non-zéros des tangentes ;
+elles ne contenaient ni les valeurs de
 `K0`/`Kg` ni le vecteur de déplacement de précharge `u_pre`.
 Les résidus de précharge seuls ne permettent pas de reconstruire cet état.
 
 L’étude devra capturer ces objets en observant le chemin existant du
 solveur, sans changer l’algorithme, puis certifier la positivité de
 `K0` et compter l’inertie de `K0 + lambda Kg`. Les scopes de capture
-ne sont pas enregistrés et aucune nouvelle exécution n’est autorisée
-par ce contrat. Jusque-là, les deux cas restent
+n’étaient alors pas enregistrés et le document n’autorisait aucune
+nouvelle exécution. La section précédente consigne les captures
+autorisées ensuite ; les deux cas restent
 `FIRST_MODE_NOT_ESTABLISHED`.

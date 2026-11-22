@@ -54,12 +54,19 @@ def test_g08_policy_records_consumed_attempts():
         "g08-tet10-before",
         "g08-tet10-after",
         "g08-tet10-before-retry-001",
+        "g08-tet10-before-capture-001",
+        "g08-tet10-after-capture-001",
     ]
-    assert [scope["attempts"] for scope in policy["scopes"]] == [1, 1, 1]
+    assert [scope["attempts"] for scope in policy["scopes"]] == [1, 1, 1, 1, 1]
     retry = policy["scopes"][2]
     assert retry["preflight_id"] == "pf-38b39cfebd81"
     assert retry["verdict"] == "G08_RESULT_ARCHIVED"
-    assert "does not authorize another attempt" in policy["authorization_scope"]
+    assert policy["scopes"][3]["nodeid"] == "tests/verification/test_g08_first_mode_capture.py::test_capture_before"
+    assert policy["scopes"][4]["nodeid"] == "tests/verification/test_g08_first_mode_capture.py::test_capture_after"
+    assert policy["capture_contract"]["attempts_per_source"] == 1
+    assert "two separately authorized one-shot matrix captures" in policy["authorization_scope"]
+    summary = ROOT / "research" / "g08_compare" / policy["matrix_screen_summary"]
+    assert sha256(summary.read_bytes()).hexdigest() == policy["matrix_screen_summary_sha256"]
 
 
 def test_g08_case_calls_solver_without_analysis_specific_source_override(tmp_path):

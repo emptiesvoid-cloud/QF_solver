@@ -16,7 +16,13 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 G08_POLICY = HERE / "policy.json"
 INVENTORY = HERE / "source-inventory.json"
-G08_IDS = {"g08-tet10-before", "g08-tet10-after", "g08-tet10-before-retry-001"}
+G08_IDS = {
+    "g08-tet10-before",
+    "g08-tet10-after",
+    "g08-tet10-before-retry-001",
+    "g08-tet10-before-capture-001",
+    "g08-tet10-after-capture-001",
+}
 WORKTREE_IDS = {"g08_before": "g08-tet10-before", "g08_after": "g08-tet10-after"}
 
 
@@ -46,9 +52,11 @@ def read_policy() -> dict[str, Any]:
         "g08-tet10-before",
         "g08-tet10-after",
         "g08-tet10-before-retry-001",
+        "g08-tet10-before-capture-001",
+        "g08-tet10-after-capture-001",
     ]
     if not isinstance(scopes, list) or [item.get("id") for item in scopes] != expected_scope_ids:
-        raise G08IdentityError("G08 must preserve both original scopes and append the single before retry")
+        raise G08IdentityError("G08 must preserve consumed scopes and append the two authorized capture scopes")
     if any(item.get("attempts") != 1 for item in scopes):
         raise G08IdentityError("each G08 scope is limited to one attempt")
     contract_sha256 = value.get("contract_sha256")
@@ -71,7 +79,7 @@ def read_policy() -> dict[str, Any]:
     except (OSError, json.JSONDecodeError) as exc:
         raise G08IdentityError("G08 A/B summary is unreadable") from exc
 
-    before, after, retry = scopes
+    before, after, retry = scopes[:3]
     before_result = summary.get("before_retry", {})
     after_result = summary.get("after", {})
     historical = summary.get("historical_before_attempt", {})
@@ -99,6 +107,55 @@ def read_policy() -> dict[str, Any]:
         or before_result.get("first_mode_status") != "FIRST_MODE_NOT_ESTABLISHED"
     ):
         raise G08IdentityError("G08 summary identity or historical verdict differs from the policy")
+    capture_binding = value.get("capture_contract")
+    capture_path = capture_binding.get("path") if isinstance(capture_binding, dict) else None
+    if (
+        capture_path != "first-mode-capture-contract-2026-11-22.json"
+        or not isinstance(capture_binding, dict)
+        or capture_binding.get("sha256") != sha256_file(HERE / str(capture_path))
+        or capture_binding.get("attempts_per_source") != 1
+    ):
+        raise G08IdentityError("G08 matrix-capture contract is missing or differs from its digest")
+    try:
+        capture_contract = json.loads((HERE / str(capture_path)).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise G08IdentityError("G08 matrix-capture contract is unreadable") from exc
+    expected_capture_nodes = {
+        "g08-tet10-before-capture-001": "tests/verification/test_g08_first_mode_capture.py::test_capture_before",
+        "g08-tet10-after-capture-001": "tests/verification/test_g08_first_mode_capture.py::test_capture_after",
+    }
+    captures = scopes[3:]
+    if (
+        capture_contract.get("schema") != "qf-g08-first-mode-capture-contract-v1"
+        or capture_contract.get("status") != "DEVELOPMENT_AUTONOMOUS_AUTHORIZED"
+        or capture_contract.get("authorization", {}).get("fem_matrix_capture_authorized") is not True
+        or capture_contract.get("provenance", {}).get("study_contract_sha256")
+        != sha256_file(HERE / "first-mode-study-contract-2026-11-22.json")
+        or len(captures) != 2
+        or any(item.get("nodeid") != expected_capture_nodes.get(item.get("id")) for item in captures)
+    ):
+        raise G08IdentityError("G08 capture scopes or authorization differ from the registered contract")
+    for item in captures:
+        case = capture_contract.get("cases", {}).get(item.get("capture_case"), {})
+        if any(
+            item.get(policy_key) != case.get(contract_key)
+            for policy_key, contract_key in (
+                ("id", "scope_id"),
+                ("nodeid", "nodeid"),
+                ("source_branch", "source_branch"),
+                ("source", "source_commit"),
+                ("source_tree", "source_tree"),
+                ("solver_tree", "solver_tree"),
+                ("generator_blob", "generator_blob"),
+                ("inputs", "inputs_sha256"),
+                ("mesh", "mesh_sha256"),
+                ("nodes", "nodes"),
+                ("elements", "elements"),
+                ("free_dofs", "free_dofs"),
+                ("ledger", "ledger"),
+            )
+        ) or item.get("capture_contract_sha256") != capture_binding.get("sha256"):
+            raise G08IdentityError("G08 capture scope identity differs from the contract")
     return value
 
 
@@ -369,7 +426,7 @@ def validate_archive(
     expected_euler_error = abs(magnitude - euler_reference) / euler_reference
     if not math.isclose(euler_error, expected_euler_error, rel_tol=1e-12, abs_tol=1e-12):
         return _invalid("Euler relative error differs from the registered reference and critical load")
-    return {
+    verdict = {
         "archive_validation": "VALID",
         "archive_errors": [],
         "archive_files": _inventory(result_root),
@@ -391,6 +448,14 @@ def validate_archive(
         "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
         "pytest_status": pytest_status,
     }
+    if scope["id"] in {"g08-tet10-before-capture-001", "g08-tet10-after-capture-001"}:
+        from research.g08_compare.capture import CaptureError, validate_capture_bundle
+
+        try:
+            verdict.update(validate_capture_bundle(result_root, scope=scope, receipt=receipt, result=result))
+        except (CaptureError, OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
+            return _invalid(f"capture archive is invalid: {type(exc).__name__}: {exc}")
+    return verdict
 
 
 def _preload_status(diagnostics: Mapping[str, Any]) -> str:

@@ -1,7 +1,7 @@
 {
   "schema": "qf-g08-comparison-policy-v1",
   "status": "DEVELOPMENT_ATTEMPTS_CONSUMED",
-  "authorization_scope": "Three one-shot development attempts are recorded, including the preserved initial before failure; this record does not authorize another attempt.",
+  "authorization_scope": "Historical G08 attempts remain consumed; the two separately authorized one-shot matrix captures are now executed and consumed.",
   "controller_predecessor": "a3e625b6a96e8c2ab5e4c0d8d533b0b5cc9e4e5b",
   "budget": {
     "timeout_seconds": 120,
@@ -77,6 +77,48 @@
       "result_sha256": "ed6bdbdf8123fd12c8ee8725b91a8298ddf7c46036ac97d0251ad1d98e4a1f67",
       "mode_sha256": "73a5a05605ece9436735d667b07b652caf501c606d6b799745194b3e5926b6b3",
       "verdict": "G08_RESULT_ARCHIVED"
+    },
+    {
+      "id": "g08-tet10-before-capture-001",
+      "nodeid": "tests/verification/test_g08_first_mode_capture.py::test_capture_before",
+      "source_branch": "work/g08-before-controlled",
+      "source": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
+      "source_tree": "400859d3f8b8d86eeb43ed8515abd3cfa5b0d856",
+      "generator_blob": "00941fa19a4be2dcdabe1cae6ecfc63b3fbd507a",
+      "mesh": "aaf2d8cf7ae44d5212bdb6785e9fdb36787bf8fde0cc2a04aa3c0c867d0b26e7",
+      "nodes": 117,
+      "elements": 40,
+      "free_dofs": 276,
+      "open_faces": 48,
+      "components": 8,
+      "aliases": 12,
+      "ledger": "node-attempt-ledger-first-mode-before-001.json",
+      "attempts": 1,
+      "inputs": "cada40b87ac8cfadfb1e60f6a3398772fd9385cbf96b0b1abeec3fc894768a53",
+      "solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+      "capture_contract_sha256": "1114517e4522053c9419d2c7b7a7afb54c9b6d7a2f6dcb9377777f458b6ea2f5",
+      "capture_case": "before"
+    },
+    {
+      "id": "g08-tet10-after-capture-001",
+      "nodeid": "tests/verification/test_g08_first_mode_capture.py::test_capture_after",
+      "source_branch": "work/g08-after-controlled",
+      "source": "6dd15ea007439a37327298690232cf81bf4c7f69",
+      "source_tree": "27b38beffb18327ecb20d07f8e008f5e0ced8dbf",
+      "generator_blob": "f5aa4431ee1f68bcb13250406dc312f28c9d048a",
+      "mesh": "163b1f9a7ebe237f28f6e03315a487599200ef5d56b1f96022437572c8492986",
+      "nodes": 125,
+      "elements": 48,
+      "free_dofs": 300,
+      "open_faces": 0,
+      "components": 1,
+      "aliases": 0,
+      "ledger": "node-attempt-ledger-first-mode-after-001.json",
+      "attempts": 1,
+      "inputs": "1b0f448d8910c4b1f9bb3282a5fb97a3b014cfcef4b97b3a048cb8d493f062ff",
+      "solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+      "capture_contract_sha256": "1114517e4522053c9419d2c7b7a7afb54c9b6d7a2f6dcb9377777f458b6ea2f5",
+      "capture_case": "after"
     }
   ],
   "paired_source_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
@@ -85,5 +127,12 @@
   "retry_controller_commit": "617e69b62454f82cdc176bbeefdc37a7e72afd0b",
   "retry_addendum_sha256": "d4794e47a3b8dc71fcd58e9853e9c7726d75531fcc5aa05dda84da917c2f26f3",
   "comparison_summary": "results/controlled-ab-retry-2026-11-22.json",
-  "comparison_summary_sha256": "9cf3cc5f6529985cfd588dce5016624f3be2d05423c1a70f7f631bf90bd447dc"
+  "comparison_summary_sha256": "9cf3cc5f6529985cfd588dce5016624f3be2d05423c1a70f7f631bf90bd447dc",
+  "capture_contract": {
+    "path": "first-mode-capture-contract-2026-11-22.json",
+    "sha256": "1114517e4522053c9419d2c7b7a7afb54c9b6d7a2f6dcb9377777f458b6ea2f5",
+    "attempts_per_source": 1
+  },
+  "matrix_screen_summary": "results/first-mode-matrix-screen-2026-11-22.json",
+  "matrix_screen_summary_sha256": "30a45730ae28c9d77d4ee603f43fbb197ebf74c2b0f90ee7d8eac29853c3fb73"
 }
