@@ -116,8 +116,10 @@ class TotalLagrangianJ2Element:
         tangent = np.zeros((expected, expected), dtype=float)
         updated_states: list[dict[str, Any]] = []
         local = local_displacement.reshape(self.node_count, 3)
+        # Partition of unity makes H depend only on nodal displacement differences.
+        relative = local - local[0]
         for point_index, (measure, gradients) in enumerate(self._cached_reference_data(coords)):
-            gradient = local.T @ gradients
+            gradient = relative.T @ gradients
             deformation = np.eye(3) + gradient
             determinant = float(np.linalg.det(deformation))
             if determinant <= 1.0e-10 or not np.all(np.isfinite(deformation)):
@@ -155,9 +157,10 @@ class TotalLagrangianJ2Element:
         """Return objective finite-kinematic fields for evidence/post-processing."""
         coords = validate_coords_shape(coords, (self.node_count, 3), self.__class__.__name__)
         local = np.asarray(local_displacement, dtype=float).reshape(self.node_count, 3)
+        relative = local - local[0]
         rows: list[dict[str, Any]] = []
         for point_index, (measure, gradients) in enumerate(self._cached_reference_data(coords)):
-            gradient = local.T @ gradients
+            gradient = relative.T @ gradients
             deformation = np.eye(3) + gradient
             determinant = float(np.linalg.det(deformation))
             if determinant <= 1.0e-10:

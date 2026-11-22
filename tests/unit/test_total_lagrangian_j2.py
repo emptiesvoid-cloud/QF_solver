@@ -169,6 +169,29 @@ def test_tet10_tl_retains_strain_and_force_below_identity_resolution() -> None:
     np.testing.assert_allclose(force, expected_force, rtol=1e-13, atol=1e-20)
 
 
+def test_tet10_tl_rigid_translation_preserves_local_strain_force_and_tangent() -> None:
+    coords = np.asarray(_high_order_model("TET10").nodes)
+    element = TotalLagrangianJ2Tet10Element(SolidMaterial(E=210e9, nu=0.3))
+    for axial_gradient, translation in (
+        (0.0, [0.25, -0.125, 0.5]),
+        (2.0**-56, [0.0, -0.125, 0.5]),
+    ):
+        local = np.zeros_like(coords)
+        local[:, 0] = axial_gradient * coords[:, 0]
+        translated = (local + translation).ravel()
+        reference = local.ravel()
+        force, tangent = element.internal_force_and_tangent(coords, reference)
+        moved_force, moved_tangent = element.internal_force_and_tangent(coords, translated)
+        np.testing.assert_array_equal(moved_force, force)
+        np.testing.assert_array_equal(moved_tangent, tangent)
+        for original, moved in zip(
+            element.integration_point_results(coords, reference),
+            element.integration_point_results(coords, translated),
+            strict=True,
+        ):
+            np.testing.assert_array_equal(moved["green_lagrange_strain"], original["green_lagrange_strain"])
+
+
 def test_total_lagrangian_j2_reuses_reference_geometry_data() -> None:
     material = VonMisesElastoplasticMaterial(
         E=1000.0,
