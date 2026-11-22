@@ -1,0 +1,87 @@
+{
+  "schema": "qf-g08-comparison-contract-v1",
+  "contract_id": "G08-TET10-MESH-AB-2026-11-22",
+  "purpose": "Bounded development comparison of the historical and corrected transverse G08 TET10 meshes.",
+  "scope": "Compare the combined effect of mesh connectivity and discretization. The 276-versus-300 free-DOF difference prevents attributing an observed response difference to connectivity alone.",
+  "sources": {
+    "before": {
+      "branch": "work/g08-before-controlled",
+      "commit": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
+      "tree": "400859d3f8b8d86eeb43ed8515abd3cfa5b0d856",
+      "generator": "scripts/run_g08_high_order_analytical.py",
+      "generator_blob": "00941fa19a4be2dcdabe1cae6ecfc63b3fbd507a",
+      "source_inventory": "research/g08_compare/source-inventory.json",
+      "source_inventory_entry": "scopes.g08-tet10-before in source-inventory.json; its digest is recorded by the official preflight"
+    },
+    "after": {
+      "branch": "work/g08-after-controlled",
+      "commit": "6dd15ea007439a37327298690232cf81bf4c7f69",
+      "tree": "27b38beffb18327ecb20d07f8e008f5e0ced8dbf",
+      "generator": "scripts/run_g08_high_order_analytical.py",
+      "generator_blob": "f5aa4431ee1f68bcb13250406dc312f28c9d048a",
+      "source_inventory": "research/g08_compare/source-inventory.json",
+      "source_inventory_entry": "scopes.g08-tet10-after in source-inventory.json; its digest is recorded by the official preflight"
+    },
+    "paired_solver_source_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5"
+  },
+  "model": {
+    "builder": "scripts/run_g08_high_order_analytical.py::_model('TET10', 2, 2)",
+    "element_family": "TET10",
+    "subdivisions": {"x": 2, "y": 2, "z": 2},
+    "nominal_geometry": {"length": 4.0, "width": 0.5, "height": 0.5, "units": "length units"},
+    "material": {"type": "isotropic_3d", "E": 1000000.0, "nu": 0.3, "units": "force/length^2"},
+    "before_mesh": {"nodes": 117, "elements": 40, "free_dofs": 276, "mesh_sha256": "aaf2d8cf7ae44d5212bdb6785e9fdb36787bf8fde0cc2a04aa3c0c867d0b26e7"},
+    "after_mesh": {"nodes": 125, "elements": 48, "free_dofs": 300, "mesh_sha256": "163b1f9a7ebe237f28f6e03315a487599200ef5d56b1f96022437572c8492986"},
+    "supports": "All UX, UY and UZ translations fixed at x=0.",
+    "loading": "Nodal UX compression at x=4; each of 25 loaded nodes receives -0.04 force units; total resultant is -1 force unit.",
+    "paired_boundary_sha256": "b46a648ff2fab2638f7fa8093507f04ee8c5bb7e9754115513bc17da19c6fdb9",
+    "paired_common_inputs_sha256": "53aa35ec592900c12f2ceece518e1e701bcdba0ed1aa21d5086975e78720ea76"
+  },
+  "analysis": {
+    "type": "linear_buckling",
+    "method_requested": "eigsh",
+    "preload_factor": 1.0,
+    "load_increments": 4,
+    "preload_relative_residual_tolerance": 1e-8,
+    "preload_max_newton_iterations_per_increment": 30,
+    "eigensolver_tolerance": 1e-8,
+    "eigensolver_max_iterations": "max(1000, 5 * free_dofs)",
+    "factor_bracket_tolerance": 1e-4,
+    "factor_bracket_max_iterations": 40,
+    "initial_factor": 1.0,
+    "maximum_factor": 100000000.0,
+    "spectral_method": "The solver first tries generalized eigsh when -Kg is positive definite. Otherwise it brackets loss of positive definiteness of K0 + lambda*Kg using sparse smallest-algebraic eigenvalues and may refine with generalized eigs shift-invert. Archive the actual backend, formulation, bracket, fallbacks and tolerances.",
+    "outputs": ["result.json", "mode.npy", "failure.json when solve_model raises"],
+    "termination": "One attempt per exact scope. Preserve timeout, resource stop, exception, non-convergence, solver non-pass and incomplete archive without retry. Run before first, archive and inspect, then run after.",
+    "numerical_threads": 1
+  },
+  "resource_envelope": {
+    "wall_timeout_seconds": 120,
+    "rss_soft_limit_mib": 1024,
+    "process_tree_limit": 8,
+    "stdout_stderr_total_cap_mib": 8,
+    "stdout_or_stderr_cap_mib": 4,
+    "archive_soft_limit_mib": 32,
+    "temporary_soft_limit_mib": 32,
+    "archive_plus_temporary_soft_limit_mib": 64,
+    "free_disk_floor_mib": 1024,
+    "resource_limit_note": "RSS, process count and storage are sampled workflow monitors rather than hard OS quotas; captured stdout/stderr limits are enforced by the runner."
+  },
+  "evaluation": {
+    "compare": ["critical_factor", "signed critical load", "critical-load magnitude", "normalized mode on shared coordinates with consistent sign", "critical-mode relative residual", "preload increment convergence and residuals", "actual spectral method and bracket"],
+    "euler_reference_force": 803.1904623282354,
+    "euler_relative_screen_limit": 0.10,
+    "mode_residual_screen_limit": 1e-7,
+    "screening_interpretation": "Screens classify whether each computed result lies within the predeclared numerical band; they do not establish physical validity or attribute A/B differences to connectivity alone.",
+    "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+    "first_mode_evidence_required": "A low eigenpair residual is insufficient. A first-mode claim separately requires positivity evidence for K0, the actually resolved reduced pencil, degree-of-freedom correspondence, and lower/upper inertia counts with error bounds that certify a simple crossing or a near-mode subspace."
+  },
+  "expected_archives": [
+    "run.json with runner state and resource observations",
+    "pytest-results.xml for the exact nodeid",
+    "stdout.log and stderr.log",
+    "g08-result/result.json and mode.npy, or failure.json",
+    "separate node-attempt-ledger-before.json and node-attempt-ledger-after.json"
+  ],
+  "qualification": "DEVELOPMENT_ONLY_NOT_QUALIFICATION"
+}

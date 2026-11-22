@@ -1,0 +1,59 @@
+{
+  "schema": "qf-g08-comparison-policy-v1",
+  "status": "DEVELOPMENT_ATTEMPTS_CONSUMED",
+  "authorization_scope": "Two one-shot development attempts consumed; this record does not authorize another attempt",
+  "controller_predecessor": "a3e625b6a96e8c2ab5e4c0d8d533b0b5cc9e4e5b",
+  "budget": {
+    "timeout_seconds": 120,
+    "rss_mib": 1024,
+    "storage_mib": 64,
+    "output_mib": 8,
+    "threads": 1,
+    "process_tree_limit": 8,
+    "archive_mib": 32,
+    "temporary_mib": 32
+  },
+  "scopes": [
+    {
+      "id": "g08-tet10-before",
+      "nodeid": "tests/verification/test_g08_comparison_case.py::test_g08_before",
+      "source_branch": "work/g08-before-controlled",
+      "source": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
+      "source_tree": "400859d3f8b8d86eeb43ed8515abd3cfa5b0d856",
+      "generator_blob": "00941fa19a4be2dcdabe1cae6ecfc63b3fbd507a",
+      "mesh": "aaf2d8cf7ae44d5212bdb6785e9fdb36787bf8fde0cc2a04aa3c0c867d0b26e7",
+      "nodes": 117,
+      "elements": 40,
+      "free_dofs": 276,
+      "open_faces": 48,
+      "components": 8,
+      "aliases": 12,
+      "ledger": "node-attempt-ledger-before.json",
+      "attempts": 1,
+      "inputs": "cada40b87ac8cfadfb1e60f6a3398772fd9385cbf96b0b1abeec3fc894768a53",
+      "solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5"
+    },
+    {
+      "id": "g08-tet10-after",
+      "nodeid": "tests/verification/test_g08_comparison_case.py::test_g08_after",
+      "source_branch": "work/g08-after-controlled",
+      "source": "6dd15ea007439a37327298690232cf81bf4c7f69",
+      "source_tree": "27b38beffb18327ecb20d07f8e008f5e0ced8dbf",
+      "generator_blob": "f5aa4431ee1f68bcb13250406dc312f28c9d048a",
+      "mesh": "163b1f9a7ebe237f28f6e03315a487599200ef5d56b1f96022437572c8492986",
+      "nodes": 125,
+      "elements": 48,
+      "free_dofs": 300,
+      "open_faces": 0,
+      "components": 1,
+      "aliases": 0,
+      "ledger": "node-attempt-ledger-after.json",
+      "attempts": 1,
+      "inputs": "1b0f448d8910c4b1f9bb3282a5fb97a3b014cfcef4b97b3a048cb8d493f062ff",
+      "solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5"
+    }
+  ],
+  "paired_source_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+  "paired_inputs_sha256": "53aa35ec592900c12f2ceece518e1e701bcdba0ed1aa21d5086975e78720ea76",
+  "contract_sha256": "59427e9382654369d79d181a72df45458b8a3e1b9173271a2dedf5e6bf94af97"
+}

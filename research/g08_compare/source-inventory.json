@@ -1,0 +1,17 @@
+{
+  "schema": "qf-g08-source-inventory-v1",
+  "scopes": {
+    "g08-tet10-before": {
+      "commit": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
+      "file_count": 504,
+      "files_sha256": "a9284aa88d508098d1d713c816d09360935e38b598cabb8de56134b3998bbaa4",
+      "generator_blob": "00941fa19a4be2dcdabe1cae6ecfc63b3fbd507a"
+    },
+    "g08-tet10-after": {
+      "commit": "6dd15ea007439a37327298690232cf81bf4c7f69",
+      "file_count": 504,
+      "files_sha256": "7405bfcaca007d57320180019e09bf07174d376f36bb6d3d4c55afeeae347c6e",
+      "generator_blob": "f5aa4431ee1f68bcb13250406dc312f28c9d048a"
+    }
+  }
+}
