@@ -28,7 +28,7 @@ def test_whole_repository_public_release_scan_preserves_unresolved_g03_findings(
 
 def test_audit_covers_public_launchers_and_release_environments() -> None:
     paths = {path.relative_to(Path(__file__).resolve().parents[2]).as_posix() for path in public_source_files()}
-    assert {"qf_solver.py", "main_solveur.py", "mitc4_solver.py"} <= paths
+    assert {"qf_solver.py", "mitc4_solver.py"} <= paths
 
 
 def test_audit_reports_relative_path_for_private_workstation_marker(tmp_path) -> None:

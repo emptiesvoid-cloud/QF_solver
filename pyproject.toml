@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qf-solver"
-version = "0.2.12"
+version = "0.3.0"
 description = "Python FEM/FEA solver for structural mechanics and dynamics with inspectable formulations, bounded nonlinear routes, and reproducible verification evidence."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -38,7 +38,7 @@ Issues = "https://github.com/emptiesvoid-cloud/QF_solver/issues"
 Documentation = "https://qfsolver.org/getting-started"
 DOI = "https://doi.org/10.5281/zenodo.22697897"
 Changelog = "https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHANGELOG.md"
-"Release Notes" = "https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.12"
+"Latest Published Release" = "https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.12"
 
 [project.optional-dependencies]
 hdf5 = [
@@ -100,7 +100,6 @@ mesh = [
 
 [project.scripts]
 qf-solver = "solveur.cli.main:main"
-solveur-ef = "solveur.cli.main:legacy_main"
 mitc4-solver = "solveur.compat.mitc4.cli:main"
 
 [tool.setuptools.packages.find]

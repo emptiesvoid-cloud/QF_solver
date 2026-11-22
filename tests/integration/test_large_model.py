@@ -286,7 +286,7 @@ def test_cli_convert_inspect_and_solve_large_with_scipy_backend(tmp_path: Path):
     audit_path = tmp_path / "audit_large.json"
     output = tmp_path / "large_cli"
     convert = subprocess.run(
-        [sys.executable, "main_solveur.py", "convert-model", "--input", str(TET4_EXAMPLE), "--output", str(h5_path)],
+        [sys.executable, "qf_solver.py", "convert-model", "--input", str(TET4_EXAMPLE), "--output", str(h5_path)],
         cwd=PROJECT_ROOT,
         text=True,
         capture_output=True,
@@ -296,7 +296,7 @@ def test_cli_convert_inspect_and_solve_large_with_scipy_backend(tmp_path: Path):
     assert "CONVERT MODEL STATUS: PASS" in convert.stdout
 
     inspect = subprocess.run(
-        [sys.executable, "main_solveur.py", "inspect-large", "--input", str(h5_path), "--output", str(audit_path)],
+        [sys.executable, "qf_solver.py", "inspect-large", "--input", str(h5_path), "--output", str(audit_path)],
         cwd=PROJECT_ROOT,
         text=True,
         capture_output=True,
@@ -308,7 +308,7 @@ def test_cli_convert_inspect_and_solve_large_with_scipy_backend(tmp_path: Path):
     solve = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "solve-large",
             "--input",
             str(h5_path),
@@ -333,7 +333,7 @@ def test_cli_generate_and_benchmark_large(tmp_path: Path):
     generate = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "generate-large-tet4-block",
             "--output",
             str(model_path),
@@ -354,7 +354,7 @@ def test_cli_generate_and_benchmark_large(tmp_path: Path):
     benchmark = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "benchmark-large",
             "--input",
             str(model_path),
@@ -404,7 +404,7 @@ def test_cli_large_readiness_small_scipy_case(tmp_path: Path):
     completed = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "large-readiness",
             "--output",
             str(tmp_path / "readiness"),
@@ -434,7 +434,7 @@ def test_cli_qualify_large_small_case(tmp_path: Path):
     completed = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "qualify-large",
             "--output",
             str(output),
@@ -466,7 +466,7 @@ def test_cli_qualify_large_matrix_free_small_case(tmp_path: Path):
     completed = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "qualify-large",
             "--output",
             str(output),
@@ -499,7 +499,7 @@ def test_cli_verify_large_small_case(tmp_path: Path):
     completed = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "verify-large",
             "--input",
             str(output),
@@ -572,7 +572,7 @@ def test_petsc_backend_reports_missing_optional_dependencies(tmp_path: Path):
     completed = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "solve-large",
             "--input",
             str(h5_path),

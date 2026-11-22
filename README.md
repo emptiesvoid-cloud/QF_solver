@@ -19,7 +19,7 @@ reproducible studies. An implemented route or a converged example is not
 automatically qualified or physically validated. The project is not certified
 and is not a general-purpose replacement for industrial FEA software.
 
-**This source describes QF Solver 0.2.12.** The current QF Solver release is `0.2.12`. See [what's new in 0.2.12](docs/whats-new/0.2.12.md)
+**This source describes the unpublished QF Solver 0.3.0 technical candidate.** The current QF Solver release is `0.2.12`. See [what's new in 0.2.12](docs/whats-new/0.2.12.md)
 and the official website, [qfsolver.org](https://qfsolver.org/).
 
 On this page: [Capabilities](#capabilities) · [Modeling](#elements-materials-and-modeling) ·
@@ -205,13 +205,14 @@ integration does not imply that every analysis accepts those backends; see
 New applications should import from `qf_solver` and use the `qf-solver` CLI.
 The stable Python workflow is
 `load_model -> check_mesh -> solve_model -> save_result`; the public API
-contract lists each symbol, its stability category and its error behavior. The `solveur`
-namespace and legacy launchers remain for 0.2.x compatibility, while
-implementation modules are internal unless they are listed in that contract.
+contract lists each symbol, its stability category and its error behavior.
+Applications upgrading from 0.2.x should switch top-level `solveur` imports to
+`qf_solver` and replace `solveur-ef` with `qf-solver`. The source launcher is
+`python qf_solver.py`. The installed `solveur` package contains the implementation.
 
 | Surface | Boundary |
 | --- | --- |
-| `qf_solver` stable symbols and `qf-solver` commands | Documented 0.2.x compatibility contract; interface stability does not qualify every numerical route. |
+| `qf_solver` stable symbols and `qf-solver` commands | Documented API and CLI contract; interface stability does not qualify every numerical route. |
 | Bounded `.inp` reading, mixed HDF5, large-model and campaign helpers | Public but `PROVISIONAL`; signatures, schemas or workflows may evolve. |
 | Rotating-modal/Campbell result schemas and 0.2.12 stress-recovery additions | Experimental or provisional routes with their own scope and evidence; package availability does not promote maturity. |
 | Other `solveur` implementation modules and root compatibility scripts | Internal or compatibility surfaces, not general stable API. |
@@ -226,7 +227,15 @@ SciPy and Matplotlib and does not require Gmsh, HDF5, MPI, PETSc or SLEPc.
 The recorded CI matrix covers Linux and Windows with Python 3.10 and 3.13;
 it is not a claim that every Python/OS/backend combination has been tested.
 
-Install version 0.2.12 from PyPI:
+To evaluate a locally built 0.3.0 candidate, install its wheel from outside the
+checkout in a fresh environment:
+
+```bash
+python -m pip install /path/to/qf_solver-0.3.0-py3-none-any.whl
+qf-solver --version
+```
+
+Install the published version 0.2.12 from PyPI:
 
 ```bash
 python -m pip install "qf-solver==0.2.12"
@@ -578,7 +587,7 @@ and the controlling evidence record for the chosen analysis.
 
 ## Current release and citation
 
-This README documents QF Solver `0.2.12`. Use the project concept DOI
+QF Solver `0.3.0` is an unpublished technical candidate. Use the project concept DOI
 [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897) to cite
 QF Solver across versions, and consult [`CITATION.cff`](CITATION.cff) for
 citation details. The 0.2.12 version DOI is

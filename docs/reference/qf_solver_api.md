@@ -1,15 +1,15 @@
 ---
 doc_id: DOC-REF-API-003
-revision: 1.3
+revision: 1.4
 status: controlled_candidate
-applicable_version: 0.2.12
+applicable_version: 0.3.0
 reviewer: "GPT-6 Luna — WP11 contract review (2026-10-25)"
 approver: "Owner — WP11 policy decision (2026-10-25; not release approval)"
 ---
 
 # `qf_solver` public API contract
 
-This page documents the public `qf_solver` API for release 0.2.12.
+This page documents the public `qf_solver` API for the 0.3.0 candidate.
 
 This page is the concise contract for the Python surface exported by
 `qf_solver`. New integrations should use this namespace. Implementation
@@ -196,10 +196,9 @@ qualification report records the exact fixtures and evidence.
 The `Version 0.2.11` notes below describe routes introduced in that historical
 release and remain part of this current 0.2.12 reference.
 
-The legacy `solveur` top-level namespace, the `solveur-ef` console entry point,
-and the `main_solveur.py` launcher are compatibility paths. They are marked for
-removal in 0.3.0 by the existing version contract. They are not re-exported as
-deprecated symbols from `qf_solver`; use `qf_solver` and `qf-solver` instead.
+In 0.3.0 the top-level compatibility exports from `solveur` are removed.
+Import public symbols from `qf_solver`. The internal `solveur` package remains
+installed for the engine and its submodules.
 
 ## Export inventory
 
@@ -324,10 +323,10 @@ tool or artifact is unavailable.
 
 The supported console command is `qf-solver`. It exposes the documented model,
 mesh, result, evidence, import, benchmark, V&V, and large-model commands. The
-legacy `solveur-ef` entry point and `main_solveur.py` launcher remain available
-for 0.2.x compatibility and emit the existing deprecation warning. No CLI
-path is promoted to a certification or universal-validation claim by this
-contract.
+`solveur-ef` entry point and `main_solveur.py` source launcher were removed
+from this candidate. Use `qf-solver` or, in a source checkout,
+`python qf_solver.py`. The separate MITC4 compatibility command remains
+available during migration of its scripts and evidence tools.
 
 For the overview and compatibility boundary, see
 [`api_stability.md`](api_stability.md). The active capability limits remain in

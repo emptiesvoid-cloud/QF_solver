@@ -18,8 +18,7 @@ from solveur.core.analyses.modal_basis import ModalBasis
 from solveur.core.analyses.modal_newmark import ModalNewmarkTransientSolver
 from solveur.core.analyses.prepared_dynamic_system import PreparedDynamicSystem
 from solveur.core.analyses.reduced_harmonic import ReducedHarmonicResponseSolver
-from solveur.core.model import FiniteElementModel
-from solveur.post.dynamic_stress import recover_harmonic_stress, recover_modal_transient_stress
+from qf_solver import FiniteElementModel, recover_harmonic_stress, recover_modal_transient_stress
 
 
 NODES = [[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.2, 1.1, 0.0], [0.25, 0.3, 1.4]]

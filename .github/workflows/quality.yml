@@ -148,7 +148,7 @@ jobs:
           python -m coverage json --rcfile=.coveragerc-p0 -o coverage-p0.json
           python scripts/check_p0_coverage.py coverage.json coverage-p0.json
       - name: Compile all Python sources
-        run: python -m compileall -q src scripts tests qf_solver.py main_solveur.py mitc4_solver.py
+        run: python -m compileall -q src scripts tests qf_solver.py mitc4_solver.py
       - name: Quick verification
         # Standalone mechanical verification is outside the approved WP13 pytest matrix.
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_quick_verification && matrix.validation == 'reference' }}

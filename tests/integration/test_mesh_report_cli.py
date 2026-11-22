@@ -13,7 +13,7 @@ def test_cli_check_mesh_writes_json_report(tmp_path: Path):
     completed = subprocess.run(
         [
             sys.executable,
-            str(PROJECT_ROOT / "main_solveur.py"),
+            str(PROJECT_ROOT / "qf_solver.py"),
             "check-mesh",
             "--input",
             str(TET4_EXAMPLE),

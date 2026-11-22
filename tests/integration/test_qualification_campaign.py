@@ -66,7 +66,7 @@ def test_cli_runs_qualification_campaign(tmp_path: Path):
     completed = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "qualify",
             "--manifest",
             str(MANIFEST),

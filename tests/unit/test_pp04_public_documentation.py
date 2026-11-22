@@ -86,7 +86,7 @@ def test_current_document_metadata_and_registry_are_coherent() -> None:
         assert (DOCS / path).is_file()
 
     assert "applicable_version: 0.2.12" in _front_matter(DOCS / "index.md")
-    assert "applicable_version: 0.2.11" in _front_matter(DOCS / "architecture.md")
+    assert "applicable_version: 0.3.0" in _front_matter(DOCS / "architecture.md")
     assert "applicable_version: 0.2.11" in _front_matter(DOCS / "reference" / "registre_documentaire.md")
 
     assert re.search(r"^# QF Solver$", _text(DOCS / "index.md"), re.MULTILINE)
@@ -103,7 +103,7 @@ def test_generated_status_avoids_fragile_test_count() -> None:
     assert "Test inventory" not in status
     assert re.search(r"full-suite test\s+inventory is recorded by the final Gate-E evidence", status)
     assert "0.2.8-development" not in status
-    assert '<h3>Source package version</h3><span class="value">0.2.12</span>' in status
+    assert '<h3>Source package version</h3><span class="value">0.3.0</span>' in status
     assert '<h3>Latest published release</h3><span class="value">0.2.12</span>' in status
     assert "whole-repository source archives are not cleared" in status
     assert "G03 FAIL" in status

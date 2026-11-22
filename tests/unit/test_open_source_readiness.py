@@ -9,8 +9,7 @@ try:
 except ModuleNotFoundError:  # pragma: no cover - exercised on Python 3.10 CI
     import tomli as tomllib
 
-import solveur
-from solveur.version import __version__
+from qf_solver import __version__
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -36,7 +35,7 @@ def test_publication_governance_files_and_package_urls_exist() -> None:
     assert (ROOT / "LICENSE").is_file()
     assert (ROOT / "LICENSE-DOCS").is_file()
     assert project["urls"]["Source"].endswith("/QF_solver")
-    assert solveur.__version__ == __version__ == project["version"]
+    assert __version__ == project["version"]
 
 
 def test_open_source_documents_do_not_claim_a_license_that_does_not_exist() -> None:

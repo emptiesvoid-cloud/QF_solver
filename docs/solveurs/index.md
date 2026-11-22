@@ -51,7 +51,7 @@ and [Campbell](../mechanics/campbell.md) for the full scope.
 ## Public API
 
 New applications should import from `qf_solver` and use the `qf-solver` CLI.
-The `solveur` compatibility namespace and legacy launchers remain during 0.2.x;
-the current compatibility plan targets removal of `solveur-ef` for 0.3.0.
+In the 0.3.0 candidate, `qf_solver` replaces the public compatibility exports
+from `solveur` and `qf-solver` replaces the `solveur-ef` launcher.
 See the [API stability contract](../reference/api_stability.md) and
 [capability index](../capabilities/index.md).

@@ -36,7 +36,6 @@ PUBLIC_ROOTS = (
     "SUPPORT.md",
     "pyproject.toml",
     "qf_solver.py",
-    "main_solveur.py",
     "mitc4_solver.py",
     "src",
     "scripts",

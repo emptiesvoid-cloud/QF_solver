@@ -56,7 +56,7 @@ def test_official_examples_solve_through_cli(tmp_path: Path):
         completed = subprocess.run(
             [
                 sys.executable,
-                str(PROJECT_ROOT / "main_solveur.py"),
+                str(PROJECT_ROOT / "qf_solver.py"),
                 "solve",
                 "--input",
                 str(path),
@@ -84,7 +84,7 @@ def test_official_examples_check_mesh_through_cli():
         completed = subprocess.run(
             [
                 sys.executable,
-                str(PROJECT_ROOT / "main_solveur.py"),
+                str(PROJECT_ROOT / "qf_solver.py"),
                 "check-mesh",
                 "--input",
                 str(path),
@@ -109,7 +109,7 @@ def test_pressure_example_preserves_analytical_resultant_through_api_and_cli(tmp
     completed = subprocess.run(
         [
             sys.executable,
-            str(PROJECT_ROOT / "main_solveur.py"),
+            str(PROJECT_ROOT / "qf_solver.py"),
             "solve",
             "--input",
             str(PRESSURE_EXAMPLE),
@@ -140,7 +140,7 @@ def test_harmonic_example_solves_through_api_and_cli(tmp_path: Path):
         completed = subprocess.run(
             [
                 sys.executable,
-                str(PROJECT_ROOT / "main_solveur.py"),
+                str(PROJECT_ROOT / "qf_solver.py"),
                 "solve",
                 "--input",
                 str(path),
@@ -170,7 +170,7 @@ def test_modal_example_solves_through_api_and_cli(tmp_path: Path):
     completed = subprocess.run(
         [
             sys.executable,
-            str(PROJECT_ROOT / "main_solveur.py"),
+            str(PROJECT_ROOT / "qf_solver.py"),
             "solve",
             "--input",
             str(MODAL_EXAMPLE),

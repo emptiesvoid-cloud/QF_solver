@@ -5,7 +5,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.linalg import eigh
 
-from solveur import solve_model
+from qf_solver import solve_model
 from solveur.compatibility import check_compatibility, preflight_model
 from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.core.model import FiniteElementModel

@@ -56,7 +56,7 @@ def test_cli_exports_static_result_to_csv_and_vtu(tmp_path: Path):
     completed = subprocess.run(
         [
             sys.executable,
-            str(PROJECT_ROOT / "main_solveur.py"),
+            str(PROJECT_ROOT / "qf_solver.py"),
             "solve",
             "--input",
             str(TET4_EXAMPLE),

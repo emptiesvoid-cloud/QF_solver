@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0 - Technical candidate (not published)
+
+- `qf_solver` is the supported Python facade. Import documented symbols such as
+  `solve_model` from `qf_solver`. The wheel still contains `solveur` as the
+  implementation package, with the top-level 0.2.x compatibility exports removed.
+- Replace `solveur-ef` with `qf-solver` and `python main_solveur.py` with
+  `python qf_solver.py` when running from a source checkout. The MITC4
+  compatibility tools remain available while their script and evidence consumers
+  are migrated.
+- The migration leaves the numerical formulations, model schemas and historical
+  qualification records intact. The candidate still uses the existing TET
+  verification mesher and Green–Lagrange kernel.
+
+See the [API migration guide](docs/reference/api_stability.md).
+
 ## 0.2.12 - Released (2026-11-08)
 
 QF Solver 0.2.12 was published on 2026-11-08. The [release overview](docs/whats-new/0.2.12.md)

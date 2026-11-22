@@ -17,7 +17,7 @@ from solveur.cli import verification as verification_cli
 from solveur.core.errors import ExitCode, NumericalConvergenceError, SolverError
 from solveur.core.qualification import PROFILES
 from solveur.verification.traceability import QUALIFICATION_SCOPES
-from solveur.version import DISPLAY_NAME, LEGACY_CLI, __version__, legacy_entrypoint_warning
+from solveur.version import DISPLAY_NAME, __version__
 
 
 class SolverCli:
@@ -452,12 +452,6 @@ class SolverCli:
 
 def main(argv: Sequence[str] | None = None) -> int:
     return SolverCli().run(argv)
-
-
-def legacy_main(argv: Sequence[str] | None = None) -> int:
-    """Compatibility entry point retained until QF_solver 0.3.0."""
-    print(legacy_entrypoint_warning(LEGACY_CLI), file=sys.stderr)
-    return main(argv)
 
 
 if __name__ == "__main__":

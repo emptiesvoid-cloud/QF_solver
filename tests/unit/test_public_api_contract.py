@@ -150,14 +150,14 @@ def test_documented_stability_classification_covers_every_export() -> None:
     assert not any(f"- `{name}" in text and f"- `{name}` — `DEPRECATED`" in text for name in EXPECTED_PUBLIC_SYMBOLS)
 
 
-def test_reference_pages_match_the_0_2_12_api_candidate() -> None:
+def test_reference_pages_match_the_0_3_0_api_candidate() -> None:
     api_contract = (ROOT / "docs" / "reference" / "qf_solver_api.md").read_text(encoding="utf-8")
     stability = (ROOT / "docs" / "reference" / "api_stability.md").read_text(encoding="utf-8")
 
-    assert "applicable_version: 0.2.12" in api_contract
-    assert "public `qf_solver` API for release 0.2.12" in api_contract
-    assert "applicable_version: 0.2.12" in stability
-    assert "public API surface of QF Solver 0.2.12" in stability
+    assert "applicable_version: 0.3.0" in api_contract
+    assert "public `qf_solver` API for the 0.3.0 candidate" in api_contract
+    assert "applicable_version: 0.3.0" in stability
+    assert "public API surface of the QF Solver 0.3.0 candidate" in stability
     assert "qf-dynamic-solid-stress/v1" in api_contract
     assert "qf-dynamic-solid-stress/v1" in stability
     for text in (api_contract, stability):
@@ -181,10 +181,17 @@ def test_critical_workflow_signatures_are_stable() -> None:
 
 
 def test_02x_compatibility_imports_remain_available() -> None:
-    from solveur import check_mesh, load_model, save_result, solve_model
-    from solveur.api import check_mesh as api_check_mesh
+    # Keep the nodeid referenced by the WP13 software compatibility selector.
+    # In 0.3.0 the compatibility contract checks the migration to qf_solver.
+    import solveur
+    from solveur.api import check_mesh
 
-    assert all(callable(symbol) for symbol in (check_mesh, load_model, save_result, solve_model, api_check_mesh))
+    assert qf_solver.check_mesh is check_mesh
+    for name in ("__version__", "check_mesh", "load_model", "save_result", "solve_model"):
+        assert not hasattr(solveur, name)
+        assert name in qf_solver.__all__
+    with pytest.raises(ImportError):
+        exec("from solveur import solve_model", {})
 
 
 def test_minimal_documented_workflow_is_executable(tmp_path: Path) -> None:

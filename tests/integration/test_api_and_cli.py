@@ -159,7 +159,7 @@ def test_cli_inspect_writes_white_box_audit(tmp_path: Path):
     inspect = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "inspect",
             "--input",
             str(model_path),
@@ -197,7 +197,7 @@ def test_cli_inspect_detail_values_writes_assembly_trace(tmp_path: Path):
     inspect = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "inspect",
             "--input",
             str(model_path),
@@ -227,7 +227,7 @@ def test_cli_inspect_diagnostic_writes_compact_aggregates(tmp_path: Path):
     inspect = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "inspect",
             "--input",
             str(model_path),
@@ -259,7 +259,7 @@ def test_cli_inspect_invalid_official_example_writes_partial_audit(tmp_path: Pat
     inspect = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "inspect",
             "--input",
             str(invalid_path),
@@ -290,7 +290,7 @@ def test_cli_audit_gate_passes_clean_model(tmp_path: Path):
     inspect = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "inspect",
             "--input",
             str(model_path),
@@ -313,7 +313,7 @@ def test_cli_audit_gate_fails_on_warning(tmp_path: Path):
     inspect = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "inspect",
             "--input",
             str(model_path),
@@ -336,7 +336,7 @@ def test_cli_iterative_preconditioned_solve(tmp_path: Path):
     result_path = tmp_path / "iterative_result.json"
     write_iterative_model(model_path)
     solve = subprocess.run(
-        [sys.executable, "main_solveur.py", "solve", "--input", str(model_path), "--output", str(result_path)],
+        [sys.executable, "qf_solver.py", "solve", "--input", str(model_path), "--output", str(result_path)],
         cwd=root,
         text=True,
         capture_output=True,
@@ -355,7 +355,7 @@ def test_cli_methods_and_modal_solve(tmp_path: Path):
     result_path = tmp_path / "modal_result.json"
     write_modal_model(model_path)
     methods = subprocess.run(
-        [sys.executable, "main_solveur.py", "methods"],
+        [sys.executable, "qf_solver.py", "methods"],
         cwd=root,
         text=True,
         capture_output=True,
@@ -364,7 +364,7 @@ def test_cli_methods_and_modal_solve(tmp_path: Path):
     assert methods.returncode == 0
     assert "nonlinear_static" in methods.stdout
     solve = subprocess.run(
-        [sys.executable, "main_solveur.py", "solve", "--input", str(model_path), "--output", str(result_path)],
+        [sys.executable, "qf_solver.py", "solve", "--input", str(model_path), "--output", str(result_path)],
         cwd=root,
         text=True,
         capture_output=True,
@@ -380,7 +380,7 @@ def test_cli_tet10_static_outputs_stress(tmp_path: Path):
     result_path = tmp_path / "tet10_result.json"
     write_tet10_model(model_path)
     solve = subprocess.run(
-        [sys.executable, "main_solveur.py", "solve", "--input", str(model_path), "--output", str(result_path)],
+        [sys.executable, "qf_solver.py", "solve", "--input", str(model_path), "--output", str(result_path)],
         cwd=root,
         text=True,
         capture_output=True,
@@ -398,7 +398,7 @@ def test_cli_tet10_modal_solve(tmp_path: Path):
     result_path = tmp_path / "tet10_modal_result.json"
     write_tet10_modal_model(model_path)
     solve = subprocess.run(
-        [sys.executable, "main_solveur.py", "solve", "--input", str(model_path), "--output", str(result_path)],
+        [sys.executable, "qf_solver.py", "solve", "--input", str(model_path), "--output", str(result_path)],
         cwd=root,
         text=True,
         capture_output=True,
@@ -416,7 +416,7 @@ def test_cli_tet10_nonlinear_solve(tmp_path: Path):
     result_path = tmp_path / "tet10_nonlinear_result.json"
     write_tet10_nonlinear_model(model_path)
     solve = subprocess.run(
-        [sys.executable, "main_solveur.py", "solve", "--input", str(model_path), "--output", str(result_path)],
+        [sys.executable, "qf_solver.py", "solve", "--input", str(model_path), "--output", str(result_path)],
         cwd=root,
         text=True,
         capture_output=True,
@@ -435,7 +435,7 @@ def test_cli_nonlinear_solve(tmp_path: Path):
     result_path = tmp_path / "nonlinear_result.json"
     write_nonlinear_model(model_path)
     solve = subprocess.run(
-        [sys.executable, "main_solveur.py", "solve", "--input", str(model_path), "--output", str(result_path)],
+        [sys.executable, "qf_solver.py", "solve", "--input", str(model_path), "--output", str(result_path)],
         cwd=root,
         text=True,
         capture_output=True,
@@ -453,7 +453,7 @@ def test_cli_arc_length_solve(tmp_path: Path):
     result_path = tmp_path / "arc_length_result.json"
     write_arc_length_model(model_path)
     solve = subprocess.run(
-        [sys.executable, "main_solveur.py", "solve", "--input", str(model_path), "--output", str(result_path)],
+        [sys.executable, "qf_solver.py", "solve", "--input", str(model_path), "--output", str(result_path)],
         cwd=root,
         text=True,
         capture_output=True,
@@ -471,7 +471,7 @@ def test_cli_shell_solve_outputs_resultants(tmp_path: Path):
     result_path = tmp_path / "shell_result.json"
     write_shell_model(model_path)
     solve = subprocess.run(
-        [sys.executable, "main_solveur.py", "solve", "--input", str(model_path), "--output", str(result_path)],
+        [sys.executable, "qf_solver.py", "solve", "--input", str(model_path), "--output", str(result_path)],
         cwd=root,
         text=True,
         capture_output=True,

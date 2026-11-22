@@ -76,17 +76,16 @@ def test_candidate_version_registry_and_public_docs_are_aligned() -> None:
     project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
     from solveur.version import __version__
 
-    assert project["version"] == __version__ == "0.2.12"
+    assert project["version"] == __version__ == "0.3.0"
     assert project["optional-dependencies"]["hdf5"] == ["h5py>=3.10"]
-    # Published version citation metadata retains the separate concept DOI.
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    assert 'version: "0.2.12"' in citation
-    assert 'date-released: "2026-11-08"' in citation
-    assert 'doi: "10.5281/zenodo.24053923"' in citation
+    assert f'version: "{__version__}"' in citation
+    assert "date-released:" not in citation
+    assert "doi:" not in citation
     assert "10.5281/zenodo.22697897" in citation
     assert project["urls"]["DOI"] == "https://doi.org/10.5281/zenodo.22697897"
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "This source describes QF Solver 0.2.12." in readme
+    assert "This source describes the unpublished QF Solver 0.3.0 technical candidate." in readme
     assert "qf-solver==0.2.12" in readme
     assert "10.5281/zenodo.23214487" in readme
     assert "0.2.11 is a **candidate, not yet published**" not in readme

@@ -68,10 +68,9 @@ def test_public_facades_and_maturity_boundaries_remain_explicit() -> None:
     # F1 is an immutable 0.2.7 snapshot; current runtime identity is a
     # separate release-surface contract.
     assert record["target_version"] == "0.2.7a0"
-    assert qf_solver.__version__ == "0.2.12"
-    assert solveur.__version__ == "0.2.12"
+    assert qf_solver.__version__ == "0.3.0"
     assert "solve_model" in qf_solver.__all__
-    assert "solve_model" in solveur.__all__
+    assert not hasattr(solveur, "solve_model")
     boundary = record["maturity_boundary"]
     assert boundary["registry_v2_is_combination_source_of_truth"] is True
     assert boundary["wedge6_static"] == "EXPERIMENTAL"

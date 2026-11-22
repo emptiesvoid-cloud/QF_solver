@@ -86,7 +86,7 @@ def test_cli_evidence_writes_bundle_with_manifest(tmp_path: Path):
     evidence = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "evidence",
             "--input",
             str(model_path),
@@ -116,7 +116,7 @@ def test_cli_evidence_writes_bundle_with_manifest(tmp_path: Path):
     verify = subprocess.run(
         [
             sys.executable,
-            "main_solveur.py",
+            "qf_solver.py",
             "verify-evidence",
             "--input",
             str(evidence_dir),
@@ -149,7 +149,7 @@ def test_evidence_verification_fails_when_artifact_is_modified(tmp_path: Path):
     assert any("sha256 mismatch" in error or "size mismatch" in error for error in report.errors)
 
     completed = subprocess.run(
-        [sys.executable, "main_solveur.py", "verify-evidence", "--input", str(evidence_dir)],
+        [sys.executable, "qf_solver.py", "verify-evidence", "--input", str(evidence_dir)],
         cwd=PROJECT_ROOT,
         text=True,
         capture_output=True,

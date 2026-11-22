@@ -10,8 +10,8 @@ approver: ""
 # Interfaces CLI et API publiques
 
 Cette page est un instantane technique des interfaces 0.2.8 ; elle ne constitue
-pas l'inventaire complet de l'API du candidat source 0.2.12. Pour les contrats
-publics actuels, consulter le [contrat API 0.2.12 candidat](qf_solver_api.md), la
+pas l'inventaire complet de l'API du candidat source 0.3.0. Pour les contrats
+publics actuels, consulter le [contrat API 0.3.0 candidat](qf_solver_api.md), la
 [stabilite API](api_stability.md) et l'[index des capacites](../capabilities/index.md).
 La stabilite d'une API ou la compatibilite d'un import ne constitue pas une
 qualification mecanique : les claims restent gouvernes par leurs records et
@@ -53,9 +53,9 @@ La forme module `python -m solveur.cli.main` est portable apres installation
 du package, ou depuis ce checkout avec `PYTHONPATH=src`. Depuis un checkout
 source sans installation, utiliser `python qf_solver.py` afin d'identifier
 explicitement le code local. Aucune de ces formes ne garantit l'isolation
-d'un autre checkout deja present dans l'environnement Python. Les anciens
-noms `solveur-ef` et `main_solveur.py` ne sont que des alias deprecies jusqu'a
-0.3.0 et ecrivent un avertissement sur `stderr`.
+d'un autre checkout deja present dans l'environnement Python. En 0.3.0,
+`qf-solver` et `python qf_solver.py` remplacent les anciens lanceurs
+`solveur-ef` et `main_solveur.py`.
 
 Codes de sortie:
 

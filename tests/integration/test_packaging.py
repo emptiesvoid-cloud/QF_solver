@@ -41,7 +41,6 @@ def _maintained_text_files() -> list[Path]:
         PROJECT_ROOT / "prochaines_etapes.md",
         PROJECT_ROOT / "pyproject.toml",
         PROJECT_ROOT / "qf_solver.py",
-        PROJECT_ROOT / "main_solveur.py",
     ]
     for root in roots:
         files.extend(
@@ -70,7 +69,7 @@ def test_pyproject_declares_installable_solver_package():
     assert set(project["license-files"]) == {"LICENSE", "LICENSE-DOCS", "NOTICE", "THIRD_PARTY_LICENSES.md"}
     assert project["scripts"]["qf-solver"] == "solveur.cli.main:main"
     assert "qf-solver-docs" not in project["scripts"]
-    assert project["scripts"]["solveur-ef"] == "solveur.cli.main:legacy_main"
+    assert "solveur-ef" not in project["scripts"]
     assert project["scripts"]["mitc4-solver"] == "solveur.compat.mitc4.cli:main"
     assert data["tool"]["ruff"]["line-length"] == 120
     assert "F" in data["tool"]["ruff"]["lint"]["select"]
@@ -249,7 +248,7 @@ def test_solver_cli_version_runs():
     assert completed.stdout.strip() == f"QF_solver {__version__}"
 
 
-def test_portable_and_legacy_launchers_expose_qf_solver_identity():
+def test_portable_launcher_exposes_qf_solver_identity():
     portable = subprocess.run(
         [sys.executable, "qf_solver.py", "--version"],
         cwd=PROJECT_ROOT,
@@ -260,17 +259,7 @@ def test_portable_and_legacy_launchers_expose_qf_solver_identity():
     )
     assert portable.returncode == 0, portable.stdout + portable.stderr
     assert portable.stdout.strip() == f"QF_solver {__version__}"
-    legacy = subprocess.run(
-        [sys.executable, "main_solveur.py", "--version"],
-        cwd=PROJECT_ROOT,
-        env=_source_environment(),
-        check=False,
-        capture_output=True,
-        text=True,
-    )
-    assert legacy.returncode == 0, legacy.stdout + legacy.stderr
-    assert legacy.stdout.strip() == f"QF_solver {__version__}"
-    assert "deprecated" in legacy.stderr
+    assert not (PROJECT_ROOT / "main_solveur.py").exists()
 
 
 def test_mitc4_cli_module_entry_point_runs():

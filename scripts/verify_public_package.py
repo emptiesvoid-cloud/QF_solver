@@ -316,7 +316,8 @@ def run_candidate(root: Path, contract_path: Path, output: Path) -> dict[str, An
         python = environment / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
         run_command([str(python), "-I", "-m", "pip", "install", "--no-deps", "--no-index", str(dist / packages["wheel"])], neutral, logs, records)
         console_directory = environment / ("Scripts" if os.name == "nt" else "bin")
-        for command in ("qf-solver", "solveur-ef", "mitc4-solver"):
+        project = tomllib.loads(payloads["pyproject.toml"].decode("utf-8"))["project"]
+        for command in project["scripts"]:
             launcher = console_directory / (command + ".exe" if os.name == "nt" else command)
             run_command([str(launcher), "--version"], neutral, logs, records)
         run_command([str(console_directory / ("qf-solver.exe" if os.name == "nt" else "qf-solver")), "--help"], neutral, logs, records)

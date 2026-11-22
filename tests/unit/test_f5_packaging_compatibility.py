@@ -40,7 +40,7 @@ def test_f5_distribution_identity_and_entry_points_are_explicit() -> None:
     assert project["requires-python"] == ">=3.10"
     scripts = project["scripts"]
     assert scripts["qf-solver"] == "solveur.cli.main:main"
-    assert scripts["solveur-ef"] == "solveur.cli.main:legacy_main"
+    assert "solveur-ef" not in scripts
 
 
 def test_f5_optional_solver_dependencies_do_not_become_core_dependencies() -> None:

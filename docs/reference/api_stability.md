@@ -1,15 +1,15 @@
 ---
 doc_id: DOC-REF-API-002
-revision: 1.2
+revision: 1.3
 status: controlled_candidate
-applicable_version: 0.2.12
+applicable_version: 0.3.0
 reviewer: "GPT-6 Luna — WP11 contract review (2026-10-25)"
 approver: "Owner — WP11 policy decision (2026-10-25; not release approval)"
 ---
 
 # API stability
 
-This page describes the public API surface of QF Solver 0.2.12.
+This page describes the public API surface of the QF Solver 0.3.0 candidate.
 
 ## Review and approval record
 
@@ -37,11 +37,24 @@ from qf_solver import __version__
 print(__version__)
 ```
 
-The `solveur` namespace remains a compatibility facade for existing 0.2.x
-applications. The recommended CLI is `qf-solver`; legacy entry points remain
-available during the 0.2.x compatibility period. The current compatibility
-plan schedules removal of the legacy `solveur-ef` launcher for 0.3.0; this is
-a plan, not a removal in 0.2.12.
+## Migration from 0.2.x to 0.3.0
+
+| 0.2.x usage | 0.3.0 usage |
+| --- | --- |
+| `solveur.solve_model` | `from qf_solver import solve_model` |
+| `solveur.__version__` | `from qf_solver import __version__` |
+| `solveur-ef <command>` | `qf-solver <command>` |
+| `python main_solveur.py <command>` | `python qf_solver.py <command>` from a source checkout |
+
+The `solveur` directory stays in the distribution as the implementation
+package. Applications should use the exported API for new code and migrate any
+direct implementation imports to documented equivalents where available.
+The generic CLI keeps its command names, flags and exit codes.
+
+The `mitc4-solver` command, `mitc4_solver.py` and `solveur.compat.mitc4`
+remain available while their script, test and evidence consumers are migrated.
+The [MITC4 migration audit](../verification/qf_solver_0_2_2_alpha_code_documentation_api_audit.md)
+records the prerequisites for removing them.
 
 ## Compatibility boundary
 

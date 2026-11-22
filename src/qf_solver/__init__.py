@@ -1,8 +1,7 @@
 """Supported public Python facade for QF Solver.
 
-Application code should import documented symbols from this namespace.  The
-``solveur`` package remains the internal implementation namespace and the
-compatibility surface for releases preceding 0.2.2.
+Application code should import documented symbols from this namespace.
+The implementation is packaged under ``solveur`` for internal use.
 """
 
 from solveur.api import *  # noqa: F403 - explicit facade defined by solveur.api.__all__

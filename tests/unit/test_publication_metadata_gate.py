@@ -171,19 +171,19 @@ def _write_postpublication_evidence(root: Path, *, doi: str = VERSION_DOI) -> tu
     return contract_path, record_path
 
 
-def test_published_metadata_names_version_and_preserves_citation_identity() -> None:
+def test_candidate_metadata_names_version_and_preserves_published_release() -> None:
     project = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
     citation = yaml.safe_load((ROOT / "CITATION.cff").read_text(encoding="utf-8"))
     changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
-    assert 'version = "0.2.12"' in project
-    assert citation["version"] == "0.2.12"
+    assert 'version = "0.3.0"' in project
+    assert citation["version"] == "0.3.0"
     assert "10.5281/zenodo.22697897" in citation["message"]
-    assert citation["doi"] == "10.5281/zenodo.24053923"
-    assert str(citation["date-released"]) == "2026-11-08"
+    assert "doi" not in citation
+    assert "date-released" not in citation
     assert "## 0.2.12 - Released (2026-11-08)" in changelog
-    assert "This source describes QF Solver 0.2.12." in readme
+    assert "This source describes the unpublished QF Solver 0.3.0 technical candidate." in readme
     assert "qf-solver==0.2.12" in readme
     assert "when that version is available" not in readme
 
@@ -267,8 +267,9 @@ def test_postpublication_requires_all_channels_and_exact_public_hashes(tmp_path:
     assert "Zenodo record, DOI, selected files or archive boundary do not match the contract" in failures
 
 
-def test_current_published_012_metadata_is_rejected_as_prepublication() -> None:
-    failures = check_publication_metadata(ROOT, "v0.2.12", "PRE_PUBLICATION")
+def test_published_citation_is_rejected_as_prepublication(tmp_path: Path) -> None:
+    _write_release_copy(tmp_path, "POST_PUBLICATION", doi=VERSION_DOI, released=True)
+    failures = check_publication_metadata(tmp_path, TAG, "PRE_PUBLICATION")
     assert "PRE_PUBLICATION CITATION.cff must not assert a version DOI" in failures
     assert "PRE_PUBLICATION CITATION.cff must not assert a release date" in failures
 

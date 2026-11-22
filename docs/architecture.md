@@ -1,25 +1,27 @@
 ---
 doc_id: DOC-ARCH-001
-revision: 3.0
+revision: 3.1
 status: controlled_candidate
-applicable_version: 0.2.11
+applicable_version: 0.3.0
 reviewer: ""
 approver: ""
 ---
 
 # QF Solver architecture
 
-This page describes the QF Solver 0.2.11 architecture. Architecture diagrams describe implementation
+This page describes the QF Solver 0.3.0 candidate architecture. Architecture diagrams describe implementation
 boundaries; they do not establish capability maturity. See the
 [capability index](capabilities/index.md) and [0.2.11 V&V summary](verification/0_2_11/README.md)
 for evidence and scope.
 
 ## Public entry points and routing
 
-New Python integrations should use the `qf_solver` namespace. The `solveur`
-namespace remains the implementation and a compatibility facade for existing
-0.2.x applications. The recommended command is `qf-solver`; legacy launchers
-remain available during the 0.2.x compatibility period.
+Python integrations use the documented exports of the `qf_solver` facade.
+The wheel ships the engine in the internal `solveur` package. The facade
+re-exports the canonical API objects, and the CLI uses the same implementation.
+Use `qf-solver` after installation and `python qf_solver.py` from the source
+checkout. The [migration guide](reference/api_stability.md) covers upgrading
+from 0.2.x.
 
 ```text
 qf_solver public API / qf-solver CLI

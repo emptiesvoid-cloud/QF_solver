@@ -77,7 +77,7 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
         comparison_snapshot.replace(">", "").split()
     )
 
-    assert "This source describes QF Solver 0.2.12." in normalized_readme
+    assert "This source describes the unpublished QF Solver 0.3.0 technical candidate." in normalized_readme
     assert 'qf-solver==0.2.12' in readme
     assert "git+https://github.com/emptiesvoid-cloud/QF_solver.git@v0.2.12" in readme
     assert "https://qfsolver.org/" in readme
@@ -89,7 +89,7 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     assert "current published release" in normalized_roadmap
     assert "WP12_CLOSED_BOUNDED_FOR_0_2_12_ALPHA" in normalized_roadmap
     assert "Version 0.2.9 was a development/source snapshot" in normalized_roadmap
-    assert "QF Solver 0.2.11 architecture" in normalized_architecture
+    assert "QF Solver 0.3.0 candidate architecture" in normalized_architecture
     assert "cumulative 0.2.11 solver retains explicitly bounded scopes" in open_source
     assert "first public release after 0.2.8" in normalized_index
     assert "0.2.10" in index
@@ -107,13 +107,14 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     )
     assert "not a current capability or maturity record" in normalized_comparison_snapshot
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    assert 'version: "0.2.12"' in citation
+    assert 'version: "0.3.0"' in citation
     assert 'url: "https://qfsolver.org/"' in citation
     project = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
     assert 'Homepage = "https://qfsolver.org/"' in project
     assert 'Documentation = "https://qfsolver.org/getting-started"' in project
-    assert 'date-released: "2026-11-08"' in citation
-    assert 'doi: "10.5281/zenodo.24053923"' in citation
+    assert "date-released:" not in citation
+    assert "doi:" not in citation
+    assert "10.5281/zenodo.22697897" in citation
 
 
 @pytest.mark.parametrize(
@@ -149,6 +150,8 @@ def test_current_public_surfaces_use_consistent_version_without_promotion(relati
         "solveurs/index.md",
     }
     version = "0.2.12" if relative in main_pages else "0.2.11"
+    if relative == "architecture.md":
+        version = "0.3.0"
     assert f"applicable_version: {version}" in content
     normalized = " ".join(content.split()).lower()
     for stale in (
@@ -185,7 +188,7 @@ def test_candidate_api_contracts_are_not_backdated_to_published_release() -> Non
         content = (DOCS / relative).read_text(encoding="utf-8")
         normalized = " ".join(content.split()).lower()
         assert "status: controlled_candidate" in content
-        assert "applicable_version: 0.2.12" in content
+        assert "applicable_version: 0.3.0" in content
         assert "candidate" in normalized
 
 
@@ -220,7 +223,7 @@ def test_generated_status_matches_its_template_without_running_campaign(
     publisher._status({})
     generated = (tmp_path / "docs" / "generated" / "status.md").read_text(encoding="utf-8")
     assert generated == (DOCS / "generated" / "status.md").read_text(encoding="utf-8")
-    assert '<h3>Source package version</h3><span class="value">0.2.12</span>' in generated
+    assert '<h3>Source package version</h3><span class="value">0.3.0</span>' in generated
     assert '<h3>Latest published release</h3><span class="value">0.2.12</span>' in generated
 
 
