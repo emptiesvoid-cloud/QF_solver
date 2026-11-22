@@ -1,4 +1,4 @@
-"""Bindings and archive checks for the two one-shot G08 development runs."""
+"""Bindings and archive checks for the recorded one-shot G08 development runs."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 G08_POLICY = HERE / "policy.json"
 INVENTORY = HERE / "source-inventory.json"
-G08_IDS = {"g08-tet10-before", "g08-tet10-after"}
+G08_IDS = {"g08-tet10-before", "g08-tet10-after", "g08-tet10-before-retry-001"}
 WORKTREE_IDS = {"g08_before": "g08-tet10-before", "g08_after": "g08-tet10-after"}
 
 
@@ -42,16 +42,63 @@ def read_policy() -> dict[str, Any]:
     }:
         raise G08IdentityError("G08 policy is not bound to a recognized development status")
     scopes = value.get("scopes")
-    if not isinstance(scopes, list) or [item.get("id") for item in scopes] != [
+    expected_scope_ids = [
         "g08-tet10-before",
         "g08-tet10-after",
-    ]:
-        raise G08IdentityError("G08 must register exactly the before/after scopes in sequence")
+        "g08-tet10-before-retry-001",
+    ]
+    if not isinstance(scopes, list) or [item.get("id") for item in scopes] != expected_scope_ids:
+        raise G08IdentityError("G08 must preserve both original scopes and append the single before retry")
     if any(item.get("attempts") != 1 for item in scopes):
         raise G08IdentityError("each G08 scope is limited to one attempt")
     contract_sha256 = value.get("contract_sha256")
     if not isinstance(contract_sha256, str) or sha256_file(HERE / "contract.json") != contract_sha256:
         raise G08IdentityError("G08 contract SHA-256 differs from the registered policy")
+
+    summary_relative = "results/controlled-ab-retry-2026-11-22.json"
+    summary_sha256 = value.get("comparison_summary_sha256")
+    summary_path = HERE / summary_relative
+    if (
+        value.get("comparison_summary") != summary_relative
+        or not isinstance(summary_sha256, str)
+        or len(summary_sha256) != 64
+        or not summary_path.is_file()
+        or sha256_file(summary_path) != summary_sha256
+    ):
+        raise G08IdentityError("G08 A/B summary is missing or differs from its registered digest")
+    try:
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise G08IdentityError("G08 A/B summary is unreadable") from exc
+
+    before, after, retry = scopes
+    before_result = summary.get("before_retry", {})
+    after_result = summary.get("after", {})
+    historical = summary.get("historical_before_attempt", {})
+    comparison = summary.get("comparison", {})
+    if (
+        summary.get("schema") != "qf-g08-controlled-ab-retry-summary-v1"
+        or summary.get("classification") != "DEVELOPMENT_AUTONOMOUS"
+        or summary.get("qualification") != "NOT_APPLICABLE_DEVELOPMENT_ONLY"
+        or comparison.get("status") != "VALID_DEVELOPMENT_OBSERVATION_NOT_QUALIFICATION"
+        or historical.get("runner_status") != "PYTEST_FAILED"
+        or historical.get("preserved_without_rewrite") is not True
+        or retry.get("source") != before.get("source")
+        or retry.get("inputs") != before.get("inputs")
+        or retry.get("mesh") != before.get("mesh")
+        or retry.get("source") != before_result.get("source_commit")
+        or retry.get("inputs") != before_result.get("inputs_sha256")
+        or retry.get("preflight_sha256") != before_result.get("preflight", {}).get("sha256")
+        or retry.get("ledger_sha256") != before_result.get("ledger_sha256")
+        or retry.get("run_sha256") != before_result.get("run_sha256")
+        or retry.get("result_sha256") != before_result.get("result_sha256")
+        or retry.get("verdict") != "G08_RESULT_ARCHIVED"
+        or after.get("source") != after_result.get("source_commit")
+        or after.get("inputs") != after_result.get("inputs_sha256")
+        or after_result.get("first_mode_status") != "FIRST_MODE_NOT_ESTABLISHED"
+        or before_result.get("first_mode_status") != "FIRST_MODE_NOT_ESTABLISHED"
+    ):
+        raise G08IdentityError("G08 summary identity or historical verdict differs from the policy")
     return value
 
 

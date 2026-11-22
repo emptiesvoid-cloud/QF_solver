@@ -50,7 +50,16 @@ if kind == 'wrong_identity':
 def test_g08_policy_records_consumed_attempts():
     policy = read_policy()
     assert policy["status"] == "DEVELOPMENT_ATTEMPTS_CONSUMED"
-    assert [scope["attempts"] for scope in policy["scopes"]] == [1, 1]
+    assert [scope["id"] for scope in policy["scopes"]] == [
+        "g08-tet10-before",
+        "g08-tet10-after",
+        "g08-tet10-before-retry-001",
+    ]
+    assert [scope["attempts"] for scope in policy["scopes"]] == [1, 1, 1]
+    retry = policy["scopes"][2]
+    assert retry["preflight_id"] == "pf-38b39cfebd81"
+    assert retry["verdict"] == "G08_RESULT_ARCHIVED"
+    assert "does not authorize another attempt" in policy["authorization_scope"]
 
 
 def test_g08_case_calls_solver_without_analysis_specific_source_override(tmp_path):

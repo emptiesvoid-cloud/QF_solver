@@ -1,7 +1,7 @@
 {
   "schema": "qf-g08-comparison-policy-v1",
   "status": "DEVELOPMENT_ATTEMPTS_CONSUMED",
-  "authorization_scope": "Two one-shot development attempts consumed; this record does not authorize another attempt",
+  "authorization_scope": "Three one-shot development attempts are recorded, including the preserved initial before failure; this record does not authorize another attempt.",
   "controller_predecessor": "a3e625b6a96e8c2ab5e4c0d8d533b0b5cc9e4e5b",
   "budget": {
     "timeout_seconds": 120,
@@ -51,9 +51,39 @@
       "attempts": 1,
       "inputs": "1b0f448d8910c4b1f9bb3282a5fb97a3b014cfcef4b97b3a048cb8d493f062ff",
       "solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5"
+    },
+    {
+      "id": "g08-tet10-before-retry-001",
+      "nodeid": "tests/verification/test_g08_comparison_case.py::test_g08_before",
+      "source_branch": "work/g08-before-controlled",
+      "source": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
+      "source_tree": "400859d3f8b8d86eeb43ed8515abd3cfa5b0d856",
+      "generator_blob": "00941fa19a4be2dcdabe1cae6ecfc63b3fbd507a",
+      "mesh": "aaf2d8cf7ae44d5212bdb6785e9fdb36787bf8fde0cc2a04aa3c0c867d0b26e7",
+      "nodes": 117,
+      "elements": 40,
+      "free_dofs": 276,
+      "open_faces": 48,
+      "components": 8,
+      "aliases": 12,
+      "attempts": 1,
+      "inputs": "cada40b87ac8cfadfb1e60f6a3398772fd9385cbf96b0b1abeec3fc894768a53",
+      "solver_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+      "comparator_scope": "g08-tet10-after",
+      "preflight_id": "pf-38b39cfebd81",
+      "preflight_sha256": "01258a7c867378763b95e021151ee715e75cf3b630e677ff65d66304094d9eb0",
+      "ledger_sha256": "dcdbf12b1cb2e9629d424f51868b7263074dbfcf97fecbc035ee1752a86babaa",
+      "run_sha256": "2551c9d0b3e900f964938cc0284ed9d1a3f851d6773a3d578753e6d0f934a2e6",
+      "result_sha256": "ed6bdbdf8123fd12c8ee8725b91a8298ddf7c46036ac97d0251ad1d98e4a1f67",
+      "mode_sha256": "73a5a05605ece9436735d667b07b652caf501c606d6b799745194b3e5926b6b3",
+      "verdict": "G08_RESULT_ARCHIVED"
     }
   ],
   "paired_source_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
   "paired_inputs_sha256": "53aa35ec592900c12f2ceece518e1e701bcdba0ed1aa21d5086975e78720ea76",
-  "contract_sha256": "59427e9382654369d79d181a72df45458b8a3e1b9173271a2dedf5e6bf94af97"
+  "contract_sha256": "59427e9382654369d79d181a72df45458b8a3e1b9173271a2dedf5e6bf94af97",
+  "retry_controller_commit": "617e69b62454f82cdc176bbeefdc37a7e72afd0b",
+  "retry_addendum_sha256": "d4794e47a3b8dc71fcd58e9853e9c7726d75531fcc5aa05dda84da917c2f26f3",
+  "comparison_summary": "results/controlled-ab-retry-2026-11-22.json",
+  "comparison_summary_sha256": "9cf3cc5f6529985cfd588dce5016624f3be2d05423c1a70f7f631bf90bd447dc"
 }

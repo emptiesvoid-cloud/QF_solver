@@ -1,0 +1,199 @@
+{
+  "schema": "qf-g08-controlled-ab-retry-summary-v1",
+  "classification": "DEVELOPMENT_AUTONOMOUS",
+  "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+  "experiment_id": "G08-TET10-MESH-AB-2026-11-22",
+  "product_base": {
+    "remote_branch": "origin/0.3.0",
+    "remote_sha": "7a375db1630354e3f32d5b457870faa89b22c8cc",
+    "port_commit": "a3eaa6960d0892c79a194250112e65f6e3d72139",
+    "result_branch_base_parent": "a3eaa6960d0892c79a194250112e65f6e3d72139"
+  },
+  "contracts": {
+    "parent_sha256": "59427e9382654369d79d181a72df45458b8a3e1b9173271a2dedf5e6bf94af97",
+    "retry_addendum_id": "G08-BEFORE-RETRY-001",
+    "retry_addendum_sha256": "d4794e47a3b8dc71fcd58e9853e9c7726d75531fcc5aa05dda84da917c2f26f3",
+    "retry_controller_commit": "617e69b62454f82cdc176bbeefdc37a7e72afd0b",
+    "corrected_solver_api_commit": "848c5a0cdc55b038b01d5abbd9e093e6d2142f56"
+  },
+  "environment": {
+    "python": "3.13.1",
+    "pytest": "8.4.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "psutil": "7.2.2",
+    "numerical_threads": 1
+  },
+  "shared_model": {
+    "nominal_geometry": {
+      "length": 4.0,
+      "width": 0.5,
+      "height": 0.5,
+      "volume": 1.0
+    },
+    "material": {
+      "type": "isotropic_3d",
+      "E": 1000000.0,
+      "nu": 0.3
+    },
+    "supports": "UX, UY and UZ fixed on the x=0 face",
+    "loading": "25 nodal UX forces at x=4, each -0.04; resultant -1",
+    "paired_source_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+    "paired_common_inputs_sha256": "53aa35ec592900c12f2ceece518e1e701bcdba0ed1aa21d5086975e78720ea76",
+    "paired_boundary_sha256": "b46a648ff2fab2638f7fa8093507f04ee8c5bb7e9754115513bc17da19c6fdb9",
+    "comparison_limitation": "276 versus 300 free DOFs: measured differences combine connectivity and discretization changes."
+  },
+  "historical_before_attempt": {
+    "scope_id": "g08-tet10-before",
+    "attempt": 1,
+    "runner_status": "PYTEST_FAILED",
+    "pytest_status": "FAILED",
+    "preload_status": "NOT_REPORTED",
+    "spectral_status": "SOLVER_EXCEPTION",
+    "archive_validation": "FAILURE_ARCHIVED",
+    "failure_stage": "Before preload; unsupported source_sha keyword at buckling solve API.",
+    "run_sha256": "b238d611e549e96fccba8fc5804764e2a8794b90f7c0710cd333701745d21631",
+    "ledger_sha256": "8b7aee4a5e6f3bc92397a73d883c4a5dbd786afb6cd7eac511ed6a6b4be1aed3",
+    "failure_sha256": "2a2865080745e70da0e9d04d3dc6c0301f7653134c40278aa4e2ed7d7fb9d0e0",
+    "preserved_without_rewrite": true
+  },
+  "before_retry": {
+    "scope_id": "g08-tet10-before-retry-001",
+    "nodeid": "tests/verification/test_g08_comparison_case.py::test_g08_before",
+    "source_commit": "9f50ed064fa6a330a0c926d6c1a097b279966f69",
+    "source_tree": "400859d3f8b8d86eeb43ed8515abd3cfa5b0d856",
+    "generator_blob": "00941fa19a4be2dcdabe1cae6ecfc63b3fbd507a",
+    "inputs_sha256": "cada40b87ac8cfadfb1e60f6a3398772fd9385cbf96b0b1abeec3fc894768a53",
+    "mesh_sha256": "aaf2d8cf7ae44d5212bdb6785e9fdb36787bf8fde0cc2a04aa3c0c867d0b26e7",
+    "mesh": {
+      "nodes": 117,
+      "elements": 40,
+      "family": "TET10",
+      "free_dofs": 276,
+      "open_internal_faces": 48,
+      "components": 8,
+      "aliased_mid_edge_nodes": 12
+    },
+    "preflight": {
+      "id": "pf-38b39cfebd81",
+      "state": "PREFLIGHT_PASS",
+      "official_collect_only": true,
+      "attempt_reserved": false,
+      "sha256": "01258a7c867378763b95e021151ee715e75cf3b630e677ff65d66304094d9eb0"
+    },
+    "attempt": 1,
+    "runner_status": "PASS",
+    "pytest_status": "PASSED",
+    "preload_status": "CONVERGED",
+    "preload_final_relative_residual": 5.9570592065110315e-15,
+    "spectral_status": "COMPUTED",
+    "archive_validation": "VALID",
+    "screen_status": "SCREEN_PASS",
+    "factor": 866.2977536614513,
+    "signed_load": -866.2977536614513,
+    "load_magnitude": 866.2977536614513,
+    "eigenpair_residual_relative": 3.717849437434164e-11,
+    "euler_reference_force": 803.1904623282354,
+    "euler_relative_error": 0.07857076782297026,
+    "spectral_method": {
+      "backend": "scipy.sparse.linalg.eigs",
+      "formulation": "generalized_eigs_shift_invert",
+      "bracket": {
+        "lower": 866.25,
+        "upper": 866.3125
+      },
+      "generalized_eigsh_fallback": "The -geometric_tangent matrix was not positive definite; sparse bracketed tangent-eigenvalue path retained."
+    },
+    "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+    "run_sha256": "2551c9d0b3e900f964938cc0284ed9d1a3f851d6773a3d578753e6d0f934a2e6",
+    "ledger_sha256": "dcdbf12b1cb2e9629d424f51868b7263074dbfcf97fecbc035ee1752a86babaa",
+    "result_sha256": "ed6bdbdf8123fd12c8ee8725b91a8298ddf7c46036ac97d0251ad1d98e4a1f67",
+    "mode_sha256": "73a5a05605ece9436735d667b07b652caf501c606d6b799745194b3e5926b6b3",
+    "resource_observations": {
+      "elapsed_seconds": 16.12974919984117,
+      "peak_rss_bytes": 165994496,
+      "peak_process_count": 3,
+      "archive_bytes": 27490,
+      "temporary_bytes": 0
+    }
+  },
+  "after": {
+    "scope_id": "g08-tet10-after",
+    "nodeid": "tests/verification/test_g08_comparison_case.py::test_g08_after",
+    "source_commit": "6dd15ea007439a37327298690232cf81bf4c7f69",
+    "source_tree": "27b38beffb18327ecb20d07f8e008f5e0ced8dbf",
+    "generator_blob": "f5aa4431ee1f68bcb13250406dc312f28c9d048a",
+    "inputs_sha256": "1b0f448d8910c4b1f9bb3282a5fb97a3b014cfcef4b97b3a048cb8d493f062ff",
+    "mesh_sha256": "163b1f9a7ebe237f28f6e03315a487599200ef5d56b1f96022437572c8492986",
+    "mesh": {
+      "nodes": 125,
+      "elements": 48,
+      "family": "TET10",
+      "free_dofs": 300,
+      "open_internal_faces": 0,
+      "components": 1,
+      "aliased_mid_edge_nodes": 0
+    },
+    "preflight": {
+      "id": "pf-g08after0002",
+      "state": "PREFLIGHT_PASS",
+      "official_collect_only": true,
+      "attempt_reserved": false,
+      "sha256": "26ad4fa8e417b01aff81299de78aed866449ddea507c94ac8725342004082916"
+    },
+    "attempt": 1,
+    "runner_status": "PASS",
+    "pytest_status": "PASSED",
+    "preload_status": "CONVERGED",
+    "preload_final_relative_residual": 7.110491597689875e-15,
+    "spectral_status": "COMPUTED",
+    "archive_validation": "VALID",
+    "screen_status": "SCREEN_PASS",
+    "factor": 869.9805921314434,
+    "signed_load": -869.9805921314434,
+    "load_magnitude": 869.9805921314434,
+    "eigenpair_residual_relative": 5.078786081630351e-11,
+    "euler_reference_force": 803.1904623282354,
+    "euler_relative_error": 0.08315602952953542,
+    "spectral_method": {
+      "backend": "scipy.sparse.linalg.eigs",
+      "formulation": "generalized_eigs_shift_invert",
+      "bracket": {
+        "lower": 869.9375,
+        "upper": 870.0
+      },
+      "generalized_eigsh_fallback": "The -geometric_tangent matrix was not positive definite; sparse bracketed tangent-eigenvalue path retained."
+    },
+    "first_mode_status": "FIRST_MODE_NOT_ESTABLISHED",
+    "run_sha256": "ef065d55ec34f92871e304aba5529faaa45a64f203cde9f74316e79922361b10",
+    "ledger_sha256": "a9ba7806b1de8da457331f0a0bc5cd891afdc6894a2f0ab268f2a477ab16c8fe",
+    "result_sha256": "fcebefd7260dbeaa9ce24c3db3e671e6991ce42e9b00ec4dd9550628745dd004",
+    "mode_sha256": "6990c6a4293ca9610fc4cfea092bc7a7bde1a1b3331aca851e8f28b18f48a6b6",
+    "resource_observations": {
+      "elapsed_seconds": 15.136806800030172,
+      "peak_rss_bytes": 167120896,
+      "peak_process_count": 3,
+      "archive_bytes": 27638,
+      "temporary_bytes": 0
+    }
+  },
+  "comparison": {
+    "status": "VALID_DEVELOPMENT_OBSERVATION_NOT_QUALIFICATION",
+    "factor_before_minus_after": -3.6828384699920207,
+    "relative_factor_delta_vs_after_percent": -0.4233242101377348,
+    "signed_load_before_minus_after": -3.6828384699920207,
+    "absolute_load_delta": -3.6828384699920207,
+    "eigenpair_residuals": {
+      "before": 3.717849437434164e-11,
+      "after": 5.078786081630351e-11
+    },
+    "mode_comparison": "NOT_PERFORMED; vector lengths differ with mesh DOFs and both records keep first-mode rank unestablished.",
+    "interpretation": "The factor difference is an observed A/B result for the defined cases. It cannot be attributed to connectivity alone because connectivity and discretization changed together. A low eigenpair residual and an Euler screen do not prove the computed mode is first."
+  },
+  "limits": {
+    "first_mode": "FIRST_MODE_NOT_ESTABLISHED; a separate positive-definiteness and error-controlled inertia-count proof is absent.",
+    "resources": "Single-run sampled observations, not hard OS quotas or statistically stable performance comparisons.",
+    "qualification": "Development evidence only; it does not validate a qualified critical load, establish mode rank, or declare a release ready."
+  },
+  "private_archive_note": "The local official receipts, ledgers, run records, logs and numerical archives remain outside this branch. This file records reviewed hashes and metrics only."
+}
