@@ -87,3 +87,7 @@ Sur la base `30a14c102014f87071f74095654d03c162e524bf`, Python `3.13.1` :
 - campagne FEM, suite complète et CI protégée : `NOT_RUN`.
 
 Les verdicts historiques, les seuils et les archives n’ont pas été modifiés. Prochaine action minimale : restaurer les fichiers bruts par les SHA du tableau depuis une sauvegarde vérifiée. À défaut, le rejeu R14/R16 nécessitera une nouvelle préparation contractuelle autorisée ; cette mission n’a lancé aucun calcul pour les remplacer.
+
+## Port du consommateur R16 — 2026-11-23
+
+Le script historique `scripts/replay_wp_c01_r16_archive.py` et son validateur ont été portés depuis le commit `06fce7a47d41223955755c34e7238376b3c4a7b5`. Le validateur utilise désormais le décodeur commun `scripts/contact_archive_telemetry.py`, sans copie concurrente. Les tests synthétiques passent par `replay()` jusqu’au contrôle d’identité et couvrent les événements objet, chaînes JSON et entrées invalides ; ils ne constituent pas un rejeu complet des archives absentes. Les empreintes épinglées et le seuil de moment du consommateur restent inchangés. Le statut historique R16 reste `PYTEST_FAILED`.
