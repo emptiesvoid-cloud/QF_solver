@@ -243,6 +243,12 @@ def _relative_vector(
     return vector
 
 
+def _friction_normal_constraint_scale(matrix: csr_matrix) -> float:
+    """Balance KKT blocks for frictional contact without changing constraints."""
+    stiffness_scale = float(np.max(np.abs(matrix.diagonal()), initial=0.0))
+    return float(np.sqrt(max(stiffness_scale, 1.0))) if np.isfinite(stiffness_scale) else 1.0
+
+
 def _solve_active_set(
     reduction: ConstraintReduction,
     operators: list[_ContactOperator],
@@ -256,11 +262,22 @@ def _solve_active_set(
     constraint_rhs = np.array(
         [-operators[index].initial_gap - operators[index].vector @ reduction.offset for index in active], dtype=float
     )
+    # Apply the same scale to the constraint rows and right-hand side.
+    # Undo the unknown's reciprocal scaling before reporting the reaction.
+    scale = (
+        _friction_normal_constraint_scale(reduction.matrix)
+        if any(operators[index].has_friction for index in active)
+        else 1.0
+    )
+    if scale != 1.0:
+        constraint_matrix = constraint_matrix * scale
+        constraint_rhs *= scale
     zero = csr_matrix((len(active), len(active)), dtype=float)
     saddle = bmat(((reduction.matrix, constraint_matrix.T), (constraint_matrix, zero)), format="csr")
     rhs = np.concatenate((reduction.rhs, constraint_rhs))
     solution = _sparse_solve(saddle, rhs, "contact saddle system")
-    return reduction.expand(solution[: reduction.independent.size]), solution[reduction.independent.size :]
+    multipliers = scale * solution[reduction.independent.size :]
+    return reduction.expand(solution[: reduction.independent.size]), multipliers
 
 
 def _pressures(active: tuple[int, ...], multipliers: np.ndarray, count: int) -> np.ndarray:
