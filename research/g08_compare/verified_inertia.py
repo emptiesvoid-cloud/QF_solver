@@ -36,6 +36,32 @@ MAX_PRECISION_BITS = 512
 MAX_ROOT_REFINEMENT_STEPS = 16
 
 
+def _as_real_binary64_array(values: Any, name: str) -> np.ndarray:
+    """Convert exactly representable real inputs to binary64 without dropping data."""
+    try:
+        raw = np.asarray(values)
+    except (TypeError, ValueError) as exc:
+        raise VerifiedInertiaInputError(f"{name} must be a real numeric array") from exc
+    if np.iscomplexobj(raw) or (
+        raw.dtype == object
+        and any(isinstance(item, (complex, np.complexfloating)) for item in raw.flat)
+    ):
+        raise VerifiedInertiaInputError(f"{name} must be real-valued; complex input is not accepted")
+    if raw.dtype.kind not in "fiub":
+        raise VerifiedInertiaInputError(f"{name} must be a real numeric array without object coercion")
+    try:
+        value = np.asarray(raw, dtype=np.float64)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise VerifiedInertiaInputError(f"{name} cannot be represented as binary64") from exc
+    if raw.dtype.kind == "f" and raw.dtype.itemsize > np.dtype(np.float64).itemsize:
+        if not np.array_equal(raw, value.astype(raw.dtype), equal_nan=True):
+            raise VerifiedInertiaInputError(f"{name} loses precision when represented as binary64")
+    elif raw.dtype.kind in "iu":
+        if any(int(original) != int(converted) for original, converted in zip(raw.flat, value.flat)):
+            raise VerifiedInertiaInputError(f"{name} loses integer precision when represented as binary64")
+    return value
+
+
 def _validate_precision(precision_bits: int) -> None:
     if isinstance(precision_bits, bool) or not isinstance(precision_bits, int):
         raise VerifiedInertiaInputError("precision_bits must be an integer")
@@ -60,7 +86,7 @@ def _flint_precision(precision_bits: int) -> Iterator[tuple[Any, Any, Any]]:
 
 
 def _validated_symmetric(matrix: Any, name: str) -> np.ndarray:
-    value = np.asarray(matrix, dtype=np.float64)
+    value = _as_real_binary64_array(matrix, name)
     if (
         value.ndim != 2
         or value.shape[0] == 0
@@ -412,7 +438,7 @@ def residual_enclosure(
     """Recompute the candidate residual for the exact stored pencil and vector."""
     initial = _validated_symmetric(k0, "K0")
     geometric = _validated_symmetric(kg, "Kg")
-    mode = np.asarray(mode_full, dtype=np.float64)
+    mode = _as_real_binary64_array(mode_full, "candidate mode")
     free_raw = np.asarray(free_dof_indices)
     if free_raw.ndim != 1 or not np.issubdtype(free_raw.dtype, np.integer):
         raise VerifiedInertiaInputError("free-DOF indices must be a one-dimensional integer array")
@@ -550,7 +576,7 @@ def analyze_capture_inertia(
     if case_name not in {"before", "after"}:
         raise VerifiedInertiaInputError("case_name must be 'before' or 'after'")
 
-    from research.g08_compare.capture import read_matrix_archive, sha256_file
+    from research.g08_compare.capture import read_matrix_archive, read_mode_vector, sha256_file
     from research.g08_compare.spectral_diagnostic import SpectralInputError, analyze_capture
 
     archive = Path(archive).resolve(strict=True)
@@ -560,8 +586,8 @@ def analyze_capture_inertia(
     arrays = read_matrix_archive(archive / "matrices.npz")
     k0 = _as_dense(arrays["K0"])
     kg = _as_dense(arrays["Kg"])
-    u_pre = np.asarray(arrays["u_pre"], dtype=np.float64)
-    mode = np.asarray(np.load(archive / "mode.npy", allow_pickle=False), dtype=np.float64)
+    u_pre = arrays["u_pre"]
+    mode = read_mode_vector(archive / "mode.npy")
     free = np.asarray(arrays["free_dof_indices"], dtype=np.int64)
 
     expected_dimension = {"before": 276, "after": 300}[case_name]

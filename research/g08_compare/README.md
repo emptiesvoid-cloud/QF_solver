@@ -181,12 +181,16 @@ La différence du premier facteur après moins avant est encadrée par
 [3,68283748626709 ; 3,6828393936157227] ; elle mêle connectivité et
 discrétisation et ne permet pas d’isoler l’effet de connectivité.
 
-Les opérations d’inertie et les 16 raffinements ont pris 10,28 s avant
-et 14,02 s après dans l’environnement rapporté. La mémoire n’a pas été
-mesurée. Le budget de 120 s par certificat est vérifié après son calcul,
+Les opérations d’inertie et les 16 raffinements ont pris 10,03 s avant
+et 13,26 s après lors du rejeu du 23 novembre 2026. La mémoire n’a pas
+été mesurée. Le budget de 120 s par certificat est vérifié après son calcul,
 pas par interruption préemptive. Le backend de recherche est optionnel et épinglé dans
 [`requirements-inertia.txt`](requirements-inertia.txt); il n’ajoute
 aucune dépendance d’exécution au produit. Les tests synthétiques couvrent
 les matrices définies positives, indéfinies, singulières, proches de
 zéro et à valeurs multiples, les crayons à racines simples ou multiples,
 les données invalides et l’indisponibilité du backend.
+
+La revue croisée du certificat, son contrôle exact sur des matrices
+synthétiques et la correction des conversions de dtype sont consignés dans
+[`independent-review-2026-11-23.md`](independent-review-2026-11-23.md).

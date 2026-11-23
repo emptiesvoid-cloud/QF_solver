@@ -98,6 +98,43 @@ def test_synthetic_csr_capture_round_trip_and_valid_archive(tmp_path):
     assert verdict["capture_symmetry_defects"] == {"K0": 0.0, "Kg": 0.0}
 
 
+@pytest.mark.parametrize(
+    ("field", "bad_dtype"),
+    [
+        ("k0_data", np.complex128),
+        ("k0_data", np.float32),
+        ("kg_data", np.complex128),
+        ("u_pre", np.complex128),
+        ("k0_indices", np.float64),
+        ("free_dof_indices", np.float32),
+    ],
+)
+def test_matrix_archive_rejects_lossy_dtype_normalization(tmp_path, field, bad_dtype):
+    root = tmp_path / f"{field}-{np.dtype(bad_dtype).name}"
+    _write_bundle(root)
+    with np.load(root / "matrices.npz", allow_pickle=False) as archive:
+        arrays = {name: np.array(archive[name], copy=True) for name in archive.files}
+    arrays[field] = arrays[field].astype(bad_dtype)
+    if np.issubdtype(np.dtype(bad_dtype), np.complexfloating):
+        arrays[field] += 1j
+    np.savez_compressed(root / "matrices.npz", **arrays)
+
+    with pytest.raises(capture.CaptureError, match="dtype"):
+        capture.read_matrix_archive(root / "matrices.npz")
+
+
+@pytest.mark.parametrize("dtype", [np.complex128, np.float32])
+def test_mode_reader_rejects_lossy_dtype_normalization(tmp_path, dtype):
+    mode_path = tmp_path / "mode.npy"
+    mode = np.asarray([1.0, 2.0], dtype=dtype)
+    if np.issubdtype(np.dtype(dtype), np.complexfloating):
+        mode += 3j
+    np.save(mode_path, mode, allow_pickle=False)
+
+    with pytest.raises(capture.CaptureError, match="binary64"):
+        capture.read_mode_vector(mode_path)
+
+
 @pytest.mark.parametrize("mutation", ["missing", "incomplete", "altered", "identity"])
 def test_capture_validator_rejects_invalid_synthetic_archives(tmp_path, mutation):
     root = tmp_path / mutation

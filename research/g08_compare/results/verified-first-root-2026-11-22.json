@@ -4,7 +4,7 @@
       "K0_inertia": {
         "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
         "dimension": 300,
-        "elapsed_seconds": 0.5658565000630915,
+        "elapsed_seconds": 0.556778300087899,
         "flint_version": "0.9.0",
         "inertia": {
           "negative": 0,
@@ -107,7 +107,7 @@
         "screens": [
           {
             "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
-            "elapsed_seconds": 0.01295990007929504,
+            "elapsed_seconds": 0.011798999970778823,
             "expected_certified_inertia": {
               "negative": 0,
               "positive": 300,
@@ -128,7 +128,7 @@
           },
           {
             "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
-            "elapsed_seconds": 0.011916900053620338,
+            "elapsed_seconds": 0.010302799986675382,
             "expected_certified_inertia": {
               "negative": 0,
               "positive": 300,
@@ -149,7 +149,7 @@
           },
           {
             "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
-            "elapsed_seconds": 0.010913599980995059,
+            "elapsed_seconds": 0.010558899957686663,
             "expected_certified_inertia": {
               "negative": 1,
               "positive": 299,
@@ -170,7 +170,7 @@
           },
           {
             "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
-            "elapsed_seconds": 0.011883900035172701,
+            "elapsed_seconds": 0.010862199822440743,
             "expected_certified_inertia": {
               "negative": 1,
               "positive": 299,
@@ -191,7 +191,7 @@
           },
           {
             "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
-            "elapsed_seconds": 0.011146199889481068,
+            "elapsed_seconds": 0.009894499788060784,
             "expected_certified_inertia": {
               "negative": 2,
               "positive": 298,
@@ -216,7 +216,7 @@
         "lower": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 300,
-          "elapsed_seconds": 0.772382800001651,
+          "elapsed_seconds": 0.5945435001049191,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
@@ -236,7 +236,7 @@
         "upper": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 300,
-          "elapsed_seconds": 0.7151752000208944,
+          "elapsed_seconds": 0.5771377000492066,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 1,
@@ -264,7 +264,7 @@
       "memory_observation": "NOT_MEASURED",
       "mesh_sha256": "163b1f9a7ebe237f28f6e03315a487599200ef5d56b1f96022437572c8492986",
       "mode_comparison": "NOT_DONE; no common physical interpolation or projection is defined and tested.",
-      "observed_total_seconds": 14.02059859992005,
+      "observed_total_seconds": 13.259135999949649,
       "observed_total_seconds_scope": "Inertia and residual calculations after archive validation and data loading.",
       "pencil_convention": "Q(lambda) = K0 + lambda * Kg; lambda is the positive dimensionless load multiplier",
       "precision_bits": 128,
@@ -278,7 +278,7 @@
         "K0_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 300,
-          "elapsed_seconds": 0.589504900155589,
+          "elapsed_seconds": 0.5535753001458943,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
@@ -297,7 +297,7 @@
         "lower_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 300,
-          "elapsed_seconds": 0.772382800001651,
+          "elapsed_seconds": 0.5945435001049191,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
@@ -320,7 +320,7 @@
         "status": "REFINEMENT_LIMIT_REACHED",
         "steps": [
           {
-            "elapsed_seconds": 0.5549738998524845,
+            "elapsed_seconds": 0.5633581001311541,
             "inertia": {
               "negative": 0,
               "positive": 300,
@@ -331,7 +331,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5675604999996722,
+            "elapsed_seconds": 0.5687919999472797,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -342,7 +342,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5573388000484556,
+            "elapsed_seconds": 0.5531564000993967,
             "inertia": {
               "negative": 0,
               "positive": 300,
@@ -353,7 +353,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.56349469977431,
+            "elapsed_seconds": 0.5765654998831451,
             "inertia": {
               "negative": 0,
               "positive": 300,
@@ -364,7 +364,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5658112000674009,
+            "elapsed_seconds": 0.5442223001737148,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -375,7 +375,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5853228999767452,
+            "elapsed_seconds": 0.5670757000334561,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -386,7 +386,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5718754001427442,
+            "elapsed_seconds": 0.5680521000176668,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -397,7 +397,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5635422000195831,
+            "elapsed_seconds": 0.5720001000445336,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -408,7 +408,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5745788000058383,
+            "elapsed_seconds": 0.5979372998699546,
             "inertia": {
               "negative": 0,
               "positive": 300,
@@ -419,7 +419,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5683096998836845,
+            "elapsed_seconds": 0.5627552999649197,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -430,7 +430,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5606180001050234,
+            "elapsed_seconds": 0.5634001998696476,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -441,7 +441,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.58260180009529,
+            "elapsed_seconds": 0.567786900093779,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -452,7 +452,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5926675000227988,
+            "elapsed_seconds": 0.5759874999057502,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -463,7 +463,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.5746447001583874,
+            "elapsed_seconds": 0.5669497998896986,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -474,7 +474,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.7151752000208944,
+            "elapsed_seconds": 0.5771377000492066,
             "inertia": {
               "negative": 1,
               "positive": 299,
@@ -485,7 +485,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.772382800001651,
+            "elapsed_seconds": 0.5945435001049191,
             "inertia": {
               "negative": 0,
               "positive": 300,
@@ -502,7 +502,7 @@
         "upper_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 300,
-          "elapsed_seconds": 0.7151752000208944,
+          "elapsed_seconds": 0.5771377000492066,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 1,
@@ -565,7 +565,7 @@
           "lower": {
             "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
             "dimension": 300,
-            "elapsed_seconds": 0.5926800000015646,
+            "elapsed_seconds": 0.5867492000106722,
             "flint_version": "0.9.0",
             "inertia": {
               "negative": 1,
@@ -585,7 +585,7 @@
           "upper": {
             "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
             "dimension": 300,
-            "elapsed_seconds": 0.5844303998164833,
+            "elapsed_seconds": 0.5792477000504732,
             "flint_version": "0.9.0",
             "inertia": {
               "negative": 2,
@@ -625,7 +625,7 @@
       "K0_inertia": {
         "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
         "dimension": 276,
-        "elapsed_seconds": 0.37609450006857514,
+        "elapsed_seconds": 0.38029010011814535,
         "flint_version": "0.9.0",
         "inertia": {
           "negative": 0,
@@ -728,7 +728,7 @@
         "screens": [
           {
             "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
-            "elapsed_seconds": 0.01048140018247068,
+            "elapsed_seconds": 0.009086099918931723,
             "expected_certified_inertia": {
               "negative": 0,
               "positive": 276,
@@ -749,7 +749,7 @@
           },
           {
             "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
-            "elapsed_seconds": 0.008561300113797188,
+            "elapsed_seconds": 0.009499199921265244,
             "expected_certified_inertia": {
               "negative": 0,
               "positive": 276,
@@ -770,7 +770,7 @@
           },
           {
             "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
-            "elapsed_seconds": 0.009848600020632148,
+            "elapsed_seconds": 0.008544999873265624,
             "expected_certified_inertia": {
               "negative": 1,
               "positive": 275,
@@ -791,7 +791,7 @@
           },
           {
             "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
-            "elapsed_seconds": 0.008813299937173724,
+            "elapsed_seconds": 0.009484800044447184,
             "expected_certified_inertia": {
               "negative": 1,
               "positive": 275,
@@ -812,7 +812,7 @@
           },
           {
             "classification": "FLOATING_POINT_SCREEN_ONLY_NO_ERROR_BOUND",
-            "elapsed_seconds": 0.00977270002476871,
+            "elapsed_seconds": 0.009521099971607327,
             "expected_certified_inertia": {
               "negative": 2,
               "positive": 274,
@@ -837,7 +837,7 @@
         "lower": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 276,
-          "elapsed_seconds": 0.4466400998644531,
+          "elapsed_seconds": 0.45504349982365966,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
@@ -857,7 +857,7 @@
         "upper": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 276,
-          "elapsed_seconds": 0.44163399981334805,
+          "elapsed_seconds": 0.468723600031808,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 1,
@@ -885,7 +885,7 @@
       "memory_observation": "NOT_MEASURED",
       "mesh_sha256": "aaf2d8cf7ae44d5212bdb6785e9fdb36787bf8fde0cc2a04aa3c0c867d0b26e7",
       "mode_comparison": "NOT_DONE; no common physical interpolation or projection is defined and tested.",
-      "observed_total_seconds": 10.280525400070474,
+      "observed_total_seconds": 10.033069799887016,
       "observed_total_seconds_scope": "Inertia and residual calculations after archive validation and data loading.",
       "pencil_convention": "Q(lambda) = K0 + lambda * Kg; lambda is the positive dimensionless load multiplier",
       "precision_bits": 128,
@@ -899,7 +899,7 @@
         "K0_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 276,
-          "elapsed_seconds": 0.38105069985613227,
+          "elapsed_seconds": 0.3713251000735909,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
@@ -918,7 +918,7 @@
         "lower_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 276,
-          "elapsed_seconds": 0.4466400998644531,
+          "elapsed_seconds": 0.45504349982365966,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 0,
@@ -941,7 +941,7 @@
         "status": "REFINEMENT_LIMIT_REACHED",
         "steps": [
           {
-            "elapsed_seconds": 0.5333319997880608,
+            "elapsed_seconds": 0.3996264000888914,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -952,7 +952,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.49364160001277924,
+            "elapsed_seconds": 0.39013179996982217,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -963,7 +963,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.3917753000278026,
+            "elapsed_seconds": 0.4050892998930067,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -974,7 +974,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.40140810003504157,
+            "elapsed_seconds": 0.4147775999736041,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -985,7 +985,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.39739520009607077,
+            "elapsed_seconds": 0.3992276000790298,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -996,7 +996,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.4283875999972224,
+            "elapsed_seconds": 0.4356462999712676,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -1007,7 +1007,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.40833080001175404,
+            "elapsed_seconds": 0.42092479998245835,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -1018,7 +1018,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.41797710000537336,
+            "elapsed_seconds": 0.4096831001807004,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -1029,7 +1029,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.43341830000281334,
+            "elapsed_seconds": 0.43361059995368123,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -1040,7 +1040,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.45572840003296733,
+            "elapsed_seconds": 0.42679390008561313,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -1051,7 +1051,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.44019490014761686,
+            "elapsed_seconds": 0.4307359999511391,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -1062,7 +1062,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.4434744000900537,
+            "elapsed_seconds": 0.4565089999232441,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -1073,7 +1073,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.43690579989925027,
+            "elapsed_seconds": 0.4365407000295818,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -1084,7 +1084,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.4555956998374313,
+            "elapsed_seconds": 0.48435459984466434,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -1095,7 +1095,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.44163399981334805,
+            "elapsed_seconds": 0.468723600031808,
             "inertia": {
               "negative": 1,
               "positive": 275,
@@ -1106,7 +1106,7 @@
             "status": "CERTIFIED"
           },
           {
-            "elapsed_seconds": 0.4466400998644531,
+            "elapsed_seconds": 0.45504349982365966,
             "inertia": {
               "negative": 0,
               "positive": 276,
@@ -1123,7 +1123,7 @@
         "upper_inertia": {
           "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
           "dimension": 276,
-          "elapsed_seconds": 0.44163399981334805,
+          "elapsed_seconds": 0.468723600031808,
           "flint_version": "0.9.0",
           "inertia": {
             "negative": 1,
@@ -1186,7 +1186,7 @@
           "lower": {
             "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
             "dimension": 276,
-            "elapsed_seconds": 0.44964230014011264,
+            "elapsed_seconds": 0.47116419998928905,
             "flint_version": "0.9.0",
             "inertia": {
               "negative": 1,
@@ -1206,7 +1206,7 @@
           "upper": {
             "basis_invertibility": "CERTIFIED_BY ||I - V.T V||_infinity < 1",
             "dimension": 276,
-            "elapsed_seconds": 0.4399482000153512,
+            "elapsed_seconds": 0.45396850001998246,
             "flint_version": "0.9.0",
             "inertia": {
               "negative": 2,
@@ -1267,7 +1267,7 @@
     "interpretation_limit": "The A/B change combines connectivity and discretization; it is not a physical validation or an isolated connectivity effect."
   },
   "implementation_fingerprints": {
-    "analysis_script_sha256": "3b6bf55c2035685aaa8c0f6f7fcc66de9b6de78ef36697bc44b09ffb99eb76a7",
+    "analysis_script_sha256": "d08d16fe9a6290bef04cc93fc1d31cf579af876dd2a9596581993f0dd8d76a35",
     "optional_dependency_spec_sha256": "bb8edf2a54dd3e5b5c053c4eff67fe073f65944adef85b361a098c22dc0427dd",
     "synthetic_tests_sha256": "f47f2ac202caaddfb7b69f50c0846ad09a1971ae79a0ce2d56c5170562b4690e"
   },

@@ -138,11 +138,24 @@ def read_matrix_archive(path: Path) -> dict[str, Any]:
         return {
             "K0": _load_csr(arrays, "k0"),
             "Kg": _load_csr(arrays, "kg"),
-            "u_pre": np.asarray(arrays["u_pre"], dtype=np.float64),
-            "fixed_dof_indices": np.asarray(arrays["fixed_dof_indices"], dtype=np.int64),
-            "free_dof_indices": np.asarray(arrays["free_dof_indices"], dtype=np.int64),
+            "u_pre": _require_archive_dtype(arrays, "u_pre", np.float64),
+            "fixed_dof_indices": _require_archive_dtype(arrays, "fixed_dof_indices", np.int64),
+            "free_dof_indices": _require_archive_dtype(arrays, "free_dof_indices", np.int64),
             "dof_labels": np.asarray(arrays["dof_labels"]),
         }
+
+
+def read_mode_vector(path: Path) -> np.ndarray:
+    """Read a stored binary64 candidate vector without lossy dtype conversion."""
+    try:
+        mode = np.load(path, allow_pickle=False)
+    except (OSError, ValueError) as exc:
+        raise CaptureError("mode.npy cannot be loaded without pickle") from exc
+    if mode.dtype != np.dtype(np.float64):
+        raise CaptureError("mode.npy must store binary64 real values")
+    if mode.ndim != 1 or not np.isfinite(mode).all():
+        raise CaptureError("mode.npy must be a finite one-dimensional vector")
+    return mode
 
 
 class _SolverObserver:
@@ -354,15 +367,31 @@ def _scope(scope_id: str) -> dict[str, Any]:
 
 
 def _load_csr(archive: Any, prefix: str) -> csr_matrix:
-    shape = tuple(int(value) for value in archive[f"{prefix}_shape"])
+    data = _require_archive_dtype(archive, f"{prefix}_data", np.float64)
+    indices = _require_archive_dtype(archive, f"{prefix}_indices", np.int64)
+    indptr = _require_archive_dtype(archive, f"{prefix}_indptr", np.int64)
+    shape_array = _require_archive_dtype(archive, f"{prefix}_shape", np.int64)
+    if (
+        data.ndim != 1
+        or indices.ndim != 1
+        or indptr.ndim != 1
+        or shape_array.shape != (2,)
+        or np.any(shape_array <= 0)
+    ):
+        raise CaptureError(f"{prefix} CSR arrays have invalid dimensions")
+    shape = tuple(int(value) for value in shape_array)
     return csr_matrix(
-        (
-            np.asarray(archive[f"{prefix}_data"], dtype=np.float64),
-            np.asarray(archive[f"{prefix}_indices"], dtype=np.int64),
-            np.asarray(archive[f"{prefix}_indptr"], dtype=np.int64),
-        ),
+        (data, indices, indptr),
         shape=shape,
     )
+
+
+def _require_archive_dtype(archive: Any, name: str, dtype: Any) -> np.ndarray:
+    array = np.asarray(archive[name])
+    expected = np.dtype(dtype)
+    if array.dtype != expected:
+        raise CaptureError(f"{name} must be stored with dtype {expected.str}")
+    return array
 
 
 def validate_capture_bundle(
@@ -416,6 +445,7 @@ def validate_capture_bundle(
         k0, kg = values["K0"], values["Kg"]
         u_pre = values["u_pre"]
         fixed, free, labels = values["fixed_dof_indices"], values["free_dof_indices"], values["dof_labels"]
+        mode = read_mode_vector(mode_path)
     except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
         if isinstance(exc, CaptureError):
             raise
@@ -429,6 +459,7 @@ def validate_capture_bundle(
         k0.shape != (int(scope["free_dofs"]),) * 2
         or kg.shape != k0.shape
         or u_pre.shape != (ndof,)
+        or mode.shape != (ndof,)
         or labels.shape != (ndof,)
         or not np.isfinite(u_pre).all()
         or not np.isfinite(k0.data).all()
