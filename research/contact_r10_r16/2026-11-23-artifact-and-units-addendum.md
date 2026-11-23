@@ -75,7 +75,7 @@ Les marges d’essai Coulomb des pas 8 et 9 (`15494.836561 N` et `15600.001459 N
 
 ## Correctif compact et vérifications
 
-Un décodeur d’archives générique a été ajouté sous `scripts/contact_archive_telemetry.py` avec des tests unitaires sous `tests/unit/test_contact_archive_telemetry.py`. Il n’est pas appelé par le solveur et n’altère aucune archive. Le code de production R10 n’a pas été changé : son normaliseur compare déjà le résidu sans dimension à la tolérance correspondante.
+Un décodeur d’archives générique a été ajouté sous `scripts/contact_archive_telemetry.py` avec des tests unitaires sous `tests/unit/test_contact_archive_telemetry.py`. Il n’est pas appelé par le solveur et n’altère aucune archive. Ce petit port n’est pas encore câblé au script de rejeu R16, qui n’est pas présent sur `0.3.0` ; il ne prétend donc pas avoir rejoué ni corrigé ce script dans cette branche. Le code de production R10 n’a pas été changé : son normaliseur compare déjà le résidu sans dimension à la tolérance correspondante.
 
 Sur la base `30a14c102014f87071f74095654d03c162e524bf`, Python `3.13.1` :
 
