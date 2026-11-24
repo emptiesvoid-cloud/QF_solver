@@ -426,6 +426,37 @@ def test_coupled_projection_treats_zero_pressure_active_contact_as_open(monkeypa
     assert np.array_equal(solution.references[1], np.zeros(2))
 
 
+@pytest.mark.parametrize("capacity", [0.2, 50.0])
+@pytest.mark.parametrize("margin_multiplier, expected", [(0.5, "stick"), (2.0, "slip")])
+def test_coupled_projection_boundary_uses_normalized_band_but_projects_to_exact_cap(
+    monkeypatch, capacity: float, margin_multiplier: float, expected: str
+) -> None:
+    tolerance = 1e-9
+    active = (0,)
+    fixture = _root_fixture(monkeypatch, [active, active], count=1)
+    dofs, stiffness, operators, solve_active_set, _, proposed_active, tangential_force, _ = fixture
+    operators[0].tolerance = 1e-12
+    operators[0].friction_coefficient = capacity / 2.0
+    operators[0].tangential_stiffness = capacity + margin_multiplier * tolerance * max(capacity, 1.0)
+
+    solution = slip_root.solve_coupled_contact_projection(
+        dofs,
+        stiffness,
+        np.zeros(2),
+        np.array([], dtype=int),
+        operators,
+        np.zeros((1, 2)),
+        tolerance,
+        solve_active_set=solve_active_set,
+        pressures_for=lambda _active, _multipliers, _count: np.array([2.0]),
+        proposed_active=proposed_active,
+        tangential_force=tangential_force,
+    )
+
+    assert solution.states == (expected,)
+    assert np.linalg.norm(solution.forces[0]) == pytest.approx(capacity, rel=1e-13)
+
+
 def test_coupled_projection_tries_fifteen_contact_seed_without_enumeration(monkeypatch) -> None:
     """A valid M3-sized seed is solved once without enumerating 2^25 sets."""
     active_seed = tuple(range(15))

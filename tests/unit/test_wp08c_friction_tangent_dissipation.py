@@ -21,7 +21,7 @@ from solveur.contact.support import (
 )
 from solveur.contact.slip_root import _post_root_tangential_modes
 from solveur.core.dofs import DofManager
-from solveur.core.errors import NumericalConvergenceError
+from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.solver import LinearStaticSolver
@@ -329,6 +329,16 @@ def test_coulomb_band_matches_projection_residual_across_force_scales(limit: flo
         assert ((trial - limit) / scale <= tolerance) == expected
 
 
+def test_numeric_force_floor_explains_unit_dependence_below_one() -> None:
+    tolerance = 1e-9
+    # Both pairs represent the same forces. Only the second uses mN.
+    assert _coulomb_is_stick(0.1 + 0.5e-9, 0.1, tolerance, was_sliding=False)
+    assert not _coulomb_is_stick(100.0 + 0.5e-6, 100.0, tolerance, was_sliding=False)
+    # Above the floor in both force units, the relative classification agrees.
+    assert _coulomb_is_stick(10.0 + 5e-9, 10.0, tolerance, was_sliding=False)
+    assert _coulomb_is_stick(10000.0 + 5e-6, 10000.0, tolerance, was_sliding=False)
+
+
 def test_zero_capacity_returns_zero_force_for_a_sub_tolerance_trial() -> None:
     _, dofs, operator = _operator_fixture()
     displacement = _displacement_for_local_tangent(operator, dofs, np.array([1e-14, 0.0]))
@@ -339,6 +349,35 @@ def test_zero_capacity_returns_zero_force_for_a_sub_tolerance_trial() -> None:
     state, forces, _, _ = _friction_update([replace(operator, friction_coefficient=0.0)], (0,), *arguments)
     assert state == ("frictionless",)
     np.testing.assert_array_equal(forces, np.zeros((1, 2)))
+
+
+@pytest.mark.parametrize("tolerance", [0.0, -1e-9, np.nan, np.inf, -np.inf, "invalid"])
+def test_friction_solver_rejects_invalid_tolerance(tolerance: object) -> None:
+    data = _model(horizontal_load=2.0, vertical_load=-200.0)
+    data["analysis"]["contact_friction_tolerance"] = tolerance
+
+    with pytest.raises(InputValidationError, match="contact_friction_tolerance"):
+        LinearStaticSolver().solve(JsonModelReader().from_dict(data))
+
+
+@pytest.mark.parametrize("margin_multiplier, expected", [(0.5, "stick"), (2.0, "slip")])
+def test_coulomb_boundary_is_invariant_under_length_conversion_with_fixed_force_unit(
+    margin_multiplier: float, expected: str
+) -> None:
+    _, dofs, operator = _operator_fixture()
+    tolerance = 1e-9
+    trial = COULOMB_LIMIT * (1 + margin_multiplier * tolerance)
+    displacement = _displacement_for_local_tangent(operator, dofs, np.array([trial / KT, 0.0]))
+    references = np.zeros((1, 2))
+    for length_factor in (1.0, 1000.0):
+        scaled = replace(
+            operator, tangential_stiffness=KT / length_factor, tolerance=operator.tolerance * length_factor,
+        )
+        states, _, _, _ = _friction_update(
+            [scaled], (0,), displacement * length_factor,
+            np.array([PRESSURE]), references, ("stick",), friction_tolerance=tolerance,
+        )
+        assert states == (expected,)
 
 
 def test_slip_local_jacobian_matches_analytical_fixed_pressure_map() -> None:
