@@ -15,6 +15,7 @@ from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.contact.support import (
     _coulomb_force_tolerance,
+    _coulomb_is_stick,
     _select_active_set_transition,
     _sparse_rank_one,
 )
@@ -139,17 +140,10 @@ def _post_root_tangential_modes(
         )
         trial_norm = float(np.linalg.norm(trial))
         friction_limit = operator.friction_coefficient * max(pressure, 0.0)
-        force_tolerance = _coulomb_force_tolerance(
-            friction_tolerance, friction_limit
+        stick = _coulomb_is_stick(
+            trial_norm, friction_limit, friction_tolerance, was_sliding=solution.states[index] == "slip"
         )
-        current = solution.states[index]
-        if current == "stick":
-            mode = "stick" if trial_norm <= friction_limit + force_tolerance else "slip"
-        elif current == "slip":
-            mode = "stick" if trial_norm < friction_limit - force_tolerance else "slip"
-        else:
-            mode = "stick" if trial_norm <= friction_limit + force_tolerance else "slip"
-        modes.append(mode)
+        modes.append("stick" if stick else "slip")
     return tuple(modes)
 
 
@@ -860,7 +854,7 @@ def _solve_coupled_projection_on_active_set(
             # multiplier. Such a contact has no Coulomb capacity and must not
             # inherit a stick/slip label from the active normal set.
             force_norm = float(np.linalg.norm(forces[index]))
-            state_tolerance = max(operator.tolerance, tolerance)
+            state_tolerance = _coulomb_force_tolerance(tolerance, 0.0)
             if force_norm > state_tolerance:
                 raise NumericalConvergenceError(
                     "Coupled projection retained tangential force at zero pressure.",
@@ -880,8 +874,7 @@ def _solve_coupled_projection_on_active_set(
         trial = operator.tangential_stiffness * (tangential_displacements[index] - slip_references[index])
         trial_norm = float(np.linalg.norm(trial))
         limit = operator.friction_coefficient * pressure
-        force_tolerance = _coulomb_force_tolerance(tolerance, limit)
-        if trial_norm <= limit + force_tolerance:
+        if _coulomb_is_stick(trial_norm, limit, tolerance, was_sliding=False):
             states.append("stick")
             stick.append(index)
         else:
@@ -1474,7 +1467,10 @@ def _validate_post_root_state(
                         "pressure": pressure,
                     },
                 )
-        elif gap < -operator.tolerance or abs(float(np.linalg.norm(solution.forces[index]))) > operator.tolerance:
+        elif (
+            gap < -operator.tolerance
+            or float(np.linalg.norm(solution.forces[index])) > _coulomb_force_tolerance(tolerance, 0.0)
+        ):
             raise NumericalConvergenceError(
                 "Active-slip open-contact state is not admissible.",
                 reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
@@ -1488,10 +1484,7 @@ def _validate_post_root_state(
             )
         if operator.has_friction and (index not in active or pressure <= operator.tolerance):
             force_norm = float(np.linalg.norm(solution.forces[index]))
-            pressure_limit = operator.friction_coefficient * max(pressure, 0.0)
-            state_tolerance = _coulomb_force_tolerance(
-                tolerance, pressure_limit
-            )
+            state_tolerance = _coulomb_force_tolerance(tolerance, 0.0)
             if (
                 solution.states[index] != "open"
                 or force_norm > state_tolerance
@@ -1551,7 +1544,7 @@ def _validate_post_root_state(
                         },
                     )
             elif state == "slip":
-                if trial_norm <= force_tolerance:
+                if trial_norm <= _coulomb_force_tolerance(tolerance, 0.0):
                     raise NumericalConvergenceError(
                         "Active-slip hybrid slip direction is undefined.",
                         reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,

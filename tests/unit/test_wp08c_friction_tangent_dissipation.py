@@ -13,6 +13,7 @@ from scipy.sparse import csr_matrix
 from solveur.contact.entities import FrictionlessContact
 from solveur.contact.support import (
     _ContactOperator,
+    _coulomb_is_stick,
     _dissipation_increment,
     _friction_system,
     _friction_update,
@@ -318,6 +319,28 @@ def test_post_root_coulomb_classification_uses_the_same_force_band() -> None:
     assert modes == [("stick",), ("stick",)]
 
 
+@pytest.mark.parametrize("limit", [1e-12, 0.2, 50.0, 1e6])
+def test_coulomb_band_matches_projection_residual_across_force_scales(limit: float) -> None:
+    tolerance = 1e-9
+    scale = max(limit, 1.0)
+    for multiplier, expected in ((0.5, True), (2.0, False)):
+        trial = limit + multiplier * tolerance * scale
+        assert _coulomb_is_stick(trial, limit, tolerance, was_sliding=False) == expected
+        assert ((trial - limit) / scale <= tolerance) == expected
+
+
+def test_zero_capacity_returns_zero_force_for_a_sub_tolerance_trial() -> None:
+    _, dofs, operator = _operator_fixture()
+    displacement = _displacement_for_local_tangent(operator, dofs, np.array([1e-14, 0.0]))
+    arguments = (displacement, np.zeros(1), np.zeros((1, 2)), ("stick",))
+    state, forces, _, _ = _friction_update([operator], (0,), *arguments)
+    assert state == ("slip",)
+    np.testing.assert_array_equal(forces, np.zeros((1, 2)))
+    state, forces, _, _ = _friction_update([replace(operator, friction_coefficient=0.0)], (0,), *arguments)
+    assert state == ("frictionless",)
+    np.testing.assert_array_equal(forces, np.zeros((1, 2)))
+
+
 def test_slip_local_jacobian_matches_analytical_fixed_pressure_map() -> None:
     _, dofs, operator = _operator_fixture()
     columns = [dofs.index(3, "UX"), dofs.index(3, "UY"), dofs.index(3, "UZ")]
@@ -484,7 +507,7 @@ def test_stick_open_and_zero_pressure_paths_have_zero_irreversible_work() -> Non
     assert _dissipation_increment(open_references[0], retained[0], open_forces[0]) == 0.0
 
 
-@pytest.mark.parametrize("pressure", [np.nan, np.inf])
+@pytest.mark.parametrize("pressure", [np.nan, np.inf, -np.inf])
 def test_nonfinite_pressure_fails_closed_with_typed_reason(pressure: float) -> None:
     _, dofs, operator = _operator_fixture()
     with pytest.raises(NumericalConvergenceError) as captured:

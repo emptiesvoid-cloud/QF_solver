@@ -368,9 +368,26 @@ def _friction_system(
 
 
 def _coulomb_force_tolerance(friction_tolerance: float, limit: float) -> float:
-    """Convert the dimensionless friction tolerance to a per-contact force band in N."""
-    force_scale = max(abs(float(limit)), 1.0)
-    return float(friction_tolerance) * force_scale
+    """Use the same numerical force scale as the per-contact projection residual."""
+    band = float(friction_tolerance) * max(limit, 1.0)
+    if not np.isfinite(band):
+        raise NumericalConvergenceError(
+            "Frictional contact force tolerance is non-finite.",
+            reason=NonlinearFailureReason.NAN_DETECTED,
+        )
+    return band
+
+
+def _coulomb_is_stick(trial_norm: float, limit: float, tolerance: float, *, was_sliding: bool) -> bool:
+    """Classify against the force band, with no positive excess at zero capacity."""
+    if not np.isfinite(trial_norm) or not np.isfinite(limit):
+        raise NumericalConvergenceError(
+            "Frictional contact update produced a non-finite trial state.",
+            reason=NonlinearFailureReason.NAN_DETECTED,
+        )
+    band = _coulomb_force_tolerance(tolerance, limit) if limit > 0.0 else 0.0
+    margin = trial_norm - limit
+    return margin < -band if was_sliding else margin <= band
 
 
 def _friction_update(
@@ -399,15 +416,14 @@ def _friction_update(
             continue
         trial = operator.tangential_stiffness * (relative - slip_references[index])
         trial_norm = float(np.linalg.norm(trial))
-        limit = operator.friction_coefficient * max(float(pressures[index]), 0.0)
-        if not np.isfinite(trial_norm) or not np.isfinite(limit):
+        pressure = float(pressures[index])
+        if not np.isfinite(pressure):
             raise NumericalConvergenceError(
                 "Frictional contact update produced a non-finite trial state.",
                 reason=NonlinearFailureReason.NAN_DETECTED,
             )
-        force_tolerance = _coulomb_force_tolerance(friction_tolerance, limit)
-        remains_sliding = prior_states[index] == "slip" and trial_norm >= limit - force_tolerance
-        if trial_norm <= limit + force_tolerance and not remains_sliding:
+        limit = operator.friction_coefficient * max(pressure, 0.0)
+        if _coulomb_is_stick(trial_norm, limit, friction_tolerance, was_sliding=prior_states[index] == "slip"):
             states.append("stick")
             forces[index] = trial
         else:

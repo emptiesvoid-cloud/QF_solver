@@ -108,10 +108,14 @@ changent plus dans `contact_friction_tolerance`.
 
 `contact_friction_tolerance` est sans dimension. Pour classer un etat autour
 de la limite de Coulomb, sa bande de force est
-`tolerance * max(mu * max(p, 0), 1 N)`. Elle est distincte de
-`gap_tolerance`, qui est exprimee en metres et sert aux controles du jeu
-normal. L'hysteresis d'un contact deja en glissement reste appliquee dans
-cette meme bande de force.
+`tolerance * max(mu * max(p, 0), 1 N)` pour une capacite positive, dans
+la convention SI. L'hysteresis d'un contact deja en glissement utilise
+la meme bande. Une capacite exactement nulle impose une force tangentielle
+nulle dans la mise a jour directe. La bande de classification est distincte
+de `gap_tolerance`, exprimee en metres pour les controles du jeu normal.
+Le plancher numerique est 1 dans l'unite de force du modele, comme pour
+le residu de projection. La classification sous ce plancher depend donc
+de l'unite de force choisie.
 
 Chaque ligne d'audit contient : gap, pression, complementarite, base locale,
 glissement local, force tangentielle, norme, borne $\mu p$, et etat. Le bilan
