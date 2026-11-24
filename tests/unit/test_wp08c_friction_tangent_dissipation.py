@@ -248,6 +248,19 @@ def test_open_branch_has_zero_force_and_zero_tangent() -> None:
     assert dofs.ndof == operator.vector.size
 
 
+def test_open_update_is_repeatable_and_does_not_mutate_committed_reference() -> None:
+    _, dofs, operator = _operator_fixture()
+    references = np.array([[0.2, -0.1]], dtype=float)
+    original = references.copy()
+    displacement = _global_displacement(dofs, operator.vector.size, np.array([0.05, -0.03]))
+    first = _friction_update([operator], (), displacement, np.array([0.0]), references, ("slip",))
+    second = _friction_update([operator], (), displacement, np.array([0.0]), references, ("slip",))
+    np.testing.assert_array_equal(references, original)
+    for left, right in zip(first[1:], second[1:], strict=True):
+        np.testing.assert_array_equal(left, right)
+    assert first[0] == second[0] == ("open",)
+
+
 def test_coulomb_classification_uses_force_tolerance_not_gap_tolerance() -> None:
     _, dofs, operator = _operator_fixture()
     trial_norm = COULOMB_LIMIT + 0.02

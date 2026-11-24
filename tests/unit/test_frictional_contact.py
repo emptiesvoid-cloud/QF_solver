@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+
 import numpy as np
 import pytest
 
@@ -286,6 +288,51 @@ def test_frictional_contact_accepted_state_restart_matches_uninterrupted_path(tm
     assert resumed.solver["contact"]["cumulative_local_dissipation"] == pytest.approx(
         uninterrupted.solver["contact"]["cumulative_local_dissipation"], abs=1.0e-12
     )
+
+
+@pytest.mark.parametrize("open_tangent", [0.0, 1.0])
+def test_open_contact_checkpoint_restart_and_failed_increment_are_transactional(tmp_path, monkeypatch, open_tangent):
+    from solveur.core.errors import NumericalConvergenceError, NonlinearFailureReason
+
+    data = _model(horizontal_load=200.0, vertical_load=-200.0)
+    data["analysis"]["contact_load_history"] = [
+        [0.0, 1.0], [1.0, 1.0], [open_tangent, -1.0], [0.0, 1.0], [0.025, 1.0],
+    ]
+    uninterrupted = LinearStaticSolver().solve(JsonModelReader().from_dict(data))
+    checkpoint = tmp_path / "open.json"
+    interrupted = {**data, "analysis": {**data["analysis"], "contact_checkpoint_path": str(checkpoint)}}
+    original = FrictionlessActiveSetSolver._solve_friction_increment
+
+    def fail_after_mutating_trial(*args, **kwargs):
+        if kwargs.get("step") == 4:
+            args[5][:] = 12345.0
+            raise NumericalConvergenceError("injected rejected increment", reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE)
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(FrictionlessActiveSetSolver, "_solve_friction_increment", staticmethod(fail_after_mutating_trial))
+    with pytest.raises(NumericalConvergenceError, match="injected rejected increment"):
+        LinearStaticSolver().solve(JsonModelReader().from_dict(interrupted))
+    saved = json.loads(checkpoint.read_text(encoding="utf-8"))
+    assert saved["completed_step"] == 3
+    assert saved["tangential_states"] == ["open"]
+    assert 12345.0 not in saved["slip_references"][0]
+    monkeypatch.undo()
+
+    resumed_data = {**data, "analysis": {**data["analysis"], "contact_restart_from": str(checkpoint)}}
+    resumed = LinearStaticSolver().solve(JsonModelReader().from_dict(resumed_data))
+    assert resumed.displacements == pytest.approx(uninterrupted.displacements, abs=1.0e-12)
+    np.testing.assert_allclose(resumed.solver["contact"]["slip_references"], uninterrupted.solver["contact"]["slip_references"], atol=1.0e-12)
+    assert resumed.solver["contact"]["cumulative_local_dissipation"] == pytest.approx(uninterrupted.solver["contact"]["cumulative_local_dissipation"])
+
+    zero_capacity = {**saved, "active_contacts": [0], "pressures": [0.0], "gaps": [0.0], "multipliers": [0.0]}
+    checkpoint.write_text(json.dumps(zero_capacity), encoding="utf-8")
+    at_zero = LinearStaticSolver().solve(JsonModelReader().from_dict(resumed_data))
+    np.testing.assert_allclose(at_zero.displacements, resumed.displacements, atol=1.0e-12)
+
+    saved["schema_version"] = 1
+    checkpoint.write_text(json.dumps(saved), encoding="utf-8")
+    with pytest.raises(InputValidationError, match="previous open-contact memory"):
+        LinearStaticSolver().solve(JsonModelReader().from_dict(resumed_data))
 
 
 def test_frictional_contact_restart_rejects_tampered_checkpoint(tmp_path, monkeypatch) -> None:

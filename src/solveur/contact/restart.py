@@ -16,7 +16,7 @@ from solveur.io.checkpoint_common import checkpoint_signature
 from solveur.io.model_writer import model_to_dict
 
 
-CHECKPOINT_SCHEMA_VERSION = 1
+CHECKPOINT_SCHEMA_VERSION = 2
 _VOLATILE_PARAMETERS = {
     "contact_checkpoint_path",
     "contact_restart_from",
@@ -138,6 +138,11 @@ def load_contact_checkpoint(
         raise InputValidationError("Friction contact restart checkpoint is unreadable.") from error
     if not isinstance(payload, dict):
         raise InputValidationError("Friction contact restart checkpoint is not an object.")
+    if payload.get("schema_version") == 1:
+        raise InputValidationError(
+            "Friction contact checkpoint schema 1 uses the previous open-contact memory; "
+            "resume with the original solver or replay the load path to create a schema 2 checkpoint."
+        )
     if payload.get("schema_version") != CHECKPOINT_SCHEMA_VERSION or payload.get("kind") != "frictional_contact_accepted_state":
         raise InputValidationError("Friction contact restart checkpoint schema is unsupported.")
     if payload.get("model_signature") != contact_model_signature(model, dofs, load_path):
@@ -165,13 +170,15 @@ def load_contact_checkpoint(
     if active != sorted(set(active)):
         raise InputValidationError("Friction contact restart active contacts must be sorted and unique.")
     active_set = set(active)
-    if any(states[index] == "open" for index in active_set) or any(states[index] != "open" for index in range(contact_count) if index not in active_set):
+    if any(states[index] != "open" for index in range(contact_count) if index not in active_set):
         raise InputValidationError("Friction contact restart states are inconsistent with the active set.")
     gaps = np.asarray(payload.get("gaps"), dtype=float)
     pressures = np.asarray(payload.get("pressures"), dtype=float)
     multipliers = np.asarray(payload.get("multipliers"), dtype=float)
     if gaps.shape != (contact_count,) or pressures.shape != (contact_count,) or not np.all(np.isfinite(gaps)) or not np.all(np.isfinite(pressures)):
         raise InputValidationError("Friction contact restart normal state is invalid.")
+    if any(states[index] == "open" and (pressures[index] > 0.0 or np.any(forces[index] != 0.0)) for index in active_set):
+        raise InputValidationError("Friction contact restart tangentially open active state is invalid.")
     if multipliers.shape != (len(active),) or not np.all(np.isfinite(multipliers)):
         raise InputValidationError("Friction contact restart multipliers are invalid.")
     dissipation = payload.get("cumulative_dissipation", 0.0)
