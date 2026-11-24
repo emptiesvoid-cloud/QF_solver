@@ -1,0 +1,46 @@
+{
+  "schema": "qf.m4-stick-diagnostic-execution-manifest.v1",
+  "status": "READY_FOR_OFFICIAL_PREFLIGHT",
+  "policy_scope_id": "m4_coulomb_slip",
+  "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-FEM-2026-11-24-m4-coulomb-slip-v1",
+  "worktree_branch": "emptiesvoids-cloud/m4-coulomb-review-20261124",
+  "baseline_commit": "0ef2c9f6675af6f97465499b13ff5d5d03566774",
+  "product_source_commit": "0ef2c9f6675af6f97465499b13ff5d5d03566774",
+  "solver_src_tree": "38c8401ac42a9a61d455a6e9b9d6350ca17dbd35",
+  "nodeid": "tests/verification/test_m4_coulomb_ramps.py::test_instrumented_m4_coulomb_ramp[slip]",
+  "test_sha256": "933536337134b74d6fc1d78d41b55c18ed09c7af082c3c04864a13f0f1c2f12e",
+  "case_builder_path": "scripts/run_wp08_area_supported_m4_diagnostic_r1_10.py",
+  "case_builder_sha256": "77ef31587bd0761a78e5aeb4df2c3ce3ce29db58ad317021a3de5cfa7ae1d731",
+  "contract_path": "research/contact_r10_r16/m4-coulomb-slip-contract-2026-11-24.json",
+  "contract_sha256": "40fc31f99da63cd9d7042f1c88ed0d5cd3dfe9ba5fdde29ccf5a56fa4bf25406",
+  "attempt_limit": 1,
+  "scope": "fem_exploratory",
+  "execution": {
+    "public_solve_model": true,
+    "harness_lu_cache": false,
+    "product_solver_source_changes": false,
+    "exact_node_collect_only_required": true,
+    "archive_post_validation_required": true,
+    "threshold_changes": false
+  },
+  "budgets": {
+    "timeout_seconds": 480,
+    "rss_soft_limit_mib": 768,
+    "process_tree_limit": 8,
+    "output_total_limit_mib": 32,
+    "output_stream_limit_mib": 16,
+    "temporary_limit_mib": 256,
+    "archive_size_limit_mib": 32,
+    "minimum_free_disk_mib": 1024
+  },
+  "output_schema": "qf.m4-stick-diagnostic-capture.v1",
+  "captured_fields": [
+    "complete per-step displacement and applied-load vectors",
+    "TET4 mesh coordinates and connectivity",
+    "fixed DOF indices and DOF map",
+    "per-contact iteration states, gaps, normal multipliers, local tangent basis, trial/returned forces, references, and Coulomb margins",
+    "runner telemetry, solver result, output inventory, and resource observations"
+  ],
+  "raw_output_policy": "Raw NPZ/JSONL artifacts stay in the local .codex/development-runs store. Only compact, path-scrubbed summary metrics and SHA-256 identities may be committed.",
+  "stop_rule": "One attempt only. No retry after reservation; retain incomplete/failed outputs and verdict."
+}

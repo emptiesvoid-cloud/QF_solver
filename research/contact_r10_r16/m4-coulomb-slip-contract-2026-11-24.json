@@ -1,0 +1,187 @@
+{
+  "schema": "qf.m4-stick-diagnostic-contract.v1",
+  "scope": "r10-m4-coulomb-slip-v1",
+  "nodeid": "tests/verification/test_m4_coulomb_ramps.py::test_instrumented_m4_coulomb_ramp[slip]",
+  "objective": "Exercise the exact Coulomb tolerance candidate on the eight-step M4 slip ramp.",
+  "source": {
+    "product_branch": "origin/0.3.0",
+    "product_source_commit": "0ef2c9f6675af6f97465499b13ff5d5d03566774",
+    "solver_src_tree": "38c8401ac42a9a61d455a6e9b9d6350ca17dbd35",
+    "case_builder_path": "scripts/run_wp08_area_supported_m4_diagnostic_r1_10.py",
+    "case_builder_sha256": "77ef31587bd0761a78e5aeb4df2c3ce3ce29db58ad317021a3de5cfa7ae1d731",
+    "production_code_changes_for_this_run": true,
+    "run_uses_public_solve_model": true,
+    "harness_only_lu_cache": false
+  },
+  "case": {
+    "name": "R10 M4 slip_target",
+    "geometry_m": [
+      2.0,
+      1.0,
+      0.5
+    ],
+    "mesh": {
+      "family": "TET4",
+      "subdivisions": [
+        16,
+        8,
+        8
+      ],
+      "elements": 6144,
+      "nodes_including_master": 1381,
+      "contact_slave_nodes": 81
+    },
+    "material": {
+      "model": "isotropic linear elastic 3D",
+      "young_modulus_pa": 1000000.0,
+      "poisson_ratio": 0.3
+    },
+    "supports": "all translations fixed at x=0; master plane fixed",
+    "contact": {
+      "formulation": "fixed initial-search node-to-triangle, normal Lagrange multipliers, regularized tangential Coulomb return",
+      "master_plane_x_m": 2.0005,
+      "normal_vector_on_slave": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "initial_gap_m": 0.0005,
+      "friction_coefficient": 0.3,
+      "tangential_stiffness_mode": "surface",
+      "tangential_stiffness_density_n_per_m3": 2666700.0,
+      "area_redistribution": false,
+      "normal_multiplier_unit": "N; the solver's field name 'pressure' is a nodal constraint multiplier, not Pa"
+    },
+    "load_resultants_n": {
+      "normal": [
+        1000.0,
+        0.0,
+        0.0
+      ],
+      "tangent": [
+        0.0,
+        450.0,
+        0.0
+      ]
+    },
+    "load_steps_normal_tangent_factors": [
+      [
+        0.25,
+        0.0
+      ],
+      [
+        0.5,
+        0.0
+      ],
+      [
+        0.75,
+        0.0
+      ],
+      [
+        1.0,
+        0.0
+      ],
+      [
+        1.0,
+        0.25
+      ],
+      [
+        1.0,
+        0.5
+      ],
+      [
+        1.0,
+        0.75
+      ],
+      [
+        1.0,
+        1.0
+      ]
+    ],
+    "step1_actual_resultant_n": {
+      "normal": [
+        250.0,
+        0.0,
+        0.0
+      ],
+      "tangent": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "step1_focus_operator_indices_zero_based": [
+      0,
+      8,
+      9,
+      63,
+      72,
+      80
+    ],
+    "step1_focus_slave_nodes": [
+      16,
+      152,
+      169,
+      1087,
+      1240,
+      1376
+    ],
+    "units": "SI"
+  },
+  "classification_review": {
+    "rule": "For positive capacity use epsilon * max(mu*p, 1 N); exact zero capacity cannot carry tangential load in the direct return.",
+    "numeric_friction_tolerance": 1e-09,
+    "gap_tolerance_m": 1e-10
+  },
+  "criteria": {
+    "accepted_steps": 8,
+    "terminal_state": "slip",
+    "normal_gap_tolerance_m": 1e-10,
+    "scaled_coulomb_residual_tolerance": 1e-09,
+    "free_equilibrium_relative_tolerance": 1e-08,
+    "global_force_and_moment_relative_tolerance": 1e-10,
+    "contact_max_iterations": 25,
+    "active_set_enumeration_limit": 8,
+    "thresholds_changed": false,
+    "scaled_normal_complementarity_tolerance_m": 1e-10
+  },
+  "capture": {
+    "schema": "qf.m4-stick-diagnostic-capture.v1",
+    "per_contact_per_iteration": [
+      "operator index and slave node",
+      "prior and returned state",
+      "active flag and gap in m",
+      "normal multiplier and mu*p capacity in N",
+      "local tangent basis",
+      "relative tangential displacement and slip-reference in m",
+      "trial and returned tangential force in N",
+      "Coulomb margin in N",
+      "numeric Coulomb force band and geometric gap tolerance",
+      "active-set and iteration identity"
+    ],
+    "per_accepted_step": [
+      "full displacement vector and applied load vector",
+      "fixed DOF map and TET4 node/element arrays",
+      "all contact states, gaps, normal multipliers, tangential forces and references",
+      "free and global balance metrics, residuals, step time and RSS"
+    ],
+    "raw_archive": "compressed NPZ plus JSONL files retained only in the local controlled run store; not included in the product commit"
+  },
+  "budgets": {
+    "attempts": 1,
+    "timeout_seconds": 480,
+    "rss_soft_limit_mib": 768,
+    "process_tree_limit": 8,
+    "output_total_limit_mib": 32,
+    "output_stream_limit_mib": 16,
+    "temporary_limit_mib": 256,
+    "archive_size_limit_mib": 32,
+    "minimum_free_disk_mib": 1024
+  },
+  "budget_basis": "Previously measured 32.68 s and 487 MiB for stick; 343.10 s and 480 MiB for slip. 480 s and 768 MiB accommodate instrumented capture. Output budget allows all instrumented JSONL records and raw arrays.",
+  "termination": "Stop at the first solver rejection, failed gate, process limit, timeout, or archive validation failure. Preserve partial outputs; do not retry under this scope or ledger.",
+  "comparisons": {
+    "stick": "Same loads and builder as archived instrumented stick on 57e04bf3.",
+    "slip": "Same loads and builder as the archived scaled slip. Product overflow guard and Coulomb tolerance differ."
+  }
+}
