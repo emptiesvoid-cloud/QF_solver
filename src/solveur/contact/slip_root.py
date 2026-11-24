@@ -132,7 +132,7 @@ def _post_root_tangential_modes(
             modes.append("frictionless")
             continue
         pressure = float(solution.pressures[index])
-        if index not in active or pressure <= operator.tolerance:
+        if index not in active or pressure <= 0.0:
             modes.append("open")
             continue
         trial = operator.tangential_stiffness * (
@@ -254,7 +254,7 @@ def solve_active_slip_root(
                 index
                 for index in post_root_active
                 if operators[index].has_friction
-                and float(solution.pressures[index]) > operators[index].tolerance
+                and float(solution.pressures[index]) > 0.0
             }
             initial_solution = solution
             continue
@@ -312,7 +312,7 @@ def solve_active_slip_root(
                             index
                             for index in active
                             if operators[index].has_friction
-                            and float(solution.pressures[index]) > operators[index].tolerance
+                            and float(solution.pressures[index]) > 0.0
                         ],
                         "convergence_cause": "POST_ROOT_TANGENTIAL_STATE_CHANGED",
                     },
@@ -322,7 +322,7 @@ def solve_active_slip_root(
                 index
                 for index in active
                 if operators[index].has_friction
-                and float(solution.pressures[index]) > operators[index].tolerance
+                and float(solution.pressures[index]) > 0.0
             }
             initial_solution = solution
             continue
@@ -719,7 +719,9 @@ def _solve_coupled_projection_on_active_set(
                 tuple(direction @ displacement_sensitivity for direction in operator.tangential_vectors)
             )
             target_sensitivity: np.ndarray
-            if pressure <= operator.tolerance:
+            # Match max(p, 0) in projected_trial. At p == 0 use the
+            # derivative from the non-compressive side of the kink.
+            if pressure <= 0.0:
                 target_sensitivity = np.zeros((2, vector_size), dtype=float)
             elif trial_norm <= operator.friction_coefficient * pressure:
                 target_sensitivity = trial_sensitivity
@@ -849,10 +851,9 @@ def _solve_coupled_projection_on_active_set(
             states.append("frictionless")
             continue
         pressure = float(pressures[index])
-        if pressure <= operator.tolerance:
-            # A normal constraint can remain weakly active with no compressive
-            # multiplier. Such a contact has no Coulomb capacity and must not
-            # inherit a stick/slip label from the active normal set.
+        if pressure <= 0.0:
+            # The geometric constraint can remain active when the Coulomb
+            # disk has collapsed to zero.
             force_norm = float(np.linalg.norm(forces[index]))
             state_tolerance = _coulomb_force_tolerance(tolerance, 0.0)
             if force_norm > state_tolerance:
@@ -994,7 +995,7 @@ def _solve_active_slip_on_active_set(
         for index in active
         if operators[index].has_friction
         and (
-            float(probe_pressures[index]) > operators[index].tolerance
+            float(probe_pressures[index]) > 0.0
             or index in forced_closed_frictional
         )
     )
@@ -1080,7 +1081,7 @@ def _solve_active_slip_on_active_set(
                 "open_frictional_contacts": list(open_frictional),
                 "tangential_unknown_dimension": 2 * len(slip_frictional),
                 "compression_valid": {
-                    str(index): float(probe_pressures[index]) > operators[index].tolerance for index in active
+                    str(index): float(probe_pressures[index]) > 0.0 for index in active
                 },
                 "observed_tangential_states": (
                     list(observed_tangential_states) if observed_tangential_states is not None else None
@@ -1147,7 +1148,7 @@ def _solve_active_slip_on_active_set(
                 initial_solution.tangential_displacements[index] - slip_references[index]
             )
             previous_norm = float(np.linalg.norm(previous_trial))
-            if previous_norm > tolerance and previous_pressure > operator.tolerance:
+            if previous_norm > tolerance and previous_pressure > 0.0:
                 initial_force.extend(
                     (
                         operator.friction_coefficient
@@ -1161,7 +1162,7 @@ def _solve_active_slip_on_active_set(
             if np.all(np.isfinite(previous_force)) and float(np.linalg.norm(previous_force)) > tolerance:
                 initial_force.extend(previous_force.tolist())
                 continue
-        if norm <= tolerance or pressures[index] <= operator.tolerance:
+        if norm <= tolerance or pressures[index] <= 0.0:
             initial_force.extend((0.0, 0.0))
         else:
             initial_force.extend((operator.friction_coefficient * pressures[index] * trial / norm).tolist())
@@ -1177,7 +1178,7 @@ def _solve_active_slip_on_active_set(
                 operator.tangential_displacement(response) - slip_references[index]
             )
             norm = float(np.linalg.norm(trial))
-            if norm <= tolerance or response_pressures[index] <= operator.tolerance:
+            if norm <= tolerance or response_pressures[index] <= 0.0:
                 target: np.ndarray = np.zeros(2, dtype=float)
             else:
                 target = operator.friction_coefficient * response_pressures[index] * trial / norm
@@ -1251,7 +1252,7 @@ def _solve_active_slip_on_active_set(
                 operator.tangential_displacement(response) - slip_references[index]
             )
             norm = float(np.linalg.norm(trial))
-            if norm <= tolerance or pressure <= operator.tolerance:
+            if norm <= tolerance or pressure <= 0.0:
                 continue
             direction = trial / norm
             projector = (np.eye(2, dtype=float) - np.outer(direction, direction)) / norm
@@ -1469,7 +1470,8 @@ def _validate_post_root_state(
                 )
         elif (
             gap < -operator.tolerance
-            or float(np.linalg.norm(solution.forces[index])) > _coulomb_force_tolerance(tolerance, 0.0)
+            or pressure != 0.0
+            or np.any(solution.forces[index] != 0.0)
         ):
             raise NumericalConvergenceError(
                 "Active-slip open-contact state is not admissible.",
@@ -1482,7 +1484,7 @@ def _validate_post_root_state(
                     "tangential_force": solution.forces[index].tolist(),
                 },
             )
-        if operator.has_friction and (index not in active or pressure <= operator.tolerance):
+        if operator.has_friction and (index not in active or pressure <= 0.0):
             force_norm = float(np.linalg.norm(solution.forces[index]))
             state_tolerance = _coulomb_force_tolerance(tolerance, 0.0)
             if (

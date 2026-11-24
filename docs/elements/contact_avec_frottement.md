@@ -114,8 +114,18 @@ la meme bande. Une capacite exactement nulle impose une force tangentielle
 nulle dans la mise a jour directe. La bande de classification est distincte
 de `gap_tolerance`, exprimee en metres pour les controles du jeu normal.
 Le plancher numerique est 1 dans l'unite de force du modele, comme pour
-le residu de projection. La classification sous ce plancher depend donc
-de l'unite de force choisie.
+le residu de projection. Le lecteur traite `units` comme des metadonnees.
+Le domaine documente pour cette bande est le SI. Un changement d'echelle
+des forces peut modifier le classement pres du plancher. Pour `epsilon=1e-9`,
+la bande vaut par exemple 1e-9 N pour une capacite de Coulomb de 0,2 N,
+et 5e-8 N pour une capacite de 50 N.
+
+Les replis utilisent le signe de la reaction normale nodale `p` (en N
+en SI) pour decider si le disque de Coulomb a une capacite positive.
+Le jacobien de projection utilise la derivee du cote sans compression
+en `p=0`. Un contact peut rester dans l'ensemble normal actif avec
+une capacite tangentielle nulle. Les decisions geometriques de
+l'ensemble normal suivent leurs tolerances propres.
 
 Chaque ligne d'audit contient : gap, pression, complementarite, base locale,
 glissement local, force tangentielle, norme, borne $\mu p$, et etat. Le bilan

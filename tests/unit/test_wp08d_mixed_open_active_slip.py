@@ -426,6 +426,89 @@ def test_coupled_projection_treats_zero_pressure_active_contact_as_open(monkeypa
     assert np.array_equal(solution.references[1], np.zeros(2))
 
 
+@pytest.mark.parametrize(("pressure", "force"), [(1e-12, 0.0), (0.0, 1e-12)])
+def test_post_root_rejects_real_reactions_on_geometrically_open_contact(pressure: float, force: float) -> None:
+    operator = _FakeOperator(0, {"active": ()})
+    references = np.zeros((1, 2))
+    solution = SimpleNamespace(
+        displacement=np.zeros(2), gaps=np.array([1e-5]), pressures=np.array([pressure]),
+        forces=np.array([[force, 0.0]]), references=references.copy(), states=("open",),
+    )
+    with pytest.raises(NumericalConvergenceError) as error:
+        slip_root._validate_post_root_state(
+            solution, [operator], (), references, tolerance=1e-9, expected_tangential_states=None,
+        )
+    assert error.value.diagnostics["cause"] == "OPEN_CONTACT_STATE_INVALID"
+
+
+@pytest.mark.parametrize("route", ["coupled", "frozen"])
+@pytest.mark.parametrize("gap_tolerance", [1e-12, 1e-7])
+def test_positive_compression_below_numeric_gap_tolerance_can_slip(
+    monkeypatch, route: str, gap_tolerance: float
+) -> None:
+    # The same closed force state is tested with two geometric tolerances.
+    active = (0,)
+    fixture = _root_fixture(monkeypatch, [active, active], count=1)
+    dofs, stiffness, operators, solve_active_set, _, propose, contact_force, _ = fixture
+    operators[0].tolerance = gap_tolerance
+    pressure = 5e-8
+    solve = (
+        slip_root.solve_coupled_contact_projection if route == "coupled" else slip_root.solve_active_slip_root
+    )
+    solution = solve(
+        dofs, stiffness, np.zeros(2), np.empty(0, dtype=int), operators, np.zeros((1, 2)), 1e-9,
+        solve_active_set=solve_active_set,
+        pressures_for=lambda contacts, *_: np.array([pressure if contacts else 0.0]),
+        proposed_active=propose,
+        tangential_force=contact_force,
+    )
+    assert solution.active == active
+    assert solution.gaps[0] == 0.0
+    assert solution.pressures[0] == pressure
+    assert solution.states == ("slip",)
+    np.testing.assert_allclose(solution.forces[0], [0.5 * pressure, 0.0], rtol=1e-12, atol=0.0)
+
+
+@pytest.mark.parametrize("pressure", [-5e-10, 5e-10])
+def test_coupled_projection_jacobian_matches_residual_next_to_zero_pressure(monkeypatch, pressure: float) -> None:
+    active = (0,)
+    operator = _FakeOperator(0, {"active": active})
+    operator.tolerance = 1e-9
+    dofs = SimpleNamespace(ndof=2)
+    stiffness = csr_matrix(np.eye(2))
+    monkeypatch.setattr(
+        slip_root.ConstraintReduction,
+        "from_system",
+        staticmethod(lambda _dofs, _stiffness, rhs, *_: SimpleNamespace(rhs=np.asarray(rhs))),
+    )
+
+    def solve_active_set(reduction, *_):
+        return np.array([1e-5, 0.0]), np.array([pressure + 0.25 * reduction.rhs[0]])
+
+    class CheckedJacobian(Exception):
+        pass
+
+    def check_root(residual, _initial, *, jac, **_):
+        # The perturbations stay on one side of p=0 and outside the disk.
+        h = 1e-12
+        zero = np.zeros(2)
+        dx = np.array([h, 0.0])
+        expected = 1.125 if pressure > 0 else 1.0
+        difference = (residual(dx) - residual(-dx)) / (2.0 * h)
+        np.testing.assert_allclose(difference, [expected, 0.0], rtol=1e-10)
+        np.testing.assert_allclose(jac(zero)[:, 0], difference, rtol=1e-10)
+        raise CheckedJacobian
+
+    monkeypatch.setattr(slip_root, "root", check_root)
+    with pytest.raises(CheckedJacobian):
+        slip_root._solve_coupled_projection_on_active_set(
+            dofs, stiffness, np.zeros(2), np.empty(0, dtype=int), [operator], active, np.zeros((1, 2)), 1e-9,
+            solve_active_set=solve_active_set,
+            pressures_for=lambda _active, multipliers, _count: multipliers,
+            tangential_force=lambda _operators, forces, _size: forces[0],
+        )
+
+
 @pytest.mark.parametrize("capacity", [0.2, 50.0])
 @pytest.mark.parametrize("margin_multiplier, expected", [(0.5, "stick"), (2.0, "slip")])
 def test_coupled_projection_boundary_uses_normalized_band_but_projects_to_exact_cap(

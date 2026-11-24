@@ -55,6 +55,39 @@ def test_frictional_contact_stays_open_under_separation() -> None:
     assert row["gap"] == pytest.approx(0.12)
 
 
+@pytest.mark.parametrize(
+    "normal_increment,tangential_load,expected",
+    [(-5e-8, 1e-6, "open"), (5e-8, 1e-8, "stick"), (5e-8, 1e-6, "slip")],
+)
+def test_spring_contact_switches_near_analytical_closure(
+    normal_increment: float, tangential_load: float, expected: str
+) -> None:
+    # Free axial closure occurs at 100 N for a 0.1 m gap and a 1000 N/m spring.
+    normal_load = -(100.0 + normal_increment)
+    data = _model(horizontal_load=tangential_load, vertical_load=normal_load)
+    data["contacts"][0]["gap_tolerance"] = 1e-12
+    model = JsonModelReader().from_dict(data)
+    result = LinearStaticSolver().solve(model)
+    row = result.solver["contact"]["contacts"][0]
+    pressure = max(normal_increment, 0.0)
+    gap = max(-normal_increment / 1000.0, 0.0)
+    force = {
+        "open": 0.0, "stick": tangential_load * (10.0 / 11.0), "slip": 0.5 * pressure
+    }[expected]
+
+    assert row["tangential_state"] == expected
+    assert row["pressure"] == pytest.approx(pressure, abs=3e-14)
+    assert row["gap"] == pytest.approx(gap, abs=3e-17)
+    assert row["tangential_force_norm"] == pytest.approx(force, abs=3e-14)
+    assert row["pressure"] * row["gap"] == pytest.approx(0.0, abs=1e-20)
+    assert result.displacements[result.dofs.index(3, "UX")] * 1000.0 + force == pytest.approx(
+        tangential_load, abs=3e-14
+    )
+    assert result.displacements[result.dofs.index(3, "UZ")] * 1000.0 - pressure == pytest.approx(
+        normal_load, rel=0.0, abs=3e-14
+    )
+
+
 def test_frictional_contact_sticks_below_the_coulomb_limit() -> None:
     result = LinearStaticSolver().solve(
         JsonModelReader().from_dict(_model(horizontal_load=2.0, vertical_load=-200.0))

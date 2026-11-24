@@ -670,6 +670,8 @@ def _positive_int(value: object, name: str) -> int:
 
 def _positive_float(value: object, name: str) -> float:
     """Read a finite, strictly positive numerical contact tolerance."""
+    if isinstance(value, (bool, np.bool_)):
+        raise InputValidationError(f"{name} must be a positive finite number.")
     try:
         result = float(value if isinstance(value, (str, bytes, bytearray, int, float)) else str(value))
     except (TypeError, ValueError) as exc:

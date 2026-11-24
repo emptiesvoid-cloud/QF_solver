@@ -319,7 +319,7 @@ def test_post_root_coulomb_classification_uses_the_same_force_band() -> None:
     assert modes == [("stick",), ("stick",)]
 
 
-@pytest.mark.parametrize("limit", [1e-12, 0.2, 50.0, 1e6])
+@pytest.mark.parametrize("limit", [1e-12, 0.2, 1.0 - 1e-6, 1.0, 1.0 + 1e-6, 50.0, 1e6])
 def test_coulomb_band_matches_projection_residual_across_force_scales(limit: float) -> None:
     tolerance = 1e-9
     scale = max(limit, 1.0)
@@ -351,7 +351,7 @@ def test_zero_capacity_returns_zero_force_for_a_sub_tolerance_trial() -> None:
     np.testing.assert_array_equal(forces, np.zeros((1, 2)))
 
 
-@pytest.mark.parametrize("tolerance", [0.0, -1e-9, np.nan, np.inf, -np.inf, "invalid"])
+@pytest.mark.parametrize("tolerance", [0.0, -1e-9, np.nan, np.inf, -np.inf, "invalid", True, False])
 def test_friction_solver_rejects_invalid_tolerance(tolerance: object) -> None:
     data = _model(horizontal_load=2.0, vertical_load=-200.0)
     data["analysis"]["contact_friction_tolerance"] = tolerance
