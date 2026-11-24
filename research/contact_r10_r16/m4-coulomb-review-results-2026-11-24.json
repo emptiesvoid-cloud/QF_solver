@@ -1,0 +1,1047 @@
+{
+  "schema": "qf.m4-coulomb-review.v1",
+  "source_commit": "0ef2c9f6675af6f97465499b13ff5d5d03566774",
+  "execution_head": "1a98cd5afe43e63191f0c013e7b09bdca8eb107d",
+  "src_tree": "38c8401ac42a9a61d455a6e9b9d6350ca17dbd35",
+  "raw_archives_included": false,
+  "cases": {
+    "stick": {
+      "scope": "m4_coulomb_stick",
+      "series": "dev-m4-coulomb-stick-20261124",
+      "attempt": 1,
+      "runner_state": "PASS",
+      "solver_state": "RAMP_DIAGNOSTIC_PASS",
+      "archive_validation": {
+        "archive_bytes": 314477,
+        "archive_sha256": "ae0359fe71a3cbde7384e6896cacd50034fdbddddf38ba89451c97cb324c2973",
+        "arrays_checked": 22,
+        "captured_steps": 8,
+        "result_status": "RAMP_DIAGNOSTIC_PASS"
+      },
+      "archive_complete": true,
+      "archive_errors": [],
+      "contract_file": "m4-coulomb-stick-contract-2026-11-24.json",
+      "contract_sha256": "a69d07bec33ec8dd2a429753ad389f84eba089fad8ed799d2ee06fae1084a5f1",
+      "receipt": "pf-9974abcd4a6d",
+      "receipt_sha256": "e9696c7e3a7b4a07c4f626a3cc03f710015b6233a910a1da7e0ec6014a660110",
+      "ledger_sha256": "d3fa4d62b7b0f812ea796d3a9d68fb9c59fe1815f71f7b867946cfeb9e18abf7",
+      "file_sha256": {
+        "capture-manifest.json": "d84587d543e2a027d462dc2f5a2edfc8cbcc57d14a265f58d58c8bde349833b7",
+        "friction-iterations.jsonl": "960dac9ea8cb4bb5d8a8acfbfbbe92535295246714cef4e739ca165279a4b984",
+        "m4-stick-fields.npz": "ae0359fe71a3cbde7384e6896cacd50034fdbddddf38ba89451c97cb324c2973",
+        "pytest-results.xml": "82ed5fa9ddcb8a1733d23fbc652f6e6678f9f9b8079f2be7ed1a3b292b4efee6",
+        "ramp-result.json": "40c59c446f14b26e9a96d25563e3eca7633aa9201d7aed335c376d8c8ac767ab",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.log": "8c4ae21eb6982d9aff040312a302eb8a90453810269d977516b4b0d7be0f6f7c",
+        "steps.jsonl": "6591920e812868a756366cc07e6ad61edb47102a2588a73ce9a94cde25c98b0c",
+        "telemetry.jsonl": "11a4a20008a39e0866d739238ca00ac0aa8ddbc052435f9be2ef80c719e51af6"
+      },
+      "resources": {
+        "return_code": 0,
+        "elapsed_seconds": 32.90606259999913,
+        "peak_rss_bytes": 511401984,
+        "peak_process_count": 1,
+        "archive_bytes": 5715598,
+        "temporary_bytes": 0,
+        "stop_reason": null
+      },
+      "solver_elapsed_seconds": 28.272902900003828,
+      "steps": [
+        {
+          "step": 1,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 20,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 75,
+            "slip": 6,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            250.0,
+            0.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 4.2102210624877365e-11,
+          "max_free_equilibrium_inf_N": 7.579881444730319e-10,
+          "max_coulomb_scaled_residual": 1.3877787807814457e-17,
+          "max_gap_abs_m": 4.0332320816460765e-16,
+          "max_scaled_normal_complementarity_m": 2.725684261628558e-16,
+          "max_penetration_m": 2.725684261628558e-16,
+          "min_active_normal_multiplier_N": 0.189382583882594,
+          "global_force_residual_relative": 7.477997004892024e-12,
+          "global_moment_residual_relative": 6.52978858260333e-12,
+          "elapsed_seconds": 8.637881800008472
+        },
+        {
+          "step": 2,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 3,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            500.0,
+            0.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 3.680351062835823e-14,
+          "max_free_equilibrium_inf_N": 3.341632526243643e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 3.1973122066597526e-16,
+          "max_scaled_normal_complementarity_m": 3.1973122066597526e-16,
+          "max_penetration_m": 3.1973122066597526e-16,
+          "min_active_normal_multiplier_N": 0.8404242505519085,
+          "global_force_residual_relative": 6.706022120964217e-15,
+          "global_moment_residual_relative": 3.4178485229820843e-15,
+          "elapsed_seconds": 9.190303900002618
+        },
+        {
+          "step": 3,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 3,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            750.0,
+            0.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 2.453272836037541e-14,
+          "max_free_equilibrium_inf_N": 3.341632526243643e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 3.1973122066597526e-16,
+          "max_scaled_normal_complementarity_m": 3.1973122066597526e-16,
+          "max_penetration_m": 3.1973122066597526e-16,
+          "min_active_normal_multiplier_N": 1.4914659172185765,
+          "global_force_residual_relative": 4.4704856361387694e-15,
+          "global_moment_residual_relative": 2.2704255182774273e-15,
+          "elapsed_seconds": 9.761281000013696
+        },
+        {
+          "step": 4,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 3,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            1000.0,
+            0.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 1.8398951328600993e-14,
+          "max_free_equilibrium_inf_N": 3.341632526243643e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 3.1973122066597526e-16,
+          "max_scaled_normal_complementarity_m": 3.1973122066597526e-16,
+          "max_penetration_m": 3.1973122066597526e-16,
+          "min_active_normal_multiplier_N": 2.1425075838852443,
+          "global_force_residual_relative": 3.344654796710898e-15,
+          "global_moment_residual_relative": 1.6958582400231322e-15,
+          "elapsed_seconds": 10.318375200004084
+        },
+        {
+          "step": 5,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 3,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            1000.0,
+            37.5,
+            0.0
+          ],
+          "free_equilibrium_relative": 1.6944723947614063e-14,
+          "max_free_equilibrium_inf_N": 2.894351425197783e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 2.4296970685400154e-16,
+          "max_scaled_normal_complementarity_m": 2.4296970685400154e-16,
+          "max_penetration_m": 2.4296970685400154e-16,
+          "min_active_normal_multiplier_N": 2.126355867409877,
+          "global_force_residual_relative": 3.499887268178711e-15,
+          "global_moment_residual_relative": 2.0208768875098146e-15,
+          "elapsed_seconds": 10.891809800014016
+        },
+        {
+          "step": 6,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 3,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            1000.0,
+            75.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 1.6919641984338514e-14,
+          "max_free_equilibrium_inf_N": 3.0097278835850005e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 1.8106176280507924e-16,
+          "max_scaled_normal_complementarity_m": 1.8106176280507924e-16,
+          "max_penetration_m": 1.8106176280507924e-16,
+          "min_active_normal_multiplier_N": 2.1035080066242955,
+          "global_force_residual_relative": 4.005064734837009e-15,
+          "global_moment_residual_relative": 1.9470575181555053e-15,
+          "elapsed_seconds": 11.444543400008115
+        },
+        {
+          "step": 7,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 3,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            1000.0,
+            112.5,
+            0.0
+          ],
+          "free_equilibrium_relative": 1.702819819940395e-14,
+          "max_free_equilibrium_inf_N": 2.933035758712066e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 3.1094918306884267e-16,
+          "max_scaled_normal_complementarity_m": 3.109491830688426e-16,
+          "max_penetration_m": 2.509928029303943e-16,
+          "min_active_normal_multiplier_N": 2.08066014584287,
+          "global_force_residual_relative": 5.546697022335715e-15,
+          "global_moment_residual_relative": 2.8835560179264245e-15,
+          "elapsed_seconds": 12.001769100010279
+        },
+        {
+          "step": 8,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 3,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            1000.0,
+            150.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 1.672143808950162e-14,
+          "max_free_equilibrium_inf_N": 3.341354970487487e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 2.3765711620882257e-16,
+          "max_scaled_normal_complementarity_m": 2.3765711620882257e-16,
+          "max_penetration_m": 2.3765711620882257e-16,
+          "min_active_normal_multiplier_N": 2.0578122850455145,
+          "global_force_residual_relative": 6.074753500186647e-15,
+          "global_moment_residual_relative": 3.1230385257582443e-15,
+          "elapsed_seconds": 12.554102800000692
+        }
+      ],
+      "phase_counts": {
+        "contact_increment": 16,
+        "friction_active_set": 41
+      },
+      "normal_set_changes": [],
+      "step1_sliding_contacts": [
+        {
+          "operator_index": 0,
+          "slave_node": 16,
+          "coulomb_margin_N": 0.01727088802203819,
+          "classifier_force_band_N": 1e-09
+        },
+        {
+          "operator_index": 8,
+          "slave_node": 152,
+          "coulomb_margin_N": 0.02612390544455389,
+          "classifier_force_band_N": 1e-09
+        },
+        {
+          "operator_index": 9,
+          "slave_node": 169,
+          "coulomb_margin_N": 0.001153796788523842,
+          "classifier_force_band_N": 1e-09
+        },
+        {
+          "operator_index": 63,
+          "slave_node": 1087,
+          "coulomb_margin_N": 0.001451064727165302,
+          "classifier_force_band_N": 1e-09
+        },
+        {
+          "operator_index": 72,
+          "slave_node": 1240,
+          "coulomb_margin_N": 0.03287833646810157,
+          "classifier_force_band_N": 1e-09
+        },
+        {
+          "operator_index": 80,
+          "slave_node": 1376,
+          "coulomb_margin_N": 0.026538376992256918,
+          "classifier_force_band_N": 1e-09
+        }
+      ],
+      "offline": {
+        "schema": "qf.m4-stick-diagnostic-capture.v1",
+        "captured_steps": 8,
+        "contact_count": 81,
+        "node_count": 1381,
+        "element_count": 6144,
+        "archive_sha256": "ae0359fe71a3cbde7384e6896cacd50034fdbddddf38ba89451c97cb324c2973",
+        "rows": [
+          {
+            "step": 1,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 4.884981308350689e-14,
+            "scaled_coulomb_residual": 1.3877787807814457e-17,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 4.2102162730181727e-11,
+            "global_force_relative": 7.477983638424811e-12,
+            "global_moment_relative": 6.529794750896606e-12
+          },
+          {
+            "step": 2,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 3.730349362740526e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 3.6152029603188894e-14,
+            "global_force_relative": 6.686994181064668e-15,
+            "global_moment_relative": 3.4102708706339913e-15
+          },
+          {
+            "step": 3,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 3.375077994860476e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 2.409440657057794e-14,
+            "global_force_relative": 4.458190913478594e-15,
+            "global_moment_relative": 2.266154351850456e-15
+          },
+          {
+            "step": 4,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 3.375077994860476e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 1.8071179040558004e-14,
+            "global_force_relative": 3.3360573806216876e-15,
+            "global_moment_relative": 1.691407142410887e-15
+          },
+          {
+            "step": 5,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 3.907985046680551e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 1.6669593291812868e-14,
+            "global_force_relative": 3.4937867561546247e-15,
+            "global_moment_relative": 2.0180861335566527e-15
+          },
+          {
+            "step": 6,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 4.796163466380676e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 1.6726684887820952e-14,
+            "global_force_relative": 3.994792690857836e-15,
+            "global_moment_relative": 1.9449418563364776e-15
+          },
+          {
+            "step": 7,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 4.440892098500626e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 1.6935672857446376e-14,
+            "global_force_relative": 5.5392331957861954e-15,
+            "global_moment_relative": 2.8842979428644193e-15
+          },
+          {
+            "step": 8,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 3.197442310920451e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 1.6674374770748818e-14,
+            "global_force_relative": 6.061431922262314e-15,
+            "global_moment_relative": 3.119234273772826e-15
+          }
+        ]
+      }
+    },
+    "slip": {
+      "scope": "m4_coulomb_slip",
+      "series": "dev-m4-coulomb-slip-20261124",
+      "attempt": 1,
+      "runner_state": "PASS",
+      "solver_state": "RAMP_DIAGNOSTIC_PASS",
+      "archive_validation": {
+        "archive_bytes": 318270,
+        "archive_sha256": "7213ef4d071ed96d360afcb6693f37a8736555280228a684f3aa521a1aac1887",
+        "arrays_checked": 22,
+        "captured_steps": 8,
+        "result_status": "RAMP_DIAGNOSTIC_PASS"
+      },
+      "archive_complete": true,
+      "archive_errors": [],
+      "contract_file": "m4-coulomb-slip-contract-2026-11-24.json",
+      "contract_sha256": "40fc31f99da63cd9d7042f1c88ed0d5cd3dfe9ba5fdde29ccf5a56fa4bf25406",
+      "receipt": "pf-b8bbf1480903",
+      "receipt_sha256": "e3170dc05df85a18da5075b508b284131c1622455e7bd07ddb5c611913112b5d",
+      "ledger_sha256": "882d6387d4352bff786bd4dff4ff8ce3955e1ceebaf22cf66d9717b2fb9a59f8",
+      "file_sha256": {
+        "capture-manifest.json": "a9e6305d2eae43d5c0fa19021007e88ee186882791e9879e1e2171ca288e73db",
+        "friction-iterations.jsonl": "69805c18b1668f57d87d1860f735049f00f48e73f1638a13faf12480e67fe47f",
+        "m4-stick-fields.npz": "7213ef4d071ed96d360afcb6693f37a8736555280228a684f3aa521a1aac1887",
+        "pytest-results.xml": "8c4d144b49455468df727bef86a16e3353e6a461fe9c0a43bf3e7a40deea29b3",
+        "ramp-result.json": "e378696ffacdd179abe93fd130dd8b8bdd1e45f580dde15d5b157de8fa2ff5aa",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.log": "e40b874d84a6e1bfc422bf0b8d3413f5ebd8e2483d3f40396d1c76a2a0e36b4f",
+        "steps.jsonl": "93f8d4f2024d922d3f0d4a3fea796dad571c1399b892c299506526436ff7146b",
+        "telemetry.jsonl": "c802b6c9fb89b3bfe08373648659fbe7697a5598c59ea2fcc80bd1acecb7fa82"
+      },
+      "resources": {
+        "return_code": 0,
+        "elapsed_seconds": 341.92911319999257,
+        "peak_rss_bytes": 510664704,
+        "peak_process_count": 1,
+        "archive_bytes": 10127350,
+        "temporary_bytes": 0,
+        "stop_reason": null
+      },
+      "solver_elapsed_seconds": 337.6519782999967,
+      "steps": [
+        {
+          "step": 1,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 20,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 75,
+            "slip": 6,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            250.0,
+            0.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 4.2102210624877365e-11,
+          "max_free_equilibrium_inf_N": 7.579881444730319e-10,
+          "max_coulomb_scaled_residual": 1.3877787807814457e-17,
+          "max_gap_abs_m": 4.0332320816460765e-16,
+          "max_scaled_normal_complementarity_m": 2.725684261628558e-16,
+          "max_penetration_m": 2.725684261628558e-16,
+          "min_active_normal_multiplier_N": 0.189382583882594,
+          "global_force_residual_relative": 7.477997004892024e-12,
+          "global_moment_residual_relative": 6.52978858260333e-12,
+          "elapsed_seconds": 8.410876599999028
+        },
+        {
+          "step": 2,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 3,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            500.0,
+            0.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 3.680351062835823e-14,
+          "max_free_equilibrium_inf_N": 3.341632526243643e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 3.1973122066597526e-16,
+          "max_scaled_normal_complementarity_m": 3.1973122066597526e-16,
+          "max_penetration_m": 3.1973122066597526e-16,
+          "min_active_normal_multiplier_N": 0.8404242505519085,
+          "global_force_residual_relative": 6.706022120964217e-15,
+          "global_moment_residual_relative": 3.4178485229820843e-15,
+          "elapsed_seconds": 8.970301599998493
+        },
+        {
+          "step": 3,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 3,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            750.0,
+            0.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 2.453272836037541e-14,
+          "max_free_equilibrium_inf_N": 3.341632526243643e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 3.1973122066597526e-16,
+          "max_scaled_normal_complementarity_m": 3.1973122066597526e-16,
+          "max_penetration_m": 3.1973122066597526e-16,
+          "min_active_normal_multiplier_N": 1.4914659172185765,
+          "global_force_residual_relative": 4.4704856361387694e-15,
+          "global_moment_residual_relative": 2.2704255182774273e-15,
+          "elapsed_seconds": 9.517476799999713
+        },
+        {
+          "step": 4,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 3,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            1000.0,
+            0.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 1.8398951328600993e-14,
+          "max_free_equilibrium_inf_N": 3.341632526243643e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 3.1973122066597526e-16,
+          "max_scaled_normal_complementarity_m": 3.1973122066597526e-16,
+          "max_penetration_m": 3.1973122066597526e-16,
+          "min_active_normal_multiplier_N": 2.1425075838852443,
+          "global_force_residual_relative": 3.344654796710898e-15,
+          "global_moment_residual_relative": 1.6958582400231322e-15,
+          "elapsed_seconds": 10.074715099995956
+        },
+        {
+          "step": 5,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 3,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            1000.0,
+            112.5,
+            0.0
+          ],
+          "free_equilibrium_relative": 1.702819819940395e-14,
+          "max_free_equilibrium_inf_N": 2.933035758712066e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 3.1094918306884267e-16,
+          "max_scaled_normal_complementarity_m": 3.109491830688426e-16,
+          "max_penetration_m": 2.509928029303943e-16,
+          "min_active_normal_multiplier_N": 2.08066014584287,
+          "global_force_residual_relative": 5.546697022335715e-15,
+          "global_moment_residual_relative": 2.8835560179264245e-15,
+          "elapsed_seconds": 10.694826599996304
+        },
+        {
+          "step": 6,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "direct",
+          "returned_history_length": 4,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            1000.0,
+            225.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 1.7295916406326702e-14,
+          "max_free_equilibrium_inf_N": 3.431751410820638e-13,
+          "max_coulomb_scaled_residual": 0.0,
+          "max_gap_abs_m": 2.712673835558732e-16,
+          "max_scaled_normal_complementarity_m": 2.712673835558732e-16,
+          "max_penetration_m": 1.7477339020466331e-16,
+          "min_active_normal_multiplier_N": 2.012116563453553,
+          "global_force_residual_relative": 5.919829133352032e-15,
+          "global_moment_residual_relative": 3.4688649309845387e-15,
+          "elapsed_seconds": 11.445536599989282
+        },
+        {
+          "step": 7,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "coupled_coulomb_projection_root",
+          "returned_history_length": 1,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 0,
+            "stick": 0,
+            "slip": 81,
+            "frictionless": 0
+          },
+          "active_indices": 81,
+          "applied_load_resultant_N": [
+            1000.0,
+            337.5,
+            0.0
+          ],
+          "free_equilibrium_relative": 6.808160216964316e-14,
+          "max_free_equilibrium_inf_N": 1.4921397450962104e-12,
+          "max_coulomb_scaled_residual": 1.868462642272607e-11,
+          "max_gap_abs_m": 7.789992609308349e-16,
+          "max_scaled_normal_complementarity_m": 7.689161807267197e-16,
+          "max_penetration_m": 7.789992609308349e-16,
+          "min_active_normal_multiplier_N": 0.415527633842629,
+          "global_force_residual_relative": 4.961676693840879e-14,
+          "global_moment_residual_relative": 2.969928345735026e-14,
+          "elapsed_seconds": 272.6765325000015
+        },
+        {
+          "step": 8,
+          "status": "INCREMENT_RETURNED",
+          "same_load_hash": true,
+          "same_refs_in_hash": true,
+          "same_refs_out_hash": true,
+          "same_states": true,
+          "same_active_set": true,
+          "route": "active_slip_root",
+          "returned_history_length": 1,
+          "max_stick_cone_excess_N": 0.0,
+          "counts": {
+            "open": 18,
+            "stick": 0,
+            "slip": 63,
+            "frictionless": 0
+          },
+          "active_indices": 63,
+          "applied_load_resultant_N": [
+            1000.0,
+            450.0,
+            0.0
+          ],
+          "free_equilibrium_relative": 1.4855053775500484e-13,
+          "max_free_equilibrium_inf_N": 3.162803352552146e-12,
+          "max_coulomb_scaled_residual": 5.1937270994781665e-11,
+          "max_gap_abs_m": 1.3605653062520595e-15,
+          "max_scaled_normal_complementarity_m": 1.3605653062520595e-15,
+          "max_penetration_m": 1.3605653062520595e-15,
+          "min_active_normal_multiplier_N": 2.706592043894687,
+          "global_force_residual_relative": 1.2946774624062713e-13,
+          "global_moment_residual_relative": 8.10823162168042e-14,
+          "elapsed_seconds": 322.19227259999025
+        }
+      ],
+      "phase_counts": {
+        "contact_increment": 16,
+        "friction_active_set": 86,
+        "direct_active_set_failure": 2,
+        "normal_active_set": 10,
+        "active_slip_hybrid_subset": 14,
+        "post_root_normal_set_changed": 13,
+        "active_slip_root_failure": 1,
+        "coupled_normal_active_set_transition": 1,
+        "coupled_contact_candidate_accepted": 1,
+        "coupled_contact_projection_accepted": 1,
+        "post_root_normal_set_stable": 1
+      },
+      "normal_set_changes": [
+        {
+          "step": 7,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 81
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 7,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 72
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 7,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 73
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 7,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 74
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 7,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 75
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 7,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 76
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 7,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 77
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 7,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 78
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 7,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 79
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 7,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 80
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 7,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 81
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 7,
+          "phase": "coupled_normal_active_set_transition",
+          "sizes": {
+            "active_contacts": 45,
+            "proposed_active_contacts": 81,
+            "next_active_contacts": 81
+          },
+          "cause": null
+        },
+        {
+          "step": 8,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 72
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        },
+        {
+          "step": 8,
+          "phase": "post_root_normal_set_changed",
+          "sizes": {
+            "next_active_contacts": 63
+          },
+          "cause": "POST_ROOT_NORMAL_SET_CHANGED"
+        }
+      ],
+      "step1_sliding_contacts": [
+        {
+          "operator_index": 0,
+          "slave_node": 16,
+          "coulomb_margin_N": 0.01727088802203819,
+          "classifier_force_band_N": 1e-09
+        },
+        {
+          "operator_index": 8,
+          "slave_node": 152,
+          "coulomb_margin_N": 0.02612390544455389,
+          "classifier_force_band_N": 1e-09
+        },
+        {
+          "operator_index": 9,
+          "slave_node": 169,
+          "coulomb_margin_N": 0.001153796788523842,
+          "classifier_force_band_N": 1e-09
+        },
+        {
+          "operator_index": 63,
+          "slave_node": 1087,
+          "coulomb_margin_N": 0.001451064727165302,
+          "classifier_force_band_N": 1e-09
+        },
+        {
+          "operator_index": 72,
+          "slave_node": 1240,
+          "coulomb_margin_N": 0.03287833646810157,
+          "classifier_force_band_N": 1e-09
+        },
+        {
+          "operator_index": 80,
+          "slave_node": 1376,
+          "coulomb_margin_N": 0.026538376992256918,
+          "classifier_force_band_N": 1e-09
+        }
+      ],
+      "offline": {
+        "schema": "qf.m4-stick-diagnostic-capture.v1",
+        "captured_steps": 8,
+        "contact_count": 81,
+        "node_count": 1381,
+        "element_count": 6144,
+        "archive_sha256": "7213ef4d071ed96d360afcb6693f37a8736555280228a684f3aa521a1aac1887",
+        "rows": [
+          {
+            "step": 1,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 4.884981308350689e-14,
+            "scaled_coulomb_residual": 1.3877787807814457e-17,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 4.2102162730181727e-11,
+            "global_force_relative": 7.477983638424811e-12,
+            "global_moment_relative": 6.529794750896606e-12
+          },
+          {
+            "step": 2,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 3.730349362740526e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 3.6152029603188894e-14,
+            "global_force_relative": 6.686994181064668e-15,
+            "global_moment_relative": 3.4102708706339913e-15
+          },
+          {
+            "step": 3,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 3.375077994860476e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 2.409440657057794e-14,
+            "global_force_relative": 4.458190913478594e-15,
+            "global_moment_relative": 2.266154351850456e-15
+          },
+          {
+            "step": 4,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 3.375077994860476e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 1.8071179040558004e-14,
+            "global_force_relative": 3.3360573806216876e-15,
+            "global_moment_relative": 1.691407142410887e-15
+          },
+          {
+            "step": 5,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 4.440892098500626e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 1.6935672857446376e-14,
+            "global_force_relative": 5.5392331957861954e-15,
+            "global_moment_relative": 2.8842979428644193e-15
+          },
+          {
+            "step": 6,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 4.618527782440651e-14,
+            "scaled_coulomb_residual": 0.0,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 1.716950699411381e-14,
+            "global_force_relative": 5.92110648551664e-15,
+            "global_moment_relative": 3.467933137001659e-15
+          },
+          {
+            "step": 7,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 3.907985046680551e-14,
+            "scaled_coulomb_residual": 1.868462642272607e-11,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 6.948822198449884e-14,
+            "global_force_relative": 4.962088249447978e-14,
+            "global_moment_relative": 2.9696008028071e-14
+          },
+          {
+            "step": 8,
+            "gap_capture_error_m": 0.0,
+            "trial_capture_error_N": 0.0,
+            "normal_reaction_error_N": 3.907985046680551e-13,
+            "scaled_coulomb_residual": 5.1937270994781665e-11,
+            "normal_and_state_gates": true,
+            "free_equilibrium_relative": 1.5237785096476946e-13,
+            "global_force_relative": 1.2949011082744802e-13,
+            "global_moment_relative": 8.108051461159936e-14
+          }
+        ]
+      }
+    }
+  }
+}
