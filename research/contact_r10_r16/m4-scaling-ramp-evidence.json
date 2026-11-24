@@ -1,0 +1,234 @@
+{
+  "schema": 1,
+  "scope": "exploratory M4 slip eight-step ramp",
+  "original_verdict": "FAIL_CLOSED",
+  "contract_sha256": "304fdeeb3fec3c655b1e9578f01401cd9d721fefdfad3f2876c5b4ed966150c1",
+  "reproduced_compact_sha256": "33ba127c77f14e756af76ba25ea6c9def497be515a683eff6ce47649a96229ca",
+  "interpretation": "Incremental Coulomb and equilibrium metrics are recorded during execution; archive replay validates hashes and reconstructs TET4 reactions. They were not independently recomputed from the complete assembled system.",
+  "cases": {
+    "reference": {
+      "head": "5d82da01fa330d6727cc984a7781c8c656c64edb",
+      "source_tree": "7d6d5da910dc5387eb554c00dcbb3f5ae5f0ddf5",
+      "preflight_sha256": "d6aca4b56703349603525727d41c607d1df05445478ac6e47247d5b7e53157ba",
+      "ledger_sha256": "34477f9d0f85f177538d9a18c73efa69f4de28522c2125c272c7a82fd3bf0719",
+      "archive_file_sha256": {
+        "ramp-result.json": "7e004dc9921ec49ecc3381e5fe5a53f5939290fa21167c45b67e32d6a5f3f9fa",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.log": "ebfb98cbcdb51ed5a547f1f9a15fd886b72d3fa304a837b5cca873eeff29afde",
+        "steps.jsonl": "02f1492e0d60b7e07756ff2717e0aae8e152deb67956964ffa5dc01a65dc386e",
+        "telemetry.jsonl": "99614df2a5240b20755ef7e1e5faa8807623631e9ab3b31edf610520a69975dd"
+      },
+      "archive_status": "VERIFIED",
+      "process": {
+        "exit": 0,
+        "limit": null,
+        "elapsed_seconds": 78.20294889999786,
+        "peak_sampled_rss_bytes": 217182208
+      },
+      "solver_status": "SOLVER_REJECTED",
+      "steps": [
+        {
+          "step": 1,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 75,
+            "slip": 6
+          },
+          "coulomb_scaled": 8.872429036201565e-10,
+          "max_active_gap_m": 2.7856959360778033e-13,
+          "free_equilibrium_inf_N": 4.882760862301438e-13
+        },
+        {
+          "step": 2,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0
+          },
+          "coulomb_scaled": 0.0,
+          "max_active_gap_m": 2.2098913411011667e-13,
+          "free_equilibrium_inf_N": 4.2435499558735046e-13
+        },
+        {
+          "step": 3,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0
+          },
+          "coulomb_scaled": 0.0,
+          "max_active_gap_m": 2.2098913411011667e-13,
+          "free_equilibrium_inf_N": 4.2435499558735046e-13
+        },
+        {
+          "step": 4,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0
+          },
+          "coulomb_scaled": 0.0,
+          "max_active_gap_m": 2.2098913411011667e-13,
+          "free_equilibrium_inf_N": 4.2435499558735046e-13
+        },
+        {
+          "step": 5,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0
+          },
+          "coulomb_scaled": 0.0,
+          "max_active_gap_m": 2.5099345345169777e-13,
+          "free_equilibrium_inf_N": 4.591882429849647e-13
+        },
+        {
+          "step": 6,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0
+          },
+          "coulomb_scaled": 0.0,
+          "max_active_gap_m": 2.0843407295273453e-13,
+          "free_equilibrium_inf_N": 2.9859448247293585e-13
+        },
+        {
+          "step": 7,
+          "status": "SOLVER_REJECTED"
+        }
+      ],
+      "tet4_reaction_recovery_max_error_N": 5.5067062021407764e-14
+    },
+    "scaled": {
+      "head": "b9cb412d1b96f028b4960e75af9d69a43129bb3f",
+      "source_tree": "e29d5e2d2c2a972c63fdff786337168f64715e2c",
+      "preflight_sha256": "24c0fe5fae3b79f5ae0bdbe146640d9328af8d6d6a4e50c8bfa918340a26ff01",
+      "ledger_sha256": "4034875938ff0500c04ff70632a0838ee2d37603f3909755b1b26907f9ff1fb9",
+      "archive_file_sha256": {
+        "ramp-result.json": "da425b5f4714e202acc54f1a95680776481978bf9438b6b910d9713a1a8e6305",
+        "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.log": "7706d2bd6b46e5f437f5cd38a19358bcd93163affcbf91e4828a543925b0d2ce",
+        "steps.jsonl": "a8eeadf8769da0d205c964d6b49671057e2221b7cb52bf7e0531dca9db44bf9d",
+        "telemetry.jsonl": "959cf3506951778fe4d12f600c38f43915aba2e29ef30567fa856a55d56497c5"
+      },
+      "archive_status": "VERIFIED",
+      "process": {
+        "exit": 0,
+        "limit": null,
+        "elapsed_seconds": 343.10059340001317,
+        "peak_sampled_rss_bytes": 502763520
+      },
+      "solver_status": "RAMP_DIAGNOSTIC_PASS",
+      "steps": [
+        {
+          "step": 1,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 75,
+            "slip": 6
+          },
+          "coulomb_scaled": 1.3877787807814457e-17,
+          "max_active_gap_m": 4.0332320816460765e-16,
+          "free_equilibrium_inf_N": 7.579881444730319e-10
+        },
+        {
+          "step": 2,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0
+          },
+          "coulomb_scaled": 0.0,
+          "max_active_gap_m": 3.1973122066597526e-16,
+          "free_equilibrium_inf_N": 3.341632526243643e-13
+        },
+        {
+          "step": 3,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0
+          },
+          "coulomb_scaled": 0.0,
+          "max_active_gap_m": 3.1973122066597526e-16,
+          "free_equilibrium_inf_N": 3.341632526243643e-13
+        },
+        {
+          "step": 4,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0
+          },
+          "coulomb_scaled": 0.0,
+          "max_active_gap_m": 3.1973122066597526e-16,
+          "free_equilibrium_inf_N": 3.341632526243643e-13
+        },
+        {
+          "step": 5,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0
+          },
+          "coulomb_scaled": 0.0,
+          "max_active_gap_m": 3.1094918306884267e-16,
+          "free_equilibrium_inf_N": 2.933035758712066e-13
+        },
+        {
+          "step": 6,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 81,
+            "slip": 0
+          },
+          "coulomb_scaled": 0.0,
+          "max_active_gap_m": 2.712673835558732e-16,
+          "free_equilibrium_inf_N": 3.431751410820638e-13
+        },
+        {
+          "step": 7,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 0,
+            "stick": 0,
+            "slip": 81
+          },
+          "coulomb_scaled": 1.868462642272607e-11,
+          "max_active_gap_m": 7.789992609308349e-16,
+          "free_equilibrium_inf_N": 1.4921397450962104e-12
+        },
+        {
+          "step": 8,
+          "status": "INCREMENT_RETURNED",
+          "state_counts": {
+            "open": 18,
+            "stick": 0,
+            "slip": 63
+          },
+          "coulomb_scaled": 5.1937270994781665e-11,
+          "max_active_gap_m": 1.3605653062520595e-15,
+          "free_equilibrium_inf_N": 3.162803352552146e-12
+        }
+      ],
+      "tet4_reaction_recovery_max_error_N": 3.9257486150745535e-13,
+      "step7_coupled_transition": [
+        45,
+        81
+      ]
+    }
+  }
+}

@@ -276,7 +276,13 @@ def _solve_active_set(
     saddle = bmat(((reduction.matrix, constraint_matrix.T), (constraint_matrix, zero)), format="csr")
     rhs = np.concatenate((reduction.rhs, constraint_rhs))
     solution = _sparse_solve(saddle, rhs, "contact saddle system")
-    multipliers = scale * solution[reduction.independent.size :]
+    with np.errstate(over="ignore", invalid="ignore"):
+        multipliers = scale * solution[reduction.independent.size :]
+    if not np.all(np.isfinite(multipliers)):
+        raise NumericalConvergenceError(
+            "contact saddle system produced non-finite physical multipliers.",
+            reason=NonlinearFailureReason.NAN_DETECTED,
+        )
     return reduction.expand(solution[: reduction.independent.size]), multipliers
 
 
