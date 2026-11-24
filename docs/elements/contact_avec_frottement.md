@@ -106,6 +106,13 @@ de Lagrange que le contact sans frottement. L'iteration termine lorsque
 l'ensemble actif, les etats `open`/`stick`/`slip` et la force tangentielle ne
 changent plus dans `contact_friction_tolerance`.
 
+`contact_friction_tolerance` est sans dimension. Pour classer un etat autour
+de la limite de Coulomb, sa bande de force est
+`tolerance * max(mu * max(p, 0), 1 N)`. Elle est distincte de
+`gap_tolerance`, qui est exprimee en metres et sert aux controles du jeu
+normal. L'hysteresis d'un contact deja en glissement reste appliquee dans
+cette meme bande de force.
+
 Chaque ligne d'audit contient : gap, pression, complementarite, base locale,
 glissement local, force tangentielle, norme, borne $\mu p$, et etat. Le bilan
 de moments publie egalement sa valeur brute et la correction de transport du

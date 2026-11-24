@@ -13,7 +13,11 @@ from solveur.core.constraints import ConstraintReduction
 from solveur.core.dofs import DofManager
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
-from solveur.contact.support import _select_active_set_transition, _sparse_rank_one
+from solveur.contact.support import (
+    _coulomb_force_tolerance,
+    _select_active_set_transition,
+    _sparse_rank_one,
+)
 
 
 @dataclass(frozen=True)
@@ -117,6 +121,7 @@ def _post_root_tangential_modes(
     solution: ActiveSlipSolution,
     operators: list[Any],
     slip_references: np.ndarray,
+    friction_tolerance: float,
 ) -> tuple[str, ...]:
     """Classify the tangential modes implied by the converged normal state."""
     modes: list[str] = []
@@ -134,13 +139,16 @@ def _post_root_tangential_modes(
         )
         trial_norm = float(np.linalg.norm(trial))
         friction_limit = operator.friction_coefficient * max(pressure, 0.0)
+        force_tolerance = _coulomb_force_tolerance(
+            friction_tolerance, friction_limit
+        )
         current = solution.states[index]
         if current == "stick":
-            mode = "stick" if trial_norm <= friction_limit + operator.tolerance else "slip"
+            mode = "stick" if trial_norm <= friction_limit + force_tolerance else "slip"
         elif current == "slip":
-            mode = "stick" if trial_norm < friction_limit - operator.tolerance else "slip"
+            mode = "stick" if trial_norm < friction_limit - force_tolerance else "slip"
         else:
-            mode = "stick" if trial_norm <= friction_limit + operator.tolerance else "slip"
+            mode = "stick" if trial_norm <= friction_limit + force_tolerance else "slip"
         modes.append(mode)
     return tuple(modes)
 
@@ -257,7 +265,9 @@ def solve_active_slip_root(
             initial_solution = solution
             continue
 
-        post_root_modes = _post_root_tangential_modes(solution, operators, slip_references)
+        post_root_modes = _post_root_tangential_modes(
+            solution, operators, slip_references, tolerance
+        )
         if post_root_modes != solution.states:
             current_signature = (active, solution.states)
             next_signature = (active, post_root_modes)
@@ -870,7 +880,8 @@ def _solve_coupled_projection_on_active_set(
         trial = operator.tangential_stiffness * (tangential_displacements[index] - slip_references[index])
         trial_norm = float(np.linalg.norm(trial))
         limit = operator.friction_coefficient * pressure
-        if trial_norm <= limit + operator.tolerance:
+        force_tolerance = _coulomb_force_tolerance(tolerance, limit)
+        if trial_norm <= limit + force_tolerance:
             states.append("stick")
             stick.append(index)
         else:
@@ -1477,7 +1488,10 @@ def _validate_post_root_state(
             )
         if operator.has_friction and (index not in active or pressure <= operator.tolerance):
             force_norm = float(np.linalg.norm(solution.forces[index]))
-            state_tolerance = max(operator.tolerance, tolerance)
+            pressure_limit = operator.friction_coefficient * max(pressure, 0.0)
+            state_tolerance = _coulomb_force_tolerance(
+                tolerance, pressure_limit
+            )
             if (
                 solution.states[index] != "open"
                 or force_norm > state_tolerance
@@ -1504,6 +1518,9 @@ def _validate_post_root_state(
             )
             trial_norm = float(np.linalg.norm(trial))
             force_norm = float(np.linalg.norm(tangential_force))
+            force_tolerance = _coulomb_force_tolerance(
+                tolerance, pressure_limit
+            )
             if expected_tangential_states is not None and state != expected_tangential_states[index]:
                 raise NumericalConvergenceError(
                     "Active-slip hybrid root changed the observed tangential state.",
@@ -1522,7 +1539,7 @@ def _validate_post_root_state(
                     },
                 )
             if state == "stick":
-                if force_norm > pressure_limit + max(operator.tolerance, tolerance):
+                if force_norm > pressure_limit + force_tolerance:
                     raise NumericalConvergenceError(
                         "Active-slip hybrid stick contact left the Coulomb cone.",
                         reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
@@ -1534,7 +1551,7 @@ def _validate_post_root_state(
                         },
                     )
             elif state == "slip":
-                if trial_norm <= max(operator.tolerance, tolerance):
+                if trial_norm <= force_tolerance:
                     raise NumericalConvergenceError(
                         "Active-slip hybrid slip direction is undefined.",
                         reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,

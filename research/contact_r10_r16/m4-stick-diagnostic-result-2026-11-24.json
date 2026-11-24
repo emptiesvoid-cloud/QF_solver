@@ -1,0 +1,104 @@
+{
+  "schema": "qf.m4-stick-diagnostic-result.v1",
+  "run_status": "PASS",
+  "source": {
+    "product_commit": "57e04bf3e80e2846cb0f8d45a7dde40de917d2cf",
+    "solver_src_tree": "e8557508de5d3107df47accd3910448866773f8e",
+    "case_builder": "scripts/run_wp08_area_supported_m4_diagnostic_r1_10.py",
+    "case_builder_sha256": "77ef31587bd0761a78e5aeb4df2c3ce3ce29db58ad317021a3de5cfa7ae1d731",
+    "capture_runner_sha256": "e2f5d2d6047e4849d00a112ccce28767f01521d8fc9391aad645b1b2e6c58ae8",
+    "production_source_modified_for_capture": false,
+    "harness_lu_cache": false
+  },
+  "contract": {
+    "scope": "r10-m4-stick-diagnostic-v1",
+    "sha256": "4ae66b754f7906f8b2dd8e1dbcfc172301ae88a2cffc04fc68972a953c0e33b1",
+    "nodeid": "tests/verification/test_m4_stick_diagnostic_capture.py::test_instrumented_m4_stick_ramp"
+  },
+  "control": {
+    "official_preflight_id": "pf-052ee8254407",
+    "preflight_receipt_sha256": "7a65a523236c5bfcdd11e8296164dae8c7aaab35f95ca1b42aa372f150c92f41",
+    "earlier_preflight_id": "pf-1cea1f47c60f",
+    "earlier_preflight_note": "Collect-only passed, but the controller's receipt-path check was inconsistent; no FEM attempt used that receipt.",
+    "mandate_id": "DEVELOPMENT_AUTONOMOUS-FEM-2026-11-24-m4-stick-diagnostic-v1",
+    "ledger_series": "dev-m4stick-diagnostic-20261124",
+    "attempt": 1,
+    "attempt_state": "PASS",
+    "ledger_sha256": "4036788a2e2a0f8eba2b6f326beb04770d70f28062c639a00a7538a256269cea",
+    "attempts_consumed": 1
+  },
+  "case": {
+    "mesh": "TET4, 6144 elements, 1381 nodes, 81 contact slave nodes",
+    "material": "linear elastic isotropic; E=1 MPa, nu=0.3",
+    "friction_coefficient": 0.3,
+    "gap_tolerance_m": 1e-10,
+    "friction_tolerance": 1e-9,
+    "historical_thresholds_changed": false
+  },
+  "first_step": {
+    "applied_resultant_N": [250.0, 0.0, 0.0],
+    "tangential_resultant_is_zero": true,
+    "final_contact_counts": {"open": 0, "stick": 75, "slip": 6},
+    "active_contact_count": 81,
+    "direct_iterations": 20,
+    "focus_contacts": [
+      {"operator_index": 0, "slave_node": 16, "normal_multiplier_N": 0.49353046161861863, "coulomb_capacity_N": 0.14805913848558558, "trial_tangent_force_N": 0.16533002650762377, "returned_tangent_force_N": 0.14805913848558555, "coulomb_margin_N": 0.01727088802203819, "relative_tangent_displacement_norm_m": 2.3807226226769987e-5},
+      {"operator_index": 8, "slave_node": 152, "normal_multiplier_N": 0.19607872822270878, "coulomb_capacity_N": 0.05882361846681263, "trial_tangent_force_N": 0.08494752391136652, "returned_tangent_force_N": 0.058823618466812624, "coulomb_margin_N": 0.02612390544455389, "relative_tangent_displacement_norm_m": 2.4464581079210063e-5},
+      {"operator_index": 9, "slave_node": 169, "normal_multiplier_N": 0.7544315474550841, "coulomb_capacity_N": 0.22632946423652522, "trial_tangent_force_N": 0.22748326102504907, "returned_tangent_force_N": 0.22632946423652522, "coulomb_margin_N": 0.001153796788523842, "relative_tangent_displacement_norm_m": 2.1838120081903686e-5},
+      {"operator_index": 63, "slave_node": 1087, "normal_multiplier_N": 0.7766574192762015, "coulomb_capacity_N": 0.23299722578286042, "trial_tangent_force_N": 0.23444829051002572, "returned_tangent_force_N": 0.23299722578286042, "coulomb_margin_N": 0.001451064727165302, "relative_tangent_displacement_norm_m": 2.2506754554530536e-5},
+      {"operator_index": 72, "slave_node": 1240, "normal_multiplier_N": 0.189382583882594, "coulomb_capacity_N": 0.056814775164778196, "trial_tangent_force_N": 0.08969311163287977, "returned_tangent_force_N": 0.0568147751647782, "coulomb_margin_N": 0.03287833646810157, "relative_tangent_displacement_norm_m": 2.5831293259103637e-5},
+      {"operator_index": 80, "slave_node": 1376, "normal_multiplier_N": 0.4643251257661553, "coulomb_capacity_N": 0.1392975377298466, "trial_tangent_force_N": 0.16583591472210352, "returned_tangent_force_N": 0.1392975377298466, "coulomb_margin_N": 0.026538376992256918, "relative_tangent_displacement_norm_m": 2.3880073219067665e-5}
+    ],
+    "source_observation": "The six trial norms exceed mu*p; the return map caps each returned norm at mu*p. Their margins range from 1.1538e-3 to 3.2878e-2 N, far above the ~1e-9 N force band implied by the configured 1e-9 dimensionless tolerance and 1 N floor."
+  },
+  "per_step": [
+    {"step": 1, "load_resultant_N": [250.0, 0.0, 0.0], "counts": {"open": 0, "stick": 75, "slip": 6}, "iterations": 20, "free_equilibrium_relative": 4.2102210624877365e-11, "force_balance_relative": 7.477997004892024e-12, "moment_balance_relative": 6.52978858260333e-12, "max_abs_gap_m": 4.0332320816460765e-16, "max_penetration_m": 2.725684261628558e-16, "scaled_coulomb_residual": 1.3877787807814457e-17, "elapsed_seconds": 8.568121599993901},
+    {"step": 2, "load_resultant_N": [500.0, 0.0, 0.0], "counts": {"open": 0, "stick": 81, "slip": 0}, "iterations": 3, "free_equilibrium_relative": 3.680351062835823e-14, "force_balance_relative": 6.706022120964217e-15, "moment_balance_relative": 3.4178485229820843e-15, "max_abs_gap_m": 3.1973122066597526e-16, "max_penetration_m": 3.1973122066597526e-16, "scaled_coulomb_residual": 0.0, "elapsed_seconds": 9.127774099993985},
+    {"step": 3, "load_resultant_N": [750.0, 0.0, 0.0], "counts": {"open": 0, "stick": 81, "slip": 0}, "iterations": 3, "free_equilibrium_relative": 2.453272836037541e-14, "force_balance_relative": 4.4704856361387694e-15, "moment_balance_relative": 2.2704255182774273e-15, "max_abs_gap_m": 3.1973122066597526e-16, "max_penetration_m": 3.1973122066597526e-16, "scaled_coulomb_residual": 0.0, "elapsed_seconds": 9.69320379999408},
+    {"step": 4, "load_resultant_N": [1000.0, 0.0, 0.0], "counts": {"open": 0, "stick": 81, "slip": 0}, "iterations": 3, "free_equilibrium_relative": 1.8398951328600993e-14, "force_balance_relative": 3.344654796710898e-15, "moment_balance_relative": 1.6958582400231322e-15, "max_abs_gap_m": 3.1973122066597526e-16, "max_penetration_m": 3.1973122066597526e-16, "scaled_coulomb_residual": 0.0, "elapsed_seconds": 10.250926799999434},
+    {"step": 5, "load_resultant_N": [1000.0, 37.5, 0.0], "counts": {"open": 0, "stick": 81, "slip": 0}, "iterations": 3, "free_equilibrium_relative": 1.6944723947614063e-14, "force_balance_relative": 3.499887268178711e-15, "moment_balance_relative": 2.0208768875098146e-15, "max_abs_gap_m": 2.4296970685400154e-16, "max_penetration_m": 2.4296970685400154e-16, "scaled_coulomb_residual": 0.0, "elapsed_seconds": 10.837022899999283},
+    {"step": 6, "load_resultant_N": [1000.0, 75.0, 0.0], "counts": {"open": 0, "stick": 81, "slip": 0}, "iterations": 3, "free_equilibrium_relative": 1.6919641984338514e-14, "force_balance_relative": 4.005064734837009e-15, "moment_balance_relative": 1.9470575181555053e-15, "max_abs_gap_m": 1.8106176280507924e-16, "max_penetration_m": 1.8106176280507924e-16, "scaled_coulomb_residual": 0.0, "elapsed_seconds": 11.395106700001634},
+    {"step": 7, "load_resultant_N": [1000.0, 112.5, 0.0], "counts": {"open": 0, "stick": 81, "slip": 0}, "iterations": 3, "free_equilibrium_relative": 1.702819819940395e-14, "force_balance_relative": 5.546697022335715e-15, "moment_balance_relative": 2.8835560179264245e-15, "max_abs_gap_m": 3.1094918306884267e-16, "max_penetration_m": 2.509928029303943e-16, "scaled_coulomb_residual": 0.0, "elapsed_seconds": 11.953391699993517},
+    {"step": 8, "load_resultant_N": [1000.0, 150.0, 0.0], "counts": {"open": 0, "stick": 81, "slip": 0}, "iterations": 3, "free_equilibrium_relative": 1.672143808950162e-14, "force_balance_relative": 6.074753500186647e-15, "moment_balance_relative": 3.1230385257582443e-15, "max_abs_gap_m": 2.3765711620882257e-16, "max_penetration_m": 2.3765711620882257e-16, "scaled_coulomb_residual": 0.0, "elapsed_seconds": 12.51008809999621}
+  ],
+  "independent_reassembly": {
+    "status": "COMPLETED_OFFLINE",
+    "method": "Reassembled linear TET4 element internal forces from captured coordinates, connectivity, displacement, E and nu, then compared load-minus-internal nodal x forces to captured contact normal multipliers.",
+    "raw_capture_sha256": "ae0359fe71a3cbde7384e6896cacd50034fdbddddf38ba89451c97cb324c2973",
+    "archive_validation": {"steps": 8, "contacts": 81, "nodes": 1381, "elements": 6144, "arrays_checked": 22},
+    "tet4_jacobian_determinant_m3": {"minimum": 0.0009765625, "maximum": 0.0009765625, "nonpositive_count": 0, "near_zero_count": 0},
+    "max_normal_multiplier_reconstruction_abs_error_N": 4.884981308350689e-14,
+    "max_free_equilibrium_relative": 4.210216e-11,
+    "first_step_global_force_balance_relative": 7.477984e-12,
+    "first_step_global_moment_balance_relative": 6.529795e-12,
+    "independence_limit": "TET4 B/D element force assembly is independently reimplemented; contact vectors and their global application reuse the product contact-operator geometry routine, so the global resultant is not fully independent of contact assembly."
+  },
+  "resources": {
+    "runner_wall_seconds": 32.67956,
+    "solver_elapsed_seconds": 27.8909362,
+    "peak_rss_bytes": 510590976,
+    "peak_process_count": 1,
+    "output_total_bytes": 6222990,
+    "raw_npz_bytes": 314477,
+    "temporary_bytes": 0,
+    "soft_limits_passed": true
+  },
+  "artifact_hashes": {
+    "capture_manifest_sha256": "e5473807c74e9cf4984327995a56b93ec3f0ff36be57acc2c0ec5361441f698f",
+    "raw_capture_npz_sha256": "ae0359fe71a3cbde7384e6896cacd50034fdbddddf38ba89451c97cb324c2973",
+    "ramp_result_sha256": "56ae1ee2667ed8eaf4d95a22022fed42d2d4d72bcdbef8353d4485aab5b7d0d1",
+    "steps_jsonl_sha256": "07896468d05196fe5421cbef760ea1b245d862c5eb73cc81ce289eb3db3b39c9",
+    "friction_iterations_jsonl_sha256": "ee1b2031821dca6ce331f4c921e70330eb3b16dcd3cc17d59b2fb3b6609006cc",
+    "raw_outputs_included": false
+  },
+  "historical_v2": {
+    "status_preserved": "Eight steps and local checks passed; official preflight NOT_RUN; independent reaction reconstruction NOT_RUN.",
+    "modified_or_reused": false
+  },
+  "limits": [
+    "The measured local tangential displacements and Coulomb margins explain the six classifications under the captured return map; no zero-Poisson control was run, so the exact contribution of Poisson expansion, patch-edge support, and discretization is not isolated.",
+    "The run is a development diagnostic for this M4 stick case, not general qualification of the contact route.",
+    "The source contains a separate force-versus-gap-tolerance unit mismatch in near-boundary state classification. A targeted correction is prepared after the capture; no FEM attempt was run on the corrected source.",
+    "Raw NPZ and JSONL outputs remain in the local controlled run store and are not included in this product branch."
+  ]
+}

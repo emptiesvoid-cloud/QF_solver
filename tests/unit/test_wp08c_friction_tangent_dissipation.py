@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
+from types import SimpleNamespace
 from typing import Any
 
 import numpy as np
@@ -16,6 +18,7 @@ from solveur.contact.support import (
     _friction_update,
     _operator,
 )
+from solveur.contact.slip_root import _post_root_tangential_modes
 from solveur.core.dofs import DofManager
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
@@ -108,6 +111,21 @@ def _local_update(
         references,
         (state,),
     )
+
+
+def _displacement_for_local_tangent(
+    operator: _ContactOperator,
+    dofs: DofManager,
+    target: np.ndarray,
+) -> np.ndarray:
+    """Build slave-node translations that produce the requested local slip."""
+    indices = [dofs.index(3, name) for name in ("UX", "UY", "UZ")]
+    basis = np.asarray([vector[indices] for vector in operator.tangential_vectors], dtype=float)
+    local_translation, *_ = np.linalg.lstsq(basis, np.asarray(target, dtype=float), rcond=None)
+    displacement = np.zeros(operator.vector.size, dtype=float)
+    displacement[indices] = local_translation
+    np.testing.assert_allclose(operator.tangential_displacement(displacement), target, rtol=1e-12, atol=1e-14)
+    return displacement
 
 
 def _solve(
@@ -224,6 +242,80 @@ def test_open_branch_has_zero_force_and_zero_tangent() -> None:
     np.testing.assert_array_equal(next_references, references)
     assert tangent.nnz == 0
     assert dofs.ndof == operator.vector.size
+
+
+def test_coulomb_classification_uses_force_tolerance_not_gap_tolerance() -> None:
+    _, dofs, operator = _operator_fixture()
+    trial_norm = COULOMB_LIMIT + 0.02
+    displacement = _displacement_for_local_tangent(
+        operator, dofs, np.asarray([trial_norm / KT, 0.0])
+    )
+    references = np.zeros((1, 2), dtype=float)
+
+    classifications = []
+    for gap_tolerance in (1.0e-12, 1.0):
+        state, force, _, _ = _friction_update(
+            [replace(operator, tolerance=gap_tolerance)],
+            (0,),
+            displacement,
+            np.asarray([PRESSURE]),
+            references,
+            ("stick",),
+            friction_tolerance=1.0e-3,
+        )
+        classifications.append(state[0])
+        assert np.linalg.norm(force[0]) == pytest.approx(trial_norm)
+
+    assert classifications == ["stick", "stick"]
+
+
+def test_coulomb_force_tolerance_is_relative_and_preserves_slip_hysteresis() -> None:
+    _, dofs, operator = _operator_fixture()
+    references = np.zeros((1, 2), dtype=float)
+
+    def classify(trial_norm: float, *, tolerance: float, prior: str = "stick") -> str:
+        displacement = _displacement_for_local_tangent(
+            operator, dofs, np.asarray([trial_norm / KT, 0.0])
+        )
+        state, _, _, _ = _friction_update(
+            [operator],
+            (0,),
+            displacement,
+            np.asarray([PRESSURE]),
+            references,
+            (prior,),
+            friction_tolerance=tolerance,
+        )
+        return state[0]
+
+    assert classify(COULOMB_LIMIT + 0.02, tolerance=1.0e-3) == "stick"
+    assert classify(COULOMB_LIMIT + 0.02, tolerance=1.0e-4) == "slip"
+    assert classify(COULOMB_LIMIT - 0.02, tolerance=1.0e-3, prior="slip") == "slip"
+    assert classify(COULOMB_LIMIT - 0.10, tolerance=1.0e-3, prior="slip") == "stick"
+
+
+def test_post_root_coulomb_classification_uses_the_same_force_band() -> None:
+    _, _, operator = _operator_fixture()
+    trial_norm = COULOMB_LIMIT + 0.02
+    solution = SimpleNamespace(
+        active=(0,),
+        pressures=np.asarray([PRESSURE]),
+        tangential_displacements=np.asarray([[trial_norm / KT, 0.0]]),
+        states=("stick",),
+    )
+    references = np.zeros((1, 2), dtype=float)
+
+    modes = [
+        _post_root_tangential_modes(
+            solution,
+            [replace(operator, tolerance=gap_tolerance)],
+            references,
+            friction_tolerance=1.0e-3,
+        )
+        for gap_tolerance in (1.0e-12, 1.0)
+    ]
+
+    assert modes == [("stick",), ("stick",)]
 
 
 def test_slip_local_jacobian_matches_analytical_fixed_pressure_map() -> None:

@@ -367,6 +367,12 @@ def _friction_system(
     return effective_stiffness.tocsr(), effective_loads
 
 
+def _coulomb_force_tolerance(friction_tolerance: float, limit: float) -> float:
+    """Convert the dimensionless friction tolerance to a per-contact force band in N."""
+    force_scale = max(abs(float(limit)), 1.0)
+    return float(friction_tolerance) * force_scale
+
+
 def _friction_update(
     operators: list[_ContactOperator],
     active: tuple[int, ...],
@@ -374,6 +380,8 @@ def _friction_update(
     pressures: np.ndarray,
     slip_references: np.ndarray,
     prior_states: tuple[str, ...],
+    *,
+    friction_tolerance: float = 1.0e-9,
 ) -> tuple[tuple[str, ...], np.ndarray, np.ndarray, np.ndarray]:
     """Classify tangential states and evaluate the regularized Coulomb force."""
     states: list[str] = []
@@ -397,8 +405,9 @@ def _friction_update(
                 "Frictional contact update produced a non-finite trial state.",
                 reason=NonlinearFailureReason.NAN_DETECTED,
             )
-        remains_sliding = prior_states[index] == "slip" and trial_norm >= limit - operator.tolerance
-        if trial_norm <= limit + operator.tolerance and not remains_sliding:
+        force_tolerance = _coulomb_force_tolerance(friction_tolerance, limit)
+        remains_sliding = prior_states[index] == "slip" and trial_norm >= limit - force_tolerance
+        if trial_norm <= limit + force_tolerance and not remains_sliding:
             states.append("stick")
             forces[index] = trial
         else:

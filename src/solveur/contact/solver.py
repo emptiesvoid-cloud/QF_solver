@@ -882,7 +882,13 @@ class FrictionlessActiveSetSolver:
             pressures = _pressures(active, multipliers, len(operators))
             proposed = _proposed_active(operators, active, gaps, pressures)
             next_states, next_forces, tangential_displacements, next_references = _friction_update(
-                operators, active, displacement, pressures, references, states
+                operators,
+                active,
+                displacement,
+                pressures,
+                references,
+                states,
+                friction_tolerance=tolerance,
             )
             next_states = _seed_stick_states(next_states, proposed, operators)
             last_next_states = next_states
