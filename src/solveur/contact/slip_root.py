@@ -846,6 +846,10 @@ def _solve_coupled_projection_on_active_set(
             states.append("open")
             if operator.has_friction:
                 opened.append(index)
+                # No tangential traction acts during an accepted open state.
+                # Rebase the predictor spring so free gap motion is not
+                # replayed as friction when this pair closes again.
+                references[index] = tangential_displacements[index]
             continue
         if not operator.has_friction:
             states.append("frictionless")
@@ -870,6 +874,9 @@ def _solve_coupled_projection_on_active_set(
                 )
             states.append("open")
             opened.append(index)
+            # A zero-capacity contact cannot transmit tangential force. Use
+            # the current offset as the free spring origin for reclosure.
+            references[index] = tangential_displacements[index]
             continue
         closed.append(index)
         trial = operator.tangential_stiffness * (tangential_displacements[index] - slip_references[index])
@@ -1379,6 +1386,8 @@ def _solve_active_slip_on_active_set(
         [operator.tangential_displacement(displacement) for operator in operators], dtype=float
     )
     references = np.asarray(slip_references, dtype=float).copy()
+    for index in open_frictional:
+        references[index] = tangential_displacements[index]
     for index in slip_frictional:
         references[index] = tangential_displacements[index] - forces[index] / operators[index].tangential_stiffness
     max_complementarity = float(np.max(np.abs(gaps * pressures), initial=0.0))
@@ -1487,10 +1496,11 @@ def _validate_post_root_state(
         if operator.has_friction and (index not in active or pressure <= 0.0):
             force_norm = float(np.linalg.norm(solution.forces[index]))
             state_tolerance = _coulomb_force_tolerance(tolerance, 0.0)
+            free_tangential_reference = operator.tangential_displacement(solution.displacement)
             if (
                 solution.states[index] != "open"
                 or force_norm > state_tolerance
-                or not np.array_equal(solution.references[index], slip_references[index])
+                or not np.array_equal(solution.references[index], free_tangential_reference)
             ):
                 raise NumericalConvergenceError(
                     "Tangentially open frictional contact changed state unexpectedly.",

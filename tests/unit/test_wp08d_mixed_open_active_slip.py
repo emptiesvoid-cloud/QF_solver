@@ -131,7 +131,7 @@ def test_mixed_open_contact_is_excluded_from_tangential_root(monkeypatch) -> Non
     assert solution.states == ("slip", "open")
     assert solution.forces.shape == (2, 2)
     assert np.all(solution.forces[1] == 0.0)
-    assert np.array_equal(solution.references[1], np.zeros(2))
+    np.testing.assert_array_equal(solution.references[1], solution.tangential_displacements[1])
     subset = next(values for phase, values in events if phase == "active_slip_mixed_subset")
     assert subset["closed_frictional_contacts"] == [0]
     assert subset["open_frictional_contacts"] == [1]
@@ -144,7 +144,7 @@ def test_post_root_normal_change_restarts_without_committing_trial_reference(mon
 
     assert solution.active == (1,)
     assert solution.states == ("open", "slip")
-    assert np.array_equal(solution.references[0], np.zeros(2))
+    np.testing.assert_array_equal(solution.references[0], solution.tangential_displacements[0])
     changed = [values for phase, values in events if phase == "post_root_normal_set_changed"]
     assert len(changed) == 1
     assert changed[0]["convergence_cause"] == "POST_ROOT_NORMAL_SET_CHANGED"
@@ -314,7 +314,7 @@ def test_zero_pressure_normal_active_contact_is_tangentially_open(monkeypatch) -
     assert solution.open_frictional_contacts == (1,)
     assert solution.states == ("slip", "open")
     assert np.all(solution.forces[1] == 0.0)
-    assert np.array_equal(solution.references[1], np.zeros(2))
+    np.testing.assert_array_equal(solution.references[1], solution.tangential_displacements[1])
     subset = next(values for phase, values in events if phase == "active_slip_hybrid_subset")
     assert subset["closed_frictional_contacts"] == [0]
     assert subset["open_frictional_contacts"] == [1]
@@ -423,7 +423,7 @@ def test_coupled_projection_treats_zero_pressure_active_contact_as_open(monkeypa
     assert solution.closed_frictional_contacts == (0,)
     assert solution.open_frictional_contacts == (1,)
     assert np.all(solution.forces[1] == 0.0)
-    assert np.array_equal(solution.references[1], np.zeros(2))
+    np.testing.assert_array_equal(solution.references[1], solution.tangential_displacements[1])
 
 
 @pytest.mark.parametrize(("pressure", "force"), [(1e-12, 0.0), (0.0, 1e-12)])

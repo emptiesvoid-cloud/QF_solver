@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+import numpy as np
 import pytest
 
 from solveur.core.errors import InputValidationError, MeshValidationError
 from solveur.core.solver import LinearStaticSolver
+from solveur.contact.solver import FrictionlessActiveSetSolver
 from solveur.io.json_reader import JsonModelReader
 
 
@@ -140,6 +142,89 @@ def test_contact_load_history_preserves_slip_memory_and_positive_dissipation() -
     assert any(value < 0.0 for value in forces)
     assert any(abs(step["slip_references"][0][0]) > 0.0 for step in steps)
     assert all(step["iteration_count"] <= 20 for step in steps)
+
+
+@pytest.mark.parametrize("scale", [1.0e-3, 1.0, 1.0e3])
+@pytest.mark.parametrize(
+    "open_history",
+    [
+        [[1.0, -1.0], [0.0, -1.0]],
+        [[1.0, -1.0], [0.5, -1.0], [0.0, -1.0]],
+    ],
+    ids=["single-open-displacement", "intermediate-open-motion"],
+)
+def test_open_slip_pair_recloses_without_replaying_open_motion(
+    monkeypatch, scale: float, open_history: list[list[float]]
+) -> None:
+    """Only post-reclosure tangential loading can restore friction force."""
+    data = _model(horizontal_load=200.0 * scale, vertical_load=-200.0 * scale)
+    data["springs"] = [{"node_a": 3, "dofs": ["UX", "UZ"], "stiffness": [1000.0 * scale, 1000.0 * scale]}]
+    data["contacts"][0]["tangential_stiffness"] = 10000.0 * scale
+    history = [
+        [0.0, 1.0],  # Close in compression without tangential loading.
+        [1.0, 1.0],  # Slide at the Coulomb cap.
+        *open_history,
+        [0.0, 1.0],  # Reclose with no tangential load.
+        [0.025, 1.0],  # Apply new tangential loading after closure.
+    ]
+    data["analysis"]["contact_load_history"] = history
+    accepted_states = []
+    original_solve_increment = FrictionlessActiveSetSolver._solve_friction_increment
+
+    def observe_increment(*args, **kwargs):
+        state = original_solve_increment(*args, **kwargs)
+        accepted_states.append(state)
+        return state
+
+    monkeypatch.setattr(
+        FrictionlessActiveSetSolver,
+        "_solve_friction_increment",
+        staticmethod(observe_increment),
+    )
+
+    result = LinearStaticSolver().solve(JsonModelReader().from_dict(data))
+    steps = result.solver["contact"]["load_steps"]
+    close_index = 2 + len(open_history)
+    close = steps[close_index]
+    reload = steps[close_index + 1]
+    force_tolerance = max(scale, 1.0) * 2.0e-12
+
+    assert len(accepted_states) == len(history)
+    assert steps[0]["states"] == ["stick"]
+    assert steps[1]["states"] == ["slip"]
+    assert all(step["states"] == ["open"] for step in steps[2:close_index])
+    assert all(step["tangential_forces"] == [[0.0, 0.0]] for step in steps[2:close_index])
+    assert close["states"] == ["stick"]
+    assert close["tangential_forces"] == [[0.0, 0.0]]
+    assert close["slip_references"][0] == pytest.approx([0.0, 0.0], abs=1.0e-14)
+    assert reload["states"] == ["stick"]
+    assert reload["tangential_forces"][0][0] == pytest.approx((50.0 / 11.0) * scale, abs=force_tolerance)
+    assert reload["tangential_forces"][0][1] == pytest.approx(0.0, abs=force_tolerance)
+    assert result.displacements[result.dofs.index(3, "UX")] == pytest.approx(
+        5.0 / 11000.0, rel=1.0e-11, abs=1.0e-14
+    )
+
+    for state, (tangential_factor, normal_factor) in zip(accepted_states, history, strict=True):
+        tangential_displacement = state.displacement[result.dofs.index(3, "UX")]
+        normal_displacement = state.displacement[result.dofs.index(3, "UZ")]
+        tangential_force = state.tangential_forces[0, 0]
+        pressure = state.pressures[0]
+        gap = state.gaps[0]
+        assert 1000.0 * scale * tangential_displacement + tangential_force == pytest.approx(
+            200.0 * scale * tangential_factor, rel=2.0e-11, abs=1.0e-13
+        )
+        assert 1000.0 * scale * normal_displacement - pressure == pytest.approx(
+            -200.0 * scale * normal_factor, rel=2.0e-11, abs=1.0e-13
+        )
+        if state.states == ("open",):
+            assert gap > 0.0
+            assert pressure == 0.0
+            assert tangential_force == 0.0
+            np.testing.assert_array_equal(state.slip_references[0], state.tangential_displacements[0])
+        else:
+            assert gap == pytest.approx(0.0, abs=1.0e-12)
+            assert pressure >= 0.0
+            assert abs(gap * pressure) / max(abs(pressure), 1.0) <= 1.0e-10
 
 
 def test_constant_normal_pressure_ramp_is_independent_of_the_contact_step_count() -> None:

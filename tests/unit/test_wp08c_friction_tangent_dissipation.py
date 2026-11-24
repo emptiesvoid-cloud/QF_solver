@@ -240,7 +240,10 @@ def test_open_branch_has_zero_force_and_zero_tangent() -> None:
 
     assert states == ("open",)
     np.testing.assert_array_equal(forces[0], np.zeros(2))
-    np.testing.assert_array_equal(next_references, references)
+    # With no tangential contact force, the spring origin follows the current
+    # relative displacement so motion during the open interval is not replayed
+    # as elastic shear after reclosure.
+    np.testing.assert_array_equal(next_references, np.zeros_like(references))
     assert tangent.nnz == 0
     assert dofs.ndof == operator.vector.size
 
@@ -472,6 +475,27 @@ def test_zero_pressure_slip_has_no_tangent_contribution() -> None:
     assert tangent.nnz == 0
 
 
+@pytest.mark.parametrize("pressure", [0.0, 1.0e-12, 1.0e-8, 1.0e-6])
+def test_sliding_reference_and_force_are_continuous_as_capacity_vanishes(pressure: float) -> None:
+    _, dofs, operator = _operator_fixture()
+    relative = np.array([0.1, 0.0], dtype=float)
+    state, forces, measured, references = _local_update(
+        operator,
+        dofs,
+        relative,
+        pressure=pressure,
+        state="slip",
+        references=np.zeros((1, 2), dtype=float),
+    )
+
+    expected_limit = FRICTION * pressure
+    assert state == ("slip",)
+    np.testing.assert_allclose(measured[0], relative, rtol=0.0, atol=ABSOLUTE_FLOOR)
+    assert forces[0, 0] == pytest.approx(expected_limit, rel=1.0e-12, abs=0.0)
+    assert forces[0, 1] == 0.0
+    assert references[0, 0] == pytest.approx(relative[0] - expected_limit / KT, abs=ABSOLUTE_FLOOR)
+
+
 def test_stick_energy_gradient_matches_tangential_force_for_three_steps() -> None:
     _, dofs, operator = _operator_fixture()
     local = np.array([0.001, 0.0005])
@@ -540,10 +564,26 @@ def test_stick_open_and_zero_pressure_paths_have_zero_irreversible_work() -> Non
     assert _dissipation_increment(references[0], free_references[0], forces[0]) == 0.0
 
     open_references = np.array([[0.2, -0.1]], dtype=float)
-    _, open_forces, _, retained = _friction_update(
+    _, open_forces, open_relative, retained = _friction_update(
         [operator], (), np.zeros(operator.vector.size), np.array([0.0]), open_references, ("slip",)
     )
+    np.testing.assert_array_equal(retained, open_relative)
     assert _dissipation_increment(open_references[0], retained[0], open_forces[0]) == 0.0
+
+
+def test_frictionless_open_path_does_not_mutate_friction_reference() -> None:
+    _, dofs, operator = _operator_fixture()
+    frictionless = replace(operator, friction_coefficient=0.0)
+    references = np.array([[0.2, -0.1]], dtype=float)
+    displacement = _global_displacement(dofs, operator.vector.size, np.array([0.0, 0.0]))
+
+    states, forces, _, next_references = _friction_update(
+        [frictionless], (), displacement, np.array([0.0]), references, ("slip",)
+    )
+
+    assert states == ("open",)
+    np.testing.assert_array_equal(forces, np.zeros((1, 2)))
+    np.testing.assert_array_equal(next_references, references)
 
 
 @pytest.mark.parametrize("pressure", [np.nan, np.inf, -np.inf])

@@ -410,6 +410,11 @@ def _friction_update(
         relative_displacements[index] = relative
         if index not in active:
             states.append("open")
+            if operator.has_friction:
+                # This is the spring origin used by the elastic predictor,
+                # not accumulated interface slip. Rebase an accepted open
+                # pair so free motion in the gap cannot create shear on close.
+                next_references[index] = relative
             continue
         if not operator.has_friction:
             states.append("frictionless")
