@@ -54,8 +54,6 @@ def supervise(data, indices, indptr, shape, rhs, candidate, threshold,
     result = {"historical_decision": "NOT_RUN", "supplemental": "INCONCLUSIVE"}
     if psutil is None:
         return {**result, "reason": "PSUTIL_UNAVAILABLE"}
-    process = None
-    parent = child = None
     try:
         inputs = (data, indices, indptr, rhs, candidate)
         if not all(isinstance(a, np.ndarray) for a in inputs):
@@ -91,9 +89,25 @@ def supervise(data, indices, indptr, shape, rhs, candidate, threshold,
             result["historical_decision"] = "REJECTED"
         if identity(arrays, shape, threshold) != request_id:
             return {**result, "reason": "INPUT_MUTATED_DURING_GUARD"}
+        message, monitor = _spawn_monitored(_worker, (arrays, shape, threshold, request_id), timeout, rss_limit)
+        verified = _verified_message(message, request_id)
+        if verified != "INCONCLUSIVE":
+            result["supplemental"] = verified
+            monitor["reason"] = "COMPLETE"
+        return {**result, **monitor, "identity": request_id}
+    except (OSError, ValueError, TypeError, EOFError, OverflowError, psutil.Error, KeyboardInterrupt):
+        return {**result, "reason": "SUPERVISOR_ERROR_OR_INTERRUPTED"}
+
+
+def _spawn_monitored(target, args, timeout, rss_limit):
+    """Run one trusted worker with a small pipe reply and sampled RSS."""
+    if psutil is None:
+        return None, {"reason": "PSUTIL_UNAVAILABLE"}
+    process = parent = child = None
+    try:
         ctx = mp.get_context("spawn")
         parent, child = ctx.Pipe(duplex=False)
-        process = ctx.Process(target=_worker, args=(child, arrays, shape, threshold, request_id))
+        process = ctx.Process(target=target, args=(child, *args))
         started = time.monotonic()
         process.start()
         child.close()
@@ -124,14 +138,11 @@ def supervise(data, indices, indptr, shape, rhs, candidate, threshold,
             process.join(2.0)
         if reason == "CHILD_EXIT" and time.monotonic() - started >= timeout:
             reason = "TIMEOUT"
+        message = None
         if reason == "CHILD_EXIT" and process.exitcode == 0 and parent.poll():
             message = parent.recv()
-            verified = _verified_message(message, request_id)
-            if verified != "INCONCLUSIVE":
-                result["supplemental"] = verified
-                reason = "COMPLETE"
-        return {**result, "reason": reason, "identity": request_id, "seconds": time.monotonic()-started,
-                "sampled_peak_rss_bytes": peak, "child_exitcode": process.exitcode}
+        return message, {"reason": reason, "seconds": time.monotonic()-started,
+                         "sampled_peak_rss_bytes": peak, "child_exitcode": process.exitcode}
     except (OSError, ValueError, TypeError, EOFError, OverflowError, psutil.Error, KeyboardInterrupt):
         if process is not None and process.pid is not None:
             if process.is_alive():
@@ -140,7 +151,7 @@ def supervise(data, indices, indptr, shape, rhs, candidate, threshold,
             if process.is_alive():
                 process.kill()
                 process.join(2.0)
-        return {**result, "reason": "SUPERVISOR_ERROR_OR_INTERRUPTED"}
+        return None, {"reason": "SUPERVISOR_ERROR_OR_INTERRUPTED"}
     finally:
         if child is not None:
             child.close()

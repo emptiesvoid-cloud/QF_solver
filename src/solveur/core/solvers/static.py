@@ -50,8 +50,21 @@ class LinearStaticSolver:
         diagnostic_option = model.analysis.parameters.get("experimental_eas_exact_residual_diagnostic", False)
         if not isinstance(diagnostic_option, bool):
             raise ValueError("experimental_eas_exact_residual_diagnostic must be a boolean.")
+        exact_option = model.analysis.parameters.get("experimental_eas_exact_residual_acceptance", False)
+        if not isinstance(exact_option, bool):
+            raise ValueError("experimental_eas_exact_residual_acceptance must be a boolean.")
         linear_solver = self.linear_solver
-        if diagnostic_option:
+        if exact_option:
+            if diagnostic_option:
+                raise ValueError("Select only one experimental EAS exact residual option.")
+            if not model.elements or any(element.type != "HEX8_EAS_EXPERIMENTAL" for element in model.elements):
+                raise ValueError("Experimental exact acceptance requires an EAS-only mesh.")
+            from solveur.elements.solid.hex8_eas_experimental import require_hex8_eas_scope
+            from solveur.experimental.eas_residual.experimental_acceptance import ExperimentalExactLinearSolver
+
+            require_hex8_eas_scope(model)
+            linear_solver = ExperimentalExactLinearSolver()
+        elif diagnostic_option:
             if not model.elements or any(element.type != "HEX8_EAS_EXPERIMENTAL" for element in model.elements):
                 raise ValueError("The exact residual diagnostic requires an EAS-only mesh.")
             from solveur.experimental.eas_residual.diagnostic_adapter import DiagnosticLinearSolver
@@ -201,6 +214,8 @@ class LinearStaticSolver:
             internal = stiffness @ displacement
             constraint_transform = reduction.transform
             solver_info = info.to_dict()
+            if exact_option and linear_solver.acceptance is not None:
+                solver_info["experimental_eas_exact_residual_acceptance"] = linear_solver.acceptance
             solver_info["selection"] = selection.to_dict(used_method=info.method)
             solver_info["execution"] = linear_execution_settings(
                 requested_method,

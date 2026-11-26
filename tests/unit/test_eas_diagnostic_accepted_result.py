@@ -10,10 +10,16 @@ import solveur.experimental.eas_residual.diagnostic_adapter as adapter
 import solveur.core.solvers.static as static
 from solveur.core.solvers import linear
 from solveur.core.results import SolveResult
+from solveur.experimental.eas_residual.experimental_acceptance import OPTION
 
 
-@pytest.mark.parametrize("enabled,family", [(True, "HEX8_EAS_EXPERIMENTAL"), (False, "HEX8_EAS_EXPERIMENTAL"), (False, "HEX8")])
-def test_static_accepted_path_returns_result_and_calls_postprocessor(monkeypatch, enabled, family):
+@pytest.mark.parametrize("enabled,family,exact_option", [
+    (True, "HEX8_EAS_EXPERIMENTAL", False),
+    (False, "HEX8_EAS_EXPERIMENTAL", False),
+    (False, "HEX8", False),
+    (False, "HEX8_EAS_EXPERIMENTAL", True),
+])
+def test_static_accepted_path_returns_result_and_calls_postprocessor(monkeypatch, enabled, family, exact_option):
     solver = static.LinearStaticSolver()
     monkeypatch.setattr(adapter, "supervise", lambda *a, **k: pytest.fail("unexpected supplemental check"))
     monkeypatch.setattr(solver.validator, "validate", lambda model: SimpleNamespace(status="PASS"))
@@ -23,7 +29,7 @@ def test_static_accepted_path_returns_result_and_calls_postprocessor(monkeypatch
     monkeypatch.setattr(solver.assembler, "assemble_loads", lambda *a: np.ones(2))
     monkeypatch.setattr(solver.assembler, "fixed_indices", lambda *a: np.array([], dtype=int))
     monkeypatch.setattr(solver.assembler, "ground_spring_internal_force", lambda *a: np.zeros(2))
-    monkeypatch.setattr(linear, "spsolve", lambda *a, **k: np.ones(2))
+    monkeypatch.setattr(linear, "spsolve", lambda *a, **k: np.zeros(2) if exact_option else np.ones(2))
     selection = SimpleNamespace(recommended_method="direct", to_dict=lambda **k: {})
     monkeypatch.setattr(static.LinearSolverPolicy, "assess", lambda *a: selection)
     monkeypatch.setattr(static.LinearSolverPolicy, "enforce_method_contract", lambda *a: None)
@@ -40,8 +46,12 @@ def test_static_accepted_path_returns_result_and_calls_postprocessor(monkeypatch
     monkeypatch.setattr(solver.post, "element_results", post)
     monkeypatch.setattr(solver.post, "nodal_results", nodal)
     monkeypatch.setattr(solver.post_auditor, "element_audits", lambda *a: [])
-    model = SimpleNamespace(contacts=[], elements=[SimpleNamespace(type=family)],
-                            analysis=SimpleNamespace(method="direct", parameters={"experimental_eas_exact_residual_diagnostic": enabled}),
+    params = {"experimental_eas_exact_residual_diagnostic": enabled}
+    if exact_option:
+        params[OPTION] = True
+    model = SimpleNamespace(contacts=[], elements=[SimpleNamespace(type=family, material="test")],
+                            materials={"test": {"type": "isotropic_3d"}},
+                            analysis=SimpleNamespace(type="linear_static", method="direct", parameters=params),
                             dof_manager=lambda: SimpleNamespace(ndof=2), linear_constraints=lambda: [], node_count=2)
     result = solver.solve(model)
     assert isinstance(result, SolveResult) and result.status == "PASS"
@@ -49,3 +59,21 @@ def test_static_accepted_path_returns_result_and_calls_postprocessor(monkeypatch
     assert result.element_results == [{"stress": "synthetic"}] and result.nodal_results == [{"node": 1}]
     np.testing.assert_array_equal(post.call_args.args[2], result.displacements)
     nodal.assert_called_once()
+    if exact_option:
+        assert result.solver[OPTION]["historical_decision"] == "REJECTED"
+        assert result.solver[OPTION]["supplemental"] == "PASS"
+
+
+@pytest.mark.parametrize("family,analysis,material", [
+    ("HEX8", "linear_static", "isotropic_3d"),
+    ("HEX8_EAS_EXPERIMENTAL", "nonlinear_static", "isotropic_3d"),
+    ("HEX8_EAS_EXPERIMENTAL", "linear_static", "orthotropic_3d"),
+])
+def test_static_exact_option_refuses_unsupported_scope(family, analysis, material):
+    model = SimpleNamespace(
+        contacts=[], elements=[SimpleNamespace(type=family, material="test")],
+        materials={"test": {"type": material}},
+        analysis=SimpleNamespace(type=analysis, method="direct", parameters={OPTION: True}),
+    )
+    with pytest.raises(ValueError, match="EAS-only|linear_static only|isotropic_3d"):
+        static.LinearStaticSolver().solve(model)

@@ -4,7 +4,8 @@ from fractions import Fraction
 import numpy as np
 
 
-def exact_check(data, indices, indptr, shape, rhs, candidate, threshold, *, max_nnz=100000):
+def exact_check(data, indices, indptr, shape, rhs, candidate, threshold, *, max_nnz=100000,
+                correction=False):
     """Compare exact dyadic sums; reject noncanonical CSR and undefined normalization."""
     data, indices, indptr = np.asarray(data), np.asarray(indices), np.asarray(indptr)
     rhs, candidate = np.asarray(rhs), np.asarray(candidate)
@@ -33,12 +34,16 @@ def exact_check(data, indices, indptr, shape, rhs, candidate, threshold, *, max_
     xx = [f(v) for v in candidate]
     bb = [f(v) for v in rhs]
     ax = [sum((f(data[k]) * xx[int(indices[k])] for k in range(int(indptr[i]), int(indptr[i+1]))), Fraction()) for i in range(n)]
-    residual_squared = sum(((ax[i]-bb[i])**2 for i in range(n)), Fraction())
+    residual = [bb[i] - ax[i] for i in range(n)]
+    residual_squared = sum((value * value for value in residual), Fraction())
     denominator_squared = max(sum((v*v for v in ax), Fraction()), sum((v*v for v in bb), Fraction()))
     if denominator_squared == 0:
         raise ValueError("zero normalization denominator")
-    return {
+    result = {
         "decision": "PASS" if residual_squared <= f(threshold)**2 * denominator_squared else "FAIL",
         "residual_squared": residual_squared,
         "denominator_squared": denominator_squared,
     }
+    if correction and result["decision"] == "FAIL":
+        result["correction_rhs"] = np.array([float(value) for value in residual], dtype=np.float64)
+    return result
