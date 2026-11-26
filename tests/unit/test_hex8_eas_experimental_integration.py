@@ -156,13 +156,13 @@ def test_hex8_eas_affine_patch_rigid_modes_and_force_tangent_consistency() -> No
             assert np.allclose(recovered["internal_force"], tangent @ displacement, rtol=2.0e-9, atol=2.0e-5)
             assert np.isclose(recovered["energy"], 0.5 * displacement @ (tangent @ displacement), rtol=2.0e-9)
 
-            probe = np.sin(np.arange(24, dtype=float) + 0.4)
             center = np.cos(np.arange(24, dtype=float) * 0.31) * 2.0e-4
-            step = 1.0e-5
-            plus = element.recover(coords, center + step * probe)["internal_force"]
-            minus = element.recover(coords, center - step * probe)["internal_force"]
-            directional = (plus - minus) / (2.0 * step)
-            assert np.allclose(directional, tangent @ probe, rtol=2.0e-8, atol=2.0e-4)
+            for probe in (np.sin(np.arange(24, dtype=float) + 0.4), np.cos(np.arange(24) * 0.23)):
+                for step in (1.0e-4, 1.0e-5, 1.0e-6):
+                    plus = element.recover(coords, center + step * probe)["internal_force"]
+                    minus = element.recover(coords, center - step * probe)["internal_force"]
+                    directional = (plus - minus) / (2.0 * step)
+                    assert np.allclose(directional, tangent @ probe, rtol=2.0e-8, atol=2.0e-4)
 
 
 def test_qr_condensation_matches_weighted_projection_and_preserves_rank() -> None:
