@@ -20,7 +20,7 @@ QUALITY_CONTRACT_VERSION = "1.0"
 VALID = "VALID"
 VALID_WITH_WARNING = "VALID_WITH_WARNING"
 INVALID = "INVALID"
-SUPPORTED_FAMILIES = ("TET4", "TET10", "HEX8", "HEX20", "WEDGE6")
+SUPPORTED_FAMILIES = ("TET4", "TET10", "HEX8", "HEX8_EAS_EXPERIMENTAL", "HEX20", "WEDGE6")
 WEDGE6_QUALITY_CONTRACT = {
     "element_family": "WEDGE6",
     "implemented": True,
@@ -316,7 +316,7 @@ def _family_data(
         if ratio is not None and ratio < MeshQualityThresholds().tet10_min_jacobian_ratio:
             warnings.append("JACOBIAN_RATIO_BELOW_LEGACY_WARNING")
         return signed_volume, determinants, edges, float(1.0 - ratio) if ratio is not None else None, tuple(warnings)
-    if family == "HEX8":
+    if family in {"HEX8", "HEX8_EAS_EXPERIMENTAL"}:
         points = Hex8Element.integration_points
         determinants = np.asarray([Hex8Element.jacobian_determinant(coords, point) for point in points], dtype=float)
         signed_volume = float(np.sum(determinants))
@@ -358,7 +358,14 @@ def assess_element(
     """Assess geometry without imposing a new universal quality threshold."""
 
     family = str(element_family).strip().upper()
-    expected_nodes = {"TET4": 4, "TET10": 10, "HEX8": 8, "HEX20": 20, "WEDGE6": 6}.get(family)
+    expected_nodes = {
+        "TET4": 4,
+        "TET10": 10,
+        "HEX8": 8,
+        "HEX8_EAS_EXPERIMENTAL": 8,
+        "HEX20": 20,
+        "WEDGE6": 6,
+    }.get(family)
     if expected_nodes is None:
         return _invalid_assessment(element_id, family, "UNSUPPORTED_ELEMENT_FAMILY")
     try:
@@ -414,6 +421,7 @@ def assess_element(
             "TET4": "corner mapping determinant",
             "TET10": "Tet10Element.jacobian_determinants",
             "HEX8": "Hex8Element.integration_points",
+            "HEX8_EAS_EXPERIMENTAL": "Hex8Element.integration_points",
             "HEX20": "Hex20Element.integration_points",
             "WEDGE6": "analytic triangular-vertex quadratic certificate plus TRI3_X_GAUSS2 diagnostics",
         }[family],
@@ -432,7 +440,14 @@ def assess_model(model: Any) -> MeshQualityAssessment:
     for element_id, element in enumerate(getattr(model, "elements", [])):
         family = str(getattr(element, "type", "")).upper()
         connectivity = tuple(getattr(element, "nodes", ()))
-        expected = {"TET4": 4, "TET10": 10, "HEX8": 8, "HEX20": 20, "WEDGE6": 6}.get(family)
+        expected = {
+            "TET4": 4,
+            "TET10": 10,
+            "HEX8": 8,
+            "HEX8_EAS_EXPERIMENTAL": 8,
+            "HEX20": 20,
+            "WEDGE6": 6,
+        }.get(family)
         if expected is None:
             continue
         if len(connectivity) != expected or any(index < 0 or index >= len(nodes) for index in connectivity):

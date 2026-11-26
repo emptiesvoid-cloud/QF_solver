@@ -17,6 +17,7 @@ VTK_CELL_TYPES = {
     "MITC4": 9,
     "TET4": 10,
     "HEX8": 12,
+    "HEX8_EAS_EXPERIMENTAL": 12,
     "TET10": 24,
     "HEX20": 25,
     "WEDGE6": 13,
@@ -65,6 +66,13 @@ class VtuResultWriter:
                     f'        <DataArray type="Float64" Name="HydrostaticPressure" format="ascii">{_array(_cell_scalar(result, model, "hydrostatic_pressure"))}</DataArray>',
                     f'        <DataArray type="Float64" Name="PrincipalStress" NumberOfComponents="3" format="ascii">{_array(_cell_vector(result, model, "principal_stress", 3))}</DataArray>',
                     f'        <DataArray type="Float64" Name="PrincipalStrain" NumberOfComponents="3" format="ascii">{_array(_cell_vector(result, model, "principal_strain", 3))}</DataArray>',
+                    *(
+                        [
+                            f'        <DataArray type="Int32" Name="ExperimentalFormulationFlag" format="ascii">{_array(_experimental_formulation_flags(result, model))}</DataArray>'
+                        ]
+                        if any(element.type == "HEX8_EAS_EXPERIMENTAL" for element in model.elements)
+                        else []
+                    ),
                     f'        <DataArray type="Float64" Name="ShellTopVonMises" format="ascii">{_array(_shell_face_scalar(result, model, "top", "von_mises"))}</DataArray>',
                     f'        <DataArray type="Float64" Name="ShellBottomVonMises" format="ascii">{_array(_shell_face_scalar(result, model, "bottom", "von_mises"))}</DataArray>',
                     "      </CellData>",
@@ -170,6 +178,15 @@ def _element_result_map(result: object) -> dict[int, dict[str, Any]]:
         if "element" in item:
             mapped[int(item["element"])] = item
     return mapped
+
+
+def _experimental_formulation_flags(result: object, model: FiniteElementModel) -> list[int]:
+    """Expose experimental element maturity in visualization output."""
+    values = _element_result_map(result)
+    return [
+        int(values.get(index, {}).get("maturity") == "EXPERIMENTAL")
+        for index in range(len(model.elements))
+    ]
 
 
 def _nodal_result_map(result: object) -> dict[int, dict[str, Any]]:

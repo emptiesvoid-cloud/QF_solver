@@ -47,6 +47,16 @@ class LinearStaticSolver:
             raise ValueError("detail_level must be 'full' or 'summary'.")
         if not model.contacts:
             validate_residual_failure_tolerance(model.analysis.parameters)
+        diagnostic_option = model.analysis.parameters.get("experimental_eas_exact_residual_diagnostic", False)
+        if not isinstance(diagnostic_option, bool):
+            raise ValueError("experimental_eas_exact_residual_diagnostic must be a boolean.")
+        linear_solver = self.linear_solver
+        if diagnostic_option:
+            if not model.elements or any(element.type != "HEX8_EAS_EXPERIMENTAL" for element in model.elements):
+                raise ValueError("The exact residual diagnostic requires an EAS-only mesh.")
+            from solveur.experimental.eas_residual.diagnostic_adapter import DiagnosticLinearSolver
+
+            linear_solver = DiagnosticLinearSolver()
         include_detail = detail_level == "full"
         run_started = perf_counter()
         report = self.validator.validate(model)
@@ -177,7 +187,7 @@ class LinearStaticSolver:
                 solver_backend=backend_selection.selected,
             )
             linear_started = perf_counter()
-            solution, info = self.linear_solver.solve(
+            solution, info = linear_solver.solve(
                 reduced,
                 reduction.rhs,
                 method=effective_method,

@@ -14,7 +14,9 @@ from solveur.core.model import FiniteElementModel
 
 
 def test_all_existing_element_descriptors_are_complete() -> None:
-    assert set(DESCRIPTORS) == {"BEAM2", "MITC3", "MITC4", "TET4", "TET10", "HEX8", "HEX20", "WEDGE6", "DISCRETE"}
+    assert set(DESCRIPTORS) == {
+        "BEAM2", "MITC3", "MITC4", "TET4", "TET10", "HEX8", "HEX8_EAS_EXPERIMENTAL", "HEX20", "WEDGE6", "DISCRETE"
+    }
     for descriptor in DESCRIPTORS.values():
         assert descriptor.canonical_name
         assert descriptor.aliases
@@ -44,6 +46,10 @@ def test_supported_and_experimental_routes_remain_distinct() -> None:
     assert check_compatibility("TET4", "linear_static", "isotropic_3d").status == "SUPPORTED_ROUTE"
     assert check_compatibility("BEAM2", "modal", "beam_isotropic").status == "EXPERIMENTAL_ROUTE"
     assert get_maturity("TET4", "linear_static") == "QUALIFIED_BOUNDED"
+    eas = check_compatibility("HEX8_EAS_EXPERIMENTAL", "linear_static", "isotropic_3d")
+    assert eas.status == "EXPERIMENTAL_ROUTE"
+    assert eas.registry_maturity is None
+    assert "not qualified" in " ".join(get_element_descriptor("HEX8_EAS_EXPERIMENTAL").route_restrictions)
 
 
 def test_not_qualified_route_is_explicit_without_being_silently_supported() -> None:

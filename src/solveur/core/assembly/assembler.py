@@ -13,6 +13,7 @@ from solveur.core.errors import InputValidationError
 from solveur.core.model import FiniteElementModel
 from solveur.core.assembly.sparse import SparseCsrAccumulator
 from solveur.elements.registry import ElementRegistry
+from solveur.elements.solid.hex8_eas_experimental import require_hex8_eas_scope
 from solveur.loads.integration import DistributedLoadIntegrator, load_balance
 from solveur.materials.factory import MaterialFactory
 
@@ -62,6 +63,7 @@ class GlobalAssembler:
         state-dependent materials without retaining a global dense-like
         assembly pattern.
         """
+        require_hex8_eas_scope(model)
         chunk_size = self._configured_chunk_size(model)
         plan_reused = plan is not None
         if plan is None:
@@ -278,6 +280,7 @@ class GlobalAssembler:
         *,
         plan: AssemblyPlan | None,
     ) -> csr_matrix:
+        require_hex8_eas_scope(model)
         chunk_size = self._configured_chunk_size(model)
         plan_reused = plan is not None
         if plan is None:

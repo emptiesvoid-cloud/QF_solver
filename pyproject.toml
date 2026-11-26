@@ -41,6 +41,9 @@ Changelog = "https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHANGELOG.
 "Latest Published Release" = "https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.12"
 
 [project.optional-dependencies]
+eas-diagnostic = [
+  "psutil>=5.9"
+]
 hdf5 = [
   "h5py>=3.10"
 ]

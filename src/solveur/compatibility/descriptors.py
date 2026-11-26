@@ -97,6 +97,19 @@ DESCRIPTORS: dict[str, ElementCapabilityDescriptor] = {
         "consistent", "Gauss-point stress", "Gmsh hexahedron8", ("scipy_sparse",),
         ("finite_kinematic_j2 is not qualified",), ("ELE-HEX8",),
     ),
+    "HEX8_EAS_EXPERIMENTAL": ElementCapabilityDescriptor(
+        "HEX8_EAS_EXPERIMENTAL", ("HEX8_EAS_EXPERIMENTAL",), 3, 8, ("UX", "UY", "UZ"), "hexahedron",
+        ("QUAD4",), "six-mode incompatible-strain EAS with mean divergence", ("isotropic_3d",),
+        ("linear_static",), ("nodal", "gravity", "body_force", "pressure", "surface_traction"),
+        "none", "EAS-recovered Gauss-point stress and energy", "explicit model element type; no Gmsh alias",
+        ("scipy_sparse",),
+        (
+            "experimental and not qualified; explicit element type required",
+            "homogeneous mesh, one isotropic material, linear_static/direct and small_strain only",
+            "no mass, contact, springs, MPC/RBE, follower loads, nonlinear or dynamic analyses",
+        ),
+        ("EXP-HEX8-EAS-RESTRICTED-MEAN-001",),
+    ),
     "HEX20": ElementCapabilityDescriptor(
         "HEX20", ("HEX20", "HEXA20"), 3, 20, ("UX", "UY", "UZ"), "hexahedron",
         ("QUAD8",), "quadratic hexahedron", _SOLID_MATERIALS, _SOLID_ANALYSES, _SOLID_LOADS,

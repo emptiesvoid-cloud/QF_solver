@@ -11,6 +11,7 @@ import numpy as np
 from solveur.core.dofs import normalize_dof_name
 from solveur.core.model import FiniteElementModel
 from solveur.elements.registry import ElementRegistry
+from solveur.elements.solid.hex8_eas_experimental import hex8_eas_scope_errors
 from solveur.elements.shell.frames import director_frame, rotation_subspace_is_invariant
 from solveur.loads.entities import BodyLoad, EdgeLoad, GravityLoad, LineLoad, SurfaceLoad
 from solveur.materials.factory import MaterialFactory
@@ -60,6 +61,7 @@ class MeshValidator:
         warnings: list[str] = []
         details = self._base_details(model)
         details["quality_thresholds"] = self.thresholds.to_dict()
+        errors.extend(hex8_eas_scope_errors(model))
         self._check_nodes(model, errors)
         self._check_elements(model, errors, warnings)
         if model.analysis.type == "linear_static":

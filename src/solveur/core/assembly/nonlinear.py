@@ -18,6 +18,7 @@ from solveur.core.assembly.sparse import SparseCsrAccumulator
 from solveur.core.nonlinear.corotational_guard_diagnostics import emit_corotational_guard_event
 from solveur.contact.solver import assemble_penalty_contact
 from solveur.elements.registry import ElementRegistry, ElementSpec
+from solveur.elements.solid.hex8_eas_experimental import require_hex8_eas_scope
 from solveur.elements.solid.total_lagrangian_j2 import (
     TotalLagrangianJ2Hex8Element,
     TotalLagrangianJ2Hex20Element,
@@ -228,6 +229,7 @@ def build_nonlinear_assembly_plan(
     dofs: DofManager,
 ) -> NonlinearAssemblyPlan:
     """Prepare reusable nonlinear element kernels without retaining matrices."""
+    require_hex8_eas_scope(model)
     finite_kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
     corotational_formulation_id = validate_corotational_formulation(model)
     corotational_tangent_strategy = validate_corotational_tangent_strategy(
@@ -292,6 +294,7 @@ def assemble_internal_tangent(
     plan: NonlinearAssemblyPlan | None = None,
 ) -> tuple[np.ndarray, csr_matrix, MaterialStateTable]:
     """Assemble nonlinear internal force and tangent without dense intermediates."""
+    require_hex8_eas_scope(model)
     if plan is not None and not plan.matches(model, dofs):
         raise InputValidationError("Nonlinear assembly plan does not match the supplied model and DDL map.")
     corotational_formulation_id = validate_corotational_formulation(model)

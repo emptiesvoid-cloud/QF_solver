@@ -12,6 +12,7 @@ from solveur.compatibility.descriptors import (
     get_element_descriptor,
     normalize_element_name,
 )
+from solveur.elements.solid.hex8_eas_experimental import hex8_eas_scope_errors
 from solveur.mesh.quality_contract import INVALID, MeshQualityAssessment, assess_model
 from solveur.paths import project_path
 
@@ -368,6 +369,20 @@ def preflight_model(model: Any) -> ModelCompatibilityReport:
             load_categories=loads,
         )
         results.append(result)
+    eas_scope_errors = hex8_eas_scope_errors(model)
+    if eas_scope_errors:
+        results.append(
+            _result(
+                "UNSUPPORTED_ROUTE",
+                "EXPERIMENTAL_SCOPE_UNSUPPORTED",
+                " ".join(eas_scope_errors),
+                "HEX8_EAS_EXPERIMENTAL",
+                _normalize_analysis(analysis),
+                "isotropic_3d",
+                route,
+                "EXPERIMENTAL_NOT_QUALIFIED",
+            )
+        )
     if not results and (getattr(model, "springs", []) or getattr(model, "concentrated_masses", [])):
         results.append(check_compatibility("DISCRETE", analysis, "discrete_linear", load_categories=loads))
     if not results:

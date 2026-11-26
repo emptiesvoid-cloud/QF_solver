@@ -17,6 +17,10 @@ from solveur.elements.solid.hex8 import Hex8Element
 from solveur.elements.solid.hex20 import Hex20Element
 from solveur.elements.solid.wedge6 import Wedge6Element
 from solveur.elements.solid.pyramid5 import Pyramid5Element
+from solveur.elements.solid.hex8_eas_experimental import (
+    HEX8_EAS_EXPERIMENTAL,
+    Hex8EASExperimentalElement,
+)
 
 
 class ElementProtocol(Protocol):
@@ -78,6 +82,13 @@ class ElementRegistry:
                 "von_mises_elastoplastic_3d",
             ),
             Hex8Element,
+        ),
+        HEX8_EAS_EXPERIMENTAL: ElementSpec(
+            HEX8_EAS_EXPERIMENTAL,
+            8,
+            SOLID_DOFS,
+            ("isotropic_3d",),
+            Hex8EASExperimentalElement,
         ),
         "HEX20": ElementSpec(
             "HEX20",

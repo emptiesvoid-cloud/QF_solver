@@ -179,7 +179,7 @@ class DistributedLoadIntegrator:
             return np.tile(force_density * volume / 4.0, 4)
         if definition.type == "TET10":
             return _tet10_body_vector(coords, force_density)
-        if definition.type == "HEX8":
+        if definition.type in {"HEX8", "HEX8_EAS_EXPERIMENTAL"}:
             return _hex8_body_vector(coords, force_density)
         if definition.type == "HEX20":
             return _hex20_body_vector(coords, force_density)
@@ -203,7 +203,7 @@ class DistributedLoadIntegrator:
             return _solid_face_vector(coords, TET4_FACES[int(load.face)], traction, pressure, load.coordinate_system)
         if definition.type == "TET10":
             return _solid_face_vector(coords, TET10_FACES[int(load.face)], traction, pressure, load.coordinate_system)
-        if definition.type == "HEX8":
+        if definition.type in {"HEX8", "HEX8_EAS_EXPERIMENTAL"}:
             return _solid_face_vector(coords, HEX8_FACES[int(load.face)], traction, pressure, load.coordinate_system)
         if definition.type == "HEX20":
             return _solid_face_vector(coords, HEX20_FACES[int(load.face)], traction, pressure, load.coordinate_system)

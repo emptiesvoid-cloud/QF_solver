@@ -31,6 +31,7 @@ from solveur.elements.solid.corotational_j2 import (
     CorotationalJ2Tet10Element,
     CorotationalJ2Tet4Element,
 )
+from solveur.elements.solid.hex8_eas_experimental import require_hex8_eas_scope
 from solveur.materials.factory import MaterialFactory
 from solveur.materials.beam import BeamSectionMaterial
 from solveur.materials.laminate import LaminateShellMaterial
@@ -45,6 +46,7 @@ from solveur.post.shell_results import (
     shell_nodal_results as _shell_nodal_results,
 )
 from solveur.post.solid_results import hex8_result as _hex8_result
+from solveur.post.solid_results import hex8_eas_experimental_result as _hex8_eas_experimental_result
 from solveur.post.solid_results import hex20_result as _hex20_result
 from solveur.post.solid_results import wedge6_result as _wedge6_result
 from solveur.post.solid_results import pyramid5_result as _pyramid5_result
@@ -86,6 +88,7 @@ class StressPostProcessor:
         material_states: MaterialStateTable | None = None,
     ) -> list[dict[str, object]]:
         results: list[dict[str, object]] = []
+        require_hex8_eas_scope(model)
         for index, definition in enumerate(model.elements):
             spec = ElementRegistry.get(definition.type)
             edofs = []
@@ -163,6 +166,12 @@ class StressPostProcessor:
             elif definition.type == "HEX8" and isinstance(material, SolidConstitutiveMaterial):
                 results.append(
                     _hex8_result(index, definition.type, definition.nodes, material, coords, local_u, states)
+                )
+            elif definition.type == "HEX8_EAS_EXPERIMENTAL" and isinstance(material, SolidConstitutiveMaterial):
+                results.append(
+                    _hex8_eas_experimental_result(
+                        index, definition.type, definition.nodes, material, coords, local_u, states
+                    )
                 )
             elif definition.type == "HEX20" and isinstance(material, SolidConstitutiveMaterial):
                 results.append(

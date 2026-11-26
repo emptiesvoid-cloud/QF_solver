@@ -4,13 +4,15 @@ from __future__ import annotations
 
 import numpy as np
 
+from solveur.core.errors import InputValidationError
 from solveur.elements.solid.hex20 import Hex20Element
 from solveur.elements.solid.hex8 import Hex8Element
+from solveur.elements.solid.hex8_eas_experimental import Hex8EASExperimentalElement
 from solveur.elements.solid.tet10 import Tet10Element
 from solveur.elements.solid.wedge6 import Wedge6Element
 from solveur.elements.solid.pyramid5 import Pyramid5Element
 from solveur.materials.orthotropic import OrthotropicSolidMaterial
-from solveur.materials.solid import SolidConstitutiveMaterial
+from solveur.materials.solid import SolidConstitutiveMaterial, SolidMaterial
 
 
 def tet4_result(
@@ -181,6 +183,89 @@ def hex8_result(
             Hex8Element.von_mises(np.asarray(averaged["stress"])),
             "volume_weighted_gauss_average",
         ),
+    }
+
+
+def hex8_eas_experimental_result(
+    index: int,
+    element_type: str,
+    nodes: tuple[int, ...],
+    material: SolidConstitutiveMaterial,
+    coords: np.ndarray,
+    local_u: np.ndarray,
+    states: list[dict[str, object]] | None = None,
+) -> dict[str, object]:
+    """Recover the condensed EAS state and mark its experimental status."""
+    if states:
+        raise InputValidationError("HEX8_EAS_EXPERIMENTAL does not support material-state recovery.")
+    if not isinstance(material, SolidMaterial):
+        raise InputValidationError("HEX8_EAS_EXPERIMENTAL post-processing requires isotropic SolidMaterial.")
+    element = Hex8EASExperimentalElement(material)
+    recovered = element.recover(coords, local_u)
+    strains = np.asarray(recovered["strains"], dtype=float)
+    stresses = np.asarray(recovered["stresses"], dtype=float)
+    enhanced_strains = np.einsum(
+        "qij,j->qi",
+        np.asarray(recovered["enhanced_modes"], dtype=float),
+        np.asarray(recovered["enhanced_variables"], dtype=float),
+    )
+    weights = np.asarray(recovered["weights"], dtype=float)
+    deviatoric_density = np.asarray(recovered["deviatoric_energy_density"], dtype=float)
+    volumetric_density = float(recovered["volumetric_energy_density"])
+    integration_points: list[dict[str, object]] = []
+    for point_index, (point, weight) in enumerate(zip(element.integration_points, weights, strict=True)):
+        shape = Hex8Element.shape_functions(point)
+        point_result = solid_point_result(
+            index=point_index,
+            location="gauss",
+            barycentric=list(point),
+            coordinates=shape @ np.asarray(coords, dtype=float),
+            weight=float(weight),
+            strain=strains[point_index],
+            stress=stresses[point_index],
+            von_mises=Hex8Element.von_mises(stresses[point_index]),
+        )
+        point_result.update(
+            {
+                "natural_coordinates": list(point),
+                "enhanced_strain": enhanced_strains[point_index].tolist(),
+                "mean_volumetric_stress": float(recovered["mean_volumetric_stress"]),
+                "deviatoric_energy_density": float(deviatoric_density[point_index]),
+                "volumetric_energy_density": volumetric_density,
+            }
+        )
+        integration_points.append(point_result)
+    averaged = average_solid_points(integration_points)
+    averaged.update(orthotropic_fields(material, np.asarray(averaged["strain"]), np.asarray(averaged["stress"])))
+    von_mises = Hex8Element.von_mises(np.asarray(averaged["stress"], dtype=float))
+    return {
+        "element": index,
+        "type": element_type,
+        "location": "integration_average",
+        **averaged,
+        "von_mises": von_mises,
+        "integration_points": integration_points,
+        "nodal_results": solid_nodal_results(
+            coords,
+            nodes,
+            averaged,
+            von_mises,
+            "volume_weighted_gauss_average_with_eas_recovery",
+        ),
+        "formulation_id": str(recovered["formulation_id"]),
+        "maturity": str(recovered["maturity"]),
+        "qualification_status": str(recovered["qualification_status"]),
+        "enhanced_variables": np.asarray(recovered["enhanced_variables"], dtype=float).tolist(),
+        "mean_volumetric_stress": float(recovered["mean_volumetric_stress"]),
+        "mean_volumetric_stress_sign_convention": "positive in tension; K times mean divergence",
+        "enhanced_variables_unit": "length in the model unit system",
+        "deviatoric_energy": float(recovered["deviatoric_energy"]),
+        "volumetric_energy": float(recovered["volumetric_energy"]),
+        "strain_energy": float(recovered["energy"]),
+        "condensed_block_condition": float(recovered["condition"]),
+        "internal_force": np.asarray(recovered["internal_force"], dtype=float).tolist(),
+        "matrix_force": np.asarray(recovered["matrix_force"], dtype=float).tolist(),
+        "force_tangent_relative_gap": float(recovered["force_tangent_relative_gap"]),
     }
 
 

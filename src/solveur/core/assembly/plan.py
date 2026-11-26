@@ -12,6 +12,7 @@ import numpy as np
 from solveur.core.dofs import DofManager
 from solveur.core.model import ElementDefinition, FiniteElementModel
 from solveur.elements.registry import ElementRegistry, ElementSpec
+from solveur.elements.solid.hex8_eas_experimental import require_hex8_eas_scope
 
 
 @dataclass(frozen=True)
@@ -49,6 +50,7 @@ class AssemblyPlan:
         """Prepare element specs, coordinates and global DDL maps once."""
         if chunk_size <= 0:
             raise ValueError("Assembly chunk_size must be positive.")
+        require_hex8_eas_scope(model)
         elements: list[AssemblyElementPlan] = []
         for definition in model.elements:
             spec = ElementRegistry.get(definition.type)
