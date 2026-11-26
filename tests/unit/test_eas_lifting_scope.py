@@ -24,9 +24,10 @@ def _input(family="HEX8_EAS_EXPERIMENTAL"):
     }
 
 
-def test_eas_raw_and_json_reject_prescribed_fixed_values():
+@pytest.mark.parametrize("value", [0.0, 0.001])
+def test_eas_raw_and_json_reject_prescribed_fixed_values(value):
     raw = _input()
-    raw["fixed_dofs"][0]["value"] = 0.001
+    raw["fixed_dofs"][0]["value"] = value
     with pytest.raises(InputValidationError, match="zero displacement only"):
         FiniteElementModel.from_raw(**raw)
     with pytest.raises(InputValidationError, match="value"):
@@ -34,6 +35,14 @@ def test_eas_raw_and_json_reject_prescribed_fixed_values():
     # Other element routes keep their existing raw-model behavior.
     raw["elements"][0]["type"] = "HEX8"
     assert FiniteElementModel.from_raw(**raw).fixed_dofs[0].dofs == ("UX", "UY", "UZ")
+
+
+def test_eas_fixed_without_value_is_zero_boundary_in_both_interfaces():
+    raw = _input()
+    python_model = FiniteElementModel.from_raw(**raw)
+    json_model = JsonModelReader().from_dict(raw)
+    assert python_model.fixed_dofs == json_model.fixed_dofs
+    assert python_model.fixed_dofs[0].dofs == ("UX", "UY", "UZ")
 
 
 def test_eas_mpc_prescribed_displacement_is_explicitly_outside_scope():
