@@ -207,6 +207,14 @@ def test_qr_condensation_failure_is_explicit(monkeypatch) -> None:
         element.stiffness(_unit_hex())
 
 
+def test_qr_recovery_preserves_input_coordinates() -> None:
+    coords = _warped_hex() + [3.0, -2.0, 1.0]
+    element = Hex8EASExperimentalElement(SolidMaterial(E=1e6, nu=0.3))
+    recovered = element.recover(coords, np.zeros(24))
+    np.testing.assert_array_equal(recovered["coordinates"], coords)
+    np.testing.assert_allclose(element.stiffness(coords), element.stiffness(coords - coords[0]), rtol=1e-12, atol=1e-9)
+
+
 def test_hex8_eas_refuses_invalid_condensation_geometry_and_material_inputs() -> None:
     element = Hex8EASExperimentalElement(SolidMaterial(E=210.0e9, nu=0.3))
     with pytest.raises(InputValidationError, match=r"finite \(8, 3\)"):

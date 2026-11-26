@@ -163,6 +163,7 @@ class Hex8EASExperimentalElement:
         xyz = np.asarray(coords, dtype=float)
         if xyz.shape != (8, 3) or not np.all(np.isfinite(xyz)):
             raise InputValidationError("HEX8_EAS_EXPERIMENTAL coordinates must be a finite (8, 3) array.")
+        original_coordinates = xyz
         xyz = xyz - xyz[0]
         self.validate_geometry(xyz)
         determinant_tolerance = Hex8Element._jacobian_determinant_tolerance(xyz)
@@ -238,7 +239,7 @@ class Hex8EASExperimentalElement:
         if not np.all(np.isfinite(stiffness)):
             raise InputValidationError("HEX8_EAS_EXPERIMENTAL stiffness contains non-finite values.")
         return {
-            "coordinates": xyz,
+            "coordinates": original_coordinates,
             "b_matrices": b_array,
             "weights": weight_array,
             "volume": volume,
