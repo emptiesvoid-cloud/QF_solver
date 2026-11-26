@@ -187,6 +187,10 @@ def test_qr_condensation_matches_weighted_projection_and_preserves_rank() -> Non
             np.testing.assert_allclose(recovered["strains"], ops["b_matrices"] @ probe +
                                        ops["enhanced_modes"] @ (amplitudes @ probe), rtol=1e-9, atol=1e-12)
             assert recovered["energy"] == pytest.approx(0.5 * np.linalg.norm(factors @ probe)**2, rel=1e-10)
+            integrated_force = np.einsum(
+                "q,qij,qi->j", weights, ops["b_matrices"], recovered["stresses"]
+            )
+            np.testing.assert_allclose(integrated_force, recovered["internal_force"], rtol=1e-8, atol=1e-7)
             modes_rigid = np.column_stack(
                 [np.tile(axis, 8) for axis in np.eye(3)] +
                 [np.cross(np.broadcast_to(axis, coords.shape), coords).ravel() for axis in np.eye(3)]

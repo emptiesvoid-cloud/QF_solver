@@ -96,3 +96,13 @@ Les tests de différentiation supplémentaires utilisent deux directions et
 trois tailles de perturbation avec les tolérances antérieures inchangées.
 Le commit de rapport et ces tests n'apportent aucun changement au code de
 la wheel.
+
+Le commit code final 74a3068609ce73035836bb96bce8b37e0f7e8502 préserve
+en outre les coordonnées physiques retournées par recover, après centrage
+interne des opérateurs. Un test vérifie ces coordonnées et l'invariance
+par translation. La wheel reconstruite depuis ce commit a pour SHA-256
+7edabbd757f5d0a952882cca33d77ada39cfe85b0dac116e9bc0bb914881c9b5.
+Après installation dans les deux environnements isolés, quatre tests
+passent avec l'extra et un sans psutil. Le contrôle des forces par
+intégration des contraintes récupérées a également été ajouté au test
+élémentaire, sur les deux géométries et valeurs de ν.
