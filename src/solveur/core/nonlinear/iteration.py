@@ -367,6 +367,8 @@ def solve_adaptive_full_newton(
     path; stateful material routes own their transactions in
     ``NonlinearLoadControlMixin``.
     """
+    if robustness_options is not None and robustness_options.exact_residual:
+        raise ValueError("Exact Newton residual checking requires the fixed-step driver.")
     if increments < 1 or max_iterations < 1:
         raise ValueError("Adaptive Full Newton requires positive increments and max_iterations.")
     external_values = np.asarray(external, dtype=float)

@@ -76,6 +76,9 @@ class AnalysisRouter:
         if not isinstance(model.analysis, AnalysisSettings):
             model.analysis = AnalysisSettings.from_raw(model.analysis)
         model.analysis.validate()
+        if (model.analysis.parameters.get("experimental_newton_exact_residual", False) is not False
+                and model.analysis.type != "geometric_nonlinear_static"):
+            raise InputValidationError("experimental_newton_exact_residual requires geometric_nonlinear_static.")
         source_sha_route = (model.analysis.type, model.analysis.method) in {
             ("harmonic_response", "modal_superposition"),
             ("transient_dynamic", "modal_newmark"),

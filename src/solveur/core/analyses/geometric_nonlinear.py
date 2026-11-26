@@ -24,7 +24,7 @@ from solveur.core.nonlinear.iteration import (
     solve_full_newton,
 )
 from solveur.core.nonlinear.controls import AdaptiveLoadControls
-from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions
+from solveur.core.nonlinear.robustness import NEWTON_EXACT_OPTION, NonlinearRobustnessOptions
 from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.nonlinear.telemetry import NonlinearTelemetryObserver
 from solveur.core.model import FiniteElementModel
@@ -42,10 +42,23 @@ class GeometricNonlinearStaticSolver:
 
     def solve(self, model: FiniteElementModel) -> SolveResult:
         self._validate_scope(model)
+        parameters = model.analysis.parameters
+        if parameters.get(NEWTON_EXACT_OPTION, False) is not False:
+            if (
+                parameters.get(NEWTON_EXACT_OPTION) is not True
+                or any(element.type != "TET10" for element in model.elements)
+                or model.contacts
+                or parameters.get("adaptive_load_steps", False)
+                or model.analysis.method != "newton_raphson"
+                or str(parameters.get("backend", "auto")).lower() not in {"auto", "scipy"}
+                or parameters.get("prefer_petsc", False)
+                or parameters.get("experimental_direct_refinement_steps", 0) != 0
+            ):
+                raise InputValidationError(f"{NEWTON_EXACT_OPTION} requires fixed-step TET10 geometric Newton, without contact and with SciPy.")
+            NonlinearRobustnessOptions.from_parameters(parameters)
         report = MeshValidator().validate(model)
         if report.status == "FAIL":
             raise MeshValidationError("; ".join(report.errors))
-        parameters = model.analysis.parameters
         controls = GeometricNonlinearControls(load_increments=int(parameters.get("load_increments", 10)))
         tolerance = float(parameters.get("tolerance", 1.0e-9))
         max_iterations = int(parameters.get("max_iterations", 30))

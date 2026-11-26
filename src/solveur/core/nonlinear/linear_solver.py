@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import cached_property
 from time import perf_counter
 from typing import Any, cast
 
@@ -27,6 +28,12 @@ class NonlinearLinearSolverAdapter:
     """
 
     options: NonlinearRobustnessOptions | None = None
+
+    @cached_property
+    def _exact_solver(self):
+        from solveur.experimental.newton_residual import ExactNewtonLinearSolver
+
+        return ExactNewtonLinearSolver()
 
     def configured_backend(self) -> str:
         """Return the configured backend label for diagnostics before a solve.
@@ -62,6 +69,8 @@ class NonlinearLinearSolverAdapter:
                 reason=NonlinearFailureReason.NAN_DETECTED,
             )
 
+        if self.options is not None and self.options.exact_residual:
+            self.options.validate()
         configuration = self._configuration()
         configuration["allow_unverified_krylov"] = bool(allow_unverified_krylov)
         symmetry_defect = _symmetry_defect(values)
@@ -356,7 +365,10 @@ class NonlinearLinearSolverAdapter:
         }
         if method == "gmres":
             parameters["restart"] = configuration["gmres_restart"]
-        info_solver = LinearSystemSolver()
+        exact_solver = self._exact_solver if self.options is not None and self.options.exact_residual else None
+        info_solver = exact_solver if exact_solver is not None else LinearSystemSolver()
+        if exact_solver is not None:
+            parameters["backend"] = "scipy"
         started = perf_counter()
         try:
             correction, info = info_solver.solve(matrix, rhs, method=method, parameters=parameters)
@@ -371,6 +383,8 @@ class NonlinearLinearSolverAdapter:
             "preconditioner": preconditioner,
             "iterations": int(info.iterations),
             "solve_seconds": solve_seconds,
+            **({"compatibility_diagnostics": {"experimental_newton_exact_residual": exact_solver.last_report}}
+               if exact_solver is not None else {}),
         }
 
     @staticmethod
@@ -394,6 +408,8 @@ class NonlinearLinearSolverAdapter:
                 "backend": _backend_for_method(method),
                 "symmetry_defect": symmetry_defect,
                 "backend_error": backend_error,
+                **({"experimental_newton_exact_residual": error.diagnostics["experimental_newton_exact_residual"]}
+                   if "experimental_newton_exact_residual" in error.diagnostics else {}),
                 "solver_info": error.diagnostics.get("solver_info"),
                 "krylov_iterations": error.diagnostics.get("iterations"),
                 "linear_solve_seconds": error.diagnostics.get("solve_seconds"),

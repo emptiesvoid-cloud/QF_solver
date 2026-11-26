@@ -18,6 +18,8 @@ from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.controls import AdaptiveLoadControls, ArcLengthControls
 
 
+NEWTON_EXACT_OPTION = "experimental_newton_exact_residual"
+
 _PARAMETER_KEYS = {
     "experimental_linear_solver",
     "experimental_linear_preconditioner",
@@ -1384,13 +1386,18 @@ class NonlinearRobustnessOptions:
     line_search_max_reductions: int = 14
     line_search_c: float = 1.0e-4
     floor_aware_termination: bool = False
+    exact_residual: bool = False
 
     @classmethod
     def from_parameters(cls, parameters: dict[str, object]) -> "NonlinearRobustnessOptions | None":
         """Return controls only when an explicit experimental parameter is present."""
-        if not _PARAMETER_KEYS.intersection(parameters):
+        exact_residual = parameters.get(NEWTON_EXACT_OPTION, False)
+        if type(exact_residual) is not bool:
+            raise ValueError(f"{NEWTON_EXACT_OPTION} must be boolean.")
+        if not exact_residual and not _PARAMETER_KEYS.intersection(parameters):
             return None
         options = cls(
+            exact_residual=exact_residual,
             linear_solver=str(parameters.get("experimental_linear_solver", "spsolve")).lower(),
             linear_preconditioner=str(parameters.get("experimental_linear_preconditioner", "none")).lower(),
             linear_assume_spd=bool(parameters.get("experimental_linear_assume_spd", False)),
@@ -1427,6 +1434,15 @@ class NonlinearRobustnessOptions:
     def validate(self) -> None:
         if self.linear_solver not in {"spsolve", "splu", "direct", "auto", "cg", "minres", "gmres"}:
             raise ValueError("experimental_linear_solver is not a supported nonlinear linear method.")
+        if self.exact_residual and (
+            self.linear_solver not in {"direct", "spsolve"}
+            or self.linear_preconditioner != "none"
+            or self.system_scaling != "none"
+            or self.residual_scaling != "none"
+            or self.linear_permutation != "COLAMD"
+            or self.linear_residual_tolerance > 1.0e-7
+        ):
+            raise ValueError(f"{NEWTON_EXACT_OPTION} requires the unscaled direct SciPy defaults at tolerance 1e-7.")
         if self.linear_preconditioner not in {"none", "jacobi", "ilu"}:
             raise ValueError("experimental_linear_preconditioner must be 'none', 'jacobi' or 'ilu'.")
         for name, value in (
@@ -1488,6 +1504,7 @@ class NonlinearRobustnessOptions:
             "line_search_max_reductions": self.line_search_max_reductions,
             "line_search_c": self.line_search_c,
             "floor_aware_termination": self.floor_aware_termination,
+            **({"exact_residual": True} if self.exact_residual else {}),
         }
 
 
