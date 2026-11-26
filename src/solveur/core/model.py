@@ -146,6 +146,14 @@ class FiniteElementModel:
             )
             for item in elements
         ]
+        if any(element.type == "HEX8_EAS_EXPERIMENTAL" for element in parsed_elements):
+            for index, item in enumerate(fixed_dofs or []):
+                unsupported = set(item) - {"node", "dofs"}
+                if unsupported:
+                    raise InputValidationError(
+                        f"fixed_dofs[{index}] contains unsupported fields {sorted(unsupported)}; "
+                        "HEX8_EAS_EXPERIMENTAL fixed_dofs impose zero displacement only."
+                    )
         parsed_fixed = [
             BoundaryCondition(
                 node=int(item["node"]),
