@@ -100,9 +100,11 @@ class Hex8EASExperimentalElement:
         self.shear_modulus = float(material.E / (2.0 * (1.0 + material.nu)))
         if not np.isfinite((self.bulk_modulus, self.shear_modulus)).all():
             raise ValueError("HEX8_EAS_EXPERIMENTAL moduli are not finite.")
-        self.deviatoric = np.asarray(material.elasticity_matrix, dtype=float) - self.bulk_modulus * np.outer(
-            _VOLUMETRIC_VECTOR, _VOLUMETRIC_VECTOR
-        )
+        self.deviatoric_root = np.zeros((5, 6), dtype=float)
+        self.deviatoric_root[0, :3] = np.array([1.0, -1.0, 0.0]) * np.sqrt(self.shear_modulus)
+        self.deviatoric_root[1, :3] = np.array([1.0, 1.0, -2.0]) * np.sqrt(self.shear_modulus / 3.0)
+        self.deviatoric_root[2:, 3:] = np.eye(3) * np.sqrt(self.shear_modulus)
+        self.deviatoric = self.deviatoric_root.T @ self.deviatoric_root
         self._standard = Hex8Element(material)
 
     @classmethod
@@ -161,6 +163,7 @@ class Hex8EASExperimentalElement:
         xyz = np.asarray(coords, dtype=float)
         if xyz.shape != (8, 3) or not np.all(np.isfinite(xyz)):
             raise InputValidationError("HEX8_EAS_EXPERIMENTAL coordinates must be a finite (8, 3) array.")
+        xyz = xyz - xyz[0]
         self.validate_geometry(xyz)
         determinant_tolerance = Hex8Element._jacobian_determinant_tolerance(xyz)
         point_set = (*self.integration_points, (0.0, 0.0, 0.0))
@@ -217,17 +220,21 @@ class Hex8EASExperimentalElement:
             raise InputValidationError(
                 f"HEX8_EAS_EXPERIMENTAL condensed block condition {condition:.6e} exceeds {_CONDITION_LIMIT:.1e}."
             )
+        root_weight = np.sqrt(weight_array)[:, None, None]
+        raw_factors = (root_weight * (self.deviatoric_root @ b_array)).reshape(-1, 24)
+        weighted_modes = (root_weight * (self.deviatoric_root @ modes)).reshape(-1, 6)
         try:
-            cholesky = np.linalg.cholesky(internal)
-            solved_coupling = np.linalg.solve(
-                cholesky.T, np.linalg.solve(cholesky, coupling.T)
-            )
+            q, r = np.linalg.qr(weighted_modes, mode="reduced")
+            solved_coupling = np.linalg.solve(r, q.T @ raw_factors)
         except np.linalg.LinAlgError as exc:
-            raise InputValidationError("HEX8_EAS_EXPERIMENTAL condensation failed.") from exc
+            raise InputValidationError("HEX8_EAS_EXPERIMENTAL QR condensation failed.") from exc
+        if not np.all(np.isfinite(solved_coupling)):
+            raise InputValidationError("HEX8_EAS_EXPERIMENTAL QR condensation contains non-finite values.")
 
-        volumetric = self.bulk_modulus * volume * np.outer(divergence, divergence)
-        stiffness = base_deviatoric - coupling @ solved_coupling + volumetric
-        stiffness = 0.5 * (stiffness + stiffness.T)
+        deviatoric_factors = raw_factors - weighted_modes @ solved_coupling
+        volumetric_factor = np.sqrt(self.bulk_modulus * volume) * divergence
+        factors = np.vstack((deviatoric_factors, volumetric_factor))
+        stiffness = factors.T @ factors
         if not np.all(np.isfinite(stiffness)):
             raise InputValidationError("HEX8_EAS_EXPERIMENTAL stiffness contains non-finite values.")
         return {
@@ -243,6 +250,7 @@ class Hex8EASExperimentalElement:
             "condensed_block": internal,
             "condition": condition,
             "solved_coupling": solved_coupling,
+            "strain_factors": factors,
             "stiffness": stiffness,
         }
 
@@ -265,15 +273,13 @@ class Hex8EASExperimentalElement:
         pressure = float(self.bulk_modulus * (divergence @ displacement))
         strains = np.einsum("qij,j->qi", b_matrices, displacement) + np.einsum("qij,j->qi", modes, alpha)
         stresses = strains @ self.deviatoric.T + pressure * _VOLUMETRIC_VECTOR
-        force = np.zeros(24, dtype=float)
+        factors = np.asarray(operators["strain_factors"], dtype=float)
+        weighted_strain = factors @ displacement
+        force = factors.T @ weighted_strain
         deviatoric_energy = 0.0
         deviatoric_energy_density = np.zeros(len(weights), dtype=float)
-        for point_index, (weight, b_matrix, strain) in enumerate(
-            zip(weights, b_matrices, strains, strict=True)
-        ):
-            deviatoric_stress = self.deviatoric @ strain
-            force += weight * (b_matrix.T @ (deviatoric_stress + pressure * _VOLUMETRIC_VECTOR))
-            density = 0.5 * float(strain @ deviatoric_stress)
+        for point_index, weight in enumerate(weights):
+            density = float(np.sum(weighted_strain[:-1].reshape(8, 5)[point_index] ** 2) / (2 * weight))
             deviatoric_energy_density[point_index] = density
             deviatoric_energy += weight * density
         volumetric_energy_density = 0.5 * self.bulk_modulus * float((divergence @ displacement) ** 2)

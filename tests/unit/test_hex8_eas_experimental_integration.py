@@ -165,6 +165,48 @@ def test_hex8_eas_affine_patch_rigid_modes_and_force_tangent_consistency() -> No
             assert np.allclose(directional, tangent @ probe, rtol=2.0e-8, atol=2.0e-4)
 
 
+def test_qr_condensation_matches_weighted_projection_and_preserves_rank() -> None:
+    for coords in (_unit_hex(), _warped_hex()):
+        for poisson in (0.3, 0.4999):
+            element = Hex8EASExperimentalElement(SolidMaterial(E=1e6, nu=poisson))
+            ops = element._operators(coords)
+            weights = ops["weights"]
+            root = element.deviatoric_root
+            raw = (np.sqrt(weights)[:, None, None] * (root @ ops["b_matrices"])).reshape(-1, 24)
+            modes = (np.sqrt(weights)[:, None, None] * (root @ ops["enhanced_modes"])).reshape(-1, 6)
+            # Independent least-squares solve, rather than the QR used by the element.
+            amplitudes = np.linalg.lstsq(modes, -raw, rcond=None)[0]
+            factors = np.vstack((
+                raw + modes @ amplitudes,
+                np.sqrt(element.bulk_modulus * ops["volume"]) * ops["mean_divergence"],
+            ))
+            tangent = element.stiffness(coords)
+            np.testing.assert_allclose(tangent, factors.T @ factors, rtol=1e-11, atol=1e-8)
+            probe = np.sin(np.arange(24)) * 1e-4
+            recovered = element.recover(coords, probe)
+            np.testing.assert_allclose(recovered["strains"], ops["b_matrices"] @ probe +
+                                       ops["enhanced_modes"] @ (amplitudes @ probe), rtol=1e-9, atol=1e-12)
+            assert recovered["energy"] == pytest.approx(0.5 * np.linalg.norm(factors @ probe)**2, rel=1e-10)
+            modes_rigid = np.column_stack(
+                [np.tile(axis, 8) for axis in np.eye(3)] +
+                [np.cross(np.broadcast_to(axis, coords.shape), coords).ravel() for axis in np.eye(3)]
+            )
+            basis = np.linalg.qr(modes_rigid, mode="complete")[0][:, 6:]
+            values, vectors = np.linalg.eigh(basis.T @ tangent @ basis)
+            assert values[0] > values[-1] * 1e-12
+            assert np.linalg.norm((basis.T @ tangent @ basis) @ vectors[:, 0] - values[0] * vectors[:, 0]) < 1e-8 * values[-1]
+
+
+def test_qr_condensation_failure_is_explicit(monkeypatch) -> None:
+    def fail_qr(*args, **kwargs):
+        raise np.linalg.LinAlgError("synthetic QR failure")
+
+    monkeypatch.setattr(np.linalg, "qr", fail_qr)
+    element = Hex8EASExperimentalElement(SolidMaterial(E=1e6, nu=0.3))
+    with pytest.raises(InputValidationError, match="QR condensation failed"):
+        element.stiffness(_unit_hex())
+
+
 def test_hex8_eas_refuses_invalid_condensation_geometry_and_material_inputs() -> None:
     element = Hex8EASExperimentalElement(SolidMaterial(E=210.0e9, nu=0.3))
     with pytest.raises(InputValidationError, match=r"finite \(8, 3\)"):
