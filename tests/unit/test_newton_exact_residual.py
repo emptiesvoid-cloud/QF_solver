@@ -9,11 +9,13 @@ import pytest
 from scipy.sparse import csr_matrix
 
 from solveur.core.analyses.geometric_nonlinear import GeometricNonlinearStaticSolver
+from solveur.core.analyses.settings import AnalysisSettings
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.nonlinear.iteration import solve_full_newton
 from solveur.core.nonlinear.linear_solver import NonlinearLinearSolverAdapter
 from solveur.core.nonlinear.robustness import NEWTON_EXACT_OPTION, NonlinearRobustnessOptions
 from solveur.core.nonlinear.state import NonlinearState
+from solveur.core.router import AnalysisRouter
 from solveur.experimental import newton_residual as exact
 from solveur.experimental.eas_residual import bounded_exact_supervisor as supervisor
 
@@ -172,6 +174,59 @@ def test_budget_persists_across_adapter_calls(monkeypatch):
     report = failure.value.diagnostics[NEWTON_EXACT_OPTION]
     assert report["exact"]["reason"] == "CHECK_BUDGET_EXHAUSTED"
     assert not report["correction_authorized"]
+
+
+def test_eight_check_budget_is_shared_across_fixed_increments(monkeypatch):
+    a, b = _bound_system()
+    replies = []
+    accepted = []
+
+    class Assembly:
+        ndof = 2
+
+        def assemble(self, displacement, *, tangent_required=True):
+            return a @ displacement, a if tangent_required else None
+
+    def run_worker(target, args, timeout, rss_limit):
+        # Exercise the actual worker and response validation synchronously.
+        target(SimpleNamespace(send=replies.append, close=lambda: None), *args)
+        return replies[-1], {"reason": "CHILD_EXIT", "child_exitcode": 0}
+
+    monkeypatch.setattr(exact, "_spawn_monitored", run_worker)
+    state = NonlinearState(np.zeros(2))
+    with pytest.raises(NumericalConvergenceError) as failure:
+        solve_full_newton(
+            Assembly(),
+            16 * b,
+            np.array([], dtype=int),
+            increments=16,
+            tolerance=1e-8,
+            max_iterations=3,
+            initial_state=state,
+            robustness_options=NonlinearRobustnessOptions(exact_residual=True),
+            accepted_state_callback=lambda step, snapshot: accepted.append(
+                (step, snapshot.load_factor, snapshot.displacement.copy())
+            ),
+        )
+
+    assert len(replies) == len(accepted) == 8
+    assert all(reply["status"] == "PASS" for reply in replies)
+    assert [step for step, _, _ in accepted] == list(range(1, 9))
+    assert accepted[-1][1] == 0.5
+    np.testing.assert_array_equal(accepted[-1][2], [8.0, 8.0])
+    np.testing.assert_array_equal(state.displacement, [0.0, 0.0])
+    report = failure.value.diagnostics[NEWTON_EXACT_OPTION]
+    assert report["historical_decision"] == "REJECTED_BOUND"
+    assert report["exact"]["reason"] == "CHECK_BUDGET_EXHAUSTED"
+    assert not report["correction_authorized"]
+
+
+def test_router_rejects_exact_opt_in_on_linear_static():
+    model = SimpleNamespace(
+        analysis=AnalysisSettings.from_raw({"type": "linear_static", "parameters": {NEWTON_EXACT_OPTION: True}})
+    )
+    with pytest.raises(InputValidationError, match="requires geometric_nonlinear_static"):
+        AnalysisRouter().solve(model)
 
 
 def test_scope_rejects_incompatible_routes_before_assembly(monkeypatch):
