@@ -20,7 +20,7 @@ from solveur.core.nonlinear.controls import AdaptiveLoadControls, ArcLengthContr
 
 NEWTON_EXACT_OPTION = "experimental_newton_exact_residual"
 NEWTON_EXACT_MAX_CHECKS_OPTION = "experimental_newton_exact_residual_max_checks"
-NEWTON_EXACT_MAX_CHECKS_LIMIT = 24
+NEWTON_EXACT_MAX_CHECKS_LIMIT = 48
 
 _PARAMETER_KEYS = {
     "experimental_linear_solver",
@@ -1400,7 +1400,7 @@ class NonlinearRobustnessOptions:
             raise ValueError(f"{NEWTON_EXACT_OPTION} must be boolean.")
         exact_max_checks = parameters.get(NEWTON_EXACT_MAX_CHECKS_OPTION, 8)
         if type(exact_max_checks) is not int or not 1 <= exact_max_checks <= NEWTON_EXACT_MAX_CHECKS_LIMIT:
-            raise ValueError(f"{NEWTON_EXACT_MAX_CHECKS_OPTION} must be an integer from 1 to 24.")
+            raise ValueError(f"{NEWTON_EXACT_MAX_CHECKS_OPTION} must be an integer from 1 to 48.")
         if NEWTON_EXACT_MAX_CHECKS_OPTION in parameters and not exact_residual:
             raise ValueError(f"{NEWTON_EXACT_MAX_CHECKS_OPTION} requires {NEWTON_EXACT_OPTION}=true.")
         if not exact_residual and not _PARAMETER_KEYS.intersection(parameters):
@@ -1443,7 +1443,7 @@ class NonlinearRobustnessOptions:
 
     def validate(self) -> None:
         if type(self.exact_residual_max_checks) is not int or not 1 <= self.exact_residual_max_checks <= NEWTON_EXACT_MAX_CHECKS_LIMIT:
-            raise ValueError(f"{NEWTON_EXACT_MAX_CHECKS_OPTION} must be an integer from 1 to 24.")
+            raise ValueError(f"{NEWTON_EXACT_MAX_CHECKS_OPTION} must be an integer from 1 to 48.")
         if self.linear_solver not in {"spsolve", "splu", "direct", "auto", "cg", "minres", "gmres"}:
             raise ValueError("experimental_linear_solver is not a supported nonlinear linear method.")
         if self.exact_residual and (

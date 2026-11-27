@@ -33,6 +33,8 @@ from solveur.elements.solid.tet4_total_lagrangian_batch import TotalLagrangianTe
 from solveur.elements.solid.hex8_total_lagrangian_batch import TotalLagrangianHex8Assembly
 from solveur.mesh.validation import MeshValidator
 
+EXPERIMENTAL_PAUSE_AFTER_ACCEPTED_INCREMENTS = "experimental_pause_after_accepted_increments"
+
 
 class GeometricNonlinearStaticSolver:
     """Solve a bounded TET4 Saint-Venant-Kirchhoff dead-load problem."""
@@ -60,6 +62,19 @@ class GeometricNonlinearStaticSolver:
         if report.status == "FAIL":
             raise MeshValidationError("; ".join(report.errors))
         controls = GeometricNonlinearControls(load_increments=int(parameters.get("load_increments", 10)))
+        planned_segment_steps = parameters.get(EXPERIMENTAL_PAUSE_AFTER_ACCEPTED_INCREMENTS)
+        if EXPERIMENTAL_PAUSE_AFTER_ACCEPTED_INCREMENTS in parameters:
+            if (
+                type(planned_segment_steps) is not int
+                or planned_segment_steps < 1
+                or parameters.get(NEWTON_EXACT_OPTION) is not True
+                or any(element.type != "TET10" for element in model.elements)
+                or parameters.get("adaptive_load_steps", False)
+            ):
+                raise InputValidationError(
+                    f"{EXPERIMENTAL_PAUSE_AFTER_ACCEPTED_INCREMENTS} requires a positive integer "
+                    "on the experimental fixed-step TET10 exact-residual route."
+                )
         tolerance = float(parameters.get("tolerance", 1.0e-9))
         max_iterations = int(parameters.get("max_iterations", 30))
         if not 0.0 < tolerance < 1.0:
@@ -107,6 +122,34 @@ class GeometricNonlinearStaticSolver:
             ),
             allow_variable_step_count=adaptive_controls is not None,
         )
+        if planned_segment_steps is not None:
+            if (
+                checkpoint_session.settings.path is None
+                or checkpoint_session.settings.interval != 1
+                or not checkpoint_session.settings.keep_steps
+            ):
+                raise InputValidationError(
+                    f"{EXPERIMENTAL_PAUSE_AFTER_ACCEPTED_INCREMENTS} requires checkpoint_path, "
+                    "checkpoint_interval=1 and checkpoint_keep_steps=true."
+                )
+            remaining_steps = controls.load_increments - checkpoint_session.restart_step
+            if planned_segment_steps > remaining_steps:
+                raise InputValidationError(
+                    f"{EXPERIMENTAL_PAUSE_AFTER_ACCEPTED_INCREMENTS} exceeds the remaining fixed load path."
+                )
+
+        global_start_step = checkpoint_session.restart_step
+        full_target_factors = [
+            step / controls.load_increments
+            for step in range(global_start_step + 1, controls.load_increments + 1)
+        ]
+        selected_target_factors = (
+            full_target_factors[:planned_segment_steps]
+            if planned_segment_steps is not None
+            else full_target_factors
+        )
+        global_end_step = global_start_step + len(selected_target_factors)
+        planned_pause = planned_segment_steps is not None and global_end_step < controls.load_increments
 
         def save_fixed(local_step: int, state: NonlinearState) -> None:
             global_step = checkpoint_session.restart_step + local_step
@@ -145,14 +188,7 @@ class GeometricNonlinearStaticSolver:
             adaptive_controls=adaptive_controls,
             robustness_options=robustness_options,
             initial_state=restored,
-            target_load_factors=(
-                [
-                    step / controls.load_increments
-                    for step in range(checkpoint_session.restart_step + 1, controls.load_increments + 1)
-                ]
-                if adaptive_controls is None
-                else None
-            ),
+            target_load_factors=selected_target_factors if adaptive_controls is None else None,
             accepted_state_callback=save_adaptive if adaptive_controls is not None else save_fixed,
         )
         states = geometric_assembly.element_states(displacement)
@@ -173,7 +209,7 @@ class GeometricNonlinearStaticSolver:
                 "load_increments": controls.load_increments,
                 "adaptive_load_steps": adaptive_controls is not None,
                 "restart_step": checkpoint_session.restart_step,
-                "history_is_partial": checkpoint_session.restart_step > 0,
+                "history_is_partial": checkpoint_session.restart_step > 0 or planned_pause,
                 "checkpoint_path": checkpoint_session.settings.path,
                 "checkpoint_files": checkpoint_session.files,
                 "strain_energy": geometric_assembly.strain_energy(displacement),
@@ -189,13 +225,27 @@ class GeometricNonlinearStaticSolver:
                 "maturity": "research",
             }
         )
+        if planned_segment_steps is not None:
+            diagnostics.update(
+                {
+                    "planned_segment_steps": planned_segment_steps,
+                    "segment_start_step": global_start_step,
+                    "segment_end_step": global_end_step,
+                    "segment_start_load_factor": restored.load_factor,
+                    "segment_end_load_factor": global_end_step / controls.load_increments,
+                    "target_load_factor": 1.0,
+                    "segment_converged": True,
+                    "converged": not planned_pause,
+                    "continuation_status": "PAUSED" if planned_pause else "CONVERGED",
+                }
+            )
         assembly_diagnostics = getattr(geometric_assembly, "assembly_diagnostics", None)
         if callable(assembly_diagnostics):
             diagnostics["sparse_assembly"] = assembly_diagnostics()
         if contact_assembly is not None:
             diagnostics["contact"] = dict(contact_assembly.last_details)
         return SolveResult(
-            status="success",
+            status="PAUSED" if planned_pause else "success",
             displacements=displacement,
             dofs=dofs,
             mesh_report=report,
@@ -203,7 +253,12 @@ class GeometricNonlinearStaticSolver:
             element_count=len(model.elements),
             analysis="geometric_nonlinear_static",
             method="newton_raphson",
-            message="Total-Lagrangian dead-load equilibrium converged.",
+            message=(
+                f"Planned pause after accepted increment {global_end_step}/{controls.load_increments}; "
+                f"load factor {global_end_step / controls.load_increments:.17g}."
+                if planned_pause
+                else "Total-Lagrangian dead-load equilibrium converged."
+            ),
             solver=diagnostics,
             element_results=element_results,
         )

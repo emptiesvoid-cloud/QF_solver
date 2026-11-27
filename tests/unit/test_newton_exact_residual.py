@@ -57,23 +57,23 @@ def test_accepted_and_disabled_do_not_start_check(monkeypatch):
     assert NEWTON_EXACT_OPTION not in failure.value.diagnostics
 
 
-def test_exact_check_budget_is_default_eight_and_experimentally_bounded_at_24():
+def test_exact_check_budget_is_default_eight_and_experimentally_bounded_at_48():
     default = NonlinearRobustnessOptions.from_parameters({NEWTON_EXACT_OPTION: True})
     assert default is not None and default.exact_residual_max_checks == 8
 
     extended = NonlinearRobustnessOptions.from_parameters(
-        {NEWTON_EXACT_OPTION: True, NEWTON_EXACT_MAX_CHECKS_OPTION: 24}
+        {NEWTON_EXACT_OPTION: True, NEWTON_EXACT_MAX_CHECKS_OPTION: 48}
     )
-    assert extended is not None and extended.exact_residual_max_checks == 24
-    assert NonlinearLinearSolverAdapter(extended)._exact_solver.max_checks == 24
+    assert extended is not None and extended.exact_residual_max_checks == 48
+    assert NonlinearLinearSolverAdapter(extended)._exact_solver.max_checks == 48
 
-    for invalid in (0, 25, None, True, 24.0, "24"):
-        with pytest.raises(ValueError, match="integer from 1 to 24"):
+    for invalid in (0, 49, None, True, 48.0, "48"):
+        with pytest.raises(ValueError, match="integer from 1 to 48"):
             NonlinearRobustnessOptions.from_parameters(
                 {NEWTON_EXACT_OPTION: True, NEWTON_EXACT_MAX_CHECKS_OPTION: invalid}
             )
     with pytest.raises(ValueError, match="requires"):
-        NonlinearRobustnessOptions.from_parameters({NEWTON_EXACT_MAX_CHECKS_OPTION: 24})
+        NonlinearRobustnessOptions.from_parameters({NEWTON_EXACT_MAX_CHECKS_OPTION: 48})
     with pytest.raises(ValueError, match="requires"):
         NonlinearRobustnessOptions.from_parameters({NEWTON_EXACT_MAX_CHECKS_OPTION: 8})
 
@@ -205,9 +205,10 @@ def test_budget_persists_across_adapter_calls(monkeypatch):
     assert next_call._exact_solver.max_checks == 1
 
 
-@pytest.mark.parametrize("budget", [8, 24])
+@pytest.mark.parametrize("budget", [8, 24, 48])
 def test_check_budget_is_shared_across_fixed_increments(monkeypatch, budget):
     a, b = _bound_system()
+    increments = budget + 8
     replies = []
     accepted = []
 
@@ -227,9 +228,9 @@ def test_check_budget_is_shared_across_fixed_increments(monkeypatch, budget):
     with pytest.raises(NumericalConvergenceError) as failure:
         solve_full_newton(
             Assembly(),
-            32 * b,
+            increments * b,
             np.array([], dtype=int),
-            increments=32,
+            increments=increments,
             tolerance=1e-8,
             max_iterations=3,
             initial_state=state,
@@ -242,7 +243,7 @@ def test_check_budget_is_shared_across_fixed_increments(monkeypatch, budget):
     assert len(replies) == len(accepted) == budget
     assert all(reply["status"] == "PASS" for reply in replies)
     assert [step for step, _, _ in accepted] == list(range(1, budget + 1))
-    assert accepted[-1][1] == budget / 32
+    assert accepted[-1][1] == budget / increments
     np.testing.assert_array_equal(accepted[-1][2], [float(budget), float(budget)])
     np.testing.assert_array_equal(state.displacement, [0.0, 0.0])
     report = failure.value.diagnostics[NEWTON_EXACT_OPTION]
