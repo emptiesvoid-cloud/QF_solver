@@ -13,7 +13,11 @@ from solveur.core.analyses.settings import AnalysisSettings
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.nonlinear.iteration import solve_full_newton
 from solveur.core.nonlinear.linear_solver import NonlinearLinearSolverAdapter
-from solveur.core.nonlinear.robustness import NEWTON_EXACT_OPTION, NonlinearRobustnessOptions
+from solveur.core.nonlinear.robustness import (
+    NEWTON_EXACT_MAX_CHECKS_OPTION,
+    NEWTON_EXACT_OPTION,
+    NonlinearRobustnessOptions,
+)
 from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.router import AnalysisRouter
 from solveur.experimental import newton_residual as exact
@@ -51,6 +55,27 @@ def test_accepted_and_disabled_do_not_start_check(monkeypatch):
     with pytest.raises(NumericalConvergenceError) as failure:
         NonlinearLinearSolverAdapter().solve(*_bound_system())
     assert NEWTON_EXACT_OPTION not in failure.value.diagnostics
+
+
+def test_exact_check_budget_is_default_eight_and_experimentally_bounded_at_24():
+    default = NonlinearRobustnessOptions.from_parameters({NEWTON_EXACT_OPTION: True})
+    assert default is not None and default.exact_residual_max_checks == 8
+
+    extended = NonlinearRobustnessOptions.from_parameters(
+        {NEWTON_EXACT_OPTION: True, NEWTON_EXACT_MAX_CHECKS_OPTION: 24}
+    )
+    assert extended is not None and extended.exact_residual_max_checks == 24
+    assert NonlinearLinearSolverAdapter(extended)._exact_solver.max_checks == 24
+
+    for invalid in (0, 25, None, True, 24.0, "24"):
+        with pytest.raises(ValueError, match="integer from 1 to 24"):
+            NonlinearRobustnessOptions.from_parameters(
+                {NEWTON_EXACT_OPTION: True, NEWTON_EXACT_MAX_CHECKS_OPTION: invalid}
+            )
+    with pytest.raises(ValueError, match="requires"):
+        NonlinearRobustnessOptions.from_parameters({NEWTON_EXACT_MAX_CHECKS_OPTION: 24})
+    with pytest.raises(ValueError, match="requires"):
+        NonlinearRobustnessOptions.from_parameters({NEWTON_EXACT_MAX_CHECKS_OPTION: 8})
 
 
 def test_bound_pass_returns_original_without_refinement():
@@ -165,8 +190,9 @@ def test_missing_monitor_preserves_state_before_correction(monkeypatch):
 
 
 def test_budget_persists_across_adapter_calls(monkeypatch):
-    monkeypatch.setattr(exact, "MAX_CHECKS", 1)
-    adapter = NonlinearLinearSolverAdapter(NonlinearRobustnessOptions(exact_residual=True))
+    adapter = NonlinearLinearSolverAdapter(
+        NonlinearRobustnessOptions(exact_residual=True, exact_residual_max_checks=1)
+    )
     adapter.solve(*_bound_system())
     with pytest.raises(NumericalConvergenceError) as failure:
         adapter.solve(*_bound_system())
@@ -174,9 +200,13 @@ def test_budget_persists_across_adapter_calls(monkeypatch):
     report = failure.value.diagnostics[NEWTON_EXACT_OPTION]
     assert report["exact"]["reason"] == "CHECK_BUDGET_EXHAUSTED"
     assert not report["correction_authorized"]
+    next_call = NonlinearLinearSolverAdapter(adapter.options)
+    assert next_call._exact_solver.checks_used == 0
+    assert next_call._exact_solver.max_checks == 1
 
 
-def test_eight_check_budget_is_shared_across_fixed_increments(monkeypatch):
+@pytest.mark.parametrize("budget", [8, 24])
+def test_check_budget_is_shared_across_fixed_increments(monkeypatch, budget):
     a, b = _bound_system()
     replies = []
     accepted = []
@@ -197,23 +227,23 @@ def test_eight_check_budget_is_shared_across_fixed_increments(monkeypatch):
     with pytest.raises(NumericalConvergenceError) as failure:
         solve_full_newton(
             Assembly(),
-            16 * b,
+            32 * b,
             np.array([], dtype=int),
-            increments=16,
+            increments=32,
             tolerance=1e-8,
             max_iterations=3,
             initial_state=state,
-            robustness_options=NonlinearRobustnessOptions(exact_residual=True),
+            robustness_options=NonlinearRobustnessOptions(exact_residual=True, exact_residual_max_checks=budget),
             accepted_state_callback=lambda step, snapshot: accepted.append(
                 (step, snapshot.load_factor, snapshot.displacement.copy())
             ),
         )
 
-    assert len(replies) == len(accepted) == 8
+    assert len(replies) == len(accepted) == budget
     assert all(reply["status"] == "PASS" for reply in replies)
-    assert [step for step, _, _ in accepted] == list(range(1, 9))
-    assert accepted[-1][1] == 0.5
-    np.testing.assert_array_equal(accepted[-1][2], [8.0, 8.0])
+    assert [step for step, _, _ in accepted] == list(range(1, budget + 1))
+    assert accepted[-1][1] == budget / 32
+    np.testing.assert_array_equal(accepted[-1][2], [float(budget), float(budget)])
     np.testing.assert_array_equal(state.displacement, [0.0, 0.0])
     report = failure.value.diagnostics[NEWTON_EXACT_OPTION]
     assert report["historical_decision"] == "REJECTED_BOUND"
@@ -226,6 +256,19 @@ def test_router_rejects_exact_opt_in_on_linear_static():
         analysis=AnalysisSettings.from_raw({"type": "linear_static", "parameters": {NEWTON_EXACT_OPTION: True}})
     )
     with pytest.raises(InputValidationError, match="requires geometric_nonlinear_static"):
+        AnalysisRouter().solve(model)
+
+
+def test_router_rejects_check_budget_key_on_linear_static():
+    model = SimpleNamespace(
+        analysis=AnalysisSettings.from_raw(
+            {
+                "type": "linear_static",
+                "parameters": {NEWTON_EXACT_MAX_CHECKS_OPTION: 8},
+            }
+        )
+    )
+    with pytest.raises(InputValidationError, match="experimental_newton_exact_residual_max_checks"):
         AnalysisRouter().solve(model)
 
 

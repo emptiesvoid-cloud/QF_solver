@@ -19,6 +19,8 @@ from solveur.core.nonlinear.controls import AdaptiveLoadControls, ArcLengthContr
 
 
 NEWTON_EXACT_OPTION = "experimental_newton_exact_residual"
+NEWTON_EXACT_MAX_CHECKS_OPTION = "experimental_newton_exact_residual_max_checks"
+NEWTON_EXACT_MAX_CHECKS_LIMIT = 24
 
 _PARAMETER_KEYS = {
     "experimental_linear_solver",
@@ -44,6 +46,7 @@ _PARAMETER_KEYS = {
     "experimental_line_search_max_reductions",
     "experimental_line_search_c",
     "experimental_floor_aware_termination",
+    NEWTON_EXACT_MAX_CHECKS_OPTION,
 }
 _PERMUTATIONS = {"NATURAL", "MMD_ATA", "MMD_AT_PLUS_A", "COLAMD"}
 
@@ -1387,6 +1390,7 @@ class NonlinearRobustnessOptions:
     line_search_c: float = 1.0e-4
     floor_aware_termination: bool = False
     exact_residual: bool = False
+    exact_residual_max_checks: int = 8
 
     @classmethod
     def from_parameters(cls, parameters: dict[str, object]) -> "NonlinearRobustnessOptions | None":
@@ -1394,10 +1398,16 @@ class NonlinearRobustnessOptions:
         exact_residual = parameters.get(NEWTON_EXACT_OPTION, False)
         if type(exact_residual) is not bool:
             raise ValueError(f"{NEWTON_EXACT_OPTION} must be boolean.")
+        exact_max_checks = parameters.get(NEWTON_EXACT_MAX_CHECKS_OPTION, 8)
+        if type(exact_max_checks) is not int or not 1 <= exact_max_checks <= NEWTON_EXACT_MAX_CHECKS_LIMIT:
+            raise ValueError(f"{NEWTON_EXACT_MAX_CHECKS_OPTION} must be an integer from 1 to 24.")
+        if NEWTON_EXACT_MAX_CHECKS_OPTION in parameters and not exact_residual:
+            raise ValueError(f"{NEWTON_EXACT_MAX_CHECKS_OPTION} requires {NEWTON_EXACT_OPTION}=true.")
         if not exact_residual and not _PARAMETER_KEYS.intersection(parameters):
             return None
         options = cls(
             exact_residual=exact_residual,
+            exact_residual_max_checks=exact_max_checks,
             linear_solver=str(parameters.get("experimental_linear_solver", "spsolve")).lower(),
             linear_preconditioner=str(parameters.get("experimental_linear_preconditioner", "none")).lower(),
             linear_assume_spd=bool(parameters.get("experimental_linear_assume_spd", False)),
@@ -1432,6 +1442,8 @@ class NonlinearRobustnessOptions:
         return options
 
     def validate(self) -> None:
+        if type(self.exact_residual_max_checks) is not int or not 1 <= self.exact_residual_max_checks <= NEWTON_EXACT_MAX_CHECKS_LIMIT:
+            raise ValueError(f"{NEWTON_EXACT_MAX_CHECKS_OPTION} must be an integer from 1 to 24.")
         if self.linear_solver not in {"spsolve", "splu", "direct", "auto", "cg", "minres", "gmres"}:
             raise ValueError("experimental_linear_solver is not a supported nonlinear linear method.")
         if self.exact_residual and (
@@ -1505,6 +1517,11 @@ class NonlinearRobustnessOptions:
             "line_search_c": self.line_search_c,
             "floor_aware_termination": self.floor_aware_termination,
             **({"exact_residual": True} if self.exact_residual else {}),
+            **(
+                {"exact_residual_max_checks": self.exact_residual_max_checks}
+                if self.exact_residual and self.exact_residual_max_checks != 8
+                else {}
+            ),
         }
 
 

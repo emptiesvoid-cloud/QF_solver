@@ -16,6 +16,7 @@ TIMEOUT = 15.0
 RSS_LIMIT = 256 * 2**20
 INPUT_LIMIT = 8 * 2**20
 MAX_CHECKS = 8
+MAX_CONFIGURED_CHECKS = 24
 NORMALIZATION = "l2/max(l2(Ax),l2(b))"
 
 
@@ -125,7 +126,10 @@ def _bound_only(rejection, threshold):
 class ExactNewtonLinearSolver(LinearSystemSolver):
     """Retain the historical gate and optionally verify its original candidate."""
 
-    def __init__(self):
+    def __init__(self, max_checks: int = MAX_CHECKS):
+        if type(max_checks) is not int or not 1 <= max_checks <= MAX_CONFIGURED_CHECKS:
+            raise ValueError("Exact Newton check budget must be an integer from 1 to 24.")
+        self.max_checks = max_checks
         self.checks_used = 0
         self.last_report = None
 
@@ -155,7 +159,7 @@ class ExactNewtonLinearSolver(LinearSystemSolver):
                 "correction_authorized": False,
             }
             self.last_report = report
-            if eligible and self.checks_used >= MAX_CHECKS:
+            if eligible and self.checks_used >= self.max_checks:
                 report["exact"] = {"status": "INCONCLUSIVE", "reason": "CHECK_BUDGET_EXHAUSTED"}
             elif eligible:
                 self.checks_used += 1

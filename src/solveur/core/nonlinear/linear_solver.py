@@ -33,7 +33,8 @@ class NonlinearLinearSolverAdapter:
     def _exact_solver(self):
         from solveur.experimental.newton_residual import ExactNewtonLinearSolver
 
-        return ExactNewtonLinearSolver()
+        max_checks = self.options.exact_residual_max_checks if self.options is not None else 8
+        return ExactNewtonLinearSolver(max_checks=max_checks)
 
     def configured_backend(self) -> str:
         """Return the configured backend label for diagnostics before a solve.
