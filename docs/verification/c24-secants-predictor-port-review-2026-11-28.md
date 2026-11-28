@@ -75,9 +75,9 @@ Le test complet, les tests FEM et toute campagne de qualification sont `NOT_RUN`
 
 ## Wheel installée hors checkout
 
-La wheel reconstruite depuis le code testé `c6474cb69500c37ad1440981bfa0527e58d1e96f` a ensuite été installée avec `--force-reinstall --no-deps` dans deux environnements Python 3.13.1 hors checkout. Le dernier artefact de revue est :
+La wheel reconstruite depuis le candidat local après les vérifications complémentaires, avec `SOURCE_DATE_EPOCH=1795863803`, a été installée avec `--force-reinstall --no-deps` dans deux environnements Python 3.13.1 hors checkout. Deux constructions répétées avec cette valeur ont produit la même empreinte. L’artefact de revue est :
 
-- `qf_solver-0.3.0-py3-none-any.whl`, 1 742 708 octets ; SHA-256 `be112e522d6e8df29c91a3a4f886ab39f7d020030eb88c96c4eb34714328481f` ;
+- `qf_solver-0.3.0-py3-none-any.whl`, 1 742 708 octets ; SHA-256 `5055eb158f90c5a1b5d31ca610af969e9b82ff756893208bd73bd06aab11b52d` ;
 - un environnement avec `eas-diagnostic` (`psutil 7.2.2`) et un environnement sans cet extra (`psutil` absent) ;
 - les scripts ont été lancés avec `python -I` depuis un répertoire temporaire, sans accès implicite au checkout. Dans les deux environnements, `solveur` provient de `site-packages` et `research` est introuvable.
 
