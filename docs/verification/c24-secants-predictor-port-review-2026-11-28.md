@@ -75,17 +75,29 @@ Le test complet, les tests FEM et toute campagne de qualification sont `NOT_RUN`
 
 ## Wheel installée hors checkout
 
-Wheel construite depuis `c6474cb69500c37ad1440981bfa0527e58d1e96f` avec `python -m build --wheel` :
+La wheel reconstruite depuis le code testé `c6474cb69500c37ad1440981bfa0527e58d1e96f` a ensuite été installée avec `--force-reinstall --no-deps` dans deux environnements Python 3.13.1 hors checkout. Le dernier artefact de revue est :
 
-- artefact : `qf_solver-0.3.0-py3-none-any.whl` ; SHA-256 `df574a4260eea22156ac3d5864e50cdb1545b6b9745f2059d8a55184cf819c59` ; taille 1 742 708 octets ;
-- installation dans deux venv Python 3.13.1 isolés et situés hors checkout : avec l’extra `eas-diagnostic` (`psutil 7.2.2`) et sans cet extra (`psutil` absent) ;
-- les deux smoke tests importent `solveur` depuis `venv/.../site-packages`, ne trouvent aucun paquet `research`, puis traversent l’extension TET10 synthétique et obtiennent les ratios `[2, 1, 1, 1, 1, 1]` à l’arrondi binaire attendu ;
-- la wheel contient `solveur/core/nonlinear/secant.py` et aucun chemin `research/`.
+- `qf_solver-0.3.0-py3-none-any.whl`, 1 742 708 octets ; SHA-256 `be112e522d6e8df29c91a3a4f886ab39f7d020030eb88c96c4eb34714328481f` ;
+- un environnement avec `eas-diagnostic` (`psutil 7.2.2`) et un environnement sans cet extra (`psutil` absent) ;
+- les scripts ont été lancés avec `python -I` depuis un répertoire temporaire, sans accès implicite au checkout. Dans les deux environnements, `solveur` provient de `site-packages` et `research` est introuvable.
 
-Le garde du système synthétique accepte ses corrections; le smoke test wheel ne lance donc pas l’enfant du vérificateur exact. Sans `psutil`, une future correction qui en a besoin doit rester refusée/indéterminée si sa supervision ne peut pas être assurée. Aucun quota mémoire OS strict n’est revendiqué.
+Les vérifications supplémentaires ont exercé les interfaces de la wheel :
+
+| Scénario installé | Résultat | Exercé |
+|---|---|---|
+| Garde `REJECTED_BOUND`, exact `PASS` sur les mêmes A/b/x et seuil | PASS | Adaptateur et vérificateur exact réels ; processus enfant réellement lancé sous Windows avec `spawn`, code de sortie 0. Le rejet historique reste `REJECTED_BOUND`. |
+| Garde `REJECTED_BOUND`, `psutil` absent | `INCONCLUSIVE / PSUTIL_UNAVAILABLE` | Adaptateur installé et `solve_full_newton`; aucune correction n’est autorisée et le digest de l’état accepté reste inchangé. |
+| Prédicteur absent/désactivé | PASS | Route publique TET10 synthétique ; reprise de `p=1.5` à `p=2.5`, sans diagnostic de prédicteur. |
+| Checkpoint modifié | Refus | La route produit refuse le SHA incorrect avant la résolution. |
+| Checkpoint issu d’un modèle/chargement incohérent | Refus | La validation produit rejette l’identité incompatible. |
+| Erreur Newton après initialisation sécante | PASS du contrôle de sûreté | La route utilise un double d’assemblage identité; l’état/checkpoint source reste inchangé et aucune archive d’incrément accepté n’est créée. |
+
+La route, Newton, le validateur de checkpoint et le superviseur sont importés depuis la wheel. Les essais de reprise remplacent uniquement l’assemblage TET10 par une matrice identité synthétique : ils vérifient l’interface et les transactions, et ne sont pas des calculs FEM. Le test exact `PASS` utilise le vérificateur réel en enfant; le cas sans `psutil` vérifie le refus avant promotion. La wheel inclut `solveur/core/nonlinear/secant.py` et ne contient pas de chemin `research/`.
+
+Le budget temps de l’enfant et la limite de RSS sont respectivement un watchdog démarrant après le lancement synchrone et une surveillance RSS échantillonnée ; aucun quota mémoire OS strict n’est revendiqué. Les scénarios présents/absents de `psutil` ont été exercés, ainsi que le lancement `spawn` réel.
 
 ## Limites et conclusion
 
-Le calcul C réel et les archives de comparaison restent des preuves de recherche, pas une nouvelle exécution de la route produit intégrée. Les tests de ce port sont synthétiques. Le prédicteur ne couvre pas les états matériau/contact et la transition de checkpoint reste limitée au chemin C24 explicite. La confirmation ne déclenche pas le contrôle exact; son intégration ne change donc pas la preuve disponible sur ce chemin de rejet. Un gain observé sur une comparaison n’est pas une performance générale.
+Le calcul C réel et les archives de comparaison restent des preuves de recherche, pas une nouvelle exécution de la route produit intégrée. Les tests de ce port et de la wheel sont synthétiques, sauf pour le solveur linéaire 2×2 et le processus enfant du vérificateur exact; aucun nouveau FEM n’a été lancé. Le prédicteur ne couvre pas les états matériau/contact et la transition de checkpoint reste limitée au chemin C24 explicite. La confirmation C n’a pas déclenché le contrôle exact en situation de rejet. Un gain observé sur une seule comparaison n’est pas une performance générale.
 
 La branche locale est prête pour une revue d’intégration expérimentale, sans push. La tête distante vérifiée demeure `b9affb1456fbc04cc236b1bdd146d84e15fe8e5c`.
