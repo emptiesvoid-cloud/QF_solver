@@ -79,6 +79,15 @@ class AnalysisRouter:
         pause_option = "experimental_pause_after_accepted_increments"
         if pause_option in model.analysis.parameters and model.analysis.type != "geometric_nonlinear_static":
             raise InputValidationError(f"{pause_option} requires geometric_nonlinear_static.")
+        extension_option = "experimental_fixed_path_extension"
+        if extension_option in model.analysis.parameters and model.analysis.type != "geometric_nonlinear_static":
+            raise InputValidationError(f"{extension_option} requires geometric_nonlinear_static.")
+        secant_option = "experimental_secant_predictor"
+        secant_enabled = model.analysis.parameters.get(secant_option, False)
+        if type(secant_enabled) is not bool:
+            raise InputValidationError(f"{secant_option} must be an explicit boolean.")
+        if secant_enabled and model.analysis.type != "geometric_nonlinear_static":
+            raise InputValidationError(f"{secant_option} requires geometric_nonlinear_static.")
         exact_residual_enabled = model.analysis.parameters.get("experimental_newton_exact_residual", False)
         exact_budget_present = "experimental_newton_exact_residual_max_checks" in model.analysis.parameters
         if (exact_residual_enabled is not False or exact_budget_present) and model.analysis.type != "geometric_nonlinear_static":

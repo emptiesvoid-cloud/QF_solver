@@ -401,6 +401,7 @@ LineSearch = Callable[
 TrialStateApplier = Callable[[NonlinearState, CompositeContributionResponse], None]
 FinalTrialStateApplier = Callable[[NonlinearState, CompositeContributionResponse], None]
 FailureDiagnostics = Callable[[int, int, list[float], float, float, int], dict[str, Any]]
+TrialStateInitializer = Callable[[NonlinearState, int, float], NonlinearState]
 AssemblyFailureReason = Callable[[str], NonlinearFailureReason]
 NonFiniteFailureReason = Callable[[np.ndarray], NonlinearFailureReason]
 FloorAwareEvidence = Callable[
@@ -441,6 +442,7 @@ class UnifiedNewtonEngine:
         stagnation_check: bool = True,
         robustness_controller: UnifiedNonlinearRobustnessController | None = None,
         accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
+        trial_state_initializer: TrialStateInitializer | None = None,
         telemetry_observer: NonlinearTelemetryObserver | None = None,
         floor_aware_evidence: FloorAwareEvidence | None = None,
         diagnostic_increment: int | None = None,
@@ -477,6 +479,11 @@ class UnifiedNewtonEngine:
         for step, load_factor in enumerate(factors, start=1):
             try:
                 transaction.begin_trial()
+                if trial_state_initializer is not None:
+                    candidate = trial_state_initializer(
+                        transaction.accepted_state.detached_copy(), step, load_factor
+                    )
+                    transaction.replace_trial(candidate)
                 step_result, step_iterations = self._solve_increment(
                     transaction=transaction,
                     external=external,

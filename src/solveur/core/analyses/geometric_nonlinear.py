@@ -3,6 +3,11 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from copy import deepcopy
+from hashlib import sha256
+from pathlib import Path
+from time import perf_counter
+from zipfile import BadZipFile
 
 import numpy as np
 
@@ -26,6 +31,7 @@ from solveur.core.nonlinear.iteration import (
 from solveur.core.nonlinear.controls import AdaptiveLoadControls
 from solveur.core.nonlinear.robustness import NEWTON_EXACT_OPTION, NonlinearRobustnessOptions
 from solveur.core.nonlinear.state import NonlinearState
+from solveur.core.nonlinear.secant import secant_trial
 from solveur.core.nonlinear.telemetry import NonlinearTelemetryObserver
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import SolveResult
@@ -34,6 +40,184 @@ from solveur.elements.solid.hex8_total_lagrangian_batch import TotalLagrangianHe
 from solveur.mesh.validation import MeshValidator
 
 EXPERIMENTAL_PAUSE_AFTER_ACCEPTED_INCREMENTS = "experimental_pause_after_accepted_increments"
+EXPERIMENTAL_FIXED_PATH_EXTENSION = "experimental_fixed_path_extension"
+EXPERIMENTAL_SECANT_PREDICTOR = "experimental_secant_predictor"
+
+_LEGACY_EXTENSION_FIELDS = {"start_factor", "target_factor", "steps", "checkpoint_sha256"}
+_CONTINUED_EXTENSION_FIELDS = {
+    "start_step",
+    "start_factor",
+    "target_factor",
+    "steps",
+    "step_stride",
+    "checkpoint_sha256",
+    "predecessor_checkpoint_path",
+    "predecessor_checkpoint_sha256",
+    "previous_model_signature",
+    "previous_extension",
+}
+
+
+def _is_sha256(value: object) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(character in "0123456789abcdef" for character in value)
+    )
+
+
+def _extension_factors(parameters, original_steps):
+    request = parameters.get(EXPERIMENTAL_FIXED_PATH_EXTENSION)
+    if not isinstance(request, dict) or parameters.get(NEWTON_EXACT_OPTION) is not True:
+        raise InputValidationError("Fixed-path extension requires an identified checkpoint on exact-residual Newton.")
+    fields = set(request)
+    if fields == _LEGACY_EXTENSION_FIELDS:
+        if (
+            type(request["start_factor"]) not in (float, int)
+            or request["start_factor"] != 1.0
+            or type(request["steps"]) is not int
+            or not 1 <= request["steps"] <= 6
+            or type(request["target_factor"]) not in (float, int)
+            or request["target_factor"] != (original_steps + request["steps"]) / original_steps
+        ):
+            raise InputValidationError("Terminal extension requires its original start and 1–6 fixed increments.")
+        target_steps = list(range(original_steps + 1, original_steps + request["steps"] + 1))
+    elif fields == _CONTINUED_EXTENSION_FIELDS:
+        predecessor = request["previous_extension"]
+        start_step = request["start_step"]
+        stride = request["step_stride"]
+        steps = request["steps"]
+        if (
+            type(start_step) is not int
+            or start_step != original_steps + 6
+            or type(stride) is not int
+            or stride != 2
+            or type(steps) is not int
+            or steps != 6
+            or type(request["start_factor"]) not in (float, int)
+            or type(request["target_factor"]) not in (float, int)
+            or request["start_factor"] != start_step / original_steps
+            or request["target_factor"] != (start_step + stride * steps) / original_steps
+            or not isinstance(predecessor, dict)
+            or set(predecessor) != _LEGACY_EXTENSION_FIELDS
+            or type(predecessor["start_factor"]) not in (float, int)
+            or predecessor["start_factor"] != 1.0
+            or type(predecessor["steps"]) is not int
+            or predecessor["steps"] != 6
+            or type(predecessor["target_factor"]) not in (float, int)
+            or predecessor["target_factor"] != (original_steps + 6) / original_steps
+            or not _is_sha256(predecessor["checkpoint_sha256"])
+            or not isinstance(request["previous_model_signature"], str)
+            or len(request["previous_model_signature"]) != 64
+            or any(c not in "0123456789abcdef" for c in request["previous_model_signature"])
+            or not isinstance(request["predecessor_checkpoint_path"], str)
+            or not isinstance(request["predecessor_checkpoint_sha256"], str)
+            or len(request["predecessor_checkpoint_sha256"]) != 64
+        ):
+            raise InputValidationError("Continued extension must identify the accepted 198/192 state and its 2/192 steps.")
+        target_steps = [start_step + stride * step for step in range(1, steps + 1)]
+    else:
+        raise InputValidationError("Fixed-path extension request has an unsupported schema.")
+    for field in ("checkpoint_sha256", "predecessor_checkpoint_sha256"):
+        value = request.get(field)
+        if field in request and not _is_sha256(value):
+            raise InputValidationError(f"Fixed-path extension {field} must be a lowercase SHA-256 digest.")
+    previous_digest = request.get("previous_extension", {}).get("checkpoint_sha256")
+    if "previous_extension" in request and not _is_sha256(previous_digest):
+        raise InputValidationError("Previous extension checkpoint digest must be a lowercase SHA-256 value.")
+    if (
+        not isinstance(parameters.get("restart_from"), str)
+        or not isinstance(parameters.get("checkpoint_path"), str)
+        or parameters.get("checkpoint_interval") != 1
+        or parameters.get("checkpoint_keep_steps") is not True
+    ):
+        raise InputValidationError("Fixed-path extension requires restart_from and per-step checkpoint capture.")
+    source = Path(parameters["restart_from"])
+    output = Path(parameters["checkpoint_path"])
+    if output.resolve() == source.resolve() or source.resolve().parent == output.resolve().parent:
+        raise InputValidationError("Fixed-path extension checkpoint output must use a separate directory.")
+    return target_steps
+
+
+def _restore_extension(model, checkpoint_store, checkpoint_settings, initial, original_steps, fixed):
+    source = Path(checkpoint_settings.restart_from)
+    request = model.analysis.parameters[EXPERIMENTAL_FIXED_PATH_EXTENSION]
+    expected = request["checkpoint_sha256"]
+
+    def verify_source():
+        try:
+            actual = sha256(source.read_bytes()).hexdigest()
+        except OSError as error:
+            raise InputValidationError("Fixed-path extension checkpoint is unavailable.") from error
+        if actual != expected:
+            raise InputValidationError("Fixed-path extension checkpoint digest mismatch.")
+
+    verify_source()
+    previous_model = deepcopy(model)
+    continued = set(request) == _CONTINUED_EXTENSION_FIELDS
+    if continued:
+        previous_model.analysis.parameters[EXPERIMENTAL_FIXED_PATH_EXTENSION] = dict(request["previous_extension"])
+        previous_model.analysis.parameters.pop(EXPERIMENTAL_SECANT_PREDICTOR, None)
+        prior_steps = original_steps + request["previous_extension"]["steps"]
+        expected_step = request["start_step"]
+        expected_signature = request["previous_model_signature"]
+    else:
+        previous_model.analysis.parameters.pop(EXPERIMENTAL_FIXED_PATH_EXTENSION)
+        prior_steps = original_steps
+        expected_step = original_steps
+        expected_signature = None
+    previous_session = NonlinearCheckpointSession.create(previous_model, prior_steps, checkpoint_store)
+    try:
+        state = previous_session.restore_state(
+            initial,
+            load_factors=[step / original_steps for step in range(1, prior_steps + 1)],
+        )
+    except BadZipFile as error:
+        raise InputValidationError("Fixed-path extension checkpoint is corrupted.") from error
+    verify_source()
+    if (
+        previous_session.restart_step != expected_step
+        or state.load_factor != expected_step / original_steps
+        or (expected_signature is not None and previous_session.persisted_signature != expected_signature)
+    ):
+        raise InputValidationError("Fixed-path extension checkpoint is not the identified accepted source state.")
+
+    predecessor_state = None
+    if continued:
+        predecessor = Path(request["predecessor_checkpoint_path"])
+        try:
+            predecessor_digest = sha256(predecessor.read_bytes()).hexdigest()
+        except OSError as error:
+            raise InputValidationError("Secant predecessor checkpoint is unavailable.") from error
+        if predecessor_digest != request["predecessor_checkpoint_sha256"]:
+            raise InputValidationError("Secant predecessor checkpoint digest mismatch.")
+        predecessor_checkpoint = checkpoint_store.load(
+            predecessor, model=previous_model, expected_dofs=int(initial.displacement.size)
+        )
+        try:
+            predecessor_digest_after_load = sha256(predecessor.read_bytes()).hexdigest()
+        except OSError as error:
+            raise InputValidationError("Secant predecessor checkpoint became unavailable during validation.") from error
+        if predecessor_digest_after_load != request["predecessor_checkpoint_sha256"]:
+            raise InputValidationError("Secant predecessor checkpoint changed during validation.")
+        if (
+            predecessor_checkpoint.completed_step != expected_step - 1
+            or predecessor_checkpoint.load_factor != (expected_step - 1) / original_steps
+            or predecessor_checkpoint.model_signature != previous_session.persisted_signature
+        ):
+            raise InputValidationError("Secant predecessor does not belong to the accepted checkpoint path.")
+        predecessor_state = predecessor_checkpoint.accepted_state
+        fixed_values = np.asarray(fixed, dtype=np.int64)
+        if (
+            not np.array_equal(state.displacement[fixed_values], initial.displacement[fixed_values])
+            or not np.array_equal(predecessor_state.displacement[fixed_values], initial.displacement[fixed_values])
+            or state.material_state
+            or predecessor_state.material_state
+            or state.contact_state
+            or predecessor_state.contact_state
+        ):
+            raise InputValidationError("Secant checkpoints contain unsupported material, contact, or fixed-DOF state.")
+    return state, predecessor_state
 
 
 class GeometricNonlinearStaticSolver:
@@ -62,6 +246,23 @@ class GeometricNonlinearStaticSolver:
         if report.status == "FAIL":
             raise MeshValidationError("; ".join(report.errors))
         controls = GeometricNonlinearControls(load_increments=int(parameters.get("load_increments", 10)))
+        extension = EXPERIMENTAL_FIXED_PATH_EXTENSION in parameters
+        extension_steps = _extension_factors(parameters, controls.load_increments) if extension else None
+        secant_option_present = EXPERIMENTAL_SECANT_PREDICTOR in parameters
+        secant_enabled = parameters.get(EXPERIMENTAL_SECANT_PREDICTOR, False)
+        if secant_option_present and type(secant_enabled) is not bool:
+            raise InputValidationError(f"{EXPERIMENTAL_SECANT_PREDICTOR} must be an explicit boolean.")
+        continued_extension = extension and set(parameters[EXPERIMENTAL_FIXED_PATH_EXTENSION]) == _CONTINUED_EXTENSION_FIELDS
+        if secant_enabled and (
+            not continued_extension
+            or parameters.get(NEWTON_EXACT_OPTION) is not True
+            or any(element.type != "TET10" for element in model.elements)
+            or model.contacts
+            or parameters.get("adaptive_load_steps", False)
+        ):
+            raise InputValidationError(
+                f"{EXPERIMENTAL_SECANT_PREDICTOR} requires the identified stateless, fixed-step TET10 extension."
+            )
         planned_segment_steps = parameters.get(EXPERIMENTAL_PAUSE_AFTER_ACCEPTED_INCREMENTS)
         if EXPERIMENTAL_PAUSE_AFTER_ACCEPTED_INCREMENTS in parameters:
             if (
@@ -107,22 +308,34 @@ class GeometricNonlinearStaticSolver:
         )
         checkpoint_session = NonlinearCheckpointSession.create(
             model,
-            controls.load_increments,
+            extension_steps[-1] if extension_steps else controls.load_increments,
             self.checkpoint_store,
         )
-        restored = checkpoint_session.restore_state(
-            NonlinearState(
-                displacement=np.zeros(dofs.ndof, dtype=float),
-                continuation_state={"accepted_step": 0} if adaptive_controls is not None else {},
-            ),
-            load_factors=(
-                [step / controls.load_increments for step in range(1, controls.load_increments + 1)]
-                if adaptive_controls is None
-                else None
-            ),
-            allow_variable_step_count=adaptive_controls is not None,
+        initial = NonlinearState(
+            displacement=np.zeros(dofs.ndof, dtype=float),
+            continuation_state={"accepted_step": 0} if adaptive_controls is not None else {},
         )
-        if planned_segment_steps is not None:
+        if extension_steps:
+            restored, secant_previous = _restore_extension(
+                model, self.checkpoint_store, checkpoint_session.settings, initial, controls.load_increments, fixed
+            )
+            checkpoint_session.restart_step = (
+                parameters[EXPERIMENTAL_FIXED_PATH_EXTENSION]["start_step"]
+                if continued_extension
+                else controls.load_increments
+            )
+        else:
+            secant_previous = None
+            restored = checkpoint_session.restore_state(
+                initial,
+                load_factors=(
+                    [step / controls.load_increments for step in range(1, controls.load_increments + 1)]
+                    if adaptive_controls is None
+                    else None
+                ),
+                allow_variable_step_count=adaptive_controls is not None,
+            )
+        if planned_segment_steps is not None and not extension:
             if (
                 checkpoint_session.settings.path is None
                 or checkpoint_session.settings.interval != 1
@@ -144,15 +357,51 @@ class GeometricNonlinearStaticSolver:
             for step in range(global_start_step + 1, controls.load_increments + 1)
         ]
         selected_target_factors = (
-            full_target_factors[:planned_segment_steps]
+            [step / controls.load_increments for step in extension_steps]
+            if extension_steps
+            else full_target_factors[:planned_segment_steps]
             if planned_segment_steps is not None
             else full_target_factors
         )
-        global_end_step = global_start_step + len(selected_target_factors)
-        planned_pause = planned_segment_steps is not None and global_end_step < controls.load_increments
+        global_end_step = extension_steps[-1] if extension_steps else global_start_step + len(selected_target_factors)
+        planned_pause = not extension and planned_segment_steps is not None and global_end_step < controls.load_increments
+
+        secant_history = (
+            {"previous": secant_previous.detached_copy(), "accepted": restored.detached_copy()}
+            if secant_enabled and secant_previous is not None
+            else None
+        )
+        secant_records: list[dict[str, float | int]] = []
+
+        def initialize_secant_trial(accepted_state: NonlinearState, local_step: int, target_factor: float):
+            if secant_history is None:
+                return accepted_state
+            expected = secant_history["accepted"]
+            if (
+                accepted_state.load_factor != expected.load_factor
+                or not np.array_equal(accepted_state.displacement, expected.displacement)
+                or accepted_state.material_state != expected.material_state
+                or accepted_state.contact_state != expected.contact_state
+                or accepted_state.continuation_state != expected.continuation_state
+            ):
+                raise InputValidationError("Secant accepted-state identity changed during the fixed path.")
+            started = perf_counter()
+            trial, ratio = secant_trial(
+                secant_history["previous"], accepted_state, target_factor, fixed
+            )
+            secant_records.append(
+                {
+                    "step": local_step,
+                    "target_factor": target_factor,
+                    "ratio": ratio,
+                    "prediction_seconds": perf_counter() - started,
+                    "trial_displacement_norm": float(np.linalg.norm(trial.displacement)),
+                }
+            )
+            return trial
 
         def save_fixed(local_step: int, state: NonlinearState) -> None:
-            global_step = checkpoint_session.restart_step + local_step
+            global_step = extension_steps[local_step - 1] if extension_steps else checkpoint_session.restart_step + local_step
             accepted_metadata = dict(state.accepted_increment_metadata)
             accepted_metadata.update(
                 {
@@ -164,9 +413,14 @@ class GeometricNonlinearStaticSolver:
             checkpoint_session.save_state(
                 global_step,
                 state,
-                final=global_step == controls.load_increments,
-                migration_metadata={"continuation_kind": "geometric_fixed_load_control"},
+                final=global_step == checkpoint_session.total_steps,
+                migration_metadata={
+                    "continuation_kind": "geometric_fixed_path_extension" if extension else "geometric_fixed_load_control",
+                },
             )
+            if secant_history is not None:
+                secant_history["previous"] = secant_history["accepted"]
+                secant_history["accepted"] = state.detached_copy()
 
         def save_adaptive(step: int, state: NonlinearState) -> None:
             checkpoint_session.save_state(
@@ -190,7 +444,15 @@ class GeometricNonlinearStaticSolver:
             initial_state=restored,
             target_load_factors=selected_target_factors if adaptive_controls is None else None,
             accepted_state_callback=save_adaptive if adaptive_controls is not None else save_fixed,
+            trial_state_initializer=initialize_secant_trial if secant_enabled else None,
         )
+        if secant_enabled:
+            diagnostics[EXPERIMENTAL_SECANT_PREDICTOR] = {
+                "enabled": True,
+                "initial_state_source": "two_verified_accepted_checkpoints",
+                "predictions": secant_records,
+                "total_prediction_seconds": float(sum(item["prediction_seconds"] for item in secant_records)),
+            }
         states = geometric_assembly.element_states(displacement)
         element_results = [
             {
@@ -225,10 +487,10 @@ class GeometricNonlinearStaticSolver:
                 "maturity": "research",
             }
         )
-        if planned_segment_steps is not None:
+        if planned_segment_steps is not None or extension:
             diagnostics.update(
                 {
-                    "planned_segment_steps": planned_segment_steps,
+                    "planned_segment_steps": len(extension_steps) if extension_steps else planned_segment_steps,
                     "segment_start_step": global_start_step,
                     "segment_end_step": global_end_step,
                     "segment_start_load_factor": restored.load_factor,
@@ -239,6 +501,9 @@ class GeometricNonlinearStaticSolver:
                     "continuation_status": "PAUSED" if planned_pause else "CONVERGED",
                 }
             )
+        if extension_steps:
+            diagnostics["target_load_factor"] = selected_target_factors[-1]
+            diagnostics["fixed_path_extension"] = dict(parameters[EXPERIMENTAL_FIXED_PATH_EXTENSION])
         assembly_diagnostics = getattr(geometric_assembly, "assembly_diagnostics", None)
         if callable(assembly_diagnostics):
             diagnostics["sparse_assembly"] = assembly_diagnostics()
@@ -387,6 +652,7 @@ def _newton_dead_load(
     initial_state: NonlinearState | None = None,
     target_load_factors: list[float] | None = None,
     accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
+    trial_state_initializer: Callable[[NonlinearState, int, float], NonlinearState] | None = None,
     telemetry_observer: NonlinearTelemetryObserver | None = None,
     floor_aware_evidence: FloorAwareEvidence | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
@@ -404,6 +670,7 @@ def _newton_dead_load(
             initial_state=initial_state,
             target_load_factors=target_load_factors,
             accepted_state_callback=accepted_state_callback,
+            trial_state_initializer=trial_state_initializer,
             telemetry_observer=telemetry_observer,
             floor_aware_evidence=floor_aware_evidence,
         )

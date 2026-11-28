@@ -5,6 +5,8 @@ checkpoint identity, while its force/tangent operator is a one-matrix double.
 """
 
 from copy import deepcopy
+from hashlib import sha256
+from unittest.mock import patch
 
 import numpy as np
 import pytest
@@ -314,4 +316,227 @@ def test_planned_pause_rejects_invalid_or_unsaved_boundaries(tmp_path, overrides
     model = _model(tmp_path / "validated-pause.npz", load_increments=24, pause_after=12, exact_checks=48)
     model.analysis.parameters.update(parameters)
     with pytest.raises(InputValidationError, match=message):
+        AnalysisRouter().solve(model)
+
+
+def test_c24_terminal_extension_keeps_absolute_force_and_accepted_state(tmp_path, monkeypatch):
+    key = "experimental_fixed_path_extension"
+    original = tmp_path / "old"
+    original.mkdir()
+    new = tmp_path / "new"
+    new.mkdir()
+    _patch_operator(monkeypatch)
+    first = AnalysisRouter().solve(_model(original / "state.npz", load_increments=12, pause_after=12))
+    seed = original / "state.step00000012.npz"
+    raw = seed.read_bytes()
+    extension = _model(new / "state.npz", restart_from=seed, load_increments=12, pause_after=12)
+    extension.analysis.parameters[key] = {
+        "start_factor": 1.0, "target_factor": 1.5, "steps": 6,
+        "checkpoint_sha256": sha256(raw).hexdigest(),
+    }
+    assert first.displacements[29] == 1.0
+    result = AnalysisRouter().solve(extension)
+    assert result.solver["restart_step"] == 12
+    assert result.solver["target_load_factor"] == 1.5
+    assert result.solver["continuation_status"] == "CONVERGED"
+    assert [i["load_factor"] for i in result.solver["increments"]] == [n / 12 for n in range(13, 19)]
+    assert result.displacements[29] == 1.5
+    assert (new / "state.step00000018.npz").is_file()
+    assert seed.read_bytes() == raw
+
+    for field, value in (("start_factor", 0), ("target_factor", 1.6), ("checkpoint_sha256", "0" * 64)):
+        bad = deepcopy(extension)
+        bad.analysis.parameters[key][field] = value
+        with pytest.raises(InputValidationError):
+            AnalysisRouter().solve(bad)
+    other = deepcopy(extension)
+    other.loads[0] = type(other.loads[0])(node=9, dof="UZ", value=1.01)
+    with pytest.raises(InputValidationError, match="does not match"):
+        AnalysisRouter().solve(other)
+    damaged = original / "incomplete.npz"
+    damaged.write_bytes(raw[:100])
+    bad = deepcopy(extension)
+    bad.analysis.parameters["restart_from"] = str(damaged)
+    bad.analysis.parameters[key]["checkpoint_sha256"] = sha256(damaged.read_bytes()).hexdigest()
+    with pytest.raises(InputValidationError, match="corrupted"):
+        AnalysisRouter().solve(bad)
+
+    from solveur.core.nonlinear import iteration
+    from solveur.core.errors import NumericalConvergenceError
+
+    solve_increment = iteration.UnifiedNewtonEngine._solve_increment
+    def reject(self, **options):
+        transaction = options["transaction"]
+        assert options["load_factor"] == 13 / 12
+        assert options["external"][29] == 1.0
+        before = transaction.accepted_state.digest
+        with patch.object(iteration.NonlinearLinearSolverAdapter, "solve",
+                          side_effect=NumericalConvergenceError("synthetic rejected correction")):
+            with pytest.raises(NumericalConvergenceError):
+                solve_increment(self, **options)
+        assert transaction.accepted_state.digest == before
+        raise NumericalConvergenceError("synthetic rejected correction")
+
+    monkeypatch.setattr(iteration.UnifiedNewtonEngine, "_solve_increment", reject)
+    failed = deepcopy(extension)
+    failed.analysis.parameters["checkpoint_path"] = str(new / "failed.npz")
+    with pytest.raises(NumericalConvergenceError, match="synthetic rejected correction"):
+        AnalysisRouter().solve(failed)
+    assert not (new / "failed.npz").exists()
+    assert seed.read_bytes() == raw
+
+
+def test_c24_secant_extension_resumes_step_198_on_same_absolute_path(tmp_path, monkeypatch):
+    """Synthetic public-route test; the TET10 assembly is replaced by an identity double."""
+    key = "experimental_fixed_path_extension"
+    base_dir, first_dir, source_dir = (tmp_path / name for name in ("base", "first", "source"))
+    base_dir.mkdir()
+    first_dir.mkdir()
+    source_dir.mkdir()
+
+    _patch_operator(monkeypatch)
+    base_model = _model(base_dir / "base.npz", load_increments=12, pause_after=12, exact_checks=48)
+    AnalysisRouter().solve(base_model)
+    checkpoint_192 = base_dir / "base.step00000012.npz"
+
+    first_model = _model(
+        first_dir / "first.npz", restart_from=checkpoint_192, load_increments=12, pause_after=12, exact_checks=48
+    )
+    first_extension = {
+        "start_factor": 1.0,
+        "target_factor": 1.5,
+        "steps": 6,
+        "checkpoint_sha256": sha256(checkpoint_192.read_bytes()).hexdigest(),
+    }
+    first_model.analysis.parameters[key] = first_extension
+    first_result = AnalysisRouter().solve(first_model)
+    assert first_result.solver["segment_end_step"] == 18
+    checkpoint_197 = first_dir / "first.step00000017.npz"
+    checkpoint_198 = first_dir / "first.step00000018.npz"
+    checkpoint_197_bytes = checkpoint_197.read_bytes()
+    checkpoint_198_bytes = checkpoint_198.read_bytes()
+    checkpoint_store = NpzNonlinearCheckpointStore()
+    accepted_197 = checkpoint_store.load(checkpoint_197, model=first_model, expected_dofs=30)
+    accepted_198 = checkpoint_store.load(checkpoint_198, model=first_model, expected_dofs=30)
+    assert accepted_197.completed_step == 17
+    assert accepted_198.completed_step == 18
+    assert accepted_197.load_factor == pytest.approx(17 / 12)
+    assert accepted_198.load_factor == pytest.approx(18 / 12)
+
+    def second_model(output_name, *, predictor=False):
+        model = _model(
+            source_dir / output_name,
+            restart_from=checkpoint_198,
+            load_increments=12,
+            pause_after=12,
+            exact_checks=48,
+        )
+        model.analysis.parameters[key] = {
+            "start_step": 18,
+            "start_factor": 1.5,
+            "target_factor": 2.5,
+            "steps": 6,
+            "step_stride": 2,
+            "checkpoint_sha256": sha256(checkpoint_198_bytes).hexdigest(),
+            "predecessor_checkpoint_path": str(checkpoint_197),
+            "predecessor_checkpoint_sha256": sha256(checkpoint_197_bytes).hexdigest(),
+            "previous_model_signature": accepted_198.model_signature,
+            "previous_extension": dict(first_extension),
+        }
+        if predictor:
+            model.analysis.parameters["experimental_secant_predictor"] = True
+        return model
+
+    reference_model = second_model("reference.npz")
+    reference = AnalysisRouter().solve(reference_model)
+    assert reference.status == "success"
+    assert reference.solver["restart_step"] == 18
+    assert reference.solver["segment_end_step"] == 30
+    assert reference.solver["segment_start_load_factor"] == pytest.approx(18 / 12)
+    assert reference.solver["segment_end_load_factor"] == pytest.approx(30 / 12)
+    assert [item["load_factor"] for item in reference.solver["increments"]] == [n / 12 for n in (20, 22, 24, 26, 28, 30)]
+    assert "experimental_secant_predictor" not in reference.solver
+
+    predicted_model = second_model("predicted.npz", predictor=True)
+    predicted = AnalysisRouter().solve(predicted_model)
+    assert predicted.status == "success"
+    assert predicted.solver["restart_step"] == 18
+    assert predicted.solver["segment_end_step"] == 30
+    predictor = predicted.solver["experimental_secant_predictor"]
+    assert [item["ratio"] for item in predictor["predictions"]] == pytest.approx([2, 1, 1, 1, 1, 1])
+    assert predictor["total_prediction_seconds"] >= 0
+    np.testing.assert_array_equal(predicted.displacements, reference.displacements)
+    np.testing.assert_array_equal(predicted.displacements[:29], np.zeros(29))
+    assert predicted.displacements[29] == pytest.approx(2.5)
+    assert checkpoint_197.read_bytes() == checkpoint_197_bytes
+    assert checkpoint_198.read_bytes() == checkpoint_198_bytes
+
+    bad_model = second_model("bad-source.npz")
+    bad_model.analysis.parameters[key]["predecessor_checkpoint_sha256"] = "0" * 64
+    with pytest.raises(InputValidationError, match="predecessor checkpoint digest"):
+        AnalysisRouter().solve(bad_model)
+    bad_schema = second_model("bad-schema.npz")
+    bad_schema.analysis.parameters[key]["previous_extension"]["start_factor"] = True
+    with pytest.raises(InputValidationError, match="Continued extension"):
+        AnalysisRouter().solve(bad_schema)
+    wrong_model = second_model("wrong-model.npz")
+    wrong_model.loads[0] = type(wrong_model.loads[0])(node=9, dof="UZ", value=1.01)
+    with pytest.raises(InputValidationError):
+        AnalysisRouter().solve(wrong_model)
+
+    from solveur.core.nonlinear import iteration
+    from solveur.core.errors import NumericalConvergenceError
+
+    accepted_digest = accepted_198.accepted_state.digest
+
+    def reject_predicted_trial(self, **options):
+        transaction = options["transaction"]
+        assert transaction.accepted_state.load_factor == pytest.approx(18 / 12)
+        assert transaction.accepted_state.digest == accepted_digest
+        assert transaction.trial_state.displacement[29] == pytest.approx(20 / 12)
+        raise NumericalConvergenceError("synthetic predictor rejection")
+
+    monkeypatch.setattr(iteration.UnifiedNewtonEngine, "_solve_increment", reject_predicted_trial)
+    failed_model = second_model("failed-predictor.npz", predictor=True)
+    with pytest.raises(NumericalConvergenceError, match="synthetic predictor rejection"):
+        AnalysisRouter().solve(failed_model)
+    assert checkpoint_197.read_bytes() == checkpoint_197_bytes
+    assert checkpoint_198.read_bytes() == checkpoint_198_bytes
+    assert not (source_dir / "failed-predictor.npz").exists()
+
+
+def test_secant_predictor_is_rejected_on_other_routes_and_false_is_a_noop(monkeypatch, tmp_path):
+    model = _model(tmp_path / "unused.npz")
+    model.analysis = AnalysisSettings.from_raw({"type": "linear_static", "parameters": {"experimental_secant_predictor": True}})
+    monkeypatch.setattr(
+        "solveur.core.router.preflight_model",
+        lambda _model: type("Compatible", (), {"raise_for_error": lambda self: None})(),
+    )
+    with pytest.raises(InputValidationError, match="experimental_secant_predictor requires geometric_nonlinear_static"):
+        AnalysisRouter().solve(model)
+
+    for parameters in ({}, {"experimental_secant_predictor": False}):
+        model = _model(tmp_path / "unused.npz")
+        model.analysis = AnalysisSettings.from_raw({"type": "linear_static", "parameters": parameters})
+        marker = object()
+        monkeypatch.setattr("solveur.core.router.LinearStaticSolver.solve", lambda *args, **kwargs: marker)
+        assert AnalysisRouter().solve(model) is marker
+
+
+def test_secant_predictor_requires_an_identified_continuation_before_assembly(monkeypatch, tmp_path):
+    model = _model(tmp_path / "unused.npz")
+    model.analysis.parameters["experimental_secant_predictor"] = True
+    monkeypatch.setattr(
+        "solveur.core.analyses.geometric_nonlinear.build_total_lagrangian_assembly",
+        lambda _model: pytest.fail("predictor eligibility must be checked before assembly"),
+    )
+    with pytest.raises(InputValidationError, match="requires the identified stateless, fixed-step TET10 extension"):
+        AnalysisRouter().solve(model)
+
+
+@pytest.mark.parametrize("value", [1, "true", None])
+def test_secant_predictor_option_requires_boolean(value, tmp_path):
+    model = _model(tmp_path / "unused.npz")
+    model.analysis.parameters["experimental_secant_predictor"] = value
+    with pytest.raises(InputValidationError, match="experimental_secant_predictor must be an explicit boolean"):
         AnalysisRouter().solve(model)

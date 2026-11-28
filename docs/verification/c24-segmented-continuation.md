@@ -32,6 +32,32 @@ plusieurs appels requiert un contrôleur externe qui réserve et consigne
 les contrôles de chaque appel. Le contrôleur de campagne C24, ses scopes,
 ses ledgers et ses captures restent des instruments de recherche.
 
+## Prédicteur sécant expérimental
+
+`experimental_secant_predictor=true` est désactivé par défaut. Il ne sert
+qu’à initialiser l’état d’essai d’une extension C24 à chemin fixe, après
+restauration vérifiée des deux derniers états acceptés. Le chemin pris en
+charge est limité au TET10 géométrique, à Newton exact activé, aux pas fixes
+sans contact, et à des états matériau vides. Les identités, facteurs de
+charge, DDL imposés et empreintes des deux checkpoints sont contrôlés avant
+la reprise. Un historique absent, altéré, incohérent ou avec état matériau
+ou contact est refusé.
+
+Le prédicteur utilise `u_pred = u_n + r (u_n - u_{n-1})`, où `r` est le
+rapport des deux incréments de charge. Il ne décide pas de l’acceptation
+Newton : chaque correction reste soumise au garde historique, puis au
+contrôle exact uniquement si le garde la rejette sur sa borne. Les verdicts
+restent distincts. En cas d’échec, l’état accepté précédent demeure la base
+de reprise.
+
+Cette interface est un port expérimental étroit pour le chemin C24 observé
+à partir de l’état accepté `p = 0,0515625`; elle ne constitue pas une API
+générale d’extrapolation de checkpoint. La confirmation du 2026-11-28 a
+convergé sur six incréments avec 11 corrections, mais le garde historique a
+accepté chaque correction et le contrôle exact est resté `NOT_RUN`. La
+comparaison montre un résultat compatible avec le cas B qui utilisait déjà
+le prédicteur ; elle ne démontre donc pas un gain supplémentaire face à B.
+
 ## Preuve et portée
 
 La campagne C24 a exercé le solveur avec l’instrumentation `aaeb0578`

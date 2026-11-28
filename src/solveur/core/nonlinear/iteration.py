@@ -172,6 +172,7 @@ def solve_full_newton(
     initial_state: NonlinearState | None = None,
     target_load_factors: Sequence[float] | None = None,
     accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
+    trial_state_initializer: Callable[[NonlinearState, int, float], NonlinearState] | None = None,
     telemetry_observer: NonlinearTelemetryObserver | None = None,
     floor_aware_evidence: FloorAwareEvidence | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
@@ -252,6 +253,7 @@ def solve_full_newton(
             nonfinite_failure_reason=_nonfinite_failure_reason,
             robustness_controller=robustness_controller,
             accepted_state_callback=accepted_state_callback,
+            trial_state_initializer=trial_state_initializer,
             telemetry_observer=telemetry_observer,
             floor_aware_evidence=floor_aware_evidence,
         )
